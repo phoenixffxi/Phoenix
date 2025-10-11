@@ -38,3 +38,6 @@
 
 custom/commands/
 custom/lua/test_npcs_in_gm_home.lua
+phoenix/cpp/account_vars.cpp
+phoenix/lua/chocobo_account_fatigue.lua
+phoenix/sql/account_vars.sql
