@@ -1,10 +1,15 @@
 #!/bin/bash
 
-targets=("$@")
 any_issues=false
 
+if [[ $# -gt 0 ]]; then
+    targets=("$@")
+else
+    mapfile -t targets < <(find sql modules -name '*.sql')
+fi
+
 for file in "${targets[@]}"; do
-    [[ -f $file && $file == *.sql ]] || continue
+    [[ -f $file && ($file == sql/*.sql || $file == modules/**/*.sql) ]] || continue
 
     # Run tools and capture output
     bogus_comments=$(grep -En '(--\w)|^(---\s)' "$file" 2>&1 || true)
@@ -16,7 +21,8 @@ for file in "${targets[@]}"; do
             any_issues=true
         fi
 
-        echo "### Bogus comments: \`$file\`"
+        echo "#### Bogus comments:"
+        echo "> $file"
         echo '```'
         echo "$bogus_comments"
         echo '```'

@@ -258,6 +258,7 @@ CCharEntity::CCharEntity()
     m_StartActionPos   = {};
     m_ActionOffsetPos  = {};
     m_previousLocation = {};
+    m_PrevZonelineID   = 0;
 
     m_jobMasterDisplay = false;
     m_EffectsChanged   = false;
@@ -1121,11 +1122,15 @@ void CCharEntity::PostTick()
             // clang-format on
         }
         // Do not send an update packet when only the position has change
-        if (updatemask ^ UPDATE_POS)
+        // Send one if the m_SendServerStatus flag is set (cutscenes will ALWAYS send one, and may also send an 0x00D!)
+        // sendServerStatus_ is essentially like a separate update mask, and acts like an "extension" of updatemask
+        if (updatemask ^ UPDATE_POS || sendServerStatus_)
         {
             pushPacket<CCharStatusPacket>(this);
         }
-        updatemask = 0;
+
+        sendServerStatus_ = false;
+        updatemask        = 0;
     }
 }
 
@@ -2096,7 +2101,7 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
     for (uint8 i = 1; i <= hitCount; ++i)
     {
         // TODO: add Barrage mod racc bonus
-        if (xirand::GetRandomNumber(100) < battleutils::GetRangedHitRate(this, PTarget, isBarrage, 0)) // hit!
+        if (xirand::GetRandomNumber(100) < battleutils::GetRangedHitRate(this, PTarget, isBarrage, 0) && !state.IsOutOfRange()) // hit!
         {
             // absorbed by shadow
             if (battleutils::IsAbsorbByShadow(PTarget, this))
@@ -2140,7 +2145,7 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
             damage                  = 0;
             actionTarget.reaction   = REACTION::EVADE;
             actionTarget.speceffect = SPECEFFECT::NONE;
-            actionTarget.messageID  = 354;
+            actionTarget.messageID  = MSGBASIC_RANGED_ATTACK_MISS;
             hitCount                = i; // end barrage, shot missed
         }
 
@@ -3241,8 +3246,37 @@ void CCharEntity::queueEvent(EventInfo* eventToQueue)
 void CCharEntity::tryStartNextEvent()
 {
     TracyZoneScoped;
-    if (isInEvent() || eventQueue.empty())
+    if (isInEvent())
+    {
         return;
+    }
+
+    if (eventQueue.empty())
+    {
+        updatemask |= UPDATE_POS; // TODO: decouple from this. We want the 250ms post-tick processing
+
+        // Chocobo NPC (outside, gives you a mount) edge case
+        if (StatusEffectContainer->HasStatusEffect(EFFECT_MOUNTED))
+        {
+            switch (m_mountId)
+            {
+                case MOUNT_CHOCOBO:
+                case MOUNT_NOBLE_CHOCOBO:
+                    animation = ANIMATION_CHOCOBO;
+                    break;
+                default:
+                    animation = ANIMATION_MOUNT;
+                    break;
+            }
+        }
+        else
+        {
+            animation = ANIMATION_NONE;
+        }
+
+        sendServerStatus_ = true;
+        return;
+    }
 
     EventInfo* oldEvent = currentEvent;
     currentEvent        = eventQueue.front();
@@ -3286,6 +3320,10 @@ void CCharEntity::tryStartNextEvent()
     {
         pushPacket<GP_SERV_COMMAND_EVENTSTR>(this, currentEvent);
     }
+
+    animation = ANIMATION_EVENT;
+    updatemask |= UPDATE_POS; // TODO: decouple from this. We want the 250ms post-tick processing.
+    sendServerStatus_ = true; // sendServerStatus_ is somewhat like an update mask on its own
 }
 
 void CCharEntity::skipEvent()

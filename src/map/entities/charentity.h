@@ -456,6 +456,7 @@ public:
     bool   isPacketFiltered(std::unique_ptr<CBasicPacket>& packet);
 
     bool pendingPositionUpdate;
+    bool sendServerStatus_ = false;
 
     virtual void HandleErrorMessage(std::unique_ptr<CBasicPacket>&) override;
 
@@ -516,6 +517,8 @@ public:
     position_t m_ActionOffsetPos{}; // action offset position from the action packet(currently only used for repositioning of luopans)
 
     location_t m_previousLocation{};
+
+    uint32 m_PrevZonelineID; // The ID of the previous zoneline the player went through.
 
     timer::duration   m_PlayTime;
     timer::time_point m_SaveTime;

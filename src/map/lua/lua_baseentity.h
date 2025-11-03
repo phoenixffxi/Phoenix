@@ -194,6 +194,7 @@ public:
     auto   getZoneName() -> std::string;
     bool   hasVisitedZone(uint16 zone);
     uint16 getPreviousZone();
+    uint32 getPreviousZoneLineID();
     uint8  getCurrentRegion();
     uint8  getContinentID();
     bool   isInMogHouse();
@@ -617,8 +618,8 @@ public:
     void sendTractor(float xPos, float yPos, float zPos, uint8 rotation);
     void allowSendRaisePrompt();
 
-    void countdown(sol::object const& secondsObj);
-    void objectiveUtility(sol::object const& obj);
+    void countdown(sol::object const& secondsObj) const;
+    void objectiveUtility(sol::object const& obj) const;
     void enableEntities(sol::object const& obj);
     void independentAnimation(CLuaBaseEntity* PTarget, uint16 animId, uint8 mode);
 
@@ -730,7 +731,7 @@ public:
 
     // Damage Calculation
     uint16 getStat(uint16 statId, sol::variadic_args va); // STR,DEX,VIT,AGI,INT,MND,CHR,ATT,DEF
-    uint16 getACC();
+    uint16 getACC(sol::object const& maybeAttackNumber);
     uint16 getEVA();
     int    getRACC();
     uint16 getRATT();

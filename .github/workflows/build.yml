@@ -52,7 +52,8 @@ jobs:
       run:
         shell: bash
     env:
-      SCCACHE_DIR: ${{ format('{0}/sccache', github.workspace) }}
+      SCCACHE_DIR: ${{ format('{0}/build/sccache', github.workspace) }}
+      SCCACHE_CACHE_SIZE: "1G"
     steps:
       - name: Download changed files artifact
         if: ${{ inputs.optional_build }}
@@ -68,14 +69,11 @@ jobs:
           mapfile -t changed_files < changed-files.txt
           source_changes=false
           for changed_file in "${changed_files[@]}"; do
-          if [[ $changed_file == *.cpp || \
-                $changed_file == *.cc  || \
-                $changed_file == *.cxx || \
-                $changed_file == *.h   || \
-                $changed_file == *.hpp || \
-                $changed_file == *.hxx || \
+          if [[ $changed_file == src/**/*.cpp || $changed_file == modules/**/*.cpp || \
+                $changed_file == src/**/*.h   || $changed_file == modules/**/*.h   || \
+                $changed_file == src/**/CMakeLists.txt || $changed_file == modules/**/CMakeLists.txt || \
                 $changed_file == CMakeLists.txt || \
-                $changed_file == *.cmake ]]; then
+                $changed_file == cmake/*.cmake ]]; then
               source_changes=true
               break
             fi
@@ -94,42 +92,34 @@ jobs:
 
       - name: Install dependencies (APT)
         if: ${{ runner.os == 'Linux' && (!inputs.optional_build || steps.check-changes.outputs.source_changes == 'true') }}
-        uses: nick-fields/retry@v3
-        with:
-          timeout_minutes: 5
-          max_attempts: 3
-          command: |
-            sudo apt-get update && sudo apt-get install --assume-yes --no-install-recommends --quiet \
-              binutils-dev \
-              g++-14 \
-              libluajit-5.1-dev \
-              libmariadb-dev-compat \
-              libssl-dev \
-              libzmq3-dev \
-              luajit \
-              mariadb-client \
-              tzdata \
-              zlib1g-dev
-            echo "CC=/usr/bin/gcc-14" >> $GITHUB_ENV
-            echo "CXX=/usr/bin/g++-14" >> $GITHUB_ENV
+        run: |
+          sudo apt-get update && sudo apt-get install --assume-yes --no-install-recommends --quiet \
+            binutils-dev \
+            g++-14 \
+            libluajit-5.1-dev \
+            libmariadb-dev-compat \
+            libssl-dev \
+            libzmq3-dev \
+            luajit \
+            mariadb-client \
+            tzdata \
+            zlib1g-dev
+          echo "CC=/usr/bin/gcc-14" >> $GITHUB_ENV
+          echo "CXX=/usr/bin/g++-14" >> $GITHUB_ENV
 
       - name: Install Clang
         if: ${{ runner.os == 'Linux' && startsWith(inputs.compiler, 'clang') && (!inputs.optional_build || steps.check-changes.outputs.source_changes == 'true') }}
-        uses: nick-fields/retry@v3
-        with:
-          timeout_minutes: 5
-          max_attempts: 3
-          command: |
-            sudo apt-get update && sudo apt-get install --assume-yes --no-install-recommends --quiet \
-              clang-18 \
-              clang-tidy \
-              libclang-rt-dev \
-              lld \
-              llvm-dev
-            echo "CC=/usr/bin/clang-18" >> $GITHUB_ENV
-            echo "CXX=/usr/bin/clang++-18" >> $GITHUB_ENV
-            echo "CXXFLAGS=-stdlib=libstdc++" >> $GITHUB_ENV
-            echo "LDFLAGS=-fuse-ld=lld" >> $GITHUB_ENV
+        run: |
+          sudo apt-get update && sudo apt-get install --assume-yes --no-install-recommends --quiet \
+            clang-18 \
+            clang-tidy \
+            libclang-rt-dev \
+            lld \
+            llvm-dev
+          echo "CC=/usr/bin/clang-18" >> $GITHUB_ENV
+          echo "CXX=/usr/bin/clang++-18" >> $GITHUB_ENV
+          echo "CXXFLAGS=-stdlib=libstdc++" >> $GITHUB_ENV
+          echo "LDFLAGS=-fuse-ld=lld" >> $GITHUB_ENV
 
       - name: Setup MSVC
         if: ${{ runner.os == 'Windows' && (!inputs.optional_build || steps.check-changes.outputs.source_changes == 'true') }}
@@ -168,9 +158,7 @@ jobs:
           cmake_hash: ${{ hashFiles('**/CMakeLists.txt', '**/*.cmake') }}
           source_hash: ${{ hashFiles('src/**/*', 'ext/**/*') }}
         with:
-          path: |
-            build
-            ${{ env.SCCACHE_DIR }}
+          path: build
           key: ${{ format('buildcache-{0}-{1}-{2}-{3}-{4}', runner.os, inputs.compiler, inputs.build_type, env.cmake_hash, env.source_hash) }}
           restore-keys: |
             ${{ format('buildcache-{0}-{1}-{2}-{3}-', runner.os, inputs.compiler, inputs.build_type, env.cmake_hash) }}
@@ -207,10 +195,8 @@ jobs:
             tracy.tar.gz
 
       - name: Cache build
-        if: ${{ inputs.save_cache && !steps.restore_build.outputs.cache-hit && (!inputs.optional_build || steps.check-changes.outputs.source_changes == 'true') }}
+        if: ${{ inputs.save_cache && steps.restore_build.outputs.cache-hit != 'true' && (!inputs.optional_build || steps.check-changes.outputs.source_changes == 'true') }}
         uses: actions/cache/save@v4
         with:
-          path: |
-            build
-            ${{ env.SCCACHE_DIR }}
+          path: build
           key: ${{ steps.restore_build.outputs.cache-primary-key }}
