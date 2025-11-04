@@ -184,6 +184,12 @@ jobs:
             test_modules: false
             multi_process: false
     uses: ./.github/workflows/test.yml
+    permissions:
+      contents: read
+      actions: read
+      checks: write
+      pull-requests: write
+      statuses: write
     with:
       runner: ${{ matrix.runner }}
       test_modules: ${{ matrix.test_modules }}
