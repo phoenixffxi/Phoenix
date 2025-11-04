@@ -375,7 +375,7 @@ public:
     uint8 getLevelCap();            // genkai
     void  setLevelCap(uint8 cap);
     uint8 levelRestriction(sol::object const& level); // Establish/return current level restriction
-    void  addJobTraits(uint8 jobID, uint8 level);
+    void  addWyvernJobTraits(uint8 jobID, uint8 level);
 
     // Monstrosity
     auto getMonstrosityData() -> sol::table;
