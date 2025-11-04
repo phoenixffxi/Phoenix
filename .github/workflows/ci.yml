@@ -185,6 +185,7 @@ jobs:
             multi_process: false
     uses: ./.github/workflows/test.yml
     permissions:
+      contents: read
       actions: read
       checks: write
       pull-requests: write
