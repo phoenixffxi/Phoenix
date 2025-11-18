@@ -37,7 +37,22 @@
 # Live example:
 
 custom/commands/
+custom/lua/garrison_placeholder_data.lua
+custom/lua/quest_workarounds.lua
 custom/lua/test_npcs_in_gm_home.lua
-phoenix/cpp/account_vars.cpp
-phoenix/lua/chocobo_account_fatigue.lua
-phoenix/sql/account_vars.sql
+era/lua/era_conquest_costs.lua
+era/lua/cop_signet.lua
+era/lua/missable_mom_the_adventurer.lua
+era/lua/northward.lua
+era/lua/pre_rmt_drops.lua
+era/lua/The_Kuftal_Tour.lua
+era/lua/unlocking_a_myth.lua
+era/sql/2hr_ability_cooldowns.sql
+era/sql/2007_exp_tables.sql
+era/sql/cop_level_restrictions.sql
+era/sql/item_cooldowns.sql
+era/sql/original_absorb_casting_time.sql
+era/sql/pre_2014_skill_ranks.sql
+era/sql/pre_rmt_drops.sql
+era/sql/tier_one_weapon_skills.sql
+phoenix
