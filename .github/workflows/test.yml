@@ -11,6 +11,13 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+  actions: read
+  statuses: write
+
 jobs:
   Sanity_Checks:
     name: Sanity Checks
