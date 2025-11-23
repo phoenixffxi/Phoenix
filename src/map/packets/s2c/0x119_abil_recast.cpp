@@ -52,15 +52,16 @@ GP_SERV_COMMAND_ABIL_RECAST::GP_SERV_COMMAND_ABIL_RECAST(CCharEntity* PChar)
 
             if (recast.maxCharges != 0)
             {
-                const auto* charge = ability::GetCharge(PChar, recast.ID);
-
-                const uint16_t actualChargeTime = timer::count_seconds(recast.chargeTime);
-                const uint16_t baseChargeTime   = timer::count_seconds(charge->chargeTime);
-
-                if (baseChargeTime > actualChargeTime)
+                if (const auto* charge = ability::GetCharge(PChar, recast.ID))
                 {
-                    packet.Timers[count].Calc1 = 0; // Not used in Ready, QD, Stratagems... Is this never used?
-                    packet.Timers[count].Calc2 = 65536 - (baseChargeTime - actualChargeTime) * recast.maxCharges;
+                    const uint16_t actualChargeTime = timer::count_seconds(recast.chargeTime);
+                    const uint16_t baseChargeTime   = timer::count_seconds(charge->chargeTime);
+
+                    if (baseChargeTime > actualChargeTime)
+                    {
+                        packet.Timers[count].Calc1 = 0; // Not used in Ready, QD, Stratagems... Is this never used?
+                        packet.Timers[count].Calc2 = 65536 - (baseChargeTime - actualChargeTime) * recast.maxCharges;
+                    }
                 }
             }
             count++;

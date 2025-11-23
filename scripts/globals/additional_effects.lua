@@ -96,8 +96,9 @@ xi.additionalEffect.calcDamage = function(attacker, element, defender, damage)
     params.bonusmab   = 0
     params.includemab = false -- May possibly need to include mab on case by case basis, further tests needed
     damage            = addBonusesAbility(attacker, element, defender, damage, params)
-    damage            = damage * applyResistanceAddEffect(attacker, defender, element, 0)
-    damage            = damage * xi.spells.damage.calculateNukeAbsorbOrNullify(defender, element)
+    damage            = math.floor(damage * applyResistanceAddEffect(attacker, defender, element, 0))
+    damage            = math.floor(damage * xi.spells.damage.calculateAbsorption(defender, element, true))
+    damage            = math.floor(damage * xi.spells.damage.calculateNullification(defender, element, true, false))
     -- Todo: make sure day/weather/affinity bonuses tie in right here
     damage            = finalMagicNonSpellAdjustments(attacker, defender, element, damage)
 
@@ -235,6 +236,11 @@ xi.additionalEffect.procFunctions[xi.additionalEffect.procType.HP_DRAIN] =  func
     params.element = xi.element.DARK
     local damage = xi.additionalEffect.calcDamage(attacker, params.element, defender, params.damage)
 
+    -- Undead cannot be drained
+    if defender:isUndead() then
+        return 0, 0, 0
+    end
+
     if damage > defender:getHP() then
         damage = defender:getHP()
     end
@@ -256,6 +262,11 @@ xi.additionalEffect.procFunctions[xi.additionalEffect.procType.MP_DRAIN] =  func
     params.element = xi.element.DARK
     local damage = xi.additionalEffect.calcDamage(attacker, params.element, defender, params.damage)
 
+    -- Undead cannot be drained
+    if defender:isUndead() then
+        return 0, 0, 0
+    end
+
     if damage > defender:getMP() then
         damage = defender:getMP()
     end
@@ -276,6 +287,11 @@ xi.additionalEffect.procFunctions[xi.additionalEffect.procType.TP_DRAIN] =  func
 
     -- Hardcoded for now
     params.element = xi.element.DARK
+
+    -- Undead cannot be drained
+    if defender:isUndead() then
+        return 0, 0, 0
+    end
 
     local damage = xi.additionalEffect.calcDamage(attacker, params.element, defender, params.damage)
 

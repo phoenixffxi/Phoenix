@@ -71,7 +71,7 @@ entity.onMobEngage = function(mob, target)
         if wynav then
             if not wynav:isSpawned() then
                 wynav:setLocalVar('repop', GetSystemTime() + 20)
-            elseif wynav:getCurrentAction() == xi.action.ROAMING then
+            elseif wynav:getCurrentAction() == xi.action.category.ROAMING then
                 wynav:updateEnmity(target)
             end
         end
@@ -105,7 +105,7 @@ entity.onMobFight = function(mob, target)
     end
 end
 
-entity.onMobWeaponSkillPrepare = function(mob, target)
+entity.onMobMobskillChoose = function(mob, target)
     -- When Ix'Aern DRG readies a mob skill, all his pets use a corresponding breath attack
     local mobskill, breathSkill = utils.randomEntryIdx(breathList)
     for _, i in ipairs(pets) do

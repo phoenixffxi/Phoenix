@@ -283,6 +283,7 @@ endif()
 
 set(CONNECT_ONLY_EXTERNAL_LIBS
     bcrypt
+    nlohmann_json::nlohmann_json
 )
 
 set(MAP_ONLY_EXTERNAL_LIBS

@@ -84,9 +84,6 @@ INSERT INTO `mob_pool_mods` VALUES (680,1,322,0);   -- DEF: 322
 INSERT INTO `mob_pool_mods` VALUES (680,31,200,0);  -- MEVA: 200
 INSERT INTO `mob_pool_mods` VALUES (680,251,-50,0); -- STUNRES: -50
 
--- Cerebrator
-INSERT INTO `mob_pool_mods` VALUES (681,368,10,0); -- REGAIN: 10
-
 -- Citipati
 INSERT INTO `mob_pool_mods` VALUES (733,302,5,0); -- TRIPLE_ATTACK: 5
 
@@ -95,9 +92,6 @@ INSERT INTO `mob_pool_mods` VALUES (768,28,5,1); -- EXP_BONUS: 5
 
 -- Colossus
 INSERT INTO `mob_pool_mods` VALUES (770,4,4,1); -- SIGHT_RANGE: 4
-
--- Coveter
-INSERT INTO `mob_pool_mods` VALUES (820,368,10,0); -- REGAIN: 10
 
 -- Darksteel Golem
 INSERT INTO `mob_pool_mods` VALUES (906,4,4,1); -- SIGHT_RANGE: 4
@@ -361,6 +355,9 @@ INSERT INTO `mob_pool_mods` VALUES (3824,29,2,1); -- ASSIST: 2
 
 -- Tavnazian Ram
 INSERT INTO `mob_pool_mods` VALUES (3853,28,23,1); -- EXP_BONUS: 23
+
+-- Tiny Mandragora
+INSERT INTO `mob_pool_mods` VALUES (3924,91,1,1); -- H2H_SINGLE_SWING: 1
 
 -- Tombstone Prototype
 INSERT INTO `mob_pool_mods` VALUES (3941,163,-1000,0); -- DMGMAGIC: -1000

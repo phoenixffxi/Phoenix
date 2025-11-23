@@ -352,7 +352,7 @@ auto CMobController::MobSkill(int listId) -> bool
 
         auto skillList{ battleutils::GetMobSkillList(listId) };
 
-        if (auto overrideSkill = luautils::OnMobWeaponSkillPrepare(PMob, PTarget); overrideSkill > 0)
+        if (auto overrideSkill = luautils::OnMobMobskillChoose(PMob, PTarget); overrideSkill > 0)
         {
             skillList = { overrideSkill };
         }
@@ -496,7 +496,7 @@ auto CMobController::TryCastSpell() -> bool
 
     // Try to get an override spell from the script (if available)
     auto PSpellTarget            = PTarget ? PTarget : PMob;
-    auto possibleOverriddenSpell = luautils::OnMobMagicPrepare(PMob, PSpellTarget, chosenSpellId);
+    auto possibleOverriddenSpell = luautils::OnMobSpellChoose(PMob, PSpellTarget, chosenSpellId);
     if (possibleOverriddenSpell.has_value())
     {
         chosenSpellId = possibleOverriddenSpell;
@@ -663,7 +663,9 @@ void CMobController::DoCombatTick(timer::time_point tick)
         if (distance(PMob->loc.p, PFollowTarget->loc.p) > FollowRunAwayDistance)
         {
             if (!PMob->PAI->PathFind->IsFollowingPath())
+            {
                 PMob->PAI->PathFind->PathTo(PFollowTarget->loc.p);
+            }
             PMob->PAI->PathFind->FollowPath(m_Tick);
         }
         else
@@ -729,7 +731,7 @@ void CMobController::Move()
     float       attack_range  = PMob->GetMeleeRange();
     const int16 offsetMod     = PMob->getMobMod(MOBMOD_TARGET_DISTANCE_OFFSET);
     const float offset        = static_cast<float>(offsetMod) / 10.0f;
-    float       closeDistance = attack_range - (offsetMod == 0 ? 0.2f : offset);
+    float       closeDistance = (attack_range - (offsetMod == 0 ? 0.2f : offset)) / 2;
 
     // No going negative on the final value.
     if (closeDistance < 0.0f)
@@ -801,7 +803,7 @@ void CMobController::Move()
                     if (!PMob->PAI->PathFind->IsFollowingPath())
                     {
                         // out of melee range, try to path towards
-                        if (currentDistance > (offsetMod == 0 ? PMob->GetMeleeRange() : closeDistance))
+                        if (currentDistance > closeDistance)
                         {
                             // try to find path towards target
                             PMob->PAI->PathFind->PathInRange(PTarget->loc.p, closeDistance, PATHFLAG_WALLHACK | PATHFLAG_RUN);
@@ -1111,8 +1113,14 @@ void CMobController::DoRoamTick(timer::time_point tick)
                             // don't move around until i'm fully in the ground
                             // Transition underground takes 2s, allow extra time for any magic effect to finish
                             Wait(3s);
-                            PMob->PAI->QueueAction(queueAction_t(3s, false, [](CBaseEntity* MobEntity)
-                                                                 { MobEntity->status = STATUS_TYPE::INVISIBLE; }));
+                            PMob->PAI->QueueAction(
+                                queueAction_t(
+                                    3s,
+                                    false,
+                                    [](CBaseEntity* MobEntity)
+                                    {
+                                        MobEntity->status = STATUS_TYPE::INVISIBLE;
+                                    }));
                         }
                     }
                     else if (PMob->PAI->PathFind->RoamAround(PMob->m_SpawnPoint, PMob->GetRoamDistance(), static_cast<uint8>(PMob->getMobMod(MOBMOD_ROAM_TURNS)), PMob->m_roamFlags))
@@ -1194,10 +1202,15 @@ void CMobController::FollowRoamPath()
                 PMob->status = STATUS_TYPE::UPDATE;
                 PMob->SetUntargetable(false);
                 Wait(2s);
-                PMob->PAI->QueueAction(queueAction_t(2s, false, [](CBaseEntity* MobEntity)
-                                                     {
-                    MobEntity->animationsub = 0;
-                    MobEntity->HideName(false); }));
+                PMob->PAI->QueueAction(
+                    queueAction_t(
+                        2s,
+                        false,
+                        [](CBaseEntity* MobEntity)
+                        {
+                            MobEntity->animationsub = 0;
+                            MobEntity->HideName(false);
+                        }));
             }
 
             // face spawn rotation if I just moved back to spawn

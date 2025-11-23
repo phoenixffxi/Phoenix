@@ -191,7 +191,10 @@ xi.mob.phOnDespawn = function(ph, phNmId, chance, cooldown, params)
         DisallowRespawn(nmId, true)
         if not params.doNotEnablePhSpawn then
             DisallowRespawn(phId, false)
-            GetMobByID(phId):setRespawnTime(GetMobRespawnTime(phId))
+            local phMob = GetMobByID(phId)
+            if phMob then
+                phMob:setRespawnTime(GetMobRespawnTime(phId))
+            end
         end
 
         if m:getLocalVar('doNotInvokeCooldown') == 0 then
@@ -665,7 +668,8 @@ local addEffectImmediate = function(mob, target, damage, ae, params)
 
     power = addBonusesAbility(mob, ae.ele, target, power, ae.bonusAbilityParams)
     power = power * applyResistanceAddEffect(mob, target, ae.ele, 0)
-    power = power * xi.spells.damage.calculateNukeAbsorbOrNullify(target, ae.ele)
+    power = power * xi.spells.damage.calculateAbsorption(target, ae.ele, true)
+    power = power * xi.spells.damage.calculateNullification(target, ae.ele, true, false)
 
     if ae.sub ~= xi.subEffect.TP_DRAIN and ae.sub ~= xi.subEffect.MP_DRAIN then
         power = finalMagicNonSpellAdjustments(mob, target, ae.ele, power)
@@ -830,7 +834,7 @@ xi.mob.callPets = function(mob, petIds, params)
                 -- inject "<mob> uses Call Beast"
                 actionParams =
                 {
-                    finishCategory = xi.action.MOBABILITY_FINISH,
+                    finishCategory = xi.action.category.MOBABILITY_FINISH,
                     animationID = 718,
                     actionID = xi.mobSkill.CALL_BEAST,
                     messageID = xi.msg.basic.USES,
@@ -842,7 +846,7 @@ xi.mob.callPets = function(mob, petIds, params)
                 -- inject "<mob> uses Call Wyvern"
                 actionParams =
                 {
-                    finishCategory = xi.action.MOBABILITY_FINISH,
+                    finishCategory = xi.action.category.MOBABILITY_FINISH,
                     animationID = 438,
                     actionID = xi.mobSkill.CALL_WYVERN,
                     messageID = xi.msg.basic.USES,
@@ -855,7 +859,7 @@ xi.mob.callPets = function(mob, petIds, params)
                 -- The mobskill has no action message, so we use the job ability
                 actionParams =
                 {
-                    finishCategory = xi.action.JOBABILITY_FINISH,
+                    finishCategory = xi.action.category.JOBABILITY_FINISH,
                     animationID = 83,
                     actionID = xi.jobAbility.ACTIVATE,
                     messageID = xi.msg.basic.USES_JA,

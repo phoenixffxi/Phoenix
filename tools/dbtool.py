@@ -188,6 +188,7 @@ settings, default_settings = populate_settings()
 player_data = [
     "accounts.sql",
     "accounts_banned.sql",
+    "accounts_totp.sql",
     "auction_house_items.sql",
     "auction_house.sql",
     "audit_bazaar.sql",

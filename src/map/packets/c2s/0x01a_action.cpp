@@ -43,16 +43,34 @@
 
 namespace
 {
-    const auto actionToStr = [](const GP_CLI_COMMAND_ACTION_ACTIONID actionIn)
-    {
-        return magic_enum::enum_name(actionIn);
-    };
+
+const auto actionToStr = [](const GP_CLI_COMMAND_ACTION_ACTIONID actionIn)
+{
+    return magic_enum::enum_name(actionIn);
+};
+
 } // namespace
 
 auto GP_CLI_COMMAND_ACTION::validate(MapSession* PSession, const CCharEntity* PChar) const -> PacketValidationResult
 {
     return PacketValidator()
-        .oneOf<GP_CLI_COMMAND_ACTION_ACTIONID>(ActionID);
+        .oneOf<GP_CLI_COMMAND_ACTION_ACTIONID>(ActionID)
+        .custom([&](PacketValidator& pv)
+                {
+                    switch (static_cast<GP_CLI_COMMAND_ACTION_ACTIONID>(ActionID))
+                    {
+                        // /assist and /blockaid can be performed while healing
+                        // Talking to an NPC is allowed but clears /heal and returns early if crafting (handled in process())
+                        // Everything else is blocked.
+                        case GP_CLI_COMMAND_ACTION_ACTIONID::Assist:
+                        case GP_CLI_COMMAND_ACTION_ACTIONID::Blockaid:
+                        case GP_CLI_COMMAND_ACTION_ACTIONID::Talk:
+                            return;
+                        default:
+                            pv.isNotResting(PChar)
+                                .isNotCrafting(PChar);
+                    }
+                });
 }
 
 void GP_CLI_COMMAND_ACTION::process(MapSession* PSession, CCharEntity* PChar) const
@@ -90,6 +108,10 @@ void GP_CLI_COMMAND_ACTION::process(MapSession* PSession, CCharEntity* PChar) co
                 return;
             }
 
+            // Talking to an NPC cancels /heal
+            PChar->StatusEffectContainer->DelStatusEffectSilent(EFFECT_HEALING);
+
+            // Return early if crafting
             if (PChar->m_Costume != 0 || PChar->animation == ANIMATION_SYNTH || (PChar->CraftContainer && PChar->CraftContainer->getItemsCount() > 0))
             {
                 PChar->pushPacket<GP_SERV_COMMAND_EVENTUCOFF>(PChar, GP_SERV_COMMAND_EVENTUCOFF_MODE::Standard);

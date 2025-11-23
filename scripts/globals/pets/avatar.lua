@@ -73,7 +73,7 @@ local setMagicCastCooldown = function(pet)
     end
 
     -- cast delay is ~1s past the finish of last spell, so we add casting time (or time since spell interrupt) to the castingCooldown
-    -- this is done by simply tracking the elapsed time since action is no longer xi.action.MAGIC_CASTING
+    -- this is done by simply tracking the elapsed time since action is no longer xi.action.category.MAGIC_CASTING
     local lastCastTime = pet:getLocalVar(lastCastTimeVar)
     local lastCastTimeStamp = pet:getLocalVar(lastCastTimeStampVar)
     if
@@ -85,7 +85,7 @@ local setMagicCastCooldown = function(pet)
 
     if
         lastCastTime > 0 and
-        pet:getCurrentAction() ~= xi.action.MAGIC_CASTING
+        pet:getCurrentAction() ~= xi.action.category.MAGIC_CASTING
     then
         pet:setLocalVar(lastCastTimeStampVar, 0)
         pet:setLocalVar(lastCastTimeVar, lastCastTime)
@@ -148,12 +148,12 @@ xi.pets.avatar.onMobDeath = function(pet)
     end
 end
 
-xi.pets.avatar.onMobMagicPrepare = function(pet)
+-- Is this unused? wtf is this for?
+xi.pets.avatar.onMobSpellChoose = function(pet)
     -- Note that:
     -- returning -1 (or a spell the spirit cannot cast) in this function forces TryCastSpell to exit without choosing/casting a spell, but
     -- will still set the m_LastMagicTime to ensure next call of this function is after the cast delay
     -- Also, if we return nothing (or zero) TryCastSpell will default to normal mob casting behavior (nukes from spell list, etc)
-    printDebug(pet, string.format('onMobMagicPrepare: %u', pet:getMobMod(xi.mobMod.MAGIC_COOL))) -- for debugging magic cooldown
     local master = pet:getMaster()
     if
         not master or
