@@ -37,7 +37,8 @@ class AccountVarsModule : public CPPModule
 
                 const auto rset = db::preparedStmt(
                     "SELECT value, expiry FROM account_vars WHERE accountid = ? AND varname = ? LIMIT 1",
-                    accountId, varname);
+                    accountId,
+                    varname);
 
                 int32  value  = 0;
                 uint32 expiry = 0;
@@ -94,7 +95,12 @@ class AccountVarsModule : public CPPModule
                     db::preparedStmt(
                         "INSERT INTO account_vars SET accountid = ?, varname = ?, value = ?, expiry = ? "
                         "ON DUPLICATE KEY UPDATE value = ?, expiry = ?",
-                        accountId, varname, value, expiryValue, value, expiryValue);
+                        accountId,
+                        varname,
+                        value,
+                        expiryValue,
+                        value,
+                        expiryValue);
                 }
             }
         };
