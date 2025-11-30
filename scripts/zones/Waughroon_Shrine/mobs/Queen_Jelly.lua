@@ -18,6 +18,18 @@ end
 
 entity.onMobSpawn = function(mob)
     mob:setBaseSpeed(60)
+    local battlefield = mob:getBattlefield()
+
+    if not battlefield then
+        return
+    end
+
+    local players = battlefield:getPlayers()
+    for _, player in pairs(players) do
+        if player:isAlive() then
+            mob:updateClaim(player)
+        end
+    end
 end
 
 entity.onMobSpellChoose = function(mob, target, spellId)

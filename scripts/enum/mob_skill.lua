@@ -3,6 +3,8 @@ xi = xi or {}
 ---@enum xi.mobSkill
 xi.mobSkill =
 {
+    BARBED_CRESCENT_1        =  245,
+
     FOOT_KICK_1              =  257,
     DUST_CLOUD_1             =  258,
     WHIRL_CLAWS_1            =  259,
@@ -33,6 +35,8 @@ xi.mobSkill =
     BERSERK_DHALMEL          =  286,
     HEALING_BREEZE           =  287,
 
+    ENTANGLE_DRAIN           =  299,
+
     SUBSTITUTE               =  307,
     FROGKICK_1               =  308,
     SPORE_1                  =  309,
@@ -42,6 +46,10 @@ xi.mobSkill =
     COUNTERSPORE_1           =  313,
     SILENCE_GAS_1            =  314,
     DARK_SPORE_1             =  315,
+
+    SOMERSAULT_1             =  318,
+
+    BAD_BREATH_1             =  319,
 
     DRILL_BRANCH             =  328,
     PINECONE_BOMB            =  329,
@@ -57,6 +65,15 @@ xi.mobSkill =
     FLYING_HIP_PRESS         =  360,
     EARTH_SHOCK              =  361,
 
+    TAIL_BLOW_1              =  366,
+    FIREBALL_1               =  367,
+    BLOCKHEAD_1              =  368,
+    BRAIN_CRUSH_1            =  369,
+    BALEFUL_GAZE_LIZARD      =  370,
+    PLAGUE_BREATH_1          =  371,
+    INFRASONICS_1            =  372,
+    SECRETION_1              =  373,
+
     TAIL_ROLL                =  382,
     TUSK                     =  383,
     SCUTUM                   =  384,
@@ -64,7 +81,10 @@ xi.mobSkill =
     AWFUL_EYE                =  386,
     HEAVY_BELLOW             =  387,
 
+    ULTRASONICS_1            =  392,
+
     SONIC_BOOM_1             =  393,
+    BLOOD_DRAIN_1            =  394,
     JET_STREAM_1             =  395,
 
     SMITE_OF_FURY            =  396,
@@ -81,6 +101,12 @@ xi.mobSkill =
     SONIC_BLADE              =  422, -- Mammet-800
 
     SANDSPIN                 =  426,
+
+    GLOEOSUCCUS              =  436,
+    DEATH_RAY                =  437,
+    HEX_EYE                  =  438,
+    PETRO_GAZE               =  439,
+    CATHARSIS                =  440,
 
     MICROQUAKE               =  441, -- Mammet-800
 
@@ -114,8 +140,29 @@ xi.mobSkill =
 
     TREMOROUS_TREAD          =  540, -- Mammet-800
 
+    CAMISADO_1               =  544,
+    NOCTOSHIELD_1            =  546,
+    ULTIMATE_TERROR_1        =  547,
+    NIGHTMARE_1              =  558,
+
+    SLING_BOMB_1             =  567,
+    FORMATION_ATTACK_1       =  568,
+    REFUELING_1              =  569,
+    CIRCLE_OF_FLAMES_1       =  570,
+    SELF_DESTRUCT_3          =  571,
+    SELF_DESTRUCT_3_DEATH    =  572,
+    SELF_DESTRUCT_2          =  573,
+    SELF_DESTRUCT_2_DEATH    =  574,
+    SELF_DESTRUCT_1_DEATH    =  575,
+
     BLOW                     =  581,
     BLANK_GAZE               =  586,
+
+    BERSERK_BOMB_BIG         =  593, -- Big Bomb / Friars Lantern
+    VULCANIAN_IMPACT         =  594, -- Big Bomb / Friars Lantern
+    HEAT_WAVE                =  595, -- Big Bomb / Friars Lantern
+    HELLSTORM                =  596, -- Big Bomb / Friars Lantern
+    SELF_DESTRUCT_BOMB_BIG   =  597, -- Big Bomb / Friars Lantern
 
     SWEEP                    =  620,
 
@@ -125,6 +172,9 @@ xi.mobSkill =
     VULTURE_3                =  626,
 
     FINAL_METEOR             =  634, -- Final Meteor Chlevnik
+
+    CURSED_SPHERE_1          =  659,
+    VENOM_1                  =  660,
 
     CRYSTAL_RAIN             =  678,
     CRYSTAL_WEAPON_FIRE      =  679, -- Zipacna Weapon Start
@@ -201,6 +251,14 @@ xi.mobSkill =
     JUDGMENT_BOLT_2          =  918, -- Confirmed usage: Untargetable avatar astral flow. (Ex. Kirin) (Ramuh model avatar)
     SEARING_LIGHT_2          =  919, -- Confirmed usage: Untargetable avatar astral flow. (Ex. Kirin, Crimson-toothed Pawberry) (Carbuncle model avatar)
 
+    GIGA_SCREAM_1            =  923,
+    DREAD_DIVE_1             =  924,
+
+    DRILL_BRANCH_NM          =  927,
+    PINECONE_BOMB_NM         =  928,
+    LEAFSTORM_DISPEL         =  929,
+    ENTANGLE_POISON          =  930,
+
     SHIELD_STRIKE            =  934, -- Ark Angel EV
 
     ARKANGEL_TT_WARP_OUT     =  936, -- Ark Angel TT Warp Out
@@ -237,6 +295,9 @@ xi.mobSkill =
     HOWL                     = 1062,
 
     RANGED_ATTACK_3          = 1154,
+
+    SUBSONICS_1              = 1155,
+    MARROW_DRAIN_1           = 1156,
 
     SLIPSTREAM_1             = 1157,
     TURBULENCE_1             = 1158,
@@ -330,6 +391,8 @@ xi.mobSkill =
     RANGED_ATTACK_TENZEN_1   = 1398, -- Tenzen Bow High
     RICEBALL_TENZEN          = 1399,
     RANGED_ATTACK_TENZEN_2   = 1400, -- Tenzen Bow Low
+
+    SOUL_ACCRETION           = 1401,
 
     HOWLING_MOON_3           = 1520, -- Unknown usage.
 

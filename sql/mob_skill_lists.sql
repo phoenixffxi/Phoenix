@@ -1742,15 +1742,7 @@ INSERT INTO `mob_skill_lists` VALUES ('Raptor',377,374);
 INSERT INTO `mob_skill_lists` VALUES ('Raptor',377,377);
 INSERT INTO `mob_skill_lists` VALUES ('Raptor',377,379);
 INSERT INTO `mob_skill_lists` VALUES ('Raptor',377,380);
--- INSERT INTO `mob_skill_lists` VALUES ('Avatar-Diabolos',378,1903);
--- INSERT INTO `mob_skill_lists` VALUES ('Avatar-Diabolos',378,1904);
--- INSERT INTO `mob_skill_lists` VALUES ('Avatar-Diabolos',378,1905);
--- INSERT INTO `mob_skill_lists` VALUES ('Avatar-Diabolos',378,1906);
--- INSERT INTO `mob_skill_lists` VALUES ('Avatar-Diabolos',378,1907);
--- INSERT INTO `mob_skill_lists` VALUES ('Avatar-Diabolos',378,1908);
--- INSERT INTO `mob_skill_lists` VALUES ('Avatar-Diabolos',378,1909);
--- INSERT INTO `mob_skill_lists` VALUES ('Avatar-Diabolos',378,1910);
--- INSERT INTO `mob_skill_lists` VALUES ('Avatar-Diabolos',378,1911);
+INSERT INTO `mob_skill_lists` VALUES ('Diabolos',378,546);
 INSERT INTO `mob_skill_lists` VALUES ('Pet-Carbuncle',379,906);
 INSERT INTO `mob_skill_lists` VALUES ('Pet-Carbuncle',379,907);
 INSERT INTO `mob_skill_lists` VALUES ('Pet-Carbuncle',379,908);
@@ -2353,10 +2345,7 @@ INSERT INTO `mob_skill_lists` VALUES ('DynamisYagudoNM',710,619);
 INSERT INTO `mob_skill_lists` VALUES ('DynamisYagudoNM',710,620);
 INSERT INTO `mob_skill_lists` VALUES ('DynamisYagudoNM',710,764);
 INSERT INTO `mob_skill_lists` VALUES ('DynamisYagudoNM',710,1067);
-INSERT INTO `mob_skill_lists` VALUES ('Petrifying_Pair',711,367); -- fireball
-INSERT INTO `mob_skill_lists` VALUES ('Petrifying_Pair',711,369); -- brain crush
-INSERT INTO `mob_skill_lists` VALUES ('Petrifying_Pair',711,370); -- baleful_gaze
-INSERT INTO `mob_skill_lists` VALUES ('Petrifying_Pair',711,373); -- secretion
+-- 711: free
 INSERT INTO `mob_skill_lists` VALUES ('Sahagin DRG',712,770);
 INSERT INTO `mob_skill_lists` VALUES ('Sahagin DRG',712,771);
 INSERT INTO `mob_skill_lists` VALUES ('Sahagin DRG',712,774);
@@ -4168,7 +4157,6 @@ INSERT INTO `mob_skill_lists` VALUES ('The_Waughoon_Kid',2063,583);
 INSERT INTO `mob_skill_lists` VALUES ('The_Waughoon_Kid',2063,584);
 INSERT INTO `mob_skill_lists` VALUES ('The_Waughoon_Kid',2063,586);
 
-INSERT INTO `mob_skill_lists` VALUES ('Prehistoric_Pigeons',2064,400); -- Triple Attack
 INSERT INTO `mob_skill_lists` VALUES ('Prehistoric_Pigeons',2064,402); -- Feather Barrier
 INSERT INTO `mob_skill_lists` VALUES ('Prehistoric_Pigeons',2064,403); -- Stormwind
 INSERT INTO `mob_skill_lists` VALUES ('Prehistoric_Pigeons',2064,922); -- Blind Vortex
@@ -4287,7 +4275,18 @@ INSERT INTO `mob_skill_lists` VALUES ('Bird_Expansion',2089,1159); -- Broadside 
 INSERT INTO `mob_skill_lists` VALUES ('Bird_Expansion',2089,1160); -- Blind Side Barrage
 INSERT INTO `mob_skill_lists` VALUES ('Bird_Expansion',2089,1161); -- Damnation Dive
 
--- Next ID : 2090
+INSERT INTO `mob_skill_lists` VALUES ('Bomb_Grow',2090,593); -- Berserk
+INSERT INTO `mob_skill_lists` VALUES ('Bomb_Grow',2090,594); -- Vulcanian Impact
+INSERT INTO `mob_skill_lists` VALUES ('Bomb_Grow',2090,595); -- Heat Wave
+INSERT INTO `mob_skill_lists` VALUES ('Bomb_Grow',2090,596); -- Hellstorm
+INSERT INTO `mob_skill_lists` VALUES ('Bomb_Grow',2090,597); -- Self-destruct
+
+INSERT INTO `mob_skill_lists` VALUES ('Hecteyes_Expansion',2091,437); -- Death Ray
+INSERT INTO `mob_skill_lists` VALUES ('Hecteyes_Expansion',2091,438); -- Hex Eye
+INSERT INTO `mob_skill_lists` VALUES ('Hecteyes_Expansion',2091,439); -- Catharsis
+INSERT INTO `mob_skill_lists` VALUES ('Hecteyes_Expansion',2091,440); -- Petro Gaze
+
+-- Next ID : 2092
 
 -- ------------------------------------------------------------
 -- Start of Ambuscade section

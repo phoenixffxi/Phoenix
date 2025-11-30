@@ -3792,7 +3792,7 @@ int32 OnMobWeaponSkill(CBaseEntity* PTarget, CBaseEntity* PMob, CMobSkill* PMobS
         return 0;
     }
 
-    auto result = onMobWeaponSkill(PTarget, PMob, PMobSkill);
+    auto result = onMobWeaponSkill(PTarget, PMob, PMobSkill, action);
     if (!result.valid())
     {
         sol::error err = result;

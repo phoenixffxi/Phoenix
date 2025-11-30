@@ -291,7 +291,7 @@ auto CMobController::CanDetectTarget(CBattleEntity* PTarget, const bool forceSig
         }
     }
 
-    const bool isTargetAndInRange = PMob->GetBattleTargetID() == PTarget->targid && currentDistance <= PMob->GetMeleeRange();
+    const bool isTargetAndInRange = PMob->GetBattleTargetID() == PTarget->targid && currentDistance <= PMob->GetMeleeRange(PTarget);
 
     if (detectSight && !hasInvisible && currentDistance < PMob->getMobMod(MOBMOD_SIGHT_RANGE) && facing(PMob->loc.p, PTarget->loc.p, 64))
     {
@@ -464,7 +464,7 @@ auto CMobController::TrySpecialSkill() -> bool
 auto CMobController::TryCastSpell() -> bool
 {
     TracyZoneScoped;
-    if (!CanCastSpells())
+    if (!CanCastSpells(IgnoreRecastsAndCosts::No))
     {
         return false;
     }
@@ -524,7 +524,7 @@ auto CMobController::TryCastSpell() -> bool
             }
 
             // Check if target is in range before attempting to cast
-            if (PCastTarget && distance(PMob->loc.p, PCastTarget->loc.p) > PSpell->getRange())
+            if (PCastTarget && distance(PMob->loc.p, PCastTarget->loc.p) > PSpell->getRange() + PMob->modelHitboxSize + PCastTarget->modelHitboxSize)
             {
                 return false;
             }
@@ -543,7 +543,7 @@ auto CMobController::TryCastSpell() -> bool
     return false;
 }
 
-auto CMobController::CanCastSpells() -> bool
+auto CMobController::CanCastSpells(IgnoreRecastsAndCosts ignoreRecastsAndCosts) -> bool
 {
     TracyZoneScoped;
     if (!PMob->SpellContainer->HasSpells())
@@ -566,7 +566,17 @@ auto CMobController::CanCastSpells() -> bool
         }
     }
 
-    return IsMagicCastingEnabled();
+    if (!IsMagicCastingEnabled())
+    {
+        return false;
+    }
+
+    if (!ignoreRecastsAndCosts && !PMob->SpellContainer->IsAnySpellAvailable())
+    {
+        return false;
+    }
+
+    return true;
 }
 
 void CMobController::CastSpell(SpellID spellid)
@@ -728,7 +738,7 @@ void CMobController::Move()
     }
 
     const bool  move          = PMob->PAI->PathFind->IsFollowingPath();
-    float       attack_range  = PMob->GetMeleeRange();
+    float       attack_range  = PMob->GetMeleeRange(PTarget);
     const int16 offsetMod     = PMob->getMobMod(MOBMOD_TARGET_DISTANCE_OFFSET);
     const float offset        = static_cast<float>(offsetMod) / 10.0f;
     float       closeDistance = (attack_range - (offsetMod == 0 ? 0.2f : offset)) / 2;
@@ -831,16 +841,13 @@ void CMobController::Move()
                                 {
                                     auto angle = worldAngle(PMob->loc.p, PTarget->loc.p) + 64;
 
-                                    // clang-format off
-                                position_t new_pos
-                                {
-                                    PMob->loc.p.x - (cosf(rotationToRadian(angle)) * 1.5f),
-                                    PTarget->loc.p.y,
-                                    PMob->loc.p.z + (sinf(rotationToRadian(angle)) * 1.5f),
-                                    0,
-                                    0
-                                };
-                                    // clang-format on
+                                    position_t new_pos{
+                                        PMob->loc.p.x - (cosf(rotationToRadian(angle)) * 1.5f),
+                                        PTarget->loc.p.y,
+                                        PMob->loc.p.z + (sinf(rotationToRadian(angle)) * 1.5f),
+                                        0,
+                                        0,
+                                    };
 
                                     if (PMob->PAI->PathFind->ValidPosition(new_pos))
                                     {
@@ -1077,7 +1084,7 @@ void CMobController::DoRoamTick(timer::time_point tick)
                 }
                 else if (
                     (!PMob->PBattlefield || PMob->PBattlefield->GetStatus() != BATTLEFIELD_STATUS_OPEN) &&
-                    PMob->GetMJob() == JOB_SMN && CanCastSpells() &&
+                    PMob->GetMJob() == JOB_SMN && CanCastSpells(IgnoreRecastsAndCosts::No) &&
                     PMob->SpellContainer->HasBuffSpells() && m_Tick >= m_nextMagicTime)
                 {
                     // summon pet
@@ -1085,7 +1092,7 @@ void CMobController::DoRoamTick(timer::time_point tick)
                     // - Once battlefield is locked, behavior is back to normal with no rng added to pet summoning
                     TryCastSpell();
                 }
-                else if (CanCastSpells() && xirand::GetRandomNumber(10) < 3 && PMob->SpellContainer->HasBuffSpells())
+                else if (CanCastSpells(IgnoreRecastsAndCosts::No) && xirand::GetRandomNumber(10) < 3 && PMob->SpellContainer->HasBuffSpells())
                 {
                     // cast buff
                     TryCastSpell();
@@ -1475,7 +1482,7 @@ auto CMobController::CanMoveForward(const float currentDistance) -> bool
         (PMob->GetMaxMP() == 0 || PMob->GetMPP() >= standbackThreshold))
     {
         // Excluding Nins, mobs should not standback if can't cast magic
-        return PMob->GetMJob() != JOB_NIN && PMob->SpellContainer->HasSpells() && !CanCastSpells();
+        return PMob->GetMJob() != JOB_NIN && PMob->SpellContainer->HasSpells() && !CanCastSpells(IgnoreRecastsAndCosts::Yes);
     }
 
     if (PTarget && !PMob->CanSeeTarget(PTarget))
