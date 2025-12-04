@@ -561,7 +561,7 @@ local additionalEffects =
     {
         chance      = 25,
         ele         = xi.element.WIND,
-        sub         = xi.subEffect.BLIND, -- TODO
+        sub         = xi.subEffect.ATTACK_DOWN,
         msg         = xi.msg.basic.ADD_EFFECT_STATUS,
         applyEffect = true,
         eff         = xi.effect.WEIGHT,

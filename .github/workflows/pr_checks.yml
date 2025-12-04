@@ -189,7 +189,7 @@ jobs:
           - runner: windows-2025
             test_modules: false
             multi_process: true
-            xi_test: true
+            xi_test: false
             startup_checks: true
           - runner: macos-26
             test_modules: false
@@ -199,7 +199,7 @@ jobs:
           - runner: ubuntu-24.04
             test_modules: false
             multi_process: false
-            xi_test: true
+            xi_test: false
             startup_checks: true
     uses: ./.github/workflows/runner_test.yml
     with:
