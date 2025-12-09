@@ -1,7 +1,7 @@
 -----------------------------------
---  Maelstrom
---  Description: Deals water damage to enemies within range. Additional effect: STR Down.
---  Type: Magical (Water)
+-- Maelstrom
+-- Family: Sea Monk
+-- Description: Deals Water damage to enemies within range. Additional Effect: STR Down.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -11,13 +11,22 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
 end
 
 mobskillObject.onMobWeaponSkill = function(target, mob, skill)
-    local ftp = math.random(2, 3)
+    local params = {}
 
-    local info = xi.mobskills.mobMagicalMove(mob, target, skill, mob:getMainLvl() + 2, xi.element.WATER, ftp, xi.mobskills.magicalTpBonus.NO_EFFECT)
-    local damage = xi.mobskills.mobFinalAdjustments(info, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.WATER, xi.mobskills.shadowBehavior.WIPE_SHADOWS)
+    params.baseDamage = mob:getMainLvl() + 2
+    params.fTP        = { 2.00, 2.50, 3.00 }
+    params.element    = xi.element.WATER
 
-    target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.WATER)
-    xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.STR_DOWN, 10, 3, 120)
+    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
+    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.WATER, xi.mobskills.shadowBehavior.WIPE_SHADOWS, info.hitsLanded)
+
+    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
+        target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.WATER)
+
+        local power    = 10
+        local duration = 180 -- TODO: Capture duration
+        xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.STR_DOWN, power, 9, duration)
+    end
 
     return damage
 end

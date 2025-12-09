@@ -1,14 +1,10 @@
 -----------------------------------
 -- Mega Holy
---
--- Description:     Deals Light damage to targets in an area of effect.
--- Type: Magical
--- Can be dispelled: N/A
--- Utsusemi/Blink absorb: Wipes shadows
--- Range: Unknown radial "Extremely large damage radius." says wiki.
+-- Family: Avatar (Alexander)
+-- Description: Deals Light damage to targets in an area of effect.
 -- Notes: Accompanied by text
--- "Open thine eyes...
--- My radiance...shall guide thee..."
+-- 'Open thine eyes...
+-- My radiance...shall guide thee...'
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -18,12 +14,18 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
 end
 
 mobskillObject.onMobWeaponSkill = function(target, mob, skill)
-    local damage = mob:getWeaponDmg() * 3
+    local params = {}
 
-    local info = xi.mobskills.mobMagicalMove(mob, target, skill, damage, xi.element.LIGHT, 3, xi.mobskills.magicalTpBonus.NO_EFFECT)
-    damage = xi.mobskills.mobFinalAdjustments(info, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.LIGHT, xi.mobskills.shadowBehavior.WIPE_SHADOWS)
+    params.baseDamage = mob:getMainLvl() + 2
+    params.fTP        = { 9, 9, 9 } -- TODO: Capture fTPs
+    params.element    = xi.element.LIGHT
 
-    target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.LIGHT)
+    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
+    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.LIGHT, xi.mobskills.shadowBehavior.WIPE_SHADOWS, info.hitsLanded)
+
+    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
+        target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.LIGHT)
+    end
 
     return damage
 end

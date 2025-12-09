@@ -1,5 +1,7 @@
 -----------------------------------
---  Malevolent Blessing
+-- Malevolent Blessing
+-- Family: Promathia
+-- Description: Deals conal aoe Dark damage in front of mob. Additional Effect: Curse
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -9,12 +11,24 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
 end
 
 mobskillObject.onMobWeaponSkill = function(target, mob, skill)
-    local info = xi.mobskills.mobMagicalMove(mob, target, skill, mob:getMainLvl() + 2, xi.element.DARK, 3, xi.mobskills.magicalTpBonus.MAB_BONUS, 1)
-    local damage = xi.mobskills.mobFinalAdjustments(info, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.DARK, xi.mobskills.shadowBehavior.NUMSHADOWS_2)
+    local params = {}
+    -- TODO: Verify if Physical/Magical
+    -- TODO: Capture shadowBehavior
+    -- TODO: Capture Curse power/duration
 
-    target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.DARK)
+    params.baseDamage = mob:getMainLvl() + 2
+    params.fTP        = { 3.75, 3.75, 3.75 } -- TODO: Capture fTPs
+    params.element    = xi.element.DARK
 
-    xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.CURSE_I, 35, 0, 45)
+    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
+    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.DARK, xi.mobskills.shadowBehavior.NUMSHADOWS_3, info.hitsLanded)
+
+    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
+        target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.DARK)
+
+        -- TODO: Capture power/duration
+        xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.CURSE_I, 35, 0, 45)
+    end
 
     return damage
 end

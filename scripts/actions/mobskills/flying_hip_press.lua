@@ -2,7 +2,7 @@
 -- Flying Hip Press
 -- Family: Bugbears
 -- Description: Deals Wind damage to enemies within area of effect.
--- Note: Mobskill is NOT a breath attack like the BLU spell is.
+-- Note: Mob version of this skill is NOT a breath attack like the BLU spell is.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -15,7 +15,7 @@ mobskillObject.onMobWeaponSkill = function(target, mob, skill)
     local params = {}
 
     params.baseDamage = mob:getMainLvl() + 2
-    params.fTP        = { 2.0, 2.0, 3.0 }
+    params.fTP        = { 2.0, 2.0, 2.0 }
     params.element    = xi.element.WIND
 
     if mob:getPool() == xi.mobPool.BUGBOY then

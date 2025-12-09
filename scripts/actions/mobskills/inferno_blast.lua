@@ -1,17 +1,14 @@
 -----------------------------------
---  Fiery Blast
---
---  Description: Deals fire damage to enemies in area of effect.
---  Type: Magical
---  Utsusemi/Blink absorb: Wipes shadows
---  Range: 18' radial.
---  Notes: Used only by Tiamat, Smok and Ildebrann while flying.
+-- Inferno Blast
+-- Family: Wyrms (Tiamat)
+-- Description: Deals Fire damage to enemies in area of effect.
+-- Notes: Used by Tiamat, Smok and Ildebrann while flying.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
 
 mobskillObject.onMobSkillCheck = function(target, mob, skill)
-    if mob:getAnimationSub() ~= 1 then
+    if mob:getAnimationSub() ~= 1 then -- Only use while flying
         return 1
     end
 
@@ -19,10 +16,18 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
 end
 
 mobskillObject.onMobWeaponSkill = function(target, mob, skill)
-    local info = xi.mobskills.mobMagicalMove(mob, target, skill, mob:getMainLvl() + 2, xi.element.FIRE, 7, xi.mobskills.magicalTpBonus.NO_EFFECT)
-    local damage = xi.mobskills.mobFinalAdjustments(info, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.FIRE, xi.mobskills.shadowBehavior.WIPE_SHADOWS)
+    local params = {}
 
-    target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.FIRE)
+    params.baseDamage = mob:getMainLvl() + 2
+    params.fTP        = { 7, 7, 7 }
+    params.element    = xi.element.FIRE
+
+    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
+    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.FIRE, xi.mobskills.shadowBehavior.WIPE_SHADOWS, info.hitsLanded)
+
+    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
+        target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.FIRE)
+    end
 
     return damage
 end

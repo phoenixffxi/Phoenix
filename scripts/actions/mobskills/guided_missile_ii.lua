@@ -1,8 +1,7 @@
 -----------------------------------
---  Guided_Missile_II
---  Description: ~475 magic damage, ignores Utsusemi
---  Type: Magical
---  Range: 5 yalms
+-- Guided Missile II
+-- Family: Omega
+-- Notes: Similar to Guided Missile but used during standing form. Ignores Shadows.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -16,12 +15,20 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
 end
 
 mobskillObject.onMobWeaponSkill = function(target, mob, skill)
-    local damage = mob:getWeaponDmg() * 3
+    local params = {}
 
-    local info = xi.mobskills.mobMagicalMove(mob, target, skill, damage, xi.element.DARK, 2, xi.mobskills.magicalTpBonus.MAB_BONUS, 1)
-    damage = xi.mobskills.mobFinalAdjustments(info, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.DARK, xi.mobskills.shadowBehavior.IGNORE_SHADOWS)
+    -- TODO: This is a physical skill, will fix in mobPhysicalMove() PR.
+    params.baseDamage = mob:getMainLvl() + 2
+    params.fTP        = { 3, 3, 3 } -- TODO: Capture fTPs
+    params.element    = xi.element.DARK
 
-    target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.DARK)
+    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
+    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.DARK, xi.mobskills.shadowBehavior.IGNORE_SHADOWS, info.hitsLanded)
+
+
+    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
+        target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.DARK)
+    end
 
     return damage
 end

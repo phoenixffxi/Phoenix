@@ -1,7 +1,7 @@
 -----------------------------------
 -- Fire II
 -- Family: Avatar (Ifrit)
--- Description: Deals fire elemental damage. Damage varies with TP.
+-- Description: Deals Fire elemental damage. Damage varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}

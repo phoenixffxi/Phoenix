@@ -1,9 +1,8 @@
 -----------------------------------
--- Meteorite
--- Family: Avatar (Carbuncle)
--- Description: Carbuncle deals Light damage to an enemy.
+-- Magic Mortar
+-- Family: Automatons
+-- Description: Deals Light damage to enemies within an area of effect.
 -----------------------------------
----@type TMobSkill
 local mobskillObject = {}
 
 mobskillObject.onMobSkillCheck = function(target, mob, skill)
@@ -13,9 +12,12 @@ end
 mobskillObject.onMobWeaponSkill = function(target, mob, skill)
     local params = {}
 
-    params.baseDamage = mob:getMainLvl() + 2
-    params.fTP        = { 6, 6, 6 } -- TODO: Capture fTPs
-    params.element    = xi.element.LIGHT
+    -- Wikis say Ob starts using this skill around 50%HP.
+    -- Damage ranges 1500-2500~ based on mob's missing HP (Unsure if shell was calculated into this account or not or if it applies at all)
+
+    params.baseDamage = (mob:getMaxHP() - skill:getMobHP()) / 6 -- TODO: Capture data for damage formula
+    params.fTP        = { 1.00, 1.00, 1.00 } -- TODO: Capture fTPs
+    params.element    = xi.element.LIGHT -- TODO: Light or None?
 
     local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
     local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.LIGHT, xi.mobskills.shadowBehavior.IGNORE_SHADOWS, info.hitsLanded)

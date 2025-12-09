@@ -1,9 +1,9 @@
 -----------------------------------
 -- Implosion
+-- Family: Shadow Lord
 -- Description: Channels a wave of negative energy, damaging all targets in very wide area of effect.
--- Type: Magical
--- Wipes Shadows
--- Range: 10' radial
+-- Notes: Used during phase 2 of Shadow Lord mission fight.
+-- Also used by Shadow Lord in past but with different properties. https://wiki.ffo.jp/html/19868.html
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -13,10 +13,19 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
 end
 
 mobskillObject.onMobWeaponSkill = function(target, mob, skill)
-    local info = xi.mobskills.mobMagicalMove(mob, target, skill, mob:getMainLvl() + 2, xi.element.DARK, 1, xi.mobskills.magicalTpBonus.MAB_BONUS, 1)
-    local damage = xi.mobskills.mobFinalAdjustments(info, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.DARK, xi.mobskills.shadowBehavior.WIPE_SHADOWS)
+    local params = {}
 
-    target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.DARK)
+    -- TODO: Version used in past reportedly deals 50% Max HP Damage + Knockback
+    params.baseDamage = mob:getMainLvl() + 2
+    params.fTP        = { 1, 1, 1 } -- TODO: Capture fTPs
+    params.element    = xi.element.DARK
+
+    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
+    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.DARK, xi.mobskills.shadowBehavior.WIPE_SHADOWS, info.hitsLanded)
+
+    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
+        target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.DARK)
+    end
 
     return damage
 end

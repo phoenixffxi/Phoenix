@@ -9,12 +9,18 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
 end
 
 mobskillObject.onMobWeaponSkill = function(target, mob, skill)
-    local damage = math.floor(mob:getWeaponDmg() * 2.8)
+    local params = {}
 
-    local info = xi.mobskills.mobMagicalMove(mob, target, skill, damage, xi.element.NONE, 1, xi.mobskills.magicalTpBonus.NO_EFFECT)
-    damage = xi.mobskills.mobFinalAdjustments(info, mob, skill, target, xi.attackType.NONE, xi.damageType.NONE, 1)
+    params.baseDamage = mob:getWeaponDmg()
+    params.fTP        = { 2.8, 2.8, 2.8 } -- TODO: Capture fTPs
+    params.element    = xi.element.NONE
 
-    target:takeDamage(damage, mob, xi.attackType.NONE, xi.damageType.NONE)
+    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
+    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.NONE, xi.damageType.NONE, xi.mobskills.shadowBehavior.NUMSHADOWS_1)
+
+    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
+        target:takeDamage(damage, mob, xi.attackType.NONE, xi.damageType.NONE)
+    end
 
     return damage
 end

@@ -14,9 +14,12 @@ mobskillObject.onMobWeaponSkill = function(target, mob, skill)
     local params = {}
 
     params.baseDamage      = mob:getMainLvl() + 2
-    params.fTP             = { 1.5, 1.5, 1.5 }
+    params.fTP             = { 1.00, 2.00, 2.83 }
     params.element         = xi.element.DARK
-    params.dStatMultiplier = 1
+
+    -- From captures, this HP Drains don't seem to be affected by these.
+    params.skipResist         = true
+    params.skipMagicBonusDiff = true
 
     local shadowBehavior   = xi.mobskills.shadowBehavior.NUMSHADOWS_1
 

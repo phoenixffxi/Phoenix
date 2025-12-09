@@ -1,10 +1,8 @@
 -----------------------------------
---  Gates of Hades
---  Description: Deals severe Fire damage to enemies within an area of effect. Additional effect: Burn
---  Type:  Magical
---  Utsusemi/Blink absorb: Wipes shadows
---  Range: 20' radial
---  Notes: Only used when a cerberus's health is 25% or lower (may not be the case for Orthrus). The burn effect takes off upwards of 20 HP per tick.
+-- Gates of Hades
+-- Family: Cerberus
+-- Description: Deals severe Fire damage to enemies within an area of effect. Additional effect: Burn
+-- Notes: Only used when a cerberus's health is 25% or lower (may not be the case for Orthrus). The burn effect takes off upwards of 20 HP per tick.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -18,13 +16,22 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
 end
 
 mobskillObject.onMobWeaponSkill = function(target, mob, skill)
-    local damage = mob:getWeaponDmg() * 6
+    local params = {}
 
-    local info = xi.mobskills.mobMagicalMove(mob, target, skill, damage, xi.element.FIRE, 1.8, xi.mobskills.magicalTpBonus.NO_EFFECT)
-    damage = xi.mobskills.mobFinalAdjustments(info, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.FIRE, xi.mobskills.shadowBehavior.WIPE_SHADOWS)
+    params.baseDamage      = mob:getMainLvl()
+    params.fTP             = { 12.5, 12.5, 12.5 }
+    params.element         = xi.element.FIRE
+    params.dStatMultiplier = 1
 
-    target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.FIRE)
-    xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.BURN, 21, 3, 60)
+    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
+    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.FIRE, xi.mobskills.shadowBehavior.WIPE_SHADOWS, info.hitsLanded)
+
+    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
+        target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.FIRE)
+
+        local power = 30
+        xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.BURN, power, 3, 60)
+    end
 
     return damage
 end

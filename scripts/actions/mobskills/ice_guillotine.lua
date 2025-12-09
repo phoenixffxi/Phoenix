@@ -1,9 +1,12 @@
 -----------------------------------
--- Frozen Mist
+-- Ice Guillotine
 -- Family: Ruszors
--- Description: Deals Ice damage to enemies around the caster. Additional Effect: Terror
+-- Description: Bites at all targets in front. Additional Effect: Max HP Down
+-- Notes:
+-- * Scylla exclusive, this skill is not used on its own and is scripted to fire after Frozen Mist is used.
+-- * This skill can be dodged by side stepping.
+-- * Skill can not be interrupted by being out of range. The skill will always go off and hit anyone inside the cone.
 -----------------------------------
----@type TMobSkill
 local mobskillObject = {}
 
 mobskillObject.onMobSkillCheck = function(target, mob, skill)
@@ -14,7 +17,7 @@ mobskillObject.onMobWeaponSkill = function(target, mob, skill)
     local params = {}
 
     params.baseDamage = mob:getMainLvl() + 2
-    params.fTP        = { 1.5, 1.5, 1.5 }
+    params.fTP        = { 3.00, 3.00, 3.00 } -- TODO: Capture fTPs
     params.element    = xi.element.ICE
 
     local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
@@ -23,13 +26,12 @@ mobskillObject.onMobWeaponSkill = function(target, mob, skill)
     if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
         target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.ICE)
 
-        xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.TERROR, 1, 0, 30)
+         -- TODO: Capture durations of effects
+         -- Capture power of Amnesia.
+        xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.MAX_HP_DOWN, 50, 0, 180)
+        xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.AMNESIA, 1, 0, 60)
+        -- TODO: Scylla gains a Paralysis aura after using this skill. Maybe handle in mob script.
     end
-
-    -- Ice aura that provides special stoneskin that absorbs only physical damage
-    skill:setFinalAnimationSub(1)
-    mob:delStatusEffectSilent(xi.effect.STONESKIN)
-    mob:addStatusEffect(xi.effect.STONESKIN, 0, 0, 180, 1, 1500)
 
     return damage
 end

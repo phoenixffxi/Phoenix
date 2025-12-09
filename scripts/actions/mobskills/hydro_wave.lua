@@ -1,7 +1,8 @@
 -----------------------------------
---  Hydro Wave
---  Description: Deals water damage to enemies around the caster.
---  Type: Magical (Water)
+-- Hydro Wave
+-- Family: Ruszors
+-- Description: Deals Water damage to enemies around the caster. Removes 1 piece of equipment.
+-- Notes: Ruszors will absorb Water damage after using this move. (Handled in Ruszor mixin)
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -11,21 +12,26 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
 end
 
 mobskillObject.onMobWeaponSkill = function(target, mob, skill)
-    -- water aura that provides special stoneskin that absorbs only magical/breath/non-elemental damage
+    local params = {}
+
+    params.baseDamage = mob:getMainLvl() + 2
+    params.fTP        = { 2.50, 2.50, 2.50 }
+    params.element    = xi.element.WATER
+
+    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
+    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.WATER, xi.mobskills.shadowBehavior.WIPE_SHADOWS, info.hitsLanded)
+
+    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
+        target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.WATER)
+
+         -- Remove 1 piece of equipment from a random slot.
+        xi.mobskills.unequipRandomSlots(target, 1)
+    end
+
+    -- Water aura that provides special stoneskin that absorbs only magical/breath/non-elemental damage
     skill:setFinalAnimationSub(2)
     mob:delStatusEffectSilent(xi.effect.STONESKIN)
     mob:addStatusEffect(xi.effect.STONESKIN, 0, 0, 180, 2, 1500)
-
-    local damage     = mob:getWeaponDmg()
-    local power      = math.random(1, 16)
-    local resistRate = xi.combat.magicHitRate.calculateResistRate(mob, target, 0, 0, 0, xi.element.WATER, xi.mod.INT, xi.effect.ENCUMBRANCE_II, 0)
-    local duration   = math.floor(30 * resistRate)
-
-    local info = xi.mobskills.mobMagicalMove(mob, target, skill, damage, xi.element.WATER, 2.5, xi.mobskills.magicalTpBonus.NO_EFFECT)
-    damage = xi.mobskills.mobFinalAdjustments(info, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.WATER, xi.mobskills.shadowBehavior.WIPE_SHADOWS)
-
-    target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.WATER)
-    xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.ENCUMBRANCE_II, power, 0, duration)
 
     return damage
 end

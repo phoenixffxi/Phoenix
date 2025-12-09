@@ -1195,10 +1195,10 @@ INSERT INTO `mob_skills` VALUES (1161,343,'damnation_dive',4,0.0,10.0,2000,1500,
 -- INSERT INTO `mob_skills` VALUES (1168,386,'flame_breath',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1169,913,'poison_breath',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1170,388,'wind_breath',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1171,389,'pl_body_slam',1,0.0,15.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1172,390,'pl_heavy_stomp',1,0.0,15.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1173,391,'pl_chaos_blade',4,0.0,9.5,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1174,392,'pl_petro_eyes',4,0.0,9.5,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1171,389,'body_slam',1,0.0,15.0,2000,1500,4,0,0,0,0,0,0); -- formerly pl_body_slam
+INSERT INTO `mob_skills` VALUES (1172,390,'heavy_stomp',1,0.0,15.0,2000,1500,4,0,0,0,0,0,0); -- formerly pl_heavy_stomp
+INSERT INTO `mob_skills` VALUES (1173,391,'chaos_blade',4,0.0,9.5,2000,1500,4,0,0,0,0,0,0); -- formerly pl_chaos_blade
+INSERT INTO `mob_skills` VALUES (1174,392,'petro_eyes',4,0.0,9.5,2000,1500,4,0,0,0,0,0,0); -- formerly pl_petro_eyes
 -- INSERT INTO `mob_skills` VALUES (1175,393,'voidsong',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1176,920,'thornsong_powerful',0,0.0,15.0,2000,1500,1,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1177,921,'lodesong',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
@@ -1291,7 +1291,7 @@ INSERT INTO `mob_skills` VALUES (1263,948,'cryo_jet',4,0.0,10.0,2000,1500,4,0,0,
 INSERT INTO `mob_skills` VALUES (1264,949,'turbofan',4,0.0,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1265,950,'smoke_discharger',4,0.0,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1266,951,'high-tension_discharger',4,0.0,10.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1267,952,'hydro_canon',4,0.0,10.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1267,952,'hydro_cannon',4,0.0,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1268,953,'nuclear_waste',1,0.0,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1269,954,'chemical_bomb',0,0.0,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1270,955,'particle_shield',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
@@ -1833,12 +1833,12 @@ INSERT INTO `mob_skills` VALUES (1805,1354,'incessant_fists',0,0.0,7.0,2000,1500
 INSERT INTO `mob_skills` VALUES (1806,1355,'arcane_stomp',1,0.0,25.0,2000,1500,1,0,0,0,0,0,0); -- corected ? to 1
 INSERT INTO `mob_skills` VALUES (1807,1356,'pleiades_ray',1,0.0,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1808,1334,'petrifaction',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1809,1335,'pw_shadow_thrust',0,0.0,10.0,2000,2000,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1809,1335,'shadow_thrust',0,0.0,10.0,2000,2000,4,0,0,0,0,0,0); -- formerly pw_shadow_thrust
 INSERT INTO `mob_skills` VALUES (1810,1336,'tail_slap',4,0.0,10.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1811,1555,'.',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1812,1337,'pw_pinning_shot',2,0.0,15.0,2000,2000,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1813,1338,'pw_calcifying_deluge',2,0.0,15.0,2000,2000,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1814,1339,'pw_gorgon_dance',1,0.0,15.0,2000,2000,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1812,1337,'pinning_shot',2,0.0,15.0,2000,2000,4,0,0,0,0,0,0); -- formerly pw_pinning_shot
+INSERT INTO `mob_skills` VALUES (1813,1338,'calcifying_deluge',2,0.0,15.0,2000,2000,4,0,0,0,0,0,0); -- formerly pw_calcifying_deluge
+INSERT INTO `mob_skills` VALUES (1814,1339,'gorgon_dance',1,0.0,15.0,2000,2000,4,0,0,0,0,0,0); -- formerly pw_gorgon_dance
 INSERT INTO `mob_skills` VALUES (1815,1290,'amber_scutum',0,0.0,10.0,2000,1000,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1816,1291,'vitriolic_spray',4,0.0,10.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1817,1292,'thermal_pulse',1,0.0,12.5,2000,1000,4,0,0,0,0,0,0);
