@@ -339,14 +339,17 @@ xi.mobSkill =
     GIGA_SLASH                    =  672,
     DARK_NOVA                     =  673,
 
-    CRYSTAL_RAIN                  =  678,
-    CRYSTAL_WEAPON_FIRE           =  679, -- Zipacna Weapon Start
-
-    CRYSTAL_WEAPON_WATER          =  682, -- Zipacna Weapon End
+    ICE_BREAK_1                   =  676,
+    THUNDER_BREAK_1               =  677,
+    CRYSTAL_RAIN_1                =  678,
+    CRYSTAL_WEAPON_FIRE_1         =  679,
+    CRYSTAL_WEAPON_STONE_1        =  680,
+    CRYSTAL_WEAPON_WATER_1        =  681,
+    CRYSTAL_WEAPON_WIND_1         =  682,
 
     MIGHTY_STRIKES_1              =  688,
-    BENEDICTION_1                 =  689, -- Season's Greetings KSNM 30 (Gilagoge Tlugvi)
-    HUNDRED_FISTS_1               =  690, -- Season's Greetings KSNM 30 (Goga Tlugvi)
+    BENEDICTION_1                 =  689,
+    HUNDRED_FISTS_1               =  690,
     MANAFONT_1                    =  691,
     CHAINSPELL_1                  =  692,
     PERFECT_DODGE_1               =  693,
