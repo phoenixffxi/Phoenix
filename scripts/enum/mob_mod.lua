@@ -42,8 +42,8 @@ xi.mobMod =
     ROAM_DISTANCE          = 31, -- distance allowed to roam from spawn
     DONT_ROAM_HOME         = 32, -- Allow mobs to roam any distance from spawn. Useful for mobs with scripted roaming behavior.
     SPECIAL_COOL           = 33, -- cool down for special (example: Time between Gigas boulder ranged attacks)
-    MAGIC_COOL             = 34, -- cool down for magic
-    STANDBACK_COOL         = 35, -- cool down time for standing back (casting spell while not in attack range)
+    MAGIC_COOL             = 34, -- Spell cooldown (time between casting spells) This value is over-ridden if mob is in standback mode, use STANDBACK_COOL for standback cooldown.
+    STANDBACK_COOL         = 35, -- Cooldown time between RANGED ATTACKS and MAGIC SPELLS while in standback mode.
     ROAM_COOL              = 36, -- cool down time in seconds after roaming
     ALWAYS_AGGRO           = 37, -- aggro regardless of level. Spheroids
     NO_DROPS               = 38, -- If set monster cannot drop any items, not even seals.
@@ -100,4 +100,5 @@ xi.mobMod =
     AVATAR_PETID           = 89, -- A value from xi.petId to select model/ability from when owner uses astral flow
     AVATAR_ASTRAL_DELAY    = 90, -- Number of milliseconds to delay AF after avatar spawn
     H2H_SINGLE_SWING       = 91, -- Mob will have only one swing per attack even as MNK with H2H skill
+    AOE_HIT_ALL            = 92, -- Mob AoE can hit any player regardless of enmity
 }

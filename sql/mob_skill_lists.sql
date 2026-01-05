@@ -209,7 +209,7 @@ INSERT INTO `mob_skill_lists` VALUES ('Omega',54,1241); -- rear lasers
 INSERT INTO `mob_skill_lists` VALUES ('Bird',55,622);
 INSERT INTO `mob_skill_lists` VALUES ('Bird',55,623);
 INSERT INTO `mob_skill_lists` VALUES ('Bomb',56,510);
-INSERT INTO `mob_skill_lists` VALUES ('Bomb',56,511);
+INSERT INTO `mob_skill_lists` VALUES ('Bomb',56,509);
 INSERT INTO `mob_skill_lists` VALUES ('Buffalo',57,493);
 INSERT INTO `mob_skill_lists` VALUES ('Buffalo',57,494);
 INSERT INTO `mob_skill_lists` VALUES ('Buffalo',57,495);
@@ -475,7 +475,7 @@ INSERT INTO `mob_skill_lists` VALUES ('Ghrah',123,1445);
 INSERT INTO `mob_skill_lists` VALUES ('Ghrah',123,1446);
 INSERT INTO `mob_skill_lists` VALUES ('Ghrah',124,1441);
 INSERT INTO `mob_skill_lists` VALUES ('Ghrah',124,1444);
-INSERT INTO `mob_skill_lists` VALUES ('GiantBird',125,399); -- Scratch
+INSERT INTO `mob_skill_lists` VALUES ('GiantBird',125,399); -- Blind Vortex
 INSERT INTO `mob_skill_lists` VALUES ('GiantBird',125,400); -- Triple Attack
 INSERT INTO `mob_skill_lists` VALUES ('GiantBird',125,401); -- Gliding Spike
 INSERT INTO `mob_skill_lists` VALUES ('GiantBird',125,402); -- Feather Barrier
@@ -967,10 +967,8 @@ INSERT INTO `mob_skill_lists` VALUES ('Seether',220,1258);
 INSERT INTO `mob_skill_lists` VALUES ('Shadow',221,255);
 INSERT INTO `mob_skill_lists` VALUES ('Shadow',222,255);
 INSERT INTO `mob_skill_lists` VALUES ('Shadow',223,255);
-INSERT INTO `mob_skill_lists` VALUES ('ShadowLord',224,668);
-INSERT INTO `mob_skill_lists` VALUES ('ShadowLord',224,671);
-INSERT INTO `mob_skill_lists` VALUES ('ShadowLord',224,672);
-INSERT INTO `mob_skill_lists` VALUES ('ShadowLord',224,673);
+-- 224 free
+-- 225 free
 INSERT INTO `mob_skill_lists` VALUES ('Sheep',226,260);
 INSERT INTO `mob_skill_lists` VALUES ('Sheep',226,261);
 INSERT INTO `mob_skill_lists` VALUES ('Sheep',226,262);
@@ -1321,7 +1319,7 @@ INSERT INTO `mob_skill_lists` VALUES ('Dextrose',299,1823);
 INSERT INTO `mob_skill_lists` VALUES ('Dextrose',299,1824);
 INSERT INTO `mob_skill_lists` VALUES ('Dextrose',299,1826);
 INSERT INTO `mob_skill_lists` VALUES ('Reacton',300,510);
-INSERT INTO `mob_skill_lists` VALUES ('Reacton',300,511);
+INSERT INTO `mob_skill_lists` VALUES ('Reacton',300,509);
 INSERT INTO `mob_skill_lists` VALUES ('Verdelet',301,1709);
 INSERT INTO `mob_skill_lists` VALUES ('Verdelet',301,1710);
 INSERT INTO `mob_skill_lists` VALUES ('Verdelet',301,1711);
@@ -2306,13 +2304,14 @@ INSERT INTO `mob_skill_lists` VALUES ('Demonic_Tiphia',700,334);
 INSERT INTO `mob_skill_lists` VALUES ('Demonic_Tiphia',700,335);
 INSERT INTO `mob_skill_lists` VALUES ('Demonic_Tiphia',700,336);
 INSERT INTO `mob_skill_lists` VALUES ('Fighting_Sheep_Auto_Attack',701,274); -- sheep_charge_hostile_herbivore
-INSERT INTO `mob_skill_lists` VALUES ('Fighting_Sheep',702,264); -- sheep_song
-INSERT INTO `mob_skill_lists` VALUES ('Fighting_Sheep',702,261); -- rage
+INSERT INTO `mob_skill_lists` VALUES ('Fighting_Sheep',702,260); -- Lamb Chop
+INSERT INTO `mob_skill_lists` VALUES ('Fighting_Sheep',702,261); -- Rage
+INSERT INTO `mob_skill_lists` VALUES ('Fighting_Sheep',702,264); -- Sheep Song
 INSERT INTO `mob_skill_lists` VALUES ('Cactrot_Rapido',703,321);
 INSERT INTO `mob_skill_lists` VALUES ('Cactrot_Rapido',703,322);
 INSERT INTO `mob_skill_lists` VALUES ('Cactrot_Rapido',703,324);
 INSERT INTO `mob_skill_lists` VALUES ('Cactrot_Rapido',703,1120);
-INSERT INTO `mob_skill_lists` VALUES ('Fee_special_attack',704,1671); -- ink_jet_alt
+INSERT INTO `mob_skill_lists` VALUES ('Fee_special_attack',704,1328); -- Fee Ink Jet Attack
 INSERT INTO `mob_skill_lists` VALUES ('Effigy_Shield',705,1075);
 INSERT INTO `mob_skill_lists` VALUES ('Effigy_Shield',705,1076);
 INSERT INTO `mob_skill_lists` VALUES ('Effigy_Shield',705,1077);
@@ -3138,7 +3137,7 @@ INSERT INTO `mob_skill_lists` VALUES ('Amarok',930,1789); -- Magma_Hoplon
 -- 931: free
 INSERT INTO `mob_skill_lists` VALUES ('Battlerigged_Chariot',932,2054); -- Diffusion_ray
 INSERT INTO `mob_skill_lists` VALUES ('Battlerigged_Chariot',932,2055); -- Inertia_stream
-INSERT INTO `mob_skill_lists` VALUES ('Bennu',933,399); -- Scratch
+INSERT INTO `mob_skill_lists` VALUES ('Bennu',933,399); -- Blind Vortex
 INSERT INTO `mob_skill_lists` VALUES ('Bennu',933,400); -- Triple_Attack
 INSERT INTO `mob_skill_lists` VALUES ('Bennu',933,401); -- Gliding_Spike
 INSERT INTO `mob_skill_lists` VALUES ('Bennu',933,402); -- Feather_Barrier
@@ -3730,6 +3729,7 @@ INSERT INTO `mob_skill_lists` VALUES ('Galarhigg',1156,625); -- vulture_2
 INSERT INTO `mob_skill_lists` VALUES ('Galarhigg',1156,626); -- vulture_3
 INSERT INTO `mob_skill_lists` VALUES ('Galarhigg',1156,627); -- vulture_4
 
+INSERT INTO `mob_skill_lists` VALUES ('Evil_Oscar',1157,316); -- Impale (Bind effect)
 INSERT INTO `mob_skill_lists` VALUES ('Evil_Oscar',1157,317); -- Vampiric Lash
 INSERT INTO `mob_skill_lists` VALUES ('Evil_Oscar',1157,320); -- Sweet Breath
 
@@ -4287,7 +4287,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Hecteyes_Expansion',2091,439); -- Cathars
 INSERT INTO `mob_skill_lists` VALUES ('Hecteyes_Expansion',2091,440); -- Petro Gaze
 
 -- Next ID : 2092
-
 -- ------------------------------------------------------------
 -- Start of Ambuscade section
 -- NOTE: The mobs are changed every update in the DATs, so using out-of-date

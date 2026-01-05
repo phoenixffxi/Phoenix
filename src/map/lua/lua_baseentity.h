@@ -196,7 +196,7 @@ public:
     uint32 getPreviousZoneLineID();
     uint8  getCurrentRegion();
     uint8  getContinentID();
-    bool   isInMogHouse();
+    bool   inMogHouse();
 
     bool isPlayerInTriggerArea(uint32 triggerAreaId);
     void onPlayerTriggerAreaEnter(uint32 triggerAreaId);
@@ -417,6 +417,7 @@ public:
 
     void   setMissionStatus(MissionLog logId, const sol::object& arg2Obj, const sol::object& arg3Obj) const;
     uint32 getMissionStatus(MissionLog logId, const sol::object& missionStatusPosObj) const;
+    void   sendPartialMissionLog(MissionLog logId, bool completed) const;
 
     void   setEminenceCompleted(uint16 recordID, const sol::object& arg1, const sol::object& arg2);
     bool   getEminenceCompleted(uint16 recordID);
@@ -734,7 +735,6 @@ public:
     uint16 getILvlMacc();
     uint16 getILvlSkill();
     uint16 getILvlParry();
-    bool   isSpellAoE(uint16 spellId);
 
     int32 physicalDmgTaken(double damage, sol::variadic_args va);
     int32 rangedDmgTaken(double damage, sol::variadic_args va);
@@ -839,6 +839,9 @@ public:
     bool   isNM();
 
     uint8  getModelSize();
+    void   setModelSize(uint8 newSize);
+    float  getHitboxSize();
+    void   setHitboxSize(float newSize);
     float  getMeleeRange(CLuaBaseEntity* target);
     void   setMobFlags(uint32 flags, const sol::object& mobId); // Used to manipulate the mob's flags, such as changing size.
     uint32 getMobFlags();

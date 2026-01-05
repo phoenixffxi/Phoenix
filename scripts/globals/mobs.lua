@@ -30,7 +30,7 @@ local function lotteryPrimed(phList)
     return false
 end
 
-local getMobLuaPathObject = function(mob)
+local function getMobLuaPathObject(mob)
     if not mob then
         return nil
     end
@@ -223,33 +223,35 @@ xi.mob.skills =
 
 xi.mob.additionalEffect =
 {
-    BLIND      = 0,
-    CURSE      = 1,
-    ENAERO     = 2,
-    ENBLIZZARD = 3,
-    ENDARK     = 4,
-    ENFIRE     = 5,
-    ENLIGHT    = 6,
-    ENSTONE    = 7,
-    ENTHUNDER  = 8,
-    ENWATER    = 9,
-    EVA_DOWN   = 10,
-    HP_DRAIN   = 11,
-    MP_DRAIN   = 12,
-    PARALYZE   = 13,
-    PETRIFY    = 14,
-    PLAGUE     = 15,
-    POISON     = 16,
-    SILENCE    = 17,
-    SLOW       = 18,
-    STUN       = 19,
-    TERROR     = 20,
-    TP_DRAIN   = 21,
-    WEIGHT     = 22,
-    ENAMNESIA  = 23,
-    DISPEL     = 24,
-    BIND       = 25,
-    SLEEP      = 26,
+    BLIND        = 0,
+    CURSE        = 1,
+    ENAERO       = 2,
+    ENBLIZZARD   = 3,
+    ENDARK       = 4,
+    ENFIRE       = 5,
+    ENLIGHT      = 6,
+    ENSTONE      = 7,
+    ENTHUNDER    = 8,
+    ENWATER      = 9,
+    EVASION_DOWN = 10,
+    HP_DRAIN     = 11,
+    MP_DRAIN     = 12,
+    PARALYZE     = 13,
+    PETRIFY      = 14,
+    PLAGUE       = 15,
+    POISON       = 16,
+    SILENCE      = 17,
+    SLOW         = 18,
+    STUN         = 19,
+    TERROR       = 20,
+    TP_DRAIN     = 21,
+    WEIGHT       = 22,
+    ENAMNESIA    = 23,
+    DISPEL       = 24,
+    BIND         = 25,
+    SLEEP        = 26,
+    DEFENSE_DOWN = 27,
+    ATTACK_DOWN  = 28,
 }
 xi.mob.ae = xi.mob.additionalEffect
 
@@ -363,7 +365,7 @@ local additionalEffects =
         bonusAbilityParams = { bonusmab = 0, includemab = false },
     },
 
-    [xi.mob.ae.EVA_DOWN] =
+    [xi.mob.ae.EVASION_DOWN] =
     {
         chance      = 25,
         ele         = xi.element.ICE,
@@ -594,6 +596,34 @@ local additionalEffects =
         minDuration = 1,
         maxDuration = 90,
     },
+
+    [xi.mob.ae.DEFENSE_DOWN] =
+    {
+        chance      = 20,
+        ele         = xi.element.WIND,
+        sub         = xi.subEffect.DEFENSE_DOWN,
+        msg         = xi.msg.basic.ADD_EFFECT_STATUS,
+        applyEffect = true,
+        eff         = xi.effect.DEFENSE_DOWN,
+        power       = 25,
+        duration    = 30,
+        minDuration = 1,
+        maxDuration = 60,
+    },
+
+    [xi.mob.ae.ATTACK_DOWN] =
+    {
+        chance      = 20,
+        ele         = xi.element.WATER,
+        sub         = xi.subEffect.ATTACK_DOWN,
+        msg         = xi.msg.basic.ADD_EFFECT_STATUS,
+        applyEffect = true,
+        eff         = xi.effect.ATTACK_DOWN,
+        power       = 25,
+        duration    = 30,
+        minDuration = 1,
+        maxDuration = 60,
+    },
 }
 
 --[[
@@ -788,6 +818,7 @@ xi.mob.callPets = function(mob, petIds, params)
     --      params.ignoreBusy:     allow pets to get summoned even if owner is busy, interupting any action it was performing
     --      params.noAnimation:    no animation packet from owner when calling pet
     --      params.inactiveTime:   how long for the call pet to take (owner will be inactive during period)
+    --      params.ignoreInactive: summoner does not become inactive while summoning a pet
     --          this implies using summoner start/stop entity animation packet (which most mobs use when calling either pets or additional helpers)
     -- if inactiveTime is zero, the following will determine an action packet to signal the mob is calling a pet
     --      params.callPetJob will map to a particular mobskill action packet
@@ -1014,8 +1045,10 @@ xi.mob.callPets = function(mob, petIds, params)
     end
 
     if params.inactiveTime > 0 then
-        -- put owner into inactive state until the timer fires
-        mob:stun(params.inactiveTime)
+        if not params.ignoreInactive then
+            -- put owner into inactive state until the timer fires
+            mob:stun(params.inactiveTime)
+        end
 
         -- start call pet animation
         if not params.noAnimation then

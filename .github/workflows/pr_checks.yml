@@ -25,7 +25,7 @@ jobs:
     name: Sanity Checks
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/landsandboat/devtools:ubuntu
+      image: ${{ vars.DEVTOOLS_IMAGE || 'ghcr.io/landsandboat/devtools:ubuntu' }}
     defaults:
       run:
         shell: bash
@@ -62,7 +62,7 @@ jobs:
     needs: Sanity_Checks
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/landsandboat/devtools:ubuntu
+        image: ${{ vars.DEVTOOLS_IMAGE || 'ghcr.io/landsandboat/devtools:ubuntu' }}
     defaults:
       run:
         shell: bash

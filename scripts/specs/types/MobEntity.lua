@@ -30,10 +30,11 @@
 ---@field onMobWeaponSkill? fun(target: CBaseEntity, mob: CBaseEntity, mobSkill: CMobSkill, action: CAction): integer?
 ---@field onMobSkillTarget? fun(target: CBaseEntity, mob: CBaseEntity, mobSkill: CMobSkill): CBaseEntity?
 ---@field onAdditionalEffect? fun(mob: CBaseEntity, target: CBaseEntity, damage: integer): (integer?, integer?, integer?)
----@field onMobSpellChoose? fun(mob: CBaseEntity, target: CBaseEntity, spell: CSpell?): xi.magic.spell|0?
+---@field onMobSpellChoose? fun(mob: CBaseEntity, target: CBaseEntity, spell: CSpell?): xi.magic.spell|0?, CBaseEntity?
 ---@field onWeaponskillHit? fun(mob: CBaseEntity, attacker: CBaseEntity, weaponskillId: xi.weaponskill)
 ---@field onSpikesDamage? fun(mob: CBaseEntity, target: CBaseEntity, damage: integer): (integer?, integer?, integer?)
 ---@field onMagicHit? fun(caster: CBaseEntity, target: CBaseEntity, spell: CSpell)
 ---@field onSpellPrecast? fun(mob: CBaseEntity, spell: CSpell)
+---@field onSpellInterrupted? fun(mob: CBaseEntity, spell: CSpell)
 ---@field onSteal? fun(player: CBaseEntity, target: CBaseEntity, ability: CAbility, action: CAction): integer?
 ---@field onMagicCastingCheck? fun(mob: CBaseEntity, target: CBaseEntity, spell: CSpell): integer?
