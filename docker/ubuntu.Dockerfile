@@ -3,7 +3,7 @@
 ########
 # Base #
 ########
-ARG BASE_TAG=24.04
+ARG BASE_TAG=26.04
 FROM --platform=$BUILDPLATFORM ubuntu:$BASE_TAG AS base
 
 ARG DEBIAN_FRONTEND=noninteractive
@@ -63,8 +63,8 @@ SHELL ["/bin/bash", "-c"]
 ###########
 FROM base AS staging
 
-ARG GCC_VERSION=14
-ARG LLVM_VERSION=20
+ARG GCC_VERSION=15
+ARG LLVM_VERSION=22
 
 # Install build dependencies.
 RUN --mount=type=cache,target=/var/cache/apt,id=cache-apt,sharing=locked \
