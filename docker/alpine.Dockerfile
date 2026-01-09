@@ -3,7 +3,7 @@
 ########
 # Base #
 ########
-ARG BASE_TAG=3.22
+ARG BASE_TAG=3.24
 FROM --platform=$BUILDPLATFORM alpine:$BASE_TAG AS base
 
 # Install runtime dependencies.
@@ -56,7 +56,7 @@ SHELL ["/bin/bash", "-c"]
 ###########
 FROM base AS staging
 
-ARG LLVM_VERSION=20
+ARG LLVM_VERSION=22
 
 # Install build dependencies.
 RUN --mount=type=cache,target=/var/cache/apk,id=cache-apk,sharing=locked <<EOF
