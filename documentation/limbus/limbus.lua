@@ -85,6 +85,7 @@ function Limbus:new(data)
     obj.serverVar     = '[' .. obj.name .. ']Time'
     obj.exitLocation  = data.exitLocation or 0
     obj.timeExtension = data.timeExtension or 0
+    obj.lootCrateId   = data.lootCrateId
 
     return obj
 end
