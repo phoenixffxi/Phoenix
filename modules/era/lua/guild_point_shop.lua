@@ -18,15 +18,6 @@ require('scripts/globals/hobbies/crafting/guild_points')
 local m = Module:new('guild_point_shop')
 
 -----------------------------------
--- HQ Crystals - Set all to 500 GP (except Robber Rig at 1500)
------------------------------------
-for i = 1, 8 do
-    if xi.crafting.hqCrystals[i] then
-        xi.crafting.hqCrystals[i].cost = 500
-    end
-end
-
------------------------------------
 -- Helper to "disable" an item by setting rank impossibly high
 -- The item still shows in the menu (client-side) but cannot be purchased
 -----------------------------------
