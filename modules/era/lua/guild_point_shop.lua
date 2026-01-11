@@ -2,6 +2,8 @@
 -- Guild Point Shop Modifications
 -----------------------------------
 --
+-- Note: All of these changes will still show up in the menu without a .dat modification via XIDivert.
+--
 -- Emblems were added on 12/07/2010
 -- Patch Notes: The following items may now be obtained in exchange for Guild Points:
 --              Blacksmiths' Emblem / Goldsmiths' Emblem / Boneworkers' Emblem / Weavers' Emblem / Culinarians' Emblem /
@@ -12,10 +14,24 @@
 -- Signboards were added on 11/20/2007
 -- Patch Notes: New items purchasable with guild points have been added to the trading contract quests.
 -- Patch Notes Link: http://www.playonline.com/pcd/update/ff11us/20071120wwnX41/detail.html
+--
+-- Emblems were added on 12/07/2010
+-- Patch Notes: The rate at which guild points can be exchange for the following items has been adjusted.
+--              Aurora Crystal       -     500 -> 200
+--              Twilights Crystal    -     500 -> 200
+-- Patch Notes Link: https://forum.square-enix.com/ffxi/threads/52095
+
 -----------------------------------
 require('scripts/globals/hobbies/crafting/guild_points')
 -----------------------------------
 local m = Module:new('guild_point_shop')
+
+-----------------------------------
+-- HQ Crystals - Set Auraora and Twilight to 500 GP
+-----------------------------------
+
+xi.crafting.hqCrystals[7].cost = 500 -- Aurora Crystal
+xi.crafting.hqCrystals[8].cost = 500 -- Twilight Crystal
 
 -----------------------------------
 -- Helper to "disable" an item by setting rank impossibly high
