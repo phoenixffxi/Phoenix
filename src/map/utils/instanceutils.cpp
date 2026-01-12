@@ -188,6 +188,8 @@ auto CheckInstance(Scheduler& scheduler, MapConfig config) -> Task<void>
 
     auto loader = std::make_unique<CInstanceLoader>(instanceId, PRequester);
     loader->LoadInstance();
+
+    co_return;
 }
 
 auto LoadInstance(uint32 instanceid, CCharEntity* PRequester) -> void

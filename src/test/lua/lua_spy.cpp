@@ -50,7 +50,7 @@ auto CLuaSpy::original() const -> sol::object
     return original_;
 }
 
-auto CLuaSpy::path() const -> std::string
+auto CLuaSpy::path() const -> const std::string&
 {
     return path_;
 }

@@ -86,10 +86,10 @@ public:
 
     CZone* GetZone();
 
-    auto         GetEffectCheckTime() const -> timer::time_point;
-    EntityList_t GetCharList() const;
-    EntityList_t GetMobList() const;
-    bool         CharListEmpty() const;
+    auto GetEffectCheckTime() const -> timer::time_point;
+    auto GetCharList() const -> const EntityList_t&;
+    auto GetMobList() const -> const EntityList_t&;
+    bool CharListEmpty() const;
 
     void ForEachChar(const std::function<void(CCharEntity*)>& func);
     void ForEachMob(const std::function<void(CMobEntity*)>& func);

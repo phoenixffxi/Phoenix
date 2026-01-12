@@ -39,8 +39,8 @@ public:
     void setBeforeEachFunc(sol::protected_function func);
     void setAfterEachFunc(sol::protected_function func);
 
-    auto fullName() const -> std::string;
-    auto name() const -> std::string;
+    auto fullName() const -> const std::string&;
+    auto name() const -> const std::string&;
     auto childSuites() const -> const std::vector<TestSuite>&;
     auto testCases() const -> const std::vector<TestCase>&;
 

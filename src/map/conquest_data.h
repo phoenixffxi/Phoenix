@@ -1,4 +1,4 @@
-/*
+﻿/*
 ===========================================================================
 
   Copyright (c) 2023 LandSandBoat Dev Teams
@@ -75,7 +75,7 @@ public:
     //
     // Gets the array of region controls, indexed by regionId.
     //
-    auto getRegionControls() -> const std::vector<region_control_t>;
+    auto getRegionControls() const -> const std::vector<region_control_t>&;
 
     //
     // Adds the given influence points to the given nation for the given
