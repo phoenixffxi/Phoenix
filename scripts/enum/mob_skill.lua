@@ -595,6 +595,14 @@ xi.mobSkill =
 
     XENOGLOSSIA                   = 1823, -- Unique entry.
 
+    PYRIC_BLAST                   = 1828,
+    PYRIC_BULWARK                 = 1829,
+    POLAR_BLAST                   = 1830,
+    POLAR_BULWARK                 = 1831,
+    BAROFIELD                     = 1832,
+
+    NERVE_GAS                     = 1836,
+
     SANDBLAST_2                   = 1841,
     SANDPIT_2                     = 1842,
     VENOM_SPRAY_2                 = 1843,
