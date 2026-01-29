@@ -54,6 +54,22 @@ UPDATE spell_list SET castTime = 3000 WHERE name = 'blindna';
 UPDATE spell_list SET castTime = 3000 WHERE name = 'cursna';
 
 ------------------------------------
+-- Thief
+------------------------------------
+
+-- Assassin's Charge: Revert cooldown to 15 minutes
+UPDATE abilities SET recastTime = 900 WHERE name = 'assassins_charge';
+
+-- Assassin's Charge: Change merit value to reduce cooldown by 150 seconds per merit
+UPDATE merits SET value = 150 WHERE name = 'assassins_charge';
+
+-- Feint: Revert cooldown to 10 minutes
+UPDATE abilities SET recastTime = 600 WHERE name = 'feint';
+
+-- Feint: Change merit value to reduce cooldown by 120 seconds per merit
+UPDATE merits SET value = 120 WHERE name = 'feint';
+
+------------------------------------
 -- Dark Knight
 -- Source: https://www.bg-wiki.com/ffxi/Version_Update_(02/13/2012)
 ------------------------------------

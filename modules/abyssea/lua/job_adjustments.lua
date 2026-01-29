@@ -67,6 +67,33 @@ m:addOverride('xi.job_utils.white_mage.useDevotion', function(player, target, ab
 end)
 
 -----------------------------------
+-- Thief
+-----------------------------------
+
+-- Assassin's Charge: Remove Quadruple Attack
+m:addOverride('xi.effects.assassins_charge.onEffectGain', function(target, effect)
+    effect:addMod(xi.mod.TRIPLE_ATTACK, 100)
+end)
+
+-- Assassin's Charge: Reduce cooldown by merit count
+m:addOverride('xi.job_utils.thief.useAssassinsCharge', function(player, target, ability, action)
+    local recastReduction = player:getMerit(xi.merit.ASSASSINS_CHARGE) - 150
+    action:setRecast(action:getRecast() - recastReduction)
+
+    player:addStatusEffect(xi.effect.ASSASSINS_CHARGE, 1, 0, 60)
+
+    return xi.effect.ASSASSINS_CHARGE
+end)
+
+-- Feint: Remove Treasure Hunter rate and reduce cooldown by merit count
+m:addOverride('xi.job_utils.thief.useFeint', function(player, target, ability, action)
+    local recastReduction = player:getMerit(xi.merit.FEINT) - 120
+    action:setRecast(action:getRecast() - recastReduction)
+
+    player:addStatusEffect(xi.effect.FEINT, 150, 0, 60)
+end)
+
+-----------------------------------
 -- Dark Knight
 -----------------------------------
 
