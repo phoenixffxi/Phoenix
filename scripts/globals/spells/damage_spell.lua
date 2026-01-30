@@ -1087,7 +1087,7 @@ xi.spells.damage.useDamageSpell = function(caster, target, spell)
             (caster:hasStatusEffect(xi.effect.BURST_AFFINITY) or
             caster:hasStatusEffect(xi.effect.AZURE_LORE)))
         then
-            local _, skillchainCount = xi.magicburst.formMagicBurst(spellElement, target) -- External function. Not present in magic.lua.
+            local _, skillchainCount = xi.magicburst.formMagicBurst(target, spellElement) -- External function. Not present in magic.lua.
 
             if skillchainCount > 0 then
                 magicBurst      = xi.spells.damage.calculateIfMagicBurst(target, spellElement, skillchainCount)
