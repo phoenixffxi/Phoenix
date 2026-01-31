@@ -48,6 +48,19 @@ UPDATE merits SET upgrade = 0 WHERE name = 'ele_magic_debuff_effect';
 UPDATE merits SET upgrade = 0 WHERE name = 'aspir_absorption_amount';
 
 ------------------------------------
+-- Red Mage
+-- https://forum.square-enix.com/ffxi/threads/55751-August.-6-2019-%28JST%29-Version-Update
+------------------------------------
+
+-- Disable OOE RDM Group 2 merits
+UPDATE merits SET upgrade = 0 WHERE name = 'enfeebling_magic_duration';
+UPDATE merits SET upgrade = 0 WHERE name = 'magic_accuracy';
+UPDATE merits SET upgrade = 0 WHERE name = 'enhancing_magic_duration';
+UPDATE merits SET upgrade = 0 WHERE name = 'immunobreak_chance';
+UPDATE merits SET upgrade = 0 WHERE name = 'enspell_damage';
+UPDATE merits SET upgrade = 0 WHERE name = 'melee_accuracy';
+
+------------------------------------
 -- Ranger
 -- Source: https://forum.square-enix.com/ffxi/threads/55263-April.-3-2019-%28JST%29-Version-Update
 ------------------------------------

@@ -32,6 +32,7 @@ UPDATE merits SET value = 150 WHERE name = 'martyr';
 UPDATE merits SET value = 150 WHERE name = 'devotion';
 
 -- Animus Solace: Disable merit upgrades
+-- Source: https://forum.square-enix.com/ffxi/threads/55360?_ga=2.195400239.203489549.1557463710-808700183.1440009048
 UPDATE merits SET upgrade = 0 WHERE name = 'animus_solace';
 
 -- Animus Misery: Disable merit upgrades

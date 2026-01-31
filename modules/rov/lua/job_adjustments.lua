@@ -106,6 +106,25 @@ end)
 -- end)
 
 -----------------------------------
+-- Red Mage
+-----------------------------------
+
+-- TODO: Blind II / Blind
+-- Source: https://forum.square-enix.com/ffxi/threads/46531-Mar-26-2015-%28JST%29-Version-Update
+--  - Remove fixed 180 duration, revert to between 80 and 300 seconds
+--  - Potency: Blind: (User INT - Opponent MND + 60)/4   Blind II: (User INT - Opponent MND + 100)/4
+
+-- TODO: Paralyze / Paralyze II
+--  - Remove fixed 120 duration, revert to between 30 and 120 seconds
+
+-- TODO: Poison / Poison II / Poisonga
+--  - Revert potencies to pre-RoV values
+
+-- TODO: Bio / Bio II / Bio III / Dia / Dia II / Dia III
+-- Source: https://forum.square-enix.com/ffxi/threads/55263-April.-3-2019-%28JST%29-Version-Update
+--  - Revert potencies to pre-RoV values
+
+-----------------------------------
 -- Dark Knight
 -----------------------------------
 
