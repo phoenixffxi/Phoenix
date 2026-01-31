@@ -8459,14 +8459,14 @@ INSERT INTO `mob_groups` VALUES (2,2442,112,'Lost_Soul_blm',300,0,1539,0,0,0,NUL
 INSERT INTO `mob_groups` VALUES (3,1260,112,'Etemmu',300,0,264,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (4,1264,112,'Evil_Eye',300,0,794,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (5,3575,112,'Shadow_Dragon',600,0,0,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (6,410,112,'Biast',0,128,266,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (6,410,112,'Biast',0,128,266,19550,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (7,2043,112,'Ice_Elemental',300,4,1347,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (8,868,112,'Cursed_Weapon',300,0,548,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (9,913,112,'Dark_Elemental',300,4,568,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (10,991,112,'Demon_Pawn',300,0,621,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (11,6027,112,'Barbaric_Weapon',0,32,3098,6700,0,0,'WOTG');
 INSERT INTO `mob_groups` VALUES (12,5851,112,'Timeworn_Warrior',0,32,3062,5000,0,0,'WOTG');
-INSERT INTO `mob_groups` VALUES (13,1252,112,'Ereshkigal',0,128,788,6000,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (13,1252,112,'Ereshkigal',0,128,788,5800,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (14,453,112,'Blizzard_Gigas',300,0,296,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (15,1794,112,'Graupel_Gigas',300,0,296,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (16,1431,112,'Frost_Gigas',300,0,296,0,0,0,NULL);
@@ -8477,7 +8477,7 @@ INSERT INTO `mob_groups` VALUES (20,988,112,'Demon_Knight',300,0,616,0,0,0,NULL)
 INSERT INTO `mob_groups` VALUES (21,5423,112,'Duke_Focalor',0,128,2943,4400,0,0,'WOTG');
 INSERT INTO `mob_groups` VALUES (22,995,112,'Demon_Warlock',300,0,624,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (23,994,112,'Demons_Elemental',0,128,0,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (24,3576,112,'Shadow_Eye',0,32,2226,6800,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (24,3576,112,'Shadow_Eye',0,32,2226,7000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (25,693,112,'Chaos_Elemental',0,128,452,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (26,510,112,'Boreal_Hound',300,0,0,26000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (27,509,112,'Boreal_Coeurl',300,0,0,26000,0,0,NULL);
