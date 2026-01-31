@@ -452,7 +452,7 @@ INSERT INTO `traits` VALUES (76,'ambush',6,75,1,0,0,'TOAU',2374);
 INSERT INTO `traits` VALUES (77,'iron will',7,75,1,0,0,'TOAU',2436);
 INSERT INTO `traits` VALUES (78,'guardian',7,75,1,0,0,'TOAU',2438);
 INSERT INTO `traits` VALUES (79,'muted soul',8,75,1,0,0,'TOAU',2500);
-INSERT INTO `traits` VALUES (80,'desperate blows',8,15,1,906,500,'SOA',0);
+INSERT INTO `traits` VALUES (80,'desperate blows',8,15,1,906,500,'TOAU',0);
 INSERT INTO `traits` VALUES (80,'desperate blows',8,30,2,906,1000,'SOA',0);
 INSERT INTO `traits` VALUES (80,'desperate blows',8,45,3,906,1500,'SOA',0);
 INSERT INTO `traits` VALUES (81,'beast affinity ',9,75,1,0,0,'TOAU',2564);
