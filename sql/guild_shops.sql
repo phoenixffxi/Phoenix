@@ -529,55 +529,80 @@ INSERT INTO `guild_shops` VALUES (525,17399,2394,2394,20,6,12);
 INSERT INTO `guild_shops` VALUES (525,17400,691,691,20,6,12);
 INSERT INTO `guild_shops` VALUES (525,17407,270,270,20,6,12);
 
--- Maymunah (Bastok Mines) Alchemist Guild (S)
-INSERT INTO `guild_shops` VALUES (5262,621,21,40,255,0,100);         -- crying_mustard
-INSERT INTO `guild_shops` VALUES (5262,622,36,155,255,48,100);       -- dried_marjoram
-INSERT INTO `guild_shops` VALUES (5262,636,97,369,255,48,100);       -- chamomile
-INSERT INTO `guild_shops` VALUES (5262,637,1640,4880,165,0,65);      -- slime_oil
-INSERT INTO `guild_shops` VALUES (5262,638,138,851,255,48,100);      -- sage
-INSERT INTO `guild_shops` VALUES (5262,912,192,360,255,0,100);       -- beehive_chip
-INSERT INTO `guild_shops` VALUES (5262,914,1125,6300,165,33,65);     -- mercury
-INSERT INTO `guild_shops` VALUES (5262,920,1084,5899,165,0,65);      -- malboro_vine
-INSERT INTO `guild_shops` VALUES (5262,922,300,300,255,0,100);       -- bat_wing
-INSERT INTO `guild_shops` VALUES (5262,925,1312,3952,55,0,22);       -- giant_stinger
-INSERT INTO `guild_shops` VALUES (5262,928,1014,2307,165,0,65);      -- bomb_ash
-INSERT INTO `guild_shops` VALUES (5262,929,1875,6900,80,0,32);       -- black_ink
-INSERT INTO `guild_shops` VALUES (5262,931,19520,19520,15,3,6);      -- cermet_chunk
-INSERT INTO `guild_shops` VALUES (5262,932,1020,1080,165,0,65);      -- carbon_fiber
-INSERT INTO `guild_shops` VALUES (5262,933,664,3168,165,33,65);      -- glass_fiber
-INSERT INTO `guild_shops` VALUES (5262,943,534,1177,255,0,100);      -- poison_dust
-INSERT INTO `guild_shops` VALUES (5262,947,3360,21862,55,0,22);      -- firesand
-INSERT INTO `guild_shops` VALUES (5262,951,90,350,255,48,100);       -- wijnruit
-INSERT INTO `guild_shops` VALUES (5262,1108,573,3213,255,48,100);    -- sulfur
-INSERT INTO `guild_shops` VALUES (5262,1109,930,4563,255,0,100);     -- artificial_lens
-INSERT INTO `guild_shops` VALUES (5262,2131,75,242,255,48,100);      -- triturator
+-- Maymunah (Bastok Mines) Alchemy Guild (S)
 -- TODO: All items purchasable from Curio Moogle commented out pending research on price changes
--- INSERT INTO `guild_shops` VALUES (5262,4112,682,728,80,16,32);       -- potion
--- INSERT INTO `guild_shops` VALUES (5262,4116,3375,7560,55,0,22);      -- hi-potion
--- INSERT INTO `guild_shops` VALUES (5262,4128,3624,17201,30,0,12);     -- ether
--- INSERT INTO `guild_shops` VALUES (5262,4148,1200,1377,80,0,32);      -- antidote
--- INSERT INTO `guild_shops` VALUES (5262,4150,1945,9549,80,0,32);      -- eye_drops
--- INSERT INTO `guild_shops` VALUES (5262,4151,880,2944,80,0,32);       -- echo_drops
--- INSERT INTO `guild_shops` VALUES (5262,4154,5250,13300,55,0,22);     -- holy_water
-INSERT INTO `guild_shops` VALUES (5262,4162,5250,13300,80,0,32);     -- silencing_potion
--- INSERT INTO `guild_shops` VALUES (5262,4164,1050,6832,165,0,65);     -- prism_powder
--- INSERT INTO `guild_shops` VALUES (5262,4165,900,5712,165,0,65);
--- INSERT INTO `guild_shops` VALUES (5262,4166,750,2080,165,0,65);
-INSERT INTO `guild_shops` VALUES (5262,4171,750,2080,255,0,100);
-INSERT INTO `guild_shops` VALUES (5262,4443,750,2080,255,48,100);
-INSERT INTO `guild_shops` VALUES (5262,4509,9,58,375,0,150);
-INSERT INTO `guild_shops` VALUES (5262,16387,10902,33886,20,0,10);
-INSERT INTO `guild_shops` VALUES (5262,16403,102009,102009,20,0,3);
-INSERT INTO `guild_shops` VALUES (5262,16454,1904,1904,20,0,15);
-INSERT INTO `guild_shops` VALUES (5262,16471,519,3024,20,0,10);
-INSERT INTO `guild_shops` VALUES (5262,16478,19148,19148,20,0,5);
-INSERT INTO `guild_shops` VALUES (5262,16495,9906,9906,20,0,10);
-INSERT INTO `guild_shops` VALUES (5262,16581,33368,167872,20,0,3);
-INSERT INTO `guild_shops` VALUES (5262,17340,392,392,8910,0,3564);
-INSERT INTO `guild_shops` VALUES (5262,17341,392,392,2970,0,1188);
-INSERT INTO `guild_shops` VALUES (5262,18228,114,114,2970,594,1188);
-INSERT INTO `guild_shops` VALUES (5262,18232,114,114,2970,594,1188);
-INSERT INTO `guild_shops` VALUES (5262,18236,21,21,2970,594,1188);
+-- INSERT INTO `guild_shops` VALUES (5262,913,192,360,240,0,0);        -- lump_of_beeswax TODO: missing min_price and max_price
+INSERT INTO `guild_shops` VALUES (5262,920,1084,5899,60,0,10);      -- malboro_vine
+INSERT INTO `guild_shops` VALUES (5262,922,300,300,240,0,0);        -- bat_wing
+INSERT INTO `guild_shops` VALUES (5262,925,1312,3952,240,0,0);      -- giant_stinger
+INSERT INTO `guild_shops` VALUES (5262,928,1014,2307,120,0,0);      -- pinch_of_bomb_ash
+INSERT INTO `guild_shops` VALUES (5262,1108,573,3213,120,48,52);    -- pinch_of_sulfur
+-- INSERT INTO `guild_shops` VALUES (5262,937,573,3213,120,0,0);       -- block_of_animal_glue TODO: missing min_price and max_price
+INSERT INTO `guild_shops` VALUES (5262,951,90,350,240,48,68);       -- wijnruit
+INSERT INTO `guild_shops` VALUES (5262,621,21,40,240,0,68);         -- pot_of_crying_mustard
+INSERT INTO `guild_shops` VALUES (5262,622,36,155,240,48,68);       -- pinch_of_dried_marjoram
+INSERT INTO `guild_shops` VALUES (5262,636,97,369,240,48,68);       -- sprig_of_chamomile
+INSERT INTO `guild_shops` VALUES (5262,637,1640,4880,60,0,0);       -- vial_of_slime_oil
+-- INSERT INTO `guild_shops` VALUES (5262,4165,900,5712,60,0,0);       -- pot_of_silent_oil
+INSERT INTO `guild_shops` VALUES (5262,638,138,851,240,48,144);     -- sprig_of_sage
+INSERT INTO `guild_shops` VALUES (5262,931,19520,19520,60,0,0);     -- cermet_chunk
+INSERT INTO `guild_shops` VALUES (5262,4443,24,154,240,48,24);      -- cobalt_jellyfish
+INSERT INTO `guild_shops` VALUES (5262,933,664,3168,240,33,42);     -- loop_of_glass_fiber
+INSERT INTO `guild_shops` VALUES (5262,932,1020,1080,60,0,0);       -- loop_of_carbon_fiber
+INSERT INTO `guild_shops` VALUES (5262,4509,9,58,60,0,0);           -- flask_of_distilled_water
+-- INSERT INTO `guild_shops` VALUES (5262,4154,5250,13300,60,0,0);     -- flask_of_holy_water
+INSERT INTO `guild_shops` VALUES (5262,943,534,1177,60,0,0);        -- pinch_of_poison_dust
+-- INSERT INTO `guild_shops` VALUES (5262,4157,534,1177,60,0,0);       -- flask_of_poison_potion TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (5262,4148,1200,1377,60,0,0);      -- antidote
+-- INSERT INTO `guild_shops` VALUES (5262,4150,1945,9549,60,0,0);      -- flask_of_eye_drops
+INSERT INTO `guild_shops` VALUES (5262,4162,5250,13300,60,0,0);     -- flask_of_silencing_potion
+-- INSERT INTO `guild_shops` VALUES (5262,4151,880,2944,60,0,0);       -- flask_of_echo_drops
+INSERT INTO `guild_shops` VALUES (5262,947,3360,21862,60,0,0);      -- jar_of_firesand
+INSERT INTO `guild_shops` VALUES (5262,4171,750,2080,60,0,0);       -- flask_of_vitriol
+INSERT INTO `guild_shops` VALUES (5262,929,1875,6900,60,0,0);       -- jar_of_black_ink
+-- INSERT INTO `guild_shops` VALUES (5262,4166,750,2080,60,0,0);       -- flash of deoderizer
+-- INSERT INTO `guild_shops` VALUES (5262,4112,682,728,60,0,0);        -- potion
+-- INSERT INTO `guild_shops` VALUES (5262,4116,3375,7560,60,0,0);      -- hi-potion
+-- INSERT INTO `guild_shops` VALUES (5262,4128,3624,17201,60,0,0);     -- ether
+-- INSERT INTO `guild_shops` VALUES (5262,4164,1050,6832,60,0,0);      -- pinch_of_prism_powder
+INSERT INTO `guild_shops` VALUES (5262,1109,930,4563,60,0,0);       -- artificial_lens
+-- INSERT INTO `guild_shops` VALUES (5262,16600,930,4563,60,0,0);      -- wax_sword TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (5262,16572,930,4563,60,0,0);      -- bee_spatha TODO: missing min_price and max_price
+INSERT INTO `guild_shops` VALUES (5262,16495,9906,9906,60,0,0);     -- silence_dagger
+-- INSERT INTO `guild_shops` VALUES (5262,16429,9906,9906,60,0,0);     -- silence_baghnakhs TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (5262,16588,9906,9906,60,0,0);     -- flame_claymore TODO: missing min_price and max_price
+INSERT INTO `guild_shops` VALUES (5262,16454,1904,1904,60,0,0);     -- blind_dagger
+INSERT INTO `guild_shops` VALUES (5262,16471,519,3024,60,0,0);      -- blind_knife
+-- INSERT INTO `guild_shops` VALUES (5262,16458,19148,19148,60,0,0);   -- poison_baselard TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (5262,16472,19148,19148,60,0,0);   -- poison_knife TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (5262,16496,19148,19148,60,0,0);   -- poison_dagger TODO: missing min_price and max_price
+INSERT INTO `guild_shops` VALUES (5262,16478,19148,19148,60,0,0);   -- poison_kukri
+INSERT INTO `guild_shops` VALUES (5262,16387,10902,33886,60,0,0);   -- poison_cesti
+-- INSERT INTO `guild_shops` VALUES (5262,16410,19148,19148,60,0,0);   -- poison_baghnakhs TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (5262,16417,19148,19148,60,0,0);   -- poison_claws TODO: missing min_price and max_price
+INSERT INTO `guild_shops` VALUES (5262,16403,102009,102009,60,0,0); -- poison_katars
+-- INSERT INTO `guild_shops` VALUES (5262,16543,19148,19148,60,0,0);   -- fire_sword TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (5262,16564,19148,19148,60,0,0);   -- flame_blade TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (5262,16522,19148,19148,60,0,0);   -- flame_degen TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (5262,16709,19148,19148,60,0,0);   -- inferno_axe TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (5262,16594,19148,19148,60,0,0);   -- inferno_sword TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (5262,17605,19148,19148,60,0,0);   -- acid_dagger TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (5262,16501,19148,19148,60,0,0);   -- acid_knife TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (5262,16430,19148,19148,60,0,0);   -- acid_claws TODO: missing min_price and max_price
+INSERT INTO `guild_shops` VALUES (5262,16581,33368,167872,60,0,0);  -- holy_sword
+-- INSERT INTO `guild_shops` VALUES (5262,16523,19148,19148,60,0,0);   -- holy_degen TODO: missing min_price and max_price
+INSERT INTO `guild_shops` VALUES (5262,17041,18000,24000,60,0,0);      -- holy_mace TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (5262,17322,19148,19148,240,0,0);  -- fire_arrow TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (5262,17323,19148,19148,240,0,0);  -- ice_arrow TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (5262,17324,19148,19148,240,0,0);  -- lightning_arrow TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (5262,17343,392,392,240,0,0);      -- bronze_bullet TODO: missing min_price and max_price
+INSERT INTO `guild_shops` VALUES (5262,17340,392,392,240,0,0);      -- bullet
+INSERT INTO `guild_shops` VALUES (5262,17341,392,392,240,0,0);      -- silver_bullet
+-- INSERT INTO `guild_shops` VALUES (5262,17313,392,392,240,0,0);      -- grenade TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (5262,17315,392,392,240,0,0);      -- riot_grenade TODO: missing min_price and max_price
+INSERT INTO `guild_shops` VALUES (5262,18228,114,114,240,60,180);   -- battery
+INSERT INTO `guild_shops` VALUES (5262,18232,114,114,240,60,180);   -- hydro_pump
+INSERT INTO `guild_shops` VALUES (5262,18236,21,21,240,60,180);     -- wind_fan
 
 -- Visala (Goldsmith Guild) Bastok Markets (S)
 INSERT INTO `guild_shops` VALUES (5272,644,1500,9200,165,33,65);     -- mythril_ore
@@ -1105,27 +1130,90 @@ INSERT INTO `guild_shops` VALUES (60424,5164,1945,2854,255,48,100);
 INSERT INTO `guild_shops` VALUES (60424,1652,233,250,255,48,100);
 INSERT INTO `guild_shops` VALUES (60424,5235,1284,1350,255,48,100);
 
--- Wahraga (Alchemy Guild) Aht Urhgan Whitegate
-INSERT INTO `guild_shops` VALUES (60425,621,21,50,255,48,100);
-INSERT INTO `guild_shops` VALUES (60425,622,37,86,255,48,100);
-INSERT INTO `guild_shops` VALUES (60425,636,106,234,255,48,100);
-INSERT INTO `guild_shops` VALUES (60425,638,138,156,255,48,100);
-INSERT INTO `guild_shops` VALUES (60425,914,1125,3375,165,33,65);
-INSERT INTO `guild_shops` VALUES (60425,920,1084,3000,165,35,65);
-INSERT INTO `guild_shops` VALUES (60425,933,660,1992,165,33,65);
-INSERT INTO `guild_shops` VALUES (60425,951,90,216,255,48,100);
-INSERT INTO `guild_shops` VALUES (60425,1108,573,826,255,48,100);
-INSERT INTO `guild_shops` VALUES (60425,2131,75,242,255,48,100);
-INSERT INTO `guild_shops` VALUES (60425,2175,644,644,80,0,32);
-INSERT INTO `guild_shops` VALUES (60425,2229,1080,3000,80,16,32);
-INSERT INTO `guild_shops` VALUES (60425,2309,963,963,80,16,32);
-INSERT INTO `guild_shops` VALUES (60425,2316,9,9,255,48,100);
-INSERT INTO `guild_shops` VALUES (60425,4443,76,147,255,48,100);
-INSERT INTO `guild_shops` VALUES (60425,4509,40,55,375,75,150);
-INSERT INTO `guild_shops` VALUES (60425,17041,18000,24000,20,0,0);
-INSERT INTO `guild_shops` VALUES (60425,18228,114,114,2970,594,1188);
-INSERT INTO `guild_shops` VALUES (60425,18232,114,114,2970,594,1188);
-INSERT INTO `guild_shops` VALUES (60425,18236,21,21,2970,594,1188);
+-- Wahraga / Gathweeda (Alchemy Guild) Aht Urhgan Whitegate
+INSERT INTO `guild_shops` VALUES (60425,912,192,360,240,0,0);        -- beehive_chip
+-- INSERT INTO `guild_shops` VALUES (60425,913,192,360,240,0,0);        -- lump_of_beeswax TODO: missing min_price and max_price
+INSERT INTO `guild_shops` VALUES (60425,914,1125,3375,60,33,10);     -- vial_of_mercury
+INSERT INTO `guild_shops` VALUES (60425,920,1084,3000,60,35,10);     -- malboro_vine
+INSERT INTO `guild_shops` VALUES (60425,922,300,300,240,0,0);        -- bat_wing
+INSERT INTO `guild_shops` VALUES (60425,925,1312,3952,240,0,0);      -- giant_stinger
+INSERT INTO `guild_shops` VALUES (60425,928,1014,2307,120,0,0);      -- pinch_of_bomb_ash
+INSERT INTO `guild_shops` VALUES (60425,1108,573,826,120,48,52);     -- pinch_of_sulfur
+-- INSERT INTO `guild_shops` VALUES (60425,937,573,3213,120,0,0);       -- block_of_animal_glue TODO: missing min_price and max_price
+INSERT INTO `guild_shops` VALUES (60425,951,90,216,240,48,68);       -- wijnruit
+INSERT INTO `guild_shops` VALUES (60425,621,21,50,240,48,68);        -- pot_of_crying_mustard
+INSERT INTO `guild_shops` VALUES (60425,622,37,86,240,48,68);        -- pinch_of_dried_marjoram
+INSERT INTO `guild_shops` VALUES (60425,636,106,234,240,48,68);      -- sprig_of_chamomile
+INSERT INTO `guild_shops` VALUES (60425,637,1640,4880,60,0,0);       -- vial_of_slime_oil
+-- INSERT INTO `guild_shops` VALUES (60425,4165,900,5712,60,0,0);       -- pot_of_silent_oil TODO: missing min_price and max_price
+INSERT INTO `guild_shops` VALUES (60425,638,138,156,240,48,68);      -- sprig_of_sage
+INSERT INTO `guild_shops` VALUES (60425,931,19520,19520,60,0,0);     -- cermet_chunk
+INSERT INTO `guild_shops` VALUES (60425,4443,76,147,240,48,24);      -- cobalt_jellyfish
+INSERT INTO `guild_shops` VALUES (60425,933,660,1992,240,33,42);     -- loop_of_glass_fiber
+INSERT INTO `guild_shops` VALUES (60425,932,1020,1080,60,0,0);       -- loop_of_carbon_fiber
+INSERT INTO `guild_shops` VALUES (60425,4509,40,55,60,0,0);          -- flask_of_distilled_water
+-- INSERT INTO `guild_shops` VALUES (60425,4154,5250,13300,60,0,0);     -- flask_of_holy_water TODO: missing min_price and max_price
+INSERT INTO `guild_shops` VALUES (60425,943,534,1177,60,0,0);        -- pinch_of_poison_dust
+-- INSERT INTO `guild_shops` VALUES (60425,4157,534,1177,60,0,0);       -- flask_of_poison_potion TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (60425,4148,1200,1377,60,0,0);      -- antidote TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (60425,4150,1945,9549,60,0,0);      -- flask_of_eye_drops TODO: missing min_price and max_price
+INSERT INTO `guild_shops` VALUES (60425,4162,5250,13300,60,0,0);     -- flask_of_silencing_potion
+-- INSERT INTO `guild_shops` VALUES (60425,4151,880,2944,60,0,0);       -- flask_of_echo_drops TODO: missing min_price and max_price
+INSERT INTO `guild_shops` VALUES (60425,947,3360,21862,60,0,0);      -- jar_of_firesand
+INSERT INTO `guild_shops` VALUES (60425,4171,750,2080,60,0,0);       -- flask_of_vitriol
+INSERT INTO `guild_shops` VALUES (60425,929,1875,6900,60,0,0);       -- jar_of_black_ink
+-- INSERT INTO `guild_shops` VALUES (60425,4166,750,2080,60,0,0);       -- flash of deoderizer TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (60425,4112,682,728,60,0,0);        -- potion TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (60425,4116,3375,7560,60,0,0);      -- hi-potion TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (60425,4128,3624,17201,60,0,0);     -- ether TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (60425,4164,1050,6832,60,0,0);      -- pinch_of_prism_powder TODO: missing min_price and max_price
+INSERT INTO `guild_shops` VALUES (60425,1109,930,4563,60,0,0);       -- artificial_lens
+-- INSERT INTO `guild_shops` VALUES (60425,2163,75,242,60,0,0);         -- imp_wing TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (60425,2164,75,242,60,0,0);         -- pephredo_hive_chip TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (60425,2171,75,242,60,0,0);         -- colibri_beak TODO: missing min_price and max_price
+INSERT INTO `guild_shops` VALUES (60425,2175,644,644,60,0,0);        -- chunk_of_flan_meat
+INSERT INTO `guild_shops` VALUES (60425,2229,1080,3000,60,0,0);      -- vial_of_chimera_blood
+-- INSERT INTO `guild_shops` VALUES (60425,16600,930,4563,60,0,0);      -- wax_sword TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (60425,16572,930,4563,60,0,0);      -- bee_spatha TODO: missing min_price and max_price
+INSERT INTO `guild_shops` VALUES (60425,16495,9906,9906,60,0,0);     -- silence_dagger
+-- INSERT INTO `guild_shops` VALUES (60425,16429,9906,9906,60,0,0);     -- silence_baghnakhs TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (60425,16588,9906,9906,60,0,0);     -- flame_claymore TODO: missing min_price and max_price
+INSERT INTO `guild_shops` VALUES (60425,16454,1904,1904,60,0,0);     -- blind_dagger
+INSERT INTO `guild_shops` VALUES (60425,16471,519,3024,60,0,0);      -- blind_knife
+-- INSERT INTO `guild_shops` VALUES (60425,16458,19148,19148,60,0,0);   -- poison_baselard TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (60425,16472,19148,19148,60,0,0);   -- poison_knife TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (60425,16496,19148,19148,60,0,0);   -- poison_dagger TODO: missing min_price and max_price
+INSERT INTO `guild_shops` VALUES (60425,16478,19148,19148,60,0,0);   -- poison_kukri
+INSERT INTO `guild_shops` VALUES (60425,16387,10902,33886,60,0,0);   -- poison_cesti
+-- INSERT INTO `guild_shops` VALUES (60425,16410,19148,19148,60,0,0);   -- poison_baghnakhs TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (60425,16417,19148,19148,60,0,0);   -- poison_claws TODO: missing min_price and max_price
+INSERT INTO `guild_shops` VALUES (60425,16403,102009,102009,60,0,0); -- poison_katars
+-- INSERT INTO `guild_shops` VALUES (60425,16543,19148,19148,60,0,0);   -- fire_sword TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (60425,16564,19148,19148,60,0,0);   -- flame_blade TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (60425,16522,19148,19148,60,0,0);   -- flame_degen TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (60425,16709,19148,19148,60,0,0);   -- inferno_axe TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (60425,16594,19148,19148,60,0,0);   -- inferno_sword TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (60425,17605,19148,19148,60,0,0);   -- acid_dagger TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (60425,16501,19148,19148,60,0,0);   -- acid_knife TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (60425,16430,19148,19148,60,0,0);   -- acid_claws TODO: missing min_price and max_price
+INSERT INTO `guild_shops` VALUES (60425,16581,33368,167872,60,0,0);  -- holy_sword
+-- INSERT INTO `guild_shops` VALUES (60425,16523,19148,19148,60,0,0);   -- holy_degen TODO: missing min_price and max_price
+INSERT INTO `guild_shops` VALUES (60425,17041,18000,24000,60,0,0);      -- holy_mace TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (60425,17322,19148,19148,240,0,0);  -- fire_arrow TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (60425,17323,19148,19148,240,0,0);  -- ice_arrow TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (60425,17324,19148,19148,240,0,0);  -- lightning_arrow TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (60425,17343,392,392,240,0,0);      -- bronze_bullet TODO: missing min_price and max_price
+INSERT INTO `guild_shops` VALUES (60425,17340,392,392,240,0,0);      -- bullet
+INSERT INTO `guild_shops` VALUES (60425,17341,392,392,240,0,0);      -- silver_bullet
+-- INSERT INTO `guild_shops` VALUES (60425,17313,392,392,240,0,0);      -- grenade TODO: missing min_price and max_price
+-- INSERT INTO `guild_shops` VALUES (60425,17315,392,392,240,0,0);      -- riot_grenade TODO: missing min_price and max_price
+INSERT INTO `guild_shops` VALUES (60425,2131,75,242,240,48,180);     -- triturator
+INSERT INTO `guild_shops` VALUES (60425,2309,963,963,240,16,180);    -- bundle_of_homunculus_nerves
+INSERT INTO `guild_shops` VALUES (60425,2316,9,9,240,48,180);        -- sheet_of_polyflan paper
+INSERT INTO `guild_shops` VALUES (60425,18228,114,114,240,60,180);   -- battery
+INSERT INTO `guild_shops` VALUES (60425,18232,114,114,240,60,180);   -- hydro_pump
+INSERT INTO `guild_shops` VALUES (60425,18236,21,21,240,60,180);     -- wind_fan
+-- INSERT INTO `guild_shops` VALUES (60425,2459,68062,435600,240,6,24); -- pinch_of_minium TODO: verify that min_price and max_price is correct
 
 -- Wahnid (Fishing Guild) Aht Urhgan Whitegate
 INSERT INTO `guild_shops` VALUES (60426,2216,1045,1045,255,0,100);
