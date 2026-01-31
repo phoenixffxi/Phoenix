@@ -14,7 +14,7 @@ entity.onTrigger = function(player, npc)
     if
         player:getCharVar('ChasingQuotas_Progress') == 5 and
         sturmtigerKilled == 0 and
-        npcUtil.popFromQM(player, npc, ID.mob.STURMTIGER)
+        npcUtil.popFromQM(player, npc, ID.mob.STURMTIGER, { hide = 0, })
     then
         player:messageSpecial(ID.text.SENSE_AN_EVIL_PRESENCE)
     elseif sturmtigerKilled == 1 then
@@ -22,7 +22,7 @@ entity.onTrigger = function(player, npc)
         player:setCharVar('ChasingQuotas_Progress', 6)
         player:setCharVar('SturmtigerKilled', 0)
     else
-        player:messageSpecial(ID.text.NOTHING_OUT_OF_ORDINARY)
+        player:messageSpecial(ID.text.SOMEONE_DUG)
     end
 end
 
