@@ -13201,7 +13201,7 @@ INSERT INTO `mob_groups` VALUES (49,2817,193,'Necroplasm',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (50,5534,193,'Air_Elemental',0,128,39,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (51,2633,193,'Metallic_Slime',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (52,5168,193,'Krabimanjaro',0,128,0,0,9999,0,NULL);
-INSERT INTO `mob_groups` VALUES (53,252,193,'Aroma_Leech',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (53,252,193,'Aroma_Leech',0,128,0,2330,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (54,6403,193,'Thread_Leech',720,0,79,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (55,5134,193,'Poison_Leech',720,0,18,0,0,0,NULL);
 
@@ -13389,7 +13389,7 @@ INSERT INTO `mob_groups` VALUES (38,1412,196,'Foul_Meat',64800,0,899,1850,0,0,NU
 INSERT INTO `mob_groups` VALUES (39,4284,196,'Wandering_Ghost',0,128,2615,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (40,3218,196,'Pudding',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (41,5530,196,'Earth_Elemental',0,128,733,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (42,251,196,'Aroma_Fly',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (42,251,196,'Aroma_Fly',0,128,0,2550,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (43,5311,196,'Lorbulcrud',0,128,0,0,99999,0,NULL);
 INSERT INTO `mob_groups` VALUES (44,6552,196,'Ghoul_blm',300,0,962,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (45,6570,196,'Wight_blm',300,0,2653,0,0,0,NULL);
@@ -13487,7 +13487,7 @@ INSERT INTO `mob_groups` VALUES (40,4386,198,'Wyrmfly',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (41,5533,198,'Dark_Elemental',0,128,568,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (42,4675,198,'Lost_Soul_NM',0,128,0,3500,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (43,5161,198,'Ogbunabali',0,128,0,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (44,250,198,'Aroma_Crawler',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (44,250,198,'Aroma_Crawler',0,128,0,3410,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (45,6570,198,'Wight_blm',300,0,2654,0,0,0,NULL);
 
 -- ------------------------------------------------------------
