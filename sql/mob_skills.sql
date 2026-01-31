@@ -533,7 +533,7 @@ INSERT INTO `mob_skills` VALUES (505,862,'venom_shell',1,0.0,15.0,2000,0,4,0,0,0
 INSERT INTO `mob_skills` VALUES (506,863,'palsynyxis',0,0.0,7.0,2000,1600,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (507,864,'painful_whip',0,0.0,7.0,2000,1200,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (508,865,'suctorial_tentacle',0,0.0,7.0,2000,800,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (509,253,'self-destruct_bomb',1,0.0,20.0,2000,4000,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (509,253,'self-destruct_bomb',1,0.0,20.0,2000,3600,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (510,254,'berserk',0,0.0,7.0,2000,1500,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (511,253,'self-destruct_bomb_321',1,0.0,30.0,0,0,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (512,256,'heat_wave',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
@@ -614,9 +614,9 @@ INSERT INTO `mob_skills` VALUES (586,330,'blank_gaze',4,0.0,7.0,2000,2000,4,0,0,
 INSERT INTO `mob_skills` VALUES (587,331,'antiphase',1,0.0,15.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (588,398,'death_trap',1,0.0,30.0,2000,2000,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (589,333,'mortal_ray',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (590,334,'goblin_rush',0,0.0,6.0,2000,1500,4,0,0,1,0,0,0);
-INSERT INTO `mob_skills` VALUES (591,335,'bomb_toss',2,0.0,13.5,2000,2000,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (592,336,'bomb_toss_suicide',1,0.0,13.5,2000,2000,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (590,334,'goblin_rush',0,0.0,6.0,2000,500,4,0,0,1,0,0,0);
+INSERT INTO `mob_skills` VALUES (591,335,'bomb_toss',2,0.0,13.5,2000,3600,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (592,336,'bomb_toss_suicide',1,0.0,13.5,2000,3600,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (593,879,'berserk_bomb_big',0,0.0,7.0,2000,1500,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (594,880,'vulcanian_impact',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (595,881,'heat_wave',1,0.0,10.0,2000,1500,4,0,0,0,0,0,0);
