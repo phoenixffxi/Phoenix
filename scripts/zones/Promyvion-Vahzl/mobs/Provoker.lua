@@ -56,11 +56,11 @@ entity.onAdditionalEffect = function(mob, target, damage)
         chance         = 100,
         attackType     = xi.attackType.MAGICAL,
         magicalElement = mob:getLocalVar('element'),
-        power          = damage / 2,
+        basePower      = damage / 2,
         actorStat      = xi.mod.INT,
     }
 
-    return xi.combat.action.executeAdditionalDamage(mob, target, pTable)
+    return xi.combat.action.executeAddEffectDamage(mob, target, pTable)
 end
 
 entity.onMobDeath = function(mob, player, optParams)

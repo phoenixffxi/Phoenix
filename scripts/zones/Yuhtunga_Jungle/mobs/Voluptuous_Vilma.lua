@@ -35,19 +35,26 @@ end
 
 entity.onAdditionalEffect = function(mob, target, damage)
     -- Vilma randomly effects its target with one of the following effects
-    local effects =
+    local effectTable =
     {
-        [1] = xi.mob.ae.POISON,
-        [2] = xi.mob.ae.PARALYZE,
-        [3] = xi.mob.ae.BLIND,
-        [4] = xi.mob.ae.SILENCE,
-        [5] = xi.mob.ae.WEIGHT,
-        [6] = xi.mob.ae.SLOW,
-        [7] = xi.mob.ae.BIND,
+        [1] = xi.effect.BLINDNESS,
+        [2] = xi.effect.BIND,
+        [3] = xi.effect.PARALYSIS,
+        [4] = xi.effect.POISON,
+        [5] = xi.effect.SILENCE,
+        [6] = xi.effect.SLOW,
+        [7] = xi.effect.WEIGHT,
     }
-    local random = math.random(1, #effects)
 
-    return xi.mob.onAddEffect(mob, target, damage, effects[random])
+    local pTable =
+    {
+        chance   = 25,
+        effectId = effectTable[math.random(1, #effectTable)],
+        power    = 20,
+        duration = 60,
+    }
+
+    return xi.combat.action.executeAddEffectEnfeeblement(mob, target, pTable)
 end
 
 entity.onMobDespawn = function(mob)

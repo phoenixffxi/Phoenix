@@ -13527,7 +13527,7 @@ bool CLuaBaseEntity::addStatusEffect(sol::variadic_args va)
         auto effectIcon = va[0].as<uint16>();                      // The same
         auto power      = static_cast<uint16>(va[1].as<double>()); // Can come in as a lua_number, capture as double and truncate
         auto tick       = static_cast<uint32>(va[2].as<double>());
-        auto duration   = static_cast<uint32>(va[3].as<double>());
+        auto duration   = va[3].as<double>();
 
         // Optional
         auto subType         = va[4].is<uint32>() ? va[4].as<uint32>() : 0;
@@ -13541,7 +13541,7 @@ bool CLuaBaseEntity::addStatusEffect(sol::variadic_args va)
                                                    effectIcon,
                                                    power,
                                                    std::chrono::seconds(tick),
-                                                   std::chrono::seconds(duration),
+                                                   std::chrono::milliseconds(static_cast<uint64_t>(duration * 1000)),
                                                    subType,
                                                    subPower,
                                                    tier);
@@ -13598,7 +13598,7 @@ auto CLuaBaseEntity::addStatusEffectEx(sol::variadic_args va) -> bool
     auto effectIcon = va[1].as<uint16>();
     auto power      = static_cast<uint16>(va[2].as<double>()); // Can come in as a lua_number, capture as double and truncate
     auto tick       = static_cast<uint32>(va[3].as<double>());
-    auto duration   = static_cast<uint32>(va[4].as<double>());
+    auto duration   = va[4].as<double>();
 
     // Optional
     auto subType         = va[5].is<uint32>() ? va[5].as<uint32>() : 0;
@@ -13614,7 +13614,7 @@ auto CLuaBaseEntity::addStatusEffectEx(sol::variadic_args va) -> bool
                           effectIcon,
                           power,
                           std::chrono::seconds(tick),
-                          std::chrono::seconds(duration),
+                          std::chrono::milliseconds(static_cast<uint64_t>(duration * 1000)),
                           subType,
                           subPower,
                           tier,
@@ -16028,6 +16028,28 @@ bool CLuaBaseEntity::isAvatar()
 }
 
 /************************************************************************
+ *  Function: isJugPet()
+ *  Purpose : Returns true if entity is a BST jug pet.
+ *  Example : local isJugPet = pet:isJugPet()
+ *  Notes   :
+ ************************************************************************/
+
+auto CLuaBaseEntity::isJugPet() -> bool
+{
+    if (m_PBaseEntity->objtype == TYPE_PET)
+    {
+        uint32 petID = static_cast<CPetEntity*>(m_PBaseEntity)->m_PetID;
+        if ((petID >= PETID_SHEEP_FAMILIAR && petID <= PETID_TURBID_TOLOI) ||
+            (petID >= PETID_SWEET_CAROLINE && petID <= PETID_ENERGIZED_SEFINA))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/************************************************************************
  *  Function: getPetElement()
  *  Purpose : Returns the elemental affinity of a pet entity
  *  Example : pet:getPetElement()
@@ -16864,11 +16886,11 @@ void CLuaBaseEntity::removeAllRunes()
 /************************************************************************
  *  Function: setMobLevel()
  *  Purpose : Updates the monsters level and recalculates stats
- *  Example : mob:setMobLevel(125)
- *  Notes   : CalculateStats will refill mobs hp/mp as well
+ *  Example : mob:setMobLevel(125) or mob:setMobLevel(125, false) to not reset HP/MP
+ *  Notes   : By default, CalculateStats will refill mobs hp/mp unless recover is false
  ************************************************************************/
 
-void CLuaBaseEntity::setMobLevel(uint8 level)
+void CLuaBaseEntity::setMobLevel(uint8 level, sol::optional<bool> recover)
 {
     if (m_PBaseEntity->objtype != TYPE_MOB)
     {
@@ -16884,7 +16906,7 @@ void CLuaBaseEntity::setMobLevel(uint8 level)
         // Remove traits, because they were calculated in the previous CalculateMobStats and are NOT saved, so they must be recalculated.
         PMob->TraitList.clear();
 
-        mobutils::CalculateMobStats(PMob);
+        mobutils::CalculateMobStats(PMob, recover.value_or(true));
         mobutils::GetAvailableSpells(PMob);
     }
 }
@@ -20160,6 +20182,7 @@ void CLuaBaseEntity::Register()
     SOL_REGISTER("getPetID", CLuaBaseEntity::getPetID);
     SOL_REGISTER("isAutomaton", CLuaBaseEntity::isAutomaton);
     SOL_REGISTER("isAvatar", CLuaBaseEntity::isAvatar);
+    SOL_REGISTER("isJugPet", CLuaBaseEntity::isJugPet);
     SOL_REGISTER("getPetElement", CLuaBaseEntity::getPetElement);
     SOL_REGISTER("setPet", CLuaBaseEntity::setPet);
     SOL_REGISTER("getMinimumPetLevel", CLuaBaseEntity::getMinimumPetLevel);
