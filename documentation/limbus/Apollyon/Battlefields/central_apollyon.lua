@@ -60,20 +60,20 @@ content.loot =
     {
         {
             quantity = 5,
-            { itemId = xi.item.ANCIENT_BEASTCOIN, weight = xi.loot.weight.NORMAL },
+            { itemId = xi.item.ANCIENT_BEASTCOIN,          weight = 10000 },
         },
 
         {
             quantity = 2,
-            { itemId = xi.item.PIECE_OF_OMEGAS_EYE,        weight = xi.loot.weight.NORMAL },
-            { itemId = xi.item.SEGMENT_OF_OMEGAS_FORELEG,  weight = xi.loot.weight.LOW    },
-            { itemId = xi.item.SEGMENT_OF_OMEGAS_HIND_LEG, weight = xi.loot.weight.LOW    },
-            { itemId = xi.item.SEGMENT_OF_OMEGAS_TAIL,     weight = xi.loot.weight.LOW    },
+            { itemId = xi.item.PIECE_OF_OMEGAS_EYE,        weight =  3250 }, -- Homam Zucchetto (Head)
+            { itemId = xi.item.SEGMENT_OF_OMEGAS_FORELEG,  weight =  2250 }, -- Homam Manopolas (Hands)
+            { itemId = xi.item.SEGMENT_OF_OMEGAS_HIND_LEG, weight =  2250 }, -- Homam Cosciales (Legs)
+            { itemId = xi.item.SEGMENT_OF_OMEGAS_TAIL,     weight =  2250 }, -- Homam Gambieras (Feet)
         },
 
         {
-            { itemId = xi.item.NONE,                  weight = xi.loot.weight.EXTREMELY_HIGH },
-            { itemId = xi.item.PIECE_OF_OMEGAS_HEART, weight = xi.loot.weight.NORMAL         },
+            { itemId = xi.item.NONE,                       weight =  7500 },
+            { itemId = xi.item.PIECE_OF_OMEGAS_HEART,      weight =  2500 }, -- Homam Corazza (Body)
         },
     },
 }
