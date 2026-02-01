@@ -70,36 +70,36 @@ UPDATE `spell_list` SET CE = 1, VE = 300 WHERE `name` = 'Aurorastorm';
 
 -- Black Magic
 
-UPDATE `spell_list` SET CE = 1, VE = 320 WHERE `name` = 'Poison';
-UPDATE `spell_list` SET CE = 1, VE = 320 WHERE `name` = 'Poison II';
-UPDATE `spell_list` SET CE = 1, VE = 320 WHERE `name` = 'Poisonga';
-UPDATE `spell_list` SET CE = 1, VE = 300 WHERE `name` = 'Blind';
-UPDATE `spell_list` SET CE = 1, VE = 300 WHERE `name` = 'Blind II';
-UPDATE `spell_list` SET CE = 1, VE = 300 WHERE `name` = 'Bind';
-UPDATE `spell_list` SET CE = 1, VE = 320 WHERE `name` = 'Bio';
-UPDATE `spell_list` SET CE = 1, VE = 320 WHERE `name` = 'Bio II';
-UPDATE `spell_list` SET CE = 1, VE = 320 WHERE `name` = 'Bio III';
-UPDATE `spell_list` SET CE = 1, VE = 480 WHERE `name` = 'Blaze Spikes';
-UPDATE `spell_list` SET CE = 1, VE = 480 WHERE `name` = 'Ice Spikes';
-UPDATE `spell_list` SET CE = 1, VE = 480 WHERE `name` = 'Shock Spikes';
-UPDATE `spell_list` SET CE = 1, VE = 300 WHERE `name` = 'Burn';
-UPDATE `spell_list` SET CE = 1, VE = 300 WHERE `name` = 'Choke';
-UPDATE `spell_list` SET CE = 1, VE = 300 WHERE `name` = 'Shock';
-UPDATE `spell_list` SET CE = 1, VE = 300 WHERE `name` = 'Frost';
-UPDATE `spell_list` SET CE = 1, VE = 300 WHERE `name` = 'Rasp';
-UPDATE `spell_list` SET CE = 1, VE = 300 WHERE `name` = 'Drown';
-UPDATE `spell_list` SET CE = 1, VE = 300 WHERE `name` = 'Sleep';
-UPDATE `spell_list` SET CE = 1, VE = 300 WHERE `name` = 'Sleep II';
-UPDATE `spell_list` SET CE = 1, VE = 80  WHERE `name` = 'Gravity';
-UPDATE `spell_list` SET CE = 1, VE = 300 WHERE `name` = 'Dispel';
-UPDATE `spell_list` SET CE = 1, VE = 640 WHERE `name` = 'Absorb-STR';
-UPDATE `spell_list` SET CE = 1, VE = 640 WHERE `name` = 'Absorb-DEX';
-UPDATE `spell_list` SET CE = 1, VE = 640 WHERE `name` = 'Absorb-VIT';
-UPDATE `spell_list` SET CE = 1, VE = 640 WHERE `name` = 'Absorb-INT';
-UPDATE `spell_list` SET CE = 1, VE = 640 WHERE `name` = 'Absorb-MND';
-UPDATE `spell_list` SET CE = 1, VE = 640 WHERE `name` = 'Absorb-CHR';
-UPDATE `spell_list` SET CE = 1, VE = 640 WHERE `name` = 'Absorb-AGI';
-UPDATE `spell_list` SET CE = 1, VE = 640 WHERE `name` = 'Absorb-ACC';
+UPDATE `spell_list` SET CE =   1, VE = 320 WHERE `name` = 'Poison';
+UPDATE `spell_list` SET CE =   1, VE = 320 WHERE `name` = 'Poison II';
+UPDATE `spell_list` SET CE =   1, VE = 320 WHERE `name` = 'Poisonga';
+UPDATE `spell_list` SET CE =   1, VE = 640 WHERE `name` = 'Blind';
+UPDATE `spell_list` SET CE =   1, VE = 640 WHERE `name` = 'Blind II';
+UPDATE `spell_list` SET CE =   1, VE = 640 WHERE `name` = 'Bind';
+UPDATE `spell_list` SET CE =   1, VE = 320 WHERE `name` = 'Bio';
+UPDATE `spell_list` SET CE =   1, VE = 320 WHERE `name` = 'Bio II';
+UPDATE `spell_list` SET CE =   1, VE = 320 WHERE `name` = 'Bio III';
+UPDATE `spell_list` SET CE =   1, VE = 480 WHERE `name` = 'Blaze Spikes';
+UPDATE `spell_list` SET CE =   1, VE = 480 WHERE `name` = 'Ice Spikes';
+UPDATE `spell_list` SET CE =   1, VE = 480 WHERE `name` = 'Shock Spikes';
+UPDATE `spell_list` SET CE =   1, VE = 300 WHERE `name` = 'Burn';
+UPDATE `spell_list` SET CE =   1, VE = 300 WHERE `name` = 'Choke';
+UPDATE `spell_list` SET CE =   1, VE = 300 WHERE `name` = 'Shock';
+UPDATE `spell_list` SET CE =   1, VE = 300 WHERE `name` = 'Frost';
+UPDATE `spell_list` SET CE =   1, VE = 300 WHERE `name` = 'Rasp';
+UPDATE `spell_list` SET CE =   1, VE = 300 WHERE `name` = 'Drown';
+UPDATE `spell_list` SET CE = 320, VE = 240 WHERE `name` = 'Sleep';
+UPDATE `spell_list` SET CE = 480, VE = 480 WHERE `name` = 'Sleep II';
+UPDATE `spell_list` SET CE =   1, VE =  80 WHERE `name` = 'Gravity';
+UPDATE `spell_list` SET CE = 320, VE = 320 WHERE `name` = 'Dispel';
+UPDATE `spell_list` SET CE =   1, VE = 640 WHERE `name` = 'Absorb-STR';
+UPDATE `spell_list` SET CE =   1, VE = 640 WHERE `name` = 'Absorb-DEX';
+UPDATE `spell_list` SET CE =   1, VE = 640 WHERE `name` = 'Absorb-VIT';
+UPDATE `spell_list` SET CE =   1, VE = 640 WHERE `name` = 'Absorb-INT';
+UPDATE `spell_list` SET CE =   1, VE = 640 WHERE `name` = 'Absorb-MND';
+UPDATE `spell_list` SET CE =   1, VE = 640 WHERE `name` = 'Absorb-CHR';
+UPDATE `spell_list` SET CE =   1, VE = 640 WHERE `name` = 'Absorb-AGI';
+UPDATE `spell_list` SET CE =   1, VE = 640 WHERE `name` = 'Absorb-ACC';
 
 -- Songs
 

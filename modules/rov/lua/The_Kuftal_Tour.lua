@@ -1,6 +1,8 @@
 -----------------------------------
 -- Module to change the party size requirements in 'The Kuftal Tour' quest to 6.
--- Originally this quest required 6 players, but was dropped to 2 with the June 2015 Update https://forum.square-enix.com/ffxi/threads/47481-Jun-25-2015-%28JST%29-Version-Update
+-- Originally this quest required 6 players, but was dropped to 2 with the June 2015 Update
+-----------------------------------
+-- Source: https://forum.square-enix.com/ffxi/threads/47481-Jun-25-2015-%28JST%29-Version-Update
 -----------------------------------
 require('modules/module_utils')
 -----------------------------------

@@ -46,7 +46,7 @@ CALL replace_drop('Ordelles_Caves', 'Stroper_Chyme', 'shikaree_ring', 'archers_r
 SET @COMMON   = 150;  -- 15%
 SET @UNCOMMON = 100;  -- 10%
 SET @RARE     = 50;   -- 5%
-SET @VRARE = 10;   -- 1%
+SET @VRARE    = 10;   -- 1%
 
 INSERT INTO `mob_droplist` VALUES (2588,0,0,1000,1313,@RARE); -- Sea Serpent Grotto - Voll the Sharkfinned - Siren's Hair (5%)
 INSERT INTO `mob_droplist` VALUES (2813,0,0,1000,1313,@RARE); -- Sea Serpent Grotto - Zuug the Shoreleaper - Siren's Hair (5%)

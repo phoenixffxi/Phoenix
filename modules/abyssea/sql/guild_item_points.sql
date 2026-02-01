@@ -6,10 +6,6 @@
 -- Wiki: https://ffxiclopedia.fandom.com/wiki/Guild_Points/Items?oldid=1060231
 -- Patch Notes: Some of the items requested by guildworkers' union representatives have changed.
 -- Patch Notes Link: https://forum.square-enix.com/ffxi/threads/15044
---
--- Dividing Max Values by 3 due to guild points being tripled in 11/08/2016.
--- Patch Notes: The maximum number of points that may be earned from delivering guild point items has been increased. 
--- Patch Notes Link: https://forum.square-enix.com/ffxi/threads/51624
 -- 
 -- Guild point rewards for Cooking Guild turn-in items were increased in 10/12/2011.
 -- Patch Notes: Guild point rewards for Cooking Guild crafting quests have been increased
@@ -21,10 +17,6 @@
 -- For HQ items where no wiki value was obtainable (and no LSB value existed),
 -- 15% was added to the NQ value.
 -- --------------------------------------------------------
-
--- Divide all max_points by 3 for LSB adjustment
-UPDATE `guild_item_points`
-SET `max_points` = `max_points` / 3;
 
 -- ========================================================
 -- ITEM CORRECTIONS (pre-oct 2011 historical data)

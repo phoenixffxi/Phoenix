@@ -1,4 +1,10 @@
 -----------------------------------
+-- Era HNM System Module
+-- This module attempts to replicate old Land King pop system in an era-accurate way.
+-- It comes along a ToD perpetuation/retainment system, for server crashes, since this NMs were usually contested by endgame LSs.
+-----------------------------------
+-- Source: https://www.bg-wiki.com/ffxi/Version_Update_(05/09/2011)
+-----------------------------------
 -- Common Requires
 -----------------------------------
 require('modules/module_utils')
@@ -9,11 +15,6 @@ local dragonsAeryID   = zones[xi.zone.DRAGONS_AERY]
 local valleySorrowsID = zones[xi.zone.VALLEY_OF_SORROWS]
 local behemothDomID   = zones[xi.zone.BEHEMOTHS_DOMINION]
 
------------------------------------
--- Module definition
------------------------------------
--- This module attempts to replicate old Land King pop system in an era-accurate way.
--- It comes along a ToD perpetuation/retainment system, for server crashes, since this NMs were usually contested by endgame LSs.
 local hnmSystem = Module:new('era_HNM_System')
 
 -----------------------------------

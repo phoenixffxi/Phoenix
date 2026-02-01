@@ -1,7 +1,8 @@
 -----------------------------------
 -- Pre TOAU Signet effect
 -- Pre 8 March 2007
--- https://www.bg-wiki.com/ffxi/The_History_of_Final_Fantasy_XI/2007
+-----------------------------------
+-- Source: https://www.bg-wiki.com/ffxi/The_History_of_Final_Fantasy_XI/2007
 -----------------------------------
 require('modules/module_utils')
 -----------------------------------

@@ -1,8 +1,8 @@
 -----------------------------------
--- Era Override: Ro'Meave Moongate Time
+-- Ro'Meave Moongate Time Module
 -- Opens only on Full Moon between 00:00 and 03:00
---
--- Source: https://ffxiclopedia.fandom.com/wiki/Moongate_Pass_Quest?oldid=1493013
+-----------------------------------
+-- Source: https://forum.square-enix.com/ffxi/threads/50760-Jun.-7-2016-%28JST%29-Version-Update
 -- Moongate Pass Quest did not change to 18:00 - 06:00 until the July 13, 2011 version update.
 -----------------------------------
 require('modules/module_utils')

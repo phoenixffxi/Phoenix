@@ -1,6 +1,7 @@
 ------------------------------------
 -- Abyssea Job SQL Adjustments
 -- This module reverts relevant SQL tables for jobs to their pre-Abyssea values
+------------------------------------
 -- Unless otherwise noted, all changes here are sourced from: https://www.bg-wiki.com/ffxi/Version_Update_(03/26/2012)
 ------------------------------------
 

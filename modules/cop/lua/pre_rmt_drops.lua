@@ -1,5 +1,8 @@
 -----------------------------------
 -- Pre-RMT Countermeasure Drops
+-- Returns Astral Ring to Castle Oztroja chest drops
+-----------------------------------
+-- Source: http://www.playonline.com/updateus/041209we8yu0.html
 -----------------------------------
 require('modules/module_utils')
 require('scripts/globals/treasure')
@@ -25,4 +28,5 @@ m:addOverride('xi.zones.Castle_Oztroja.Zone.onInitialize', function(zone)
 
 end)
 ]]--
+
 return m
