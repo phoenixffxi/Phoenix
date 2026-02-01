@@ -986,6 +986,43 @@ void doSynthFail(CCharEntity* PChar)
     {
         handleMaterialLoss(PChar);
     }
+    else
+    {
+        // Recipe cannot lose ingredients, unlock everything.
+        uint8 invSlotID  = PChar->CraftContainer->getInvSlotID(1);
+        uint8 nextSlotID = 0;
+        uint8 totalCount = 0;
+
+        for (uint8 slotID = 1; slotID <= 8; ++slotID)
+        {
+            if (slotID != 8)
+            {
+                nextSlotID = PChar->CraftContainer->getInvSlotID(slotID + 1);
+            }
+
+            totalCount++;
+
+            if (invSlotID != nextSlotID)
+            {
+                if (auto* PItem = PChar->getStorage(LOC_INVENTORY)->GetItem(invSlotID))
+                {
+                    PItem->setSubType(ITEM_UNLOCKED);
+                    PItem->setReserve(PItem->getReserve() - totalCount);
+                    PChar->pushPacket<GP_SERV_COMMAND_ITEM_LIST>(PItem, ItemLockFlg::Normal);
+                }
+
+                invSlotID  = nextSlotID;
+                totalCount = 0;
+            }
+
+            nextSlotID = 0;
+
+            if (invSlotID == 0xFF)
+            {
+                break;
+            }
+        }
+    }
 
     // Push "Synthesis failed" messages.
     uint16 currentZone = PChar->loc.zone->GetID();
