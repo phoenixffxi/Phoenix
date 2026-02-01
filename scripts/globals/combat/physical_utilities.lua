@@ -119,10 +119,12 @@ xi.combat.physical.calculateAttackDamage = function(actor, target, slot, physica
             local regionID      = actor:getCurrentRegion()
             local fSTR          = xi.combat.physical.calculateMeleeStatFactor(actor, target)
 
-            if regionID <= xi.region.LIMBUS then
-                mobH2HPenalty = 0.425 -- Vanilla - COP
-            else
-                mobH2HPenalty = 0.65
+            if actor:getMobMod(xi.mobMod.NO_H2H_PENALTY) == 0 then
+                if regionID <= xi.region.LIMBUS then
+                    mobH2HPenalty = 0.425 -- Vanilla - COP
+                else
+                    mobH2HPenalty = 0.65
+                end
             end
 
             baseDamage = actor:getWeaponDmg() + bonusBasePhysicalDamage
