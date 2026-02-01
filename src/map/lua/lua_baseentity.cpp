@@ -11007,6 +11007,36 @@ void CLuaBaseEntity::delSpell(uint16 spellID, const sol::optional<sol::table>& p
 }
 
 /************************************************************************
+ *  Function: getSetBlueSpells()
+ *  Purpose : Retrieves a players set BLU spell list (in the form of IDs)
+ *  Example : local spells = player:getSetBlueSpells()
+ *  Notes   :
+ ************************************************************************/
+
+auto CLuaBaseEntity::getSetBlueSpells() -> sol::table
+{
+    auto spellList = lua.create_table();
+
+    if (m_PBaseEntity->objtype != TYPE_PC)
+    {
+        ShowWarning("Invalid entity type calling getSetBlueSpells (%s).", m_PBaseEntity->getName());
+        return spellList;
+    }
+
+    auto* PChar = static_cast<CCharEntity*>(m_PBaseEntity);
+
+    for (auto spellId : PChar->m_SetBlueSpells)
+    {
+        if (spellId != 0)
+        {
+            spellList.add(spellId + 0x200); // 0x200 magic offset also in blueutils
+        }
+    }
+
+    return spellList;
+}
+
+/************************************************************************
  *  Function: recalculateSkillsTable()
  *  Purpose : Recalculates skill tables to get new values and calculations
  *  Example : target:recalculateSkillsTable()
@@ -19956,6 +19986,7 @@ void CLuaBaseEntity::Register()
     SOL_REGISTER("hasSpell", CLuaBaseEntity::hasSpell);
     SOL_REGISTER("canLearnSpell", CLuaBaseEntity::canLearnSpell);
     SOL_REGISTER("delSpell", CLuaBaseEntity::delSpell);
+    SOL_REGISTER("getSetBlueSpells", CLuaBaseEntity::getSetBlueSpells);
 
     SOL_REGISTER("recalculateSkillsTable", CLuaBaseEntity::recalculateSkillsTable);
     SOL_REGISTER("recalculateAbilitiesTable", CLuaBaseEntity::recalculateAbilitiesTable);
