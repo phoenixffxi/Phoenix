@@ -553,6 +553,7 @@ public:
     bool   hasSpell(uint16 spellID);
     uint32 canLearnSpell(uint16 spellID);
     void   delSpell(uint16 spellID, const sol::optional<sol::table>& paramTable);
+    auto   getSetBlueSpells() -> sol::table;
 
     void recalculateSkillsTable();
     void recalculateAbilitiesTable();
