@@ -82,3 +82,28 @@ UPDATE abilities SET recastTime = 900 WHERE name = 'diabolic_eye';
 
 -- Diabolic Eye merit: Revert value to 150 seconds per level
 UPDATE merits SET value = 150 WHERE name = 'diabolic_eye';
+
+------------------------------------
+-- Beastmaster
+------------------------------------
+
+-- Pet Food Biscuits: Remove level requirements
+-- Source: https://www.bg-wiki.com/ffxi/Version_Update_(09/08/2010)
+UPDATE item_equipment SET level = 0 WHERE name = 'pet_food_alpha';
+UPDATE item_equipment SET level = 0 WHERE name = 'pet_food_beta';
+UPDATE item_equipment SET level = 0 WHERE name = 'pet_fd._gamma';
+UPDATE item_equipment SET level = 0 WHERE name = 'pet_food_delta';
+UPDATE item_equipment SET level = 0 WHERE name = 'pet_fd._epsilon';
+UPDATE item_equipment SET level = 0 WHERE name = 'pet_food_zeta';
+
+-- Feral Howl: Revert recast from 5 to 15 minutes
+UPDATE abilities SET recastTime = 900 WHERE name = 'feral_howl';
+
+-- Feral Howl merit: Revert value to 150 seconds per level
+UPDATE merits SET value = 150 WHERE name = 'feral_howl';
+
+-- Killer Instinct: Revert recast from 5 to 15 minutes
+UPDATE abilities SET recastTime = 900 WHERE name = 'killer_instinct';
+
+-- Killer Instinct merit: Revert value to 150 seconds per level
+UPDATE merits SET value = 150 WHERE name = 'killer_instinct';
