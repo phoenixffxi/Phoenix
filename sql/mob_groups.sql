@@ -10936,7 +10936,7 @@ INSERT INTO `mob_groups` VALUES (42,1046,149,'Dirtyhanded_Gochakzuk',300,0,666,5
 INSERT INTO `mob_groups` VALUES (43,1478,149,'Gavotvut',0,128,307,6800,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (44,340,149,'Barakbok',0,128,0,4075,2000,0,NULL);
 INSERT INTO `mob_groups` VALUES (45,419,149,'Bilopdop',0,128,0,10800,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (46,964,149,'Deloknok',0,128,0,6000,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (46,964,149,'Deloknok',0,128,0,6000,3000,0,NULL);
 INSERT INTO `mob_groups` VALUES (47,3233,149,'Purpleflash_Brukdok',600,0,2044,7900,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (48,2980,149,'One-eyed_Gwajboj',0,128,1859,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (49,6678,149,'Three-eyed_Prozpuz',0,128,307,0,0,0,NULL);
@@ -11018,7 +11018,7 @@ INSERT INTO `mob_groups` VALUES (36,4455,151,'Yagudo_Templar',1440,0,2768,0,0,0,
 INSERT INTO `mob_groups` VALUES (37,4408,151,'Yagudo_Avatar',0,128,2696,4200,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (38,4453,151,'Yagudos_Avatar',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (39,4072,151,'Tzee_Xicu_the_Manifest',0,128,2511,39000,42000,0,NULL);
-INSERT INTO `mob_groups` VALUES (40,2016,151,'Huu_Xalmo_the_Savage',0,128,1341,30000,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (40,2016,151,'Huu_Xalmo_the_Savage',0,128,1341,31500,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (41,2944,151,'Odontotyrannus',0,128,1838,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (42,4434,151,'Yagudo_Muralist',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (43,2664,151,'Mimic',0,128,1679,0,0,0,NULL);
@@ -13386,7 +13386,7 @@ INSERT INTO `mob_groups` VALUES (35,113,196,'Amphisbaena',300,0,74,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (36,6502,196,'Banshee',300,0,224,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (37,6550,196,'Ghast_blm',300,0,955,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (38,1412,196,'Foul_Meat',64800,0,899,1850,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (39,4284,196,'Wandering_Ghost',0,128,2615,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (39,4284,196,'Wandering_Ghost',0,128,2615,6200,6200,0,NULL);
 INSERT INTO `mob_groups` VALUES (40,3218,196,'Pudding',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (41,5530,196,'Earth_Elemental',0,128,733,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (42,251,196,'Aroma_Fly',0,128,0,2550,0,0,NULL);
