@@ -12153,11 +12153,11 @@ INSERT INTO `mob_groups` VALUES (13,743,173,'Clipper',300,0,483,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (14,4309,173,'Water_Elemental',780,4,2629,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (15,639,173,'Cargo_Crab_Colin',0,32,416,2100,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (16,2141,173,'Jammer_Leech',1800,0,0,0,0,0,NULL); -- 10-30 minutes random timer
-INSERT INTO `mob_groups` VALUES (17,1282,173,'Falcatus_Aranei',0,32,808,3500,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (17,1282,173,'Falcatus_Aranei',0,32,808,3300,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (18,4816,173,'Lacerator',300,0,0,0,0,0,'ABYSSEA');
 INSERT INTO `mob_groups` VALUES (19,6404,173,'Spool_Leech',300,0,79,0,0,0,'ABYSSEA');
 INSERT INTO `mob_groups` VALUES (20,485,173,'Bogy',300,0,323,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (21,898,173,'Dame_Blanche',0,32,561,1800,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (21,898,173,'Dame_Blanche',0,32,561,1950,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (22,1588,173,'Gigas_Stonemason',300,0,988,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (23,1586,173,'Gigas_Stonecarrier',300,0,988,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (24,1587,173,'Gigas_Stonegrinder',300,0,988,0,0,0,NULL);
@@ -12165,7 +12165,7 @@ INSERT INTO `mob_groups` VALUES (25,1563,173,'Gigas_Foreman',300,0,988,0,0,0,NUL
 INSERT INTO `mob_groups` VALUES (26,1593,173,'Gigass_Spider',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (27,4831,173,'Thoon',3600,0,3020,3000,0,0,'WOTG');
 INSERT INTO `mob_groups` VALUES (28,2283,173,'Korroloka_Leech',0,128,0,250,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (29,2748,173,'Morion_Worm',0,128,1739,2000,2000,0,NULL);
+INSERT INTO `mob_groups` VALUES (29,2748,173,'Morion_Worm',0,128,1739,2100,2100,0,NULL);
 INSERT INTO `mob_groups` VALUES (30,2633,173,'Metallic_Slime',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (31,1642,173,'Goblin_Bounty_Hunter',300,0,1030,0,0,0,NULL);
 
