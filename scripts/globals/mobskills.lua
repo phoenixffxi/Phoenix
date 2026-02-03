@@ -565,6 +565,7 @@ xi.mobskills.mobFinalAdjustments = function(damage, mob, skill, target, attackTy
     utils.handleAutomatonAutoAnalyzer(target, skill, damage)
 
     if attackType == xi.attackType.PHYSICAL then
+        damage = damage * xi.combat.damage.physicalElementSDT(target, damageType)
         damage = target:physicalDmgTaken(damage, damageType)
     elseif attackType == xi.attackType.MAGICAL then
         local element = utils.clamp(damageType - 5, xi.element.NONE, xi.element.DARK) -- Transform damage type to element
@@ -585,6 +586,7 @@ xi.mobskills.mobFinalAdjustments = function(damage, mob, skill, target, attackTy
         damage = math.floor(target:handleSevereDamage(damage, false))
         damage = math.floor(target:checkDamageCap(damage))
     elseif attackType == xi.attackType.RANGED then
+        damage = damage * xi.combat.damage.physicalElementSDT(target, damageType)
         damage = target:rangedDmgTaken(damage)
     end
 
