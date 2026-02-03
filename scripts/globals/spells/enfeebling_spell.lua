@@ -391,7 +391,7 @@ xi.spells.enfeebling.useEnfeeblingSpell = function(caster, target, spell)
     local spellElement = spell:getElement()
     local skillType    = spell:getSkillType()
     local spellEffect  = pTable[spellId][column.EFFECT_ID]
-    local tier         = pTable[spellId][column.TIER]
+    local tier         = pTable[spellId][column.EFFECT_TIER] or 0
 
     ------------------------------
     -- STEP 1: Check spell nullification.
