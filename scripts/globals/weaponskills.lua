@@ -942,6 +942,7 @@ xi.weaponskills.takeWeaponskillDamage = function(defender, attacker, wsParams, p
     elseif wsResults.shadowsAbsorbed > 0 then
         action:messageID(defender:getID(), xi.msg.basic.SHADOW_ABSORB)
         action:param(defender:getID(), wsResults.shadowsAbsorbed)
+        action:resolution(defender:getID(), xi.action.resolution.MISS)
     else
         if primaryMsg then
             action:messageID(defender:getID(), xi.msg.basic.SKILL_MISS)
