@@ -1315,7 +1315,7 @@ INSERT INTO `mob_groups` VALUES (62,7094,33,'Omxzomit',300,0,1856,0,0,0,NULL); -
 -- Grand_Palace_of_HuXzoi (Zone 34)
 -- ------------------------------------------------------------
 
-INSERT INTO `mob_groups` VALUES (1,1241,34,'Eoghrah',960,0,777,0,100,0,NULL);
+INSERT INTO `mob_groups` VALUES (1,1241,34,'Eoghrah',960,0,777,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (2,1242,34,'Eozdei',960,0,778,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (3,1240,34,'Eoeuvhi',960,0,776,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (4,6173,34,'Eoaern_war',960,0,775,0,0,0,NULL);
@@ -1336,7 +1336,7 @@ INSERT INTO `mob_groups` VALUES (18,6184,34,'Eoaern_sam',960,0,775,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (19,55,34,'Aerns_Euvhi',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (20,6180,34,'Eoaern_drk',960,0,775,0,9999,0,NULL);
 INSERT INTO `mob_groups` VALUES (21,6177,34,'Eoaern_rdm',960,0,775,0,9999,0,NULL);
-INSERT INTO `mob_groups` VALUES (22,2113,34,'Ixghrah',0,128,0,9000,100,0,NULL);
+INSERT INTO `mob_groups` VALUES (22,2113,34,'Ixghrah',0,128,0,9000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (23,2136,34,'Jailer_of_Temperance',0,32,1402,25000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (24,4661,34,'Ixaern_mnk',0,128,0,13000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (25,3269,34,'Qnaern_rdm',0,128,0,7500,0,0,NULL);
@@ -1361,7 +1361,7 @@ INSERT INTO `mob_groups` VALUES (9,56,35,'Aerns_Wynav',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (10,6174,35,'Awaern_mnk',960,0,198,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (11,6175,35,'Awaern_whm',960,0,198,0,9999,0,NULL);
 INSERT INTO `mob_groups` VALUES (12,6182,35,'Awaern_brd',960,0,198,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (13,300,35,'Awghrah',960,0,200,0,100,0,NULL);
+INSERT INTO `mob_groups` VALUES (13,300,35,'Awghrah',960,0,200,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (14,6181,35,'Awaern_bst',960,0,198,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (15,55,35,'Aerns_Euvhi',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (16,6173,35,'Awaern_war',960,0,198,0,0,0,NULL);
