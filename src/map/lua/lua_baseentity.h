@@ -704,6 +704,7 @@ public:
     void  delMod(uint16 modID, int16 value);
     void  printAllMods();
     int16 getMaxGearMod(Mod modId);
+    int16 getGearModFromSlot(uint8 slot, Mod modId);
 
     void addLatent(uint16 condID, uint16 conditionValue, uint16 mID, int16 modValue);
     bool delLatent(uint16 condID, uint16 conditionValue, uint16 mID, int16 modValue);
