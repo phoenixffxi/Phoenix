@@ -240,7 +240,7 @@ xi.spells.enfeebling.useEnfeeblingSong = function(caster, target, spell)
     -- STEP 5: Attempt to apply the status effect. Check for magic burst.
     ------------------------------
     if target:addStatusEffect(spellEffect, power, tick, duration, 0, subEffect) then
-        local _, skillchainCount = xi.magicburst.formMagicBurst(spellElement, target)
+        local _, skillchainCount = xi.magicburst.formMagicBurst(target, spellElement)
         if skillchainCount > 0 then
             spell:setMsg(xi.msg.basic.MAGIC_BURST_ENFEEB)
             caster:triggerRoeEvent(xi.roeTrigger.MAGIC_BURST)
