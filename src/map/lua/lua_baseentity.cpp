@@ -14362,7 +14362,7 @@ bool CLuaBaseEntity::hasAllLatentsActive(uint8 slot)
 
 /************************************************************************
  *  Function: getMaxGearMod()
- *  Purpose : Returns the highest integer value of a specified Mod on all equiped items
+ *  Purpose : Returns the highest integer value of a specified Mod on all equipped items
  *  Example : local maxValue = player:getMaxGearMod(xi.mod.GEOMANCY_BONUS)
  *  Notes   :
  ************************************************************************/
@@ -14377,6 +14377,32 @@ int16 CLuaBaseEntity::getMaxGearMod(Mod modId)
     }
 
     return static_cast<CCharEntity*>(m_PBaseEntity)->getMaxGearMod(static_cast<Mod>(modId));
+}
+
+/************************************************************************
+ *  Function: getGearModFromSlot()
+ *  Purpose : Returns mod value from a specific item equipped
+ *  Example : local maxValue = player:getMaxGearMod(xi.mod.GEOMANCY_BONUS)
+ *  Notes   :
+ ************************************************************************/
+int16 CLuaBaseEntity::getGearModFromSlot(uint8 slot, Mod modId)
+{
+    if (m_PBaseEntity->objtype != TYPE_PC)
+    {
+        ShowWarning("Invalid Entity (Non-PC: %s) calling function getGearModFromSlot.", m_PBaseEntity->getName());
+
+        return 0;
+    }
+
+    auto*           PChar = static_cast<CCharEntity*>(m_PBaseEntity);
+    CItemEquipment* PItem = PChar->getEquip(static_cast<SLOTTYPE>(slot));
+
+    if (PItem)
+    {
+        return PItem->getModifier(modId);
+    }
+
+    return 0;
 }
 
 /************************************************************************
@@ -20136,6 +20162,7 @@ void CLuaBaseEntity::Register()
     SOL_REGISTER("delMod", CLuaBaseEntity::delMod);
     SOL_REGISTER("printAllMods", CLuaBaseEntity::printAllMods);
     SOL_REGISTER("getMaxGearMod", CLuaBaseEntity::getMaxGearMod);
+    SOL_REGISTER("getGearModFromSlot", CLuaBaseEntity::getGearModFromSlot);
 
     SOL_REGISTER("addLatent", CLuaBaseEntity::addLatent);
     SOL_REGISTER("delLatent", CLuaBaseEntity::delLatent);

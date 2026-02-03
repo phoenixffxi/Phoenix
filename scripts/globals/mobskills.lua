@@ -120,7 +120,7 @@ local function handleSinglePhysicalHit(mob, target, hitdamage, hitslanded, final
         params.canCrit or
         params.tpEffect == xi.mobskills.physicalTpBonus.CRIT_VARIES
     then
-        local critRate = xi.combat.physical.calculateSwingCriticalRate(mob, target, mob:getTP(), nil)
+        local critRate = xi.combat.physical.calculateSwingCriticalRate(mob, target, mob:getTP(), xi.slot.MAIN)
         isCritical = math.random(1, 1000) <= critRate * 1000
     end
 

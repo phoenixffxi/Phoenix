@@ -888,8 +888,25 @@ xi.combat.physical.criticalRateFromFlourish = function(actor)
     return buildingFlourishBonus
 end
 
+---@param actor CBaseEntity
+---@param slot xi.slot
+---@return number
+xi.combat.physical.criticalRateFromWeaponSlot = function(actor, slot)
+    if actor:isPC() then
+        return actor:getGearModFromSlot(slot, xi.mod.CRITHITRATE_ONLY_WEP) / 100
+    end
+
+    return 0
+end
+
 -- Critical rate master function.
-xi.combat.physical.calculateSwingCriticalRate = function(actor, target, actorTP, optCritModTable)
+---@param actor CBaseEntity
+---@param target CBaseEntity
+---@param actorTP number
+---@param slot xi.slot
+---@param optCritModTable table?
+---@return integer
+xi.combat.physical.calculateSwingCriticalRate = function(actor, target, actorTP, slot, optCritModTable)
     -- See reference at https://www.bg-wiki.com/ffxi/Critical_Hit_Rate
     local finalCriticalRate     = 0
     local baseCriticalRate      = 0.05
@@ -897,6 +914,7 @@ xi.combat.physical.calculateSwingCriticalRate = function(actor, target, actorTP,
     local inninBonus            = xi.combat.physical.criticalRateFromInnin(actor, target)
     local fencerBonus           = xi.combat.physical.criticalRateFromFencer(actor)
     local buildingFlourishBonus = xi.combat.physical.criticalRateFromFlourish(actor)
+    local weaponSlotBonus       = xi.combat.physical.criticalRateFromWeaponSlot(actor, slot)
     local modifierBonus         = actor:getMod(xi.mod.CRITHITRATE) / 100
     local meritBonus            = actor:getMerit(xi.merit.CRIT_HIT_RATE) / 100
     local targetCriticalEvasion = target:getMod(xi.mod.CRITICAL_HIT_EVASION) / 100
@@ -909,7 +927,7 @@ xi.combat.physical.calculateSwingCriticalRate = function(actor, target, actorTP,
     end
 
     -- Add all different bonuses and clamp.
-    finalCriticalRate = baseCriticalRate + statBonus + inninBonus + fencerBonus + buildingFlourishBonus + modifierBonus + meritBonus - targetCriticalEvasion - targetMeritPenalty + tpFactor
+    finalCriticalRate = baseCriticalRate + statBonus + inninBonus + fencerBonus + buildingFlourishBonus + weaponSlotBonus + modifierBonus + meritBonus - targetCriticalEvasion - targetMeritPenalty + tpFactor
 
     return utils.clamp(finalCriticalRate, 0.05, 1) -- TODO: Need confirmation of no upper cap.
 end

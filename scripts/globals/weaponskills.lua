@@ -312,10 +312,9 @@ xi.weaponskills.calculateRawWSDmg = function(attacker, target, wsID, tp, action,
     end
 
     -- Calculate critrates
-    -- TODO: calc per-hit with weapon crit+% on each hand (if dual wielding)
     calcParams.critRate = 0
     if wsParams.critVaries then -- Work out critical hit ratios
-        calcParams.critRate = xi.combat.physical.calculateSwingCriticalRate(attacker, target, tp, wsParams.critVaries)
+        calcParams.critRate = xi.combat.physical.calculateSwingCriticalRate(attacker, target, tp, calcParams.attackInfo.slot, wsParams.critVaries)
     end
 
     -- Start the WS
@@ -542,6 +541,10 @@ xi.weaponskills.calculateRawWSDmg = function(attacker, target, wsID, tp, action,
     if calcParams.extraOffhandHit then
         calcParams.attackInfo.slot       = xi.slot.SUB
         calcParams.attackInfo.weaponType = offhandSkill
+
+        if wsParams.critVaries then -- Update crit rate if this applies
+            calcParams.critRate = xi.combat.physical.calculateSwingCriticalRate(attacker, target, tp, calcParams.attackInfo.slot, wsParams.critVaries)
+        end
     end
 
     -- Recalculate hitRate with offhand acc
