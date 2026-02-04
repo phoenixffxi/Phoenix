@@ -8478,7 +8478,7 @@ INSERT INTO `mob_groups` VALUES (21,5423,112,'Duke_Focalor',0,128,2943,4400,0,0,
 INSERT INTO `mob_groups` VALUES (22,995,112,'Demon_Warlock',300,0,624,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (23,994,112,'Demons_Elemental',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (24,3576,112,'Shadow_Eye',0,32,2226,7000,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (25,693,112,'Chaos_Elemental',0,128,452,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (25,693,112,'Chaos_Elemental',0,128,452,3000,3000,0,NULL);
 INSERT INTO `mob_groups` VALUES (26,510,112,'Boreal_Hound',300,0,0,26000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (27,509,112,'Boreal_Coeurl',300,0,0,26000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (28,511,112,'Boreal_Tiger',300,0,0,26000,0,0,NULL);
