@@ -11912,7 +11912,7 @@ INSERT INTO `mob_groups` VALUES (10,2407,169,'Lich',300,0,958,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (11,908,169,'Dark_Aspic',300,0,567,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (12,6394,169,'Bloodsucker',300,0,18,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (13,1606,169,'Girtab',420,0,1001,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (14,2482,169,'Magic_Sludge',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (14,2482,169,'Magic_Sludge',0,128,0,3000,6000,0,NULL);
 INSERT INTO `mob_groups` VALUES (15,3496,169,'Scavenger_Crab',300,0,2177,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (16,1366,169,'Fleshcraver',300,0,845,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (17,2667,169,'Mindcraver',300,0,1695,0,0,0,NULL);
