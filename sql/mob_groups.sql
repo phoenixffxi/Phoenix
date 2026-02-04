@@ -11517,11 +11517,11 @@ INSERT INTO `mob_groups` VALUES (38,65,161,'Ahriman',960,0,32,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (39,6612,161,'Dread_Demon',960,0,705,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (40,6614,161,'Judicator_Demon',960,0,1416,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (41,6634,161,'Stygian_Demon',960,0,2352,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (42,2568,161,'Marquis_Allocen',0,128,1622,4500,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (42,2568,161,'Marquis_Allocen',0,128,1622,4800,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (43,6613,161,'Gore_Demon',960,0,1206,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (44,2569,161,'Marquis_Amon',0,128,1623,3500,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (45,1134,161,'Duke_Haborym',0,128,716,4400,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (46,1786,161,'Grand_Duke_Batym',0,128,1213,4000,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (44,2569,161,'Marquis_Amon',0,128,1623,4200,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (45,1134,161,'Duke_Haborym',0,128,716,4500,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (46,1786,161,'Grand_Duke_Batym',0,128,1213,4100,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (47,993,161,'Demons_Avatar',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (48,917,161,'Dark_Spark',0,128,0,8600,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (49,2664,161,'Mimic',0,128,1683,0,0,0,NULL);
@@ -11574,11 +11574,11 @@ INSERT INTO `mob_groups` VALUES (36,4410,162,'Yagudo_Chanter',960,0,2699,0,0,0,N
 INSERT INTO `mob_groups` VALUES (37,4427,162,'Yagudo_Inquisitor',960,0,2721,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (38,4404,162,'Yagudo_Abbot',960,0,2690,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (39,2738,162,'Morbid_Eye',960,0,1731,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (40,349,162,'Baron_Vapula',0,32,232,6900,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (41,812,162,'Count_Bifrons',0,32,518,7500,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (42,4239,162,'Viscount_Morax',0,32,2583,6600,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (40,349,162,'Baron_Vapula',0,32,232,7300,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (41,812,162,'Count_Bifrons',0,32,518,7800,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (42,4239,162,'Viscount_Morax',0,32,2583,6700,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (43,993,162,'Demons_Avatar',0,128,0,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (44,346,162,'Baronet_Romwe',0,32,229,8000,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (44,346,162,'Baronet_Romwe',0,32,229,8100,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (45,932,162,'Deadly_Iris',960,0,580,0,0,0,NULL);
 
 -- ------------------------------------------------------------
