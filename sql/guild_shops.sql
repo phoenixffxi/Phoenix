@@ -857,75 +857,74 @@ INSERT INTO `guild_shops` VALUES (528,775,1400,4200,60,33,5);    -- black_rock
 INSERT INTO `guild_shops` VALUES (528,776,1400,4200,60,33,5);    -- white_rock
 
 -- Kueh Igunahmori (Leathercraft Guild) Southern San d'Oria (S)
-INSERT INTO `guild_shops` VALUES (529,505,62,349,255,48,100);
-INSERT INTO `guild_shops` VALUES (529,506,9600,11333,165,0,65);
-INSERT INTO `guild_shops` VALUES (529,695,120,184,255,48,100);
-INSERT INTO `guild_shops` VALUES (529,832,1000,2800,80,20,40);
-INSERT INTO `guild_shops` VALUES (529,848,2912,4636,80,0,32);
-INSERT INTO `guild_shops` VALUES (529,850,390,390,80,0,32);
-INSERT INTO `guild_shops` VALUES (529,851,2718,7139,80,0,32);
-INSERT INTO `guild_shops` VALUES (529,852,630,640,255,0,100);
-INSERT INTO `guild_shops` VALUES (529,853,2400,6000,165,36,65);
-INSERT INTO `guild_shops` VALUES (529,854,2650,3304,165,33,65);
-INSERT INTO `guild_shops` VALUES (529,855,9077,10874,30,0,12);
-INSERT INTO `guild_shops` VALUES (529,856,45,130,255,48,100);
-INSERT INTO `guild_shops` VALUES (529,857,1290,1990,255,0,100);
-INSERT INTO `guild_shops` VALUES (529,858,483,1161,165,33,65);
-INSERT INTO `guild_shops` VALUES (529,859,937,2650,80,33,32);
-INSERT INTO `guild_shops` VALUES (529,861,1312,3124,55,11,22);
-INSERT INTO `guild_shops` VALUES (529,863,4000,8000,55,11,22);
-INSERT INTO `guild_shops` VALUES (529,917,481,963,255,0,100);
-INSERT INTO `guild_shops` VALUES (529,1116,5000,8600,30,6,12);
-INSERT INTO `guild_shops` VALUES (529,1117,8385,15000,30,0,12);
-INSERT INTO `guild_shops` VALUES (529,2129,75,75,255,48,100);
-INSERT INTO `guild_shops` VALUES (529,4509,9,23,375,75,150);
-INSERT INTO `guild_shops` VALUES (529,12294,13500,14000,10,0,10);
-INSERT INTO `guild_shops` VALUES (529,12440,330,880,20,0,20);
-INSERT INTO `guild_shops` VALUES (529,12441,3318,8407,20,0,15);
-INSERT INTO `guild_shops` VALUES (529,12442,8000,9000,20,0,10);
-INSERT INTO `guild_shops` VALUES (529,12443,8500,9300,20,0,20);
-INSERT INTO `guild_shops` VALUES (529,12444,9200,10000,20,0,5);
-INSERT INTO `guild_shops` VALUES (529,12568,987,1323,20,0,20);
-INSERT INTO `guild_shops` VALUES (529,12569,5145,16189,20,0,15);     -- lizard_jerkin
-INSERT INTO `guild_shops` VALUES (529,12570,44232,44916,20,0,10);    -- studded_vest
-INSERT INTO `guild_shops` VALUES (529,12571,32340,84946,20,0,5);     -- cuir_bouilli
-INSERT INTO `guild_shops` VALUES (529,12572,44460,116781,20,0,5);    -- raptor_jerkin
-INSERT INTO `guild_shops` VALUES (529,12696,318,1612,20,0,20);       -- leather_gloves
-INSERT INTO `guild_shops` VALUES (529,12697,2700,7092,20,0,15);      -- lizard_gloves
-INSERT INTO `guild_shops` VALUES (529,12698,11610,53625,20,0,10);    -- studded_gloves
-INSERT INTO `guild_shops` VALUES (529,12699,17052,44789,20,0,5);     -- cuir_gloves
-INSERT INTO `guild_shops` VALUES (529,12700,29700,150480,20,0,5);    -- raptor_gloves
-INSERT INTO `guild_shops` VALUES (529,12825,5819,10714,20,0,15);     -- lizard_trousers
-INSERT INTO `guild_shops` VALUES (529,12826,32002,36232,20,0,10);    -- studded_trousers
-INSERT INTO `guild_shops` VALUES (529,12827,25200,66192,20,0,5);     -- cuir_trousers
-INSERT INTO `guild_shops` VALUES (529,12828,42900,112684,20,0,5);    -- raptor_trousers
-INSERT INTO `guild_shops` VALUES (529,12952,504,1639,20,0,20);       -- leather_highboots
-INSERT INTO `guild_shops` VALUES (529,12953,2578,16777,20,0,15);     -- lizard_ledelsens
-INSERT INTO `guild_shops` VALUES (529,12955,15624,41039,20,0,5);     -- cuir_highboots
-INSERT INTO `guild_shops` VALUES (529,12956,58027,72811,20,0,5);     -- raptor_ledelsens
-INSERT INTO `guild_shops` VALUES (529,12992,453,1815,20,0,20);       -- solea
-INSERT INTO `guild_shops` VALUES (529,12993,3366,8841,20,0,15);      -- sandals
-INSERT INTO `guild_shops` VALUES (529,12994,11481,28273,20,0,10);    -- shoes
-INSERT INTO `guild_shops` VALUES (529,12995,48960,76296,20,0,5);     -- moccasins
-INSERT INTO `guild_shops` VALUES (529,13081,211,1003,20,0,20);       -- leather_gorget
-INSERT INTO `guild_shops` VALUES (529,13089,6384,15662,20,0,15);     -- wolf_gorget
-INSERT INTO `guild_shops` VALUES (529,13192,837,1224,20,10,20);      -- leather_belt
-INSERT INTO `guild_shops` VALUES (529,13193,4590,12420,20,0,15);     -- lizard_belt
-INSERT INTO `guild_shops` VALUES (529,13194,16896,20803,20,0,5);     -- warriors_belt
-INSERT INTO `guild_shops` VALUES (529,13195,2277,5980,20,0,10);      -- magic_belt
-INSERT INTO `guild_shops` VALUES (529,13200,13860,35112,20,0,10);    -- waistbelt
-INSERT INTO `guild_shops` VALUES (529,13203,2277,5980,20,0,10);      -- barbarians_belt
-INSERT INTO `guild_shops` VALUES (529,13469,937,2087,20,0,20);       -- leather_ring
-INSERT INTO `guild_shops` VALUES (529,13570,10800,25488,20,0,10);    -- ram_mantle
-INSERT INTO `guild_shops` VALUES (529,13571,6426,31530,20,0,10);     -- wolf_mantle
-INSERT INTO `guild_shops` VALUES (529,13588,2484,14440,20,0,10);     -- dhalmel_mantle
-INSERT INTO `guild_shops` VALUES (529,13592,2065,9804,20,0,15);      -- lizard_mantle
-INSERT INTO `guild_shops` VALUES (529,13593,24000,62080,20,0,5);     -- raptor_mantle
-INSERT INTO `guild_shops` VALUES (529,13594,132,316,20,10,20);       -- rabbit_mantle
-INSERT INTO `guild_shops` VALUES (529,13703,44100,108192,20,0,3);    -- brigandine
-INSERT INTO `guild_shops` VALUES (529,16385,279,283,20,0,20);        -- cesti
-INSERT INTO `guild_shops` VALUES (529,16386,945,5997,20,0,15);       -- lizard_cesti
-INSERT INTO `guild_shops` VALUES (529,16388,11970,27700,20,0,5);     -- himantes
+INSERT INTO `guild_shops` VALUES (529,857,1290,1990,120,0,0);     -- dhalmel_hide
+INSERT INTO `guild_shops` VALUES (529,858,483,1161,120,33,18);    -- wolf_hide
+INSERT INTO `guild_shops` VALUES (529,859,937,2650,120,33,18);    -- ram_skin
+INSERT INTO `guild_shops` VALUES (529,861,1312,3124,120,11,18);   -- black_tiger_hide
+INSERT INTO `guild_shops` VALUES (529,863,4000,8000,120,11,18);   -- coeurl_hide
+INSERT INTO `guild_shops` VALUES (529,1116,5000,8600,120,6,0);    -- manticore_hide
+INSERT INTO `guild_shops` VALUES (529,850,390,390,120,0,0);       -- square_of_sheep_leather
+INSERT INTO `guild_shops` VALUES (529,848,2912,4636,120,0,0);     -- square_of_dhalmel_leather
+INSERT INTO `guild_shops` VALUES (529,851,2718,7139,60,0,0);      -- square_of_ram_leather
+INSERT INTO `guild_shops` VALUES (529,855,9077,10874,120,0,0);    -- square_of_black_tiger_leather
+INSERT INTO `guild_shops` VALUES (529,506,9600,11333,120,0,0);    -- square_of_coeurl_leather
+INSERT INTO `guild_shops` VALUES (529,1117,8385,15000,60,0,0);    -- square_of_manticore_leather
+INSERT INTO `guild_shops` VALUES (529,852,630,640,60,0,0);        -- lizard_skin
+INSERT INTO `guild_shops` VALUES (529,853,2400,6000,60,36,36);    -- raptor_skin
+INSERT INTO `guild_shops` VALUES (529,854,2650,3304,60,33,36);    -- cockatrice_skin
+INSERT INTO `guild_shops` VALUES (529,832,1000,2800,240,20,0);    -- clump_of_sheep_wool
+INSERT INTO `guild_shops` VALUES (529,695,120,184,240,48,180);    -- willow_log
+INSERT INTO `guild_shops` VALUES (529,4509,9,23,240,75,180);      -- flask_of_distilled_water
+INSERT INTO `guild_shops` VALUES (529,917,481,963,60,0,0);        -- sheet_of_parchment
+INSERT INTO `guild_shops` VALUES (529,13594,132,316,60,0,0);      -- rabbit_mantle
+INSERT INTO `guild_shops` VALUES (529,13588,2484,14440,60,0,0);   -- dhalmel_mantle
+INSERT INTO `guild_shops` VALUES (529,13571,6426,31530,60,0,0);   -- wolf_mantle
+INSERT INTO `guild_shops` VALUES (529,13570,10800,25488,60,0,0);  -- ram_mantle
+INSERT INTO `guild_shops` VALUES (529,13592,2065,9804,60,0,0);    -- lizard_mantle
+INSERT INTO `guild_shops` VALUES (529,13593,24000,62080,60,0,0);  -- raptor_mantle
+INSERT INTO `guild_shops` VALUES (529,13193,4590,12420,60,0,0);   -- lizard_belt
+INSERT INTO `guild_shops` VALUES (529,13192,837,1224,60,0,0);     -- leather_belt
+INSERT INTO `guild_shops` VALUES (529,13194,16896,20803,60,0,0);  -- warriors_belt
+INSERT INTO `guild_shops` VALUES (529,13195,2277,5980,60,0,0);    -- magic_belt
+INSERT INTO `guild_shops` VALUES (529,13203,2277,5980,60,0,0);    -- barbarians_belt
+INSERT INTO `guild_shops` VALUES (529,13200,13860,35112,60,0,0);  -- waistbelt
+INSERT INTO `guild_shops` VALUES (529,13081,211,1003,60,0,0);     -- leather_gorget
+INSERT INTO `guild_shops` VALUES (529,13089,6384,15662,60,0,0);   -- wolf_gorget
+INSERT INTO `guild_shops` VALUES (529,12568,987,1323,60,0,0);     -- leather_vest
+INSERT INTO `guild_shops` VALUES (529,12569,5145,16189,60,0,0);   -- lizard_jerkin
+INSERT INTO `guild_shops` VALUES (529,12570,44232,44916,60,0,0);  -- studded_vest
+INSERT INTO `guild_shops` VALUES (529,13703,44100,108192,60,0,0); -- brigandine
+INSERT INTO `guild_shops` VALUES (529,12571,32340,84946,60,0,0);  -- cuir_bouilli
+INSERT INTO `guild_shops` VALUES (529,12572,44460,116781,60,0,0); -- raptor_jerkin
+INSERT INTO `guild_shops` VALUES (529,12952,504,1639,60,0,0);     -- leather_highboots
+-- INSERT INTO `guild_shops` VALUES (529,12954,15624,41039,60,0,0);  -- studded_boots TODO: missing min_price and max_price
+INSERT INTO `guild_shops` VALUES (529,12955,15624,41039,60,0,0);  -- cuir_highboots
+INSERT INTO `guild_shops` VALUES (529,12993,3366,8841,60,0,0);    -- sandals
+INSERT INTO `guild_shops` VALUES (529,12994,11481,28273,60,0,0);  -- shoes
+INSERT INTO `guild_shops` VALUES (529,12995,48960,76296,60,0,0);  -- moccasins
+INSERT INTO `guild_shops` VALUES (529,12696,318,1612,60,0,0);     -- leather_gloves
+INSERT INTO `guild_shops` VALUES (529,12697,2700,7092,60,0,0);    -- lizard_gloves
+INSERT INTO `guild_shops` VALUES (529,12698,11610,53625,60,0,0);  -- studded_gloves
+INSERT INTO `guild_shops` VALUES (529,12699,17052,44789,60,0,0);  -- cuir_gloves
+INSERT INTO `guild_shops` VALUES (529,12700,29700,150480,60,0,0); -- raptor_gloves
+INSERT INTO `guild_shops` VALUES (529,12440,330,880,60,0,0);      -- leather_bandana
+INSERT INTO `guild_shops` VALUES (529,12441,3318,8407,60,0,0);    -- lizard_helm
+INSERT INTO `guild_shops` VALUES (529,12442,8000,9000,60,0,0);    -- studded_bandana
+INSERT INTO `guild_shops` VALUES (529,12443,8500,9300,60,0,0);    -- cuir_bandana
+INSERT INTO `guild_shops` VALUES (529,12444,9200,10000,60,0,0);   -- raptor_helm
+INSERT INTO `guild_shops` VALUES (529,12824,589,1639,60,0,0);     -- leather_trousers
+INSERT INTO `guild_shops` VALUES (529,12825,5819,10714,60,0,0);   -- lizard_trousers
+INSERT INTO `guild_shops` VALUES (529,12826,32002,36232,60,0,0);  -- studded_trousers
+INSERT INTO `guild_shops` VALUES (529,12827,25200,66192,60,0,0);  -- cuir_trousers
+INSERT INTO `guild_shops` VALUES (529,12828,42900,112684,60,0,0); -- raptor_trousers
+INSERT INTO `guild_shops` VALUES (529,12992,453,1815,60,0,0);     -- solea
+INSERT INTO `guild_shops` VALUES (529,12953,2578,16777,60,0,0);   -- lizard_ledelsens
+INSERT INTO `guild_shops` VALUES (529,12956,58027,72811,60,0,0);  -- raptor_ledelsens
+INSERT INTO `guild_shops` VALUES (529,16385,279,283,60,0,0);      -- cesti
+INSERT INTO `guild_shops` VALUES (529,16386,945,5997,60,0,0);     -- lizard_cesti
+INSERT INTO `guild_shops` VALUES (529,16388,11970,27700,60,0,0);  -- himantes
+INSERT INTO `guild_shops` VALUES (529,13469,937,2087,60,0,0);     -- leather_ring
+INSERT INTO `guild_shops` VALUES (529,12294,13500,14000,60,0,0);  -- leather_shield
 
 -- Kopopo (Windurst Waters) Cooking Guild (S)
 INSERT INTO `guild_shops` VALUES (530,610,45,144,255,48,100);
