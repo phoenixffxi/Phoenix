@@ -666,16 +666,20 @@ auto calculateDesynthResult(CCharEntity* PChar) -> uint8
 
     // Calculate HQ2 and HQ3 upgrades.
     uint8 upgradeHQ = 0;
-    for (uint8 tries = 0; tries < 2; ++tries)
-    {
-        if (xirand::GetRandomNumber(0.0f, 100.f) < 50.0f)
-        {
-            upgradeHQ = 1;
 
-            if (xirand::GetRandomNumber(0.0f, 100.f) < 33.0f)
-            {
-                upgradeHQ = 2;
-            }
+    // https://www.bluegartr.com/threads/135055-Extensive-Desynthesis-Rate-Research?p=7789195&viewfull=1#post7789195
+    // https://wiki.ffo.jp/html/401.html
+    // In order to achieve a desynth HQ rate distribution of
+    // (NQ , HQ1, HQ2, HQ3)
+    // (40%, 30%, 20%, 10%)
+    // roll a 50% HQ2 rate, then a 33.33(...)% rate for HQ3
+    if (xirand::GetRandomNumber(0.0f, 100.f) < 50.0f)
+    {
+        upgradeHQ = 1;
+
+        if (xirand::GetRandomNumber(0.0f, 100.f) < 100.f / 3.0f)
+        {
+            upgradeHQ = 2;
         }
     }
 
