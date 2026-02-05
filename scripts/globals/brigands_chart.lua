@@ -10,18 +10,6 @@ local ID = zones[xi.zone.BUBURIMU_PENINSULA]
 xi = xi or {}
 xi.brigandsChart = xi.brigandsChart or {}
 
-local function removeFromEvent(player)
-    if not player then
-        return
-    end
-
-    player:delStatusEffect(xi.effect.LEVEL_RESTRICTION)
-    player:changeMusic(0, 0)
-    player:changeMusic(1, 0)
-    player:changeMusic(2, 101)
-    player:changeMusic(3, 102)
-end
-
 local function resetEvent()
     local qm1        = GetNPCByID(ID.npc.BRIGAND_CHART_QM)
     local npcHume    = GetNPCByID(ID.npc.BRIGAND_CHART_HUME)
@@ -30,7 +18,13 @@ local function resetEvent()
 
     if qm1 then
         local player = GetPlayerByID(qm1:getLocalVar('bChartSpawnerID'))
-        removeFromEvent(player)
+        if player then
+            player:delStatusEffect(xi.effect.LEVEL_RESTRICTION)
+            player:changeMusic(0, 0)
+            player:changeMusic(1, 0)
+            player:changeMusic(2, 101)
+            player:changeMusic(3, 102)
+        end
 
         qm1:resetLocalVars()
         qm1:setStatus(xi.status.NORMAL)
@@ -64,57 +58,36 @@ end
 local eventTable =
 {
     -- Event times taken from capture: https://www.youtube.com/watch?v=aQXSByinBn4
-    { time = 60,  text = ID.text.WHAT_CAN_I_DO + 0 },
-    { time = 90,  text = ID.text.WHAT_CAN_I_DO + 1 },
-    { time = 120, text = ID.text.WHAT_CAN_I_DO + 2 },
-    { time = 150, text = ID.text.WHAT_CAN_I_DO + 3 },
-    { time = 170, text = ID.text.WHAT_CAN_I_DO + 4 },
-    { time = 180, text = ID.text.WHAT_CAN_I_DO + 5 },
+    [1] = { time = 60,  text = ID.text.WHAT_CAN_I_DO + 0 },
+    [2] = { time = 90,  text = ID.text.WHAT_CAN_I_DO + 1 },
+    [3] = { time = 120, text = ID.text.WHAT_CAN_I_DO + 2 },
+    [4] = { time = 150, text = ID.text.WHAT_CAN_I_DO + 3 },
+    [5] = { time = 170, text = ID.text.WHAT_CAN_I_DO + 4 },
+    [6] = { time = 180, text = ID.text.WHAT_CAN_I_DO + 5 },
 }
 
-local function tryHumeText(spawner, elapsedTime, timerTable, phase)
-    if
-        not timerTable or
-        not phase or
-        phase > #timerTable
-    then
-        return
-    end
-
-    local npcHume = GetNPCByID(ID.npc.BRIGAND_CHART_HUME)
-    local qm1 = GetNPCByID(ID.npc.BRIGAND_CHART_QM)
-    local event = timerTable[phase]
-
-    if not (qm1 and npcHume and event) then
-        return
-    end
-
-    if elapsedTime < event.time then
-        return phase
-    end
-
-    if event.text then
-        spawner:showText(qm1, event.text)
-    end
-
-    return phase + 1
-end
-
-local function emoteChecking(npc, spawner, timeRemaining, timeOfLastCheck, endTime, timerTable, phase)
+local function emoteChecking(npc, spawner, timeRemaining, timeOfLastCheck, phase)
     -- Event continues if player leaves zone
     -- https://www.youtube.com/watch?v=_opqVW-HIu0
     -- https://discord.com/channels/443544205206355968/446401624102010901/650072608922009660
 
-    local timeOfCurrentCheck = GetSystemTime()
-    local timeElapsedThisCheck = timeOfCurrentCheck - timeOfLastCheck
-    timeRemaining = timeRemaining - timeElapsedThisCheck
-    local totalTimeElapsed = 180 - timeRemaining
+    local currentTime      = GetSystemTime()
+    local newTimeRemaining = timeRemaining - (currentTime - timeOfLastCheck)
+    local totalTimeElapsed = 180 - newTimeRemaining
 
-    phase = tryHumeText(spawner, totalTimeElapsed, timerTable, phase)
+    -- Check time. Show text and move phase if enough time has passed.
+    if totalTimeElapsed > eventTable[phase].time then
+        local qm1 = GetNPCByID(ID.npc.BRIGAND_CHART_QM)
+        if qm1 then
+            spawner:showText(qm1, eventTable[phase].text)
+        end
 
-    if timeRemaining > 0 then
+        phase = phase + 1
+    end
+
+    if newTimeRemaining > 0 then
         npc:timer(1000, function(npcArg)
-            emoteChecking(npcArg, spawner, timeRemaining, timeOfCurrentCheck, endTime, timerTable, phase)
+            emoteChecking(npcArg, spawner, newTimeRemaining, currentTime, phase)
         end)
     else
         resetEvent()
@@ -122,14 +95,15 @@ local function emoteChecking(npc, spawner, timeRemaining, timeOfLastCheck, endTi
 end
 
 xi.brigandsChart.onTrade = function(player, npc, trade)
+    --[[
     if
         npc:getStatus() == xi.status.NORMAL and
-        npcUtil.tradeHasExactly(trade, xi.item.BRIGANDS_CHART) and
-        false -- disabled until quest fully complete, remove to test
+        npcUtil.tradeHasExactly(trade, xi.item.BRIGANDS_CHART)
     then
         player:messageSpecial(ID.text.RETURN_TO_SEA, xi.item.BRIGANDS_CHART)
         player:startEvent(902)
     end
+    ]]
 end
 
 xi.brigandsChart.onEventUpdate = function(player, csid, option, npc)
@@ -150,13 +124,11 @@ xi.brigandsChart.onEventFinish = function(player, csid, option, npc)
     if csid == 902 and option == 0 then
         local npcHume = GetNPCByID(ID.npc.BRIGAND_CHART_HUME)
         if not npcHume then
-            printf('[error] Brigand\'s Chart Hume npc not found')
             return
         end
 
         local shimmering = GetNPCByID(ID.npc.SHIMMERING_POINT)
         if not shimmering then
-            printf('[error] Brigand\'s Chart shimmering point npc not found')
             return
         end
 
@@ -174,8 +146,7 @@ xi.brigandsChart.onEventFinish = function(player, csid, option, npc)
         player:showText(npc, ID.text.MY_ITEM, xi.item.PENGUIN_RING)
 
         -- Events will occur for the next 180 seconds according to eventTable
-        local endTime = GetSystemTime() + 180
-        emoteChecking(npc, player, 180, GetSystemTime(), endTime, eventTable, 1)
+        emoteChecking(npc, player, 180, GetSystemTime(), 1)
         -- TODO: add fishing hook to catch chests & monster specific to event
     end
 end
