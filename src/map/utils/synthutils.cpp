@@ -610,7 +610,7 @@ auto calculateDesynthResult(CCharEntity* PChar) -> uint8
         }
         else if (synthDifficulty >= 1)
         {
-            successRate = 40.0f - 0.05f * (synthDifficulty - 1);
+            successRate = 40.0f - 5.0f * (synthDifficulty - 1);
         }
         else
         {
