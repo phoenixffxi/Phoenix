@@ -347,7 +347,7 @@ INSERT INTO `mob_skills` VALUES (319,63,'bad_breath',4,0.0,15.0,2000,1500,4,0,0,
 INSERT INTO `mob_skills` VALUES (320,64,'sweet_breath',4,0.0,15.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (321,65,'needleshot',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (322,66,'1000_needles',1,0.0,10.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (323,37,'wild_carrot',0,0.0,20.0,2000,1500,1,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (323,37,'wild_carrot',0,0.0,20.0,2000,2600,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (324,68,'photosynthesis',0,0.0,7.0,2000,1500,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (325,161,'random_kiss',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (326,164,'absorbing_kiss',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
