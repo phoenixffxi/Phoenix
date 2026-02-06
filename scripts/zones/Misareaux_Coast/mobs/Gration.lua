@@ -31,7 +31,6 @@ entity.onMobInitialize = function(mob)
 end
 
 entity.onMobSpawn = function(mob)
-    -- TODO: All Gration TP Moves should have 0 Ready Time.
     mob:setMod(xi.mod.HUMANOID_KILLER, 40)
     mob:setMod(xi.mod.DOUBLE_ATTACK, 30)
     mob:setMod(xi.mod.REGAIN, 75)
@@ -57,6 +56,11 @@ entity.onMobMobskillChoose = function(mob, target, skillId)
     return skillList[math.random(1, #skillList)]
 end
 
+-- All of Grations TP Moves have 0 Ready Time
+entity.onMobSkillReadyTime = function(mob, target, skill)
+    return 0
+end
+
 -- If Gration was spawned with a Picaroon's Shield, Power Attack repeats 2 additional times, otherwise only 1 additional time.
 entity.onMobWeaponSkill = function(target, mob, skill)
     local allowedRepeats = 1
@@ -68,7 +72,7 @@ entity.onMobWeaponSkill = function(target, mob, skill)
         local powerAttackRepeats = mob:getLocalVar('powerAttackRepeats')
 
         if powerAttackRepeats < allowedRepeats then
-            mob:useMobAbility(xi.mobSkill.POWER_ATTACK_ARMED_1)
+            mob:useMobAbility(xi.mobSkill.POWER_ATTACK_ARMED_1, nil, 0)
             mob:setLocalVar('powerAttackRepeats', powerAttackRepeats + 1)
         else
             mob:setLocalVar('powerAttackRepeats', 0)
