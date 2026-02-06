@@ -68,6 +68,15 @@ local function enterFlight(mob)
 end
 
 entity.onMobInitialize = function(mob)
+    mob:addImmunity(xi.immunity.BIND)
+    mob:addImmunity(xi.immunity.LIGHT_SLEEP)
+    mob:addImmunity(xi.immunity.PARALYZE)
+    mob:addImmunity(xi.immunity.SILENCE)
+    mob:addImmunity(xi.immunity.PETRIFY)
+    mob:addImmunity(xi.immunity.PLAGUE)
+    mob:addImmunity(xi.immunity.GRAVITY)
+    mob:addImmunity(xi.immunity.TERROR)
+
     mob:setCarefulPathing(true)
     mob:setMobMod(xi.mobMod.AOE_HIT_ALL, 1)
 
@@ -100,18 +109,6 @@ entity.onMobSpawn = function(mob)
     mob:setMobMod(xi.mobMod.ROAM_DISTANCE, 5)
     mob:setMobMod(xi.mobMod.WEAPON_BONUS, 158) -- 255 total weapon damage
     mob:setBehavior(bit.bor(mob:getBehavior(), xi.behavior.NO_TURN))
-    mob:addImmunity(xi.immunity.BIND)
-    mob:addImmunity(xi.immunity.LIGHT_SLEEP)
-    mob:addImmunity(xi.immunity.PARALYZE)
-    mob:addImmunity(xi.immunity.SILENCE)
-    mob:addImmunity(xi.immunity.PETRIFY)
-    mob:addImmunity(xi.immunity.PLAGUE)
-    mob:addImmunity(xi.immunity.GRAVITY)
-    mob:addImmunity(xi.immunity.TERROR)
-end
-
-entity.onMobRoam = function(mob)
-    mob:setMobMod(xi.mobMod.NO_MOVE, 0)
 end
 
 entity.onMobEngage = function(mob, target)
@@ -267,10 +264,14 @@ entity.onMobDisengage = function(mob)
         mob:setMobSkillAttack(0)
         mob:setLocalVar('changeHP', 0)
     end
+
+    mob:setMobMod(xi.mobMod.NO_MOVE, 0)
 end
 
 entity.onMobDeath = function(mob, player, optParams)
-    player:addTitle(xi.title.WORLD_SERPENT_SLAYER)
+    if player then
+        player:addTitle(xi.title.WORLD_SERPENT_SLAYER)
+    end
 end
 
 entity.onMobDespawn = function(mob)

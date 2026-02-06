@@ -69,7 +69,9 @@ entity.onMobFight = function(mob, target)
 end
 
 entity.onMobDeath = function(mob, player, optParams)
-    player:addTitle(xi.title.ROC_STAR)
+    if player then
+        player:addTitle(xi.title.ROC_STAR)
+    end
 end
 
 entity.onMobDespawn = function(mob)
