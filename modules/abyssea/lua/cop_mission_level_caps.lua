@@ -1,7 +1,8 @@
 -----------------------------------
 -- CoP Mission Battlefield Level Caps Module
 -- Implements era-appropriate level caps for all CoP mission battlefields
--- Level caps were removed May 2010
+-----------------------------------
+-- Source: https://www.bg-wiki.com/ffxi/Version_Update_(06/21/2010)
 -----------------------------------
 local m = Module:new('cop_level_caps')
 

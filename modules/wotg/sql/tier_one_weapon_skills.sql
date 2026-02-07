@@ -1,5 +1,11 @@
--- Until early 2010 the first weapon skill for each weapon was added at skill level 10 for that weapon. Retail changed the skill level to 5 sometime in early 2010.
--- It should be noted that the tutorial will still tell players that they will get their weapon skill at skill level 5 for their respective weapon.
+------------------------------------
+-- WotG Tier One Weapon Skills Reversion
+-- This module reverts all starter weaponskills from 5 to 10 skill
+-- Note: Tutorial text still states 5 skill level
+------------------------------------
+-- Source : https://www.bg-wiki.com/ffxi/Version_Update_(09/08/2008)
+-----------------------------------
+
 UPDATE weapon_skills
 SET
     skilllevel = 10

@@ -1,6 +1,8 @@
 -----------------------------------
 -- Module to remove exp and gil from 'Northward' quest reward.
--- Gil and exp were added to the quest reward in 2017 so they are removed here. https://ffxiclopedia.fandom.com/wiki/Northward
+-- Gil and exp were added to the quest reward in 2013 so they are removed here.
+-----------------------------------
+-- Source: https://forum.square-enix.com/ffxi/threads/38100
 -----------------------------------
 require('modules/module_utils')
 -----------------------------------

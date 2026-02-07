@@ -1,6 +1,9 @@
 -----------------------------------
+-- Unlocking a Myth Module
 -- Update Zalsuhn to require scaling ws points based on nyzul climb (pre 2014)
 -- Also update the required WS points for all Vigil weapons latent ability
+-----------------------------------
+-- Source: https://forum.square-enix.com/ffxi/threads/43135-Jul-8-2014-%28JST%29-Version-Update
 -----------------------------------
 require('modules/module_utils')
 -----------------------------------

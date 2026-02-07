@@ -22,6 +22,7 @@ zones[xi.zone.ULEGUERAND_RANGE] =
         SOMETHING_GLITTERING          = 7352, -- You see something glittering beneath the surface of the ice.
         WHAT_LIES_BENEATH             = 7353, -- There are many cold <item> scattered around the area. Could someone be trying to melt the ice to retrieve what lies beneath?
         SOMETHING_GLITTERING_BUT      = 7354, -- You see something glittering below the surface here, but the ice encases it completely.
+        FRESH_RABBIT_TRACKS           = 7411, -- There are fresh rabbit tracks here. The creature must still be in the vicinity.
         HOMEPOINT_SET                 = 8346, -- Home point set!
         UNITY_WANTED_BATTLE_INTERACT  = 8404, -- Those who have accepted % must pay # Unity accolades to participate. The content for this Wanted battle is #. [Ready to begin?/You do not have the appropriate object set, so your rewards will be limited.]
     },

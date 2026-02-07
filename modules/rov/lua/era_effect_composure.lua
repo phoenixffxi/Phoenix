@@ -1,7 +1,8 @@
 -----------------------------------
 -- Era Composure effect
--- Pre 8 Feb 2019
--- https://forum-square--enix-com.translate.goog/ffxi/threads/55024?_x_tr_sl=ja&_x_tr_tl=en&_x_tr_hl=en&_x_tr_pto=sc
+-- Removes extra effects added to Composure in RoV
+-----------------------------------
+-- Source: https://forum.square-enix.com/ffxi/threads/55025-February.-8-2019-%28JST%29-Version-Update
 -----------------------------------
 require('modules/module_utils')
 -----------------------------------
