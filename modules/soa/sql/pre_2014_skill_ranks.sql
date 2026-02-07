@@ -1,5 +1,10 @@
--- https://forum.square-enix.com/ffxi/threads/44592?p=527238#post527239
+-----------------------------------
+-- Pre-2014 Skill Ranks Module
+-- This module reverts skill rank changes made in late 2014
+-----------------------------------
+-- Source: https://forum.square-enix.com/ffxi/threads/44592?p=527238#post527239
 -- search for "The following jobs have undergone adjustments."
+-----------------------------------
 
 UPDATE `skill_ranks` SET `thf` = 2 WHERE `name` = 'dagger'; -- Down to A(2) from A+(1)
 UPDATE `skill_ranks` SET `bst` = 2 WHERE `name` = 'axe'; -- Down to A(2) from A+(1)
