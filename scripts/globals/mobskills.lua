@@ -419,74 +419,190 @@ end
 
 -----------------------------------
 -- Documentation: xi.mobskills.mobBreathMove
--- skillParams.percentMultipier  = #             : % Multiplier on mob's current HP. Damage = mobCurrentHP * percentMultipier
--- skillParams.element           = element enum  : Element of breath attack. Default: 1
--- skillParams.damageCap         = #             : Maximum damage this attack can do. Default: mob:getHP() / 5
--- skillParams.bonusDamage       = #             : Flat damage added after multipliers.
--- skillParams.mAccuracyBonus    = { #, #, # }   : Accuracy bonus or penalties based on fTP.
--- skillParams.resistStat        = xi.mod.<Stat> : Determines which base stat attribute is used when calculating resist. (INT, MND, etc.)
+-- params.percentMultipier     = #                   : % Multiplier on mob's current HP. Damage = mobCurrentHP * percentMultipier
+-- params.damageCap            = #                   : Maximum damage the skill can deal regardless of current HP.
+-- params.bonusDamage          = #                   : Flat damage added after multipliers.
+-- params.element              = element enum        : Element of breath attack. Default: 1
+-- params.attackType           = attackType enum     : attackType of the skill.
+-- params.damageType           = damageType enum     : damageType of the skill.
+-- params.shadowBehavior       = shadowBehavior enum : How many shadows the skill will consume.
+-- params.skipDamageAdjustment = bool                : Determines whether to skip damage taken % modifiers (Shell etc.)
+-- params.skipStoneSkin        = bool                : Determines whether the skill should bypass stoneskin.
+-- params.mAccuracyBonus       = { #, #, # }         : Flat magic accuracy bonus or penalties based on fTP scale.
+-- params.resistStat           = xi.mod.<Stat>       : Determines which base stat attribute is used when calculating resist. (INT, MND, etc.)
+-- params.canMagicBurst        = bool                : Determines if the skill can perform a magic burst.
+-- params.primaryMessage       = msg enum            : Sets the default message of the skill.
 -----------------------------------
--- return value of xi.mobskills.mobMagicalMove
+-- return value of xi.mobskills.mobBreathMove
+---@alias breathMobSkillRetVal { damage: number, hitsLanded: number, attackType: xi.attackType, damageType: xi.damageType }
 
 ---@param mob CBaseEntity
 ---@param target CBaseEntity
 ---@param skill CPetSkill|CMobSkill
+---@param action CAction
 ---@param skillParams table
----@return magicalMobSkillRetVal
-xi.mobskills.mobBreathMove = function(mob, target, skill, skillParams)
+---@return breathMobSkillRetVal
+xi.mobskills.mobBreathMove = function(mob, target, skill, action, skillParams)
+    local returnInfo = {}
+
     local mobCurrentHP = skill:getMobHP()
 
     local percentMultipier     = skillParams.percentMultipier or 0.10
-    local actionElement        = skillParams.element or 0
     local breathSkillDamageCap = skillParams.damageCap or math.floor(mobCurrentHP / 5)
     local bonusDamage          = skillParams.bonusDamage or 0
     local mAccuracyBonusfTP    = skillParams.mAccuracyBonus or { 0, 0, 0 }
+    local actionElement        = skillParams.element or 0
+    local attackType           = skillParams.attackType or xi.attackType.BREATH
+    local damageType           = skillParams.damageType or xi.damageType.ELEMENTAL
+    local shadowsToRemove      = skillParams.shadowBehavior or xi.mobskills.shadowBehavior.IGNORE_SHADOWS
+    -- Note: Breath skills so far have not been found to use MAB/MDEF. If we find an outlier, add here.
+    local skipStoneskin        = skillParams.skipStoneSkin and true or false
+    -- TODO: handle different types of Stoneskin(Magical, Physical, Agnostic)
     local resistStat           = skillParams.resistStat or xi.mod.INT
+    local canMagicBurst        = skillParams.canMagicBurst and true or false
+    local primaryMessage       = skillParams.primaryMessage or xi.msg.basic.DAMAGE
     -- TODO: Critical Hit Param? See Magma Fan mobskill.
 
-    local damage = mobCurrentHP * percentMultipier + bonusDamage
+    -- Initialize default returnInfo returns
+    returnInfo.damage     = 0
+    returnInfo.hitsLanded = 0
+    returnInfo.attackType = attackType
+    returnInfo.damageType = damageType
 
-    -- Clamp minimum damage based on current hp.
-    if damage < 1 then
-        damage = 1
+    -- Set skill's default message.
+    skill:setMsg(primaryMessage)
+
+    if mob:hasStatusEffect(xi.effect.HYSTERIA) then
+        skill:setMsg(xi.msg.basic.NONE)
+
+        return returnInfo
     end
 
-    -- Flat MACC bonus/penalty based on fTP scale
-    local mAccuracyBonus = 0
-    mAccuracyBonus = xi.combat.physical.calculateTPfactor(skill:getTP(), mAccuracyBonusfTP)
+    -- Calculate base damage
+    local damage     = math.floor(mobCurrentHP * percentMultipier + bonusDamage)
+    local hitsLanded = 1
 
-    local systemBonus     = 1 + utils.getEcosystemStrengthBonus(mob:getEcosystem(), target:getEcosystem()) / 4
-    local elementalSDT    = xi.combat.damage.magicalElementSDT(target, actionElement)
-    local resistRate      = xi.combat.magicHitRate.calculateResistRate(mob, target, 0, 0, xi.skillRank.A_PLUS, actionElement, resistStat, 0, mAccuracyBonus)
-    local dayAndWeather   = xi.spells.damage.calculateDayAndWeather(mob, actionElement, false)
-    local absorb          = xi.spells.damage.calculateAbsorption(target, actionElement, true)
-    local nullify         = xi.spells.damage.calculateNullification(target, actionElement, true, true)
+    -- TODO: SAM Yaegasumi ability.
+
+    -- Handle Shadows (Utsusemi, Blink, etc.)
+    damage = xi.mobskills.handleShadows(mob, target, skill, damage, attackType, shadowsToRemove)
+
+    if skill:getMsg() == xi.msg.basic.SHADOW_ABSORB then
+        -- Note: Damage in this case equals the amount of shadows consumed for the purpose of messaging.
+        --       takeDamage() is gated by returnInfo.hitsLanded being greater than 0 to prevent chip damage through shadows.
+        returnInfo.damage     = damage
+        returnInfo.hitsLanded = 0
+
+        return returnInfo
+    end
+
+    -- Calculate if skill will be absorbed or nullified.
+    local absorbDamage  = 1
+    local nullifyDamage = 1
+
+    nullifyDamage = xi.spells.damage.calculateNullification(target, actionElement, false, true)
+
+    if nullifyDamage == 0 then
+        -- Note: Nullification takes precedence over elemental absorption.
+        -- Note: We still count nullifies as a "hit" since additional status effects tied to the skill itself will still apply.
+        returnInfo.damage     = 0
+        returnInfo.hitsLanded = hitsLanded
+
+        return returnInfo
+    end
+
+    absorbDamage = xi.spells.damage.calculateAbsorption(target, actionElement, false)
+
+    -- Calulate TP and TP_BONUS if applicable.
+    -- TODO: Do mobs benefit from Fencer job trait's TP_BONUS?
+    -- Best way to test will likely be to find a mob that uses a magical skill with fTP scaling and has varying jobs to compare (WAR 45 min for Fencer, 80 BST, 85 BRD).
+    local bonusTP = mob:getMod(xi.mod.TP_BONUS)
+    local tpValue = math.min(skill:getTP() + bonusTP, 3000)
+
+    -- Flat MACC bonus/penalty based on fTP scale if defined.
+    local mAccuracyBonus = 0
+
+    mAccuracyBonus = xi.combat.physical.calculateTPfactor(tpValue, mAccuracyBonusfTP)
+
+    -- Damage Multipliers
+    local systemBonus            = 1 -- 1 + utils.getEcosystemStrengthBonus(mob:getEcosystem(), target:getEcosystem()) / 4
+    local elementalSDT           = 1
+    local resistRate             = 1
+    local dayAndWeather          = 1
+    local breathDamageAdjustment = 1
+    local magicBurst             = 1
+    local magicBurstBonus        = 1
+
+    -- If skill was not absorbed, calculate resist and damage adjustments.
+    -- Note: Elemental absorb mechanics such as Liement are calculated BEFORE resist/damage adjustments (such as shell/magic bursts).
+    if absorbDamage > 0 then
+        if canMagicBurst then
+            local _, skillchainCount = xi.magicburst.formMagicBurst(target, actionElement)
+
+            if skillchainCount > 0 then
+                if mob:isPet() and mob:getMaster() ~= nil then
+                    mAccuracyBonus = mAccuracyBonus + 25 -- TODO: This is based off a previous function. Would eventually like to get a capture for this.
+
+                    -- TODO: Do jug pet breaths gain damage or only an accuracy bonus?
+                    -- magicBurst      = calculateMobMagicBurst(target, actionElement, skillchainCount)
+                    -- magicBurstBonus = xi.spells.damage.calculateIfMagicBurstBonus(mob, target, 0, 0, actionElement)
+
+                    skill:setMsg(xi.msg.basic.PET_MAGIC_BURST)
+                end
+            end
+        end
+
+        resistRate             = xi.combat.magicHitRate.calculateResistRate(mob, target, 0, 0, xi.skillRank.A_PLUS, actionElement, resistStat, 0, mAccuracyBonus)
+        breathDamageAdjustment = xi.combat.damage.calculateDamageAdjustment(target, false, false, false, true)
+    end
+
+    -- TODO: Need more research about monster correlation.
+    -- local systemBonus     = 1 + utils.getEcosystemStrengthBonus(mob:getEcosystem(), target:getEcosystem()) / 4
+    elementalSDT  = xi.combat.damage.magicalElementSDT(target, actionElement)
+    dayAndWeather = xi.spells.damage.calculateDayAndWeather(mob, actionElement, false)
 
     damage = math.floor(damage * systemBonus)
     damage = math.floor(damage * elementalSDT)
     damage = math.floor(damage * resistRate)
     damage = math.floor(damage * dayAndWeather)
+    damage = math.floor(damage * breathDamageAdjustment)
     damage = utils.clamp(damage, 0, breathSkillDamageCap)
-    damage = math.floor(damage * absorb * nullify)
+    damage = math.floor(damage * absorbDamage)
+    damage = math.floor(damage * magicBurst)
+    damage = math.floor(damage * magicBurstBonus)
 
-    if damage <= 0 then -- Return early since the rest of the calculations are not needed if we absorbed/nullified.
-        return { damage = damage }
+    -- If we absorbed, then return early as the rest is not needed.
+    if absorbDamage < 0  then
+        -- Messaging is handled in core. Returning a negative damage value automatically sets the absorb message.
+
+        returnInfo.damage     = damage
+        returnInfo.hitsLanded = hitsLanded
+        -- Note: We still count absorbs as a "hit" since additional status effects tied to the skill itself will still apply even if absorbed.
+
+        return returnInfo
     end
 
-    -- The values set for this modifiers are base 10000.
-    -- -2500 in item_mods.sql means -25% damage recived.
-    -- 2500 would mean 25% ADDITIONAL damage taken.
-    -- The effects of the "Shell" spells are also included in this step. The effect also aplies a negative value.
-    local globalDamageTaken   = target:getMod(xi.mod.DMG) / 10000                               -- Mod is base 10000
-    local breathDamageTaken   = target:getMod(xi.mod.DMGBREATH) / 10000                         -- Mod is base 10000
-    local uBreathDamageTaken  = target:getMod(xi.mod.UDMGBREATH) / 10000                        -- Mod is base 10000
-    local combinedDamageTaken = utils.clamp(breathDamageTaken + globalDamageTaken, -0.5, 0.5)   -- The combination of regular "Damage Taken" and "Breath Damage Taken" caps at 50%. There is no BDTII known as of yet.
-    combinedDamageTaken       = utils.clamp(1 + combinedDamageTaken + uBreathDamageTaken, 0, 2) -- Uncapped breath damage modifier. Cap is 100% both ways.
+    damage = math.floor(target:handleSevereDamage(damage, false))
+    damage = math.floor(target:checkDamageCap(damage))
+    damage = math.floor(utils.handleAutomatonAutoAnalyzer(target, skill, damage))
+    damage = utils.handlePhalanx(target, damage)
+    damage = utils.handleOneForAll(target, damage)
 
-    -- Apply "Damage taken" mods to damage.
-    damage = math.floor(damage * combinedDamageTaken)
+    if not skipStoneskin then
+        -- TODO: Some Stoneskin effects only absorb certain damage types.
+        damage = utils.handleStoneskin(target, damage)
+    end
 
-    return { damage = damage }
+    target:updateEnmityFromDamage(mob, damage)
+    target:handleAfflatusMiseryDamage(damage)
+
+    -- Calculate TP return of the mob skill.
+    xi.mobskills.calculateSkillTPReturn(damage, mob, skill, target, attackType, hitsLanded)
+
+    returnInfo.damage     = damage
+    returnInfo.hitsLanded = hitsLanded
+
+    return returnInfo
 end
 
 ---@param info magicalMobSkillRetVal|physicalMobSkillRetVal
@@ -671,28 +787,16 @@ xi.mobskills.calculateSkillTPReturn = function(damage, mob, skill, target, attac
     end
 end
 
-xi.mobskills.hasMissMessage = function(mob, target, skill, damage)
-    local missMessages =
-    {
-        xi.msg.basic.EVADES,
-        xi.msg.basic.HIT_MISS,
-        xi.msg.basic.JA_MISS,
-        xi.msg.basic.JA_MISS_2,
-        xi.msg.basic.SKILL_MISS,
-        xi.msg.basic.RANGED_ATTACK_MISS,
-        xi.msg.basic.SHADOW_ABSORB,
-        xi.msg.basic.ANTICIPATE,
-        xi.msg.basic.SKILL_RECOVERS_HP
-    }
-
-    local skillMsg = skill:getMsg()
-
-    -- The attack was a miss, shadow absorbed, or anticipated.
-    for _, msg in ipairs(missMessages) do
-        if skillMsg == msg then
-
-            return true
-        end
+---@param actor CBaseEntity
+---@param target CBaseEntity
+---@param skill CPetSkill|CMobSkill
+---@param action CAction
+---@param info table
+---@return boolean
+-- Used as a conditional filter for target:takeDamage so the target doesn't take chip damage through shadows.
+xi.mobskills.processDamage = function(actor, target, skill, action, info)
+    if info.hitsLanded > 0 then
+        return true
     end
 
     return false
@@ -880,4 +984,58 @@ end
 ---@return xi.action.knockback
 xi.mobskills.calculateKnockback = function(target, attacker, skill, action)
     return utils.clamp(skill:getKnockback() - target:getMod(xi.mod.KNOCKBACK_REDUCTION), xi.action.knockback.NONE, xi.action.knockback.LEVEL7)
+end
+
+---@param actor CBaseEntity
+---@param target CBaseEntity
+---@param skill CMobSkill|CPetSkill
+---@param damage integer
+---@param attackType xi.attackType
+---@param shadowsToRemove xi.mobskills.shadowBehavior|integer?
+xi.mobskills.handleShadows = function(actor, target, skill, damage, attackType, shadowsToRemove)
+    -- Handle shadows depending on shadow behavior / attackType
+    if
+        shadowsToRemove ~= nil and
+        shadowsToRemove ~= xi.mobskills.shadowBehavior.WIPE_SHADOWS and
+        shadowsToRemove ~= xi.mobskills.shadowBehavior.IGNORE_SHADOWS
+    then
+        -- Utsusemi preservation (mostly AoE physical)
+        if skill:isAoE() or skill:isConal() then
+            shadowsToRemove = utils.attemptShadowMitigation(target, shadowsToRemove)
+        end
+
+        local shadowsUsed = 0
+        damage, shadowsUsed = utils.takeShadows(target, damage, shadowsToRemove)
+
+        -- Shadows absorbed everything
+        if damage == 0 then
+            skill:setMsg(xi.msg.basic.SHADOW_ABSORB)
+
+            return shadowsUsed
+        end
+
+    elseif shadowsToRemove == xi.mobskills.shadowBehavior.WIPE_SHADOWS then
+        target:delStatusEffect(xi.effect.COPY_IMAGE)
+        target:delStatusEffect(xi.effect.BLINK)
+        target:delStatusEffect(xi.effect.THIRD_EYE)
+    end
+
+    -- Physical / Ranged handling
+    if
+        attackType == xi.attackType.PHYSICAL or
+        attackType == xi.attackType.RANGED
+    then
+        -- Third Eye does not block AoE attacks
+        if not skill:isSingle() then
+            target:delStatusEffect(xi.effect.THIRD_EYE)
+        end
+
+        -- Anticipate check (Third Eye)
+        if xi.combat.physicalHitRate.checkAnticipated(actor, target) then
+            skill:setMsg(xi.msg.basic.ANTICIPATE)
+            return 0
+        end
+    end
+
+    return damage
 end
