@@ -5,16 +5,15 @@
 #include "map/utils/moduleutils.h"
 #include <algorithm>
 
+#include "common/database.h"
 #include "common/logging.h"
-#include "common/sql.h"
 #include "map/entities/mobentity.h"
 #include "map/item_container.h"
 #include "map/items/item_furnishing.h"
 #include "map/lua/lua_item.h"
 #include "map/lua/luautils.h"
-#include "map/packets/inventory_assign.h"
-#include "map/packets/inventory_finish.h"
-#include "map/packets/inventory_item.h"
+#include "map/packets/s2c/0x01d_item_same.h"
+#include "map/packets/s2c/0x020_item_attr.h"
 #include "map/utils/charutils.h"
 #include "map/utils/itemutils.h"
 
@@ -86,12 +85,12 @@ class DynaFuncModule : public CPPModule
                     if (PItem != nullptr && PItem->getID() == HOURGLASS_ID && ref<uint32>(PItem->m_extra, 0x14) == dynamistoken)
                     {
                         ref<uint32>(PItem->m_extra, 0x08) = timepoint; // Update hourglass timestamp.
-                        PCharEntity->pushPacket<CInventoryItemPacket>(PItem, LOC_INVENTORY, PItem->getSlotID());
+                        PCharEntity->pushPacket<GP_SERV_COMMAND_ITEM_ATTR>(PItem, LOC_INVENTORY, PItem->getSlotID());
                         ++numitemsupdated;
                     } });
                 if (numitemsupdated)
                 {
-                    PCharEntity->pushPacket<CInventoryFinishPacket>();
+                    PCharEntity->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();
                 }
             }
             return;
@@ -185,11 +184,11 @@ class DynaFuncModule : public CPPModule
 
             if (PChar && PChar != nullptr)
             {
-                auto query = "SELECT MAX(instanceid) FROM dynamis_participants WHERE charid = %u";
+                const auto rset = db::preparedStmt("SELECT MAX(instanceid) AS maxInstanceId FROM dynamis_participants WHERE charid = ?", PChar->id);
 
-                if (_sql->Query(query, PChar->id) != SQL_ERROR && _sql->NumRows() > 0 && _sql->NextRow() != SQL_ERROR)
+                if (rset && rset->rowsCount() && rset->next())
                 {
-                    return _sql->GetUIntData(0);
+                    return rset->get<uint32>("maxInstanceId");
                 }
             }
 
@@ -200,19 +199,19 @@ class DynaFuncModule : public CPPModule
         lua["RegisterDynamisInstance"] = [this](uint32 zoneid, uint32 charid)
         {
             uint32 instID = 0;
-            auto   query  = "SELECT MAX(instanceid) FROM dynamis_instances";
+            const auto rset = db::preparedStmt("SELECT MAX(instanceid) FROM dynamis_instances");
 
-            if (_sql->Query(query) == SQL_SUCCESS && _sql->NumRows() > 0 && _sql->NextRow() != SQL_ERROR)
+            if (rset && rset->rowsCount() && rset->next())
             {
-                instID = _sql->GetUIntData(0) + 1;
+                instID = rset->get<uint32>("maxInstanceId") + 1;
             }
             else
             {
                 instID = 1;
             }
 
-            query = "INSERT INTO dynamis_instances VALUES (%u, %u, %u)";
-            if (_sql->Query(query, instID, zoneid, charid) == SQL_ERROR)
+            const auto rset2 = db::preparedStmt("INSERT INTO dynamis_instances VALUES (?, ?, ?)", instID, zoneid, charid);
+            if (!rset2)
             {
                 instID = -1;
             }
@@ -223,33 +222,17 @@ class DynaFuncModule : public CPPModule
         // Add Dynamis Participant
         lua["AddDynamisParticipant"] = [this](uint32 instanceId, uint32 playerId)
         {
-            const char* query = "INSERT INTO dynamis_participants VALUES (%u, %u)";
-            return _sql->Query(query, instanceId, playerId) != SQL_ERROR;
+            const auto rset = db::preparedStmt("INSERT INTO dynamis_instances VALUES (?, ?)", instanceId, playerId);
+            return (rset && rset->rowsAffected());
         };
 
         // Reset All Dynamis Participants
         lua["ResetDynamisInstance"] = [this](uint32 instanceId)
         {
-            std::vector<std::string> participants;
-
-            auto query = "SELECT charid FROM dynamis_participants WHERE instanceid = %u";
-            if (_sql->Query(query, instanceId) != SQL_ERROR && _sql->NumRows() > 0 && _sql->NextRow() != SQL_ERROR)
-            {
-                participants.push_back(fmt::format("{}", _sql->GetUIntData(0)));
-            }
-
-            // Reset all Participants
-            if (!participants.empty())
-            {
-                std::string charids = "";
-                for_each(participants.begin(), participants.end(), [&charids](const std::string& charid)
-                         { charids += charid; });
-
-                query = "UPDATE char_vars SET value = %u "
-                        "WHERE charid IN (%s) AND varname = '%s'";
-
-                _sql->Query(query, 73, charids, "DynaReservationStart");
-            }
+            db::preparedStmt("UPDATE char_vars SET value = 73 WHERE charid IN "
+                            "(SELECT charid FROM dynamis_participants WHERE instanceid = ?) "
+                            "AND varname = ?",
+                            instanceId, "DynaReservationStart");
         };
     }
 };
