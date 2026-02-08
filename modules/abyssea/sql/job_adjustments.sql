@@ -124,3 +124,31 @@ UPDATE abilities SET recastTime = 900 WHERE name = 'killer_instinct';
 
 -- Killer Instinct merit: Revert value to 150 seconds per level
 UPDATE merits SET value = 150 WHERE name = 'killer_instinct';
+
+------------------------------------
+-- Samurai
+-- Source: https://www.bg-wiki.com/ffxi/Version_Update_(02/13/2012)
+------------------------------------
+
+-- Warding Circle: Revert recast from 5 to 10 minutes
+UPDATE abilities SET recastTime = 600 WHERE name = 'warding_circle';
+
+-- Warding Circle merit: Revert value to 20 seconds per level
+UPDATE merits SET value = 20 WHERE name = 'warding_circle_recast';
+
+-- Sekkanoki: Adjust level requirement from 40 to 60
+-- Source: https://www.bg-wiki.com/ffxi/Version_Update_(06/21/2010)
+UPDATE abilities SET level = 60 WHERE name = 'sekkanoki';
+
+-- Blade Bash: Revert recast from 5 to 15 minutes
+-- Source: https://www.bg-wiki.com/ffxi/Version_Update_(05/15/2012)
+UPDATE abilities SET recastTime = 900 WHERE name = 'blade_bash';
+
+-- Blade Bash merit: Revert value to 150 seconds per level
+UPDATE merits SET value = 150 WHERE name = 'blade_bash';
+
+-- Shikikoyo: Revert recast from 5 to 15 minutes
+UPDATE abilities SET recastTime = 900 WHERE name = 'shikikoyo';
+
+-- Shikikoyo merit: Revert value to 150 seconds per level
+UPDATE merits SET value = 150 WHERE name = 'shikikoyo';

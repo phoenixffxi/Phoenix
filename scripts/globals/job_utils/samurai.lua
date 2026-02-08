@@ -219,14 +219,6 @@ xi.job_utils.samurai.useKonzenIttai = function(player, target, ability, action)
 end
 
 xi.job_utils.samurai.useBladeBash = function(player, target, ability, action)
-    -- Damage
-    -- TODO: Verify damage formula and DRK interaction
-    local jobLevel = utils.getActiveJobLevel(player, xi.job.DRK)
-    local damage   = math.floor((jobLevel + 11) / 4 + player:getMod(xi.mod.WEAPON_BASH))
-    damage = utils.handleStoneskin(target, damage)
-    target:takeDamage(damage, player, xi.attackType.PHYSICAL, xi.damageType.BLUNT)
-    target:updateEnmityFromDamage(player, damage)
-
     -- Stun
     if
         not xi.data.statusEffect.isTargetImmune(target, xi.effect.STUN, xi.element.THUNDER) and
@@ -269,10 +261,11 @@ xi.job_utils.samurai.useBladeBash = function(player, target, ability, action)
 
     ability:setMsg(xi.msg.basic.JA_DAMAGE)
 
-    return damage
+    -- Blade Bash does not deal damage
+    return 0
 end
 
-xi.job_utils.samurai.useShikikoyo = function(player, target, ability)
+xi.job_utils.samurai.useShikikoyo = function(player, target, ability, action)
     local pTP = (player:getTP() - 1000) * (1 + (player:getMerit(xi.merit.SHIKIKOYO) - 12) / 100)
     pTP       = utils.clamp(pTP, 0, 3000 - target:getTP())
 
