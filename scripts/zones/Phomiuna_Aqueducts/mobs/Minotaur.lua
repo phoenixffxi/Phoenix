@@ -31,8 +31,19 @@ entity.onMobFight = function(mob, target)
         { x = 55.13, y = 1.00, z = 304.64 },
     }
 
+    -- If target is a pet, get the master for alliance lookup
+    local allianceTarget = target
+    if target:getObjType() ~= xi.objType.PC then
+        local master = target:getMaster()
+        if master and master:getObjType() == xi.objType.PC then
+            allianceTarget = master
+        else
+            return
+        end
+    end
+
     local drewIn = false
-    for _, member in ipairs(target:getAlliance()) do
+    for _, member in ipairs(allianceTarget:getAlliance()) do
         local randomPos = drawInPositions[math.random(#drawInPositions)]
         randomPos.rot = member:getRotPos()
 
