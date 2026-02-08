@@ -390,14 +390,14 @@ INSERT INTO `mob_skills` VALUES (362,830,'double_claw',0,0.0,7.0,2000,1500,4,0,0
 INSERT INTO `mob_skills` VALUES (363,831,'grapple',4,0.0,12.5,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (364,832,'filamented_hold',4,0.0,12.5,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (365,833,'spinning_top',1,0.0,15.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (366,110,'tail_blow',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (367,111,'fireball',2,0.0,11.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (368,112,'blockhead',0,0.0,7.0,2000,1500,4,0,0,1,0,0,0);
-INSERT INTO `mob_skills` VALUES (369,113,'brain_crush',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (370,114,'baleful_gaze_lizard',0,0.0,10.0,2000,2000,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (371,115,'plague_breath',4,0.0,10.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (372,116,'infrasonics',4,0.0,10.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (373,117,'secretion',0,0.0,7.0,2000,1500,1,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (366,110,'tail_blow',0,0.0,7.0,2000,500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (367,111,'fireball',2,0.0,11.0,2000,500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (368,112,'blockhead',0,0.0,7.0,2000,1000,4,0,0,1,0,0,0);
+INSERT INTO `mob_skills` VALUES (369,113,'brain_crush',0,0.0,7.0,2000,500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (370,114,'baleful_gaze_lizard',0,0.0,10.0,2000,2800,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (371,115,'plague_breath',4,0.0,10.0,2000,1800,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (372,116,'infrasonics',4,0.0,10.0,2000,800,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (373,117,'secretion',0,0.0,7.0,2000,1000,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (374,118,'ripper_fang',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (375,119,'backlash_tail',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (376,120,'foul_breath',4,0.0,15.0,2000,1500,4,0,0,0,0,0,0); -- Only used in dry desert/mountainous areas
