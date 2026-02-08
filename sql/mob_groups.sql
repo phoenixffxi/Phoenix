@@ -13819,7 +13819,7 @@ INSERT INTO `mob_groups` VALUES (44,6902,208,'Centurio_XX-I',0,128,0,0,0,0,NULL)
 -- ------------------------------------------------------------
 
 INSERT INTO `mob_groups` VALUES (1,4644,209,'Titan_Prime_TBE',0,128,0,8000,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (2,1451,209,'Galgalim',0,128,0,6000,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (2,1451,209,'Galgalim',0,128,0,6000,6000,0,NULL);
 INSERT INTO `mob_groups` VALUES (3,7053,209,'Titan_Prime_TSTBE',0,128,0,700,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (4,3931,209,'Titan_Prime_WTB',0,128,0,25000,0,0,NULL);
 -- use the temenos elemental mob pool as those are MOBTYPE_BATTLEFIELD
