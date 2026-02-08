@@ -79,10 +79,10 @@ INSERT INTO `mob_family_system` VALUES (7,'Animated_Weapon',6,'Evil_Weapon',0,'U
 INSERT INTO `mob_family_system` VALUES (25,'Antica',7,'Antica',7,'Beastmen',40,116,140,1,3,5,4,6,2,1,1,3,1,3,8.0,258,0);
 INSERT INTO `mob_family_system` VALUES (26,'Antlion',8,'Antlion',20,'Vermin',40,120,125,4,4,4,4,4,4,4,1,3,1,3,8.0,2,1);
 INSERT INTO `mob_family_system` VALUES (27,'Apkallu',9,'Apkallu',8,'Bird',40,105,90,4,3,5,4,4,4,4,1,3,1,2,6.0,3,0);
-INSERT INTO `mob_family_system` VALUES (28,'Automaton-Harlequin',10,'Automaton',0,'Unclassified',40,100,120,3,3,3,3,3,3,3,1,3,1,3,0.0,2,0);
-INSERT INTO `mob_family_system` VALUES (29,'Automaton-Sharpshot',10,'Automaton',0,'Unclassified',40,100,120,3,3,3,3,3,3,3,1,3,1,3,0.0,2,0);
-INSERT INTO `mob_family_system` VALUES (30,'Automaton-Stormwaker',10,'Automaton',0,'Unclassified',40,100,120,3,3,3,3,3,3,3,1,3,1,3,0.0,2,0);
-INSERT INTO `mob_family_system` VALUES (31,'Automaton-Valoredge',10,'Automaton',0,'Unclassified',40,100,120,3,3,3,3,3,3,3,1,3,1,3,0.0,2,0);
+INSERT INTO `mob_family_system` VALUES (28,'Automaton',10,'Automaton',0,'Unclassified',40,100,120,3,3,3,3,3,3,3,1,3,1,3,0.0,2,0);
+-- 29 Free
+-- 30 Free
+-- 31 Free
 INSERT INTO `mob_family_system` VALUES (32,'Avatar-Atomos',11,'Atomos',5,'Avatar',40,100,120,3,3,3,3,3,3,3,1,3,1,3,0.0,41,0);
 INSERT INTO `mob_family_system` VALUES (33,'Avatar-Alexander',12,'Alexander',5,'Avatar',40,100,120,3,3,3,3,3,3,3,1,3,1,3,0.0,41,0);
 INSERT INTO `mob_family_system` VALUES (34,'Avatar-Carbuncle',13,'Carbuncle',5,'Avatar',40,100,120,3,3,3,3,3,3,3,1,3,1,3,0.0,41,0);
