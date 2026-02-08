@@ -403,7 +403,7 @@ auto CCharEntity::getPacketListCopy() -> std::deque<std::unique_ptr<CBasicPacket
     std::deque<std::unique_ptr<CBasicPacket>> PacketListCopy;
     for (const auto& packet : PacketList)
     {
-        PacketListCopy.emplace_back(std::make_unique<CBasicPacket>(packet));
+        PacketListCopy.emplace_back(packet->copy());
     }
     return PacketListCopy;
 }
@@ -619,7 +619,7 @@ void CCharEntity::resetPetZoningInfo()
     petZoningInfo.petMP        = 0;
     petZoningInfo.respawnPet   = false;
     petZoningInfo.petType      = PET_TYPE::AVATAR;
-    petZoningInfo.jugSpawnTime = timer::time_point::min();
+    petZoningInfo.jugSpawnTime = timer::time_point{};
     petZoningInfo.jugDuration  = 0s;
 }
 
@@ -2400,7 +2400,7 @@ void CCharEntity::OnRaise()
     }
 }
 
-void CCharEntity::OnItemFinish(CItemState& state, action_t& action)
+auto CCharEntity::OnItemFinish(CItemState& state, action_t& action) -> bool
 {
     TracyZoneScoped;
 
@@ -2412,7 +2412,7 @@ void CCharEntity::OnItemFinish(CItemState& state, action_t& action)
         ShowWarning("OnItemFinish: %s attempted to use reserved/insufficient %s (%u).", this->getName(), PItem->getName(), PItem->getID());
         this->pushPacket<GP_SERV_COMMAND_BATTLE_MESSAGE>(this, this, PItem->getID(), 0, MsgBasic::ITEM_FAILS_TO_ACTIVATE);
 
-        return;
+        return false;
     }
 
     uint8 findFlags = 0;
@@ -2430,7 +2430,7 @@ void CCharEntity::OnItemFinish(CItemState& state, action_t& action)
     if (PAI->TargetFind->m_targets.size() == 0)
     {
         // TODO: interrupt action packet?
-        return;
+        return false;
     }
 
     action.actorId    = this->id;
@@ -2494,13 +2494,14 @@ void CCharEntity::OnItemFinish(CItemState& state, action_t& action)
             // add recast timer to Recast List from any bag
             this->PRecastContainer->Add(RECAST_ITEM, static_cast<Recast>(PItem->getSlotID() << 8 | PItem->getLocationID()), PItem->getReuseTime());
         }
+        return false;
     }
-    else // unlock all items except equipment
-    {
-        PItem->setSubType(ITEM_UNLOCKED);
 
-        charutils::UpdateItem(this, PItem->getLocationID(), PItem->getSlotID(), -1, true);
-    }
+    // Consumable items
+    PItem->setSubType(ITEM_UNLOCKED);
+    const bool willBeDestroyed = PItem->getQuantity() == 1;
+    charutils::UpdateItem(this, PItem->getLocationID(), PItem->getSlotID(), -1, true);
+    return willBeDestroyed;
 }
 
 CBattleEntity* CCharEntity::IsValidTarget(uint16 targid, uint16 validTargetFlags, std::unique_ptr<CBasicPacket>& errMsg)
@@ -2554,7 +2555,7 @@ void CCharEntity::Die()
 {
     TracyZoneScoped;
 
-    if (PLastAttacker)
+    if (auto* PLastAttacker = GetEntity(lastAttackerId_.targid); PLastAttacker && PLastAttacker->id == lastAttackerId_.id)
     {
         loc.zone->PushPacket(this, CHAR_INRANGE_SELF, std::make_unique<GP_SERV_COMMAND_BATTLE_MESSAGE>(PLastAttacker, this, 0, 0, MsgBasic::PLAYER_DEFEATED_BY));
     }
