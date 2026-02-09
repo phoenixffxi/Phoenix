@@ -98,10 +98,19 @@ xi.clamming.nodeOnEventUpdate = function(player, csid, option, npc)
         return
     end
 
-    local randomRoll = math.random(1, 10000)
-    local rateColumn = player:getMod(xi.mod.CLAMMING_IMPROVED_RESULTS) > 0 and 1 or 0
+    -- Fetch loot list and select rate column.
     local lootList   = xi.clamming.lootTable[npc:getName()]
+    local rateColumn = player:getMod(xi.mod.CLAMMING_IMPROVED_RESULTS) > 0 and 1 or 0
+
+    -- Calculate total loot rate.
+    local rateSum    = 0
+    for i = 1, #lootList do
+        rateSum = rateSum + lootList[i][2 + rateColumn]
+    end
+
+    -- Roll based on rate sum and decide clammed item.
     local itemId     = 0
+    local randomRoll = math.random(1, rateSum)
     for i = 1, #lootList do
         if lootList[i][2 + rateColumn] <= randomRoll then
             itemId = lootList[i][1]
