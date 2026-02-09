@@ -1637,16 +1637,6 @@ local function moveTreasure(npc, respawnTime)
     end)
 end
 
-local function openAndMoveTreasure(npc, respawnTime)
-    npc:entityAnimationPacket(xi.animationString.OPEN_CRATE_GLOW)
-    moveTreasure(npc, respawnTime)
-end
-
-local function trapAndMoveTreasure(npc, respawnTime)
-    npc:entityAnimationPacket(xi.animationString.OPEN_CRATE_SMOKE)
-    moveTreasure(npc, respawnTime)
-end
-
 local function handleGilDistribution(player, treasureLevel)
     local zoneId              = player:getZoneID()
     local playersInZoneTable  = {} -- Table with player objects both in alliance and in current player zone.
@@ -1834,7 +1824,8 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
 
             playerEntity:addStatusEffect(xi.effect.WEAKNESS, 1, 0, weaknessDuration)
             playerEntity:messageSpecial(ID.text.CHEST_UNLOCKED + 2)
-            trapAndMoveTreasure(npc, respawnType.REGULAR)
+            npc:entityAnimationPacket(xi.animationString.OPEN_CRATE_SMOKE)
+            moveTreasure(npc, respawnType.REGULAR)
         end)
 
         player:timer(4000, function(playerEntity)
@@ -1883,7 +1874,8 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
         player:timer(2000, function(playerEntity)
             if npcUtil.giveItem(playerEntity, bypassReward) then
                 playerEntity:messageSpecial(ID.text.CHEST_UNLOCKED)
-                openAndMoveTreasure(npc, respawnType.REGULAR)
+                npc:entityAnimationPacket(xi.animationString.OPEN_CRATE_GLOW)
+                moveTreasure(npc, respawnType.REGULAR)
             end
         end)
 
@@ -1903,7 +1895,8 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
         player:timer(2000, function(playerEntity)
             playerEntity:messageSpecial(ID.text.CHEST_UNLOCKED - 1, bypassReward) -- TODO: message -2 seems to be for other party members?
             playerEntity:addKeyItem(bypassReward)
-            openAndMoveTreasure(npc, respawnType.REGULAR)
+            npc:entityAnimationPacket(xi.animationString.OPEN_CRATE_GLOW)
+            moveTreasure(npc, respawnType.REGULAR)
         end)
 
         player:timer(4000, function(playerEntity)
@@ -1925,7 +1918,8 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
         player:timer(2000, function(playerEntity)
             playerEntity:messageSpecial(ID.text.CHEST_UNLOCKED - 1, treasureMap) -- TODO: message -2 seems to be for other party members?
             playerEntity:addKeyItem(treasureMap)
-            openAndMoveTreasure(npc, respawnType.REGULAR)
+            npc:entityAnimationPacket(xi.animationString.OPEN_CRATE_GLOW)
+            moveTreasure(npc, respawnType.REGULAR)
         end)
 
         player:timer(4000, function(playerEntity)
@@ -1969,7 +1963,8 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
         player:timer(2000, function(playerEntity)
             playerEntity:messageSpecial(ID.text.CHEST_UNLOCKED)
             handleGilDistribution(playerEntity, treasureLevel)
-            openAndMoveTreasure(npc, respawnType.REGULAR)
+            npc:entityAnimationPacket(xi.animationString.OPEN_CRATE_GLOW)
+            moveTreasure(npc, respawnType.REGULAR)
         end)
 
         player:timer(4000, function(playerEntity)
@@ -1983,7 +1978,8 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
         player:timer(2000, function(playerEntity)
             playerEntity:addTreasure(itemId, npc)
             playerEntity:messageSpecial(ID.text.CHEST_UNLOCKED)
-            openAndMoveTreasure(npc, respawnType.REGULAR)
+            npc:entityAnimationPacket(xi.animationString.OPEN_CRATE_GLOW)
+            moveTreasure(npc, respawnType.REGULAR)
         end)
 
         player:timer(4000, function(playerEntity)
