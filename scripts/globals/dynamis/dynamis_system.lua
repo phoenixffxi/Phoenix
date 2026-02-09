@@ -35,7 +35,7 @@ local dynamisReentryDays        = 3
 -- Keep
 local function checkGM(player)
     if player:getVisibleGMLevel() > 4 then
-        -- print("[DEBUG] Player is a GM.")
+        -- print('[DEBUG] Player is a GM.')
         return true
     end
 end
@@ -726,13 +726,13 @@ local hourglassTradeResult =
 -- Cleanup Done
 local function checkEntryReqs(player, zoneId)
     local entryInfo = xi.dynamis.entryInfoEra[zoneId]
-    print("[DEBUG] Checking player charvar '" .. entryInfo.enteredVar .. "' for previous Dynamis entry.")
+    print('[DEBUG] Checking player charvar ' .. entryInfo.enteredVar .. ' for previous Dynamis entry.')
     -- Let GMs in or if the player has entered yet
     if
         checkGM(player) or
         player:getCharVar(entryInfo.enteredVar) ~= 0
     then
-        print("[DEBUG] GM or has previously entered Dynamis, skipping entry requirements.")
+        print('[DEBUG] GM or has previously entered Dynamis, skipping entry requirements.')
         return true
     end
 
@@ -747,24 +747,23 @@ local function checkEntryReqs(player, zoneId)
         entryInfo.csBit >= 7 and
         not player:hasCompletedMission(xi.mission.log_id.COP, xi.mission.id.cop.DARKNESS_NAMED)
     then
-        print("[DEBUG] Missing CoP mission requirement to enter Dynamis.")
+        print('[DEBUG] Missing CoP mission requirement to enter Dynamis.')
         return false
     end
 
     -- Must have all required key items to enter
     -- Early return if it misses a single one
     for _, ki in ipairs(entryInfo.reqs) do
-        print("[DEBUG] Checking for required key item to enter Dynamis: ", ki)
+        print('[DEBUG] Checking for required key item to enter Dynamis: ', ki)
         if not player:hasKeyItem(ki) then
-            print("[DEBUG] Missing required key item to enter Dynamis: ", ki)
+            print('[DEBUG] Missing required key item to enter Dynamis: ', ki)
             return false
         end
     end
 
-    print("[DEBUG] Player meets all entry requirements for Dynamis.")
+    print('[DEBUG] Player meets all entry requirements for Dynamis.')
     return true
 end
-
 
 -----------------------------------
 -- onZoneTick Dynamis Functions  --
@@ -791,6 +790,8 @@ local savedStatusEffects =
 }
 
 -- Cleanup Done
+-- TODO remove cyclomatic complexity
+-- luacheck: ignore 561
 xi.dynamis.handleDynamis = function(zone)
     local zoneID = zone:getID()
 
@@ -1002,17 +1003,11 @@ xi.dynamis.addMinutesToDynamis = function(zone, minutes)
     local zoneTimeRemaining = xi.dynamis.getDynaTimeRemaining(zoneTimepoint)
     local newZoneTimepoint  = zoneTimepoint + (60 * minutes) -- Add more time to increase previous expiration point.
 
-    -- Warning vars
-    local zoneWarn10 = zone:getLocalVar(varWarn10)
-    local zoneWarn3  = zone:getLocalVar(varWarn3)
-    local zoneWarn1  = zone:getLocalVar(varWarn1)
+    -- Update Time Remaining
+    SetServerVariable(string.format('[DYNA]Timepoint_%s', zoneID), newZoneTimepoint)
 
     -- Player counts and timers
     local playersInZone = zone:getPlayers()
-    local currentTime   = GetSystemTime()
-
-    -- Update Time Remaining
-    SetServerVariable(string.format('[DYNA]Timepoint_%s', zoneID), newZoneTimepoint)
 
     -- Update Hourglasses for Players
     for _, player in pairs(playersInZone) do
@@ -1021,16 +1016,15 @@ xi.dynamis.addMinutesToDynamis = function(zone, minutes)
     end
 
     -- Handle Time Limit Warnings
-    local timeRemaining = xi.dynamis.getDynaTimeRemaining(newZoneTimepoint) -- Gets the time remaining in seconds.
-    if timeRemaining > 620 then -- Checks if time remaining > 11 minutes.
+    if zoneTimeRemaining > 620 then -- Checks if time remaining > 11 minutes.
         zone:setLocalVar(varWarn10, 0) -- Resets var if time remaining greater than threshold.
     end
 
-    if timeRemaining > 200 then -- Checks if time remaining > 4 minutes.
+    if zoneTimeRemaining > 200 then -- Checks if time remaining > 4 minutes.
         zone:setLocalVar(varWarn3, 0) -- Resets var if time remaining greater than threshold.
     end
 
-    if timeRemaining > 80 then -- Checks if time remaining > 2 minutes.
+    if zoneTimeRemaining > 80 then -- Checks if time remaining > 2 minutes.
         zone:setLocalVar(varWarn1, 0) -- Resets var if time remaining greater than threshold.
     end
 end
@@ -1040,14 +1034,14 @@ xi.dynamis.addTimeToDynamis = function(zone, mob)
     local zoneID = zone:getID()
     local mobID  = mob:getID()
 
-    -- print(("Dynamis Time Extension Check | ZoneID: %d | MobID: %d"):format(zoneID, mobID))
+    -- print(('Dynamis Time Extension Check | ZoneID: %d | MobID: %d'):format(zoneID, mobID))
 
     local extTable = xi.dynamis.timeExtension[zoneID]
     local minutes  = extTable[mobID]
-    -- print("printing minutes " .. tostring(minutes))
+    -- print('printing minutes ' .. tostring(minutes))
 
     if minutes then
-        print(("TIME EXTENSION FOUND: %d minutes for mobID: %d"):format(minutes, mobID))
+        print(('TIME EXTENSION FOUND: %d minutes for mobID: %d'):format(minutes, mobID))
         xi.dynamis.addMinutesToDynamis(zone, minutes)
     end
 
@@ -1144,14 +1138,13 @@ xi.dynamis.registerDynamis = function(player)
         expirationTime = currentTime + 60 * 15
     end
 
-    print('DEBUG: registerDynamis - zoneID: ' .. tostring(zoneID))
-    print('DEBUG: registerDynamis - dynaZone: ' .. tostring(dynaInfo.dynaZone))
-    print('DEBUG: registerDynamis - instanceID from RegisterDynamisInstance: ' .. tostring(instanceID))
-
-
     -- Always register first
     local instanceID   = RegisterDynamisInstance(zoneID, player:getID())
     local dynamisToken = dynaInfo.dynaZone + expirationTime
+
+    print('DEBUG: registerDynamis - zoneID: ' .. tostring(zoneID))
+    print('DEBUG: registerDynamis - dynaZone: ' .. tostring(dynaInfo.dynaZone))
+    print('DEBUG: registerDynamis - instanceID from RegisterDynamisInstance: ' .. tostring(instanceID))
 
     -- Define the vars so we can read what is going on again
     -- As said previously possibly move these to a lua var instead
@@ -1205,8 +1198,8 @@ xi.dynamis.registerPlayer = function(player)
     player:setCharVar(string.format('[DYNA]PlayerRegistered_%s', (dynaInfo.dynaZone)), (GetServerVariable(string.format('[DYNA]Token_%s', dynaInfo.dynaZone)) + player:getCharVar(string.format('[DYNA]PlayerRegisterKey_%s', (dynaInfo.dynaZone)))))
     player:setCharVar(string.format('[DYNA]PlayerZoneToken_%s', dynaInfo.dynaZone), GetServerVariable(string.format('[DYNA]Token_%s', dynaInfo.dynaZone))) -- Give the player a copy of the token value.
     player:setCharVar(string.format('[DYNA]PlayerRegisterTime_%s', dynaInfo.dynaZone), GetServerVariable(string.format('[DYNA]RegTimepoint_%s', dynaInfo.dynaZone)))
-    -- player:setAccountVar('DynaEnterCount', player:getAccountVar('DynaEnterCount') + 1, NextConquestTally())
-    player:setCharVar('DynaNextReset', GetSystemTime() + 255600) -- 71 hour reset timer
+
+    xi.dynamis.recordLockout(player)
 
     -- luacheck: ignore 113
     print('DEBUG: Final instanceID: ' .. tostring(instanceID))
@@ -1300,7 +1293,7 @@ end
 
 xi.dynamis.updatePlayerHourglass = function(player, zoneDynamisToken)
     local zoneID = player:getZoneID()
-    print("ZoneID in updatePlayerHourglass:", zoneID)
+    print('ZoneID in updatePlayerHourglass:', zoneID)
     local zoneTimepoint = GetServerVariable(string.format('[DYNA]Timepoint_%s', zoneID))
 
     player:updateHourglass(zoneDynamisToken, zoneTimepoint)
@@ -1309,22 +1302,6 @@ end
 -----------------------------------
 --   Dynamis NPC Functions      --
 -----------------------------------
--- Cleanup Done
-xi.dynamis.isPlayerLockedOut = function(player)
-    local sysTime            = GetSystemTime()
-    local zoneID             = player:getZoneID()
-    local entryInfo          = xi.dynamis.entryInfoEra[zoneID]
-    -- Are we in the 71 hour reset period?
-    if sysTime <= player:getCharVar('DynaNextReset') then
-        local span = player:getCharVar('DynaNextReset') - sysTime
-        span = span / 86400000 -- convert to days
-        player:messageSpecial(zones[zoneID].text.YOU_CANNOT_ENTER_DYNAMIS, math.ceil(span), entryInfo.csBit)
-        return true -- you are locked out
-    end
-
-    return false
-end
-
 -- Cleanup Done
 xi.dynamis.entryNpcOnTrade = function(player, npc, trade)
     local zoneID    = npc:getZoneID()
@@ -1347,6 +1324,7 @@ xi.dynamis.entryNpcOnTrade = function(player, npc, trade)
     local sysTime    = GetSystemTime()
 
     -- Vars again for readability
+    local lockout = xi.dynamis.isPlayerLockedOut(player)
     -- TODO remove these possibly later
     local varZoneCooldown       = string.format('[DYNA]ZoneCooldown_%s', dynaZoneID)
     local varCleanupScript      = string.format('[DYNA]CleanupScript_%s', zoneID)
@@ -1395,10 +1373,12 @@ xi.dynamis.entryNpcOnTrade = function(player, npc, trade)
             return
         end
 
-        -- This checks both lockout conditions and returns correct message
-        if xi.dynamis.isPlayerLockedOut(player) then
-            return
+        -- 3. Player must not be locked out
+        if lockout ~= 0 then
+            player:messageSpecial(zones[zoneID].text.YOU_CANNOT_ENTER_DYNAMIS, lockout, entryInfo.csBit)
+            return false
         end
+
         -- Zone cooldown check + cleanup script check
         -- TODO look into combining the check up top, returns same thing
         if zoneCooldown > sysTime and cleanupScript ~= 1 then
@@ -1425,9 +1405,10 @@ xi.dynamis.entryNpcOnTrade = function(player, npc, trade)
             return
         end
 
-        -- This checks both lockout conditions and returns correct message
-        if xi.dynamis.isPlayerLockedOut(player) then
-            return
+        -- 3. Player must not be locked out
+        if lockout ~= 0 then
+            player:messageSpecial(zones[zoneID].text.YOU_CANNOT_ENTER_DYNAMIS, lockout, entryInfo.csBit)
+            return false
         end
 
         -- Check if the player is registered first - THEN check for lockout since the lockout changes after they register
@@ -1445,6 +1426,7 @@ xi.dynamis.entryNpcOnTrade = function(player, npc, trade)
             else
                 player:printToPlayer('The Dynamis instance has reached its maximum capacity of ' .. entryInfo.maxCapacity .. ' registrants.', 29)
             end
+
             return
         end
 
@@ -1459,7 +1441,7 @@ end
 
 -- This function is on every NPC that handles Dynamis entry.
 -- Cleanup Done
-m:addOverride('xi.dynamis.entryNpcOnTrigger', function(player, npc)
+xi.dynamis.entryNpcOnTriggerEra = function(player, npc)
     local zoneID     = player:getZoneID()
     local entryInfo  = xi.dynamis.entryInfoEra[zoneID]
     local defaultMsg = zones[zoneID].text.DYNA_NPC_DEFAULT_MESSAGE
@@ -1502,11 +1484,12 @@ m:addOverride('xi.dynamis.entryNpcOnTrigger', function(player, npc)
         else
             player:startEvent(entryInfo.csWin)
         end
+
         return
     end
 
     player:messageSpecial(defaultMsg) -- default message for everything else
-end)
+end
 
 -- Cleanup Done
 xi.dynamis.entryNpcOnEventUpdate = function(player, csid, option, npc)
@@ -1565,7 +1548,7 @@ xi.dynamis.entryNpcOnEventUpdate = function(player, csid, option, npc)
 end
 
 -- Cleanup Done
-m:addOverride('xi.dynamis.entryNpcOnEventFinish', function(player, csid, option)
+xi.dynamis.entryNpcOnEventFinishEra = function(player, csid, option)
     local zoneID    = player:getZoneID()
     local entryInfo = xi.dynamis.entryInfoEra[zoneID]
 
@@ -1612,9 +1595,10 @@ m:addOverride('xi.dynamis.entryNpcOnEventFinish', function(player, csid, option)
         if zoneID == xi.zone.DYNAMIS_TAVNAZIA then
             player:addTitle(xi.dynamis.dynaInfoEra[zoneID].csTitle)
         end
+
         return
     end
-end)
+end
 
 -- Dynamis NPC triggers
 -- TODO Cleanup
@@ -1661,7 +1645,7 @@ xi.dynamis.timeExtensionOnTrigger = function(player, npc)
 end
 
 -- TODO Cleanup
-m:addOverride('xi.dynamis.qmOnTrigger', function(player, npc) -- Override standard qmOnTrigger()
+xi.dynamis.qmOnTriggerEra = function(player, npc) -- Override standard qmOnTrigger()
     local zoneId = npc:getZoneID()
 
     -- Win KIs
@@ -1672,7 +1656,7 @@ m:addOverride('xi.dynamis.qmOnTrigger', function(player, npc) -- Override standa
     if zoneId == xi.zone.DYNAMIS_TAVNAZIA then
         player:addTitle(xi.dynamis.dynaInfoEra[zoneId].qmTitle)
     end
-end)
+end
 
 -----------------------------------
 -- Dynamis Player/Zone Functions --
@@ -1724,28 +1708,5 @@ xi.dynamis.zoneOnZoneOut = function(player)
         player:delStatusEffectSilent(xi.effect.BATTLEFIELD)
     end
 end
-
--- Disable Base LSB Additional Functions
--- TODO Cleanup/Delete
-m:addOverride('xi.dynamis.somnialThresholdOnTrigger', function(player, npc)
-end)
-
-m:addOverride('xi.dynamis.somnialThresholdOnEventFinish', function(player, npc)
-end)
-
-m:addOverride('xi.dynamis.timeExtensionOnDeath', function(mob, player, optParams)
-end)
-
-m:addOverride('xi.dynamis.refillStatueOnSpawn', function(mob)
-end)
-
-m:addOverride('xi.dynamis.refillStatueOnSDeath', function(mob, player, optParams)
-end)
-
-m:addOverride('xi.dynamis.qmOnTrade', function(player, npc, trade)
-end) -- Not used...  Era Dynamis does not have QM pops.
-
-m:addOverride('xi.dynamis.getExtensions', function(player)
-end)
 
 return m

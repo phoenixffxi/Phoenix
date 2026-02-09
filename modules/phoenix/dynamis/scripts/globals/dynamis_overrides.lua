@@ -39,80 +39,80 @@ local startingZones =
     { 'Tavnazian_Safehold',   'Hieroglyphics'  },
 }
 
-local currencyHaggle =
-{
-    xi.item.ONE_BYNE_BILL,
-    xi.item.ONE_HUNDRED_BYNE_BILL,
-    xi.item.TEN_THOUSAND_BYNE_BILL
-}
+-- local currencyHaggle =
+-- {
+--     xi.item.ONE_BYNE_BILL,
+--     xi.item.ONE_HUNDRED_BYNE_BILL,
+--     xi.item.TEN_THOUSAND_BYNE_BILL
+-- }
 
-local currencyAntiqix =
-{
-    xi.item.TUKUKU_WHITESHELL,
-    xi.item.LUNGO_NANGO_JADESHELL,
-    xi.item.RIMILALA_STRIPESHELL
-}
+-- local currencyAntiqix =
+-- {
+--     xi.item.TUKUKU_WHITESHELL,
+--     xi.item.LUNGO_NANGO_JADESHELL,
+--     xi.item.RIMILALA_STRIPESHELL
+-- }
 
-local currencyLootblox =
-{
-    xi.item.ORDELLE_BRONZEPIECE,
-    xi.item.MONTIONT_SILVERPIECE,
-    xi.item.RANPERRE_GOLDPIECE
-}
+-- local currencyLootblox =
+-- {
+--     xi.item.ORDELLE_BRONZEPIECE,
+--     xi.item.MONTIONT_SILVERPIECE,
+--     xi.item.RANPERRE_GOLDPIECE
+-- }
 
-local shopLootblox =
-{
-    5,  xi.item.TWINCOON,
-    6,  xi.item.PILE_OF_RELIC_IRON,
-    7,  xi.item.JAR_OF_GOBLIN_GREASE,
-    8,  xi.item.GRIFFON_HIDE,
-    23, xi.item.SQUARE_OF_GRIFFON_LEATHER,
-    25, xi.item.BEHEMOTH_HORN,
-    28, xi.item.MAMMOTH_TUSK,
-}
+-- local shopLootblox =
+-- {
+--     5,  xi.item.TWINCOON,
+--     6,  xi.item.PILE_OF_RELIC_IRON,
+--     7,  xi.item.JAR_OF_GOBLIN_GREASE,
+--     8,  xi.item.GRIFFON_HIDE,
+--     23, xi.item.SQUARE_OF_GRIFFON_LEATHER,
+--     25, xi.item.BEHEMOTH_HORN,
+--     28, xi.item.MAMMOTH_TUSK,
+-- }
 
-local shopHaggle =
-{
-    7,  xi.item.LOCK_OF_SIRENS_HAIR,
-    8,  xi.item.VIAL_OF_SLIME_JUICE,
-    9,  xi.item.CHUNK_OF_WOOTZ_ORE,
-    12, xi.item.BOTTLE_OF_CANTARELLA,
-    20, xi.item.FLASK_OF_MARKSMANS_OIL,
-    25, xi.item.WOOTZ_INGOT,
-    33, xi.item.KOH_I_NOOR,
-}
+-- local shopHaggle =
+-- {
+--     7,  xi.item.LOCK_OF_SIRENS_HAIR,
+--     8,  xi.item.VIAL_OF_SLIME_JUICE,
+--     9,  xi.item.CHUNK_OF_WOOTZ_ORE,
+--     12, xi.item.BOTTLE_OF_CANTARELLA,
+--     20, xi.item.FLASK_OF_MARKSMANS_OIL,
+--     25, xi.item.WOOTZ_INGOT,
+--     33, xi.item.KOH_I_NOOR,
+-- }
 
-local shopAntiqix =
-{
-    7,  xi.item.PIECE_OF_ANGEL_SKIN,
-    8,  xi.item.COLOSSAL_SKULL,
-    9,  xi.item.LANCEWOOD_LOG,
-    23, xi.item.CHRONOS_TOOTH,
-    24, xi.item.CHUNK_OF_RELIC_STEEL,
-    25, xi.item.PIECE_OF_LANCEWOOD_LUMBER,
-    28, xi.item.DAMASCUS_INGOT,
-}
+-- local shopAntiqix =
+-- {
+--     7,  xi.item.PIECE_OF_ANGEL_SKIN,
+--     8,  xi.item.COLOSSAL_SKULL,
+--     9,  xi.item.LANCEWOOD_LOG,
+--     23, xi.item.CHRONOS_TOOTH,
+--     24, xi.item.CHUNK_OF_RELIC_STEEL,
+--     25, xi.item.PIECE_OF_LANCEWOOD_LUMBER,
+--     28, xi.item.DAMASCUS_INGOT,
+-- }
 
-local maps =
-{
-    [xi.ki.MAP_OF_DYNAMIS_SAN_DORIA]  = 10000,
-    [xi.ki.MAP_OF_DYNAMIS_BASTOK]     = 10000,
-    [xi.ki.MAP_OF_DYNAMIS_WINDURST]   = 10000,
-    [xi.ki.MAP_OF_DYNAMIS_JEUNO]      = 10000,
-    [xi.ki.MAP_OF_DYNAMIS_BEAUCEDINE] = 15000,
-    [xi.ki.MAP_OF_DYNAMIS_XARCABARD]  = 20000,
-    [xi.ki.MAP_OF_DYNAMIS_VALKURM]    = 10000,
-    [xi.ki.MAP_OF_DYNAMIS_BUBURIMU]   = 10000,
-    [xi.ki.MAP_OF_DYNAMIS_QUFIM]      = 10000,
-    [xi.ki.MAP_OF_DYNAMIS_TAVNAZIA]   = 20000,
-}
+-- local maps =
+-- {
+--     [xi.ki.MAP_OF_DYNAMIS_SAN_DORIA]  = 10000,
+--     [xi.ki.MAP_OF_DYNAMIS_BASTOK]     = 10000,
+--     [xi.ki.MAP_OF_DYNAMIS_WINDURST]   = 10000,
+--     [xi.ki.MAP_OF_DYNAMIS_JEUNO]      = 10000,
+--     [xi.ki.MAP_OF_DYNAMIS_BEAUCEDINE] = 15000,
+--     [xi.ki.MAP_OF_DYNAMIS_XARCABARD]  = 20000,
+--     [xi.ki.MAP_OF_DYNAMIS_VALKURM]    = 10000,
+--     [xi.ki.MAP_OF_DYNAMIS_BUBURIMU]   = 10000,
+--     [xi.ki.MAP_OF_DYNAMIS_QUFIM]      = 10000,
+--     [xi.ki.MAP_OF_DYNAMIS_TAVNAZIA]   = 20000,
+-- }
 
-local hourglassVendors =
-{
-    { 'Davoi', 'Lootblox', currencyLootblox, shopLootblox, 130 },
-    { 'Castle_Oztroja', 'Antiqix', currencyAntiqix, shopAntiqix, 50 },
-    { 'Beadeaux', 'Haggleblix', currencyHaggle, shopHaggle, 130 }
-}
+-- local hourglassVendors =
+-- {
+--     { 'Davoi', 'Lootblox', currencyLootblox, shopLootblox, 130 },
+--     { 'Castle_Oztroja', 'Antiqix', currencyAntiqix, shopAntiqix, 50 },
+--     { 'Beadeaux', 'Haggleblix', currencyHaggle, shopHaggle, 130 }
+-- }
 
 -- Helper function for dynamis zone overrides in order to provide clear structure (hopefully?)
 -- This overrides the zone scripts for dynamis zones to call dynamis functions
@@ -206,6 +206,40 @@ end
 for _, zone in pairs(startingZones) do
     registerEntryNpcOverrides(zone[1], zone[2])
 end
+
+-- Disable Base LSB Additional Functions
+m:addOverride('xi.dynamis.entryNpcOnTrigger', function(player, npc)
+    xi.dynamis.entryNpcOnTriggerEra(player, npc)
+end)
+
+m:addOverride('xi.dynamis.entryNpcOnEventFinish', function(player, csid, option)
+    xi.dynamis.entryNpcOnEventFinishEra(player, csid, option)
+end)
+
+m:addOverride('xi.dynamis.qmOnTrigger', function(player, npc) -- Override standard qmOnTrigger()
+    xi.dynamis.qmOnTriggerEra(player, npc)
+end)
+-- TODO Cleanup/Delete
+m:addOverride('xi.dynamis.somnialThresholdOnTrigger', function(player, npc)
+end)
+
+m:addOverride('xi.dynamis.somnialThresholdOnEventFinish', function(player, npc)
+end)
+
+m:addOverride('xi.dynamis.timeExtensionOnDeath', function(mob, player, optParams)
+end)
+
+m:addOverride('xi.dynamis.refillStatueOnSpawn', function(mob)
+end)
+
+m:addOverride('xi.dynamis.refillStatueOnSDeath', function(mob, player, optParams)
+end)
+
+m:addOverride('xi.dynamis.qmOnTrade', function(player, npc, trade)
+end) -- Not used...  Era Dynamis does not have QM pops.
+
+m:addOverride('xi.dynamis.getExtensions', function(player)
+end)
 
 -- Overrides for Dynamis Hourglass Vendors (Not sure if we need this anymore)
 -- TODO AUDIT THE VENDORS

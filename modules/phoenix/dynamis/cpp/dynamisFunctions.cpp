@@ -19,12 +19,12 @@
 
 namespace
 {
-    constexpr uint16 HOURGLASS_ID = 4237;
+constexpr uint16 HOURGLASS_ID = 4237;
 
-    uint32 currentEpoch()
-    {
-        return static_cast<uint32>(time(nullptr));
-    }
+uint32 currentEpoch()
+{
+    return static_cast<uint32>(time(nullptr));
+}
 }; // namespace
 
 class DynaFuncModule : public CPPModule
@@ -82,12 +82,13 @@ class DynaFuncModule : public CPPModule
                 uint8 numitemsupdated = 0;
                 PCharEntity->getStorage(LOC_INVENTORY)->ForEachItem([&PCharEntity, &dynamistoken, &timepoint, &numitemsupdated](CItem* PItem)
                                                                     {
-                    if (PItem != nullptr && PItem->getID() == HOURGLASS_ID && ref<uint32>(PItem->m_extra, 0x14) == dynamistoken)
-                    {
-                        ref<uint32>(PItem->m_extra, 0x08) = timepoint; // Update hourglass timestamp.
-                        PCharEntity->pushPacket<GP_SERV_COMMAND_ITEM_ATTR>(PItem, LOC_INVENTORY, PItem->getSlotID());
-                        ++numitemsupdated;
-                    } });
+                                                                        if (PItem != nullptr && PItem->getID() == HOURGLASS_ID && ref<uint32>(PItem->m_extra, 0x14) == dynamistoken)
+                                                                        {
+                                                                            ref<uint32>(PItem->m_extra, 0x08) = timepoint; // Update hourglass timestamp.
+                                                                            PCharEntity->pushPacket<GP_SERV_COMMAND_ITEM_ATTR>(PItem, LOC_INVENTORY, PItem->getSlotID());
+                                                                            ++numitemsupdated;
+                                                                        }
+                                                                    });
                 if (numitemsupdated)
                 {
                     PCharEntity->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();
@@ -184,7 +185,7 @@ class DynaFuncModule : public CPPModule
 
             if (PChar && PChar != nullptr)
             {
-                const auto rset = db::preparedStmt("SELECT MAX(instanceid) AS maxInstanceId FROM dynamis_participants WHERE charid = ?", PChar->id);
+                const auto rset = db::preparedStmt("SELECT COALESCE(MAX(instanceid), 0) AS maxInstanceId FROM dynamis_participants WHERE charid = ?", PChar->id);
 
                 if (rset && rset->rowsCount() && rset->next())
                 {
@@ -198,10 +199,10 @@ class DynaFuncModule : public CPPModule
         // Register Dynamis Instance
         lua["RegisterDynamisInstance"] = [this](uint32 zoneid, uint32 charid)
         {
-            uint32 instID = 0;
-            const auto rset = db::preparedStmt("SELECT MAX(instanceid) FROM dynamis_instances");
+            uint32     instID = 0;
+            const auto rset   = db::preparedStmt("SELECT COALESCE(MAX(instanceid), 0) AS maxInstanceId FROM dynamis_instances");
 
-            if (rset && rset->rowsCount() && rset->next())
+            if (rset && rset->next())
             {
                 instID = rset->get<uint32>("maxInstanceId") + 1;
             }
@@ -230,9 +231,10 @@ class DynaFuncModule : public CPPModule
         lua["ResetDynamisInstance"] = [this](uint32 instanceId)
         {
             db::preparedStmt("UPDATE char_vars SET value = 73 WHERE charid IN "
-                            "(SELECT charid FROM dynamis_participants WHERE instanceid = ?) "
-                            "AND varname = ?",
-                            instanceId, "DynaReservationStart");
+                             "(SELECT charid FROM dynamis_participants WHERE instanceid = ?) "
+                             "AND varname = ?",
+                             instanceId,
+                             "DynaReservationStart");
         };
     }
 };
