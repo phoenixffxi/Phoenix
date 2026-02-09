@@ -517,12 +517,6 @@ local function calculateResistanceFactor(actor, target, params)
         elseif playerElementalEvasion == 0 then
             maxResistTier = 2
         end
-
-    -- Non-players: Affected by resistance rank.
-    else
-        if params.resistanceRank <= -3 then
-            maxResistTier = 1
-        end
     end
 
     -- Calculate first 3 resist tiers.
