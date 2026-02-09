@@ -10963,7 +10963,7 @@ INSERT INTO `mob_groups` VALUES (14,3031,150,'Orcish_Protector',960,0,1935,0,0,0
 INSERT INTO `mob_groups` VALUES (15,3019,150,'Orcish_Hexspinner',1200,0,1920,4600,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (16,3027,150,'Orcish_Overlord',0,128,1932,5000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (17,3075,150,'Overlord_Bakgodek',0,128,1966,42000,42000,0,NULL);
-INSERT INTO `mob_groups` VALUES (18,555,150,'Bugaboo',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (18,555,150,'Bugaboo',0,128,0,3500,3500,0,NULL);
 INSERT INTO `mob_groups` VALUES (19,2664,150,'Mimic',0,128,1678,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (20,719,150,'Chillgaze_Foddrud',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (21,3362,150,'Rictusgrin_Prakpok',0,128,0,0,0,0,NULL);
