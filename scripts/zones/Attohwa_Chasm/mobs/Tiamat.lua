@@ -269,7 +269,9 @@ entity.onMobDisengage = function(mob)
 end
 
 entity.onMobDeath = function(mob, player, optParams)
-    player:addTitle(xi.title.TIAMAT_TROUNCER)
+    if player then
+        player:addTitle(xi.title.TIAMAT_TROUNCER)
+    end
 end
 
 entity.onMobDespawn = function(mob)
