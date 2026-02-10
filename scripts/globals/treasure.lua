@@ -1109,8 +1109,8 @@ local lootTable =
     {
         [treasureType.CHEST] =
         {
-            { xi.item.NONE,          710 }, -- Gil
-            { xi.item.ELECTRUM_RING, 210 }, -- Item
+            { xi.item.NONE,          470 }, -- Gil
+            { xi.item.ELECTRUM_RING, 450 }, -- Item
             { xi.item.AMETRINE,       10 },
             { xi.item.GARNET,         10 },
             { xi.item.GOSHENITE,      10 },
@@ -1355,8 +1355,8 @@ local lootTable =
     {
         [treasureType.CHEST] =
         {
-            { xi.item.NONE,          720 }, -- Gil
-            { xi.item.BATTLE_GLOVES, 220 }, -- Item
+            { xi.item.NONE,          540 }, -- Gil
+            { xi.item.BATTLE_GLOVES, 400 }, -- Item
             { xi.item.AMBER_STONE,    10 },
             { xi.item.AMETHYST,       10 },
             { xi.item.CLEAR_TOPAZ,    10 },
