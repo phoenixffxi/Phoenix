@@ -93,7 +93,7 @@ entity.onMobFight = function(mob, target)
         position = mob:getPos(),
         offset = 5,
         degrees = 180,
-        wait = 3,
+        wait = 10,
     }
     utils.drawIn(target, drawInTable)
 end
