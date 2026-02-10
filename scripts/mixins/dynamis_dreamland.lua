@@ -54,7 +54,7 @@ g_mixins.dynamis_dreamland = function(dynamisDreamlandMob)
         local vanaHour = VanadielHour()
 
         if
-            math.random(0, 99) < 8 and
+            math.random(1, 100) <= 8 and
             target:getLocalVar('dynamis_proc') == 0 and
             (
                 currency == 0 or
@@ -68,12 +68,12 @@ g_mixins.dynamis_dreamland = function(dynamisDreamlandMob)
         end
     end)
 
-    dynamisDreamlandMob:addListener('WEAPONSKILL_TAKE', 'DYNAMIS_WS_PROC_CHECK', function(target, user, wsid)
+    dynamisDreamlandMob:addListener('WEAPONSKILL_TAKE', 'DYNAMIS_WS_PROC_CHECK', function(user, target, skillId, tp, action)
         local currency = target:getLocalVar('dynamis_currency')
         local vanaHour = VanadielHour()
 
         if
-            math.random(0, 99) < 25 and
+            math.random(1, 100) <= 25 and
             target:getLocalVar('dynamis_proc') == 0 and
             (
                 currency == 0 or
@@ -92,7 +92,7 @@ g_mixins.dynamis_dreamland = function(dynamisDreamlandMob)
         local vanaHour = VanadielHour()
 
         if
-            math.random(0, 99) < 20 and
+            math.random(1, 100) <= 20 and
             target:getLocalVar('dynamis_proc') == 0 and
             (
                 currency == 0 or
