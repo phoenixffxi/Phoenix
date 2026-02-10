@@ -486,13 +486,13 @@ INSERT INTO `mob_groups` VALUES (27,2701,11,'Moblin_Repairman',900,0,1706,0,0,0,
 INSERT INTO `mob_groups` VALUES (28,1650,11,'Goblin_Doorman',900,0,1043,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (29,1691,11,'Goblin_Oilman',900,0,1121,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (30,2699,11,'Moblin_Pikeman',900,0,1706,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (31,566,11,'Bugbear_Strongman',0,32,378,4800,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (31,566,11,'Bugbear_Strongman',0,32,378,5000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (32,1712,11,'Goblin_Shovelman',900,0,1157,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (33,1663,11,'Goblin_Freelance',900,0,1061,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (34,2685,11,'Moblin_Ashman',900,0,1702,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (35,556,11,'Bugallug',0,128,0,6000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (36,2696,11,'Moblin_Gurneyman',900,0,1710,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (37,1746,11,'Goblin_Wolfman',0,128,1189,7400,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (37,1746,11,'Goblin_Wolfman',0,128,1189,7600,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (38,1703,11,'Goblin_Preceptor',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (39,1816,11,'Grimoire_Guru_Grimogek',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (40,1114,11,'Dread_Dealing_Dredodak',0,128,0,0,0,0,NULL);
