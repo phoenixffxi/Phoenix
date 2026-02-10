@@ -2,6 +2,8 @@
 -- Meltdown
 -- Family: Dolls
 -- Description: Doll self destructs and deals Light damage to targets in range.
+-- Note: Dolls will begin an animation sequence that changes their animationSub() before actually using this skill.
+-- This sequence may not be tied to normal TP usage.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -14,22 +16,23 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.baseDamage = skill:getMobHP() / 2
-    params.fTP        = { 1, 1, 1 }
-    params.element    = xi.element.LIGHT
-    -- TODO: Can this be out ranged or does it always go off? Need packet capture.
+    params.baseDamage     = skill:getMobHP() / 2
+    params.fTP            = { 1, 1, 1 }
+    params.element        = xi.element.LIGHT
+    params.attackType     = xi.attackType.MAGICAL
+    params.damageType     = xi.damageType.LIGHT
+    params.shadowBehavior = xi.mobskills.shadowBehavior.IGNORE_SHADOWS
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.LIGHT, xi.mobskills.shadowBehavior.IGNORE_SHADOWS, info.hitsLanded)
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.LIGHT)
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
     end
 
-    return damage
+    return info.damage
 end
 
 mobskillObject.onMobSkillFinalize = function(mob, skill)

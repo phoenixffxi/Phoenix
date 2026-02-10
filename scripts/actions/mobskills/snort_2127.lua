@@ -1,7 +1,7 @@
 -----------------------------------
 -- Snort
 -- Family: Buffalo
--- Description: Deals Wind damage to targets in a fan-shaped area of effect. Additional effect: Knockback
+-- Description: Deals Wind damage to targets in a fan-shaped area of effect. Additional Effect: Knockback
 -- Note: Shows as a regular attack and lowers enmity
 -----------------------------------
 ---@type TMobSkill
@@ -11,25 +11,27 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.baseDamage = mob:getMainLvl() + 2
-    params.fTP        = { 4.0, 4.0, 4.0 }
-    params.element    = xi.element.WIND
+    params.baseDamage     = mob:getMainLvl() + 2
+    params.fTP            = { 4.0, 4.0, 4.0 }
+    params.element        = xi.element.WIND
+    params.attackType     = xi.attackType.MAGICAL
+    params.damageType     = xi.damageType.WIND
+    params.shadowBehavior = xi.mobskills.shadowBehavior.IGNORE_SHADOWS
+    params.primaryMessage = xi.msg.basic.HIT_DMG
     -- params.dStatMultiplier = 1 TODO: Possible dINT multiplier, need more captures.
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.WIND, xi.mobskills.shadowBehavior.IGNORE_SHADOWS, info.hitsLanded)
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.WIND)
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
 
-        skill:setMsg(xi.msg.basic.HIT_DMG)
         mob:lowerEnmity(target, 25)
     end
 
-    return damage
+    return info.damage
 end
 
 return mobskillObject

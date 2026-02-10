@@ -11,25 +11,26 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.baseDamage = mob:getWeaponDmg()
-    params.fTP        = { 4, 4, 4 }
-    params.element    = xi.element.DARK
+    params.baseDamage     = mob:getWeaponDmg()
+    params.fTP            = { 4, 4, 4 }
+    params.element        = xi.element.DARK
+    params.attackType     = xi.attackType.BREATH
+    params.damageType     = xi.damageType.DARK
+    params.shadowBehavior = xi.mobskills.shadowBehavior.IGNORE_SHADOWS
+    params.primaryMessage = xi.msg.basic.HIT_DMG
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.BREATH, xi.damageType.DARK, xi.mobskills.shadowBehavior.IGNORE_SHADOWS)
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.BREATH, xi.damageType.DARK)
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
 
         xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.POISON, 50, 3, 180)
-
-        skill:setMsg(xi.msg.basic.HIT_DMG) -- TODO: Move logic to mob final adjustments eventually.
     end
 
-    return damage
+    return info.damage
 end
 
 return mobskillObject

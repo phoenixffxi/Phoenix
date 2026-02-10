@@ -16,17 +16,18 @@ mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     params.baseDamage       = mob:getMainLvl() + 2
     params.fTP              = { 5, 5, 5 }
     params.element          = xi.element.LIGHT
+    params.attackType       = xi.attackType.MAGICAL
+    params.damageType       = xi.damageType.LIGHT
+    params.shadowBehavior   = xi.mobskills.shadowBehavior.WIPE_SHADOWS
     params.dStatMultiplier  = 1.5
-
-    -- TODO: Pulled from JP Wiki. Need captures to confirm.
+    -- TODO: Pulled from JP Wiki: Damage reduction based on dStat MND value. Need captures to confirm.
     params.dStatAttackerMod = xi.mod.MND
     params.dStatDefenderMod = xi.mod.MND
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.LIGHT, xi.mobskills.shadowBehavior.WIPE_SHADOWS, info.hitsLanded)
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.LIGHT)
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
     end
 
     return info.damage

@@ -9,7 +9,7 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
     -- TODO: These values are pulled from JP Wiki: https://wiki.ffo.jp/html/4045.html
@@ -19,22 +19,22 @@ mobskillObject.onMobWeaponSkill = function(target, mob, skill)
     params.additiveDamage = { 10, 10, 10 }
     params.fTP            = { 5, 5, 5 }
     params.element        = xi.element.DARK
-    params.useTBDA        = true -- Counts as breath damage
-    -- params.mACCBonus      = { 0, 0, 0 } -- TODO: Stated to have very high accuracy but can be resisted by targets with high DARK_MEVA/DARK_RES_RANK.
+    params.attackType     = xi.attackType.BREATH
+    params.damageType     = xi.damageType.DARK
+    params.shadowBehavior = xi.mobskills.shadowBehavior.IGNORE_SHADOWS
 
     -- Diabolos Dynamis Tavnazia tosses nether blast for ~1k
     -- if skill:getID() == 1910 then
     --     params.fTP = { 10, 10, 10 }
     -- end
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.BREATH, xi.damageType.DARK, xi.mobskills.shadowBehavior.IGNORE_SHADOWS, info.hitsLanded)
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.BREATH, xi.damageType.DARK)
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
     end
 
-    return damage
+    return info.damage
 end
 
 return mobskillObject

@@ -10,12 +10,15 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.baseDamage = mob:getMainLvl() + 2
-    params.fTP        = { 2.0, 2.0, 2.0 }
-    params.element    = xi.element.EARTH
+    params.baseDamage     = mob:getMainLvl() + 2
+    params.fTP            = { 2.0, 2.0, 2.0 }
+    params.element        = xi.element.EARTH
+    params.attackType     = xi.attackType.MAGICAL
+    params.damageType     = xi.damageType.EARTH
+    params.shadowBehavior = xi.mobskills.shadowBehavior.WIPE_SHADOWS
 
     if mob:getPool() == xi.mobPool.PLATOON_SCORPION then
         local battlefield = mob:getBattlefield()
@@ -27,11 +30,10 @@ mobskillObject.onMobWeaponSkill = function(target, mob, skill)
         end
     end
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.EARTH, xi.mobskills.shadowBehavior.WIPE_SHADOWS, info.hitsLanded)
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.EARTH)
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
 
         -- TODO: Jimmayus Spreadsheet implies this scales with level. Need more captures to determine scaling formula.
         -- TODO: Capture decay rate. Many mobs use 9 second decay rate so using that for now.
@@ -41,7 +43,7 @@ mobskillObject.onMobWeaponSkill = function(target, mob, skill)
         xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.DEX_DOWN, power, 9, 180)
     end
 
-    return damage
+    return info.damage
 end
 
 return mobskillObject

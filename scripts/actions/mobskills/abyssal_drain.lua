@@ -10,22 +10,25 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 1
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.baseDamage = mob:getMainLvl() + 2
-    params.fTP        = { 2.00, 2.00, 2.00 } -- TODO: Capture fTPs
-    params.element    = xi.element.DARK
+    params.baseDamage         = mob:getMainLvl() + 2
+    params.fTP                = { 2.00, 2.00, 2.00 } -- TODO: Capture fTPs
+    params.element            = xi.element.NONE
+    params.attackType         = xi.attackType.MAGICAL
+    params.damageType         = xi.damageType.NONE
+    params.shadowBehavior     = xi.mobskills.shadowBehavior.IGNORE_SHADOWS
+    params.skipMagicBonusDiff = true
     -- TODO: Capture shadow behavior
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.DARK, xi.mobskills.shadowBehavior.IGNORE_SHADOWS, info.hitsLanded)
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        skill:setMsg(xi.mobskills.mobDrainMove(mob, target, xi.mobskills.drainType.HP, damage, xi.attackType.MAGICAL, xi.damageType.DARK))
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        skill:setMsg(xi.mobskills.mobDrainMove(mob, target, xi.mobskills.drainType.HP, info.damage, info.attackType, info.damageType))
     end
 
-    return damage
+    return info.damage
 end
 
 return mobskillObject

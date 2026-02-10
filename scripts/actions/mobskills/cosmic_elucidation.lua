@@ -11,24 +11,25 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 1 -- Only scripted use
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.baseDamage = mob:getWeaponDmg()
-    params.fTP        = { 21, 21, 21 } -- TODO: Capture fTPs
-    params.element    = xi.element.LIGHT
+    params.baseDamage     = mob:getMainLvl() + 2
+    params.fTP            = { 14, 14, 14 }
+    params.element        = xi.element.LIGHT
+    params.attackType     = xi.attackType.SPECIAL
+    params.damageType     = xi.damageType.ELEMENTAL
+    params.shadowBehavior = xi.mobskills.shadowBehavior.IGNORE_SHADOWS
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.LIGHT, xi.mobskills.shadowBehavior.IGNORE_SHADOWS, info.hitsLanded)
-    damage = math.max(0, damage) -- Cosmic Elucidation does not have an absorb message.
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.SPECIAL, xi.damageType.ELEMENTAL)
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
 
         skill:setMsg(xi.msg.basic.SKILLCHAIN_COSMIC_ELUCIDATION)
     end
 
-    return damage
+    return info.damage
 end
 
 return mobskillObject

@@ -1,7 +1,7 @@
 -----------------------------------
 -- Floodlight
 -- Family: Omega (Proto Omega)
--- Description:  ~300 magic damage, Flash, Blind and Silence
+-- Description: Deals Light damage to targets hit. Additional Effect: Blind, Flash, Silence
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -10,27 +10,28 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.baseDamage = mob:getMainLvl() + 2
-    params.fTP        = { 4.5, 4.5, 4.5 } -- TODO: Capture fTPs
-    params.element    = xi.element.LIGHT
+    params.baseDamage     = mob:getMainLvl() + 2
+    params.fTP            = { 4.5, 4.5, 4.5 } -- TODO: Capture fTPs
+    params.element        = xi.element.LIGHT
+    params.attackType     = xi.attackType.MAGICAL
+    params.damageType     = xi.damageType.LIGHT
+    params.shadowBehavior = xi.mobskills.shadowBehavior.IGNORE_SHADOWS
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.LIGHT, xi.mobskills.shadowBehavior.IGNORE_SHADOWS, info.hitsLanded)
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.LIGHT)
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
 
         -- TODO: Capture power/durations.
-        -- Note: Flash decay not implemented as of time of this comment.
         xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.BLINDNESS, 15, 3, 120)
-        xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.FLASH, 200, 3, 20)
+        xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.FLASH, 0, 0, 20)  -- Effect handled in hit rate calculation
         xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.SILENCE, 1, 0, 60)
     end
 
-    return damage
+    return info.damage
 end
 
 return mobskillObject

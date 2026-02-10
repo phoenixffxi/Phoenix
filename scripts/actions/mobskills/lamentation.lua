@@ -10,20 +10,20 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.baseDamage = mob:getMainLvl() + 2
-    params.fTP        = { 1, 1, 1 } -- TODO: Capture fTPs
-    params.element    = xi.element.LIGHT
-    -- TODO: Capture shadowBehavior. JP Wiki says ignores shadows, EN Wikis say it wipes them.
+    params.baseDamage     = mob:getMainLvl() + 2
+    params.fTP            = { 1, 1, 1 } -- TODO: Capture fTPs
+    params.element        = xi.element.LIGHT
+    params.attackType     = xi.attackType.MAGICAL
+    params.damageType     = xi.damageType.LIGHT
+    params.shadowBehavior = xi.mobskills.shadowBehavior.WIPE_SHADOWS -- TODO: Capture shadowBehavior. JP Wiki says ignores shadows, EN Wikis say it wipes them.
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.LIGHT, xi.mobskills.shadowBehavior.WIPE_SHADOWS, info.hitsLanded)
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.LIGHT)
-
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
         xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.DIA, 8, 3, 30, 0, 20)
 
         local effect1 = target:getStatusEffect(xi.effect.DIA)
@@ -32,7 +32,7 @@ mobskillObject.onMobWeaponSkill = function(target, mob, skill)
         end
     end
 
-    return damage
+    return info.damage
 end
 
 return mobskillObject

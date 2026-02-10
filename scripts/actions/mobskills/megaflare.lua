@@ -21,15 +21,18 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 1
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
     params.baseDamage      = mob:getMainLvl()
     params.fTP             = { 10, 10, 10 }
     params.element         = xi.element.FIRE
+    params.attackType      = xi.attackType.MAGICAL
+    params.damageType      = xi.damageType.FIRE
+    params.shadowBehavior  = xi.mobskills.shadowBehavior.WIPE_SHADOWS
     params.dStatMultiplier = 1.5
 
-    local info = xi.mobskills.mobMagicalMove(mob, target, skill, params)
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
     -- Targets that are not the primary target take 300 less damage.
     if
@@ -39,10 +42,8 @@ mobskillObject.onMobWeaponSkill = function(target, mob, skill)
         info.damage = math.max(0, info.damage - 300)
     end
 
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.FIRE, xi.mobskills.shadowBehavior.WIPE_SHADOWS, info.hitsLanded)
-
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.FIRE)
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
     end
 
     -- TODO: Handle this in mob scripts instead.
@@ -57,7 +58,7 @@ mobskillObject.onMobWeaponSkill = function(target, mob, skill)
         mob:setBehavior(bit.bor(mob:getBehavior(), xi.behavior.NO_TURN))
     end
 
-    return damage
+    return info.damage
 end
 
 return mobskillObject

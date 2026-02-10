@@ -10,12 +10,16 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.baseDamage = 1000 / skill:getTotalTargets() -- TODO: Need captures(See below)
-    params.fTP        = { 1, 1, 1 }
-    params.element    = xi.element.NONE -- TODO: Light or Unaspected?
+    params.baseDamage     = 1000 / skill:getTotalTargets() -- TODO: Need captures(See below)
+    params.fTP            = { 1, 1, 1 }
+    params.element        = xi.element.NONE -- TODO: Light or Unaspected?
+    params.attackType     = xi.attackType.MAGICAL
+    params.damageType     = xi.damageType.NONE
+    params.shadowBehavior = xi.mobskills.shadowBehavior.WIPE_SHADOWS
+    -- TODO: Affected by MDB, Shell?
 
     -- TODO: getPool() or skill:getID() might be better here once captured.
     -- TODO: These values are pulled from online sources. Need official captures from each mob as they likely use different values.
@@ -27,14 +31,13 @@ mobskillObject.onMobWeaponSkill = function(target, mob, skill)
         params.baseDamage = 4400 / skill:getTotalTargets()
     end
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.NONE, xi.mobskills.shadowBehavior.WIPE_SHADOWS, info.hitsLanded)
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.ELEMENTAL)
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
     end
 
-    return damage
+    return info.damage
 end
 
 return mobskillObject

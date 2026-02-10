@@ -11,12 +11,15 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.baseDamage = mob:getMainLvl() + 2
-    params.fTP        = { 100, 100, 100 } -- TODO: Capture fTPs. (Varies by mob)
-    params.element    = xi.element.FIRE
+    params.baseDamage     = mob:getMainLvl() + 2
+    params.fTP            = { 100, 100, 100 } -- TODO: Capture fTPs. (Varies by mob)
+    params.element        = xi.element.FIRE
+    params.attackType     = xi.attackType.MAGICAL
+    params.damageType     = xi.damageType.FIRE
+    params.shadowBehavior = xi.mobskills.shadowBehavior.IGNORE_SHADOWS
 
     -- TODO: Cheese Hoarder Gigiroon Mines
 
@@ -28,18 +31,19 @@ mobskillObject.onMobWeaponSkill = function(target, mob, skill)
 
     -- TODO: Blifnix Oilycheek's Goblin Mines
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.FIRE, xi.mobskills.shadowBehavior.IGNORE_SHADOWS, info.hitsLanded)
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.FIRE)
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
     end
 
-    -- TODO: Move this to a mob mixin that utilizes a listener. If noone is hit by the skill, this condition will never be reached.
-    -- mob:entityAnimationPacket('mai1') -- Animation: Mine jumps up and explodes.
-    -- mob:setHP(0)
+    return info.damage
+end
 
-    return damage
+mobskillObject.onMobSkillFinalize = function(mob, skill)
+    mob:entityAnimationPacket('mai1') -- Animation: Mine jumps up and explodes.
+
+    mob:setHP(0)
 end
 
 return mobskillObject

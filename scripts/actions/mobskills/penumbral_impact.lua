@@ -1,7 +1,7 @@
 -----------------------------------
 -- Penumbral Impact
 -- Family: Djinn
--- Description: Deals Dark damage to a single target. Deals more damage at night.
+-- Description: Deals Dark damage to a single target. Deals more damage at night(Needs captures).
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -10,31 +10,23 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.baseDamage = mob:getMainLvl() + 2
-    params.fTP        = { 3.0, 3.0, 3.0 } -- TODO: Capture fTPs
-    params.element    = xi.element.DARK
+    params.baseDamage     = mob:getMainLvl() + 2
+    params.fTP            = { 3.0, 3.0, 3.0 } -- TODO: Capture fTPs. JP Wiki says damage increase is about 50% at night.
+    params.element        = xi.element.DARK
+    params.attackType     = xi.attackType.MAGICAL
+    params.damageType     = xi.damageType.DARK
+    params.shadowBehavior = xi.mobskills.shadowBehavior.IGNORE_SHADOWS
 
-    local timeOfDay = VanadielTOTD()
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    if
-        -- 20:00 to 4:00
-        timeOfDay == xi.time.NIGHT or
-        timeOfDay == xi.time.MIDNIGHT
-    then
-        params.fTP = { 4.5, 4.5, 4.5 } -- TODO: Capture fTPs. JP Wiki says damage increase is about 50%.
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
     end
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.DARK, xi.mobskills.shadowBehavior.IGNORE_SHADOWS, info.hitsLanded)
-
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.DARK)
-    end
-
-    return damage
+    return info.damage
 end
 
 return mobskillObject

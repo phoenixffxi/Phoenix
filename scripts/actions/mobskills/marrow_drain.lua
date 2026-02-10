@@ -7,34 +7,35 @@
 local mobskillObject = {}
 
 mobskillObject.onMobSkillCheck = function(target, mob, skill)
-    return 0
-end
-
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
-    local params = {}
-
-    params.baseDamage     = mob:getMainLvl() - 2
-    params.additiveDamage = { 0, 5, 10 }
-    params.fTP            = { 1, 1, 1 }
-    params.element        = xi.element.DARK
-
-    -- From captures, TP Drains don't seem to be affected by these.
-    params.skipTMDA           = true
-    params.skipResist         = true
-    params.skipMagicBonusDiff = true
-    params.skipAbsorbNullify  = true
-    -- TODO: Does Day/Weather affect MP Drains? Need more capture data.
-    -- TODO: This skill should penetrate/deal no damage to stoneskin.
-    --       Need to pass a param into mobFinalAdjustments in the future.
-
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.DARK, xi.mobskills.shadowBehavior.IGNORE_SHADOWS, info.hitsLanded)
-
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        skill:setMsg(xi.mobskills.mobPhysicalDrainMove(mob, target, skill, xi.mobskills.drainType.MP, damage))
+     -- TODO: This is used by normal bats in COP/TOAU zones. Need to seperate skill lists.
+    if mob:isMobType(xi.mobType.NOTORIOUS) then
+        return 0
     end
 
-    return damage
+    return 1
+end
+
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
+    local params = {}
+
+    params.baseDamage           = mob:getMainLvl() - 2
+    params.additiveDamage       = { 0, 5, 10 }
+    params.fTP                  = { 1, 1, 1 }
+    params.element              = xi.element.NONE
+    params.attackType           = xi.attackType.MAGICAL
+    params.damageType           = xi.damageType.NONE
+    params.shadowBehavior       = xi.mobskills.shadowBehavior.IGNORE_SHADOWS
+    params.skipDamageAdjustment = true
+    params.skipMagicBonusDiff   = true
+    params.skipStoneSkin        = true
+
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
+
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        skill:setMsg(xi.mobskills.mobDrainMove(mob, target, xi.mobskills.drainType.MP, info.damage))
+    end
+
+    return info.damage
 end
 
 return mobskillObject

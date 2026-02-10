@@ -10,29 +10,28 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.baseDamage = target:getTP()
-    params.fTP        = { 0.500, 0.666, 0.833 }
-    params.element    = xi.element.DARK
+    params.baseDamage           = target:getTP()
+    params.fTP                  = { 0.500, 0.666, 0.833 } -- TODO: Need more capture samples
+    -- Note: This has been observed to absorb less than 50% TP(1400~ @ Player: 3000TP, Mob 1000 TP)
+    -- Also seen to absorb 2000+ TP at Player: 3000% TP, Mob 3000% TP. Interpolating the 2000 TP anchor linearly for now.
+    params.element              = xi.element.NONE
+    params.attackType           = xi.attackType.MAGICAL
+    params.damageType           = xi.damageType.NONE
+    params.shadowBehavior       = xi.mobskills.shadowBehavior.IGNORE_SHADOWS
+    params.skipDamageAdjustment = true
+    params.skipMagicBonusDiff   = true
+    params.skipStoneSkin        = true
 
-    -- From captures, this TP Drains don't seem to be affected by these.
-    params.skipTMDA           = true
-    params.skipResist         = true
-    params.skipDayWeather     = true
-    params.skipMagicBonusDiff = true
-    -- TODO: This skill should penetrate/deal no damage to stoneskin.
-    --       Need to pass a param into mobFinalAdjustments in the future.
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.DARK, xi.mobskills.shadowBehavior.NUMSHADOWS_1, info.hitsLanded)
-
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        skill:setMsg(xi.mobskills.mobDrainMove(mob, target, xi.mobskills.drainType.TP, damage))
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        skill:setMsg(xi.mobskills.mobDrainMove(mob, target, xi.mobskills.drainType.TP, info.damage))
     end
 
-    return damage
+    return info.damage
 end
 
 return mobskillObject

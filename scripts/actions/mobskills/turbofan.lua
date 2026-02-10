@@ -2,7 +2,6 @@
 -- Turbofan
 -- Family: Ultima
 -- Description: Deals Wind damage to targets in front of mob. Additional Effect: Silence
---  additional effect : Silence.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}

@@ -10,12 +10,16 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.baseDamage      = mob:getMainLvl() * math.random(2, 3)
+    -- TODO: This move needs more thorough research on damage and mechanics(See notes below on skillIDs).
+    params.baseDamage      = mob:getMainLvl()
     params.fTP             = { 4, 4, 4 }
     params.element         = xi.element.FIRE
+    params.attackType      = xi.attackType.MAGICAL
+    params.damageType      = xi.damageType.FIRE
+    params.shadowBehavior  = xi.mobskills.shadowBehavior.NUMSHADOWS_3
     params.dStatMultiplier = 1
 
     -- There are two versions of this skill (SkillIDs 1733 and 1923). 1733 is used by Brown Mamool Ja and 1923 is used by Blue Mamool Ja(Usually mage types).
@@ -23,21 +27,18 @@ mobskillObject.onMobWeaponSkill = function(target, mob, skill)
 
     -- TODO: Capture AOE type for both skill IDs(Conal AOE, AOE near target, Single Target, etc)
 
-    local shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_3
-
     -- Blue Mamool Ja ignore shadows.
     if skill:getID() == xi.mobSkill.FIRESPIT_BLUE_MAMOOLJA then
-        shadowBehavior = xi.mobskills.shadowBehavior.IGNORE_SHADOWS
+        params.shadowBehavior = xi.mobskills.shadowBehavior.IGNORE_SHADOWS
     end
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.FIRE, shadowBehavior, info.hitsLanded)
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.FIRE)
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
     end
 
-    return damage
+    return info.damage
 end
 
 return mobskillObject

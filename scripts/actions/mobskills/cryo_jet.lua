@@ -13,6 +13,7 @@ end
 
 mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
+
     params.percentMultipier  = 0.05 -- TODO: Capture HP multiplier/threshhold.
     params.element           = xi.element.ICE
     params.damageCap         = 490
@@ -32,6 +33,7 @@ mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
             target:delStatusEffectSilent(xi.effect.ELEMENTALRES_DOWN)
         end
     end
+
     mob:setLocalVar('nuclearWaste', 0) -- TODO: Migrate logic to mob script.
 
     return info.damage

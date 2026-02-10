@@ -1,12 +1,17 @@
 -----------------------------------
--- Acrid Stream
--- Family: Vorageans
--- Description: Deals water damage to enemies within a fan-shaped area originating from the caster. Additional Effect: Magic Defense Down
+-- Shock Wave
+-- Family: Behemoth
+-- Description: Deals damage in a frontal area of effect. Additional Effect: Knockback
+-- Notes: TODO: The mob seems to turn towards the target when using this skill even if they are behind it and in auto range. https://youtu.be/pazG7AJ6jV8?t=986
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
 
 mobskillObject.onMobSkillCheck = function(target, mob, skill)
+    if target:isBehind(mob, 48) then
+        return 1
+    end
+
     return 0
 end
 
@@ -14,21 +19,16 @@ mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
     params.baseDamage     = mob:getMainLvl() + 2
-    params.fTP            = { 3.50, 3.50, 3.50 } -- TODO: Capture fTPs
-    params.element        = xi.element.WATER
+    params.fTP            = { 0.6, 0.6, 0.6 }
+    params.element        = xi.element.WIND
     params.attackType     = xi.attackType.MAGICAL
-    params.damageType     = xi.damageType.WATER
+    params.damageType     = xi.damageType.WIND
     params.shadowBehavior = xi.mobskills.shadowBehavior.IGNORE_SHADOWS
 
     local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
     if xi.mobskills.processDamage(mob, target, skill, action, info) then
         target:takeDamage(info.damage, mob, info.attackType, info.damageType)
-
-        -- TODO: Capture power/duration
-        local power    = 20
-        local duration = 120
-        xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.MAGIC_DEF_DOWN, power, 0, duration)
     end
 
     return info.damage

@@ -10,22 +10,24 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.baseDamage = mob:getMainLvl() + 2
-    params.fTP        = { 2.50, 2.50, 2.50 } -- TODO: Capture fTPs
-    params.element    = xi.element.LIGHT
+    -- TODO: Is this physical or magical?
+    params.baseDamage     = mob:getMainLvl() + 2
+    params.fTP            = { 2.50, 2.50, 2.50 }   -- TODO: Capture fTPs
+    params.element        = xi.element.LIGHT       -- TODO: Capture element
+    params.attackType     = xi.attackType.RANGED   -- TODO: Capture attackType
+    params.damageType     = xi.damageType.PIERCING -- TODO: Capture damageType
+    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_1
 
-    -- TODO: Capture Damage Type / Attack Type.
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.RANGED, xi.damageType.PIERCING, xi.mobskills.shadowBehavior.NUMSHADOWS_1, info.hitsLanded)
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.RANGED, xi.damageType.PIERCING)
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
     end
 
-    return damage
+    return info.damage
 end
 
 return mobskillObject

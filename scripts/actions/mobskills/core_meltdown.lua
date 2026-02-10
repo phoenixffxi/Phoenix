@@ -20,25 +20,27 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     end
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.baseDamage = skill:getMobHP() / 2
-    params.fTP        = { 1, 1, 1 }
-    params.element    = xi.element.FIRE -- TODO: The damage type should be based off of the Ghrah's element.
-    -- TODO: Can this be outranged? Or is it guaranteed to go off?
+    params.baseDamage     = skill:getMobHP() / 2
+    params.fTP            = { 1, 1, 1 }
+    params.element        = xi.element.FIRE -- TODO: The element/damage type should be based off of the Ghrah's element.
+    params.attackType     = xi.attackType.MAGICAL
+    params.damageType     = xi.damageType.ELEMENTAL
+    params.shadowBehavior = xi.mobskills.shadowBehavior.IGNORE_SHADOWS
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.ELEMENTAL, xi.mobskills.shadowBehavior.IGNORE_SHADOWS, info.hitsLanded)
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.ELEMENTAL)
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
     end
 
-    return damage
+    return info.damage
 end
 
 mobskillObject.onMobSkillFinalize = function(mob, skill)
+    -- Note: If no targets in range, the explosion will not animate but the mob will still die. This is accurate retail behavior.
     mob:setHP(0)
 end
 

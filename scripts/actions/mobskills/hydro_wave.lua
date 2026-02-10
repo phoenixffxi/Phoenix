@@ -11,29 +11,32 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.baseDamage = mob:getMainLvl() + 2
-    params.fTP        = { 2.50, 2.50, 2.50 }
-    params.element    = xi.element.WATER
+    params.baseDamage     = mob:getMainLvl() + 2
+    params.fTP            = { 2.50, 2.50, 2.50 }
+    params.element        = xi.element.WATER
+    params.attackType     = xi.attackType.MAGICAL
+    params.damageType     = xi.damageType.WATER
+    params.shadowBehavior = xi.mobskills.shadowBehavior.WIPE_SHADOWS
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.WATER, xi.mobskills.shadowBehavior.WIPE_SHADOWS, info.hitsLanded)
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.WATER)
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
 
          -- Remove 1 piece of equipment from a random slot.
         xi.mobskills.unequipRandomSlots(target, 1)
     end
 
     -- Water aura that provides special stoneskin that absorbs only magical/breath/non-elemental damage
+    -- TODO: Make a new function to handle stoneskin types.
     skill:setFinalAnimationSub(2)
     mob:delStatusEffectSilent(xi.effect.STONESKIN)
     mob:addStatusEffect(xi.effect.STONESKIN, 0, 0, 180, 2, 1500)
 
-    return damage
+    return info.damage
 end
 
 return mobskillObject

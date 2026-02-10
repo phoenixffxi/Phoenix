@@ -8,7 +8,7 @@ local mobskillObject = {}
 
 mobskillObject.onMobSkillCheck = function(target, mob, skill)
     if
-        mob:isMobType(xi.mobType.NOTORIOUS) or -- TODO: Set skill lists
+        mob:isMobType(xi.mobType.NOTORIOUS) or -- TODO: Set proper skill lists
         target:hasStatusEffect(xi.effect.BATTLEFIELD)
     then
         return 0
@@ -17,25 +17,24 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 1
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.baseDamage = mob:getMainLvl()
-    params.fTP        = { 5.0, 5.0, 5.0 }
-    params.element    = xi.element.DARK
-
-    -- From captures, this HP Drains don't seem to be affected by these.
-    params.skipResist         = true
+    params.baseDamage         = mob:getMainLvl()
+    params.fTP                = { 5.0, 5.0, 5.0 }
+    params.element            = xi.element.NONE
+    params.attackType         = xi.attackType.MAGICAL
+    params.damageType         = xi.damageType.NONE
+    params.shadowBehavior     = xi.mobskills.shadowBehavior.NUMSHADOWS_1
     params.skipMagicBonusDiff = true
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.DARK, xi.mobskills.shadowBehavior.NUMSHADOWS_1, info.hitsLanded)
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        skill:setMsg(xi.mobskills.mobDrainMove(mob, target, xi.mobskills.drainType.HP, damage))
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        skill:setMsg(xi.mobskills.mobDrainMove(mob, target, xi.mobskills.drainType.HP, info.damage))
     end
 
-    return damage
+    return info.damage
 end
 
 return mobskillObject

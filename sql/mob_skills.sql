@@ -655,7 +655,7 @@ INSERT INTO `mob_skills` VALUES (627,438,'vulture_4',0,0.0,7.0,2000,0,1,0,0,0,0,
 INSERT INTO `mob_skills` VALUES (628,372,'wild_horn',4,0.0,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (629,373,'thunderbolt_behemoth',1,0.0,40.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (630,374,'kick_out',8,0.0,10.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (631,375,'shock_wave',4,0.0,7.0,2000,1500,4,0,0,4,0,0,0);
+INSERT INTO `mob_skills` VALUES (631,375,'shock_wave_behemoth',4,0.0,7.0,2000,1500,4,0,0,4,0,0,0);
 INSERT INTO `mob_skills` VALUES (632,376,'flame_armor',0,0.0,7.0,2000,1500,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (633,377,'howl',1,0.0,20.0,2000,1500,1,0,0,0,0,0,0); -- Behemoth family Howl
 INSERT INTO `mob_skills` VALUES (634,378,'meteor',1,0.0,30.0,2000,0,4,0,0,0,0,0,0); -- chlevnik's death meteor (not a normal meteor attack animation)
@@ -768,8 +768,8 @@ INSERT INTO `mob_skills` VALUES (740,432,'familiar',0,0.0,7.0,2000,0,1,2,0,0,0,0
 INSERT INTO `mob_skills` VALUES (741,904,'quadratic_continuum',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (742,904,'quadratic_continuum',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (743,487,'quadratic_continuum',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (744,905,'spirit_absorption',0,0.0,7.0,2000,1500,4,0,150,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (745,905,'spirit_absorption',0,0.0,7.0,2000,1500,4,0,150,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (744,905,'spirit_absorption_gorger',0,0.0,7.0,2000,1500,4,0,150,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (745,905,'spirit_absorption_gorger',0,0.0,7.0,2000,1500,4,0,150,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (746,490,'spirit_absorption',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (747,906,'vanity_drive',4,0.0,10.0,2000,1500,4,0,0,1,0,0,0);
 INSERT INTO `mob_skills` VALUES (748,906,'vanity_drive',4,0.0,10.0,2000,1500,4,0,0,1,0,0,0);

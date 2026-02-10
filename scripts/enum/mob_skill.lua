@@ -298,7 +298,7 @@ xi.mobSkill =
 
     QUADRATIC_CONTINUUM_2         =  742,
 
-    SPIRIT_ABSORPTION_2           =  745,
+    SPIRIT_ABSORPTION_GORGER_2    =  745,
 
     VANITY_DRIVE_2                =  748,
 

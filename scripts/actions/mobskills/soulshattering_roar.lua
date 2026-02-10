@@ -10,19 +10,21 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.baseDamage = mob:getMainLvl() + 2
-    params.fTP        = { 8.00, 8.00, 8.00 } -- TODO: Capture fTPs
-    params.element    = xi.element.DARK      -- TODO: Capture element if skill is a magicalMove
+    params.baseDamage     = mob:getMainLvl() + 2
+    params.fTP            = { 8.00, 8.00, 8.00 } -- TODO: Capture fTPs
+    params.element        = xi.element.DARK      -- TODO: Capture element if skill is a magicalMove
+    params.attackType     = xi.attackType.MAGICAL
+    params.damageType     = xi.damageType.DARK
+    params.shadowBehavior = xi.mobskills.shadowBehavior.WIPE_SHADOWS
     -- TODO: Capture Skill range and AoE Radius
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params) -- TODO: Is move magical or physical? Need captures
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.DARK, xi.mobskills.shadowBehavior.WIPE_SHADOWS, info.hitsLanded)
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.DARK)
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
 
         xi.mobskills.mobPhysicalStatusEffectMove(mob, target, skill, xi.effect.TERROR, 1, 0, 30) -- TODO: Capture duration
     end
@@ -30,7 +32,7 @@ mobskillObject.onMobWeaponSkill = function(target, mob, skill)
     -- TODO: Temporary immunity to a single weapon damage type
     -- Note: This should probably be handled in a mixin or within the mob script.
 
-    return damage
+    return info.damage
 end
 
 return mobskillObject

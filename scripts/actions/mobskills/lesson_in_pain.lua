@@ -8,21 +8,23 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.baseDamage = mob:getWeaponDmg()
-    params.fTP        = { 2.8, 2.8, 2.8 } -- TODO: Capture fTPs
-    params.element    = xi.element.NONE
+    params.baseDamage     = mob:getWeaponDmg()
+    params.fTP            = { 2.8, 2.8, 2.8 } -- TODO: Capture fTPs
+    params.element        = xi.element.NONE   -- TODO: Capture element
+    params.attackType     = xi.attackType.MAGICAL
+    params.damageType     = xi.damageType.NONE
+    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_1
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.NONE, xi.damageType.NONE, xi.mobskills.shadowBehavior.NUMSHADOWS_1)
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.NONE, xi.damageType.NONE)
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
     end
 
-    return damage
+    return info.damage
 end
 
 return mobskillObject

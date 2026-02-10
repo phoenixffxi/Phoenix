@@ -2,7 +2,7 @@
 -- Negative Whirl
 -- Family: Thinkers
 -- Description: Deals Magic damage to targets in range. Additional Effect: Slow
--- Note: Element of damage varies based on mob. (Empty mobs have varying elements)
+-- Note: Element of damage varies based on individual mob. (Empty mobs have varying elements)
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -36,41 +36,38 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.baseDamage = mob:getMainLvl()
-    params.fTP        = { 2, 2, 2 }
-    params.element    = xi.element.NONE
+    params.baseDamage     = mob:getMainLvl()
+    params.fTP            = { 2, 2, 2 }
+    params.element        = xi.element.NONE
+    params.attackType     = xi.attackType.MAGICAL
+    params.damageType     = xi.damageType.ELEMENTAL
+    params.shadowBehavior = xi.mobskills.shadowBehavior.WIPE_SHADOWS
 
     if mob:isNM() then
         params.fTP = { 3, 3, 3 }
     end
 
-    -- Determine element based on model ID and animation sub
+    -- Determine element based on mob's model ID and animation sub
     local modelId      = mob:getModelId()
     local animationSub = mob:getAnimationSub()
-    local damageType   = xi.damageType.ELEMENTAL
 
     if elementTable[modelId] and elementTable[modelId][animationSub] then
-        params.element = elementTable[modelId][animationSub].element
-        damageType     = elementTable[modelId][animationSub].damageType
+        params.element    = elementTable[modelId][animationSub].element
+        params.damageType = elementTable[modelId][animationSub].damageType
     end
 
-    if mob:isNM() then
-        params.fTP = { 3, 3, 3 }
-    end
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, damageType, xi.mobskills.shadowBehavior.WIPE_SHADOWS, info.hitsLanded)
-
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.MAGICAL, damageType)
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
 
         xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.SLOW, 8500, 0, 60) -- TODO: Capture duration
     end
 
-    return damage
+    return info.damage
 end
 
 return mobskillObject

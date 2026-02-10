@@ -11,24 +11,26 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.baseDamage = mob:getMainLvl() + 2
-    params.fTP        = { 5.00, 5.00, 5.00 } -- TODO: Capture fTPs
-    params.element    = xi.element.THUNDER
+    params.baseDamage     = mob:getMainLvl() + 2
+    params.fTP            = { 5.00, 5.00, 5.00 } -- TODO: Capture fTPs
+    params.element        = xi.element.THUNDER
+    params.attackType     = xi.attackType.MAGICAL
+    params.damageType     = xi.damageType.FIRE
+    params.shadowBehavior = xi.mobskills.shadowBehavior.WIPE_SHADOWS
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.THUNDER, xi.mobskills.shadowBehavior.WIPE_SHADOWS, info.hitsLanded)
-    -- TODO: Mob gains Humanoid Killer effect after using this skill.
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.THUNDER)
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
 
         xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.TERROR, 1, 0, 15) -- TODO: Capture duration
+        -- TODO: Mob gains Humanoid Killer effect after using this skill.
     end
 
-    return damage
+    return info.damage
 end
 
 return mobskillObject

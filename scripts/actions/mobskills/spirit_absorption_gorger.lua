@@ -1,7 +1,7 @@
 -----------------------------------
--- Binary Absorption
--- Family: Thinker
--- Description: Drains HP
+-- Spirit Absorption
+-- Family: Gorgers
+-- Description: Drains HP from a target.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -13,7 +13,7 @@ end
 mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.baseDamage         = mob:getMainLvl()
+    params.baseDamage         = mob:getMainLvl() + 2
     params.fTP                = { 3.5, 3.5, 3.5 }
     params.element            = xi.element.NONE
     params.attackType         = xi.attackType.MAGICAL
@@ -24,7 +24,7 @@ mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
     if xi.mobskills.processDamage(mob, target, skill, action, info) then
-        skill:setMsg(xi.mobskills.mobDrainMove(mob, target, xi.mobskills.drainType.HP, info.damage, info.attackType, info.damageType))
+        skill:setMsg(xi.mobskills.mobDrainMove(mob, target, xi.mobskills.drainType.HP, info.damage))
     end
 
     return info.damage

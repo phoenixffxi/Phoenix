@@ -11,28 +11,27 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.baseDamage = mob:getWeaponDmg() -- TODO: Currently balanced around weapon damage.
-    params.fTP        = { 8, 8, 8 }
-    params.element    = xi.element.DARK
-    params.useTBDA    = true
+    params.baseDamage     = mob:getWeaponDmg() -- TODO: Currently balanced around weapon damage.
+    params.fTP            = { 8, 8, 8 }
+    params.element        = xi.element.DARK
+    params.attackType     = xi.attackType.BREATH
+    params.damageType     = xi.damageType.DARK
+    params.shadowBehavior = xi.mobskills.shadowBehavior.IGNORE_SHADOWS
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.BREATH, xi.damageType.DARK, xi.mobskills.shadowBehavior.IGNORE_SHADOWS, info.hitsLanded)
-
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.BREATH, xi.damageType.DARK)
-
-        if skill:getID() == xi.mobSkill.PUTRID_BREATH_1 then
-            skill:setMsg(xi.msg.basic.DAMAGE)
-        elseif skill:getID() == xi.mobSkill.PUTRID_BREATH_2 then
-            skill:setMsg(xi.msg.basic.HIT_DMG)
-        end
+    if skill:getID() == xi.mobSkill.PUTRID_BREATH_2 then
+        params.primaryMessage = xi.msg.basic.HIT_DMG
     end
 
-    return damage
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
+
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
+    end
+
+    return info.damage
 end
 
 return mobskillObject

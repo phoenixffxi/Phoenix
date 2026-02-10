@@ -10,16 +10,17 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.baseDamage = mob:getWeaponDmg()
-    params.fTP        = { 3.00, 3.00, 3.00 }
-    params.element    = xi.element.WIND
+    params.baseDamage     = mob:getMainLvl() + 2
+    params.fTP            = { 3.00, 3.00, 3.00 }
+    params.element        = xi.element.WIND
+    params.attackType     = xi.attackType.MAGICAL
+    params.damageType     = xi.damageType.WIND
+    params.shadowBehavior = xi.mobskills.shadowBehavior.WIPE_SHADOWS
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-
-    if mob:getPool() == xi.mobPools.KREUTZET then
+    if mob:getPool() == xi.mobPool.KREUTZET then
         local stormwindDamage = mob:getLocalVar('stormwindDamage') -- TODO: Maybe change name of localVar to stormwindCounter for clarity.
 
         if stormwindDamage == 2 then
@@ -29,15 +30,15 @@ mobskillObject.onMobWeaponSkill = function(target, mob, skill)
         end
     end
 
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.WIND, xi.mobskills.shadowBehavior.WIPE_SHADOWS, info.hitsLanded)
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.WIND)
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
 
         -- TODO: Nightmare Rocs apply Silence.
     end
 
-    return damage
+    return info.damage
 end
 
 return mobskillObject

@@ -12,37 +12,32 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.baseDamage = mob:getWeaponDmg()
-    params.fTP        = { 4, 4, 4 }
-    params.element    = xi.element.DARK
-    params.useTBDA    = true
+    params.baseDamage           = mob:getWeaponDmg() -- TODO: Mob is likely balanced around weapon damage atm instead of getMainLvl().
+    params.fTP                  = { 4, 4, 4 }
+    params.element              = xi.element.DARK
+    params.attackType           = xi.attackType.BREATH
+    params.damageType           = xi.damageType.DARK
+    params.shadowBehavior       = xi.mobskills.shadowBehavior.IGNORE_SHADOWS
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.BREATH, xi.damageType.DARK, xi.mobskills.shadowBehavior.IGNORE_SHADOWS, info.hitsLanded)
-
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.BREATH, xi.damageType.DARK)
-
-        xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.POISON, 50, 3, 60)
-
-        -- TODO: At some point we should handle skill attacks with a param to toggle messaging type.
-        -- For now, we will just do a check here to convert xi.msg.basic.DAMAGE to xi.msg.basic.HIT_DMG.
-
-        -- Note: Miasmic Breath (1604) uses Msg 185(xi.msg.basic.DAMAGE)
-        -- Note: Miasmic Breath (1605) uses Msg 1(xi.msg.basic.HIT_DMG)
-        -- https://youtu.be/QHcGtTR_xQg?t=879
-
-        if skill:getID() == xi.mobSkill.MIASMIC_BREATH_2 then
-            if skill:getMsg() == xi.msg.basic.DAMAGE then
-                skill:setMsg(xi.msg.basic.HIT_DMG)
-            end
-        end
+    -- Note: Miasmic Breath (1604) uses Msg 185(xi.msg.basic.DAMAGE)
+    -- Note: Miasmic Breath (1605) uses Msg 1(xi.msg.basic.HIT_DMG)
+    -- https://youtu.be/QHcGtTR_xQg?t=879
+    if skill:getID() == xi.mobSkill.MIASMIC_BREATH_2 then
+        params.primaryMessage = xi.msg.basic.HIT_DMG
     end
 
-    return damage
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
+
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
+
+        xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.POISON, 50, 3, 60)
+    end
+
+    return info.damage
 end
 
 return mobskillObject

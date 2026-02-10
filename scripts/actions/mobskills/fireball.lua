@@ -1,6 +1,7 @@
 -----------------------------------
 -- Fireball
--- Deals Fire damage in an area of effect.
+-- Family: Lizards
+-- Description: Deals Fire damage in an area of effect.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -21,8 +22,8 @@ mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
 
     local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, action, info) then
-        xi.mobskills.processDamage(mob, target, skill, action, info)
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
     end
 
     return info.damage

@@ -1,13 +1,14 @@
 -----------------------------------
 -- Digest
 -- Family: Slimes
--- Deals Dark damage to a single target. Additional Effect: HP Drain
+-- Description: Drains HP from a target.
 -- Notes: If used against undead, it will simply do damage and not drain HP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
 
 mobskillObject.onMobSkillCheck = function(target, mob, skill)
+    -- TODO: Move to mobskill script?
     if mob:getFamily() == 290 then -- Claret
         if mob:checkDistance(target) < 3 then -- Don't use it if he is on his target.
             return 1
@@ -17,21 +18,24 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.baseDamage = mob:getMainLvl() + 2
-    params.fTP        = { 2.0, 2.0, 2.0 }
-    params.element    = xi.element.DARK
+    params.baseDamage         = mob:getMainLvl() + 2
+    params.fTP                = { 2.0, 2.0, 2.0 }
+    params.element            = xi.element.NONE
+    params.attackType         = xi.attackType.MAGICAL
+    params.damageType         = xi.damageType.NONE
+    params.shadowBehavior     = xi.mobskills.shadowBehavior.NUMSHADOWS_1
+    params.skipMagicBonusDiff = true
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.DARK, xi.mobskills.shadowBehavior.NUMSHADOWS_1, info.hitsLanded)
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        skill:setMsg(xi.mobskills.mobDrainMove(mob, target, xi.mobskills.drainType.HP, damage))
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        skill:setMsg(xi.mobskills.mobDrainMove(mob, target, xi.mobskills.drainType.HP, info.damage))
     end
 
-    return damage
+    return info.damage
 end
 
 return mobskillObject

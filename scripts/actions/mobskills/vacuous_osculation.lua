@@ -10,25 +10,26 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.baseDamage = mob:getMainLvl() + 2
-    params.fTP        = { 1.00, 1.00, 1.00 }
-    params.element    = xi.element.NONE
-    -- TODO: Capture shadow behavior
+    params.baseDamage     = mob:getMainLvl() + 2
+    params.fTP            = { 1.00, 1.00, 1.00 } -- TODO: Capture fTPs
+    params.element        = xi.element.NONE
+    params.attackType     = xi.attackType.MAGICAL
+    params.damageType     = xi.damageType.NONE
+    params.shadowBehavior = xi.mobskills.shadowBehavior.WIPE_SHADOWS -- TODO: Capture shadowBehavior
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.FIRE, xi.mobskills.shadowBehavior.WIPE_SHADOWS, info.hitsLanded)
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.ELEMENTAL)
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
 
-        xi.mobskills.mobPhysicalStatusEffectMove(mob, target, skill, xi.effect.PLAGUE, 5, 3, 30)
-        xi.mobskills.mobPhysicalStatusEffectMove(mob, target, skill, xi.effect.POISON, 8, 3, 60)
+        xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.PLAGUE, 5, 3, 30)
+        xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.POISON, 8, 3, 60)
     end
 
-    return damage
+    return info.damage
 end
 
 return mobskillObject

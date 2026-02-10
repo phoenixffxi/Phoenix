@@ -10,24 +10,37 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
+    local drainType = math.random(xi.mobskills.drainType.HP, xi.mobskills.drainType.TP)
+
     -- TODO: Is this magical or physical? Need captures
-    params.baseDamage = mob:getMainLvl() + 2
-    params.fTP        = { 3.0, 3.0, 3.0 } -- TODO: Capture fTPs
-    params.element    = xi.element.DARK
+    -- TODO: Are the fTPs the same for each drain type?
+    params.baseDamage         = mob:getMainLvl() + 2
+    params.fTP                = { 3.0, 3.0, 3.0 } -- TODO: Capture fTPs
+    params.element            = xi.element.NONE
+    params.attackType         = xi.attackType.MAGICAL
+    params.damageType         = xi.damageType.NONE
+    params.shadowBehavior     = xi.mobskills.shadowBehavior.IGNORE_SHADOWS
+    params.skipMagicBonusDiff = true
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.DARK, xi.mobskills.shadowBehavior.IGNORE_SHADOWS, info.hitsLanded)
-
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        local drainTable = { xi.mobskills.drainType.HP, xi.mobskills.drainType.MP, xi.mobskills.drainType.TP }
-
-        skill:setMsg(xi.mobskills.mobDrainMove(mob, target, drainTable[math.random(1, 3)], damage))
+    if
+        drainType == xi.mobskills.drainType.MP or
+        drainType == xi.mobskills.drainType.TP
+    then
+        params.skipDamageAdjustment = true
+        params.skipMagicBonusDiff   = true
+        params.skipStoneSkin        = true
     end
 
-    return damage
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
+
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        skill:setMsg(xi.mobskills.mobDrainMove(mob, target, drainType, info.damage))
+    end
+
+    return info.damage
 end
 
 return mobskillObject

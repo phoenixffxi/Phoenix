@@ -11,26 +11,28 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.baseDamage = mob:getMainLvl() + 2
-    params.fTP        = { 3.00, 3.00, 3.00 } -- TODO: Capture fTPs
-    params.element    = xi.element.WIND      -- TODO: Capture element.
+    params.baseDamage     = mob:getMainLvl() + 2
+    params.fTP            = { 3.00, 3.00, 3.00 } -- TODO: Capture fTPs
+    params.element        = xi.element.WIND      -- TODO: Capture element.
+    params.attackType     = xi.attackType.MAGICAL
+    params.damageType     = xi.damageType.WIND
+    params.shadowBehavior = xi.mobskills.shadowBehavior.WIPE_SHADOWS -- TODO: Capture shadowBehavior
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.WIND, xi.mobskills.shadowBehavior.WIPE_SHADOWS, info.hitsLanded)
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.WIND)
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
 
         -- TODO Capture power/duration of HP/MP Down.
-        -- From battle footage, it looks to be around 10-15%. (Hard to tell exact since player was gear swapping).
+        -- From found battle footage, it looks to be around 10-15%. (Hard to tell exact since player was gear swapping).
         xi.mobskills.mobPhysicalStatusEffectMove(mob, target, skill, xi.effect.MAX_HP_DOWN, 50, 0, 300)
         xi.mobskills.mobPhysicalStatusEffectMove(mob, target, skill, xi.effect.MAX_MP_DOWN, 50, 0, 300)
     end
 
-    return damage
+    return info.damage
 end
 
 return mobskillObject

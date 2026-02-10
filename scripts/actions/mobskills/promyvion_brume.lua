@@ -36,33 +36,34 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.baseDamage = mob:getMainLvl() + 2
-    params.fTP        = { 3, 3, 3 }
-    params.element    = xi.element.NONE
+    params.baseDamage     = mob:getMainLvl() + 2
+    params.fTP            = { 3, 3, 3 }
+    params.element        = xi.element.NONE
+    params.attackType     = xi.attackType.MAGICAL
+    params.damageType     = xi.damageType.ELEMENTAL
+    params.shadowBehavior = xi.mobskills.shadowBehavior.WIPE_SHADOWS
 
     -- Determine element based on model ID and animation sub
     local modelId      = mob:getModelId()
     local animationSub = mob:getAnimationSub()
-    local damageType   = xi.damageType.ELEMENTAL
 
     if elementTable[modelId] and elementTable[modelId][animationSub] then
-        params.element = elementTable[modelId][animationSub].element
-        damageType     = elementTable[modelId][animationSub].damageType
+        params.element    = elementTable[modelId][animationSub].element
+        params.damageType = elementTable[modelId][animationSub].damageType
     end
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, damageType, xi.mobskills.shadowBehavior.WIPE_SHADOWS, info.hitsLanded)
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.MAGICAL, damageType)
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
 
         xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.POISON, 9, 3, 180)
     end
 
-    return damage
+    return info.damage
 end
 
 return mobskillObject

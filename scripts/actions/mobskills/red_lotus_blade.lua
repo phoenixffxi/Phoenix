@@ -17,26 +17,29 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.baseDamage = mob:getWeaponDmg()
-    params.fTP        = { 5.0, 5.0, 5.0 } -- TODO: Capture fTPs
-    params.element    = xi.element.FIRE
+    params.baseDamage     = mob:getMainLvl() + 2
+    params.fTP            = { 5.0, 5.0, 5.0 } -- TODO: Capture fTPs
+    params.element        = xi.element.FIRE
+    params.attackType     = xi.attackType.MAGICAL
+    params.damageType     = xi.damageType.FIRE
+    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_1
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.FIRE, xi.mobskills.shadowBehavior.NUMSHADOWS_1, info.hitsLanded)
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.FIRE)
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
     end
-    if mob:getPool() == xi.mobPools.QUBIA_ARENA_TRION then -- Trion: uBia_Arena only
+
+    if mob:getPool() == xi.mobPool.QUBIA_ARENA_TRION then -- Trion: QuBia_Arena only
         target:showText(mob, zones[xi.zone.QUBIA_ARENA].text.RLB_LAND)
     elseif mob:getPool() == xi.mobPool.THRONE_ROOM_VOLKER then -- Volker: Throne_Room only
         target:showText(mob, zones[xi.zone.THRONE_ROOM].text.FEEL_MY_PAIN)
     end
 
-    return damage
+    return info.damage
 end
 
 return mobskillObject

@@ -11,27 +11,29 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
     params.baseDamage      = mob:getMainLvl() + 2
     params.fTP             = { 4.50, 4.50, 4.50 }
     params.element         = xi.element.FIRE
+    params.attackType      = xi.attackType.MAGICAL
+    params.damageType      = xi.damageType.FIRE
+    params.shadowBehavior  = xi.mobskills.shadowBehavior.WIPE_SHADOWS
     params.dStatMultiplier = 1
 
-    local info   = xi.mobskills.mobMagicalMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info.damage, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.FIRE, xi.mobskills.shadowBehavior.WIPE_SHADOWS, info.hitsLanded)
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.FIRE)
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
 
         -- TODO: Is power random? Based off level? Different individuals? Need captures
-        -- Sources say Burn is 10-30/tic but don't go into depth.
+        -- Sources say Burn is 10-30/tic but does not go into depth.
         -- Personal captures showed 10/tick from Wamoura Prince(Mount Zhayolm). https://youtu.be/2H350wLAlFo?t=228
         xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.BURN, 10, 3, 60)
     end
 
-    return damage
+    return info.damage
 end
 
 return mobskillObject
