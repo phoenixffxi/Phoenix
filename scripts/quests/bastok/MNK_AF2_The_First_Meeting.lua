@@ -67,7 +67,7 @@ quest.sections =
                     end
 
                     if player:hasKeyItem(xi.ki.SAN_DORIAN_MARTIAL_ARTS_SCROLL) then
-                        player:messageSpecial(davoiID.text.FIND_NOTHING)
+                        player:messageSpecial(davoiID.text.YOU_FIND_NOTHING)
                     elseif quest:getLocalVar(player, 'nmKilled') == 3 then
                         npcUtil.giveKeyItem(player, xi.ki.SAN_DORIAN_MARTIAL_ARTS_SCROLL)
                     elseif
@@ -75,11 +75,11 @@ quest.sections =
                         not GetMobByID(davoiID.mob.BILOPDOP):isSpawned() and
                         not GetMobByID(davoiID.mob.DELOKNOK):isSpawned()
                     then
-                        player:messageSpecial(davoiID.text.FIND_NOTHING)
+                        player:messageSpecial(davoiID.text.YOU_FIND_NOTHING)
                         SpawnMob(davoiID.mob.BILOPDOP):updateClaim(player)
                         SpawnMob(davoiID.mob.DELOKNOK):updateEnmity(player)
                     else
-                        player:messageSpecial(davoiID.text.FIND_NOTHING)
+                        player:messageSpecial(davoiID.text.YOU_FIND_NOTHING)
                     end
                 end,
             },
