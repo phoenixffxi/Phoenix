@@ -216,6 +216,7 @@ xi.job_utils.summoner.onUseBloodPact = function(target, petskill, summoner, acti
 
         if target:isMob() then
             target:addBaseEnmity(summoner)
+            --target:addEnmity(summoner, 1, 60)
         end
 
         if summoner:hasStatusEffect(xi.effect.APOGEE) then

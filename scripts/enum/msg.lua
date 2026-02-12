@@ -236,6 +236,8 @@ xi.msg.basic =
     STEAL_EFFECT                    = 453, -- <user> uses <ability>. <user> steals the effect of <status> from <target>.
     REQUIRES_COMBAT                 = 525, -- .. can only be performed during battle.
     STATUS_PREVENTS                 = 569, -- Your current status prevents you from using that ability.
+    MAGIC_EFFECT_DRAINED            = 737, -- <num> of the <target>'s magic effects is drained. most likely only used for Atomos (can only absorb 1 effect)
+    RECEIVE_MAGICAL_EFFECT          = 739, -- <player> receives <num> magical effect. most likely only used for Atomos (can only absorb 1 effect)
     OBTAINED_KEY_ITEM               = 758, -- Obtained key item: <key item>.
     ALREADY_HAVE_KEY_ITEM           = 759, -- You already have key item: <key item>.
 

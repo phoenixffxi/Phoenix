@@ -2424,12 +2424,27 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
             battleutils::handleSecondaryTargetEnmity(this, PActionTarget);
         }
     }
+
     if ((!(PSpell->isHeal()) || PSpell->tookEffect()) && PActionTarget->isAlive())
     {
-        if (objtype != TYPE_PET)
+        // Current logic for magic claiming:
+        // Spell is not a heal.
+        // spell took effect (i.e. it wasn't fully resisted).
+        // The target is alive after the spell damage/effects are applied.
+        // Target must be a MOB.
+        // Allegiance must be different from the caster.
+        // Must NOT be Summoning Magic (Atomos and Odin are cast on a mob).
+        // If the caster is a PET, it must NOT be an AUTOMATON.
+
+        bool isDifferentAllegianceMob = (PActionTarget->objtype == TYPE_MOB && this->allegiance != PActionTarget->allegiance);
+        bool isNotSummoning           = (PSpell->getSkillType() != SKILL_SUMMONING_MAGIC);
+        bool isNotAutomaton           = (this->objtype != TYPE_PET || static_cast<CPetEntity*>(this)->getPetType() != PET_TYPE::AUTOMATON);
+
+        if (isDifferentAllegianceMob && isNotSummoning && isNotAutomaton)
         {
+            ShowWarning("%s (Type: %d) claiming %s using spell %s\n", this->name, this->objtype, PActionTarget->name, PSpell->getName());
             battleutils::ClaimMob(PActionTarget, this);
-        }
+        } 
     }
 
     // TODO: Pixies will probably break here, once they're added.
@@ -2760,9 +2775,20 @@ void CBattleEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
 
     if (PTarget)
     {
-        if (PTarget->objtype == TYPE_MOB && (PTarget->isDead() || (objtype == TYPE_PET && static_cast<CPetEntity*>(this)->getPetType() == PET_TYPE::AVATAR)))
+        if (PTarget->objtype == TYPE_MOB && this->allegiance != PTarget->allegiance)
         {
-            battleutils::ClaimMob(PTarget, this);
+            // Current logic for claiming with Mob Skills:
+            // Target must be a MOB.
+            // Allegiance must be different from the mob using the mob skill.
+            // If the mob is a PET, it must NOT be an AUTOMATON.
+
+            bool isInvalidPet = (this->objtype == TYPE_PET && static_cast<CPetEntity*>(this)->getPetType() == PET_TYPE::AUTOMATON);
+
+            if (!isInvalidPet)
+            {
+                ShowWarning("%s claiming mob %s using mob skill %s\n", this->name, PTarget->name, PSkill->getName());
+                battleutils::ClaimMob(PTarget, this);
+            }
         }
         battleutils::DirtyExp(PTarget, this);
     }

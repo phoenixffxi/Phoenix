@@ -120,6 +120,7 @@ bool CPetSkillState::Update(timer::time_point tick)
         // Only send packet if action was populated (e.g. interrupts return early)
         if (!action.targets.empty())
         {
+            m_skillSuccess = true;
             m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, std::make_unique<GP_SERV_COMMAND_BATTLE2>(action));
         }
         m_finishTime = tick + m_PSkill->getAnimationTime();
@@ -151,6 +152,19 @@ bool CPetSkillState::Update(timer::time_point tick)
                 auto levelGained = m_PSkill->isBloodPactRage() ? 3 : 2;
                 power += levelGained;
                 PSummoner->StatusEffectContainer->GetStatusEffect(EFFECT_AVATARS_FAVOR)->SetPower(power > 11 ? power : 11);
+            }
+
+            if (m_skillSuccess && PTarget && m_PEntity->getPetType() == PET_TYPE::AVATAR && (m_PEntity->m_PetID != PETID_ALEXANDER && m_PEntity->m_PetID != PETID_ATOMOS))
+            {
+                auto* PBattleTarget = dynamic_cast<CBattleEntity*>(PTarget);
+                if (PBattleTarget &&
+                    PBattleTarget->isAlive() &&
+                    PBattleTarget->objtype == TYPE_MOB &&
+                    PBattleTarget->allegiance != m_PEntity->allegiance)
+                {
+                    // Re-engage the target after blood pact
+                    m_PEntity->PAI->Engage(PTarget->targid);
+                }
             }
         }
         return true;

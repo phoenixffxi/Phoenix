@@ -607,7 +607,7 @@ void CPetEntity::OnPetSkillFinished(CPetSkillState& state, action_t& action)
 
     if (PTarget)
     {
-        if (PTarget->objtype == TYPE_MOB && (PTarget->isDead() || (this->getPetType() == PET_TYPE::AVATAR)))
+        if (PTarget->objtype == TYPE_MOB && PTarget->isDead() || (this->getPetType() == PET_TYPE::AVATAR && PSkill->getID() != ABILITY_DECONSTRUCTION)) // Atomos is an exception, Deconstruction does not claim.
         {
             battleutils::ClaimMob(PTarget, this);
         }
