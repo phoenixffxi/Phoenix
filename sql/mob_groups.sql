@@ -10938,8 +10938,8 @@ INSERT INTO `mob_groups` VALUES (44,340,149,'Barakbok',0,128,0,4075,2000,0,NULL)
 INSERT INTO `mob_groups` VALUES (45,419,149,'Bilopdop',0,128,0,10800,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (46,964,149,'Deloknok',0,128,0,6000,3000,0,NULL);
 INSERT INTO `mob_groups` VALUES (47,3233,149,'Purpleflash_Brukdok',600,0,2044,7900,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (48,2980,149,'One-eyed_Gwajboj',0,128,1859,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (49,6678,149,'Three-eyed_Prozpuz',0,128,307,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (48,2980,149,'One-eyed_Gwajboj',0,128,1859,11000,6000,0,NULL);
+INSERT INTO `mob_groups` VALUES (49,6678,149,'Three-eyed_Prozpuz',0,128,307,10000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (50,1930,149,'Hematic_Cyst',0,128,0,2400,0,0,NULL);
 
 -- ------------------------------------------------------------
