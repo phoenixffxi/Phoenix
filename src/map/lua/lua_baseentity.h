@@ -852,12 +852,12 @@ public:
 
     void setNpcFlags(uint32 flags);
 
-    void   spawn(const sol::object& despawnSec, const sol::object& respawnSec);
-    bool   isSpawned();
-    auto   getSpawnPos() -> sol::table;
-    void   setSpawn(float x, float y, float z, const sol::object& rot);
-    uint32 getRespawnTime();
-    void   setRespawnTime(uint32 seconds) const;
+    void spawn(const sol::object& despawnSec, const sol::object& respawnSec);
+    bool isSpawned();
+    auto getSpawnPos() -> sol::table;
+    void setSpawn(float x, float y, float z, const sol::object& rot);
+    auto getRespawnTime() const -> uint32;
+    void setRespawnTime(uint32 seconds) const;
 
     void instantiateMob(uint32 groupID);
 

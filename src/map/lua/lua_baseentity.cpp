@@ -17506,7 +17506,7 @@ void CLuaBaseEntity::setSpawn(float x, float y, float z, const sol::object& rot)
  *  Notes   : Used in mobs.lua...and directly in Charybdis
  ************************************************************************/
 
-uint32 CLuaBaseEntity::getRespawnTime()
+auto CLuaBaseEntity::getRespawnTime() const -> uint32
 {
     if (m_PBaseEntity->objtype != TYPE_MOB)
     {
@@ -17514,11 +17514,12 @@ uint32 CLuaBaseEntity::getRespawnTime()
         return 0;
     }
 
-    CMobEntity* PMob = static_cast<CMobEntity*>(m_PBaseEntity);
-
-    if (PMob->m_AllowRespawn)
+    if (auto* PMob = static_cast<CMobEntity*>(m_PBaseEntity); PMob->loc.zone)
     {
-        return static_cast<uint32>(timer::count_seconds(PMob->m_RespawnTime));
+        if (const auto remaining = PMob->loc.zone->spawnHandler()->getRemainingRespawnTime(PMob))
+        {
+            return static_cast<uint32>(timer::count_seconds(*remaining));
+        }
     }
 
     return 0;
@@ -17528,13 +17529,7 @@ uint32 CLuaBaseEntity::getRespawnTime()
  *  Function: setRespawnTime()
  *  Purpose : Setting the respawn time for a Mob
  *  Example : mob:setRespawnTime(math.random(3600, 7200))
- *  Notes   : Haven't seen the second argument option being used
- *
- * Note: Removed optional (and unused) parameter 2:
- *      if (!lua_isnil(L, 2) && lua_isboolean(L, 2) && lua_toboolean(L, 2))
-        { // set optional parameter to true to only modify the timer
-            return 0;
-        }
+ *  Notes   : 0 disables respawn.
  ************************************************************************/
 
 void CLuaBaseEntity::setRespawnTime(const uint32 seconds) const
@@ -17546,6 +17541,18 @@ void CLuaBaseEntity::setRespawnTime(const uint32 seconds) const
     }
 
     auto* PMob = static_cast<CMobEntity*>(m_PBaseEntity);
+    if (seconds == 0)
+    {
+        PMob->m_RespawnTime  = 0s;
+        PMob->m_AllowRespawn = false;
+
+        if (PMob->loc.zone != nullptr)
+        {
+            PMob->loc.zone->spawnHandler()->unregister(PMob);
+        }
+
+        return;
+    }
 
     PMob->m_RespawnTime  = std::chrono::seconds(seconds);
     PMob->m_AllowRespawn = true;
