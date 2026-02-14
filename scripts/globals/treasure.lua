@@ -1734,13 +1734,13 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
     -- Early return: Distance check.
     if player:checkDistance(npc) > 2 then
         player:messageSpecial(ID.text.CHEST_UNLOCKED - 5)
-        return
+        return 0
     end
 
     -- Early return: Can't lockpick while weakened.
     if player:hasStatusEffect(xi.effect.WEAKNESS) then
         player:messageSpecial(ID.text.CHEST_UNLOCKED + 3)
-        return
+        return 0
     end
 
     -- Early return: Treasure is already open.
@@ -1749,7 +1749,7 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
         npc:getLocalVar('traded') ~= 0
     then
         player:messageSpecial(ID.text.CHEST_UNLOCKED - 7)
-        return
+        return 0
     end
 
     -----------------------------------
@@ -1779,7 +1779,7 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
         trade:getItemCount() ~= 1
     then
         player:messageSpecial(ID.text.CHEST_UNLOCKED + 7, treasureKey)
-        return
+        return 0
     end
 
     -----------------------------------
@@ -1810,7 +1810,7 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
             playerEntity:setFreezeFlag(false)
         end)
 
-        return
+        return 0
     end
 
     -- It's a trap!
@@ -1832,7 +1832,7 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
             playerEntity:setFreezeFlag(false)
         end)
 
-        return
+        return 0
     end
 
     -- Mimic (Coffers only)
@@ -1846,7 +1846,7 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
             if not mimic then
                 playerEntity:messageName(ID.text.CHEST_UNLOCKED + 1, playerEntity)
                 npc:setLocalVar('traded', 0)
-                return
+                return 0
             end
 
             mimic:setSpawn(npc:getXPos(), npc:getYPos(), npc:getZPos(), npc:getRotPos())
@@ -1856,7 +1856,7 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
             playerEntity:setFreezeFlag(false)
         end)
 
-        return
+        return 0
     end
 
     -----------------------------------
@@ -1866,7 +1866,7 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
         -- Early return: Player has no room for items.
         if player:getFreeSlotsCount() == 0 then
             player:messageSpecial(ID.text.CHEST_UNLOCKED - 6)
-            return
+            return 0
         end
 
         kneelBeforeChest(player, npc)
@@ -1884,7 +1884,7 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
         end)
 
         npc:setLocalVar('traded', 0)
-        return
+        return bypassReward
 
     -----------------------------------
     -- Handle quest Key Item reward.
@@ -1903,7 +1903,7 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
             playerEntity:setFreezeFlag(false)
         end)
 
-        return
+        return bypassReward
     end
 
     -----------------------------------
@@ -1926,7 +1926,7 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
             playerEntity:setFreezeFlag(false)
         end)
 
-        return
+        return treasureMap
     end
 
     -----------------------------------
@@ -1938,7 +1938,7 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
             moveTreasure(npc, respawnType.REGULAR)
         end)
 
-        return
+        return 0
     end
 
     -----------------------------------
@@ -1954,6 +1954,8 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
             break
         end
     end
+
+    local reward = 0
 
     -- Gil
     if itemId == xi.item.NONE then
@@ -1971,6 +1973,8 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
             playerEntity:setFreezeFlag(false)
         end)
 
+        reward = xi.item.GIL
+
     -- Items (Gems or others)
     else
         kneelBeforeChest(player, npc)
@@ -1985,6 +1989,8 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
         player:timer(4000, function(playerEntity)
             playerEntity:setFreezeFlag(false)
         end)
+
+        reward = itemId
     end
 
     -- Handle illusion timers.
@@ -1993,6 +1999,8 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
     else
         npc:setLocalVar('illusionCooldown', GetSystemTime() + math.random(xi.settings.main.COFFER_MIN_ILLUSION_TIME, xi.settings.main.COFFER_MAX_ILLUSION_TIME))
     end
+
+    return reward
 end
 
 xi.treasure.onTrigger = function(player, npc)
