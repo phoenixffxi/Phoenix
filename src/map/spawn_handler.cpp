@@ -21,6 +21,8 @@
 
 #include "spawn_handler.h"
 
+#include <vector>
+
 #include "common/timer.h"
 #include "common/vana_time.h"
 #include "entities/mobentity.h"
@@ -55,6 +57,23 @@ void SpawnHandler::registerForRespawn(CMobEntity* PMob, const std::optional<time
     else
     {
         pendingRespawns_[PMob->id] = respawnAt;
+    }
+}
+
+void SpawnHandler::unregister(CMobEntity* PMob)
+{
+    if (!PMob)
+    {
+        return;
+    }
+
+    if (SpawnSlot* slot = PMob->GetSpawnSlot())
+    {
+        pendingSlotRespawns_.erase(slot);
+    }
+    else
+    {
+        pendingRespawns_.erase(PMob->id);
     }
 }
 
@@ -112,6 +131,8 @@ void SpawnHandler::Tick(const timer::time_point now)
 {
     const timer::time_point spawnThreshold = now + spawnWindow_;
 
+    std::vector<CMobEntity*> mobsToSpawn;
+
     // Process non-slotted mobs
     std::erase_if(pendingRespawns_, [&](const auto& pair)
                   {
@@ -133,9 +154,14 @@ void SpawnHandler::Tick(const timer::time_point now)
                           return false;
                       }
 
-                      PMob->Spawn();
+                      mobsToSpawn.push_back(PMob);
                       return true;
                   });
+
+    for (auto* PMob : mobsToSpawn)
+    {
+        PMob->Spawn();
+    }
 
     // Process slotted spawns
     std::erase_if(pendingSlotRespawns_, [&](const auto& pair)

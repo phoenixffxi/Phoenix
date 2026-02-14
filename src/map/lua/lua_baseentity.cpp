@@ -17529,13 +17529,7 @@ auto CLuaBaseEntity::getRespawnTime() const -> uint32
  *  Function: setRespawnTime()
  *  Purpose : Setting the respawn time for a Mob
  *  Example : mob:setRespawnTime(math.random(3600, 7200))
- *  Notes   : Haven't seen the second argument option being used
- *
- * Note: Removed optional (and unused) parameter 2:
- *      if (!lua_isnil(L, 2) && lua_isboolean(L, 2) && lua_toboolean(L, 2))
-        { // set optional parameter to true to only modify the timer
-            return 0;
-        }
+ *  Notes   : 0 disables respawn.
  ************************************************************************/
 
 void CLuaBaseEntity::setRespawnTime(const uint32 seconds) const
@@ -17547,6 +17541,18 @@ void CLuaBaseEntity::setRespawnTime(const uint32 seconds) const
     }
 
     auto* PMob = static_cast<CMobEntity*>(m_PBaseEntity);
+    if (seconds == 0)
+    {
+        PMob->m_RespawnTime  = 0s;
+        PMob->m_AllowRespawn = false;
+
+        if (PMob->loc.zone != nullptr)
+        {
+            PMob->loc.zone->spawnHandler()->unregister(PMob);
+        }
+
+        return;
+    }
 
     PMob->m_RespawnTime  = std::chrono::seconds(seconds);
     PMob->m_AllowRespawn = true;
