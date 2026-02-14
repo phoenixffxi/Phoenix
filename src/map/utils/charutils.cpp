@@ -3416,7 +3416,7 @@ void BuildingCharPetAbilityTable(CCharEntity* PChar, CPetEntity* PPet, uint32 Pe
 
     std::memset(&PChar->m_PetCommands, 0, sizeof(PChar->m_PetCommands));
 
-    if (PetID == 0) 
+    if (PetID == 0)
     { // technically Fire Spirit but we're using this to null the abilities shown
         PChar->pushPacket<GP_SERV_COMMAND_COMMAND_DATA>(PChar);
         return;

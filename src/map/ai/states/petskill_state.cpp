@@ -113,6 +113,9 @@ void CPetSkillState::SpendCost()
 
 bool CPetSkillState::Update(timer::time_point tick)
 {
+    // Reset the state for the current skill attempt
+    m_skillSuccess = false;
+
     if (m_PEntity && m_PEntity->isAlive() && (tick > GetEntryTime() + m_castTime && !IsCompleted()))
     {
         action_t action{};
@@ -136,9 +139,12 @@ bool CPetSkillState::Update(timer::time_point tick)
     if (IsCompleted() && tick > m_finishTime)
     {
         auto* PTarget = GetTarget();
-        if (PTarget && PTarget->objtype == TYPE_MOB && PTarget != m_PEntity && m_PEntity->allegiance == ALLEGIANCE_TYPE::PLAYER)
+        if (m_skillSuccess && PTarget && PTarget->objtype == TYPE_MOB && PTarget != m_PEntity && m_PEntity->allegiance != PTarget->allegiance)
         {
-            static_cast<CMobEntity*>(PTarget)->PEnmityContainer->UpdateEnmity(m_PEntity, 0, 0);
+            // This generates enmity for the master when using a pet skill, excluding Automatons.
+            // All player pets will generate base enmity for the master, which is retail accurate.
+            bool withMaster = m_PEntity->objtype == TYPE_PET;
+            static_cast<CMobEntity*>(PTarget)->PEnmityContainer->UpdateEnmity(m_PEntity, 0, 0, withMaster);
         }
         m_PEntity->PAI->EventHandler.triggerListener("WEAPONSKILL_STATE_EXIT", m_PEntity, m_PSkill->getID());
 
@@ -154,7 +160,7 @@ bool CPetSkillState::Update(timer::time_point tick)
                 PSummoner->StatusEffectContainer->GetStatusEffect(EFFECT_AVATARS_FAVOR)->SetPower(power > 11 ? power : 11);
             }
 
-            if (m_skillSuccess && PTarget && m_PEntity->getPetType() == PET_TYPE::AVATAR && (m_PEntity->m_PetID != PETID_ALEXANDER && m_PEntity->m_PetID != PETID_ATOMOS))
+            if (PTarget && m_PEntity->getPetType() == PET_TYPE::AVATAR && (m_PEntity->m_PetID != PETID_ALEXANDER && m_PEntity->m_PetID != PETID_ATOMOS))
             {
                 auto* PBattleTarget = dynamic_cast<CBattleEntity*>(PTarget);
                 if (PBattleTarget &&

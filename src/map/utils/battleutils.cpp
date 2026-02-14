@@ -2022,7 +2022,7 @@ int32 TakePhysicalDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, PHY
         damage = -corrected;
     }
 
-    // Only claim mob if the allegiance is mob. This prevents claiming on players and trusts, but allows claiming when charmed.
+    // Only claim a mob and if the allegiance is not PLAYER. This prevents mobs from calling ClaimMob on other mobs or themselves.
     if (PDefender->objtype == TYPE_MOB && PDefender->allegiance != PAttacker->allegiance)
     {
         battleutils::ClaimMob(PDefender, PAttacker);
@@ -4493,10 +4493,10 @@ void ClaimMob(CBattleEntity* PDefender, CBattleEntity* PAttacker, bool passing)
     TracyZoneScoped;
 
     if (PDefender == nullptr || (PDefender && PDefender->objtype != TYPE_MOB))
-    {// Do not try to claim anything but mobs (trusts, pets, players don't count)
+    { // Do not try to claim anything but mobs (trusts, pets, players don't count)
         return;
     }
-                                                  
+
     if (PDefender && PDefender->objtype == TYPE_MOB && PDefender->allegiance == PAttacker->allegiance)
     { // mobs that are allied with the attacker do not need to be claimed and will not update enmity
         return;
