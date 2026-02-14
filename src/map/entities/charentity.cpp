@@ -2047,12 +2047,16 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
         {
             // Never consume ammo with Unlimited Shot active
             recycleChance = 100;
-            // Only remove unlimited shot on hit
-            if (hitOccured)
+            // Remove unlimited shot unless retained on miss via RETAIN_UNLIMITED_SHOT mod
+            if (hitOccured || this->getMod(Mod::RETAIN_UNLIMITED_SHOT) <= 0)
             {
                 StatusEffectContainer->DelStatusEffect(EFFECT_UNLIMITED_SHOT);
             }
         }
+
+        // Flashy Shot / Stealth Shot: Consumed after the next ranged attack
+        StatusEffectContainer->DelStatusEffect(EFFECT_FLASHY_SHOT);
+        StatusEffectContainer->DelStatusEffect(EFFECT_STEALTH_SHOT);
 
         if (PAmmo != nullptr && xirand::GetRandomNumber(100) > recycleChance)
         {
@@ -2158,7 +2162,7 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
     battleutils::RemoveAmmo(this, ammoConsumed);
 
     // Handle Camouflage effects
-    if (this->StatusEffectContainer->HasStatusEffect(EFFECT_CAMOUFLAGE, 0))
+    if (getMod(Mod::RETAIN_CAMOUFLAGE) > 0)
     {
         int16 retainChance     = 40; // Estimate base ~40% chance to keep Camouflage on a ranged attack
         uint8 rotAllowance     = 25; // Allow for some slight variance in direction faced to be "behind" or "beside" the mob
