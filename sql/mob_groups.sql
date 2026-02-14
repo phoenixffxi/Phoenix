@@ -13624,7 +13624,7 @@ INSERT INTO `mob_groups` VALUES (34,4323,204,'Western_Shadow',0,32,2645,3750,0,0
 INSERT INTO `mob_groups` VALUES (35,2907,204,'Northern_Shadow',0,32,1823,3500,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (36,1164,204,'Eastern_Shadow',0,32,738,3400,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (37,3709,204,'Southern_Shadow',0,32,2296,3550,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (38,888,204,'Dabotzs_Ghost',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (38,888,204,'Dabotzs_Ghost',0,128,0,5400,5400,0,NULL);
 INSERT INTO `mob_groups` VALUES (39,630,204,'Capricious_Cassie',0,128,411,43000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (40,6892,204,'Orientalis_Shadow',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (41,6893,204,'Borealis_Shadow',0,128,0,0,0,0,NULL);
