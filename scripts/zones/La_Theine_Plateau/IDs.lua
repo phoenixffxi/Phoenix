@@ -29,6 +29,7 @@ zones[xi.zone.LA_THEINE_PLATEAU] =
         FAURBELLANT_2                 = 7445,  -- Ah, the <item>! Thank you for making such a long journey to bring this! May the Gates of Paradise open to all.
         FAURBELLANT_3                 = 7446,  -- Please deliver that <item> to the high priest in the San d'Oria Cathedral.
         FAURBELLANT_4                 = 7447,  -- My thanks again for your services. May the Gates of Paradise open to all.
+        STRANGE_ENERGY                = 7585,  -- Surrounded by these pillars, you feel a strange energy.
         UNLOCK_SUMMONER               = 7588,  -- You can now become a summoner.
         UNLOCK_CARBUNCLE              = 7589,  -- You can now summon Carbuncle.
         CANNOT_REMOVE_FRAG            = 7603,  -- It is an oddly shaped stone monument. A shining stone is embedded in it, but cannot be removed...

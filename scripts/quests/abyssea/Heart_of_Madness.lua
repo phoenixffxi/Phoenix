@@ -1,13 +1,13 @@
 -----------------------------------
--- Dawn of Death
+-- Heart of Madness
 -----------------------------------
--- !addquest 8 162
+-- !addquest 8 169
 -- Joachim : !pos -52.844 0 -9.978 246
--- Flagged on completion of The Truth Beckons.
--- Complete when any 3 of the 9 zone quests are completed and player talks to Joachim. Flags First Contact upon completion.
+-- Flagged on completion of An Officer and a Pirate.
+-- Complete when any 5 of the 9 zone quests are completed and player talks to Joachim. Flags Tenuous Existence upon completion.
 -----------------------------------
 
-local quest = Quest:new(xi.questLog.ABYSSEA, xi.quest.id.abyssea.DAWN_OF_DEATH)
+local quest = Quest:new(xi.questLog.ABYSSEA, xi.quest.id.abyssea.HEART_OF_MADNESS)
 
 quest.reward = {}
 
@@ -39,7 +39,7 @@ quest.sections =
 {
     {
         check = function(player, status, vars)
-            return status == xi.questStatus.QUEST_ACCEPTED and countCompletedZoneQuests(player) >= 3
+            return status == xi.questStatus.QUEST_ACCEPTED and countCompletedZoneQuests(player) >= 5
         end,
 
         [xi.zone.PORT_JEUNO] =
@@ -47,15 +47,15 @@ quest.sections =
             ['Joachim'] =
             {
                 onTrigger = function(player, npc)
-                    return quest:progressEvent(333)
+                    return quest:progressEvent(335)
                 end,
             },
 
             onEventFinish =
             {
-                [333] = function(player, csid, option, npc)
+                [335] = function(player, csid, option, npc)
                     if quest:complete(player) then
-                        player:addQuest(xi.questLog.ABYSSEA, xi.quest.id.abyssea.FIRST_CONTACT)
+                        player:addQuest(xi.questLog.ABYSSEA, xi.quest.id.abyssea.TENUOUS_EXISTENCE)
                     end
                 end,
             },
