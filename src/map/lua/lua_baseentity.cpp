@@ -17506,7 +17506,7 @@ void CLuaBaseEntity::setSpawn(float x, float y, float z, const sol::object& rot)
  *  Notes   : Used in mobs.lua...and directly in Charybdis
  ************************************************************************/
 
-uint32 CLuaBaseEntity::getRespawnTime()
+auto CLuaBaseEntity::getRespawnTime() const -> uint32
 {
     if (m_PBaseEntity->objtype != TYPE_MOB)
     {
@@ -17514,11 +17514,12 @@ uint32 CLuaBaseEntity::getRespawnTime()
         return 0;
     }
 
-    CMobEntity* PMob = static_cast<CMobEntity*>(m_PBaseEntity);
-
-    if (PMob->m_AllowRespawn)
+    if (auto* PMob = static_cast<CMobEntity*>(m_PBaseEntity); PMob->loc.zone)
     {
-        return static_cast<uint32>(timer::count_seconds(PMob->m_RespawnTime));
+        if (const auto remaining = PMob->loc.zone->spawnHandler()->getRemainingRespawnTime(PMob))
+        {
+            return static_cast<uint32>(timer::count_seconds(*remaining));
+        }
     }
 
     return 0;

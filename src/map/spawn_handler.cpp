@@ -73,6 +73,35 @@ auto SpawnHandler::isRegistered(CMobEntity* PMob) const -> bool
     return pendingRespawns_.contains(PMob->id);
 }
 
+auto SpawnHandler::getRemainingRespawnTime(CMobEntity* PMob) const -> std::optional<timer::duration>
+{
+    if (!PMob)
+    {
+        return std::nullopt;
+    }
+
+    const auto now = timer::now();
+
+    if (SpawnSlot* slot = PMob->GetSpawnSlot())
+    {
+        if (auto it = pendingSlotRespawns_.find(slot); it != pendingSlotRespawns_.end())
+        {
+            const auto remaining = it->second.respawnAt - now;
+            return remaining > timer::duration::zero() ? remaining : timer::duration::zero();
+        }
+    }
+    else
+    {
+        if (auto it = pendingRespawns_.find(PMob->id); it != pendingRespawns_.end())
+        {
+            const auto remaining = it->second - now;
+            return remaining > timer::duration::zero() ? remaining : timer::duration::zero();
+        }
+    }
+
+    return std::nullopt;
+}
+
 // Every 30 seconds, attempt to spawn any mob pending respawn.
 // Mobs are respawned if:
 // - Their respawn timer is due within the next 15s (half interval)
