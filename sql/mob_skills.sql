@@ -1384,7 +1384,7 @@ INSERT INTO `mob_skills` VALUES (1356,1007,'voiceless_storm',1,0.0,15.0,2000,100
 INSERT INTO `mob_skills` VALUES (1357,1008,'tidal_dive',1,0.0,15.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1358,1009,'plasma_charge',0,0.0,7.0,2000,1000,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1359,855,'chthonian_ray',4,0.0,25.0,2000,2800,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1360,855,'apocalyptic_ray',4,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1360,855,'apocalyptic_ray',4,0.0,10.0,2000,2800,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1361,1105,'viscid_secretion',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1362,1106,'wild_ginseng',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1363,822,'hungry_crunch',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
