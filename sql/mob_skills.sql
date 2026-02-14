@@ -1690,10 +1690,10 @@ INSERT INTO `mob_skills` VALUES (1656,426,'crystal_weapon_wind',0,0.0,15.0,2000,
 -- INSERT INTO `mob_skills` VALUES (1663,1407,'blood_drain',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1664,1408,'subsonics',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1665,338,'marrow_drain',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
--- INSERT INTO `mob_skills` VALUES (1666,1410,'sonic_boom',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
--- INSERT INTO `mob_skills` VALUES (1667,1411,'jet_stream',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
--- INSERT INTO `mob_skills` VALUES (1668,1412,'slipstream',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
--- INSERT INTO `mob_skills` VALUES (1669,1413,'turbulence',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
+-- INSERT INTO `mob_skills` VALUES (1666,137,'sonic_boom',2,10.0,10.0,2000,1500,4,0,0,0,0,0,0);
+-- INSERT INTO `mob_skills` VALUES (1667,139,'jet_stream',0,0.0,7.0,2000,1200,4,0,0,0,0,0,0);
+-- INSERT INTO `mob_skills` VALUES (1668,339,'slipstream',2,15.0,20.0,2000,1500,4,0,0,0,0,0,0);
+-- INSERT INTO `mob_skills` VALUES (1669,340,'turbulence',0,10.0,10.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1670,200,'tentacle',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1671,202,'ink_jet',0,0.0,7.0,2000,0,4,4,0,3,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1672,1416,'hard_membrane',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
