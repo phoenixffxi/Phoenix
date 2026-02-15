@@ -1494,7 +1494,7 @@ INSERT INTO `mob_skills` VALUES (1466,1077,'static_filament',4,0.0,10.0,2000,100
 INSERT INTO `mob_skills` VALUES (1467,1078,'decayed_filament',1,0.0,8.0,2000,1000,4,0,0,0,0,0,0); -- bar form only
 INSERT INTO `mob_skills` VALUES (1468,1079,'reactor_overheat',4,0.0,10.0,2000,1000,4,0,0,0,0,0,0); -- ring form only
 INSERT INTO `mob_skills` VALUES (1469,1080,'reactor_overload',1,0.0,8.0,2000,1000,4,0,0,0,0,0,0); -- ring form only
--- INSERT INTO `mob_skills` VALUES (1470,1214,'self-destruct',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1470,874,'self-destruct_cluster_razon',1,0.0,10.0,2000,0,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1471,1215,'cattlepult',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1472,1216,'cattlepult',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1473,1217,'cattlepult',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);

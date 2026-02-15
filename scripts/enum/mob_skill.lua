@@ -577,6 +577,7 @@ xi.mobSkill =
     DECAYED_FILAMENT              = 1467,
     REACTOR_OVERHEAT              = 1468,
     REACTOR_OVERLOAD              = 1469,
+    SELF_DESTRUCT_CLUSTER_RAZON   = 1470,
 
     HUNDRED_FISTS_PRISHE          = 1485,
     BENEDICTION_PRISHE            = 1486,
