@@ -1368,7 +1368,7 @@ INSERT INTO `mob_skills` VALUES (1340,17,'crossthrash',4,0.0,14.0,2000,1500,4,0,
 INSERT INTO `mob_skills` VALUES (1341,993,'knife_edge_circle',4,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1342,992,'train_fall',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1343,1087,'.',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
--- INSERT INTO `mob_skills` VALUES (1344,1088,'.',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1344,995,'collector_spawn',0,0.0,7.0,2000,0,1,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1345,1089,'.',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1346,1090,'.',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1347,998,'dual_strike',0,0.0,7.0,2000,1000,4,0,0,0,0,0,0);
