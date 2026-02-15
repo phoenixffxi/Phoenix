@@ -1374,31 +1374,27 @@ bool BaitLoss(CCharEntity* PChar, RemoveFly removeFly, SendUpdate sendUpdate)
 void RodBreak(CCharEntity* PChar)
 {
     CItemWeapon* PRanged = dynamic_cast<CItemWeapon*>(PChar->getEquip(SLOT_RANGED));
-    rod_t*       PRod    = FishingRods[PRanged->getID()];
-
     if (PRanged == nullptr)
     {
-        ShowWarning("PRod was null.");
+        ShowWarning("PRanged was null.");
         return;
     }
 
+    rod_t* PRod = FishingRods[PRanged->getID()];
     if (PRod == nullptr)
     {
         ShowWarning("PRod was null.");
         return;
     }
 
-    if (PRanged != nullptr && PRod != nullptr)
+    if (PRod->breakable && PRod->brokenRodId > 0)
     {
-        if (PRod->breakable && PRod->brokenRodId > 0)
-        {
-            BaitLoss(PChar, RemoveFly::Yes, SendUpdate::No);
-            charutils::UnequipItem(PChar, SLOT_RANGED, false);
-            uint8 location = PRanged->getLocationID();
-            charutils::UpdateItem(PChar, location, PRanged->getSlotID(), -1);
-            charutils::AddItem(PChar, location, PRod->brokenRodId, 1);
-            PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();
-        }
+        BaitLoss(PChar, RemoveFly::Yes, SendUpdate::No);
+        charutils::UnequipItem(PChar, SLOT_RANGED, false);
+        uint8 location = PRanged->getLocationID();
+        charutils::UpdateItem(PChar, location, PRanged->getSlotID(), -1);
+        charutils::AddItem(PChar, location, PRod->brokenRodId, 1);
+        PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();
     }
 }
 
@@ -1577,17 +1573,20 @@ int32 CatchMonster(CCharEntity* PChar, uint32 MobID)
     CMobEntity* PMob          = dynamic_cast<CMobEntity*>(zoneutils::GetEntity(MobID, TYPE_MOB));
     fishmob_t*  mob           = FishZoneMobList[PChar->getZone()][MobID];
 
-    if ((PMob == nullptr) || (mob == nullptr) || PMob->isAlive() || (PMob != nullptr && mob->questOnly && PMob->GetLocalVar("catchable") == 0))
+    if (!PMob || !mob)
     {
-        if (!PMob->isAlive())
-        {
-            ShowError("Invalid MobID %i for fished monster", MobID);
-        }
-
+        ShowError("Invalid MobID %i for fished monster", MobID);
         PChar->animation = ANIMATION_FISHING_STOP;
         PChar->updatemask |= UPDATE_HP;
         PChar->pushPacket<GP_SERV_COMMAND_TALKNUM>(PChar, MessageOffset + FISHMESSAGEOFFSET_LOST);
+        return 0;
+    }
 
+    if (PMob->isAlive() || (mob->questOnly && PMob->GetLocalVar("catchable") == 0))
+    {
+        PChar->animation = ANIMATION_FISHING_STOP;
+        PChar->updatemask |= UPDATE_HP;
+        PChar->pushPacket<GP_SERV_COMMAND_TALKNUM>(PChar, MessageOffset + FISHMESSAGEOFFSET_LOST);
         return 0;
     }
 
@@ -2174,21 +2173,12 @@ fishresponse_t* FishingCheck(CCharEntity* PChar, uint8 fishingSkill, rod_t* rod,
     std::vector<fishmob_t*>                  MobPool;
     std::map<uint32, std::map<uint16, int8>> ChestPool;
 
-    FishPool.clear();
-    ItemPool.clear();
-    MobPool.clear();
-    ChestPool.clear();
-
     FishPool = GetFishPool(PChar->getZone(), area->areaId, bait->baitID);
     ItemPool = GetItemPool(PChar->getZone(), area->areaId);
     MobPool  = GetMobPool(PChar->getZone());
-    ChestPool.clear();
 
     std::set<uint32> RemoveList;
-    RemoveList.clear();
-
     std::set<uint32> NoCatchList;
-    NoCatchList.clear();
 
     // Build Hookable Fish Pool
     if (!FishPool.empty())

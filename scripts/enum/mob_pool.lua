@@ -35,6 +35,7 @@ xi.mobPool =
     PROPAGATOR             = 3206, -- Fission (Number of Adds)
     QNAERN_RDM             = 3269, -- Qn'Aern RDM chainspell check
     RASKOVNIK              = 3326, -- Raskovnik Soothing Aroma
+    RAZON                  = 3333, -- Self-Destruct Damage
     SHIKAREE_X             = 3598, -- Shikaree X (Head Wind/TWT/ROS)
     SHIKAREE_Y             = 3600, -- Shikaree Y (Head Wind/TWT/ROS)
     SHIKAREE_Z             = 3601, -- Shikaree Z (Head Wind/TWT/ROS)

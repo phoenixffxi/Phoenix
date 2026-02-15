@@ -2108,7 +2108,7 @@ int32 TakePhysicalDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, PHY
             auto* sub_weapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_SUB]);
 
             if (sub_weapon && sub_weapon->getDmgType() > DAMAGE_TYPE::NONE && sub_weapon->getDmgType() < DAMAGE_TYPE::HTH &&
-                weapon->getSkillType() != SKILL_HAND_TO_HAND)
+                weapon && weapon->getSkillType() != SKILL_HAND_TO_HAND)
             {
                 delay = delay / 2;
             }
@@ -3073,8 +3073,8 @@ uint8 CheckMultiHits(CBattleEntity* PEntity, CItemWeapon* PWeapon)
         num += 1;
     }
 
-    // hasso occasionally triggers Zanshin after landing a normal attack, only active while Samurai is set as Main
-    if (PEntity->GetMJob() == JOB_SAM)
+    // Hasso Zanshin bonus: requires HASSO_ZANSHIN_BONUS mod (applied by Hasso effect when SAM is main job)
+    if (PEntity->getMod(Mod::HASSO_ZANSHIN_BONUS) > 0)
     {
         if (PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_HASSO))
         {
@@ -3467,6 +3467,11 @@ auto GetSkillChainEffect(const CBattleEntity* PDefender, uint8 primary, uint8 se
         }
     }
 
+    if (!PSCEffect)
+    {
+        return ActionProcSkillChain::None;
+    }
+
     Mod resistanceRankMods[] = { Mod::FIRE_RES_RANK, Mod::ICE_RES_RANK, Mod::WIND_RES_RANK, Mod::EARTH_RES_RANK, Mod::THUNDER_RES_RANK, Mod::ICE_RES_RANK, Mod::LIGHT_RES_RANK, Mod::DARK_RES_RANK };
 
     // Reset the effects resistance rank mods
@@ -3838,7 +3843,7 @@ CItemWeapon* GetEntityWeapon(CBattleEntity* PEntity, SLOTTYPE Slot)
         return nullptr;
     }
 
-    return dynamic_cast<CItemWeapon*>(((CMobEntity*)PEntity)->m_Weapons[Slot]);
+    return dynamic_cast<CItemWeapon*>(PEntity->m_Weapons[Slot]);
 }
 
 void MakeEntityStandUp(CBattleEntity* PEntity)
@@ -4913,7 +4918,7 @@ float HandleTranquilHeart(CBattleEntity* PEntity)
     if (PEntity->objtype == TYPE_PC && charutils::hasTrait((CCharEntity*)PEntity, TRAIT_TRANQUIL_HEART))
     {
         int16 healingSkill = PEntity->GetSkill(SKILL_HEALING_MAGIC);
-        reductionPercent   = ((healingSkill / 10) * .5f);
+        reductionPercent   = ((healingSkill / 10.0f) * 0.5f);
 
         // Reduction Percent Caps at 25%
         if (reductionPercent > 25)

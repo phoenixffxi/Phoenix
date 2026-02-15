@@ -451,8 +451,8 @@ xi.job_utils.dancer.useViolentFlourishAbility = function(player, target, ability
         if
             not xi.data.statusEffect.isTargetImmune(target, xi.effect.STUN, xi.element.THUNDER) and -- Check immunity.
             not xi.data.statusEffect.isTargetResistant(player, target, xi.effect.STUN) and          -- check resistance trigger.
-            not xi.data.statusEffect.isEffectNullified(target, xi.effect.STUN, 0) and                  -- check conflicting effect.
-            resistRate > 0.25                                                                       -- Check actual resistance.
+            not xi.data.statusEffect.isEffectNullified(target, xi.effect.STUN, 0) and               -- check conflicting effect.
+            xi.data.statusEffect.isResistRateSuccessfull(xi.effect.STUN, resistRate, 0)             -- Check actual resistance.
         then
             target:addStatusEffect(xi.effect.STUN, 1, 0, 2)
         else

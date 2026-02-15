@@ -599,6 +599,9 @@ enum class Mod
     TRUE_SHOT_EFFECT        = 1053, // TODO: True Shot Ranged Damage increase (percent)
     DEAD_AIM_EFFECT         = 1054, // TODO: Dead Aim Critical Damage increase (percent)
     BOUNTY_SHOT_TH_BONUS    = 826,  // Boosts base TH level of bounty shot
+    RETAIN_CAMOUFLAGE       = 1189, // Enables retaining Camouflage after using a ranged attack
+    RETAIN_UNLIMITED_SHOT   = 1190, // Unlimited Shot is retained if the ranged attack misses
+    RA_IGNORE_LVL_DIFF      = 1191, // Ranged attacks ignore pDIF level correction penalty
 
     // Samurai
     WARDING_CIRCLE_DURATION  = 95,   // Warding Circle extended duration in seconds
@@ -611,6 +614,8 @@ enum class Mod
     SENGIKORI_SC_DMG_DEBUFF  = 1088, // % Increase to closing skillchain damage. Applied to defender.
     SENGIKORI_MB_DMG_DEBUFF  = 1089, // % Increase to magic burst damage. Applied to defender.
     SENGIKORI_BONUS          = 1090, // additive % increase to Sengikori
+    HASSO_ZANSHIN_BONUS      = 1187, // Enables Hasso to occasionally trigger Zanshin after landing normal attacks
+    SEIGAN_COUNTER_BONUS     = 1188, // Enables Seigan counter bonus based on Zanshin rate
 
     // Ninja
     UTSUSEMI             = 307, // Everyone's favorite --tracks shadows.
@@ -1141,7 +1146,7 @@ enum class Mod
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
     //
-    // SPARE IDs: 1188 and onward
+    // SPARE IDs: 1192 and onward
 };
 
 // temporary workaround for using enum class as unordered_map key until compilers support it

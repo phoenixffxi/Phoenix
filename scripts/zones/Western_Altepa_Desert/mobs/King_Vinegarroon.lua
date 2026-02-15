@@ -123,7 +123,18 @@ entity.onMobSkillTarget = function(target, mob, mobskill)
         if math.random(0, 100) >= 50 then
             mob:drawIn()
         else
-            for _, member in ipairs(target:getAlliance()) do
+            -- If target is a pet, get the master for alliance lookup
+            local allianceTarget = target
+            if target:getObjType() ~= xi.objType.PC then
+                local master = target:getMaster()
+                if master and master:getObjType() == xi.objType.PC then
+                    allianceTarget = master
+                else
+                    return
+                end
+            end
+
+            for _, member in ipairs(allianceTarget:getAlliance()) do
                 mob:drawIn(member, 0, 0)
             end
         end
@@ -134,7 +145,9 @@ entity.onMobSkillTarget = function(target, mob, mobskill)
 end
 
 entity.onMobDeath = function(mob, player, optParams)
-    player:addTitle(xi.title.VINEGAR_EVAPORATOR)
+    if player then
+        player:addTitle(xi.title.VINEGAR_EVAPORATOR)
+    end
 end
 
 entity.onMobDespawn = function(mob)

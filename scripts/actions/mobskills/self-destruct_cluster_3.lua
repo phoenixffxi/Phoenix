@@ -12,6 +12,13 @@ end
 mobskillObject.onMobWeaponSkill = function(target, mob, skill)
     local damage = math.floor(mob:getHP() / 3)
 
+    if mob:getPool() == xi.mobPool.RAZON then
+        damage = math.floor(mob:getMaxHP() / 3)
+        if mob:getHPP() <= 66 then
+            damage = 0
+        end
+    end
+
     local info = xi.mobskills.mobMagicalMove(mob, target, skill, damage, xi.element.FIRE, 0.4, xi.mobskills.magicalTpBonus.MAB_BONUS, 1)
     damage = xi.mobskills.mobFinalAdjustments(info, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.FIRE, xi.mobskills.shadowBehavior.IGNORE_SHADOWS)
 

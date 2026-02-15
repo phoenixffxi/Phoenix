@@ -1,8 +1,7 @@
 -----------------------------------
--- High-Tension_Discharger
--- Description: Discharges a powerful current that deals Lightning damage to players in a fan-shaped area.
--- Additional effect: Stun
--- Type: Magical
+-- High-Tension Discharger
+-- Family: Ultima
+-- Description: Discharges a powerful current that deals Lightning damage to players in a fan-shaped area. Additional Effect: Stun
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -11,32 +10,34 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.percentMultipier  = 0.05
-    params.element           = xi.element.THUNDER
-    params.damageCap         = 490
-    params.bonusDamage       = 0
-    params.mAccuracyBonus    = { 0, 0, 0 }
-    params.resistStat        = xi.mod.INT
+    params.percentMultipier = 0.05
+    params.damageCap        = 490
+    params.bonusDamage      = 0
+    params.mAccuracyBonus   = { 0, 0, 0 }
+    params.resistStat       = xi.mod.INT
+    params.element          = xi.element.THUNDER
+    params.attackType       = xi.attackType.BREATH
+    params.damageType       = xi.damageType.THUNDER
+    params.shadowBehavior   = xi.mobskills.shadowBehavior.IGNORE_SHADOWS
 
-    local info = xi.mobskills.mobBreathMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info, mob, skill, target, xi.attackType.BREATH, xi.damageType.THUNDER, xi.mobskills.shadowBehavior.IGNORE_SHADOWS, 1)
+    local info = xi.mobskills.mobBreathMove(mob, target, skill, action, params)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.BREATH, xi.damageType.THUNDER)
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
+
+        xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.STUN, 1, 3, 4)
+
+        if target:hasStatusEffect(xi.effect.ELEMENTALRES_DOWN) then
+            target:delStatusEffectSilent(xi.effect.ELEMENTALRES_DOWN)
+        end
     end
 
-    xi.mobskills.mobPhysicalStatusEffectMove(mob, target, skill, xi.effect.STUN, 1, 3, 4)
+    mob:setLocalVar('nuclearWaste', 0) -- TODO: Migrate to mob script
 
-    if target:hasStatusEffect(xi.effect.ELEMENTALRES_DOWN) then
-        target:delStatusEffectSilent(xi.effect.ELEMENTALRES_DOWN)
-    end
-
-    mob:setLocalVar('nuclearWaste', 0)
-
-    return damage
+    return info.damage
 end
 
 return mobskillObject

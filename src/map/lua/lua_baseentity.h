@@ -666,7 +666,7 @@ public:
     void  lowerEnmity(CLuaBaseEntity* PEntity, uint8 percent);
     void  updateEnmity(CLuaBaseEntity* PEntity);
     void  transferEnmity(CLuaBaseEntity* entity, uint8 percent, float range);
-    void  updateEnmityFromDamage(CLuaBaseEntity* PEntity, int32 damage); // Adds Enmity to player for specified mob for the damage specified
+    void  updateEnmityFromDamage(CLuaBaseEntity* PEntity, int32 damage) const; // Adds Enmity to player for specified mob for the damage specified
     void  updateEnmityFromCure(CLuaBaseEntity* PEntity, int32 amount, const sol::object& fixedCE, const sol::object& fixedVE);
     void  resetEnmity(CLuaBaseEntity* PEntity);
     void  setEnmityActive(CLuaBaseEntity* PEntity, bool active);
@@ -852,12 +852,12 @@ public:
 
     void setNpcFlags(uint32 flags);
 
-    void   spawn(const sol::object& despawnSec, const sol::object& respawnSec);
-    bool   isSpawned();
-    auto   getSpawnPos() -> sol::table;
-    void   setSpawn(float x, float y, float z, const sol::object& rot);
-    uint32 getRespawnTime();
-    void   setRespawnTime(uint32 seconds) const;
+    void spawn(const sol::object& despawnSec, const sol::object& respawnSec);
+    bool isSpawned();
+    auto getSpawnPos() -> sol::table;
+    void setSpawn(float x, float y, float z, const sol::object& rot);
+    auto getRespawnTime() const -> uint32;
+    void setRespawnTime(uint32 seconds) const;
 
     void instantiateMob(uint32 groupID);
 

@@ -1121,7 +1121,7 @@ end
 function utils.defaultIfNil(inputValue, defaultValue)
     if inputValue == nil then
         local info = debug.getinfo(2, 'Sl')
-        print(string.format('nil value encounted at %s:%i, defaulting to %i', info.source, info.currentline, defaultValue))
+        print(string.format('nil value encounted at %s:%i, defaulting to %s', info.source, info.currentline, tostring(defaultValue)))
 
         return defaultValue
     end

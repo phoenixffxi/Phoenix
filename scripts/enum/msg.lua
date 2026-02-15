@@ -208,6 +208,9 @@ xi.msg.basic =
     FAMILIAR_MOB                    = 109, -- The <mob> uses .. Pet's powers increase!
     STEAL_SUCCESS                   = 125, -- <user> uses <ability>. <user> steals <item> from <target>.
     MUG_SUCCESS                     = 129, -- <user> uses <ability>. <user> mugs <amount> gil from <target>.
+    SCAVENGE_FIND_NOTHING           = 139, -- <user> uses <ability>, but finds nothing.
+    SCAVENGE_FIND_ITEM              = 140, -- <user> uses <ability>, and finds <item>.
+    SCAVENGE_FIND_ITEMS             = 674, -- <user> uses <ability>, and finds <quantity> <item>.
     STEAL_FAIL                      = 153, -- <user> uses <ability>. <user> fails to steal from <target>.
     CANNOT_ON_THAT_TARG             = 155, -- You cannot perform that action on the specified target.
     REQUIRES_SHIELD                 = 199, -- That action requires a shield.
@@ -259,6 +262,7 @@ xi.msg.basic =
     STATUS_INCREASED                = 562, -- The status parameters of <target> have increased.
     PET_CANNOT_DO_ACTION            = 574, -- <player>'s pet is currently unable to perform that action.
     PET_NOT_ENOUGH_TP               = 575, -- <player>'s pet does not have enough TP to perform that action.
+    PET_MAGIC_BURST                 = 747, -- <pet> uses <skill>. Magic Burst! <target> takes <number> points of damage.
     SPIRIT_BOND                     = 800, -- Spirit Bond Activates. <Player> takes <number> points of damage. -- Wyvern Spirit bond
 
     -- Food

@@ -1,9 +1,7 @@
 -----------------------------------
 -- Aeolian Void
---
--- Description: Fan AoE damage plus Silence and Blind
--- Type: Earth Damage/Enfeebling
--- Utsusemi/Blink absorb: Ignores shadows
+-- Family: Sand Worm
+-- Description: Deals conal AoE Wind damage to targets in front of mob. Additional Effect: Blind, Silence
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -12,25 +10,16 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
-    local params = {}
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
+    local damage = mob:getWeaponDmg() * 2
 
-    params.percentMultipier  = 0.25
-    params.element           = xi.element.EARTH
-    params.damageCap         = 300
-    params.bonusDamage       = 0
-    params.mAccuracyBonus    = { 0, 0, 0 }
-    params.resistStat        = xi.mod.INT
+    local info = xi.mobskills.mobMagicalMove(mob, target, skill, damage, xi.element.WIND, 1, xi.mobskills.magicalTpBonus.MAB_BONUS, 1)
+    damage = xi.mobskills.mobFinalAdjustments(info, mob, skill, target, xi.attackType.MAGICAL, xi.damageType.WIND, xi.mobskills.shadowBehavior.WIPE_SHADOWS)
 
-    local info = xi.mobskills.mobBreathMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info, mob, skill, target, xi.attackType.BREATH, xi.damageType.EARTH, xi.mobskills.shadowBehavior.IGNORE_SHADOWS, 1)
+    target:takeDamage(damage, mob, xi.attackType.MAGICAL, xi.damageType.WIND)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.BREATH, xi.damageType.EARTH)
-
-        xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.SILENCE, 1, 0, 60)
-        xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.BLINDNESS, 15, 0, 60)
-    end
+    xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.SILENCE, 1, 0, 180)
+    xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.BLINDNESS, 50, 0, 180)
 
     return damage
 end
