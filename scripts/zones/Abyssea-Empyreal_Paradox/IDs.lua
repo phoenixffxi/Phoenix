@@ -16,9 +16,9 @@ zones[xi.zone.ABYSSEA_EMPYREAL_PARADOX] =
         LOGIN_CAMPAIGN_UNDERWAY       = 7003, -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!
         LOGIN_NUMBER                  = 7004, -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
         MEMBERS_LEVELS_ARE_RESTRICTED = 7024, -- Your party is unable to participate because certain members' levels are restricted.
-        CRUOR_OBTAINED                = 7414, -- <name> obtained <number> cruor.
-        PARTY_MEMBERS_HAVE_FALLEN     = 8064, -- All party members have fallen in battle. Now leaving the battlefield.
-        THE_PARTY_WILL_BE_REMOVED     = 8071, -- If all party members' HP are still zero after # minute[/s], the party will be removed from the battlefield.
+        CRUOR_OBTAINED                = 7415, -- <name> obtained <number> cruor.
+        PARTY_MEMBERS_HAVE_FALLEN     = 8065, -- All party members have fallen in battle. Now leaving the battlefield.
+        THE_PARTY_WILL_BE_REMOVED     = 8072, -- If all party members' HP are still zero after # minute[/s], the party will be removed from the battlefield.
     },
     mob =
     {

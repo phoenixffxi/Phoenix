@@ -209,7 +209,18 @@ void GP_CLI_COMMAND_ACTION::process(MapSession* PSession, CCharEntity* PChar) co
                 return;
             }
 
-            const CBaseEntity* PNpc = PChar->GetEntity(this->ActIndex, TYPE_NPC | TYPE_MOB);
+            CBaseEntity* PNpc = PChar->GetEntity(this->ActIndex, TYPE_NPC | TYPE_MOB | TYPE_TRUST);
+            if (!PNpc)
+            {
+                return;
+            }
+
+            // Releasing a trust
+            if (auto* PTrust = dynamic_cast<CTrustEntity*>(PNpc))
+            {
+                PChar->RemoveTrust(PTrust);
+                return;
+            }
 
             // MONs are allowed to use doors, but nothing else
             if (PChar->m_PMonstrosity != nullptr &&
@@ -222,16 +233,10 @@ void GP_CLI_COMMAND_ACTION::process(MapSession* PSession, CCharEntity* PChar) co
             }
 
             // NOTE: Moogles inside of mog houses are the exception for not requiring Spawned or Status checks.
-            if (PNpc != nullptr && distance(PNpc->loc.p, PChar->loc.p) <= 6.0f && ((PNpc->PAI->IsSpawned() && PNpc->status == STATUS_TYPE::NORMAL) || PChar->inMogHouse()))
+            if (distance(PNpc->loc.p, PChar->loc.p) <= 6.0f && ((PNpc->PAI->IsSpawned() && PNpc->status == STATUS_TYPE::NORMAL) || PChar->inMogHouse()))
             {
                 PNpc->PAI->Trigger(PChar);
                 PChar->m_charHistory.npcInteractions++;
-            }
-
-            // Releasing a trust
-            if (auto* PTrust = dynamic_cast<CTrustEntity*>(PChar->GetEntity(this->ActIndex, TYPE_TRUST)))
-            {
-                PChar->RemoveTrust(PTrust);
             }
 
             if (!PChar->isNpcLocked())

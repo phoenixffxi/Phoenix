@@ -76,10 +76,9 @@ CBattleEntity::CBattleEntity()
     std::memset(&health, 0, sizeof(health));
     health.maxhp = 1;
 
-    PPet          = nullptr;
-    PParty        = nullptr;
-    PMaster       = nullptr;
-    PLastAttacker = nullptr;
+    PPet    = nullptr;
+    PParty  = nullptr;
+    PMaster = nullptr;
 
     StatusEffectContainer = std::make_unique<CStatusEffectContainer>(this);
     PRecastContainer      = std::make_unique<CRecastContainer>(this);
@@ -901,7 +900,15 @@ int32 CBattleEntity::addMP(int32 mp)
 int32 CBattleEntity::takeDamage(int32 amount, CBattleEntity* attacker /* = nullptr*/, ATTACK_TYPE attackType /* = ATTACK_NONE*/, DAMAGE_TYPE damageType /* = DAMAGE_NONE*/, bool isSkillchainDamage /* = false */)
 {
     TracyZoneScoped;
-    PLastAttacker                            = attacker;
+    if (attacker)
+    {
+        lastAttackerId_.id     = attacker->id;
+        lastAttackerId_.targid = attacker->targid;
+    }
+    else
+    {
+        lastAttackerId_.clean();
+    }
     this->BattleHistory.lastHitTaken_atkType = attackType;
 
     PAI->EventHandler.triggerListener("TAKE_DAMAGE", this, amount, attacker, (uint16)attackType, (uint16)damageType);
@@ -914,7 +921,7 @@ int32 CBattleEntity::takeDamage(int32 amount, CBattleEntity* attacker /* = nullp
             roeutils::event(ROE_EVENT::ROE_DMGTAKEN, static_cast<CCharEntity*>(this), RoeDatagram("dmg", amount));
         }
     }
-    else if (PLastAttacker && PLastAttacker->objtype == TYPE_PC)
+    else if (attacker && attacker->objtype == TYPE_PC)
     {
         if (amount > 0)
         {
@@ -2388,19 +2395,22 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
             (PEminenceTarget->PParty && PTarget->PParty &&
              ((PEminenceTarget->PParty == PTarget->PParty) || (PEminenceTarget->PParty->m_PAlliance && PEminenceTarget->PParty->m_PAlliance == PTarget->PParty->m_PAlliance))))
         {
-            if (PSpell->isHeal())
+            if (auto* PCharEminence = dynamic_cast<CCharEntity*>(PEminenceTarget))
             {
-                roeutils::event(ROE_HEALALLY, static_cast<CCharEntity*>(PEminenceTarget), RoeDatagram("heal", actionResult.param));
-
-                // We know its an ally or self, if not self and leader matches, credit the RoE Objective
-                if (PEminenceTarget != PTarget && PEminenceTarget->objtype == TYPE_PC && PTarget->objtype == TYPE_PC && static_cast<CCharEntity*>(PEminenceTarget)->profile.unity_leader == static_cast<CCharEntity*>(PTarget)->profile.unity_leader)
+                if (PSpell->isHeal())
                 {
-                    roeutils::event(ROE_HEAL_UNITYALLY, static_cast<CCharEntity*>(PEminenceTarget), RoeDatagram("heal", actionResult.param));
+                    roeutils::event(ROE_HEALALLY, PCharEminence, RoeDatagram("heal", actionResult.param));
+
+                    if (auto* PCharTarget = dynamic_cast<CCharEntity*>(PTarget);
+                        PCharTarget && PEminenceTarget != PTarget && PCharEminence->profile.unity_leader == PCharTarget->profile.unity_leader)
+                    {
+                        roeutils::event(ROE_HEAL_UNITYALLY, PCharEminence, RoeDatagram("heal", actionResult.param));
+                    }
                 }
-            }
-            else if (PEminenceTarget != PTarget && PSpell->isBuff() && actionResult.param)
-            {
-                roeutils::event(ROE_BUFFALLY, static_cast<CCharEntity*>(PEminenceTarget), RoeDatagramList{});
+                else if (PEminenceTarget != PTarget && PSpell->isBuff() && actionResult.param)
+                {
+                    roeutils::event(ROE_BUFFALLY, PCharEminence, RoeDatagramList{});
+                }
             }
         }
 
@@ -2644,7 +2654,7 @@ void CBattleEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
         {
             damage = luautils::OnMobWeaponSkill(PTargetFound, this, PSkill, &action);
             this->PAI->EventHandler.triggerListener("WEAPONSKILL_USE", this, PTargetFound, PSkill->getID(), state.GetSpentTP(), &action, damage);
-            PTargetFound->PAI->EventHandler.triggerListener("WEAPONSKILL_TAKE", PTargetFound, this, PSkill->getID(), state.GetSpentTP(), &action);
+            PTargetFound->PAI->EventHandler.triggerListener("WEAPONSKILL_TAKE", this, PTargetFound, PSkill->getID(), state.GetSpentTP(), &action);
         }
 
         if (msg == MsgBasic::NONE)
@@ -3100,6 +3110,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
             battleutils::HandleParrySpikesDamage(this, PTarget, &actionResult, attack.GetDamage());
         }
 
+        const auto currentAttackType = attack.GetAttackType();
         // try zanshin only on single swing attack rounds - it is last priority in the multi-hit order
         if (attack.IsFirstSwing() && attackRound.GetAttackSwingCount() == 1)
         {
@@ -3110,7 +3121,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
             const bool missedOrCountered = actionResult.resolution != ActionResolution::Hit || actionResult.spikesEffect == ActionReactKind::Counter;
             const bool normalZanshinProc = missedOrCountered && xirand::GetRandomNumber(100) < zanshinChance;
 
-            const bool isSamWithHasso   = GetMJob() == JOB_SAM && this->StatusEffectContainer->HasStatusEffect(EFFECT_HASSO);
+            const bool isSamWithHasso   = this->getMod(Mod::HASSO_ZANSHIN_BONUS) > 0 && this->StatusEffectContainer->HasStatusEffect(EFFECT_HASSO);
             const bool hassoZanshinProc = isSamWithHasso && xirand::GetRandomNumber(100) < zanshinChance / 4;
 
             if (normalZanshinProc || hassoZanshinProc)
@@ -3120,17 +3131,19 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
         }
 
         // Remove shuriken if Daken proc and Sange is up
-        if (attack.GetAttackType() == PHYSICAL_ATTACK_TYPE::DAKEN)
+        if (currentAttackType == PHYSICAL_ATTACK_TYPE::DAKEN)
         {
             if (StatusEffectContainer && StatusEffectContainer->HasStatusEffect(EFFECT_SANGE))
             {
-                CCharEntity* PChar = dynamic_cast<CCharEntity*>(this);
-                CItemWeapon* PAmmo = dynamic_cast<CItemWeapon*>(PChar->getEquip(SLOT_AMMO));
-
-                if (PChar && PAmmo && PAmmo->isShuriken()) // Not sure how they wouldn't have a shuriken by this point, but just in case...
+                auto* PChar = dynamic_cast<CCharEntity*>(this);
+                if (PChar)
                 {
-                    // Removing ammo here is safe because you can only create one Daken attack per attack round
-                    battleutils::RemoveAmmo(PChar, 1);
+                    const auto* PAmmo = dynamic_cast<CItemWeapon*>(PChar->getEquip(SLOT_AMMO));
+                    if (PAmmo && PAmmo->isShuriken())
+                    {
+                        // Removing ammo here is safe because you can only create one Daken attack per attack round
+                        battleutils::RemoveAmmo(PChar, 1);
+                    }
                 }
             }
         }

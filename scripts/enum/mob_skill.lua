@@ -251,6 +251,7 @@ xi.mobSkill =
 
     CURSED_SPHERE_1               =  659,
     VENOM_1                       =  660,
+    SNOW_CLOUD_1                  =  661,
 
     GRAND_SLAM_1                  =  665,
 
@@ -534,6 +535,8 @@ xi.mobSkill =
 
     TIDAL_DIVE                    = 1357,
     PLASMA_CHARGE                 = 1358,
+    CHTHONIAN_RAY                 = 1359,
+    APOCALYPTIC_RAY               = 1360,
 
     HUNGRY_CRUNCH                 = 1363,
 
@@ -574,6 +577,7 @@ xi.mobSkill =
     DECAYED_FILAMENT              = 1467,
     REACTOR_OVERHEAT              = 1468,
     REACTOR_OVERLOAD              = 1469,
+    SELF_DESTRUCT_CLUSTER_RAZON   = 1470,
 
     HUNDRED_FISTS_PRISHE          = 1485,
     BENEDICTION_PRISHE            = 1486,

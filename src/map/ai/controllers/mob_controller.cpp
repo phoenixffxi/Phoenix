@@ -137,17 +137,21 @@ auto CMobController::CheckLock(CBattleEntity* PTarget) const -> bool
     {
         if (PTarget->objtype == TYPE_PC)
         {
-            const CCharEntity* PChar = dynamic_cast<CCharEntity*>(PTarget);
-            if (PChar->m_Locked)
+            const auto* PChar = dynamic_cast<CCharEntity*>(PTarget);
+            if (PChar && PChar->m_Locked)
             {
                 return !CanPursueTarget(PTarget);
             }
         }
         else if (PTarget->objtype == TYPE_PET)
         {
-            const CPetEntity*  PPet  = dynamic_cast<CPetEntity*>(PTarget);
-            const CCharEntity* PChar = dynamic_cast<CCharEntity*>(PPet->PMaster);
+            const auto* PPet = dynamic_cast<CPetEntity*>(PTarget);
+            if (!PPet)
+            {
+                return false;
+            }
 
+            const auto* PChar = dynamic_cast<CCharEntity*>(PPet->PMaster);
             if (PChar == nullptr)
             {
                 return false;
@@ -664,12 +668,16 @@ void CMobController::CastSpell(SpellID spellid)
 void CMobController::DoCombatTick(timer::time_point tick)
 {
     TracyZoneScopedC(0xFF0000);
-    if (PMob->m_OwnerID.targid != 0 && static_cast<CCharEntity*>(PMob->GetEntity(PMob->m_OwnerID.targid))->PClaimedMob != static_cast<CBattleEntity*>(PMob))
+    if (PMob->m_OwnerID.targid != 0)
     {
-        if (m_Tick >= m_DeclaimTime + 3s)
+        auto* POwner = dynamic_cast<CCharEntity*>(PMob->GetEntity(PMob->m_OwnerID.targid));
+        if (POwner && POwner->PClaimedMob != static_cast<CBattleEntity*>(PMob))
         {
-            PMob->m_OwnerID.clean();
-            PMob->updatemask |= UPDATE_STATUS;
+            if (m_Tick >= m_DeclaimTime + 3s)
+            {
+                PMob->m_OwnerID.clean();
+                PMob->updatemask |= UPDATE_STATUS;
+            }
         }
     }
 
@@ -737,15 +745,14 @@ void CMobController::DoCombatTick(timer::time_point tick)
 void CMobController::FaceTarget(const uint16 targid) const
 {
     TracyZoneScoped;
-    const CBaseEntity* targ = PTarget;
-    if (targid != 0 && ((targ && targid != targ->targid) || !targ))
+
+    const uint16 resolvedTargid = targid != 0 ? targid : PMob->GetBattleTargetID();
+    const auto*  maybeTarget    = PMob->GetEntity(resolvedTargid);
+    if (!(PMob->m_Behavior & BEHAVIOR_NO_TURN) && maybeTarget)
     {
-        targ = PMob->GetEntity(targid);
+        PMob->PAI->PathFind->LookAt(maybeTarget->loc.p);
     }
-    if (!(PMob->m_Behavior & BEHAVIOR_NO_TURN) && targ)
-    {
-        PMob->PAI->PathFind->LookAt(targ->loc.p);
-    }
+
     PMob->UpdateSpeed();
 }
 

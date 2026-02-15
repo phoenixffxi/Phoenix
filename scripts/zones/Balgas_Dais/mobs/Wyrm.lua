@@ -66,11 +66,6 @@ local arenaCenters =
 -- Draw In Handler
 -----------------------------------
 local function handleDrawIn(mob, target, battlefield)
-    -- Early return: Distance from target check.
-    if mob:checkDistance(target) < 19.5 then
-        return
-    end
-
     -- Early return: No battlefield.
     if not battlefield then
         return
@@ -82,8 +77,11 @@ local function handleDrawIn(mob, target, battlefield)
         return
     end
 
-    -- Early return: Distance from center check.
-    if target:checkDistance(center.x, center.y, center.z) <= 22 then
+    -- Early return: Distance from center check & distance from target check.
+    if
+        target:checkDistance(center.x, center.y, center.z) <= 22 and
+        mob:checkDistance(target) < 19.5
+    then
         return
     end
 

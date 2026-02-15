@@ -2,7 +2,6 @@
 -- Diffusion Ray
 -- Family: Chariots
 -- Description: Deals damage to enemies within a fan-shaped area originating from the caster.
--- Type: Magical Light (Element)
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -11,24 +10,26 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
     local params = {}
 
-    params.percentMultipier  = 0.20
-    params.element           = xi.element.LIGHT
-    params.damageCap         = 500
-    params.bonusDamage       = 0
-    params.mAccuracyBonus    = { 0, 0, 0 }
-    params.resistStat        = xi.mod.MND
+    params.percentMultipier = 0.20
+    params.damageCap        = 500
+    params.bonusDamage      = 0
+    params.mAccuracyBonus   = { 0, 0, 0 }
+    params.resistStat       = xi.mod.MND
+    params.element          = xi.element.LIGHT
+    params.attackType       = xi.attackType.BREATH
+    params.damageType       = xi.damageType.LIGHT
+    params.shadowBehavior   = xi.mobskills.shadowBehavior.IGNORE_SHADOWS
 
-    local info = xi.mobskills.mobBreathMove(mob, target, skill, params)
-    local damage = xi.mobskills.mobFinalAdjustments(info, mob, skill, target, xi.attackType.BREATH, xi.damageType.LIGHT, xi.mobskills.shadowBehavior.IGNORE_SHADOWS, 1)
+    local info = xi.mobskills.mobBreathMove(mob, target, skill, action, params)
 
-    if not xi.mobskills.hasMissMessage(mob, target, skill, damage) then
-        target:takeDamage(damage, mob, xi.attackType.BREATH, xi.damageType.LIGHT)
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
     end
 
-    return damage
+    return info.damage
 end
 
 return mobskillObject

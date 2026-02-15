@@ -196,6 +196,12 @@ bool CMobSkillState::Update(timer::time_point tick)
         Complete();
     }
 
+    if (!m_PEntity)
+    {
+        ShowError("CMobSkillState: m_Pentity is nullptr");
+        return false;
+    }
+
     if (IsCompleted() && tick > m_finishTime)
     {
         auto* PTarget = GetTarget();

@@ -79,10 +79,10 @@ INSERT INTO `mob_family_system` VALUES (7,'Animated_Weapon',6,'Evil_Weapon',0,'U
 INSERT INTO `mob_family_system` VALUES (25,'Antica',7,'Antica',7,'Beastmen',40,116,140,1,3,5,4,6,2,1,1,3,1,3,8.0,258,0);
 INSERT INTO `mob_family_system` VALUES (26,'Antlion',8,'Antlion',20,'Vermin',40,120,125,4,4,4,4,4,4,4,1,3,1,3,8.0,2,1);
 INSERT INTO `mob_family_system` VALUES (27,'Apkallu',9,'Apkallu',8,'Bird',40,105,90,4,3,5,4,4,4,4,1,3,1,2,6.0,3,0);
-INSERT INTO `mob_family_system` VALUES (28,'Automaton-Harlequin',10,'Automaton',0,'Unclassified',40,100,120,3,3,3,3,3,3,3,1,3,1,3,0.0,2,0);
-INSERT INTO `mob_family_system` VALUES (29,'Automaton-Sharpshot',10,'Automaton',0,'Unclassified',40,100,120,3,3,3,3,3,3,3,1,3,1,3,0.0,2,0);
-INSERT INTO `mob_family_system` VALUES (30,'Automaton-Stormwaker',10,'Automaton',0,'Unclassified',40,100,120,3,3,3,3,3,3,3,1,3,1,3,0.0,2,0);
-INSERT INTO `mob_family_system` VALUES (31,'Automaton-Valoredge',10,'Automaton',0,'Unclassified',40,100,120,3,3,3,3,3,3,3,1,3,1,3,0.0,2,0);
+INSERT INTO `mob_family_system` VALUES (28,'Automaton',10,'Automaton',0,'Unclassified',40,100,120,3,3,3,3,3,3,3,1,3,1,3,0.0,2,0);
+-- 29 Free
+-- 30 Free
+-- 31 Free
 INSERT INTO `mob_family_system` VALUES (32,'Avatar-Atomos',11,'Atomos',5,'Avatar',40,100,120,3,3,3,3,3,3,3,1,3,1,3,0.0,41,0);
 INSERT INTO `mob_family_system` VALUES (33,'Avatar-Alexander',12,'Alexander',5,'Avatar',40,100,120,3,3,3,3,3,3,3,1,3,1,3,0.0,41,0);
 INSERT INTO `mob_family_system` VALUES (34,'Avatar-Carbuncle',13,'Carbuncle',5,'Avatar',40,100,120,3,3,3,3,3,3,3,1,3,1,3,0.0,41,0);
@@ -191,7 +191,7 @@ INSERT INTO `mob_family_system` VALUES (137,'Gorger',81,'Gorger',12,'Empty',40,1
 INSERT INTO `mob_family_system` VALUES (138,'Gorger',81,'Gorger',12,'Empty',40,112,90,1,3,2,3,6,6,5,1,3,1,3,0.0,1,0);
 INSERT INTO `mob_family_system` VALUES (139,'Hecteyes',82,'Hecteyes',1,'Amorph',40,87,140,5,4,4,4,3,4,4,1,3,1,3,8.0,2,1);
 INSERT INTO `mob_family_system` VALUES (140,'Hippogryph',83,'Hippogryph',8,'Bird',60,90,140,4,4,4,4,4,4,4,1,3,1,1,7.0,1,0);
-INSERT INTO `mob_family_system` VALUES (141,'Hippogryph-High_Res',83,'Hippogryph',8,'Bird',60,90,140,4,4,4,4,4,4,4,1,3,1,1,7.0,1,0);
+-- 141 Free
 INSERT INTO `mob_family_system` VALUES (142,'Hound',84,'Hound',19,'Undead',40,102,120,1,3,4,4,4,5,6,1,5,1,3,8.0,6,0);
 INSERT INTO `mob_family_system` VALUES (143,'Hound',84,'Hound',19,'Undead',40,102,120,1,3,4,4,4,5,6,1,5,1,3,8.0,6,0);
 INSERT INTO `mob_family_system` VALUES (144,'Hpemde',85,'Hpemde',15,'Luminian',40,90,120,7,1,4,4,4,6,6,1,3,1,3,0.0,2,0);

@@ -460,7 +460,7 @@ bool CAttack::CheckCounter()
 
     uint16 seiganChance = 0;
 
-    if (m_victim->objtype == TYPE_PC && m_victim->GetMJob() == JOB_SAM)
+    if (m_victim->objtype == TYPE_PC && m_victim->getMod(Mod::SEIGAN_COUNTER_BONUS) > 0)
     {
         // counter check (rate AND your hit rate makes it land, else its just a regular hit)
         // having seigan active gives chance to counter at 25% of the zanshin proc rate
@@ -717,8 +717,11 @@ void CAttack::ProcessDamage()
         SetAttackType(PHYSICAL_ATTACK_TYPE::SAMBA);
     }
 
-    // Get damage multipliers.
-    m_damage = attackutils::CheckForDamageMultiplier((CCharEntity*)m_attacker, dynamic_cast<CItemWeapon*>(m_attacker->m_Weapons[slot]), m_damage, m_attackType, slot, m_isFirstSwing);
+    // Get player-only damage multipliers.
+    if (auto* PChar = dynamic_cast<CCharEntity*>(m_attacker))
+    {
+        m_damage = attackutils::CheckForDamageMultiplier(PChar, dynamic_cast<CItemWeapon*>(m_attacker->m_Weapons[slot]), m_damage, m_attackType, slot, m_isFirstSwing);
+    }
 
     // Apply Sneak Attack Augment Mod
     if (m_attacker->getMod(Mod::AUGMENTS_SA) > 0 && IsSneakAttack() && m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_SNEAK_ATTACK))

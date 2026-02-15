@@ -211,7 +211,7 @@ void CLuaBaseEntity::showText(CLuaBaseEntity* entity, uint16 messageID, const so
     bool   showName = (p4 != sol::lua_nil) ? p4.as<bool>() : false; // ShowName is false in GP_SERV_COMMAND_TALKNUMWORK Constructor, so mimic the same default.
     bool   turn     = (p5 != sol::lua_nil) ? p5.as<bool>() : true;  // Turn to player, default behavior is true
 
-    if (turn && PBaseEntity->objtype == TYPE_NPC)
+    if (turn && PBaseEntity->objtype == TYPE_NPC && PBaseEntity->loc.zone)
     {
         PBaseEntity->m_TargID       = m_PBaseEntity->targid;
         PBaseEntity->loc.p.rotation = worldAngle(PBaseEntity->loc.p, m_PBaseEntity->loc.p);
@@ -223,7 +223,7 @@ void CLuaBaseEntity::showText(CLuaBaseEntity* entity, uint16 messageID, const so
     {
         static_cast<CCharEntity*>(m_PBaseEntity)->pushPacket<GP_SERV_COMMAND_TALKNUMWORK>(PBaseEntity, messageID, param0, param1, param2, param3, showName);
     }
-    else
+    else if (m_PBaseEntity->loc.zone)
     {
         m_PBaseEntity->loc.zone->PushPacket(m_PBaseEntity, CHAR_INRANGE, std::make_unique<GP_SERV_COMMAND_TALKNUMWORK>(PBaseEntity, messageID, param0, param1, param3, showName));
     }
@@ -358,6 +358,11 @@ void CLuaBaseEntity::printToArea(const std::string& message, const sol::object& 
     std::string       name         = (arg3 == sol::lua_nil) ? "" : arg3.as<std::string>();
     bool              skipSender   = (arg4 == sol::lua_nil) ? false : arg4.as<bool>();
 
+    if (!PChar->loc.zone)
+    {
+        return;
+    }
+
     if (messageRange == ChatMessageArea::System)
     {
         message::send(ipc::ChatMessageServerMessage{
@@ -460,7 +465,7 @@ void CLuaBaseEntity::messageBasic(uint16 messageID, const sol::object& p0, const
     {
         static_cast<CCharEntity*>(m_PBaseEntity)->pushPacket<GP_SERV_COMMAND_BATTLE_MESSAGE>(m_PBaseEntity, PTarget, param0, param1, static_cast<MsgBasic>(messageID));
     }
-    else
+    else if (m_PBaseEntity->loc.zone)
     {
         // Broadcast in range
         m_PBaseEntity->loc.zone->PushPacket(m_PBaseEntity, CHAR_INRANGE, std::make_unique<GP_SERV_COMMAND_BATTLE_MESSAGE>(m_PBaseEntity, PTarget, param0, param1, static_cast<MsgBasic>(messageID)));
@@ -490,7 +495,7 @@ void CLuaBaseEntity::messageName(uint16 messageID, const sol::object& entity, co
     {
         PChar->pushPacket<GP_SERV_COMMAND_TALKNUMWORK2>(PChar, messageID, PNameEntity, param0, param1, param2, param3, chatType);
     }
-    else
+    else if (m_PBaseEntity->loc.zone)
     {
         m_PBaseEntity->loc.zone->PushPacket(m_PBaseEntity, CHAR_INRANGE, std::make_unique<GP_SERV_COMMAND_TALKNUMWORK2>(m_PBaseEntity, messageID, PNameEntity, param0, param1, param2, param3, chatType));
     }
@@ -508,7 +513,7 @@ void CLuaBaseEntity::messagePublic(uint16 messageID, const CLuaBaseEntity* PEnti
     uint32 param0 = (arg2 != sol::lua_nil) ? arg2.as<uint32>() : 0;
     uint32 param1 = (arg3 != sol::lua_nil) ? arg3.as<uint32>() : 0;
 
-    if (PEntity != nullptr)
+    if (PEntity != nullptr && m_PBaseEntity->loc.zone)
     {
         m_PBaseEntity->loc.zone->PushPacket(m_PBaseEntity, CHAR_INRANGE_SELF, std::make_unique<GP_SERV_COMMAND_BATTLE_MESSAGE>(m_PBaseEntity, PEntity->GetBaseEntity(), param0, param1, static_cast<MsgBasic>(messageID)));
     }
@@ -935,7 +940,10 @@ void CLuaBaseEntity::injectActionPacket(const uint32 inTargetID, uint16 inCatego
         },
     };
 
-    m_PBaseEntity->loc.zone->PushPacket(m_PBaseEntity, CHAR_INRANGE_SELF, std::make_unique<GP_SERV_COMMAND_BATTLE2>(Action));
+    if (m_PBaseEntity->loc.zone)
+    {
+        m_PBaseEntity->loc.zone->PushPacket(m_PBaseEntity, CHAR_INRANGE_SELF, std::make_unique<GP_SERV_COMMAND_BATTLE2>(Action));
+    }
 }
 
 /************************************************************************
@@ -989,7 +997,7 @@ void CLuaBaseEntity::entityAnimationPacket(const char* command, const sol::objec
     {
         static_cast<CCharEntity*>(m_PBaseEntity)->pushPacket<GP_SERV_COMMAND_SCHEDULOR>(m_PBaseEntity, PTarget, command);
     }
-    else
+    else if (m_PBaseEntity->loc.zone)
     {
         m_PBaseEntity->loc.zone->PushPacket(m_PBaseEntity, CHAR_INRANGE, std::make_unique<GP_SERV_COMMAND_SCHEDULOR>(m_PBaseEntity, PTarget, command));
     }
@@ -1863,7 +1871,10 @@ void CLuaBaseEntity::facePlayer(CLuaBaseEntity* PLuaBaseEntity, const sol::objec
 void CLuaBaseEntity::clearTargID()
 {
     m_PBaseEntity->m_TargID = 0;
-    m_PBaseEntity->loc.zone->UpdateEntityPacket(m_PBaseEntity, ENTITY_UPDATE, UPDATE_POS);
+    if (m_PBaseEntity->loc.zone)
+    {
+        m_PBaseEntity->loc.zone->UpdateEntityPacket(m_PBaseEntity, ENTITY_UPDATE, UPDATE_POS);
+    }
 }
 
 /************************************************************************
@@ -1978,9 +1989,7 @@ bool CLuaBaseEntity::pathThrough(const sol::table& pointsTable, const sol::objec
         }
     }
 
-    CBattleEntity* PBattle = (CBattleEntity*)m_PBaseEntity;
-
-    return PBattle->PAI->PathFind->PathThrough(std::move(points), flags);
+    return m_PBaseEntity->PAI->PathFind->PathThrough(std::move(points), flags);
 }
 
 /************************************************************************
@@ -2009,17 +2018,16 @@ bool CLuaBaseEntity::isFollowingPath()
 
 void CLuaBaseEntity::clearPath(const sol::object& pauseObj)
 {
-    auto* PBattle = static_cast<CBattleEntity*>(m_PBaseEntity);
-    bool  pause   = pauseObj.is<bool>() ? pauseObj.as<bool>() : false;
+    bool pause = pauseObj.is<bool>() ? pauseObj.as<bool>() : false;
 
     // Stop onPath ticks for NPCs if this is true
     if (m_PBaseEntity->objtype == TYPE_NPC && pause)
     {
         m_PBaseEntity->SetLocalVar("pauseNPCPathing", 1);
     }
-    else if (PBattle->PAI->PathFind != nullptr)
+    else if (m_PBaseEntity->PAI->PathFind != nullptr)
     {
-        PBattle->PAI->PathFind->Clear();
+        m_PBaseEntity->PAI->PathFind->Clear();
     }
 }
 
@@ -2192,6 +2200,11 @@ void CLuaBaseEntity::openDoor(const sol::object& seconds)
         return;
     }
 
+    if (!m_PBaseEntity->loc.zone)
+    {
+        return;
+    }
+
     if (m_PBaseEntity->animation == ANIMATION_CLOSE_DOOR)
     {
         uint32 OpenTime = (seconds != sol::lua_nil) ? seconds.as<uint32>() * 1000 : 7000;
@@ -2204,7 +2217,10 @@ void CLuaBaseEntity::openDoor(const sol::object& seconds)
         [](CBaseEntity* PNpc)
         {
             PNpc->animation = ANIMATION_CLOSE_DOOR;
-            PNpc->loc.zone->UpdateEntityPacket(PNpc, ENTITY_UPDATE, UPDATE_COMBAT);
+            if (PNpc->loc.zone)
+            {
+                PNpc->loc.zone->UpdateEntityPacket(PNpc, ENTITY_UPDATE, UPDATE_COMBAT);
+            }
         }));
         // clang-format on
     }
@@ -2223,7 +2239,10 @@ void CLuaBaseEntity::closeDoor(const sol::object& seconds)
         ShowWarning("CLuaBaseEntity::closeDoor() - Non-NPC passed to function.");
         return;
     }
-
+    if (!m_PBaseEntity->loc.zone)
+    {
+        return;
+    }
     if (m_PBaseEntity->animation == ANIMATION_OPEN_DOOR)
     {
         uint32 CloseTime         = (seconds != sol::lua_nil) ? seconds.as<uint32>() * 1000 : 7000;
@@ -2234,7 +2253,10 @@ void CLuaBaseEntity::closeDoor(const sol::object& seconds)
         m_PBaseEntity->PAI->QueueAction(queueAction_t(std::chrono::milliseconds(CloseTime), false, [](CBaseEntity* PNpc)
         {
             PNpc->animation = ANIMATION_OPEN_DOOR;
-            PNpc->loc.zone->UpdateEntityPacket(PNpc, ENTITY_UPDATE, UPDATE_COMBAT);
+            if (PNpc->loc.zone)
+            {
+                PNpc->loc.zone->UpdateEntityPacket(PNpc, ENTITY_UPDATE, UPDATE_COMBAT);
+            }
         }));
         // clang-format on
     }
@@ -2280,7 +2302,14 @@ void CLuaBaseEntity::setElevator(uint8 id, uint32 lowerDoor, uint32 upperDoor, u
     elevator.movetime = xi::vanadiel_clock::minutes(3);
     elevator.interval = xi::vanadiel_clock::minutes(8);
 
-    elevator.zoneID = m_PBaseEntity->loc.zone->GetID();
+    if (m_PBaseEntity->loc.zone)
+    {
+        elevator.zoneID = m_PBaseEntity->loc.zone->GetID();
+    }
+    else
+    {
+        ShowError("setElevator failed! Entity does not have loc.zone assigned!");
+    }
 
     CTransportHandler::getInstance()->insertElevator(elevator);
 }
@@ -2337,6 +2366,11 @@ void CLuaBaseEntity::showNPC(const sol::object& seconds)
         return;
     }
 
+    if (!m_PBaseEntity->loc.zone)
+    {
+        return;
+    }
+
     uint32 showTime = (seconds != sol::lua_nil) ? seconds.as<uint32>() * 1000 : 15000;
 
     m_PBaseEntity->status = STATUS_TYPE::NORMAL;
@@ -2346,7 +2380,10 @@ void CLuaBaseEntity::showNPC(const sol::object& seconds)
     m_PBaseEntity->PAI->QueueAction(queueAction_t(std::chrono::milliseconds(showTime), false, [](CBaseEntity* PNpc)
     {
         PNpc->status = STATUS_TYPE::DISAPPEAR;
-        PNpc->loc.zone->UpdateEntityPacket(PNpc, ENTITY_DESPAWN, UPDATE_NONE);
+        if (PNpc->loc.zone)
+        {
+            PNpc->loc.zone->UpdateEntityPacket(PNpc, ENTITY_DESPAWN, UPDATE_NONE);
+        }
     }));
     // clang-format on
 }
@@ -2366,6 +2403,11 @@ void CLuaBaseEntity::hideNPC(const sol::object& seconds)
         return;
     }
 
+    if (!m_PBaseEntity->loc.zone)
+    {
+        return;
+    }
+
     if (m_PBaseEntity->status == STATUS_TYPE::NORMAL)
     {
         uint32 hideTime = (seconds != sol::lua_nil) ? seconds.as<uint32>() * 1000 : 15000;
@@ -2377,7 +2419,10 @@ void CLuaBaseEntity::hideNPC(const sol::object& seconds)
         m_PBaseEntity->PAI->QueueAction(queueAction_t(std::chrono::milliseconds(hideTime), false, [](CBaseEntity* PNpc)
         {
             PNpc->status = STATUS_TYPE::NORMAL;
-            PNpc->loc.zone->UpdateEntityPacket(PNpc, ENTITY_UPDATE, UPDATE_COMBAT);
+            if (PNpc->loc.zone)
+            {
+                PNpc->loc.zone->UpdateEntityPacket(PNpc, ENTITY_UPDATE, UPDATE_COMBAT);
+            }
         }));
         // clang-format on
     }
@@ -2406,7 +2451,10 @@ void CLuaBaseEntity::updateNPCHideTime(const sol::object& seconds)
         m_PBaseEntity->PAI->QueueAction(queueAction_t(std::chrono::milliseconds(hideTime), false, [](CBaseEntity* PNpc)
         {
             PNpc->status = STATUS_TYPE::NORMAL;
-            PNpc->loc.zone->UpdateEntityPacket(PNpc, ENTITY_UPDATE, UPDATE_COMBAT);
+            if (PNpc->loc.zone)
+            {
+                PNpc->loc.zone->UpdateEntityPacket(PNpc, ENTITY_UPDATE, UPDATE_COMBAT);
+            }
         }));
         // clang-format on
     }
@@ -2602,7 +2650,7 @@ void CLuaBaseEntity::sendEmote(const CLuaBaseEntity* target, uint8 emID, uint8 e
     const auto  emoteID   = static_cast<Emote>(emID);
     const auto  emoteMode = static_cast<EmoteMode>(emMode);
 
-    if (auto* PEntity = dynamic_cast<CNpcEntity*>(m_PBaseEntity))
+    if (auto* PEntity = dynamic_cast<CNpcEntity*>(m_PBaseEntity); PEntity && PEntity->loc.zone)
     {
         auto targetId     = PTarget ? PTarget->id : PEntity->id;
         auto targetTargId = PTarget ? PTarget->targid : PEntity->targid;
@@ -2613,7 +2661,7 @@ void CLuaBaseEntity::sendEmote(const CLuaBaseEntity* target, uint8 emID, uint8 e
         return;
     }
 
-    if (auto* PChar = dynamic_cast<CCharEntity*>(m_PBaseEntity))
+    if (auto* PChar = dynamic_cast<CCharEntity*>(m_PBaseEntity); PChar && PChar->loc.zone)
     {
         auto targetId     = PTarget ? PTarget->id : PChar->id;
         auto targetTargId = PTarget ? PTarget->targid : PChar->targid;
@@ -2898,6 +2946,13 @@ uint8 CLuaBaseEntity::getCurrentRegion()
 
 uint8 CLuaBaseEntity::getContinentID()
 {
+    if (!m_PBaseEntity->loc.zone)
+    {
+        ShowError("Attempting to get Continent ID when entity's zone is null.");
+
+        return 255;
+    }
+
     return static_cast<uint8>(m_PBaseEntity->loc.zone->GetContinentID());
 }
 
@@ -3018,7 +3073,10 @@ void CLuaBaseEntity::updateToEntireZone(uint8 statusID, uint8 animation, const s
         PNpc->SetLocalVar("TransportTimestamp", earth_time::vanadiel_timestamp());
     }
 
-    PNpc->loc.zone->UpdateEntityPacket(PNpc, ENTITY_UPDATE, UPDATE_COMBAT, true);
+    if (PNpc->loc.zone)
+    {
+        PNpc->loc.zone->UpdateEntityPacket(PNpc, ENTITY_UPDATE, UPDATE_COMBAT, true);
+    }
 }
 
 // Sends an arbitrary entity update to a specific player only
@@ -3182,7 +3240,10 @@ void CLuaBaseEntity::positionSpecial(std::map<std::string, float> pos, POSMODE m
         static_cast<uint8>(pos["rot"]),
     };
 
-    m_PBaseEntity->loc.zone->PushPacket(m_PBaseEntity, CHAR_INRANGE_SELF, std::make_unique<GP_SERV_COMMAND_WPOS>(m_PBaseEntity, newPos, mode));
+    if (m_PBaseEntity->loc.zone)
+    {
+        m_PBaseEntity->loc.zone->PushPacket(m_PBaseEntity, CHAR_INRANGE_SELF, std::make_unique<GP_SERV_COMMAND_WPOS>(m_PBaseEntity, newPos, mode));
+    }
 }
 
 /************************************************************************
@@ -3344,8 +3405,11 @@ void CLuaBaseEntity::teleport(std::map<std::string, float> pos, const sol::objec
         newPos.rotation                = worldAngle(m_PBaseEntity->loc.p, PLuaBaseEntity->GetBaseEntity()->loc.p);
     }
 
-    m_PBaseEntity->loc.zone->PushPacket(m_PBaseEntity, CHAR_INRANGE_SELF, std::make_unique<GP_SERV_COMMAND_WPOS>(m_PBaseEntity, newPos));
-    m_PBaseEntity->updatemask |= UPDATE_POS;
+    if (m_PBaseEntity->loc.zone)
+    {
+        m_PBaseEntity->loc.zone->PushPacket(m_PBaseEntity, CHAR_INRANGE_SELF, std::make_unique<GP_SERV_COMMAND_WPOS>(m_PBaseEntity, newPos));
+        m_PBaseEntity->updatemask |= UPDATE_POS;
+    }
 }
 
 /************************************************************************
@@ -3924,9 +3988,13 @@ uint16 CLuaBaseEntity::getEquipID(SLOTTYPE slot)
             return 0;
         }
 
-        CCharEntity* PChar = dynamic_cast<CCharEntity*>(m_PBaseEntity);
-        CItem*       PItem = PChar->getEquip(slot);
+        const auto* PChar = dynamic_cast<CCharEntity*>(m_PBaseEntity);
+        if (!PChar)
+        {
+            return 0;
+        }
 
+        const CItem* PItem = PChar->getEquip(slot);
         if (PItem && PItem->isType(ITEM_EQUIPMENT))
         {
             return PItem->getID();
@@ -4026,7 +4094,7 @@ uint32 CLuaBaseEntity::getItemCount(uint16 itemID)
 {
     if (m_PBaseEntity->objtype != TYPE_PC)
     {
-        return false;
+        return 0;
     }
 
     auto* PChar = static_cast<CCharEntity*>(m_PBaseEntity);
@@ -5923,7 +5991,7 @@ void CLuaBaseEntity::setAnimationSub(uint8 animationsub, const sol::object& send
                 PChar->pushPacket<CCharStatusPacket>(PChar);
             }
         }
-        else if (sendPacket)
+        else if (sendPacket && m_PBaseEntity->loc.zone)
         {
             m_PBaseEntity->loc.zone->UpdateEntityPacket(m_PBaseEntity, ENTITY_UPDATE, UPDATE_COMBAT);
         }
@@ -6488,7 +6556,7 @@ void CLuaBaseEntity::setBaseSpeed(uint8 speedVal)
             auto* PChar = static_cast<CCharEntity*>(m_PBaseEntity);
             PChar->pushPacket<CCharStatusPacket>(PChar);
         }
-        else
+        else if (m_PBaseEntity->loc.zone)
         {
             m_PBaseEntity->loc.zone->UpdateEntityPacket(m_PBaseEntity, ENTITY_UPDATE, UPDATE_POS);
         }
@@ -6515,7 +6583,7 @@ void CLuaBaseEntity::setAnimationSpeed(uint8 speedVal)
             auto* PChar = static_cast<CCharEntity*>(m_PBaseEntity);
             PChar->pushPacket<CCharStatusPacket>(PChar);
         }
-        else
+        else if (m_PBaseEntity->loc.zone)
         {
             m_PBaseEntity->loc.zone->UpdateEntityPacket(m_PBaseEntity, ENTITY_UPDATE, UPDATE_POS);
         }
@@ -9961,7 +10029,7 @@ void CLuaBaseEntity::setHP(int32 value)
     // When setting the HP to 0 the entity "falls to the ground" so the last attacker needs to be cleared
     if (value == 0)
     {
-        PBattle->PLastAttacker = nullptr;
+        PBattle->lastAttackerId_.clean();
     }
 }
 
@@ -11282,12 +11350,24 @@ uint8 CLuaBaseEntity::getPartySize(const sol::object& arg0)
 
 bool CLuaBaseEntity::hasPartyJob(uint8 job)
 {
-    if (static_cast<CCharEntity*>(m_PBaseEntity)->PParty != nullptr)
+    auto* PChar = dynamic_cast<CCharEntity*>(m_PBaseEntity);
+    if (!PChar)
     {
-        for (const auto& member : static_cast<CCharEntity*>(m_PBaseEntity)->PParty->members)
+        if (auto* PTrust = dynamic_cast<CTrustEntity*>(m_PBaseEntity))
         {
-            CCharEntity* PTarget = static_cast<CCharEntity*>(member);
+            PChar = dynamic_cast<CCharEntity*>(PTrust->PMaster);
+        }
+    }
 
+    if (!PChar || !PChar->PParty)
+    {
+        return false;
+    }
+
+    for (const auto& member : PChar->PParty->members)
+    {
+        if (auto* PTarget = dynamic_cast<CCharEntity*>(member))
+        {
             if (PTarget->GetMJob() == job)
             {
                 return true;
@@ -11670,7 +11750,10 @@ void CLuaBaseEntity::disableLevelSync()
         }
     }
 
-    PChar->loc.zone->PushPacket(PChar, CHAR_INRANGE, std::make_unique<CCharSyncPacket>(PChar));
+    if (PChar->loc.zone)
+    {
+        PChar->loc.zone->PushPacket(PChar, CHAR_INRANGE, std::make_unique<CCharSyncPacket>(PChar));
+    }
 }
 
 /************************************************************************
@@ -11998,6 +12081,12 @@ auto CLuaBaseEntity::registerBattlefield(const sol::object& arg0, const sol::obj
 
 auto CLuaBaseEntity::battlefieldAtCapacity(const int battlefieldID) const -> bool
 {
+    if (!m_PBaseEntity->loc.zone)
+    {
+        ShowError("battlefieldAtCapacity: loc.zone was null for %s", m_PBaseEntity->getName());
+        return true;
+    }
+
     if (m_PBaseEntity->loc.zone->m_BattlefieldHandler == nullptr)
     {
         ShowWarning("m_BattlefieldHandler was null for %s.", m_PBaseEntity->getName());
@@ -12037,6 +12126,12 @@ auto CLuaBaseEntity::battlefieldAtCapacity(const int battlefieldID) const -> boo
 
 auto CLuaBaseEntity::enterBattlefield(const sol::object& area) const -> bool
 {
+    if (m_PBaseEntity->loc.zone == nullptr)
+    {
+        ShowError("CLuaBaseEntity::enterBattlefield() - loc.zone was null for %s", m_PBaseEntity->getName());
+        return false;
+    }
+
     if (m_PBaseEntity->objtype != TYPE_PC || m_PBaseEntity->loc.zone->m_BattlefieldHandler == nullptr)
     {
         ShowWarning("CLuaBaseEntity::enterBattlefield() - Non-PC calling function, or Battlefield Handler is null.");
@@ -12065,6 +12160,12 @@ auto CLuaBaseEntity::enterBattlefield(const sol::object& area) const -> bool
 
 auto CLuaBaseEntity::leaveBattlefield(const uint8 leavecode) const -> bool
 {
+    if (m_PBaseEntity->loc.zone == nullptr)
+    {
+        ShowError("CLuaBaseEntity::leaveBattlefield() - loc.zone was null for %s", m_PBaseEntity->getName());
+        return false;
+    }
+
     if (m_PBaseEntity->objtype == TYPE_NPC || m_PBaseEntity->loc.zone->m_BattlefieldHandler == nullptr)
     {
         ShowWarning("CLuaBaseEntity::leaveBattlefield() - NPC calling function, or Battlefield Handler is null.");
@@ -12492,7 +12593,10 @@ void CLuaBaseEntity::enableEntities(const sol::object& obj)
  ************************************************************************/
 void CLuaBaseEntity::independentAnimation(CLuaBaseEntity* PTarget, uint16 animId, uint8 mode)
 {
-    m_PBaseEntity->loc.zone->PushPacket(m_PBaseEntity, CHAR_INRANGE_SELF, std::make_unique<GP_SERV_COMMAND_MAGICSCHEDULOR>(m_PBaseEntity, PTarget->GetBaseEntity(), animId, static_cast<GP_SERV_COMMAND_MAGICSCHEDULOR_TYPE>(mode)));
+    if (m_PBaseEntity->loc.zone)
+    {
+        m_PBaseEntity->loc.zone->PushPacket(m_PBaseEntity, CHAR_INRANGE_SELF, std::make_unique<GP_SERV_COMMAND_MAGICSCHEDULOR>(m_PBaseEntity, PTarget->GetBaseEntity(), animId, static_cast<GP_SERV_COMMAND_MAGICSCHEDULOR_TYPE>(mode)));
+    }
 }
 
 /************************************************************************
@@ -12949,7 +13053,7 @@ uint16 CLuaBaseEntity::getBaseWeaponDelay(uint16 slot)
     if (m_PBaseEntity->objtype != TYPE_PC)
     {
         ShowWarning("Invalid entity type calling function (%s).", m_PBaseEntity->getName());
-        return false;
+        return 0;
     }
     CCharEntity* PCharEntity = dynamic_cast<CCharEntity*>(m_PBaseEntity);
 
@@ -13296,26 +13400,26 @@ void CLuaBaseEntity::transferEnmity(CLuaBaseEntity* entity, uint8 percent, float
  *  Notes   : Used in most Weaponskills and damaging abilities scripts
  ************************************************************************/
 
-void CLuaBaseEntity::updateEnmityFromDamage(CLuaBaseEntity* PEntity, int32 damage)
+void CLuaBaseEntity::updateEnmityFromDamage(CLuaBaseEntity* PEntity, const int32 damage) const
 {
-    auto* PBaseMob = static_cast<CMobEntity*>(m_PBaseEntity);
-
     if (m_PBaseEntity->id == PEntity->getID())
     {
         ShowWarning(fmt::format("updateEnmityFromDamage(): Attempting to add enmity from damage to self ({}, {})!", PEntity->getName(), PEntity->getID()));
         return;
     }
 
+    auto* PBaseMob = dynamic_cast<CMobEntity*>(m_PBaseEntity);
+
     // This is a mob attacking a target and losing enmity from doing damage
-    if (m_PBaseEntity->objtype == TYPE_PC || m_PBaseEntity->objtype == TYPE_PET || (m_PBaseEntity->objtype == TYPE_MOB && PBaseMob->isCharmed))
+    if (m_PBaseEntity->objtype == TYPE_PC || m_PBaseEntity->objtype == TYPE_PET || (PBaseMob && PBaseMob->isCharmed))
     {
-        if (PEntity->GetBaseEntity() && PEntity->GetBaseEntity()->objtype == TYPE_MOB)
+        if (auto* PTargetMob = dynamic_cast<CMobEntity*>(PEntity->GetBaseEntity()))
         {
-            static_cast<CMobEntity*>(PEntity->GetBaseEntity())->PEnmityContainer->UpdateEnmityFromAttack(static_cast<CBattleEntity*>(m_PBaseEntity), damage);
+            PTargetMob->PEnmityContainer->UpdateEnmityFromAttack(static_cast<CBattleEntity*>(m_PBaseEntity), damage);
         }
     }
     // This is a mob being attacked and gaining enmity on the attacker
-    else if (m_PBaseEntity->objtype == TYPE_MOB)
+    else if (PBaseMob)
     {
         if (PEntity->GetBaseEntity() && damage > 0 && PEntity->GetBaseEntity()->objtype != TYPE_NPC)
         {
@@ -17402,7 +17506,7 @@ void CLuaBaseEntity::setSpawn(float x, float y, float z, const sol::object& rot)
  *  Notes   : Used in mobs.lua...and directly in Charybdis
  ************************************************************************/
 
-uint32 CLuaBaseEntity::getRespawnTime()
+auto CLuaBaseEntity::getRespawnTime() const -> uint32
 {
     if (m_PBaseEntity->objtype != TYPE_MOB)
     {
@@ -17410,11 +17514,12 @@ uint32 CLuaBaseEntity::getRespawnTime()
         return 0;
     }
 
-    CMobEntity* PMob = static_cast<CMobEntity*>(m_PBaseEntity);
-
-    if (PMob->m_AllowRespawn)
+    if (auto* PMob = static_cast<CMobEntity*>(m_PBaseEntity); PMob->loc.zone)
     {
-        return static_cast<uint32>(timer::count_seconds(PMob->m_RespawnTime));
+        if (const auto remaining = PMob->loc.zone->spawnHandler()->getRemainingRespawnTime(PMob))
+        {
+            return static_cast<uint32>(timer::count_seconds(*remaining));
+        }
     }
 
     return 0;
@@ -17424,13 +17529,7 @@ uint32 CLuaBaseEntity::getRespawnTime()
  *  Function: setRespawnTime()
  *  Purpose : Setting the respawn time for a Mob
  *  Example : mob:setRespawnTime(math.random(3600, 7200))
- *  Notes   : Haven't seen the second argument option being used
- *
- * Note: Removed optional (and unused) parameter 2:
- *      if (!lua_isnil(L, 2) && lua_isboolean(L, 2) && lua_toboolean(L, 2))
-        { // set optional parameter to true to only modify the timer
-            return 0;
-        }
+ *  Notes   : 0 disables respawn.
  ************************************************************************/
 
 void CLuaBaseEntity::setRespawnTime(const uint32 seconds) const
@@ -17442,6 +17541,18 @@ void CLuaBaseEntity::setRespawnTime(const uint32 seconds) const
     }
 
     auto* PMob = static_cast<CMobEntity*>(m_PBaseEntity);
+    if (seconds == 0)
+    {
+        PMob->m_RespawnTime  = 0s;
+        PMob->m_AllowRespawn = false;
+
+        if (PMob->loc.zone != nullptr)
+        {
+            PMob->loc.zone->spawnHandler()->unregister(PMob);
+        }
+
+        return;
+    }
 
     PMob->m_RespawnTime  = std::chrono::seconds(seconds);
     PMob->m_AllowRespawn = true;
@@ -18511,6 +18622,10 @@ void CLuaBaseEntity::drawIn(const sol::variadic_args& va) const
     }
 
     const auto mobObj = dynamic_cast<CMobEntity*>(m_PBaseEntity);
+    if (!mobObj)
+    {
+        return;
+    }
 
     if (va.size() == 0)
     {
@@ -18637,7 +18752,10 @@ void CLuaBaseEntity::restoreFromChest(CLuaBaseEntity* PLuaBaseEntity, uint32 res
                 },
             };
 
-            PTarget->loc.zone->PushPacket(PTarget, CHAR_INRANGE, std::make_unique<GP_SERV_COMMAND_BATTLE2>(Action));
+            if (PTarget->loc.zone)
+            {
+                PTarget->loc.zone->PushPacket(PTarget, CHAR_INRANGE, std::make_unique<GP_SERV_COMMAND_BATTLE2>(Action));
+            }
         }
     }
 }
