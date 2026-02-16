@@ -9,16 +9,9 @@ abilityObject.onAbilityCheck = function(player, target, ability)
 end
 
 abilityObject.onPetAbility = function(target, pet, petskill, summoner, action)
-    if summoner == nil then
-        return 0
-    end
-
     local effectCount = 0
-    local effectID = 0
-
-    effectID = pet:stealStatusEffect(target)
-
-    local newStatus = pet:getStatusEffect(effectID)
+    local effectID    = pet:stealStatusEffect(target) or 0
+    local newStatus   = pet:getStatusEffect(effectID) or nil
 
     if newStatus then
         -- Store the stolen effect ID for Chronoshift so we know what effect to transfer.
@@ -31,10 +24,7 @@ abilityObject.onPetAbility = function(target, pet, petskill, summoner, action)
     end
 
     target:addEnmity(pet, 1, 60)
-
-    if summoner then
-        target:addEnmity(summoner, 1, 0) -- this is to ensure you cannot cheese mobs with this, mob goes passive if not added
-    end
+    target:addEnmity(summoner, 1, 0) -- this is to ensure you cannot cheese mobs with this, mob goes passive if not added
 
     return effectCount
 end

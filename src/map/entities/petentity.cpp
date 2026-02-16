@@ -609,9 +609,9 @@ void CPetEntity::OnPetSkillFinished(CPetSkillState& state, action_t& action)
     {
         if (PTarget->objtype == TYPE_MOB && PTarget->allegiance != this->allegiance)
         {
-            bool isAvatar         = (this->getPetType() == PET_TYPE::AVATAR);
-            bool isAtomosSkill    = (PSkill->getID() == ABILITY_DECONSTRUCTION);
-            bool isDead           = PTarget->isDead();
+            bool isAvatar      = (this->getPetType() == PET_TYPE::AVATAR);
+            bool isAtomosSkill = (PSkill->getID() == ABILITY_DECONSTRUCTION);
+            bool isDead        = PTarget->isDead();
 
             if (isDead || (isAvatar && !isAtomosSkill))
             {

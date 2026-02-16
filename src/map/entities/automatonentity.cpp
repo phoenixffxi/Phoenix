@@ -28,9 +28,9 @@
 #include "ai/states/mobskill_state.h"
 #include "common/tracy.h"
 #include "common/utils.h"
+#include "enmity_container.h"
 #include "recast_container.h"
 #include "status_effect_container.h"
-#include "enmity_container.h"
 #include "utils/mobutils.h"
 #include "utils/puppetutils.h"
 
@@ -189,8 +189,8 @@ void CAutomatonEntity::OnCastFinished(CMagicState& state, action_t& action)
 
         if (PTarget && PTarget->objtype == TYPE_MOB && PTarget->allegiance != ALLEGIANCE_TYPE::PLAYER)
         {
-            auto* PMob = static_cast<CMobEntity*>(PTarget);
-            auto* PMaster = static_cast<CBattleEntity*>(this->PMaster);
+            auto* PMob    = static_cast<CMobEntity*>(PTarget);
+            auto* PMaster = dynamic_cast<CBattleEntity*>(this->PMaster);
             if (PMaster && PMaster->objtype == TYPE_PC)
             {
                 PMob->PEnmityContainer->AddBaseEnmity(PMaster);
@@ -208,8 +208,8 @@ void CAutomatonEntity::OnMobSkillFinished(CMobSkillState& state, action_t& actio
 
     if (PTarget && PTarget->objtype == TYPE_MOB && PTarget->allegiance != ALLEGIANCE_TYPE::PLAYER)
     {
-        auto* PMob = static_cast<CMobEntity*>(PTarget);
-        auto* PMaster = static_cast<CBattleEntity*>(this->PMaster);
+        auto* PMob    = static_cast<CMobEntity*>(PTarget);
+        auto* PMaster = dynamic_cast<CBattleEntity*>(this->PMaster);
         if (PMaster && PMaster->objtype == TYPE_PC)
         {
             PMob->PEnmityContainer->AddBaseEnmity(PMaster);

@@ -9,18 +9,9 @@ abilityObject.onAbilityCheck = function(player, target, ability)
 end
 
 abilityObject.onPetAbility = function(target, pet, petskill, summoner, action)
-    if summoner == nil then
-        return 0
-    end
-
-    local effect      = nil
-    local effectID    = 0
     local effectCount = 0
-    
-    -- Retrive the absorbed effect's ID
-    effectID = pet:getLocalVar('aEffectID')
-    -- Find that effect on Atomos
-    effect = pet:getStatusEffect(effectID)
+    local effectID    = pet:getLocalVar('aEffectID') or 0    -- Retrive the absorbed effect's ID
+    local effect      = pet:getStatusEffect(effectID) or nil -- Find that effect on Atomos
 
     if effect then
         local effectIcon  = effect:getIcon()

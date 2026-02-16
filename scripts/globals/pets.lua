@@ -127,11 +127,14 @@ xi.pet.spawnPet = function(caster, petID, state, target)
                 -- Use Deconstruction on the target 3 seconds after spawning.
                 local pet = caster:getPet()
                 if pet then
-                    pet:setAutoAttackEnabled(false) -- stops claiming, Atomos does not claim mobs on retail.
-                    pet:setMobMod(xi.mobMod.NO_MOVE, 1) -- Atomos is stubborn and will still chase a mob unless this is set.
                     -- Timed sequence after spawning, wait -> Deconstruction -> wait -> Chronoshift (despawn pet after complete)
-                    pet:timer(3000, function() pet:usePetAbility(xi.jobAbility.DECONSTRUCTION, target) end)
-                    pet:timer(10000, function() pet:usePetAbility(xi.jobAbility.CHRONOSHIFT, pet) end)
+                    pet:timer(3000, function()
+                        pet:usePetAbility(xi.jobAbility.DECONSTRUCTION, target)
+                    end)
+
+                    pet:timer(10000, function()
+                        pet:usePetAbility(xi.jobAbility.CHRONOSHIFT, pet)
+                    end)
                 end
             end
         end
