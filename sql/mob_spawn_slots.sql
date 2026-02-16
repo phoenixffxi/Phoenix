@@ -110,7 +110,24 @@ INSERT INTO `mob_spawn_slots` VALUES (103,55,0);
 INSERT INTO `mob_spawn_slots` VALUES (103,56,0);
 INSERT INTO `mob_spawn_slots` VALUES (103,57,0);
 
--- Behemoth's Dominion  
+-- Qufim Island
+INSERT INTO `mob_spawn_slots` VALUES (126,1,0);
+INSERT INTO `mob_spawn_slots` VALUES (126,2,0);
+INSERT INTO `mob_spawn_slots` VALUES (126,3,0);
+INSERT INTO `mob_spawn_slots` VALUES (126,4,0);
+INSERT INTO `mob_spawn_slots` VALUES (126,5,0);
+INSERT INTO `mob_spawn_slots` VALUES (126,6,0);
+INSERT INTO `mob_spawn_slots` VALUES (126,7,0);
+INSERT INTO `mob_spawn_slots` VALUES (126,8,0);
+INSERT INTO `mob_spawn_slots` VALUES (126,9,0);
+INSERT INTO `mob_spawn_slots` VALUES (126,10,0);
+INSERT INTO `mob_spawn_slots` VALUES (126,11,0);
+INSERT INTO `mob_spawn_slots` VALUES (126,12,0);
+INSERT INTO `mob_spawn_slots` VALUES (126,13,0);
+INSERT INTO `mob_spawn_slots` VALUES (126,14,0);
+INSERT INTO `mob_spawn_slots` VALUES (126,15,0);
+
+-- Behemoth's Dominion
 INSERT INTO `mob_spawn_slots` VALUES (127,1,0);
 INSERT INTO `mob_spawn_slots` VALUES (127,2,0);
 INSERT INTO `mob_spawn_slots` VALUES (127,3,0);
@@ -134,7 +151,7 @@ INSERT INTO `mob_spawn_slots` VALUES (130,15,0);
 INSERT INTO `mob_spawn_slots` VALUES (130,16,0);
 INSERT INTO `mob_spawn_slots` VALUES (130,17,0);
 
--- Ghelsba Outpost (Zone 140)
+-- Ghelsba Outpost
 INSERT INTO `mob_spawn_slots` VALUES (140,1,0);
 INSERT INTO `mob_spawn_slots` VALUES (140,2,0);
 INSERT INTO `mob_spawn_slots` VALUES (140,3,0);
@@ -198,7 +215,7 @@ INSERT INTO `mob_spawn_slots` VALUES (140,60,0);
 INSERT INTO `mob_spawn_slots` VALUES (140,61,0);
 INSERT INTO `mob_spawn_slots` VALUES (140,62,0);
 
--- Fort Ghelsba (Zone 141)
+-- Fort Ghelsba
 INSERT INTO `mob_spawn_slots` VALUES (141,1,0);
 INSERT INTO `mob_spawn_slots` VALUES (141,2,0);
 INSERT INTO `mob_spawn_slots` VALUES (141,3,0);
