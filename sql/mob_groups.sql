@@ -8614,7 +8614,7 @@ INSERT INTO `mob_groups` VALUES (34,5855,114,'Nandi',0,128,3067,4500,0,0,'WOTG')
 INSERT INTO `mob_groups` VALUES (35,1084,114,'Doom_Scorpion',300,0,681,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (36,6658,114,'Goblin_Digger',300,0,1042,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (37,948,114,'Decurio_I-III',0,128,0,4000,4000,0,NULL);
-INSERT INTO `mob_groups` VALUES (38,4045,114,'Tsuchigumo',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (38,4045,114,'Tsuchigumo',0,128,0,2800,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (39,1983,114,'Hobgoblin_Warrior',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (40,1984,114,'Hobgoblin_White_Mage',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (41,1972,114,'Hobgoblin_Black_Mage',0,128,0,0,0,0,NULL);
