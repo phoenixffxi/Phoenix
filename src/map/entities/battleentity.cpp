@@ -2435,12 +2435,14 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
         // Allegiance must be different from the caster.
         // Must NOT be Summoning Magic (Atomos and Odin are cast on a mob).
         // If the caster is a PET, it must NOT be an AUTOMATON.
+        // No mobs should claim with magic not even charmed mobs.
 
-        bool isDifferentAllegianceMob = (PActionTarget->objtype == TYPE_MOB && PActionTarget->allegiance != this->allegiance);
-        bool isNotSummoning           = (PSpell->getSkillType() != SKILL_SUMMONING_MAGIC);
-        bool isNotAutomaton           = (this->objtype != TYPE_PET || static_cast<CPetEntity*>(this)->getPetType() != PET_TYPE::AUTOMATON);
+        bool isTargetValidMob = (PActionTarget->objtype == TYPE_MOB && PActionTarget->allegiance != this->allegiance);
+        bool isNotSummoning   = (PSpell->getSkillType() != SKILL_SUMMONING_MAGIC);
+        bool isAutomaton      = (this->objtype == TYPE_PET && static_cast<CPetEntity*>(this)->getPetType() == PET_TYPE::AUTOMATON);
+        bool isMob            = (this->objtype == TYPE_MOB);
 
-        if (isDifferentAllegianceMob && isNotSummoning && isNotAutomaton)
+        if (isTargetValidMob && !isMob && isNotSummoning && !isAutomaton)
         {
             battleutils::ClaimMob(PActionTarget, this);
         }

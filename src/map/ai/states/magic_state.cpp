@@ -529,9 +529,16 @@ void CMagicState::ApplyEnmity(CBattleEntity* PTarget, int ce, int ve)
 
                 if (!(m_PSpell->isHeal()) || m_PSpell->tookEffect()) // can't claim mob with cure unless it does damage
                 {
+                    bool isMob = (m_PEntity->objtype == TYPE_MOB);
+
+                    if (isMob && !m_PEntity->isCharmed)
+                    {
+                        return;
+                    }
+
                     mob->PEnmityContainer->UpdateEnmity(m_PEntity, ce, ve);
                     enmityApplied = true;
-                    if (PTarget->isDead())
+                    if (PTarget->isDead() && (!isMob || (isMob && m_PEntity->isCharmed)))
                     { // claim mob only on death (for aoe)
                         battleutils::ClaimMob(PTarget, m_PEntity);
                     }
