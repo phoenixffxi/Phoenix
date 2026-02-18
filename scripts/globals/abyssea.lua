@@ -1287,15 +1287,16 @@ end
 -----------------------------------
 local abysseaExitMawData =
 {
-    [xi.zone.ABYSSEA_LA_THEINE ] = { exitCsid = 200, dest = { -561.837,   0.000,  641.772, 158, xi.zone.LA_THEINE_PLATEAU     } },
-    [xi.zone.ABYSSEA_KONSCHTAT ] = { exitCsid = 200, dest = {       91,     -68,     -582, 237, xi.zone.KONSCHTAT_HIGHLANDS   } },
-    [xi.zone.ABYSSEA_TAHRONGI  ] = { exitCsid = 200, dest = {  -28.597,  46.166, -680.254, 192, xi.zone.TAHRONGI_CANYON       } },
-    [xi.zone.ABYSSEA_VUNKERL   ] = { exitCsid = 200, dest = {  242.979,   0.235,    8.721, 157, xi.zone.JUGNER_FOREST         } },
-    [xi.zone.ABYSSEA_MISAREAUX ] = { exitCsid = 200, dest = {      362,   0.001,     -119,   4, xi.zone.VALKURM_DUNES         } },
-    [xi.zone.ABYSSEA_ATTOHWA   ] = { exitCsid = 200, dest = { -339.979, -23.372,   48.493,  31, xi.zone.BUBURIMU_PENINSULA    } },
-    [xi.zone.ABYSSEA_ALTEPA    ] = { exitCsid = 200, dest = {      343,       0,     -679, 199, xi.zone.SOUTH_GUSTABERG       } },
-    [xi.zone.ABYSSEA_ULEGUERAND] = { exitCsid = 200, dest = {      269,      -7,      -75, 192, xi.zone.XARCABARD             } },
-    [xi.zone.ABYSSEA_GRAUBERG  ] = { exitCsid = 200, dest = {  -72.890,   0.057,  600.131, 122, xi.zone.NORTH_GUSTABERG       } },
+    [xi.zone.ABYSSEA_LA_THEINE         ] = { exitCsid = 200, dest = { -561.837,   0.000,  641.772, 158, xi.zone.LA_THEINE_PLATEAU     } },
+    [xi.zone.ABYSSEA_KONSCHTAT         ] = { exitCsid = 200, dest = {       91,     -68,     -582, 237, xi.zone.KONSCHTAT_HIGHLANDS   } },
+    [xi.zone.ABYSSEA_TAHRONGI          ] = { exitCsid = 200, dest = {  -28.597,  46.166, -680.254, 192, xi.zone.TAHRONGI_CANYON       } },
+    [xi.zone.ABYSSEA_VUNKERL           ] = { exitCsid = 200, dest = {  242.979,   0.235,    8.721, 157, xi.zone.JUGNER_FOREST         } },
+    [xi.zone.ABYSSEA_MISAREAUX         ] = { exitCsid = 200, dest = {      362,   0.001,     -119,   4, xi.zone.VALKURM_DUNES         } },
+    [xi.zone.ABYSSEA_ATTOHWA           ] = { exitCsid = 200, dest = { -339.979, -23.372,   48.493,  31, xi.zone.BUBURIMU_PENINSULA    } },
+    [xi.zone.ABYSSEA_ALTEPA            ] = { exitCsid = 200, dest = {      343,       0,     -679, 199, xi.zone.SOUTH_GUSTABERG       } },
+    [xi.zone.ABYSSEA_ULEGUERAND        ] = { exitCsid = 200, dest = {      269,      -7,      -75, 192, xi.zone.XARCABARD             } },
+    [xi.zone.ABYSSEA_GRAUBERG          ] = { exitCsid = 200, dest = {  -72.890,   0.057,  600.131, 122, xi.zone.NORTH_GUSTABERG       } },
+    [xi.zone.ABYSSEA_EMPYREAL_PARADOX  ] = { exitCsid = 200, dest = {  -256.128, -20.000, 225.053, 218, xi.zone.QUFIM_ISLAND          } },
 }
 
 xi.abyssea.exitMawOnTrigger = function(player, npc)
