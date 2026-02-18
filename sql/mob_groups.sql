@@ -9309,9 +9309,9 @@ INSERT INTO `mob_groups` VALUES (37,423,124,'Bisque-heeled_Sunberry',0,128,280,6
 INSERT INTO `mob_groups` VALUES (38,3232,124,'Puroboros',300,8,569,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (39,532,124,'Bright-handed_Kunberry',0,128,358,5400,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (40,6659,124,'Goblin_Digger',300,0,1042,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (41,2186,124,'Kappa_Akuso',0,128,0,5800,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (42,2188,124,'Kappa_Bonze',0,128,0,4600,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (43,2187,124,'Kappa_Biwa',0,128,0,4600,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (41,2186,124,'Kappa_Akuso',0,128,0,6100,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (42,2188,124,'Kappa_Bonze',0,128,0,5900,5900,0,NULL);
+INSERT INTO `mob_groups` VALUES (43,2187,124,'Kappa_Biwa',0,128,0,5200,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (44,1983,124,'Hobgoblin_Warrior',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (45,1984,124,'Hobgoblin_White_Mage',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (46,1972,124,'Hobgoblin_Black_Mage',0,128,0,0,0,0,NULL);
