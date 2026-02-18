@@ -13548,7 +13548,7 @@ INSERT INTO `mob_groups` VALUES (48,6891,200,'Mephitas',0,128,0,0,0,0,NULL);
 -- ------------------------------------------------------------
 
 INSERT INTO `mob_groups` VALUES (1,4647,201,'Garuda_Prime_TBW',0,128,0,8000,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (2,2951,201,'Ogmios',0,128,0,10000,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (2,2951,201,'Ogmios',0,128,0,11000,11000,0,NULL);
 INSERT INTO `mob_groups` VALUES (3,7049,201,'Garuda_Prime_TSTBW',0,128,0,700,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (4,1473,201,'Garuda_Prime_WTB',0,128,0,25000,0,0,NULL);
 -- use the temenos elemental mob pool as those are MOBTYPE_BATTLEFIELD
