@@ -2853,13 +2853,13 @@ function CBaseEntity:clearEnmityForEntity(PEntity)
 end
 
 ---@class StatusEffectParams
----@field power integer
----@field duration number
 ---@field origin CBaseEntity
----@field tick integer?
----@field icon xi.effect?
+---@field power number?
+---@field duration number?
+---@field tick number?
+---@field icon xi.effect? Defaults to effectId if not set
 ---@field subType integer?
----@field subPower integer?
+---@field subPower number?
 ---@field tier integer?
 ---@field flag xi.effectFlag?
 ---@field sourceType xi.effectSourceType?

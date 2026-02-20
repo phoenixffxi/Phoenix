@@ -13650,11 +13650,11 @@ auto CLuaBaseEntity::addStatusEffect(const EFFECT effectId, sol::table params) c
     }
 
     // Required parameters
-    auto       originEntity = params["origin"].get<CLuaBaseEntity>();
-    const auto power        = static_cast<uint16>(params["power"].get<double>()); // Can come in as a lua_number, capture as double and truncate
-    const auto duration     = params["duration"].get<double>();
+    auto originEntity = params["origin"].get<CLuaBaseEntity>();
 
     // Optional parameters
+    const auto duration        = params["duration"].get_or(0.0);
+    const auto power           = static_cast<uint16>(params["power"].get_or(0.0));
     const auto tick            = static_cast<uint32>(params["tick"].get_or(0.0));
     const auto icon            = params["icon"].get_or(static_cast<uint16>(effectId));
     const auto subType         = params["subType"].get_or(0u);
@@ -13714,9 +13714,9 @@ auto CLuaBaseEntity::copyStatusEffect(const CLuaStatusEffect* PStatusEffect) con
     auto remainingDuration = 0s;
     if (POriginal->GetDuration() > 0s)
     {
-        auto duration      = POriginal->GetStartTime() - timer::now() + POriginal->GetDuration();
-        remainingDuration  = std::chrono::duration_cast<std::chrono::seconds>(duration);
-        remainingDuration  = std::max(remainingDuration, 0s);
+        const auto duration = POriginal->GetStartTime() - timer::now() + POriginal->GetDuration();
+        remainingDuration   = std::chrono::duration_cast<std::chrono::seconds>(duration);
+        remainingDuration   = std::max(remainingDuration, 0s);
     }
 
     auto* PNewEffect = new CStatusEffect(
@@ -13728,7 +13728,7 @@ auto CLuaBaseEntity::copyStatusEffect(const CLuaStatusEffect* PStatusEffect) con
         POriginal->GetSubID(),
         POriginal->GetSubPower(),
         POriginal->GetTier(),
-        POriginal->GetFlag(),
+        POriginal->GetEffectFlags(),
         POriginal->GetSourceType(),
         POriginal->GetSourceTypeParam(),
         POriginal->GetOriginID());

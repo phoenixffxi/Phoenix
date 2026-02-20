@@ -689,7 +689,7 @@ xi.abyssea.visionsCruorProspectorOnEventFinish = function(player, csid, option, 
 
         if enhanceData[2] <= cruorTotal then
             for _, v in ipairs(enhanceData[1]) do
-                player:addStatusEffectEx(v[1], v[2], v[3] + xi.abyssea.getAbyssiteTotal(player, v[4]) * v[5], 0, 0)
+                player:addStatusEffect(v[1], { power = v[3] + xi.abyssea.getAbyssiteTotal(player, v[4]) * v[5], origin = player, icon = v[2] })
 
                 if v[1] == xi.effect.ABYSSEA_HP then
                     player:addHP(v[3] + xi.abyssea.getAbyssiteTotal(player, v[4]) * v[5])
@@ -866,7 +866,7 @@ xi.abyssea.procMonster = function(mob, player, triggerType)
             end
 
             mob:weaknessTrigger(2)
-            mob:addStatusEffect(xi.effect.TERROR, 0, 0, 30)
+            mob:addStatusEffect(xi.effect.TERROR, { duration = 30, origin = player })
         elseif triggerType == xi.abyssea.triggerType.YELLOW then
             if mob:getLocalVar('[AbysseaYellowProc]') == 0 then
                 mob:setLocalVar('[AbysseaYellowProc]', 1)
@@ -875,7 +875,7 @@ xi.abyssea.procMonster = function(mob, player, triggerType)
             end
 
             mob:weaknessTrigger(1)
-            mob:addStatusEffect(xi.effect.TERROR, 0, 0, 30)
+            mob:addStatusEffect(xi.effect.TERROR, { duration = 30, origin = player })
         elseif triggerType == xi.abyssea.triggerType.BLUE then
             if mob:getLocalVar('[AbysseaBlueProc]') == 0 then
                 mob:setLocalVar('[AbysseaBlueProc]', 1)
@@ -884,7 +884,7 @@ xi.abyssea.procMonster = function(mob, player, triggerType)
             end
 
             mob:weaknessTrigger(0)
-            mob:addStatusEffect(xi.effect.TERROR, 0, 0, 30)
+            mob:addStatusEffect(xi.effect.TERROR, { duration = 30, origin = player })
         end
     end
 end
@@ -1154,7 +1154,7 @@ end
 xi.abyssea.onZoneIn = function(player)
     -- If the player is a GM, and has GM toggled active, give them permanent visitant status.
     if player:getGMLevel() > 0 and player:getVisibleGMLevel() >= 3 then
-        player:addStatusEffectEx(xi.effect.VISITANT, xi.effect.VISITANT, 0, 0, 0)
+        player:addStatusEffect(xi.effect.VISITANT, { origin = player })
     end
 end
 
@@ -1174,7 +1174,7 @@ xi.abyssea.afterZoneIn = function(player)
     -- the countdown timer for visitant status reach 0 before actually running out of time on
     -- the effect.
     if not player:hasStatusEffect(xi.effect.VISITANT) then
-        player:addStatusEffectEx(xi.effect.VISITANT, 0, 0, 3, 304)
+        player:addStatusEffect(xi.effect.VISITANT, { duration = 304, origin = player, tick = 3, icon = 0 })
     end
 
     local visitantEffect = player:getStatusEffect(xi.effect.VISITANT)
