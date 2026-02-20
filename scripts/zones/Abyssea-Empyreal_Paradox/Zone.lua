@@ -21,6 +21,12 @@ zoneObject.onZoneIn = function(player, prevZone)
     return cs
 end
 
+zoneObject.afterZoneIn = function(player)
+    if not player:hasStatusEffect(xi.effect.VISITANT) then
+        player:addStatusEffectEx(xi.effect.VISITANT, xi.effect.VISITANT, 0, 0, 0)
+    end
+end
+
 zoneObject.onTriggerAreaEnter = function(player, triggerArea)
 end
 
