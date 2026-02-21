@@ -23,7 +23,7 @@ end
 
 zoneObject.afterZoneIn = function(player)
     if not player:hasStatusEffect(xi.effect.VISITANT) then
-        player:addStatusEffectEx(xi.effect.VISITANT, xi.effect.VISITANT, 0, 0, 0)
+        player:addStatusEffect(xi.effect.VISITANT, { icon = xi.effect.VISITANT, origin = player })
     end
 end
 
