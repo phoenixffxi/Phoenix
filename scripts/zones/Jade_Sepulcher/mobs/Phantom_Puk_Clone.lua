@@ -13,7 +13,7 @@ entity.onMobInitialize = function(mob)
 end
 
 entity.onMobSpawn = function(mob)
-    mob:addStatusEffect(xi.effect.BLINK, 3, 0, 180)
+    mob:addStatusEffect(xi.effect.BLINK, { power = 3, duration = 180, origin = mob })
     mob:setMod(xi.mod.ACC, 338)
     mob:setMod(xi.mod.DMG, 10000)
     mob:setMod(xi.mod.HP, 0)
