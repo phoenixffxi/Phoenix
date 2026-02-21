@@ -86,6 +86,7 @@ xi.mobSkill =
 
     VELOCIOUS_BLADE               =  347, -- Mammet-800
 
+    DEATH_SCISSORS                =  353,
     WILD_RAGE                     =  354,
     EARTH_POUNDER                 =  355,
 
