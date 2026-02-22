@@ -109,12 +109,7 @@ m:addOverride('xi.job_utils.dark_knight.useArcaneCircle', function(player, targe
 
     power = power + player:getMod(xi.mod.ARCANE_CIRCLE_POTENCY)
 
-    -- Handle simplified message for other party members.
-    if player:getID() ~= target:getID() then
-        ability:setMsg(xi.msg.basic.FORTIFIED_ARCANA)
-    end
-
-    target:addStatusEffect(xi.effect.ARCANE_CIRCLE, power, 0, duration)
+    target:addStatusEffect(xi.effect.ARCANE_CIRCLE, { power = power, duration = duration, origin = player })
 
     return xi.effect.ARCANE_CIRCLE
 end)
@@ -221,12 +216,7 @@ m:addOverride('xi.job_utils.samurai.useWardingCircle', function(player, target, 
 
     power = power + player:getMod(xi.mod.WARDING_CIRCLE_POTENCY)
 
-    -- Handle simplified message for other party members.
-    if player:getID() ~= target:getID() then
-        ability:setMsg(xi.msg.basic.FORTIFIED_DEMONS)
-    end
-
-    target:addStatusEffect(xi.effect.WARDING_CIRCLE, power, 0, duration)
+    target:addStatusEffect(xi.effect.WARDING_CIRCLE, { power = power, duration = duration, origin = player })
 
     return xi.effect.WARDING_CIRCLE
 end)
