@@ -17,6 +17,7 @@ zones[xi.zone.BASTOK_MARKETS_S] =
         LOGIN_NUMBER                  = 7004,  -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
         MEMBERS_LEVELS_ARE_RESTRICTED = 7024,  -- Your party is unable to participate because certain members' levels are restricted.
         FISHING_MESSAGE_OFFSET        = 7069,  -- You can't fish here.
+        GATE_IS_LOCKED                = 7215,  -- The gate is locked.
         BLINGBRIX_SHOP_DIALOG         = 7219,  -- Blingbrix good Gobbie from Boodlix's! Boodlix's Emporium help fighting fighters and maging mages. Gil okay, okay?
         MOG_LOCKER_OFFSET             = 7485,  -- Your Mog Locker lease is valid until <timestamp>, kupo.
         REGIME_CANCELED               = 7723,  -- Current training regime canceled.
