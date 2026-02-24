@@ -990,7 +990,7 @@ enum class Mod
     NO_SPELL_MP_DEPLETION     = 530,  // % to not deplete MP on spellcast.
     STONESKIN_BONUS_HP        = 539,  // Bonus "HP" granted to Stoneskin spell.
     DAY_NUKE_BONUS            = 565,  // Bonus damage from "Elemental magic affected by day" (Sorc. Tonban)
-    DAY_WEATHER_PROC_BONUS    = 1787, // Bonus damage from Twilight cape which works with both day OR weather procs.
+    DAY_WEATHER_PROC_BONUS    = 1194, // Bonus damage from Twilight cape which works with both day OR weather procs.
     IRIDESCENCE               = 566,  // Iridescence trait (additional weather damage/penalty)
     BARSPELL_AMOUNT           = 567,  // Additional elemental resistance granted by bar- spells
     BARSPELL_MDEF_BONUS       = 827,  // Extra magic defense bonus granted to the bar- spell effect
