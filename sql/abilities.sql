@@ -521,8 +521,8 @@ INSERT INTO `abilities` VALUES (664,'ruinous_omen',15,1,4,60,173,0,0,94,2000,0,6
 INSERT INTO `abilities` VALUES (665,'night_terror',15,80,4,60,173,0,0,94,2000,0,6,5,0,0,1,60,0,0,NULL);
 INSERT INTO `abilities` VALUES (666,'pavor_nocturnus',15,98,4,60,174,0,0,94,2000,0,6,12,0,0,1,60,0,0,NULL);
 INSERT INTO `abilities` VALUES (667,'blindside',15,99,4,60,173,0,0,94,2000,0,6,10,0,0,1,60,0,0,NULL);
--- INSERT INTO `abilities` VALUES (668,'deconstruction',22,1,1,0,300,0,0,???,2000,0,6,20,0,0,450,900,0,0,NULL);
--- INSERT INTO `abilities` VALUES (669,'chronoshift',22,1,1,0,300,0,0,???,2000,0,6,0,0,14,450,900,0,0,NULL);
+INSERT INTO `abilities` VALUES (668,'deconstruction',15,75,4,0,0,0,0,0,0,0,6,20,0,0,0,0,0,0,NULL);
+INSERT INTO `abilities` VALUES (669,'chronoshift',15,75,4,0,0,0,0,0,0,0,6,0,0,14,0,0,0,0,NULL);
 -- INSERT INTO `abilities` VALUES (670,'zantetsuken',22,1,1,0,300,0,0,???,2000,0,6,10,0,10,450,900,0,0,NULL);
 INSERT INTO `abilities` VALUES (671,'perfect_defense',15,75,1,0,300,0,0,152,2000,0,6,0,0,10,0,0,0,2,NULL);
 INSERT INTO `abilities` VALUES (672,'foot_kick',9,25,257,1,102,0,0,0,2000,0,6,3,0,0,1,60,0,0,NULL);

@@ -2022,7 +2022,11 @@ int32 TakePhysicalDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, PHY
         damage = -corrected;
     }
 
-    battleutils::ClaimMob(PDefender, PAttacker);
+    // Only claim a mob and if the allegiance is not PLAYER. This prevents mobs from calling ClaimMob on other mobs or themselves.
+    if (PDefender->objtype == TYPE_MOB && PDefender->allegiance != PAttacker->allegiance)
+    {
+        battleutils::ClaimMob(PDefender, PAttacker);
+    }
 
     if (damage > 0)
     {
@@ -4488,10 +4492,13 @@ void ClaimMob(CBattleEntity* PDefender, CBattleEntity* PAttacker, bool passing)
 {
     TracyZoneScoped;
 
-    if (PDefender == nullptr ||
-        (PDefender && PDefender->objtype != ENTITYTYPE::TYPE_MOB) ||                                                   // Do not try to claim anything but mobs (trusts, pets, players don't count)
-        (PDefender && PDefender->objtype == ENTITYTYPE::TYPE_MOB && PDefender->allegiance == ALLEGIANCE_TYPE::PLAYER)) // Added mobs that are in allied with player
-    {
+    if (PDefender == nullptr || (PDefender && PDefender->objtype != TYPE_MOB))
+    { // Do not try to claim anything but mobs (trusts, pets, players don't count)
+        return;
+    }
+
+    if (PDefender && PDefender->objtype == TYPE_MOB && PDefender->allegiance == PAttacker->allegiance)
+    { // mobs that are allied with the attacker do not need to be claimed and will not update enmity
         return;
     }
 
