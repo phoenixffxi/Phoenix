@@ -4345,7 +4345,7 @@ bool CLuaBaseEntity::delItem(uint16 itemID, int32 quantity, const sol::object& c
     if (SlotID != ERROR_SLOTID)
     {
         charutils::UpdateItem(PChar, location, SlotID, -quantity);
-        PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();
+        PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>(PChar);
 
         return true;
     }
@@ -4377,7 +4377,7 @@ bool CLuaBaseEntity::delItemAt(const uint16 itemID, const int32 quantity, uint8 
     if (const auto* PItem = PChar->getStorage(containerId)->GetItem(slotId); PItem && PItem->getID() == itemID)
     {
         charutils::UpdateItem(PChar, containerId, slotId, -quantity);
-        PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();
+        PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>(PChar);
 
         return true;
     }
@@ -4435,7 +4435,7 @@ bool CLuaBaseEntity::delContainerItems(const sol::object& containerID)
         }
     }
 
-    PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();
+    PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>(PChar);
     return true;
 }
 
@@ -4891,7 +4891,7 @@ bool CLuaBaseEntity::addLinkpearl(const std::string& lsname, bool equip)
                     charutils::SaveCharEquip(PChar);
                     PChar->pushPacket<GP_SERV_COMMAND_GROUP_COMLINK>(PChar, PItemLinkPearl->GetLSID());
                     PChar->pushPacket<GP_SERV_COMMAND_ITEM_ATTR>(PItemLinkPearl, LOC_INVENTORY, PItemLinkPearl->getSlotID());
-                    PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();
+                    PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>(PChar);
                     charutils::LoadInventory(PChar);
                 }
                 return true;
@@ -4919,7 +4919,7 @@ auto CLuaBaseEntity::addSoulPlate(const std::string& name, uint32 interestData, 
         // Deduct Blank Plate
         battleutils::RemoveAmmo(PChar);
 
-        PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();
+        PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>(PChar);
 
         // Used Soul Plate
         CItem* PItem = itemutils::GetItem(ITEMID::SOUL_PLATE);
@@ -5052,7 +5052,7 @@ void CLuaBaseEntity::confirmTrade() const
         }
     }
     PChar->TradeContainer->Clean();
-    PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();
+    PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>(PChar);
 }
 
 /************************************************************************
@@ -5092,7 +5092,7 @@ void CLuaBaseEntity::tradeComplete() const
         }
     }
     PChar->TradeContainer->Clean();
-    PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();
+    PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>(PChar);
 }
 
 auto CLuaBaseEntity::getTrade() -> CTradeContainer*
