@@ -181,6 +181,7 @@ xi.msg.basic =
 
     -- "Fortified against" messages
     FORTIFIED_DEMONS                = 149, -- <target> is fortified against demons.
+    USES_ABILITY_FORTIFIED_DRAGONS  = 150, -- <user> uses <ability>. <target> is fortified against dragons.
     FORTIFIED_DRAGONS               = 151, -- <target> is fortified against dragons.
     FORTIFIED_UNDEAD                = 286, -- <target> is fortified against undead.
     FORTIFIED_ARCANA                = 287, -- <target> is fortified against arcana.

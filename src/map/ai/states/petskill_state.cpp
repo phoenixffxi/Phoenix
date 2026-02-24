@@ -87,8 +87,8 @@ CPetSkillState::CPetSkillState(CPetEntity* PEntity, uint16 targid, uint16 wsid)
         m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE, std::make_unique<GP_SERV_COMMAND_BATTLE2>(action));
 
         // Wyverns immediately emit a skill interrupt packet.
-        // This looks like a hack but is retail accurate
-        if (PEntity->m_PetID == PETID_WYVERN)
+        // This looks like a hack but is retail accurate.
+        if (PEntity->m_PetID == PETID_WYVERN && PEntity->getMod(Mod::WYVERN_SHOW_READYING) == 0)
         {
             ActionInterrupts::WyvernSkillReady(PEntity);
         }
