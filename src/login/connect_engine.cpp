@@ -57,7 +57,7 @@ ConnectEngine::ConnectEngine(asio::io_context& io_context)
 ConnectEngine::~ConnectEngine()
 {
     m_sessionCleanupTimer.cancel();
-};
+}
 
 void ConnectEngine::periodicCleanup(const asio::error_code& error)
 {

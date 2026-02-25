@@ -47,7 +47,10 @@ public:
     void periodicCleanup(const asio::error_code& error);
 
 private:
-    ZMQDealerWrapper      zmqDealerWrapper_;
+    Scheduler& scheduler_;
+
+    ZMQDealerWrapper zmqDealerWrapper_;
+
     handler<auth_session> m_authHandler;
     handler<data_session> m_dataHandler;
     handler<view_session> m_viewHandler;

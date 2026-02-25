@@ -88,7 +88,7 @@ MapApplication::~MapApplication()
 
 auto MapApplication::createEngine() -> std::unique_ptr<Engine>
 {
-    return std::make_unique<MapEngine>(ioContext(), engineConfig_);
+    return std::make_unique<MapEngine>(scheduler_.ioContext(), engineConfig_);
 }
 
 void MapApplication::registerCommands(ConsoleService& console)
@@ -122,7 +122,7 @@ void MapApplication::run()
 
     // MapEngine destructor must occur before Application destructor
     engine_.reset();
-    io_context_.stop();
+    scheduler_.stop();
 
     const auto taskManager = CTaskManager::getInstance();
     while (!taskManager->getTaskList().empty())
