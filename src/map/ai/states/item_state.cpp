@@ -263,6 +263,11 @@ auto CItemState::CanChangeState() -> bool
 
 void CItemState::TryInterrupt(CBattleEntity* PTarget)
 {
+    if (!m_PItem)
+    {
+        return;
+    }
+
     // todo: interrupt on being hit
 
     if (PTarget)
