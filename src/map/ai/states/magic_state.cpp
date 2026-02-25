@@ -114,8 +114,8 @@ CMagicState::CMagicState(CBattleEntity* PEntity, uint16 targid, SpellID spellid,
     };
 
     // TODO: weaponskill lua object
-    luautils::OnSpellCastStart(m_PEntity, m_PSpell.get());
-    m_PEntity->PAI->EventHandler.triggerListener("MAGIC_START", m_PEntity, m_PSpell.get(), &action);
+    luautils::OnSpellCastStart(m_PEntity, PTarget, m_PSpell.get());
+    m_PEntity->PAI->EventHandler.triggerListener("MAGIC_START", m_PEntity, PTarget, m_PSpell.get(), &action);
 
     // if spell:setFlag(xi.magic.spellFlag.NO_START_MSG) is called, don't give spell start packet
     if (GetSpell()->getFlag() & SPELLFLAG_NO_START_MSG)

@@ -2833,7 +2833,7 @@ void OnSpellPrecast(CBattleEntity* PCaster, CSpell* PSpell)
     }
 }
 
-void OnSpellCastStart(CBattleEntity* PCaster, CSpell* PSpell)
+void OnSpellCastStart(CBattleEntity* PCaster, CBattleEntity* PTarget, CSpell* PSpell)
 {
     TracyZoneScoped;
 
