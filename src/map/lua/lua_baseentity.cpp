@@ -5846,6 +5846,34 @@ void CLuaBaseEntity::setLook(const sol::table& look)
 }
 
 /************************************************************************
+ *  Function: getEquipmentModelIds()
+ *  Purpose : Returns the player's visible equipment model IDs
+ *  Example : local equip = player:getEquipmentModelIds()
+ *  Note    : Returns table with keys: head, body, hands, main, sub
+ ************************************************************************/
+auto CLuaBaseEntity::getEquipmentModelIds() -> sol::table
+{
+    auto table = lua.create_table();
+    if (m_PBaseEntity->objtype != TYPE_PC)
+    {
+        ShowWarning("getEquipmentModelIds: caller is not a player (%s).", m_PBaseEntity->getName());
+        table["head"]  = 0;
+        table["body"]  = 0;
+        table["hands"] = 0;
+        table["main"]  = 0;
+        table["sub"]   = 0;
+        return table;
+    }
+    auto* PChar    = static_cast<CCharEntity*>(m_PBaseEntity);
+    table["head"]  = PChar->look.head;
+    table["body"]  = PChar->look.body;
+    table["hands"] = PChar->look.hands;
+    table["main"]  = PChar->look.main;
+    table["sub"]   = PChar->look.sub;
+    return table;
+}
+
+/************************************************************************
  *  Function: getCostume()
  *  Purpose : Returns the PC's appearance
  *  Example : player:getCostume()
@@ -19856,6 +19884,7 @@ void CLuaBaseEntity::Register()
     SOL_REGISTER("getModelId", CLuaBaseEntity::getModelId);
     SOL_REGISTER("setModelId", CLuaBaseEntity::setModelId);
     SOL_REGISTER("setLook", CLuaBaseEntity::setLook);
+    SOL_REGISTER("getEquipmentModelIds", CLuaBaseEntity::getEquipmentModelIds);
     SOL_REGISTER("getCostume", CLuaBaseEntity::getCostume);
     SOL_REGISTER("setCostume", CLuaBaseEntity::setCostume);
     SOL_REGISTER("getCostume2", CLuaBaseEntity::getCostume2);
