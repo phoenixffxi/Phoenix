@@ -12,6 +12,7 @@ zones[xi.zone.BASTOK_MARKETS_S] =
         GIL_OBTAINED                  = 6392,  -- Obtained <number> gil.
         KEYITEM_OBTAINED              = 6394,  -- Obtained key item: <keyitem>.
         ITEM_RETURNED_TO_CHAR         = 6403,  -- The <keyitem> is returned to you.
+        REPORT_TO_CAIT_SITH           = 6993,  -- You have obtained all of Lilisette's memory fragments. Make haste and report to Cait Sith.
         CARRIED_OVER_POINTS           = 7002,  -- You have carried over <number> login point[/s].
         LOGIN_CAMPAIGN_UNDERWAY       = 7003,  -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!
         LOGIN_NUMBER                  = 7004,  -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
