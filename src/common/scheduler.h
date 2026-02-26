@@ -230,14 +230,21 @@ public:
     //   Queue work lazily on the main thread. It won't start executing until you co_await the
     //   returned task.
     template <detail::IsInvocable F>
-    [[nodiscard]] auto onMainThread(F&& func) -> Task<typename detail::AwaitableResult<std::decay_t<F>>::type>
+    [[nodiscard]] auto onMainThread(F&& func) -> Task<std::invoke_result_t<std::decay_t<F>>>
     {
         return asio::co_spawn(
             mainContext_.get_executor(),
-            [fn = std::forward<F>(func)]() mutable -> Task<void>
+            [fn = std::forward<F>(func)]() mutable -> Task<std::invoke_result_t<std::decay_t<F>>>
             {
-                fn();
-                co_return;
+                if constexpr (std::is_void_v<std::invoke_result_t<std::decay_t<F>>>)
+                {
+                    fn();
+                    co_return;
+                }
+                else
+                {
+                    co_return fn();
+                }
             },
             asio::use_awaitable);
     }
@@ -261,8 +268,15 @@ public:
             workerContext_.get_executor(),
             [fn = std::forward<F>(func)]() mutable -> Task<void>
             {
-                fn();
-                co_return;
+                if constexpr (std::is_void_v<std::invoke_result_t<std::decay_t<F>>>)
+                {
+                    fn();
+                    co_return;
+                }
+                else
+                {
+                    co_return fn();
+                }
             },
             asio::use_awaitable);
     }
@@ -284,8 +298,15 @@ public:
             mainContext_.get_executor(),
             [fn = std::forward<F>(func)]() mutable -> Task<void>
             {
-                fn();
-                co_return;
+                if constexpr (std::is_void_v<std::invoke_result_t<std::decay_t<F>>>)
+                {
+                    fn();
+                    co_return;
+                }
+                else
+                {
+                    co_return fn();
+                }
             },
             asio::detached);
     }
@@ -307,8 +328,15 @@ public:
             workerContext_.get_executor(),
             [fn = std::forward<F>(func)]() mutable -> Task<void>
             {
-                fn();
-                co_return;
+                if constexpr (std::is_void_v<std::invoke_result_t<std::decay_t<F>>>)
+                {
+                    fn();
+                    co_return;
+                }
+                else
+                {
+                    co_return fn();
+                }
             },
             asio::detached);
     }

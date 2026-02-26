@@ -46,7 +46,7 @@ SearchApplication::~SearchApplication() = default;
 
 auto SearchApplication::createEngine() -> std::unique_ptr<Engine>
 {
-    return std::make_unique<SearchEngine>(scheduler_.ioContext());
+    return std::make_unique<SearchEngine>(scheduler_);
 }
 
 void SearchApplication::registerCommands(ConsoleService& console)
