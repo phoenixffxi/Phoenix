@@ -614,6 +614,12 @@ xi.mobSkill =
     REVELATION_1                  = 1510,
 
     HOWLING_MOON_3                = 1520, -- Unknown usage.
+    ARMOR_BUSTER                  = 1521,
+    ENERGY_SCREEN                 = 1522,
+    MANA_SCREEN                   = 1523,
+    DISSIPATION                   = 1524,
+
+    CITADEL_BUSTER                = 1540,
 
     FOOT_KICK_2                   = 1567,
     DUST_CLOUD_2                  = 1568,
