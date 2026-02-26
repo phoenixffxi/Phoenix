@@ -153,9 +153,9 @@ endif()
 
 CPMAddPackage(
     NAME asio
-    VERSION 1.32.0
+    VERSION 1.36.0
     GITHUB_REPOSITORY chriskohlhoff/asio
-    GIT_TAG asio-1-32-0 # asio uses non-standard version tag, we must specify GIT_TAG
+    GIT_TAG asio-1-36-0 # asio uses non-standard version tag, we must specify GIT_TAG
 ) #defines asio
 
 # ASIO doesn't use CMake, we have to configure it manually. Extra notes for using on Windows:
