@@ -84,6 +84,12 @@ struct AwaitableResult<asio::awaitable<T, E>>
 template <typename T>
 concept IsInvocable = std::invocable<std::decay_t<T>>;
 
+template <typename T>
+concept IsInvocableReturnsVoid = IsInvocable<T> && std::is_void_v<std::invoke_result_t<std::decay_t<T>>>;
+
+template <typename T>
+concept IsAwaitableReturnsVoid = IsAwaitable<T> && std::is_void_v<typename AwaitableResult<std::decay_t<T>>::type>;
+
 } // namespace detail
 
 template <typename T>
@@ -262,11 +268,11 @@ public:
     //   Queue work lazily on the worker thread pool. It won't start executing until you co_await
     //   the returned task.
     template <detail::IsInvocable F>
-    [[nodiscard]] auto onWorkerThread(F&& func) -> Task<typename detail::AwaitableResult<std::decay_t<F>>::type>
+    [[nodiscard]] auto onWorkerThread(F&& func) -> Task<std::invoke_result_t<std::decay_t<F>>>
     {
         return asio::co_spawn(
             workerContext_.get_executor(),
-            [fn = std::forward<F>(func)]() mutable -> Task<void>
+            [fn = std::forward<F>(func)]() mutable -> Task<std::invoke_result_t<std::decay_t<F>>>
             {
                 if constexpr (std::is_void_v<std::invoke_result_t<std::decay_t<F>>>)
                 {
@@ -283,7 +289,7 @@ public:
 
     // postToMainThread
     //   Queue work eagerly on the main thread. It will start executing immediately.
-    template <detail::IsAwaitable T>
+    template <detail::IsAwaitableReturnsVoid T>
     void postToMainThread(T&& task)
     {
         asio::co_spawn(mainContext_.get_executor(), std::forward<T>(task), asio::detached);
@@ -291,29 +297,22 @@ public:
 
     // postToMainThread
     //   Queue work eagerly on the main thread. It will start executing immediately.
-    template <detail::IsInvocable F>
+    template <detail::IsInvocableReturnsVoid F>
     void postToMainThread(F&& func)
     {
         asio::co_spawn(
             mainContext_.get_executor(),
             [fn = std::forward<F>(func)]() mutable -> Task<void>
             {
-                if constexpr (std::is_void_v<std::invoke_result_t<std::decay_t<F>>>)
-                {
-                    fn();
-                    co_return;
-                }
-                else
-                {
-                    co_return fn();
-                }
+                fn();
+                co_return;
             },
             asio::detached);
     }
 
     // postToWorkerThread
     //   Queue work eagerly on the worker thread pool. It will start executing immediately.
-    template <detail::IsAwaitable T>
+    template <detail::IsAwaitableReturnsVoid T>
     void postToWorkerThread(T&& task)
     {
         asio::co_spawn(workerContext_.get_executor(), std::forward<T>(task), asio::detached);
@@ -321,22 +320,15 @@ public:
 
     // postToWorkerThread
     //   Queue work eagerly on the worker thread pool. It will start executing immediately.
-    template <detail::IsInvocable F>
+    template <detail::IsInvocableReturnsVoid F>
     void postToWorkerThread(F&& func)
     {
         asio::co_spawn(
             workerContext_.get_executor(),
             [fn = std::forward<F>(func)]() mutable -> Task<void>
             {
-                if constexpr (std::is_void_v<std::invoke_result_t<std::decay_t<F>>>)
-                {
-                    fn();
-                    co_return;
-                }
-                else
-                {
-                    co_return fn();
-                }
+                fn();
+                co_return;
             },
             asio::detached);
     }

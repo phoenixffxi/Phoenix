@@ -40,11 +40,7 @@ SearchEngine::SearchEngine(Scheduler& scheduler)
 
     if (settings::get<bool>("search.EXPIRE_AUCTIONS"))
     {
-        scheduler_.postToMainThread(
-            [this]() -> Task<void>
-            {
-                co_await periodicCleanup();
-            });
+        scheduler_.postToMainThread(periodicCleanup());
     }
 }
 
