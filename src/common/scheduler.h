@@ -22,6 +22,7 @@
 #pragma once
 
 #include <asio/any_io_executor.hpp>
+#include <asio/as_tuple.hpp>
 #include <asio/awaitable.hpp>
 #include <asio/co_spawn.hpp>
 #include <asio/detached.hpp>
@@ -329,6 +330,21 @@ public:
         auto timer    = asio::steady_timer(executor);
         timer.expires_after(duration);
         co_await timer.async_wait(asio::use_awaitable);
+    }
+
+    // withTimeout
+    //   Executes a task with a given timeout. Returns std::optional<T>, which is empty if the timeout
+    //   was reached before the task completed.
+    template <typename T>
+    [[nodiscard]] auto withTimeout(Task<T> task, std::chrono::steady_clock::duration timeout) -> Task<std::optional<T>>
+    {
+        using namespace asio::experimental::awaitable_operators;
+        auto result = co_await (std::move(task) || yieldFor(timeout));
+        if (result.index() == 0)
+        {
+            co_return std::move(std::get<0>(result));
+        }
+        co_return std::nullopt;
     }
 
     // ioContext
