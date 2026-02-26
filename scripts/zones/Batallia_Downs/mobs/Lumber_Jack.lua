@@ -30,10 +30,6 @@ entity.onMobSpawn = function(mob)
 end
 
 entity.onAdditionalEffect = function(mob, target, damage)
-    if mob:hasStatusEffect(xi.effect.ENSTONE) then
-        return 0, 0, 0
-    end
-
     local pTable =
     {
         chance    = 20,
