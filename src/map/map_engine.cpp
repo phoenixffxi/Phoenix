@@ -197,7 +197,6 @@ void MapEngine::gameLoop()
 
     if (tickDiffTime > 0ms)
     {
-        TracyZoneNamed(_sleep, "MapEngine Sleep");
         std::this_thread::sleep_for(tickDiffTime);
     }
     else if (tickDiffTime < -kMainLoopBacklogThreshold)
