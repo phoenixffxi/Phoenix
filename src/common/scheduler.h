@@ -80,6 +80,9 @@ struct AwaitableResult<asio::awaitable<T, E>>
     using type = T;
 };
 
+template <typename T>
+concept IsInvocable = std::invocable<std::decay_t<T>>;
+
 } // namespace detail
 
 template <typename T>
@@ -130,47 +133,15 @@ public:
 #endif
 
         workerThreads_.reserve(numThreads);
-
-        for (size_t i = 0; i < numThreads; ++i)
+        for (size_t idx = 0; idx < numThreads; ++idx)
         {
-            workerThreads_.emplace_back(
-                [this, i]
-                {
-#ifdef TRACY_ENABLE
-                    const auto threadName = std::format("Worker Thread {}", i + 1);
-                    tracy::SetThreadName(threadName.c_str());
-#else
-                    std::ignore = i;
-#endif
-                    // Try and do work, but if an exception is encountered capture it and post it back
-                    // to the main thread.
-                    try
-                    {
-                        workerContext_.run();
-                    }
-                    catch (...)
-                    {
-                        asio::post(
-                            mainContext_,
-                            [ex = std::current_exception()]
-                            {
-                                std::rethrow_exception(ex);
-                            });
-                    }
-                });
+            workerThreads_.emplace_back(&Scheduler::workerLoop, this, idx);
         }
     }
 
     ~Scheduler()
     {
         stop();
-        for (auto& t : workerThreads_)
-        {
-            if (t.joinable())
-            {
-                t.join();
-            }
-        }
     }
 
     Scheduler(const Scheduler&)            = delete;
@@ -180,8 +151,6 @@ public:
 
     void run()
     {
-        isRunning_ = true;
-
         try
         {
             mainContext_.run(); // block thread
@@ -192,8 +161,46 @@ public:
             throw; // Throw exception back up to user
         }
 
-        // Main loop finished. Allow workers to finish their tasks and exit.
+        // If we break out of context::run(), begin shutting down
+        stop();
+    }
+
+    void workerLoop(std::size_t index)
+    {
+#ifdef TRACY_ENABLE
+        const auto threadName = std::format("Worker Thread {}", index + 1);
+        tracy::SetThreadName(threadName.c_str());
+#else
+        std::ignore = index;
+#endif
+        // Try and do work, but if an exception is encountered capture it and post it back
+        // to the main thread.
+        try
+        {
+            workerContext_.run();
+        }
+        catch (...)
+        {
+            asio::post(
+                mainContext_,
+                [ex = std::current_exception()]
+                {
+                    std::rethrow_exception(ex);
+                });
+        }
+    }
+
+    void stop()
+    {
+        bool expected = false;
+        if (!closeRequested_.compare_exchange_strong(expected, true))
+        {
+            return;
+        }
+
+        mainGuard_.reset();
         workerGuard_.reset();
+
         for (auto& t : workerThreads_)
         {
             if (t.joinable())
@@ -201,27 +208,13 @@ public:
                 t.join();
             }
         }
-        isRunning_ = false;
+        workerThreads_.clear();
     }
 
-    void stop()
+    [[nodiscard]] auto closeRequested() const -> bool
     {
-        isRunning_ = false;
-        mainGuard_.reset();
-        workerGuard_.reset();
-
-        mainContext_.stop();
-        workerContext_.stop();
+        return closeRequested_;
     }
-
-    [[nodiscard]] auto isRunning() const -> bool
-    {
-        return isRunning_;
-    }
-
-    // TODO:
-    // Variants of onMainThread/onWorkerThread/postToMainThread/postToWorkerThread that take
-    // std::invocable (lambdas, std::bind, etc.)
 
     // onMainThread
     //   Queue work lazily on the main thread. It won't start executing until you co_await the
@@ -230,6 +223,22 @@ public:
     [[nodiscard]] auto onMainThread(T&& task) -> Task<typename detail::AwaitableResult<std::decay_t<T>>::type>
     {
         return asio::co_spawn(mainContext_.get_executor(), std::forward<T>(task), asio::use_awaitable);
+    }
+
+    // onMainThread
+    //   Queue work lazily on the main thread. It won't start executing until you co_await the
+    //   returned task.
+    template <detail::IsInvocable F>
+    [[nodiscard]] auto onMainThread(F&& func) -> Task<typename detail::AwaitableResult<std::decay_t<F>>::type>
+    {
+        return asio::co_spawn(
+            mainContext_.get_executor(),
+            [fn = std::forward<F>(func)]() mutable -> Task<void>
+            {
+                fn();
+                co_return;
+            },
+            asio::use_awaitable);
     }
 
     // onWorkerThread
@@ -241,6 +250,22 @@ public:
         return asio::co_spawn(workerContext_.get_executor(), std::forward<T>(task), asio::use_awaitable);
     }
 
+    // onWorkerThread
+    //   Queue work lazily on the worker thread pool. It won't start executing until you co_await
+    //   the returned task.
+    template <detail::IsInvocable F>
+    [[nodiscard]] auto onWorkerThread(F&& func) -> Task<typename detail::AwaitableResult<std::decay_t<F>>::type>
+    {
+        return asio::co_spawn(
+            workerContext_.get_executor(),
+            [fn = std::forward<F>(func)]() mutable -> Task<void>
+            {
+                fn();
+                co_return;
+            },
+            asio::use_awaitable);
+    }
+
     // postToMainThread
     //   Queue work eagerly on the main thread. It will start executing immediately.
     template <detail::IsAwaitable T>
@@ -249,12 +274,42 @@ public:
         asio::co_spawn(mainContext_.get_executor(), std::forward<T>(task), asio::detached);
     }
 
+    // postToMainThread
+    //   Queue work eagerly on the main thread. It will start executing immediately.
+    template <detail::IsInvocable F>
+    void postToMainThread(F&& func)
+    {
+        asio::co_spawn(
+            mainContext_.get_executor(),
+            [fn = std::forward<F>(func)]() mutable -> Task<void>
+            {
+                fn();
+                co_return;
+            },
+            asio::detached);
+    }
+
     // postToWorkerThread
     //   Queue work eagerly on the worker thread pool. It will start executing immediately.
     template <detail::IsAwaitable T>
     void postToWorkerThread(T&& task)
     {
         asio::co_spawn(workerContext_.get_executor(), std::forward<T>(task), asio::detached);
+    }
+
+    // postToWorkerThread
+    //   Queue work eagerly on the worker thread pool. It will start executing immediately.
+    template <detail::IsInvocable F>
+    void postToWorkerThread(F&& func)
+    {
+        asio::co_spawn(
+            workerContext_.get_executor(),
+            [fn = std::forward<F>(func)]() mutable -> Task<void>
+            {
+                fn();
+                co_return;
+            },
+            asio::detached);
     }
 
     // yield
@@ -285,7 +340,7 @@ public:
     }
 
 private:
-    std::atomic<bool>        isRunning_{ false };
+    std::atomic<bool>        closeRequested_{ false };
     asio::io_context         mainContext_;
     asio::io_context         workerContext_;
     std::vector<std::thread> workerThreads_;

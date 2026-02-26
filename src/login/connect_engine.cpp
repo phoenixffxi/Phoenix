@@ -60,7 +60,7 @@ ConnectEngine::~ConnectEngine()
 
 auto ConnectEngine::periodicCleanup() -> Task<void>
 {
-    while (scheduler_.isRunning())
+    while (!scheduler_.closeRequested())
     {
         co_await scheduler_.yieldFor(kSessionCleanTime);
 
