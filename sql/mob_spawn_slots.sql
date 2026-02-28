@@ -110,6 +110,24 @@ INSERT INTO `mob_spawn_slots` VALUES (103,55,0);
 INSERT INTO `mob_spawn_slots` VALUES (103,56,0);
 INSERT INTO `mob_spawn_slots` VALUES (103,57,0);
 
+-- Beaucedine Glacier
+INSERT INTO `mob_spawn_slots` VALUES (111,1,0);
+INSERT INTO `mob_spawn_slots` VALUES (111,2,0);
+INSERT INTO `mob_spawn_slots` VALUES (111,3,0);
+INSERT INTO `mob_spawn_slots` VALUES (111,4,0);
+INSERT INTO `mob_spawn_slots` VALUES (111,5,0);
+INSERT INTO `mob_spawn_slots` VALUES (111,6,0);
+INSERT INTO `mob_spawn_slots` VALUES (111,7,0);
+INSERT INTO `mob_spawn_slots` VALUES (111,8,0);
+INSERT INTO `mob_spawn_slots` VALUES (111,9,0);
+INSERT INTO `mob_spawn_slots` VALUES (111,10,0);
+INSERT INTO `mob_spawn_slots` VALUES (111,11,0);
+INSERT INTO `mob_spawn_slots` VALUES (111,12,0);
+INSERT INTO `mob_spawn_slots` VALUES (111,13,0);
+INSERT INTO `mob_spawn_slots` VALUES (111,14,0);
+INSERT INTO `mob_spawn_slots` VALUES (111,15,0);
+INSERT INTO `mob_spawn_slots` VALUES (111,16,0);
+
 -- Qufim Island
 INSERT INTO `mob_spawn_slots` VALUES (126,1,0);
 INSERT INTO `mob_spawn_slots` VALUES (126,2,0);
