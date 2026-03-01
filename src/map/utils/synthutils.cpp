@@ -319,13 +319,21 @@ auto isRightRecipe(CCharEntity* PChar) -> bool
 
     const auto possibleRecipeKey = SynthRecipe::ingredientKey(crystal, ingredient1, ingredient2, ingredient3, ingredient4, ingredient5, ingredient6, ingredient7, ingredient8);
 
-    if (synthRecipes.find(possibleRecipeKey) != synthRecipes.end())
+    if (synthRecipes.contains(possibleRecipeKey))
     {
         const auto& recipe = synthRecipes[possibleRecipeKey];
 
         if (!luautils::IsContentEnabled(recipe.ContentTag))
         {
             PChar->pushPacket<GP_SERV_COMMAND_COMBINE_ANS>(PChar, SynthesisResult::CancelBadRecipe);
+            return false;
+        }
+
+        // Check if recipe result is rare and player already owns a copy.
+        const CItem* PItem = itemutils::GetItemPointer(recipe.Result);
+        if (PItem && PItem->getFlag() & ITEM_FLAG_RARE && charutils::HasItem(PChar, recipe.Result))
+        {
+            PChar->pushPacket<GP_SERV_COMMAND_COMBINE_ANS>(PChar, SynthesisResult::CancelRareItem);
             return false;
         }
 
