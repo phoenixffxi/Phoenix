@@ -223,7 +223,7 @@ class DynaFuncModule : public CPPModule
         // Add Dynamis Participant
         lua["AddDynamisParticipant"] = [this](uint32 instanceId, uint32 playerId)
         {
-            const auto rset = db::preparedStmt("INSERT INTO dynamis_instances VALUES (?, ?)", instanceId, playerId);
+            const auto rset = db::preparedStmt("INSERT INTO dynamis_participants VALUES (?, ?)", instanceId, playerId);
             return (rset && rset->rowsAffected());
         };
 

@@ -219,6 +219,7 @@ end)
 m:addOverride('xi.dynamis.qmOnTrigger', function(player, npc) -- Override standard qmOnTrigger()
     xi.dynamis.qmOnTriggerEra(player, npc)
 end)
+
 -- TODO Cleanup/Delete
 m:addOverride('xi.dynamis.somnialThresholdOnTrigger', function(player, npc)
 end)

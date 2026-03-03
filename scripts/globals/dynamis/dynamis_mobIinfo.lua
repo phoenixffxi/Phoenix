@@ -19,7 +19,7 @@ xi.dynamis.generalInfo = function(mob)
     mob:setMobMod(xi.mobMod.CLAIM_TYPE, xi.claimType.NON_EXCLUSIVE)
     mob:setMobMod(xi.mobMod.GIL_BONUS, -100)
     mob:setMobMod(xi.mobMod.EXP_BONUS, -100)
-    mob:setMobType(xi.mobType.BATTLEFIELD) -- Needed for battlefield effect
+    -- mob:setMobType(xi.mobType.BATTLEFIELD) -- Needed for battlefield effect
     mob:addStatusEffect(xi.effect.BATTLEFIELD, 1, 0, 0, true) -- Both players and mobs need this
 end
 
