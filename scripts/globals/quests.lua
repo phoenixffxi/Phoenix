@@ -656,7 +656,7 @@ xi.quest.id =
         FIVE_SECONDS_OF_FAME             = 32,
         -- JP ENTRIES OR INVALID
         THE_BEAST_WITHIN                 = 40, -- + Converted
-        BREAKING_THE_BONDS_OF_FATE       = 41,
+        BREAKING_THE_BONDS_OF_FATE       = 41, -- + Converted
         -- JP ENTRIES OR INVALID
         SAGA_OF_THE_SKYSERPENT           = 43, -- + Converted
         ODE_TO_THE_SERPENTS              = 44, -- + Converted
