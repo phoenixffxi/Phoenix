@@ -121,7 +121,6 @@ void MapNetworking::tapStatistics()
     mapStatistics_.set(MapStatistics::Key::ActiveZones, activeZoneCount);
     mapStatistics_.set(MapStatistics::Key::ConnectedPlayers, playerCount);
     mapStatistics_.set(MapStatistics::Key::ActiveMobs, mobCount);
-    mapStatistics_.set(MapStatistics::Key::TaskManagerTasks, CTaskManager::getInstance()->getTaskList().size());
 
     const auto percent = dynamicTargIdCapacity > 0
                              ? static_cast<double>(dynamicTargIdCount) / static_cast<double>(dynamicTargIdCapacity) * 100.0
@@ -317,6 +316,7 @@ int32 MapNetworking::recv_parse(uint8* buff, size_t* buffsize, MapSession* map_s
                     // TODO: err msg?
                     return -1;
                 }
+                map_session_data->scheduler = &scheduler_;
             }
             else
             {
@@ -910,7 +910,7 @@ int32 MapNetworking::sendSinglePacketNoPchar(uint8* buff, size_t* buffsize, MapS
     return 0;
 }
 
-auto MapNetworking::ipp() -> IPP
+auto MapNetworking::ipp() const -> IPP
 {
     return mapIPP_;
 }
@@ -918,6 +918,11 @@ auto MapNetworking::ipp() -> IPP
 auto MapNetworking::sessions() -> MapSessionContainer&
 {
     return mapSessions_;
+}
+
+auto MapNetworking::scheduler() -> Scheduler&
+{
+    return scheduler_;
 }
 
 auto MapNetworking::socket() -> MapSocket&

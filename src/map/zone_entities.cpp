@@ -1585,7 +1585,7 @@ void CZoneEntities::WideScan(CCharEntity* PChar, uint16 radius)
     PChar->pushPacket<GP_SERV_COMMAND_TRACKING_STATE>(GP_TRACKING_STATE::ListEnd);
 }
 
-void CZoneEntities::ZoneServer(timer::time_point tick)
+void CZoneEntities::ZoneServer(Scheduler& scheduler, timer::time_point tick)
 {
     TracyZoneScoped;
     TracyZoneString(m_zone->getName());

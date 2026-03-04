@@ -163,7 +163,7 @@ void CZoneInstance::DecreaseZoneCounter(CCharEntity* PChar)
     }
 }
 
-void CZoneInstance::IncreaseZoneCounter(CCharEntity* PChar)
+void CZoneInstance::IncreaseZoneCounter(Scheduler& scheduler, CCharEntity* PChar)
 {
     TracyZoneScoped;
     if (PChar == nullptr)
@@ -198,9 +198,9 @@ void CZoneInstance::IncreaseZoneCounter(CCharEntity* PChar)
 
     if (PChar->PInstance)
     {
-        if (!ZoneTimer)
+        if (!zoneTimer_.has_value())
         {
-            createZoneTimers();
+            createZoneTimers(scheduler);
         }
 
         PChar->targid = PChar->PInstance->GetNewCharTargID();
@@ -245,13 +245,13 @@ void CZoneInstance::IncreaseZoneCounter(CCharEntity* PChar)
         PChar->loc.p.z = 0;
         if (PZone)
         {
-            PZone->IncreaseZoneCounter(PChar);
+            PZone->IncreaseZoneCounter(scheduler, PChar);
         }
         else
         {
             // if we can't get the instance failed destination zone, get their previous zone
             zoneid = PChar->loc.prevzone;
-            zoneutils::GetZone(zoneid)->IncreaseZoneCounter(PChar);
+            zoneutils::GetZone(zoneid)->IncreaseZoneCounter(scheduler, PChar);
         }
 
         // They are properly sent to zone, but bypassed the onZoneIn position fixup, do that now
@@ -384,14 +384,14 @@ void CZoneInstance::WideScan(CCharEntity* PChar, uint16 radius)
     }
 }
 
-void CZoneInstance::ZoneServer(timer::time_point tick)
+void CZoneInstance::ZoneServer(Scheduler& scheduler, timer::time_point tick)
 {
     TracyZoneScoped;
 
     std::vector<CInstance*> instancesToRemove;
     for (const auto& PInstance : m_InstanceList)
     {
-        PInstance->ZoneServer(tick);
+        PInstance->ZoneServer(scheduler, tick);
         PInstance->CheckTime(tick);
 
         if ((PInstance->Failed() || PInstance->Completed()) && PInstance->CharListEmpty())

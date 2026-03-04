@@ -44,6 +44,7 @@ public:
 private:
     auto accept_loop() -> Task<void>
     {
+        // Run "forever"
         while (!scheduler_.closeRequested())
         {
             auto [ec, socket] = co_await acceptor_.async_accept(asio::as_tuple(asio::use_awaitable));

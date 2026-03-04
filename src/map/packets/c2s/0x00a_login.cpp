@@ -96,7 +96,7 @@ void GP_CLI_COMMAND_LOGIN::process(MapSession* PSession, CCharEntity* PChar) con
             return;
         }
 
-        destZone->IncreaseZoneCounter(PChar);
+        destZone->IncreaseZoneCounter(*PSession->scheduler, PChar);
 
         // Current zone could either be current zone or destination
         CZone* currentZone = zoneutils::GetZone(PChar->getZone());

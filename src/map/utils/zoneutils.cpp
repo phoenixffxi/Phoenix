@@ -75,14 +75,14 @@ void TOTDChange(const vanadiel_time::TOTD TOTD)
  *                                                                       *
  ************************************************************************/
 
-void InitializeWeather()
+void InitializeWeather(Scheduler& scheduler)
 {
     TracyZoneScoped;
     for (const auto PZone : g_PZoneList | std::views::values)
     {
         if (!PZone->IsWeatherStatic())
         {
-            PZone->UpdateWeather();
+            PZone->UpdateWeather(scheduler);
         }
         else
         {

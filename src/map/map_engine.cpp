@@ -108,7 +108,7 @@ MapEngine::~MapEngine()
     do_final();
 }
 
-void MapEngine::prepareWatchdog()
+auto MapEngine::watchdog() -> Task<void>
 {
     auto period = settings::get<uint32>("main.INACTIVITY_WATCHDOG_PERIOD");
 
@@ -120,15 +120,20 @@ void MapEngine::prepareWatchdog()
 
     const auto periodMs = (period > 0) ? std::chrono::milliseconds(period) : 2000ms;
 
-    watchdog_ = std::make_unique<Watchdog>(
-        periodMs,
-        [period]()
+    watchdogLastUpdate_ = timer::now();
+
+    // Run "forever"
+    while (!scheduler_.closeRequested())
+    {
+        const auto lastUpdate = watchdogLastUpdate_.load();
+        if ((timer::now() - lastUpdate) >= periodMs)
         {
             if (debug::isRunningUnderDebugger())
             {
                 ShowCritical("!!! INACTIVITY WATCHDOG HAS TRIGGERED !!!");
                 ShowCriticalFmt("Process main tick has taken {}ms or more.", period);
                 ShowCritical("Detaching watchdog thread, it will not fire again until restart.");
+                break;
             }
             else if (!settings::get<bool>("main.DISABLE_INACTIVITY_WATCHDOG"))
             {
@@ -152,7 +157,10 @@ void MapEngine::prepareWatchdog()
 
                 throw std::runtime_error("Watchdog thread time exceeded. Killing process.");
             }
-        });
+        }
+
+        co_await scheduler_.yieldFor(periodMs);
+    }
 }
 
 void MapEngine::gameLoop()
@@ -165,35 +173,28 @@ void MapEngine::gameLoop()
 
     const auto tickStart = timer::now();
     {
-        TracyZoneNamed(_tasks, "MapEngine Tasks");
-        tasksDuration = CTaskManager::getInstance()->doExpiredTasks(tickStart);
-    }
-    {
         TracyZoneNamed(_networking, "MapEngine Networking");
         // Use tick remainder for networking with a maximum to ensure that the network phase
         // doesn't starve and a minimum to prevent bumping up against the time limit.
+        // NOTE: For now, this is also pumping the Scheduler. This will get replaced with a proper
+        // scheduler.run() with tick and socket jobs eventually.
         networkDuration = networking_->doSocketsBlocking(kMainLoopInterval - std::clamp<timer::duration>(tasksDuration, 50ms, 150ms));
     }
     tickDuration = timer::now() - tickStart;
 
     const auto tickDiffTime = kMainLoopInterval - tickDuration;
 
-    mapStatistics_->set(MapStatistics::Key::TasksTickTime, timer::count_milliseconds(tasksDuration));
     mapStatistics_->set(MapStatistics::Key::NetworkTickTime, timer::count_milliseconds(networkDuration));
     mapStatistics_->set(MapStatistics::Key::TotalTickTime, timer::count_milliseconds(tickDuration));
     mapStatistics_->set(MapStatistics::Key::TickDiffTime, timer::count_milliseconds(tickDiffTime));
     mapStatistics_->flush();
 
-    DebugPerformanceFmt("Tasks: {}ms, Network: {}ms, Total: {}ms, Diff/Sleep: {}ms",
-                        timer::count_milliseconds(tasksDuration),
+    DebugPerformanceFmt("Network: {}ms, Total: {}ms, Diff/Sleep: {}ms",
                         timer::count_milliseconds(networkDuration),
                         timer::count_milliseconds(tickDuration),
                         timer::count_milliseconds(tickDiffTime));
 
-    if (watchdog_)
-    {
-        watchdog_->update();
-    }
+    watchdogLastUpdate_ = timer::now();
 
     if (tickDiffTime > 0ms)
     {
@@ -314,17 +315,28 @@ void MapEngine::do_init()
 
     if (!engineConfig_.controlledWeather)
     {
-        zoneutils::InitializeWeather(); // Need VanaTime initialized
+        zoneutils::InitializeWeather(scheduler_); // Need VanaTime initialized
     }
 
     if (!engineConfig_.isTestServer)
     {
-        CTaskManager::getInstance()->AddTask("map_cleanup", timer::now(), nullptr, CTaskManager::TASK_INTERVAL, 5s, std::bind(&MapEngine::map_cleanup, this, std::placeholders::_1, std::placeholders::_2));
-        CTaskManager::getInstance()->AddTask("garbage_collect", timer::now(), nullptr, CTaskManager::TASK_INTERVAL, 15min, std::bind(&MapEngine::map_garbage_collect, this, std::placeholders::_1, std::placeholders::_2));
+        mapCleanupToken_ = scheduler_.intervalOnMain(
+            5s,
+            [this]()
+            {
+                map_cleanup();
+            });
+
+        mapGarbageCollectToken_ = scheduler_.intervalOnMain(
+            15min,
+            [this]()
+            {
+                map_garbage_collect();
+            });
     }
 
-    CTaskManager::getInstance()->AddTask("time_server", timer::now(), nullptr, CTaskManager::TASK_INTERVAL, kTimeServerTickInterval, time_server);
-    CTaskManager::getInstance()->AddTask("persist_server_vars", timer::now(), nullptr, CTaskManager::TASK_INTERVAL, 1min, serverutils::PersistVolatileServerVars);
+    timeServerToken_                = scheduler_.intervalOnMain(kTimeServerTickInterval, time_server);
+    persistVolatileServerVarsToken_ = scheduler_.intervalOnMain(1min, serverutils::PersistVolatileServerVars);
 
     zoneutils::TOTDChange(vanadiel_time::get_totd()); // This tells the zones to spawn stuff based on time of day conditions (such as undead at night)
 
@@ -348,7 +360,7 @@ void MapEngine::do_init()
 
     if (!engineConfig_.isTestServer)
     {
-        prepareWatchdog();
+        scheduler_.postToWorkerThread(watchdog());
     }
 
 #ifdef TRACY_ENABLE
@@ -372,13 +384,12 @@ void MapEngine::do_final() const
     petutils::FreePetList();
     zoneutils::FreeZoneList();
 
-    CTaskManager::delInstance();
     Async::delInstance();
 
     luautils::cleanup();
 }
 
-auto MapEngine::map_cleanup(timer::time_point tick, CTaskManager::CTask* PTask) const -> int32
+void MapEngine::map_cleanup() const
 {
     TracyZoneScoped;
 
@@ -389,18 +400,13 @@ auto MapEngine::map_cleanup(timer::time_point tick, CTaskManager::CTask* PTask) 
         {
             PZone->GetZoneEntities()->EraseStaleDynamicTargIDs();
         });
-
-    return 0;
 }
 
-auto MapEngine::map_garbage_collect(timer::time_point tick, CTaskManager::CTask* PTask) const -> int32
+void MapEngine::map_garbage_collect() const
 {
     TracyZoneScoped;
 
-    ShowInfo("CTaskManager Active Tasks: %i", CTaskManager::getInstance()->getTaskList().size());
-
     luautils::garbageCollectFull();
-    return 0;
 }
 
 void MapEngine::onStats(std::vector<std::string>& inputs) const
@@ -462,4 +468,9 @@ auto MapEngine::statistics() const -> MapStatistics&
 auto MapEngine::zones() const -> std::map<uint16, CZone*>&
 {
     return g_PZoneList;
+}
+
+auto MapEngine::scheduler() -> Scheduler&
+{
+    return scheduler_;
 }

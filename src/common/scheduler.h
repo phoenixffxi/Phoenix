@@ -24,6 +24,8 @@
 #include <asio/any_io_executor.hpp>
 #include <asio/as_tuple.hpp>
 #include <asio/awaitable.hpp>
+#include <asio/bind_cancellation_slot.hpp>
+#include <asio/cancellation_signal.hpp>
 #include <asio/co_spawn.hpp>
 #include <asio/detached.hpp>
 #include <asio/executor_work_guard.hpp>
@@ -90,6 +92,12 @@ concept IsInvocableReturnsVoid = IsInvocable<T> && std::is_void_v<std::invoke_re
 
 template <typename T>
 concept IsAwaitableReturnsVoid = IsAwaitable<T> && std::is_void_v<typename AwaitableResult<std::decay_t<T>>::type>;
+
+template <typename T>
+concept IsInvocableReturnsAwaitableVoid = IsInvocable<T> && IsAwaitableReturnsVoid<std::invoke_result_t<std::decay_t<T>>>;
+
+template <typename T>
+concept IsInvocableReturnsVoidOrAwaitableVoid = IsInvocableReturnsAwaitableVoid<T> || IsInvocableReturnsVoid<T>;
 
 } // namespace detail
 
@@ -170,6 +178,40 @@ auto All(std::vector<Task<T>> tasks) -> Task<std::conditional_t<std::is_void_v<T
 class Scheduler final
 {
 public:
+    class Token
+    {
+    public:
+        explicit Token(std::shared_ptr<asio::cancellation_signal> signal)
+        : signal_(std::move(signal))
+        {
+        }
+
+        ~Token()
+        {
+            stop();
+        }
+
+        void stop()
+        {
+            if (signal_)
+            {
+                signal_->emit(asio::cancellation_type::all);
+                signal_.reset();
+            }
+        }
+
+        // Disable copy
+        Token(const Token&)            = delete;
+        Token& operator=(const Token&) = delete;
+
+        // Allow moving
+        Token(Token&&) noexcept            = default;
+        Token& operator=(Token&&) noexcept = default;
+
+    private:
+        std::shared_ptr<asio::cancellation_signal> signal_;
+    };
+
     Scheduler(std::size_t numThreads = std::max(1U, std::thread::hardware_concurrency() - 1U))
     : mainContext_()
     , workerContext_()
@@ -338,17 +380,24 @@ public:
 
     // postToMainThread
     //   Queue work eagerly on the main thread. It will start executing immediately.
-    template <detail::IsInvocableReturnsVoid F>
-    void postToMainThread(F&& func)
+    template <detail::IsInvocableReturnsVoidOrAwaitableVoid T>
+    void postToMainThread(T&& func)
     {
-        asio::co_spawn(
-            mainContext_.get_executor(),
-            [fn = std::forward<F>(func)]() mutable -> Task<void>
-            {
-                fn();
-                co_return;
-            },
-            asio::detached);
+        if constexpr (detail::IsInvocableReturnsVoid<T>)
+        {
+            asio::co_spawn(
+                mainContext_.get_executor(),
+                [fn = std::forward<T>(func)]() mutable -> Task<void>
+                {
+                    fn();
+                    co_return;
+                },
+                asio::detached);
+        }
+        else
+        {
+            asio::co_spawn(mainContext_.get_executor(), std::forward<T>(func), asio::detached);
+        }
     }
 
     // postToWorkerThread
@@ -361,17 +410,108 @@ public:
 
     // postToWorkerThread
     //   Queue work eagerly on the worker thread pool. It will start executing immediately.
-    template <detail::IsInvocableReturnsVoid F>
-    void postToWorkerThread(F&& func)
+    template <detail::IsInvocableReturnsVoidOrAwaitableVoid T>
+    void postToWorkerThread(T&& func)
     {
+        if constexpr (detail::IsInvocableReturnsVoid<T>)
+        {
+            asio::co_spawn(
+                workerContext_.get_executor(),
+                [fn = std::forward<T>(func)]() mutable -> Task<void>
+                {
+                    fn();
+                    co_return;
+                },
+                asio::detached);
+        }
+        else
+        {
+            asio::co_spawn(workerContext_.get_executor(), std::forward<T>(func), asio::detached);
+        }
+    }
+
+    // intervalOnMain
+    //   Queues a task on the main thread that repeats at the specified interval.
+    //   Returns a Token that can be used to cancel the task.
+    //   The task will stop if the token goes out of scope, or if the scheduler is stopped.
+    template <detail::IsInvocableReturnsVoidOrAwaitableVoid T>
+    [[nodiscard]] auto intervalOnMain(std::chrono::steady_clock::duration duration, T&& func) -> Token
+    {
+        auto signal = std::make_shared<asio::cancellation_signal>();
+
         asio::co_spawn(
-            workerContext_.get_executor(),
-            [fn = std::forward<F>(func)]() mutable -> Task<void>
+            mainContext_.get_executor(),
+            [this, duration, signal, fn = std::forward<T>(func)]() mutable -> Task<void>
             {
-                fn();
-                co_return;
+                try
+                {
+                    while (!this->closeRequested())
+                    {
+                        if constexpr (detail::IsInvocableReturnsVoid<T>)
+                        {
+                            fn();
+                        }
+                        else
+                        {
+                            co_await fn();
+                        }
+                        co_await yieldFor(duration);
+                    }
+                }
+                catch (const asio::system_error& e)
+                {
+                    // operation_aborted is expected when the Token is destroyed
+                    if (e.code() != asio::error::operation_aborted)
+                    {
+                        throw;
+                    }
+                }
             },
-            asio::detached);
+            asio::bind_cancellation_slot(signal->slot(), asio::detached));
+
+        return Token(std::move(signal));
+    }
+
+    // delayOnMain
+    //   Queues a task on the main thread that executes once after the specified duration.
+    //   Returns a Token that can be used to cancel the task before it executes.
+    //   The task will be cancelled if the token goes out of scope, or if the scheduler is stopped.
+    template <detail::IsInvocableReturnsVoidOrAwaitableVoid T>
+    [[nodiscard]] auto delayOnMain(std::chrono::steady_clock::duration duration, T&& func) -> Token
+    {
+        auto signal = std::make_shared<asio::cancellation_signal>();
+
+        asio::co_spawn(
+            mainContext_.get_executor(),
+            [this, duration, signal, fn = std::forward<T>(func)]() mutable -> Task<void>
+            {
+                try
+                {
+                    co_await yieldFor(duration);
+                    if (!this->closeRequested())
+                    {
+                        if constexpr (detail::IsInvocableReturnsVoid<T>)
+                        {
+                            fn();
+                        }
+                        else
+                        {
+                            co_await fn();
+                        }
+                    }
+                }
+                catch (const asio::system_error& e)
+                {
+                    // operation_aborted is expected when the Token is destroyed
+                    if (e.code() != asio::error::operation_aborted)
+                    {
+                        throw;
+                    }
+                }
+            },
+            asio::bind_cancellation_slot(signal->slot(), asio::detached));
+
+        return Token(std::move(signal));
     }
 
     // yield

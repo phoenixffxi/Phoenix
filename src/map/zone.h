@@ -21,11 +21,11 @@
 
 #pragma once
 
-#include "common/cbasetypes.h"
-#include "common/mmo.h"
-#include "common/task_manager.h"
-#include "common/timer.h"
-#include "common/vana_time.h"
+#include <common/cbasetypes.h>
+#include <common/mmo.h>
+#include <common/scheduler.h>
+#include <common/timer.h>
+#include <common/vana_time.h>
 
 #include <list>
 #include <map>
@@ -561,8 +561,6 @@ typedef std::map<uint16, CBaseEntity*> EntityList_t;
 
 using QueryByNameResult_t = std::vector<CBaseEntity*>;
 
-int32 zone_update_weather(uint32 tick, CTaskManager::CTask* PTask);
-
 class CZone
 {
 public:
@@ -607,7 +605,7 @@ public:
     bool IsWeatherStatic() const;
     bool CanUseMisc(uint16 misc) const;
     void SetWeather(Weather weather);
-    void UpdateWeather();
+    void UpdateWeather(Scheduler& scheduler);
     bool CheckMobsPathedBack();
 
     virtual void SpawnPCs(CCharEntity* PChar);
@@ -621,8 +619,8 @@ public:
 
     virtual void WideScan(CCharEntity* PChar, uint16 radius);
 
-    virtual void DecreaseZoneCounter(CCharEntity* PChar); // Remove a character to the zone
-    virtual void IncreaseZoneCounter(CCharEntity* PChar); // Add a character from the zone
+    virtual void DecreaseZoneCounter(CCharEntity* PChar);                       // Remove a character from the zone
+    virtual void IncreaseZoneCounter(Scheduler& scheduler, CCharEntity* PChar); // Add a character to the zone
 
     virtual void InsertNPC(CBaseEntity* PNpc);
     virtual void InsertMOB(CBaseEntity* PMob);
@@ -647,7 +645,7 @@ public:
 
     weatherVector_t m_WeatherVector; // The probability of each weather type
 
-    virtual void ZoneServer(timer::time_point tick);
+    virtual void ZoneServer(Scheduler& scheduler, timer::time_point tick);
     virtual void CheckTriggerAreas();
 
     virtual void ForEachChar(const std::function<void(CCharEntity*)>& func);
@@ -718,13 +716,13 @@ private:
     std::unordered_map<std::string, QueryByNameResult_t> m_queryByNameResults;
 
 protected:
-    CTaskManager::CTask* ZoneTimer; // The pointer to the created timer is necessary for the possibility of stopping it
-    CTaskManager::CTask* ZoneTimerTriggerAreas;
-    CTaskManager::CTask* SpawnHandlerTimer;
+    std::optional<Scheduler::Token> zoneTimer_;
+    std::optional<Scheduler::Token> zoneTimerTriggerAreas_;
+    std::optional<Scheduler::Token> spawnHandlerTimer_;
 
     triggerAreaList_t m_triggerAreaList;
 
-    void createZoneTimers();
+    void createZoneTimers(Scheduler& scheduler);
     void CharZoneIn(CCharEntity* PChar);
     void CharZoneOut(CCharEntity* PChar);
 

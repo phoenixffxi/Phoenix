@@ -44,8 +44,8 @@ public:
 
     virtual void WideScan(CCharEntity* PChar, uint16 radius) override;
 
-    virtual void DecreaseZoneCounter(CCharEntity* PChar) override; // add a character to the zone
-    virtual void IncreaseZoneCounter(CCharEntity* PChar) override; // remove a character from the zone
+    virtual void DecreaseZoneCounter(CCharEntity* PChar) override;                       // Remove a character to the zone
+    virtual void IncreaseZoneCounter(Scheduler& scheduler, CCharEntity* PChar) override; // Add a character from the zone
 
     virtual void InsertNPC(CBaseEntity* PNpc) override;
     virtual void InsertMOB(CBaseEntity* PMob) override;
@@ -62,7 +62,7 @@ public:
 
     virtual void UpdateEntityPacket(CBaseEntity* PEntity, ENTITYUPDATE type, uint8 updatemask, bool alwaysInclude = false) override;
 
-    virtual void ZoneServer(timer::time_point tick) override;
+    virtual void ZoneServer(Scheduler& scheduler, timer::time_point tick) override;
     virtual void CheckTriggerAreas() override;
 
     void ForEachChar(const std::function<void(CCharEntity*)>& func) override;

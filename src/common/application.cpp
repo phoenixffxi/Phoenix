@@ -27,7 +27,6 @@
 #include "logging.h"
 #include "lua.h"
 #include "settings.h"
-#include "task_manager.h"
 #include "xirand.h"
 
 #ifdef _WIN32

@@ -32,8 +32,6 @@ set(COMMON_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/mmo.h
     ${CMAKE_CURRENT_SOURCE_DIR}/settings.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/settings.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/task_manager.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/task_manager.h
     ${CMAKE_CURRENT_SOURCE_DIR}/timer.h
     ${CMAKE_CURRENT_SOURCE_DIR}/tracy.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/tracy.h
@@ -46,8 +44,6 @@ set(COMMON_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/vana_time.h
     ${CMAKE_CURRENT_SOURCE_DIR}/version.cpp # auto-generated
     ${CMAKE_CURRENT_SOURCE_DIR}/version.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/watchdog.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/watchdog.h
     $<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_SOURCE_DIR}/WheatyExceptionReport.cpp>
     $<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_SOURCE_DIR}/WheatyExceptionReport.h>
     ${CMAKE_CURRENT_SOURCE_DIR}/zlib.cpp

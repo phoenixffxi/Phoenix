@@ -59,6 +59,6 @@ public:
     std::unique_ptr<HTTPServer> httpServer_;
 
 private:
-    auto timeServer() -> Task<void>;
-    auto pumpQueues() -> Task<void>;
+    std::optional<Scheduler::Token> timeServerToken_;
+    std::optional<Scheduler::Token> pumpQueuesToken_;
 };

@@ -37,9 +37,10 @@
 #include "utils/moduleutils.h"
 #include "utils/zoneutils.h"
 
-int32 time_server(timer::time_point tick, CTaskManager::CTask* PTask)
+void time_server()
 {
     TracyZoneScoped;
+    auto tick = timer::now();
     // Track elapsed ticks.
     static auto tickNum = 0;
     ++tickNum;
@@ -177,5 +178,4 @@ int32 time_server(timer::time_point tick, CTaskManager::CTask* PTask)
     moduleutils::OnTimeServerTick();
 
     TracyFrameMark;
-    return 0;
 }

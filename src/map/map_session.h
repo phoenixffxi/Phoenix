@@ -33,9 +33,13 @@
 
 enum class GP_GAME_LOGOUT_STATE : uint8_t;
 class CCharEntity;
+class Scheduler;
 
 struct MapSession
 {
+    // TODO: Don't pass the scheduler around in here
+    Scheduler* scheduler = nullptr;
+
     IPP                          client_ipp         = {};
     uint16                       client_packet_id   = 0;  // id of the last packet that came from the client
     uint16                       server_packet_id   = 0;  // id of the last packet sent by the server

@@ -82,7 +82,7 @@ public:
 
     void PushPacket(CBaseEntity*, GLOBAL_MESSAGE_TYPE, const std::unique_ptr<CBasicPacket>&); // send a global package within the zone
 
-    void ZoneServer(timer::time_point tick);
+    void ZoneServer(Scheduler& scheduler, timer::time_point tick);
 
     CZone* GetZone();
 

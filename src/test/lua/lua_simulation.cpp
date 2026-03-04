@@ -349,7 +349,7 @@ void CLuaSimulation::tick(const std::optional<TickType> boundary) const
             {
                 if (!PZone->GetZoneEntities()->CharListEmpty()) // Only tick zones with players
                 {
-                    PZone->ZoneServer(timePoint);
+                    PZone->ZoneServer(engine_->scheduler(), timePoint);
                 }
             }
         }
@@ -366,7 +366,7 @@ void CLuaSimulation::tick(const std::optional<TickType> boundary) const
                     // CheckTriggerAreas _only_ adds a trigger area to the player list.
                     // ZoneServer processes the actual events.
                     PZone->CheckTriggerAreas();
-                    PZone->ZoneServer(timePoint);
+                    PZone->ZoneServer(engine_->scheduler(), timePoint);
                 }
             }
         }
@@ -375,7 +375,7 @@ void CLuaSimulation::tick(const std::optional<TickType> boundary) const
         {
             // Execute time_server with no specific task in mind.
             timer::add_offset(kTimeServerTickInterval);
-            time_server(timer::now() + 1ms, nullptr);
+            time_server();
         }
         break;
         case TickType::EffectTick:
@@ -399,7 +399,7 @@ void CLuaSimulation::tick(const std::optional<TickType> boundary) const
             {
                 if (!PZone->GetZoneEntities()->CharListEmpty())
                 {
-                    PZone->GetZoneEntities()->ZoneServer(timePoint);
+                    PZone->GetZoneEntities()->ZoneServer(engine_->scheduler(), timePoint);
                 }
             }
         }
@@ -409,7 +409,7 @@ void CLuaSimulation::tick(const std::optional<TickType> boundary) const
             // Skip to next JST Hourly and execute time_server
             timer::add_offset(kTimeServerTickInterval);
             earth_time::add_offset(nextJstHourlyUpdate - timerAdjustedUtcTime);
-            time_server(timer::now(), nullptr);
+            time_server();
         }
         break;
         case TickType::JSTDaily:
@@ -417,7 +417,7 @@ void CLuaSimulation::tick(const std::optional<TickType> boundary) const
             // Skip to next JST Daily and execute time_server
             timer::add_offset(kTimeServerTickInterval);
             earth_time::add_offset(nextJstDailyUpdate - timerAdjustedUtcTime);
-            time_server(timer::now(), nullptr);
+            time_server();
         }
         break;
         case TickType::VanadielHourly:
@@ -425,7 +425,7 @@ void CLuaSimulation::tick(const std::optional<TickType> boundary) const
             // Skip to next VanaDiel Hourly and execute time_server
             timer::add_offset(kTimeServerTickInterval);
             earth_time::add_offset(vanadiel_time::to_earth_time(nextVHourlyUpdate) - timerAdjustedUtcTime);
-            time_server(timer::now(), nullptr);
+            time_server();
         }
         break;
         case TickType::VanadielDaily:
@@ -433,7 +433,7 @@ void CLuaSimulation::tick(const std::optional<TickType> boundary) const
             // Skip to next VanaDiel Daily and execute time_server
             timer::add_offset(kTimeServerTickInterval);
             earth_time::add_offset(vanadiel_time::to_earth_time(nextVDailyUpdate) - timerAdjustedUtcTime);
-            time_server(timer::now(), nullptr);
+            time_server();
         }
         break;
         case TickType::SpawnHandler:

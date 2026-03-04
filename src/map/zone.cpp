@@ -78,10 +78,6 @@ CZone::CZone(ZONEID ZoneID, REGION_TYPE RegionID, CONTINENT_TYPE ContinentID, ui
     m_useNavMesh = false;
     std::ignore  = m_useNavMesh;
 
-    ZoneTimer             = nullptr;
-    ZoneTimerTriggerAreas = nullptr;
-    SpawnHandlerTimer     = nullptr;
-
     m_TreasurePool       = nullptr;
     m_BattlefieldHandler = nullptr;
     m_Weather            = Weather::None;
@@ -94,13 +90,6 @@ CZone::CZone(ZONEID ZoneID, REGION_TYPE RegionID, CONTINENT_TYPE ContinentID, ui
 
     LoadZoneLines();
     LoadZoneWeather();
-
-    SpawnHandlerTimer = CTaskManager::getInstance()->AddTask(m_zoneName + "_SpawnHandler", timer::now(), this, CTaskManager::TASK_INTERVAL, kSpawnHandlerInterval, [](const timer::time_point tick, const CTaskManager::CTask* PTask)
-                                                             {
-                                                                 const auto* PZone = std::any_cast<CZone*>(PTask->m_data);
-                                                                 PZone->spawnHandler()->Tick(tick);
-                                                                 return 0;
-                                                             });
 
     // NOTE: Heavy resources like Navmesh are now loaded outside of the constructor in zoneutils::LoadZoneList
 }
@@ -600,7 +589,7 @@ void CZone::SetWeather(const Weather weather)
     m_zoneEntities->PushPacket(nullptr, CHAR_INZONE, std::make_unique<GP_SERV_COMMAND_WEATHER>(m_WeatherChangeTime, m_Weather, xirand::GetRandomNumber(4, 28)));
 }
 
-void CZone::UpdateWeather()
+void CZone::UpdateWeather(Scheduler& scheduler)
 {
     TracyZoneScoped;
 
@@ -667,19 +656,15 @@ void CZone::UpdateWeather()
     SetWeather(selectedWeather);
     luautils::OnZoneWeatherChange(GetID(), selectedWeather);
 
-    // clang-format off
-    timer::time_point nextWeatherTick = timer::now() + std::chrono::duration_cast<earth_time::duration>(WeatherNextUpdate);
-    CTaskManager::getInstance()->AddTask("zone_update_weather", nextWeatherTick, this, CTaskManager::TASK_ONCE, 1s,
-    [](timer::time_point tick, CTaskManager::CTask* PTask)
-    {
-        CZone* PZone = std::any_cast<CZone*>(PTask->m_data);
-        if (!PZone->IsWeatherStatic())
+    scheduler.postToMainThread(
+        [PZone = this, &scheduler, duration = std::chrono::duration_cast<earth_time::duration>(WeatherNextUpdate)]() -> Task<void>
         {
-            PZone->UpdateWeather();
-        }
-        return 0;
-    });
-    // clang-format on
+            co_await scheduler.yieldFor(duration);
+            if (!PZone->IsWeatherStatic())
+            {
+                PZone->UpdateWeather(scheduler);
+            }
+        });
 }
 
 bool CZone::CheckMobsPathedBack()
@@ -737,7 +722,7 @@ void CZone::DecreaseZoneCounter(CCharEntity* PChar)
  *                                                                       *
  ************************************************************************/
 
-void CZone::IncreaseZoneCounter(CCharEntity* PChar)
+void CZone::IncreaseZoneCounter(Scheduler& scheduler, CCharEntity* PChar)
 {
     TracyZoneScoped;
 
@@ -757,9 +742,9 @@ void CZone::IncreaseZoneCounter(CCharEntity* PChar)
 
     m_zoneEntities->InsertPC(PChar);
 
-    if (!ZoneTimer && !m_zoneEntities->CharListEmpty())
+    if (!zoneTimer_.has_value() && !m_zoneEntities->CharListEmpty())
     {
-        createZoneTimers();
+        createZoneTimers(scheduler);
     }
 
     PChar->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ON_ZONE_PATHOS, EffectNotice::Silent);
@@ -867,24 +852,21 @@ void CZone::WideScan(CCharEntity* PChar, uint16 radius)
  *                                                                       *
  ************************************************************************/
 
-void CZone::ZoneServer(timer::time_point tick)
+void CZone::ZoneServer(Scheduler& scheduler, timer::time_point tick)
 {
     TracyZoneScoped;
 
-    m_zoneEntities->ZoneServer(tick);
+    m_zoneEntities->ZoneServer(scheduler, tick);
 
     if (m_BattlefieldHandler != nullptr)
     {
         m_BattlefieldHandler->HandleBattlefields(tick);
     }
 
-    if (ZoneTimer && m_zoneEntities->CharListEmpty() && m_timeZoneEmpty + 5s < timer::now() && CheckMobsPathedBack())
+    if (zoneTimer_.has_value() && m_zoneEntities->CharListEmpty() && m_timeZoneEmpty + 5s < timer::now() && CheckMobsPathedBack())
     {
-        ZoneTimer->m_type = CTaskManager::TASK_REMOVE;
-        ZoneTimer         = nullptr;
-
-        ZoneTimerTriggerAreas->m_type = CTaskManager::TASK_REMOVE;
-        ZoneTimerTriggerAreas         = nullptr;
+        zoneTimer_.reset();
+        zoneTimerTriggerAreas_.reset();
     }
 }
 
@@ -972,26 +954,33 @@ void CZone::ForEachAllyInstance(CBaseEntity* PEntity, const std::function<void(C
     ForEachAlly(func);
 }
 
-void CZone::createZoneTimers()
+void CZone::createZoneTimers(Scheduler& scheduler)
 {
     TracyZoneScoped;
 
-    // clang-format off
-    ZoneTimer = CTaskManager::getInstance()->AddTask(m_zoneName, timer::now(), this, CTaskManager::TASK_INTERVAL, kLogicUpdateInterval,
-    [](timer::time_point tick, CTaskManager::CTask* PTask)
-    {
-        CZone* PZone = std::any_cast<CZone*>(PTask->m_data);
-        PZone->ZoneServer(tick);
-        return 0;
-    });
+    zoneTimer_ = scheduler.intervalOnMain(
+        kLogicUpdateInterval,
+        [PZone = this, &scheduler]() -> Task<void>
+        {
+            PZone->ZoneServer(scheduler, timer::now());
+            co_return;
+        });
 
-    ZoneTimerTriggerAreas = CTaskManager::getInstance()->AddTask(m_zoneName + "TriggerAreas", timer::now(), this, CTaskManager::TASK_INTERVAL, kTriggerAreaInterval,
-    [](timer::time_point tick, CTaskManager::CTask* PTask)
-    {
-        CZone* PZone = std::any_cast<CZone*>(PTask->m_data);
-        PZone->CheckTriggerAreas();
-        return 0;
-    });
+    zoneTimerTriggerAreas_ = scheduler.intervalOnMain(
+        kTriggerAreaInterval,
+        [PZone = this]() -> Task<void>
+        {
+            PZone->CheckTriggerAreas();
+            co_return;
+        });
+
+    spawnHandlerTimer_ = scheduler.intervalOnMain(
+        kSpawnHandlerInterval,
+        [PZone = this]() -> Task<void>
+        {
+            PZone->spawnHandler()->Tick(timer::now());
+            co_return;
+        });
 }
 
 void CZone::CharZoneIn(CCharEntity* PChar)
@@ -1217,7 +1206,7 @@ void CZone::CharZoneOut(CCharEntity* PChar)
 
 bool CZone::IsZoneActive() const
 {
-    return ZoneTimer != nullptr;
+    return zoneTimer_.has_value();
 }
 
 CZoneEntities* CZone::GetZoneEntities()

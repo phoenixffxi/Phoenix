@@ -25,7 +25,6 @@
 
 #include "common/application.h"
 #include "common/timer.h"
-#include "common/watchdog.h"
 
 #include "common/ipp.h"
 #include "zone.h"
@@ -66,7 +65,7 @@ public:
     // Init
     //
 
-    void prepareWatchdog();
+    auto watchdog() -> Task<void>;
 
     void do_init();
     void do_final() const;
@@ -75,8 +74,8 @@ public:
     // Maintenance
     //
 
-    int32 map_cleanup(timer::time_point tick, CTaskManager::CTask* PTask) const; // Clean up timed out players
-    int32 map_garbage_collect(timer::time_point tick, CTaskManager::CTask* PTask) const;
+    void map_cleanup() const; // Clean up timed out players
+    void map_garbage_collect() const;
 
     //
     // Commands callbacks
@@ -93,15 +92,21 @@ public:
 
     auto networking() const -> MapNetworking&;
     auto statistics() const -> MapStatistics&;
+    auto scheduler() -> Scheduler&;
     auto zones() const -> std::map<uint16, CZone*>&; // g_PZoneList
     // gameState()
 
     void requestExit();
 
 private:
-    Scheduler&                     scheduler_;
+    Scheduler&                      scheduler_;
+    std::optional<Scheduler::Token> mapCleanupToken_;
+    std::optional<Scheduler::Token> mapGarbageCollectToken_;
+    std::optional<Scheduler::Token> timeServerToken_;
+    std::optional<Scheduler::Token> persistVolatileServerVarsToken_;
+
     std::unique_ptr<MapStatistics> mapStatistics_;
     std::unique_ptr<MapNetworking> networking_;
-    std::unique_ptr<Watchdog>      watchdog_;
+    std::atomic<timer::time_point> watchdogLastUpdate_;
     MapConfig&                     engineConfig_;
 };

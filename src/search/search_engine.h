@@ -48,7 +48,7 @@ public:
     void expireAH(std::optional<uint16> days) const;
 
 private:
-    auto periodicCleanup() -> Task<void>;
+    std::optional<Scheduler::Token> periodicCleanupToken_;
 
     Scheduler&     scheduler_;
     SearchListener searchListener_;

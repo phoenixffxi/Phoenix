@@ -129,10 +129,4 @@ void MapApplication::run()
     // MapEngine destructor must occur before Application destructor
     engine_.reset();
     scheduler_.stop();
-
-    const auto taskManager = CTaskManager::getInstance();
-    while (!taskManager->getTaskList().empty())
-    {
-        taskManager->getTaskList().pop();
-    }
 }

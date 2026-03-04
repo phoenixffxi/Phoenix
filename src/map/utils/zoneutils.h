@@ -53,7 +53,7 @@ auto IsLazyLoadingEnabled() -> bool;
 auto IsZoneReady(uint16 zoneId) -> bool;
 auto GetManagedZones() -> std::vector<std::pair<uint16, std::string>>;
 void FreeZoneList();
-void InitializeWeather();
+void InitializeWeather(Scheduler& scheduler);
 void TOTDChange(vanadiel_time::TOTD TOTD);
 void SavePlayTime();
 

@@ -65,8 +65,9 @@ public:
     // Accessors
     //
 
-    auto ipp() -> IPP;
+    auto ipp() const -> IPP;
     auto sessions() -> MapSessionContainer&;
+    auto scheduler() -> Scheduler&;
     auto socket() -> MapSocket&;
 
 private:

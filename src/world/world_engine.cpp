@@ -51,36 +51,20 @@ WorldEngine::WorldEngine(Scheduler& scheduler)
 , colonizationSystem_(std::make_unique<ColonizationSystem>(*this))
 , httpServer_(std::make_unique<HTTPServer>())
 {
-    scheduler_.postToMainThread(timeServer());
+    timeServerToken_ = scheduler_.intervalOnMain(
+        kTimeServerTickInterval,
+        [this]()
+        {
+            time_server(this);
+        });
 
     // TODO: Bind ZMQ socket FD to ASIO directly
-    scheduler_.postToMainThread(pumpQueues());
+    pumpQueuesToken_ = scheduler_.intervalOnMain(
+        kPumpQueuesTime,
+        [this]()
+        {
+            ipcServer_->handleIncomingMessages();
+        });
 }
 
 WorldEngine::~WorldEngine() = default;
-
-auto WorldEngine::timeServer() -> Task<void>
-{
-    while (!scheduler_.closeRequested())
-    {
-        co_await scheduler_.yieldFor(kTimeServerTickInterval);
-
-        if (!scheduler_.closeRequested())
-        {
-            time_server(this);
-        }
-    }
-}
-
-auto WorldEngine::pumpQueues() -> Task<void>
-{
-    while (!scheduler_.closeRequested())
-    {
-        co_await scheduler_.yieldFor(kPumpQueuesTime);
-
-        if (!scheduler_.closeRequested())
-        {
-            ipcServer_->handleIncomingMessages();
-        }
-    }
-}
