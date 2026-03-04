@@ -587,6 +587,10 @@ auto calculateSynthResult(CCharEntity* PChar) -> uint8
         {
             upgradeHQ = upgradeHQ + 1;
         }
+        else
+        {
+            break;
+        }
     }
 
     return SYNTHESIS_HQ + upgradeHQ;
