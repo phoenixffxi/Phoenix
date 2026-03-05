@@ -17,8 +17,8 @@ entity.onMobSpawn = function(mob)
     mob:addMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 150)
     mob:setMobAbilityEnabled(false)
 
-    mob:addListener('WEAPONSKILL_USE', 'SHIKAREE_Z_WS', function(mobArg, targetArg, skillid, spentTP, action)
-        if skillid == xi.mobSkill.JUMP_1 then
+    mob:addListener('WEAPONSKILL_USE', 'SHIKAREE_Z_WS', function(mobArg, targetArg, skill, tp, action, damage)
+        if skill:getID() == xi.mobSkill.JUMP_1 then
             action:setCategory(xi.action.category.WEAPONSKILL_FINISH)
         end
     end)
