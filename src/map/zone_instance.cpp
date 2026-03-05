@@ -28,8 +28,8 @@
 #include "utils/charutils.h"
 #include "utils/zoneutils.h"
 
-CZoneInstance::CZoneInstance(ZONEID ZoneID, REGION_TYPE RegionID, CONTINENT_TYPE ContinentID, uint8 levelRestriction)
-: CZone(ZoneID, RegionID, ContinentID, levelRestriction)
+CZoneInstance::CZoneInstance(Scheduler& scheduler, ZONEID ZoneID, REGION_TYPE RegionID, CONTINENT_TYPE ContinentID, uint8 levelRestriction)
+: CZone(scheduler, ZoneID, RegionID, ContinentID, levelRestriction)
 {
     TracyZoneScoped;
 }
@@ -198,7 +198,7 @@ void CZoneInstance::IncreaseZoneCounter(Scheduler& scheduler, CCharEntity* PChar
 
     if (PChar->PInstance)
     {
-        if (!zoneTimer_.has_value())
+        if (!zoneTimerToken_.has_value())
         {
             createZoneTimers(scheduler);
         }
@@ -384,14 +384,14 @@ void CZoneInstance::WideScan(CCharEntity* PChar, uint16 radius)
     }
 }
 
-void CZoneInstance::ZoneServer(Scheduler& scheduler, timer::time_point tick)
+auto CZoneInstance::ZoneServer(Scheduler& scheduler, timer::time_point tick) -> Task<void>
 {
     TracyZoneScoped;
 
     std::vector<CInstance*> instancesToRemove;
     for (const auto& PInstance : m_InstanceList)
     {
-        PInstance->ZoneServer(scheduler, tick);
+        co_await PInstance->ZoneServer(scheduler, tick);
         PInstance->CheckTime(tick);
 
         if ((PInstance->Failed() || PInstance->Completed()) && PInstance->CharListEmpty())
@@ -404,13 +404,17 @@ void CZoneInstance::ZoneServer(Scheduler& scheduler, timer::time_point tick)
     {
         ShowDebug("[CZoneInstance] ZoneServer cleaned up Instance %s", PInstance->GetName());
 
-        // clang-format off
-        m_InstanceList.erase(std::find_if(m_InstanceList.begin(), m_InstanceList.end(), [&PInstance](const auto& el)
-        {
-            return el.get() == PInstance;
-        }));
-        // clang-format on
+        m_InstanceList.erase(
+            std::find_if(
+                m_InstanceList.begin(),
+                m_InstanceList.end(),
+                [&PInstance](const auto& el)
+                {
+                    return el.get() == PInstance;
+                }));
     }
+
+    co_return;
 }
 
 void CZoneInstance::CheckTriggerAreas()
@@ -579,6 +583,6 @@ CInstance* CZoneInstance::CreateInstance(uint32 instanceid)
 {
     TracyZoneScoped;
 
-    m_InstanceList.emplace_back(std::make_unique<CInstance>(this, instanceid));
+    m_InstanceList.emplace_back(std::make_unique<CInstance>(scheduler_, this, instanceid));
     return m_InstanceList.back().get();
 }

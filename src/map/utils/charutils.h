@@ -72,7 +72,7 @@ namespace charutils
 {
 
 void LoadExpTable();
-auto LoadChar(uint32 charId) -> std::unique_ptr<CCharEntity>;
+auto LoadChar(Scheduler& scheduler, uint32 charId) -> std::unique_ptr<CCharEntity>;
 void LoadSpells(CCharEntity* PChar);
 void LoadInventory(CCharEntity* PChar);
 void LoadEquip(CCharEntity* PChar);

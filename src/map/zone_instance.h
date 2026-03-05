@@ -62,7 +62,7 @@ public:
 
     virtual void UpdateEntityPacket(CBaseEntity* PEntity, ENTITYUPDATE type, uint8 updatemask, bool alwaysInclude = false) override;
 
-    virtual void ZoneServer(Scheduler& scheduler, timer::time_point tick) override;
+    virtual auto ZoneServer(Scheduler& scheduler, timer::time_point tick) -> Task<void> override;
     virtual void CheckTriggerAreas() override;
 
     void ForEachChar(const std::function<void(CCharEntity*)>& func) override;
@@ -80,7 +80,7 @@ public:
 
     CInstance* CreateInstance(uint32 instanceid);
 
-    CZoneInstance(ZONEID ZoneID, REGION_TYPE RegionID, CONTINENT_TYPE ContinentID, uint8 levelRestriction);
+    CZoneInstance(Scheduler& scheduler, ZONEID ZoneID, REGION_TYPE RegionID, CONTINENT_TYPE ContinentID, uint8 levelRestriction);
     ~CZoneInstance() override;
 
 private:

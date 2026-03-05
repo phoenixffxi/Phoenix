@@ -65,8 +65,9 @@ constexpr std::uint16_t WeatherCycle = 2160;
 #include "utils/charutils.h"
 #include "utils/moduleutils.h"
 
-CZone::CZone(ZONEID ZoneID, REGION_TYPE RegionID, CONTINENT_TYPE ContinentID, uint8 levelRestriction)
-: m_zoneID(ZoneID)
+CZone::CZone(Scheduler& scheduler, ZONEID ZoneID, REGION_TYPE RegionID, CONTINENT_TYPE ContinentID, uint8 levelRestriction)
+: scheduler_(scheduler)
+, m_zoneID(ZoneID)
 , m_zoneType(ZONE_TYPE::UNKNOWN)
 , m_regionID(RegionID)
 , m_continentID(ContinentID)
@@ -81,7 +82,7 @@ CZone::CZone(ZONEID ZoneID, REGION_TYPE RegionID, CONTINENT_TYPE ContinentID, ui
     m_TreasurePool       = nullptr;
     m_BattlefieldHandler = nullptr;
     m_Weather            = Weather::None;
-    m_zoneEntities       = new CZoneEntities(this);
+    m_zoneEntities       = new CZoneEntities(scheduler_, this);
     m_CampaignHandler    = new CCampaignHandler(this);
     m_spawnHandler       = std::make_unique<SpawnHandler>(this);
 
@@ -90,6 +91,14 @@ CZone::CZone(ZONEID ZoneID, REGION_TYPE RegionID, CONTINENT_TYPE ContinentID, ui
 
     LoadZoneLines();
     LoadZoneWeather();
+
+    spawnHandlerTimerToken_ = scheduler.intervalOnMain(
+        kSpawnHandlerInterval,
+        [PZone = this]() -> Task<void>
+        {
+            PZone->spawnHandler()->Tick(timer::now());
+            co_return;
+        });
 
     // NOTE: Heavy resources like Navmesh are now loaded outside of the constructor in zoneutils::LoadZoneList
 }
@@ -742,7 +751,7 @@ void CZone::IncreaseZoneCounter(Scheduler& scheduler, CCharEntity* PChar)
 
     m_zoneEntities->InsertPC(PChar);
 
-    if (!zoneTimer_.has_value() && !m_zoneEntities->CharListEmpty())
+    if (!zoneTimerToken_.has_value() && !m_zoneEntities->CharListEmpty())
     {
         createZoneTimers(scheduler);
     }
@@ -852,21 +861,21 @@ void CZone::WideScan(CCharEntity* PChar, uint16 radius)
  *                                                                       *
  ************************************************************************/
 
-void CZone::ZoneServer(Scheduler& scheduler, timer::time_point tick)
+auto CZone::ZoneServer(Scheduler& scheduler, timer::time_point tick) -> Task<void>
 {
     TracyZoneScoped;
 
-    m_zoneEntities->ZoneServer(scheduler, tick);
+    co_await m_zoneEntities->ZoneServer(scheduler, tick);
 
     if (m_BattlefieldHandler != nullptr)
     {
         m_BattlefieldHandler->HandleBattlefields(tick);
     }
 
-    if (zoneTimer_.has_value() && m_zoneEntities->CharListEmpty() && m_timeZoneEmpty + 5s < timer::now() && CheckMobsPathedBack())
+    if (zoneTimerToken_.has_value() && m_zoneEntities->CharListEmpty() && m_timeZoneEmpty + 5s < timer::now() && CheckMobsPathedBack())
     {
-        zoneTimer_.reset();
-        zoneTimerTriggerAreas_.reset();
+        zoneTimerToken_.reset();
+        zoneTimerTriggerAreasToken_.reset();
     }
 }
 
@@ -958,27 +967,18 @@ void CZone::createZoneTimers(Scheduler& scheduler)
 {
     TracyZoneScoped;
 
-    zoneTimer_ = scheduler.intervalOnMain(
+    zoneTimerToken_ = scheduler.intervalOnMain(
         kLogicUpdateInterval,
         [PZone = this, &scheduler]() -> Task<void>
         {
-            PZone->ZoneServer(scheduler, timer::now());
-            co_return;
+            co_await PZone->ZoneServer(scheduler, timer::now());
         });
 
-    zoneTimerTriggerAreas_ = scheduler.intervalOnMain(
+    zoneTimerTriggerAreasToken_ = scheduler.intervalOnMain(
         kTriggerAreaInterval,
         [PZone = this]() -> Task<void>
         {
             PZone->CheckTriggerAreas();
-            co_return;
-        });
-
-    spawnHandlerTimer_ = scheduler.intervalOnMain(
-        kSpawnHandlerInterval,
-        [PZone = this]() -> Task<void>
-        {
-            PZone->spawnHandler()->Tick(timer::now());
             co_return;
         });
 }
@@ -1206,7 +1206,7 @@ void CZone::CharZoneOut(CCharEntity* PChar)
 
 bool CZone::IsZoneActive() const
 {
-    return zoneTimer_.has_value();
+    return zoneTimerToken_.has_value();
 }
 
 CZoneEntities* CZone::GetZoneEntities()

@@ -333,6 +333,11 @@ auto CLuaClientEntityPair::simulation() const -> CLuaSimulation*
     return simulation_;
 }
 
+auto CLuaClientEntityPair::engine() -> MapEngine*
+{
+    return engine_;
+}
+
 void CLuaClientEntityPair::Register()
 {
     SOL_USERTYPE_INHERIT("CClientEntityPair", CLuaClientEntityPair, CLuaTestEntity, CLuaBaseEntity);

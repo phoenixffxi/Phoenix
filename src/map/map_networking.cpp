@@ -350,7 +350,7 @@ int32 MapNetworking::recv_parse(uint8* buff, size_t* buffsize, MapSession* map_s
                 ShowError("recv_parse: Cannot load session_key for charid %u", packetCharID);
             }
 
-            map_session_data->PChar     = charutils::LoadChar(packetCharID);
+            map_session_data->PChar     = charutils::LoadChar(scheduler_, packetCharID);
             map_session_data->charID    = packetCharID;
             map_session_data->accountID = accountID;
 

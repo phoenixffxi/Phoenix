@@ -19,7 +19,6 @@
 ===========================================================================
 */
 
-#include "common/async.h"
 #include "common/database.h"
 #include "common/logging.h"
 #include "common/mmo.h"

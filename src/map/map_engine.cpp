@@ -21,7 +21,6 @@
 
 #include "map_engine.h"
 
-#include "common/async.h"
 #include "common/blowfish.h"
 #include "common/console_service.h"
 #include "common/database.h"
@@ -117,8 +116,6 @@ MapEngine::~MapEngine()
 
     petutils::FreePetList();
     zoneutils::FreeZoneList();
-
-    Async::delInstance();
 
     luautils::cleanup();
 }
@@ -218,7 +215,7 @@ auto MapEngine::init() -> Task<void>
         ShowInfo("./losmeshes/ directory isn't present or is empty");
     }
 
-    zoneutils::Initialize(mapIPP, engineConfig_.lazyZones, !engineConfig_.isTestServer);
+    co_await zoneutils::Initialize(scheduler_, mapIPP, engineConfig_.lazyZones, !engineConfig_.isTestServer);
 
     if (!engineConfig_.lazyZones)
     {
@@ -245,7 +242,13 @@ auto MapEngine::init() -> Task<void>
         mapGarbageCollectToken_ = scheduler_.intervalOnMain(kGarbageCollectionInterval, std::bind(&MapEngine::garbageCollect, this));
     }
 
-    timeServerToken_                = scheduler_.intervalOnMain(kTimeServerTickInterval, time_server);
+    timeServerToken_ = scheduler_.intervalOnMain(
+        kTimeServerTickInterval,
+        [this]
+        {
+            time_server(scheduler_);
+        });
+
     persistVolatileServerVarsToken_ = scheduler_.intervalOnMain(kPersistVolatileServerVarsInterval, serverutils::PersistVolatileServerVars);
     pumpIPCToken_                   = scheduler_.intervalOnMain(kIPCPumpInterval, message::handle_incoming);
 

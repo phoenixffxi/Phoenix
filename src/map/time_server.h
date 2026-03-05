@@ -19,12 +19,10 @@
 ===========================================================================
 */
 
-#ifndef _TIMESERVER_H
-#define _TIMESERVER_H
+#pragma once
 
-#include "common/cbasetypes.h"
-#include "common/timer.h"
+#include <common/cbasetypes.h>
+#include <common/scheduler.h>
+#include <common/timer.h>
 
-void time_server();
-
-#endif
+void time_server(Scheduler& scheduler);

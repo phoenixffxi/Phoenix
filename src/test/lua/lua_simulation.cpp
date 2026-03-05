@@ -375,7 +375,7 @@ void CLuaSimulation::tick(const Maybe<TickType> boundary) const
         {
             // Execute time_server with no specific task in mind.
             timer::add_offset(kTimeServerTickInterval);
-            time_server();
+            time_server(engine_->scheduler());
         }
         break;
         case TickType::EffectTick:
@@ -409,7 +409,7 @@ void CLuaSimulation::tick(const Maybe<TickType> boundary) const
             // Skip to next JST Hourly and execute time_server
             timer::add_offset(kTimeServerTickInterval);
             earth_time::add_offset(nextJstHourlyUpdate - timerAdjustedUtcTime);
-            time_server();
+            time_server(engine_->scheduler());
         }
         break;
         case TickType::JSTDaily:
@@ -417,7 +417,7 @@ void CLuaSimulation::tick(const Maybe<TickType> boundary) const
             // Skip to next JST Daily and execute time_server
             timer::add_offset(kTimeServerTickInterval);
             earth_time::add_offset(nextJstDailyUpdate - timerAdjustedUtcTime);
-            time_server();
+            time_server(engine_->scheduler());
         }
         break;
         case TickType::VanadielHourly:
@@ -425,7 +425,7 @@ void CLuaSimulation::tick(const Maybe<TickType> boundary) const
             // Skip to next VanaDiel Hourly and execute time_server
             timer::add_offset(kTimeServerTickInterval);
             earth_time::add_offset(vanadiel_time::to_earth_time(nextVHourlyUpdate) - timerAdjustedUtcTime);
-            time_server();
+            time_server(engine_->scheduler());
         }
         break;
         case TickType::VanadielDaily:
@@ -433,7 +433,7 @@ void CLuaSimulation::tick(const Maybe<TickType> boundary) const
             // Skip to next VanaDiel Daily and execute time_server
             timer::add_offset(kTimeServerTickInterval);
             earth_time::add_offset(vanadiel_time::to_earth_time(nextVDailyUpdate) - timerAdjustedUtcTime);
-            time_server();
+            time_server(engine_->scheduler());
         }
         break;
         case TickType::SpawnHandler:

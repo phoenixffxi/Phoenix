@@ -37,7 +37,7 @@
 #include "utils/moduleutils.h"
 #include "utils/zoneutils.h"
 
-void time_server()
+void time_server(Scheduler& scheduler)
 {
     TracyZoneScoped;
     auto tick = timer::now();
@@ -172,7 +172,7 @@ void time_server()
     CTriggerHandler::getInstance()->triggerTimer();
     CTransportHandler::getInstance()->TransportTimer();
     instanceutils::CheckInstance();
-    zoneutils::ProcessLoadQueue();
+    zoneutils::ProcessLoadQueue(scheduler);
     luautils::OnTimeServerTick();
     luautils::TryReloadFilewatchList();
     moduleutils::OnTimeServerTick();

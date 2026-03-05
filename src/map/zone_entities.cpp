@@ -83,8 +83,9 @@ inline bool isWithinVerticalDistance(CBaseEntity* source, CBaseEntity* target)
 
 typedef std::pair<float, CCharEntity*> CharScorePair;
 
-CZoneEntities::CZoneEntities(CZone* zone)
-: m_zone(zone)
+CZoneEntities::CZoneEntities(Scheduler& scheduler, CZone* zone)
+: scheduler_(scheduler)
+, m_zone(zone)
 , m_nextDynamicTargID(DYNAMIC_ENTITY_TARGID_RANGE_START)
 {
     // Ensure internal collections have enough capacity so they won't resize at runtime.
@@ -1585,7 +1586,7 @@ void CZoneEntities::WideScan(CCharEntity* PChar, uint16 radius)
     PChar->pushPacket<GP_SERV_COMMAND_TRACKING_STATE>(GP_TRACKING_STATE::ListEnd);
 }
 
-void CZoneEntities::ZoneServer(Scheduler& scheduler, timer::time_point tick)
+auto CZoneEntities::ZoneServer(Scheduler& scheduler, timer::time_point tick) -> Task<void>
 {
     TracyZoneScoped;
     TracyZoneString(m_zone->getName());
@@ -1989,6 +1990,8 @@ void CZoneEntities::ZoneServer(Scheduler& scheduler, timer::time_point tick)
     m_petsToDelete.clear();
     m_trustsToDelete.clear();
     m_aggroableMobs.clear();
+
+    co_return;
 }
 
 CZone* CZoneEntities::GetZone()

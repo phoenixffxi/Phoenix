@@ -59,6 +59,8 @@ public:
     auto testChar() const -> TestChar*;
     auto simulation() const -> CLuaSimulation*;
 
+    auto engine() -> MapEngine*;
+
     static void Register();
 
 private:

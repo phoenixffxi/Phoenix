@@ -45,10 +45,11 @@ struct LazyLoadState
 
 } // namespace detail
 
-void LoadZones(const std::vector<uint16>& zoneIds);
-void LoadZoneList(IPP mapIPP);
-void Initialize(IPP mapIPP, bool lazyLoading, bool asyncMode);
-void ProcessLoadQueue();
+auto LoadZones(Scheduler& scheduler, const std::vector<uint16>& zoneIds) -> Task<void>;
+auto LoadZoneList(Scheduler& scheduler, IPP mapIPP) -> Task<void>;
+auto Initialize(Scheduler& scheduler, IPP mapIPP, bool lazyLoading, bool asyncMode) -> Task<void>;
+void ProcessLoadQueue(Scheduler& scheduler);
+
 auto IsLazyLoadingEnabled() -> bool;
 auto IsZoneReady(uint16 zoneId) -> bool;
 auto GetManagedZones() -> std::vector<std::pair<uint16, std::string>>;

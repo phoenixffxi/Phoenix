@@ -134,29 +134,31 @@ void SpawnHandler::Tick(const timer::time_point now)
     std::vector<CMobEntity*> mobsToSpawn;
 
     // Process non-slotted mobs
-    std::erase_if(pendingRespawns_, [&](const auto& pair)
-                  {
-                      if (pair.second > spawnThreshold)
-                      {
-                          return false;
-                      }
+    std::erase_if(
+        pendingRespawns_,
+        [&](const auto& pair)
+        {
+            if (pair.second > spawnThreshold)
+            {
+                return false;
+            }
 
-                      const uint16 targid = static_cast<uint16>(pair.first & 0x0FFF);
-                      auto*        PMob   = static_cast<CMobEntity*>(zone_->GetEntity(targid, TYPE_MOB));
+            const uint16 targid = static_cast<uint16>(pair.first & 0x0FFF);
+            auto*        PMob   = static_cast<CMobEntity*>(zone_->GetEntity(targid, TYPE_MOB));
 
-                      if (!PMob)
-                      {
-                          return true;
-                      }
+            if (!PMob)
+            {
+                return true;
+            }
 
-                      if (!canSpawnNow(PMob) || luautils::OnMobSpawnCheck(PMob) != 0)
-                      {
-                          return false;
-                      }
+            if (!canSpawnNow(PMob) || luautils::OnMobSpawnCheck(PMob) != 0)
+            {
+                return false;
+            }
 
-                      mobsToSpawn.push_back(PMob);
-                      return true;
-                  });
+            mobsToSpawn.push_back(PMob);
+            return true;
+        });
 
     for (auto* PMob : mobsToSpawn)
     {
@@ -164,16 +166,18 @@ void SpawnHandler::Tick(const timer::time_point now)
     }
 
     // Process slotted spawns
-    std::erase_if(pendingSlotRespawns_, [&](const auto& pair)
-                  {
-                      if (pair.second.respawnAt > spawnThreshold)
-                      {
-                          return false;
-                      }
+    std::erase_if(
+        pendingSlotRespawns_,
+        [&](const auto& pair)
+        {
+            if (pair.second.respawnAt > spawnThreshold)
+            {
+                return false;
+            }
 
-                      SpawnSlot* slot = pair.first;
-                      return !slot || slot->TrySpawn(pair.second.specificMobId);
-                  });
+            SpawnSlot* slot = pair.first;
+            return !slot || slot->TrySpawn(pair.second.specificMobId);
+        });
 }
 
 // On TOTD change, process all relevant despawns.
@@ -184,24 +188,26 @@ void SpawnHandler::onTOTDChange(const vanadiel_time::TOTD totd) const
     {
         case vanadiel_time::TOTD::NEWDAY:
         {
-            zone_->ForEachMob([](CMobEntity* PMob)
-                              {
-                                  if (PMob->m_SpawnType & SPAWNTYPE_ATNIGHT)
-                                  {
-                                      PMob->SetDespawnTime(1ms);
-                                  }
-                              });
+            zone_->ForEachMob(
+                [](CMobEntity* PMob)
+                {
+                    if (PMob->m_SpawnType & SPAWNTYPE_ATNIGHT)
+                    {
+                        PMob->SetDespawnTime(1ms);
+                    }
+                });
         }
         break;
         case vanadiel_time::TOTD::DAWN:
         {
-            zone_->ForEachMob([](CMobEntity* PMob)
-                              {
-                                  if (PMob->m_SpawnType & SPAWNTYPE_ATEVENING)
-                                  {
-                                      PMob->SetDespawnTime(1ms);
-                                  }
-                              });
+            zone_->ForEachMob(
+                [](CMobEntity* PMob)
+                {
+                    if (PMob->m_SpawnType & SPAWNTYPE_ATEVENING)
+                    {
+                        PMob->SetDespawnTime(1ms);
+                    }
+                });
         }
         break;
         default:
@@ -214,23 +220,24 @@ void SpawnHandler::onTOTDChange(const vanadiel_time::TOTD totd) const
 void SpawnHandler::onWeatherChange(Weather weather) const
 {
     const auto element = zoneutils::GetWeatherElement(weather);
-    zone_->ForEachMob([weather, element](CMobEntity* PMob)
-                      {
-                          if (PMob->m_EcoSystem == ECOSYSTEM::ELEMENTAL && PMob->PMaster == nullptr && PMob->m_SpawnType & SPAWNTYPE_WEATHER)
-                          {
-                              if (PMob->m_Element != element)
-                              {
-                                  PMob->SetDespawnTime(1s);
-                              }
-                          }
-                          else if (PMob->m_SpawnType & SPAWNTYPE_FOG)
-                          {
-                              if (weather != Weather::Fog)
-                              {
-                                  PMob->SetDespawnTime(1s);
-                              }
-                          }
-                      });
+    zone_->ForEachMob(
+        [weather, element](CMobEntity* PMob)
+        {
+            if (PMob->m_EcoSystem == ECOSYSTEM::ELEMENTAL && PMob->PMaster == nullptr && PMob->m_SpawnType & SPAWNTYPE_WEATHER)
+            {
+                if (PMob->m_Element != element)
+                {
+                    PMob->SetDespawnTime(1s);
+                }
+            }
+            else if (PMob->m_SpawnType & SPAWNTYPE_FOG)
+            {
+                if (weather != Weather::Fog)
+                {
+                    PMob->SetDespawnTime(1s);
+                }
+            }
+        });
 }
 
 // Ensures the mob meets all conditions for spawning on current wave: TOTD, Weather, Respawn disabled etc.

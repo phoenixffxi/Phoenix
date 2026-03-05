@@ -394,7 +394,7 @@ void CalculateStats(CCharEntity* PChar)
  *                                                                       *
  ************************************************************************/
 
-auto LoadChar(const uint32 charId) -> std::unique_ptr<CCharEntity>
+auto LoadChar(Scheduler& scheduler, const uint32 charId) -> std::unique_ptr<CCharEntity>
 {
     TracyZoneScoped;
 
@@ -949,7 +949,7 @@ auto LoadChar(const uint32 charId) -> std::unique_ptr<CCharEntity>
     // Lazy loading: ensure initial zone is loaded synchronously before OnZoneIn
     if (zoneutils::IsLazyLoadingEnabled() && !zoneutils::GetZone(PChar->loc.destination))
     {
-        zoneutils::LoadZones({ PChar->loc.destination });
+        zoneutils::LoadZones(scheduler, { PChar->loc.destination });
     }
 
     luautils::OnZoneIn(PChar);

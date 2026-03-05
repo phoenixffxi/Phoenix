@@ -645,7 +645,7 @@ public:
 
     weatherVector_t m_WeatherVector; // The probability of each weather type
 
-    virtual void ZoneServer(Scheduler& scheduler, timer::time_point tick);
+    virtual auto ZoneServer(Scheduler& scheduler, timer::time_point tick) -> Task<void>;
     virtual void CheckTriggerAreas();
 
     virtual void ForEachChar(const std::function<void(CCharEntity*)>& func);
@@ -661,7 +661,7 @@ public:
     virtual void ForEachAlly(const std::function<void(CMobEntity*)>& func);
     virtual void ForEachAllyInstance(CBaseEntity* PEntity, const std::function<void(CMobEntity*)>& func);
 
-    CZone(ZONEID ZoneID, REGION_TYPE RegionID, CONTINENT_TYPE ContinentID, uint8 levelRestriction);
+    CZone(Scheduler& scheduler, ZONEID ZoneID, REGION_TYPE RegionID, CONTINENT_TYPE ContinentID, uint8 levelRestriction);
     virtual ~CZone();
 
     CBattlefieldHandler*          m_BattlefieldHandler; // BCNM Instances in this zone
@@ -716,9 +716,11 @@ private:
     std::unordered_map<std::string, QueryByNameResult_t> m_queryByNameResults;
 
 protected:
-    Maybe<Scheduler::Token> zoneTimer_;
-    Maybe<Scheduler::Token> zoneTimerTriggerAreas_;
-    Maybe<Scheduler::Token> spawnHandlerTimer_;
+    Scheduler& scheduler_;
+
+    Maybe<Scheduler::Token> zoneTimerToken_;
+    Maybe<Scheduler::Token> zoneTimerTriggerAreasToken_;
+    Maybe<Scheduler::Token> spawnHandlerTimerToken_;
 
     triggerAreaList_t m_triggerAreaList;
 

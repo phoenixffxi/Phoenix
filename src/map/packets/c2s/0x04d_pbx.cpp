@@ -221,7 +221,7 @@ void GP_CLI_COMMAND_PBX::process(MapSession* PSession, CCharEntity* PChar) const
         break;
         case GP_CLI_COMMAND_PBX_COMMAND::Recv:
         {
-            dboxutils::SendNewItems(PChar, static_cast<GP_CLI_COMMAND_PBX_BOXNO>(BoxNo), PostWorkNo);
+            dboxutils::SendNewItems(*PSession->scheduler, PChar, static_cast<GP_CLI_COMMAND_PBX_BOXNO>(BoxNo), PostWorkNo);
         }
         break;
         case GP_CLI_COMMAND_PBX_COMMAND::Confirm:
