@@ -605,7 +605,7 @@ public:
     bool IsWeatherStatic() const;
     bool CanUseMisc(uint16 misc) const;
     void SetWeather(Weather weather);
-    void UpdateWeather(Scheduler& scheduler);
+    void UpdateWeather();
     bool CheckMobsPathedBack();
 
     virtual void SpawnPCs(CCharEntity* PChar);
@@ -619,8 +619,8 @@ public:
 
     virtual void WideScan(CCharEntity* PChar, uint16 radius);
 
-    virtual void DecreaseZoneCounter(CCharEntity* PChar);                       // Remove a character from the zone
-    virtual void IncreaseZoneCounter(Scheduler& scheduler, CCharEntity* PChar); // Add a character to the zone
+    virtual void DecreaseZoneCounter(CCharEntity* PChar); // Remove a character from the zone
+    virtual void IncreaseZoneCounter(CCharEntity* PChar); // Add a character to the zone
 
     virtual void InsertNPC(CBaseEntity* PNpc);
     virtual void InsertMOB(CBaseEntity* PMob);
@@ -645,8 +645,8 @@ public:
 
     weatherVector_t m_WeatherVector; // The probability of each weather type
 
-    virtual auto ZoneServer(Scheduler& scheduler, timer::time_point tick) -> Task<void>;
-    virtual void CheckTriggerAreas();
+    virtual auto ZoneServer(timer::time_point tick) -> Task<void>;
+    virtual auto CheckTriggerAreas() -> Task<void>;
 
     virtual void ForEachChar(const std::function<void(CCharEntity*)>& func);
     virtual void ForEachCharInstance(CBaseEntity* PEntity, const std::function<void(CCharEntity*)>& func);
@@ -724,7 +724,7 @@ protected:
 
     triggerAreaList_t m_triggerAreaList;
 
-    void createZoneTimers(Scheduler& scheduler);
+    void createZoneTimers();
     void CharZoneIn(CCharEntity* PChar);
     void CharZoneOut(CCharEntity* PChar);
 

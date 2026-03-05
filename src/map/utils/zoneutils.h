@@ -21,8 +21,9 @@
 
 #pragma once
 
-#include "common/cbasetypes.h"
-#include "common/ipp.h"
+#include <common/cbasetypes.h>
+#include <common/ipp.h>
+#include <common/types/flag.h>
 
 #include "zone.h"
 
@@ -51,10 +52,15 @@ auto Initialize(Scheduler& scheduler, IPP mapIPP, bool lazyLoading, bool asyncMo
 void ProcessLoadQueue(Scheduler& scheduler);
 
 auto IsLazyLoadingEnabled() -> bool;
-auto IsZoneReady(uint16 zoneId) -> bool;
+
+// TODO:
+// This shouldn't have side effects, it should be const and the caller should be responsible
+// for requesting the zone is loaded if it isn't ready.
+auto IsZoneReady(Scheduler& scheduler, uint16 zoneId) -> Task<bool>;
+
 auto GetManagedZones() -> std::vector<std::pair<uint16, std::string>>;
 void FreeZoneList();
-void InitializeWeather(Scheduler& scheduler);
+void InitializeWeather();
 void TOTDChange(vanadiel_time::TOTD TOTD);
 void SavePlayTime();
 

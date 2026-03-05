@@ -75,14 +75,14 @@ void TOTDChange(const vanadiel_time::TOTD TOTD)
  *                                                                       *
  ************************************************************************/
 
-void InitializeWeather(Scheduler& scheduler)
+void InitializeWeather()
 {
     TracyZoneScoped;
     for (const auto PZone : g_PZoneList | std::views::values)
     {
         if (!PZone->IsWeatherStatic())
         {
-            PZone->UpdateWeather(scheduler);
+            PZone->UpdateWeather();
         }
         else
         {
@@ -803,17 +803,19 @@ auto LoadZones(Scheduler& scheduler, const std::vector<uint16>& zoneIds) -> Task
 
     for (const auto zoneId : zonesIdsToLoad)
     {
-        tasks.emplace_back(scheduler.onWorkerThread(
-            [zoneId]()
-            {
-                g_PZoneList[zoneId]->LoadNavMesh();
-            }));
+        tasks.emplace_back(
+            scheduler.onWorkerThread(
+                [zoneId]()
+                {
+                    g_PZoneList[zoneId]->LoadNavMesh();
+                }));
 
-        tasks.emplace_back(scheduler.onWorkerThread(
-            [zoneId]()
-            {
-                g_PZoneList[zoneId]->LoadZoneLos();
-            }));
+        tasks.emplace_back(
+            scheduler.onWorkerThread(
+                [zoneId]()
+                {
+                    g_PZoneList[zoneId]->LoadZoneLos();
+                }));
     }
 
     co_await All(std::move(tasks));
@@ -837,6 +839,8 @@ auto LoadZones(Scheduler& scheduler, const std::vector<uint16>& zoneIds) -> Task
             luautils::OnZoneInitialize(g_PZoneList[zoneId]->GetID());
         }
     }
+
+    co_return;
 }
 
 auto LoadZoneList(Scheduler& scheduler, const IPP mapIPP) -> Task<void>
@@ -852,6 +856,8 @@ auto LoadZoneList(Scheduler& scheduler, const IPP mapIPP) -> Task<void>
 
     co_await LoadZones(scheduler, zoneIds);
     luautils::InitInteractionGlobal();
+
+    co_return;
 }
 
 // Initialize zone loading: immediate (load all now) or lazy (load on-demand)
@@ -870,6 +876,8 @@ auto Initialize(Scheduler& scheduler, const IPP mapIPP, bool lazyLoading, bool a
     lazyLoad.managedZones = std::set(zones.begin(), zones.end());
 
     luautils::InitInteractionGlobal();
+
+    co_return;
 }
 
 void ProcessLoadQueue(Scheduler& scheduler)
@@ -919,31 +927,33 @@ auto GetManagedZones() -> std::vector<std::pair<uint16, std::string>>
     return result;
 }
 
-auto IsZoneReady(uint16 zoneId) -> bool
+// TODO:
+// This shouldn't have side effects, it should be const and the caller should be responsible
+// for requesting the zone is loaded if it isn't ready.
+auto IsZoneReady(Scheduler& scheduler, uint16 zoneId) -> Task<bool>
 {
     // Zone already loaded, or lazy loading disabled (all zones loaded at startup)
     if (GetZone(zoneId) || !lazyLoad.enabled)
     {
-        return true;
+        co_return true;
     }
 
     // Zone not managed by this process - caller will handle cross-process
     if (!lazyLoad.managedZones.contains(zoneId))
     {
-        return true;
+        co_return true;
     }
 
     // Sync mode: load now
     if (!lazyLoad.asyncMode)
     {
-        // TODO: FIXME
-        // LoadZones(scheduler, { zoneId });
-        // return true;
+        LoadZones(scheduler, { zoneId });
+        co_return true;
     }
 
     // Async mode: queue and tell caller to wait
     lazyLoad.loadQueue.push(zoneId);
-    return false;
+    co_return false;
 }
 
 /************************************************************************

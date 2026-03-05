@@ -90,39 +90,47 @@ auto TestEngine::executeTests() -> bool
     TracyZoneScoped;
 
     TestResults results;
-    const auto  runStartTime = std::chrono::steady_clock::now();
-
-    // Execute all test suites
-    const auto& rootSuite = testCollector_->rootSuite();
-    for (const auto& suite : rootSuite.childSuites())
-    {
-        const HookContext baseContext{};
-        const auto        suiteResults = executeSuite(suite, baseContext);
-
-        results.total += suiteResults.total;
-        results.passed += suiteResults.passed;
-        results.failed += suiteResults.failed;
-
-        simulation_->cleanClients();
-
-        // Stop on first failure unless keep-going is set
-        if (suiteResults.failed > 0 && !testConfig_.keepGoing)
+    scheduler_.postToMainThread(
+        [&]
         {
-            ShowError("Stopping test execution due to failure (use --keep-going to continue)");
-            break;
-        }
-    }
+            const auto runStartTime = std::chrono::steady_clock::now();
 
-    // Calculate total run duration
-    const auto runEndTime    = std::chrono::steady_clock::now();
-    const auto totalDuration = std::chrono::duration_cast<std::chrono::milliseconds>(runEndTime - runStartTime);
+            // Execute all test suites
+            const auto& rootSuite = testCollector_->rootSuite();
+            for (const auto& suite : rootSuite.childSuites())
+            {
+                const HookContext baseContext{};
+                const auto        suiteResults = executeSuite(suite, baseContext);
 
-    reporters_.onRunComplete(totalDuration);
+                results.total += suiteResults.total;
+                results.passed += suiteResults.passed;
+                results.failed += suiteResults.failed;
 
-    // Control the destruction order, else the program may hang.
-    // TODO: Figure out why the ZMQ listeners hang on early exits.
-    mapEngine_.reset();
-    worldEngine_.reset();
+                simulation_->cleanClients();
+
+                // Stop on first failure unless keep-going is set
+                if (suiteResults.failed > 0 && !testConfig_.keepGoing)
+                {
+                    ShowError("Stopping test execution due to failure (use --keep-going to continue)");
+                    break;
+                }
+            }
+
+            // Calculate total run duration
+            const auto runEndTime    = std::chrono::steady_clock::now();
+            const auto totalDuration = std::chrono::duration_cast<std::chrono::milliseconds>(runEndTime - runStartTime);
+
+            reporters_.onRunComplete(totalDuration);
+
+            // Control the destruction order, else the program may hang.
+            // TODO: Figure out why the ZMQ listeners hang on early exits.
+            mapEngine_.reset();
+            worldEngine_.reset();
+
+            scheduler_.stop();
+        });
+
+    scheduler_.run(); // blocks
 
     return results.failed == 0;
 }

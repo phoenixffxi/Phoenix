@@ -229,7 +229,7 @@ auto MapEngine::init() -> Task<void>
 
     if (!engineConfig_.controlledWeather)
     {
-        zoneutils::InitializeWeather(scheduler_); // Need VanaTime initialized
+        zoneutils::InitializeWeather(); // Need VanaTime initialized
     }
 
     //
@@ -361,6 +361,8 @@ auto MapEngine::watchdogWatcher() -> Task<void>
 
         co_await scheduler_.yieldFor(periodMs);
     }
+
+    co_return;
 }
 
 void MapEngine::sessionCleanup() const

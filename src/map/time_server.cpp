@@ -40,7 +40,9 @@
 void time_server(Scheduler& scheduler)
 {
     TracyZoneScoped;
+
     auto tick = timer::now();
+
     // Track elapsed ticks.
     static auto tickNum = 0;
     ++tickNum;

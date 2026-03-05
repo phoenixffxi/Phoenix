@@ -92,15 +92,14 @@ CZone::CZone(Scheduler& scheduler, ZONEID ZoneID, REGION_TYPE RegionID, CONTINEN
     LoadZoneLines();
     LoadZoneWeather();
 
+    // This must run continually, regardless of if the zone is awake
     spawnHandlerTimerToken_ = scheduler.intervalOnMain(
         kSpawnHandlerInterval,
-        [PZone = this]() -> Task<void>
+        [this]() -> Task<void>
         {
-            PZone->spawnHandler()->Tick(timer::now());
+            this->spawnHandler()->Tick(timer::now());
             co_return;
         });
-
-    // NOTE: Heavy resources like Navmesh are now loaded outside of the constructor in zoneutils::LoadZoneList
 }
 
 CZone::~CZone()
@@ -598,7 +597,7 @@ void CZone::SetWeather(const Weather weather)
     m_zoneEntities->PushPacket(nullptr, CHAR_INZONE, std::make_unique<GP_SERV_COMMAND_WEATHER>(m_WeatherChangeTime, m_Weather, xirand::GetRandomNumber(4, 28)));
 }
 
-void CZone::UpdateWeather(Scheduler& scheduler)
+void CZone::UpdateWeather()
 {
     TracyZoneScoped;
 
@@ -665,14 +664,15 @@ void CZone::UpdateWeather(Scheduler& scheduler)
     SetWeather(selectedWeather);
     luautils::OnZoneWeatherChange(GetID(), selectedWeather);
 
-    scheduler.postToMainThread(
-        [PZone = this, &scheduler, duration = std::chrono::duration_cast<earth_time::duration>(WeatherNextUpdate)]() -> Task<void>
+    scheduler_.postToMainThread(
+        [this, duration = std::chrono::duration_cast<earth_time::duration>(WeatherNextUpdate)]() -> Task<void>
         {
-            co_await scheduler.yieldFor(duration);
-            if (!PZone->IsWeatherStatic())
+            co_await scheduler_.yieldFor(duration);
+            if (!this->IsWeatherStatic())
             {
-                PZone->UpdateWeather(scheduler);
+                this->UpdateWeather();
             }
+            co_return;
         });
 }
 
@@ -731,7 +731,7 @@ void CZone::DecreaseZoneCounter(CCharEntity* PChar)
  *                                                                       *
  ************************************************************************/
 
-void CZone::IncreaseZoneCounter(Scheduler& scheduler, CCharEntity* PChar)
+void CZone::IncreaseZoneCounter(CCharEntity* PChar)
 {
     TracyZoneScoped;
 
@@ -753,7 +753,7 @@ void CZone::IncreaseZoneCounter(Scheduler& scheduler, CCharEntity* PChar)
 
     if (!zoneTimerToken_.has_value() && !m_zoneEntities->CharListEmpty())
     {
-        createZoneTimers(scheduler);
+        createZoneTimers();
     }
 
     PChar->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ON_ZONE_PATHOS, EffectNotice::Silent);
@@ -861,11 +861,11 @@ void CZone::WideScan(CCharEntity* PChar, uint16 radius)
  *                                                                       *
  ************************************************************************/
 
-auto CZone::ZoneServer(Scheduler& scheduler, timer::time_point tick) -> Task<void>
+auto CZone::ZoneServer(timer::time_point tick) -> Task<void>
 {
     TracyZoneScoped;
 
-    co_await m_zoneEntities->ZoneServer(scheduler, tick);
+    co_await m_zoneEntities->ZoneServer(tick);
 
     if (m_BattlefieldHandler != nullptr)
     {
@@ -877,6 +877,8 @@ auto CZone::ZoneServer(Scheduler& scheduler, timer::time_point tick) -> Task<voi
         zoneTimerToken_.reset();
         zoneTimerTriggerAreasToken_.reset();
     }
+
+    co_return;
 }
 
 void CZone::ForEachChar(const std::function<void(CCharEntity*)>& func)
@@ -963,22 +965,23 @@ void CZone::ForEachAllyInstance(CBaseEntity* PEntity, const std::function<void(C
     ForEachAlly(func);
 }
 
-void CZone::createZoneTimers(Scheduler& scheduler)
+void CZone::createZoneTimers()
 {
     TracyZoneScoped;
 
-    zoneTimerToken_ = scheduler.intervalOnMain(
+    zoneTimerToken_ = scheduler_.intervalOnMain(
         kLogicUpdateInterval,
-        [PZone = this, &scheduler]() -> Task<void>
+        [this]() -> Task<void>
         {
-            co_await PZone->ZoneServer(scheduler, timer::now());
+            co_await this->ZoneServer(timer::now());
+            co_return;
         });
 
-    zoneTimerTriggerAreasToken_ = scheduler.intervalOnMain(
+    zoneTimerTriggerAreasToken_ = scheduler_.intervalOnMain(
         kTriggerAreaInterval,
-        [PZone = this]() -> Task<void>
+        [this]() -> Task<void>
         {
-            PZone->CheckTriggerAreas();
+            co_await this->CheckTriggerAreas();
             co_return;
         });
 }
@@ -1214,41 +1217,42 @@ CZoneEntities* CZone::GetZoneEntities()
     return m_zoneEntities;
 }
 
-void CZone::CheckTriggerAreas()
+auto CZone::CheckTriggerAreas() -> Task<void>
 {
     TracyZoneScoped;
 
-    // clang-format off
-    ForEachChar([&](CCharEntity* PChar)
-    {
-        // TODO: When we start to use octrees or spatial hashing to split up zones,
-        //     : use them here to make the search domain smaller.
-
-        // Do not enter trigger areas while loading in. Set in xi.player.onGameIn
-        if (PChar->GetLocalVar("ZoningIn") > 0)
+    ForEachChar(
+        [&](CCharEntity* PChar)
         {
-            return;
-        }
+            // TODO: When we start to use octrees or spatial hashing to split up zones,
+            //     : use them here to make the search domain smaller.
 
-        for (const auto& triggerArea : m_triggerAreaList)
-        {
-            const auto triggerAreaID = triggerArea->getTriggerAreaID();
-            if (triggerArea->isPointInside(PChar->loc.p))
+            // Do not enter trigger areas while loading in. Set in xi.player.onGameIn
+            if (PChar->GetLocalVar("ZoningIn") > 0)
             {
-                if (!PChar->isInTriggerArea(triggerAreaID))
+                return;
+            }
+
+            for (const auto& triggerArea : m_triggerAreaList)
+            {
+                const auto triggerAreaID = triggerArea->getTriggerAreaID();
+                if (triggerArea->isPointInside(PChar->loc.p))
                 {
-                    // Add the TriggerArea to the players cache of current TriggerAreas
-                    PChar->onTriggerAreaEnter(triggerAreaID);
-                    luautils::OnTriggerAreaEnter(PChar, triggerArea);
+                    if (!PChar->isInTriggerArea(triggerAreaID))
+                    {
+                        // Add the TriggerArea to the players cache of current TriggerAreas
+                        PChar->onTriggerAreaEnter(triggerAreaID);
+                        luautils::OnTriggerAreaEnter(PChar, triggerArea);
+                    }
+                }
+                else if (PChar->isInTriggerArea(triggerAreaID))
+                {
+                    // Remove the TriggerArea from the players cache of current TriggerAreas
+                    PChar->onTriggerAreaLeave(triggerAreaID);
+                    luautils::OnTriggerAreaLeave(PChar, triggerArea);
                 }
             }
-            else if (PChar->isInTriggerArea(triggerAreaID))
-            {
-                // Remove the TriggerArea from the players cache of current TriggerAreas
-                PChar->onTriggerAreaLeave(triggerAreaID);
-                luautils::OnTriggerAreaLeave(PChar, triggerArea);
-            }
-        }
-    });
-    // clang-format on
+        });
+
+    co_return;
 }

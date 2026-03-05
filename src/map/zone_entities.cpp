@@ -1586,7 +1586,7 @@ void CZoneEntities::WideScan(CCharEntity* PChar, uint16 radius)
     PChar->pushPacket<GP_SERV_COMMAND_TRACKING_STATE>(GP_TRACKING_STATE::ListEnd);
 }
 
-auto CZoneEntities::ZoneServer(Scheduler& scheduler, timer::time_point tick) -> Task<void>
+auto CZoneEntities::ZoneServer(timer::time_point tick) -> Task<void>
 {
     TracyZoneScoped;
     TracyZoneString(m_zone->getName());
@@ -1867,52 +1867,64 @@ auto CZoneEntities::ZoneServer(Scheduler& scheduler, timer::time_point tick) -> 
         }
     }
 
+    //
     // Process players waiting to zone.
     // If lazy loading a zone, the players may get processed on the next tick.
-    // clang-format off
-    std::erase_if(m_charsToChangeZone, [](auto* PChar)
-    {
-        auto ipp = zoneutils::GetZoneIPP(PChar->loc.destination);
+    //
 
-        // This is already checked in CLueBaseEntity::setPos, but better to have a check...
-        // Don't care about IPP if player is logging out
-        // TODO: loc.destination should be optional since 0 is a legitimate zone.
+    auto it = m_charsToChangeZone.begin();
+    while (it != m_charsToChangeZone.end())
+    {
+        auto* PChar       = *it;
+        bool  shouldErase = false;
+
+        auto ipp = zoneutils::GetZoneIPP(PChar->loc.destination);
         if (ipp == 0 && PChar->status != STATUS_TYPE::SHUTDOWN)
         {
             ShowWarning(fmt::format("Char {} requested zone ({}) returned IPP of 0", PChar->name, PChar->loc.destination));
-            return true;
+            shouldErase = true;
         }
-
-        if (PChar->status == STATUS_TYPE::SHUTDOWN)
+        else if (PChar->status == STATUS_TYPE::SHUTDOWN)
         {
             PChar->clearPacketList();
             charutils::ForceLogout(PChar);
+            shouldErase = true;
         }
         else if (PChar->requestedWarp)
         {
-            if (!zoneutils::IsZoneReady(PChar->profile.home_point.destination))
+            const bool ready = co_await zoneutils::IsZoneReady(scheduler_, PChar->profile.home_point.destination);
+            if (ready)
             {
-                return false;
+                PChar->clearPacketList();
+                charutils::HomePoint(PChar, PChar->isDead());
+                shouldErase = true;
             }
-
-            PChar->clearPacketList();
-            charutils::HomePoint(PChar, PChar->isDead());
         }
         else if (PChar->loc.destination != 0xFFFF)
         {
-            if (!zoneutils::IsZoneReady(PChar->loc.destination))
+            const bool ready = co_await zoneutils::IsZoneReady(scheduler_, PChar->loc.destination);
+            if (ready)
             {
-                return false;
+                PChar->clearPacketList();
+                charutils::SendToZone(PChar, PChar->loc.destination);
+                shouldErase = true;
             }
-
-            PChar->clearPacketList();
-            charutils::SendToZone(PChar, PChar->loc.destination);
         }
 
-        charutils::removeCharFromZone(PChar);
-        return true;
-    });
-    // clang-format on
+        if (shouldErase)
+        {
+            charutils::removeCharFromZone(PChar);
+            it = m_charsToChangeZone.erase(it); // Erase and get next iterator
+        }
+        else
+        {
+            ++it; // Move to next element if we didn't erase
+        }
+    }
+
+    //
+    // Processing offsets
+    //
 
     if (tick > m_EffectCheckTime)
     {

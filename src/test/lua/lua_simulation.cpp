@@ -285,7 +285,7 @@ void CLuaSimulation::processClientUpdates() const
  *          : This does not execute unrelated tasks, when possible.
  ************************************************************************/
 
-void CLuaSimulation::tick(const Maybe<TickType> boundary) const
+auto CLuaSimulation::tick(const Maybe<TickType> boundary) const -> Task<void>
 {
     TracyZoneScoped;
 
@@ -349,7 +349,7 @@ void CLuaSimulation::tick(const Maybe<TickType> boundary) const
             {
                 if (!PZone->GetZoneEntities()->CharListEmpty()) // Only tick zones with players
                 {
-                    PZone->ZoneServer(engine_->scheduler(), timePoint);
+                    co_await PZone->ZoneServer(timePoint);
                 }
             }
         }
@@ -365,8 +365,8 @@ void CLuaSimulation::tick(const Maybe<TickType> boundary) const
                 {
                     // CheckTriggerAreas _only_ adds a trigger area to the player list.
                     // ZoneServer processes the actual events.
-                    PZone->CheckTriggerAreas();
-                    PZone->ZoneServer(engine_->scheduler(), timePoint);
+                    co_await PZone->CheckTriggerAreas();
+                    co_await PZone->ZoneServer(timePoint);
                 }
             }
         }
@@ -399,7 +399,7 @@ void CLuaSimulation::tick(const Maybe<TickType> boundary) const
             {
                 if (!PZone->GetZoneEntities()->CharListEmpty())
                 {
-                    PZone->GetZoneEntities()->ZoneServer(engine_->scheduler(), timePoint);
+                    co_await PZone->GetZoneEntities()->ZoneServer(timePoint);
                 }
             }
         }
@@ -450,6 +450,8 @@ void CLuaSimulation::tick(const Maybe<TickType> boundary) const
     }
 
     processClientUpdates();
+
+    co_return;
 }
 
 /************************************************************************

@@ -37,7 +37,8 @@ class Scheduler;
 
 struct MapSession
 {
-    // TODO: Don't pass the scheduler around in here
+    // TODO: Don't pass the scheduler around in here!
+    // This is a dirty hack to pipe the scheduler around into the packet handlers.
     Scheduler* scheduler = nullptr;
 
     IPP                          client_ipp         = {};

@@ -163,7 +163,7 @@ void CZoneInstance::DecreaseZoneCounter(CCharEntity* PChar)
     }
 }
 
-void CZoneInstance::IncreaseZoneCounter(Scheduler& scheduler, CCharEntity* PChar)
+void CZoneInstance::IncreaseZoneCounter(CCharEntity* PChar)
 {
     TracyZoneScoped;
     if (PChar == nullptr)
@@ -200,7 +200,7 @@ void CZoneInstance::IncreaseZoneCounter(Scheduler& scheduler, CCharEntity* PChar
     {
         if (!zoneTimerToken_.has_value())
         {
-            createZoneTimers(scheduler);
+            createZoneTimers();
         }
 
         PChar->targid = PChar->PInstance->GetNewCharTargID();
@@ -245,13 +245,13 @@ void CZoneInstance::IncreaseZoneCounter(Scheduler& scheduler, CCharEntity* PChar
         PChar->loc.p.z = 0;
         if (PZone)
         {
-            PZone->IncreaseZoneCounter(scheduler, PChar);
+            PZone->IncreaseZoneCounter(PChar);
         }
         else
         {
             // if we can't get the instance failed destination zone, get their previous zone
             zoneid = PChar->loc.prevzone;
-            zoneutils::GetZone(zoneid)->IncreaseZoneCounter(scheduler, PChar);
+            zoneutils::GetZone(zoneid)->IncreaseZoneCounter(PChar);
         }
 
         // They are properly sent to zone, but bypassed the onZoneIn position fixup, do that now
@@ -384,14 +384,14 @@ void CZoneInstance::WideScan(CCharEntity* PChar, uint16 radius)
     }
 }
 
-auto CZoneInstance::ZoneServer(Scheduler& scheduler, timer::time_point tick) -> Task<void>
+auto CZoneInstance::ZoneServer(timer::time_point tick) -> Task<void>
 {
     TracyZoneScoped;
 
     std::vector<CInstance*> instancesToRemove;
     for (const auto& PInstance : m_InstanceList)
     {
-        co_await PInstance->ZoneServer(scheduler, tick);
+        co_await PInstance->ZoneServer(tick);
         PInstance->CheckTime(tick);
 
         if ((PInstance->Failed() || PInstance->Completed()) && PInstance->CharListEmpty())
@@ -417,46 +417,47 @@ auto CZoneInstance::ZoneServer(Scheduler& scheduler, timer::time_point tick) -> 
     co_return;
 }
 
-void CZoneInstance::CheckTriggerAreas()
+auto CZoneInstance::CheckTriggerAreas() -> Task<void>
 {
     TracyZoneScoped;
 
     for (const auto& PInstance : m_InstanceList)
     {
-        // clang-format off
-        PInstance->ForEachChar([&](CCharEntity* PChar)
-        {
-            // TODO: When we start to use octrees or spatial hashing to split up zones,
-            //     : use them here to make the search domain smaller.
-
-            // Do not enter trigger areas while loading in. Set in xi.player.onGameIn
-            if (PChar->GetLocalVar("ZoningIn") > 0)
+        PInstance->ForEachChar(
+            [&](CCharEntity* PChar)
             {
-                return;
-            }
+                // TODO: When we start to use octrees or spatial hashing to split up zones,
+                //     : use them here to make the search domain smaller.
 
-            for (const auto& triggerArea : m_triggerAreaList)
-            {
-                const auto triggerAreaID = triggerArea->getTriggerAreaID();
-                if (triggerArea->isPointInside(PChar->loc.p))
+                // Do not enter trigger areas while loading in. Set in xi.player.onGameIn
+                if (PChar->GetLocalVar("ZoningIn") > 0)
                 {
-                    if (!PChar->isInTriggerArea(triggerAreaID))
+                    return;
+                }
+
+                for (const auto& triggerArea : m_triggerAreaList)
+                {
+                    const auto triggerAreaID = triggerArea->getTriggerAreaID();
+                    if (triggerArea->isPointInside(PChar->loc.p))
                     {
-                        // Add the TriggerArea to the players cache of current TriggerAreas
-                        PChar->onTriggerAreaEnter(triggerAreaID);
-                        luautils::OnTriggerAreaEnter(PChar, triggerArea);
+                        if (!PChar->isInTriggerArea(triggerAreaID))
+                        {
+                            // Add the TriggerArea to the players cache of current TriggerAreas
+                            PChar->onTriggerAreaEnter(triggerAreaID);
+                            luautils::OnTriggerAreaEnter(PChar, triggerArea);
+                        }
+                    }
+                    else if (PChar->isInTriggerArea(triggerAreaID))
+                    {
+                        // Remove the TriggerArea from the players cache of current TriggerAreas
+                        PChar->onTriggerAreaLeave(triggerAreaID);
+                        luautils::OnTriggerAreaLeave(PChar, triggerArea);
                     }
                 }
-                else if (PChar->isInTriggerArea(triggerAreaID))
-                {
-                    // Remove the TriggerArea from the players cache of current TriggerAreas
-                    PChar->onTriggerAreaLeave(triggerAreaID);
-                    luautils::OnTriggerAreaLeave(PChar, triggerArea);
-                }
-            }
-        });
-        // clang-format on
+            });
     }
+
+    co_return;
 }
 
 void CZoneInstance::ForEachChar(const std::function<void(CCharEntity*)>& func)
