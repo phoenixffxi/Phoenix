@@ -56,26 +56,24 @@ extern std::map<uint16, CZone*> g_PZoneList; // Global array of pointers for zon
 class MapEngine final : public Engine
 {
 public:
-    MapEngine(Scheduler& scheduler, MapConfig& config);
+    MapEngine(Application& application, MapConfig& config);
     ~MapEngine() override;
 
-    void gameLoop();
-
     //
-    // Init
+    // Tasks
     //
 
-    auto watchdog() -> Task<void>;
-
-    void do_init();
-    void do_final() const;
+    auto init() -> Task<void>;
+    auto watchdogUpdater() -> Task<void>;
+    auto watchdogWatcher() -> Task<void>;
 
     //
     // Maintenance
     //
 
-    void map_cleanup() const; // Clean up timed out players
-    void map_garbage_collect() const;
+    // TODO: Turn these into real coroutines
+    void sessionCleanup() const;
+    void garbageCollect() const;
 
     //
     // Commands callbacks
@@ -94,16 +92,16 @@ public:
     auto statistics() const -> MapStatistics&;
     auto scheduler() -> Scheduler&;
     auto zones() const -> std::map<uint16, CZone*>&; // g_PZoneList
-    // gameState()
-
-    void requestExit();
+    // TODO: gameState()
 
 private:
+    Application&            application_;
     Scheduler&              scheduler_;
     Maybe<Scheduler::Token> mapCleanupToken_;
     Maybe<Scheduler::Token> mapGarbageCollectToken_;
     Maybe<Scheduler::Token> timeServerToken_;
     Maybe<Scheduler::Token> persistVolatileServerVarsToken_;
+    Maybe<Scheduler::Token> pumpIPCToken_;
 
     std::unique_ptr<MapStatistics> mapStatistics_;
     std::unique_ptr<MapNetworking> networking_;

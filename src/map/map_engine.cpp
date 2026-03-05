@@ -94,119 +94,36 @@
 
 extern std::map<uint16, CZone*> g_PZoneList; // Global array of pointers for zones
 
-MapEngine::MapEngine(Scheduler& scheduler, MapConfig& config)
-: scheduler_(scheduler)
+MapEngine::MapEngine(Application& application, MapConfig& config)
+: application_(application)
+, scheduler_(application_.scheduler())
 , mapStatistics_(std::make_unique<MapStatistics>())
 , networking_(std::make_unique<MapNetworking>(scheduler_, *mapStatistics_, config))
 , engineConfig_(config)
 {
-    do_init();
+    scheduler_.postToMainThread(init());
 }
 
 MapEngine::~MapEngine()
 {
-    do_final();
+    itemutils::FreeItemList();
+    battleutils::FreeWeaponSkillsList();
+    battleutils::FreeMobSkillList();
+    battleutils::FreePetSkillList();
+    fishingutils::CleanupFishing();
+    guildutils::Cleanup();
+    mobutils::Cleanup();
+    traits::ClearTraitsList();
+
+    petutils::FreePetList();
+    zoneutils::FreeZoneList();
+
+    Async::delInstance();
+
+    luautils::cleanup();
 }
 
-auto MapEngine::watchdog() -> Task<void>
-{
-    auto period = settings::get<uint32>("main.INACTIVITY_WATCHDOG_PERIOD");
-
-    if (engineConfig_.inCI)
-    {
-        // Double the timer period, to account for the slower CI environment
-        period *= 2;
-    }
-
-    const auto periodMs = (period > 0) ? std::chrono::milliseconds(period) : 2000ms;
-
-    watchdogLastUpdate_ = timer::now();
-
-    // Run "forever"
-    while (!scheduler_.closeRequested())
-    {
-        const auto lastUpdate = watchdogLastUpdate_.load();
-        if ((timer::now() - lastUpdate) >= periodMs)
-        {
-            if (debug::isRunningUnderDebugger())
-            {
-                ShowCritical("!!! INACTIVITY WATCHDOG HAS TRIGGERED !!!");
-                ShowCriticalFmt("Process main tick has taken {}ms or more.", period);
-                ShowCritical("Detaching watchdog thread, it will not fire again until restart.");
-                break;
-            }
-            else if (!settings::get<bool>("main.DISABLE_INACTIVITY_WATCHDOG"))
-            {
-                std::string outputStr = "!!! INACTIVITY WATCHDOG HAS TRIGGERED !!!\n\n";
-
-                outputStr += fmt::format("Process main tick has taken {}ms or more.\n", period);
-                outputStr += fmt::format("Backtrace Messages:\n\n");
-
-                const auto backtrace = logging::GetBacktrace();
-                for (const auto& line : backtrace)
-                {
-                    outputStr += fmt::format("    {}\n", line);
-                }
-
-                outputStr += "\nKilling Process!!!\n";
-
-                ShowCritical(outputStr);
-
-                // Allow some time for logging to flush
-                std::this_thread::sleep_for(200ms);
-
-                throw std::runtime_error("Watchdog thread time exceeded. Killing process.");
-            }
-        }
-
-        co_await scheduler_.yieldFor(periodMs);
-    }
-}
-
-void MapEngine::gameLoop()
-{
-    TracyZoneNamed(_tasks, "MapEngine Main Loop");
-
-    timer::duration tasksDuration;
-    timer::duration networkDuration;
-    timer::duration tickDuration;
-
-    const auto tickStart = timer::now();
-    {
-        TracyZoneNamed(_networking, "MapEngine Networking");
-        // Use tick remainder for networking with a maximum to ensure that the network phase
-        // doesn't starve and a minimum to prevent bumping up against the time limit.
-        // NOTE: For now, this is also pumping the Scheduler. This will get replaced with a proper
-        // scheduler.run() with tick and socket jobs eventually.
-        networkDuration = networking_->doSocketsBlocking(kMainLoopInterval - std::clamp<timer::duration>(tasksDuration, 50ms, 150ms));
-    }
-    tickDuration = timer::now() - tickStart;
-
-    const auto tickDiffTime = kMainLoopInterval - tickDuration;
-
-    mapStatistics_->set(MapStatistics::Key::NetworkTickTime, timer::count_milliseconds(networkDuration));
-    mapStatistics_->set(MapStatistics::Key::TotalTickTime, timer::count_milliseconds(tickDuration));
-    mapStatistics_->set(MapStatistics::Key::TickDiffTime, timer::count_milliseconds(tickDiffTime));
-    mapStatistics_->flush();
-
-    DebugPerformanceFmt("Network: {}ms, Total: {}ms, Diff/Sleep: {}ms",
-                        timer::count_milliseconds(networkDuration),
-                        timer::count_milliseconds(tickDuration),
-                        timer::count_milliseconds(tickDiffTime));
-
-    watchdogLastUpdate_ = timer::now();
-
-    if (tickDiffTime > 0ms)
-    {
-        std::this_thread::sleep_for(tickDiffTime);
-    }
-    else if (tickDiffTime < -kMainLoopBacklogThreshold)
-    {
-        RATE_LIMIT(15s, ShowWarningFmt("Main loop is running {}ms behind, performance is degraded!", -timer::count_milliseconds(tickDiffTime)));
-    }
-}
-
-void MapEngine::do_init()
+auto MapEngine::init() -> Task<void>
 {
     TracyZoneScoped;
 
@@ -318,25 +235,19 @@ void MapEngine::do_init()
         zoneutils::InitializeWeather(scheduler_); // Need VanaTime initialized
     }
 
+    //
+    // Queue up tasks for the Scheduler
+    //
+
     if (!engineConfig_.isTestServer)
     {
-        mapCleanupToken_ = scheduler_.intervalOnMain(
-            5s,
-            [this]()
-            {
-                map_cleanup();
-            });
-
-        mapGarbageCollectToken_ = scheduler_.intervalOnMain(
-            15min,
-            [this]()
-            {
-                map_garbage_collect();
-            });
+        mapCleanupToken_        = scheduler_.intervalOnMain(kSessionCleanupInterval, std::bind(&MapEngine::sessionCleanup, this));
+        mapGarbageCollectToken_ = scheduler_.intervalOnMain(kGarbageCollectionInterval, std::bind(&MapEngine::garbageCollect, this));
     }
 
     timeServerToken_                = scheduler_.intervalOnMain(kTimeServerTickInterval, time_server);
-    persistVolatileServerVarsToken_ = scheduler_.intervalOnMain(1min, serverutils::PersistVolatileServerVars);
+    persistVolatileServerVarsToken_ = scheduler_.intervalOnMain(kPersistVolatileServerVarsInterval, serverutils::PersistVolatileServerVars);
+    pumpIPCToken_                   = scheduler_.intervalOnMain(kIPCPumpInterval, message::handle_incoming);
 
     zoneutils::TOTDChange(vanadiel_time::get_totd()); // This tells the zones to spawn stuff based on time of day conditions (such as undead at night)
 
@@ -360,36 +271,96 @@ void MapEngine::do_init()
 
     if (!engineConfig_.isTestServer)
     {
-        scheduler_.postToWorkerThread(watchdog());
+        scheduler_.postToMainThread(watchdogUpdater());
+        scheduler_.postToWorkerThread(watchdogWatcher());
     }
 
 #ifdef TRACY_ENABLE
     ShowInfo("*** TRACY IS ENABLED ***");
 #endif // TRACY_ENABLE
+
+    //
+    // At this point, the scheduler is loaded up with all the tasks it will need
+    // to run everything.
+    //
+
+    application_.markLoaded();
+
+    co_return;
 }
 
-void MapEngine::do_final() const
+auto MapEngine::watchdogUpdater() -> Task<void>
 {
-    TracyZoneScoped;
+    // Run "forever"
+    while (!scheduler_.closeRequested())
+    {
+        // If something manages to block the main thread, this task won't be run, and the watcher
+        // will kill the server from a worker thread.
+        // We do this because if the main thread is blocked severely enough to trigger the watchdog,
+        // your server is degraded - likely beyond repair.
+        watchdogLastUpdate_ = timer::now();
+        co_await scheduler_.yieldFor(200ms);
+    }
 
-    itemutils::FreeItemList();
-    battleutils::FreeWeaponSkillsList();
-    battleutils::FreeMobSkillList();
-    battleutils::FreePetSkillList();
-    fishingutils::CleanupFishing();
-    guildutils::Cleanup();
-    mobutils::Cleanup();
-    traits::ClearTraitsList();
-
-    petutils::FreePetList();
-    zoneutils::FreeZoneList();
-
-    Async::delInstance();
-
-    luautils::cleanup();
+    co_return;
 }
 
-void MapEngine::map_cleanup() const
+auto MapEngine::watchdogWatcher() -> Task<void>
+{
+    auto period = settings::get<uint32>("main.INACTIVITY_WATCHDOG_PERIOD");
+
+    if (engineConfig_.inCI)
+    {
+        // Double the timer period, to account for the slower CI environment
+        period *= 2;
+    }
+
+    const auto periodMs = (period > 0) ? std::chrono::milliseconds(period) : 2000ms;
+
+    watchdogLastUpdate_ = timer::now();
+
+    // Run "forever"
+    while (!scheduler_.closeRequested())
+    {
+        const auto lastUpdate = watchdogLastUpdate_.load();
+        if ((timer::now() - lastUpdate) >= periodMs)
+        {
+            if (debug::isRunningUnderDebugger())
+            {
+                ShowCritical("!!! INACTIVITY WATCHDOG HAS TRIGGERED !!!");
+                ShowCriticalFmt("Process main tick has taken {}ms or more.", period);
+                ShowCritical("Detaching watchdog thread, it will not fire again until restart.");
+                break;
+            }
+            else if (!settings::get<bool>("main.DISABLE_INACTIVITY_WATCHDOG"))
+            {
+                std::string outputStr = "!!! INACTIVITY WATCHDOG HAS TRIGGERED !!!\n\n";
+
+                outputStr += fmt::format("Process main tick has taken {}ms or more.\n", period);
+                outputStr += fmt::format("Backtrace Messages:\n\n");
+
+                const auto backtrace = logging::GetBacktrace();
+                for (const auto& line : backtrace)
+                {
+                    outputStr += fmt::format("    {}\n", line);
+                }
+
+                outputStr += "\nKilling Process!!!\n";
+
+                ShowCritical(outputStr);
+
+                // Allow some time for logging to flush
+                std::this_thread::sleep_for(200ms);
+
+                throw std::runtime_error("Watchdog thread time exceeded. Killing process.");
+            }
+        }
+
+        co_await scheduler_.yieldFor(periodMs);
+    }
+}
+
+void MapEngine::sessionCleanup() const
 {
     TracyZoneScoped;
 
@@ -402,7 +373,7 @@ void MapEngine::map_cleanup() const
         });
 }
 
-void MapEngine::map_garbage_collect() const
+void MapEngine::garbageCollect() const
 {
     TracyZoneScoped;
 

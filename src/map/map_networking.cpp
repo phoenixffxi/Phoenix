@@ -133,21 +133,6 @@ void MapNetworking::tapStatistics()
     TotalPacketsDelayedPerTick = 0U;
 }
 
-auto MapNetworking::doSocketsBlocking(timer::duration next) -> timer::duration
-{
-    TracyZoneScoped;
-
-    const auto start = timer::now();
-
-    message::handle_incoming();
-
-    mapSocket_->recvFor(next);
-
-    tapStatistics();
-
-    return timer::now() - start;
-}
-
 void MapNetworking::handle_incoming_packet(const std::error_code& ec, std::span<uint8> buffer, const IPP& ipp)
 {
     TracyZoneScoped;

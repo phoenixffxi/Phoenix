@@ -113,7 +113,7 @@ auto TestApplication::createEngine() -> std::unique_ptr<Engine>
         },
     };
 
-    return std::make_unique<TestEngine>(scheduler_, config);
+    return std::make_unique<TestEngine>(*this, config);
 }
 
 void TestApplication::run()

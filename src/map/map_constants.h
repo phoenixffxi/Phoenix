@@ -60,6 +60,18 @@ static constexpr auto kMainLoopInterval = 200ms;
 // If the main loop is more than 100ms behind, we're in trouble.
 static constexpr auto kMainLoopBacklogThreshold = 100ms;
 
+// The rate at which we cleanup timed-out and finished sessions
+static constexpr auto kSessionCleanupInterval = 5s;
+
+// The rate at which we force Lua garbage collections
+static constexpr auto kGarbageCollectionInterval = 15min;
+
+// The rate at which we persist any outstanding changes to volatile server vars
+static constexpr auto kPersistVolatileServerVarsInterval = 1min;
+
+// The rate at which we pump the ZMQ queues
+static constexpr auto kIPCPumpInterval = 100ms;
+
 // Packet & networking constants
 static constexpr auto kMaxBufferSize           = 2500U;
 static constexpr auto kMaxPacketPerCompression = 32U;

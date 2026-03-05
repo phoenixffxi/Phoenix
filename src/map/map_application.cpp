@@ -88,7 +88,7 @@ MapApplication::~MapApplication()
 
 auto MapApplication::createEngine() -> std::unique_ptr<Engine>
 {
-    return std::make_unique<MapEngine>(scheduler_, engineConfig_);
+    return std::make_unique<MapEngine>(*this, engineConfig_);
 }
 
 void MapApplication::registerCommands(ConsoleService& console)
@@ -109,21 +109,23 @@ void MapApplication::requestExit()
 
 void MapApplication::run()
 {
+    // The creation of MapEngine queues up init() and recurrent time_server() tasks on the scheduler.
+    // It also creates and binds MapSocket and MapNetworking, to handle network events with the
+    // scheduler.
     engine_ = createEngine();
-
     if (engine_)
     {
         engine_->onInitialize();
-
         registerCommands(console());
     }
 
-    markLoaded();
-    auto* mapEngine = dynamic_cast<MapEngine*>(engine_.get());
-
-    while (Application::isRunning())
+    try
     {
-        mapEngine->gameLoop();
+        scheduler_.run(); // blocks
+    }
+    catch (const std::exception& e)
+    {
+        ShowCriticalFmt("Fatal Exception: {}", e.what());
     }
 
     // MapEngine destructor must occur before Application destructor
