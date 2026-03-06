@@ -865,7 +865,8 @@ INSERT INTO `mob_groups` VALUES (5,782,23,'Contemplator',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (6,2081,23,'Ingurgitator',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (7,3351,23,'Repiner',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (8,2826,23,'Neoingurgitator',0,128,0,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (9,2614,23,'Memory_Receptacle',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (9,2614,23,'Memory_Receptacle',0,128,0,3000,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (30,2614,23,'Memory_Receptacle',0,128,0,1500,0,0,NULL); -- Shield Receptacles
 INSERT INTO `mob_groups` VALUES (10,0,23,'Anamnestic_Vault',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (11,0,23,'Tormented_Thinker',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (12,0,23,'Bottomless_Gorger',0,128,0,0,0,0,NULL);

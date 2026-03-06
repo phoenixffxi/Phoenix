@@ -205,6 +205,7 @@ xi.mobSkill =
 
     TREMOROUS_TREAD               =  540, -- Mammet-800
     GRAVITY_FIELD                 =  541,
+    EMPTY_SEED                    =  542,
 
     CAMISADO_1                    =  544,
 
