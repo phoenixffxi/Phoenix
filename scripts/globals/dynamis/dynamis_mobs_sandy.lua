@@ -12,12 +12,14 @@ xi.dynamis.paths = xi.dynamis.paths or { }
 xi.dynamis.spawnTable = xi.dynamis.spawnTable or { }
 xi.dynamis.nmDeathActions = xi.dynamis.nmDeathActions or { }
 xi.dynamis.timeExtension = xi.dynamis.timeExtension or { }
+xi.dynamis.deathVarByMob = xi.dynamis.deathVarByMob or { }
+xi.dynamis.spawnCheck    = xi.dynamis.spawnCheck or { }
 xi.sandy = xi.sandy or { }
 
 -- Main spawn table for all 150 statues
 xi.dynamis.spawnTable[zoneID] =
 {
-    -- ID = { # to spawn, eye color, force spawn mobs }
+    -- ID = { # to spawn, eye color, force spawn mobs (used for NM safeguard) }
     -- O/S = Serjeant Tombstone
     -- O/W = Warchief Tombstone
     [17534977] = { 2, xi.dynamis.eye.RED   }, -- (1-O/S) | WAR, WAR
@@ -323,39 +325,45 @@ xi.dynamis.wave[zoneID] =
 }
 
 -- Vars for death wave actions
-xi.dynamis.nmDeathActions[zoneID] =
+xi.dynamis.deathVarByMob[zoneID] =
 {
-    -- varName     | Var that is set when the mob dies
-    -- checkVars   | Vars to check for spawnOnBoth
-    -- spawnOnBoth | Spawns if all checkVars are true
-    -- spawnAlways | Mobs that spawn regardless of checkVars
-    [xi.sandy.mobs.WYRMGNASHER_BJAKDEK] =
+    [xi.sandy.mobs.OVERLORDS_TOMBSTONE]     = '[DynaSand]MegaBossKilled',
+    [xi.sandy.mobs.VOIDSTREAKER_BUTCHNOTCH] = '[DynaSand]VoidstreakerKilled',
+    [xi.sandy.mobs.REAPERTONGUE_GADGQUOK]   = '[DynaSand]ReapertongueKilled',
+    [xi.sandy.mobs.WYRMGNASHER_BJAKDEK]     = '[DynaSand]WyrmgnasherKilled',
+}
+
+xi.dynamis.spawnCheck[zoneID] =
+{
     {
-        varName = '[DynaSand]WyrmgnasherKilled',
-        checkVars = { '[DynaSand]ReapertongueKilled' },
-        spawnOnBoth = { xi.sandy.mobs.OVERLORDS_TOMBSTONE },
-        spawnAlways = { 17535059, 17534994, 17534990 } -- Check these IDs
+        -- Spawn the 3 statues if WYRMGNASHER_BJAKDEK dies
+        requiredVars    = { '[DynaSand]WyrmgnasherKilled' },
+        spawn           = { 17535059, 17534994, 17534990 },
+        spawnedVar      = '[DynaSand]WyrmgnasherWaveSpawned',
     },
-    [xi.sandy.mobs.REAPERTONGUE_GADGQUOK] =
     {
-        varName = '[DynaSand]ReapertongueKilled',
-        checkVars = { '[DynaSand]WyrmgnasherKilled' },
-        spawnOnBoth = { xi.sandy.mobs.OVERLORDS_TOMBSTONE },
-        spawnAlways = { 17534986, 17534982 }, -- Check these IDs
+        -- Spawn the 32 statues if REAPERTONGUE_GADGQUOK dies
+        requiredVars    = { '[DynaSand]ReapertongueKilled' },
+        spawn           = { 17534986, 17534982 },
+        spawnedVar      = '[DynaSand]ReapertongueWaveSpawned',
     },
-    [xi.sandy.mobs.OVERLORDS_TOMBSTONE] =
     {
-        varName = '[DynaSand]OverlordsTombstoneKilled',
-        checkVars = { },
-        spawnOnBoth = { },
-        spawnAlways = xi.dynamis.wave[zoneID][2],
+        -- Spawn the Mega Boss when WYRMGNASHER_BJAKDEK and REAPERTONGUE_GADGQUOK are killed
+        requiredVars    = { '[DynaSand]ReapertongueKilled', '[DynaSand]WyrmgnasherKilled' },
+        spawn           = { xi.sandy.mobs.OVERLORDS_TOMBSTONE },
+        spawnedVar      = '[DynaSand]MegaBossSpawned',
     },
-    [xi.sandy.mobs.VOIDSTREAKER_BUTCHNOTCH] =
     {
-        varName = '[DynaSand]VoidstreakerKilled',
-        checkVars = { },
-        spawnOnBoth = { },
-        spawnAlways = { 17535285, 17535281, 17535183, 17535178 },
+        -- Spawn mobs when the VOIDSTREAKER_BUTCHNOTCH is killed
+        requiredVars    = { '[DynaSand]VoidstreakerKilled' },
+        spawn           = { 17535285, 17535281, 17535183, 17535178 },
+        spawnedVar      = '[DynaSand]VoidstreakerWaveSpawned',
+    },
+    {
+        -- Spawn mobs when the Mega Boss is killed
+        requiredVars    = { '[DynaSand]MegaBossKilled' },
+        spawn           = xi.dynamis.wave[zoneID][2],
+        spawnedVar      = '[DynaSand]Wave2Spawned',
     },
 }
 

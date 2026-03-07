@@ -12,6 +12,8 @@ xi.dynamis.paths = xi.dynamis.paths or { }
 xi.dynamis.spawnTable = xi.dynamis.spawnTable or { }
 xi.dynamis.nmDeathActions = xi.dynamis.nmDeathActions or { }
 xi.dynamis.timeExtension = xi.dynamis.timeExtension or { }
+xi.dynamis.deathVarByMob = xi.dynamis.deathVarByMob or {}
+xi.dynamis.spawnCheck    = xi.dynamis.spawnCheck or {}
 xi.bastok = xi.bastok or { }
 
 -- Main spawn table for all 150 statues
@@ -162,17 +164,6 @@ xi.dynamis.spawnTable[zoneID] =
     [17539584] = { 3, xi.dynamis.eye.RED   }, -- (141-Q) | THF, THF, THF, THF
     [17539577] = { 3, xi.dynamis.eye.RED   }, -- (142-Q) | DRG, DRG, DRG
 }
-
--- xi.dynamis.forceSpawn[zoneID] =
--- {
---     [17539446] = true, -- (34-Q)
---     [17539230] = true, -- (42-Q)
---     [17539294] = true, -- (53-Q)
---     [17539191] = true, -- (62-Q)
---     [17539449] = true, -- (110-Q)
---     [17539461] = true, -- (111-Q)
---     [17539155] = true, -- (69-Q)
--- }
 
 xi.bastok.mobs =
 {
@@ -337,39 +328,27 @@ xi.dynamis.wave[zoneID] =
 }
 
 -- Vars for death wave actions
-xi.dynamis.nmDeathActions[zoneID] =
+xi.dynamis.deathVarByMob[zoneID] =
 {
-    -- varName     | Var that is set when the mob dies
-    -- checkVars   | Vars to check for spawnOnBoth
-    -- spawnOnBoth | Spawns if all checkVars are 1
-    -- spawnAlways | Mobs that always spawn on mob death
-    [xi.bastok.mobs.GUDHA_EFFIGY] = -- Main boss death check
+    [xi.bastok.mobs.GUDHA_EFFIGY]       = '[DynaBastok]MegaBossKilled',
+    [xi.bastok.mobs.KODHO_CANNONBALL]   = '[DynaBastok]KoDhoKilled',
+    [xi.bastok.mobs.GIPHA_MANAMEISTER]  = '[DynaBastok]GiPhaKilled',
+    [xi.bastok.mobs.ZEVHO_FALLSPLITTER] = '[DynaBastok]ZeVhoKilled',
+}
+
+xi.dynamis.spawnCheck[zoneID] =
+{
     {
-        varName = '[DynaBastok]GudhaEffigyKilled',
-        checkVars = { },
-        spawnOnBoth = { },
-        spawnAlways = xi.dynamis.wave[zoneID][2],
+        -- Spawn the Mega Boss if all 3 NMs died
+        requiredVars    = { '[DynaBastok]KoDhoKilled', '[DynaBastok]GiPhaKilled', '[DynaBastok]ZeVhoKilled', },
+        spawn           = { xi.bastok.mobs.GUDHA_EFFIGY },
+        spawnedVar      = '[DynaBastok]MegaBossSpawned',
     },
-    [xi.bastok.mobs.KODHO_CANNONBALL] =
     {
-        varName = '[DynaBastok]KoDhoKilled',
-        checkVars = { '[DynaBastok]KoDhoKilled', '[DynaBastok]GiPhaKilled', '[DynaBastok]ZeVhoKilled' },
-        spawnOnBoth = { xi.bastok.mobs.GUDHA_EFFIGY },
-        spawnAlways = { },
-    },
-    [xi.bastok.mobs.GIPHA_MANAMEISTER] =
-    {
-        varName = '[DynaBastok][DynaBastok]GiPhaKilled',
-        checkVars = { '[DynaBastok]KoDhoKilled', '[DynaBastok]GiPhaKilled', '[DynaBastok]ZeVhoKilled' },
-        spawnOnBoth = { xi.bastok.mobs.GUDHA_EFFIGY },
-        spawnAlways = { },
-    },
-    [xi.bastok.mobs.ZEVHO_FALLSPLITTER] =
-    {
-        varName = '[DynaBastok]ZeVhoKilled',
-        checkVars = { '[DynaBastok]KoDhoKilled', '[DynaBastok]GiPhaKilled', '[DynaBastok]ZeVhoKilled' },
-        spawnOnBoth = { xi.bastok.mobs.GUDHA_EFFIGY },
-        spawnAlways = { },
+        -- Spawn mobs when the Mega Boss is killed
+        requiredVars    = { '[DynaBastok]MegaBossKilled' },
+        spawn           = xi.dynamis.wave[zoneID][2],
+        spawnedVar      = '[DynaBastok]Wave2Spawned',
     },
 }
 

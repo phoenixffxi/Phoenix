@@ -39,6 +39,60 @@ local startingZones =
     { 'Tavnazian_Safehold',   'Hieroglyphics'  },
 }
 
+local mobNames =
+{
+    ['Dynamis-San_dOria'] =
+    {
+        {'Battlechoir_Gitchfotch', 'NM'},
+        {'Overlords_Tombstone', 'BOSS'},
+        {'Reapertongue_Gadgquok', 'NM'},
+        {'Serjeant_Tombstone', 'STATUE'},
+        {'Soulsender_Fugbrag', 'NM'},
+        {'Vanguard_Amputator', 'NORMAL'},
+        {'Vanguard_Backstabber', 'NORMAL'},
+        {'Vanguard_Bugler', 'NORMAL'},
+        {'Vanguard_Dollmaster', 'NORMAL'},
+        {'Vanguard_Footsoldier', 'NORMAL'},
+        {'Vanguard_Grappler', 'NORMAL'},
+        {'Vanguard_Gutslasher', 'NORMAL'},
+        {'Vanguard_Hawker', 'NORMAL'},
+        {'Vanguard_Impaler', 'NORMAL'},
+        {'Vanguard_Mesmerizer', 'NORMAL'},
+        {'Vanguard_Neckchopper', 'NORMAL'},
+        {'Vanguard_Pillager', 'NORMAL'},
+        {'Vanguard_Predator', 'NORMAL'},
+        {'Vanguard_Trooper', 'NORMAL'},
+        {'Vanguard_Vexer', 'NORMAL'},
+        {'Voidstreaker_Butchnotch', 'NM'},
+        {'Warchief_Tombstone', 'STATUE'},
+        {'Wyrmgnasher_Bjakdek', 'NM'}
+    },
+    ['Dynamis-Bastok'] =
+    {
+        {'Adamantking_Effigy', 'STATUE'},
+        {'GiPha_Manameister', 'NM'},
+        {'GuDha_Effigy', 'BOSS'},
+        {'GuNhi_Noondozer', 'NM'},
+        {'KoDho_Cannonball', 'NM'},
+        {'Vanguard_Beasttender', 'NORMAL'},
+        {'Vanguard_Constable', 'NORMAL'},
+        {'Vanguard_Defender', 'NORMAL'},
+        {'Vanguard_Drakekeeper', 'NORMAL'},
+        {'Vanguard_Hatamoto', 'NORMAL'},
+        {'Vanguard_Kusa', 'NORMAL'},
+        {'Vanguard_Mason', 'NORMAL'},
+        {'Vanguard_Militant', 'NORMAL'},
+        {'Vanguard_Minstrel', 'NORMAL'},
+        {'Vanguard_Protector', 'NORMAL'},
+        {'Vanguard_Purloiner', 'NORMAL'},
+        {'Vanguard_Thaumaturge', 'NORMAL'},
+        {'Vanguard_Undertaker', 'NORMAL'},
+        {'Vanguard_Vigilante', 'NORMAL'},
+        {'Vanguard_Vindicator', 'NORMAL'},
+        {'ZeVho_Fallsplitter', 'NM'},
+    }
+}
+
 -- local currencyHaggle =
 -- {
 --     xi.item.ONE_BYNE_BILL,
@@ -154,27 +208,27 @@ local function registerDynamisZoneOverrides(zoneID, zoneName, zoneNumber)
 
     -- Special case for Tavnazia (10)
     -- Still need to audit this later
-    if zoneNumber == 10 then
-        m:addOverride(string.format('xi.zones.Dynamis-Tavnazia.npcs.qm0.onTrigger', zoneName),
-        function(player, npc)
-            xi.dynamis.timeExtensionOnTrigger(player, npc)
-        end)
+    -- if zoneNumber == 10 then
+    --     m:addOverride(string.format('xi.zones.Dynamis-Tavnazia.npcs.qm0.onTrigger', zoneName),
+    --     function(player, npc)
+    --         xi.dynamis.timeExtensionOnTrigger(player, npc)
+    --     end)
 
-        m:addOverride(string.format('xi.zones.Dynamis-Tavnazia.npcs.qm1.onTrigger', zoneName),
-        function(player, npc)
-            xi.dynamis.timeExtensionOnTrigger(player, npc)
-        end)
+    --     m:addOverride(string.format('xi.zones.Dynamis-Tavnazia.npcs.qm1.onTrigger', zoneName),
+    --     function(player, npc)
+    --         xi.dynamis.timeExtensionOnTrigger(player, npc)
+    --     end)
 
-        m:addOverride(string.format('xi.zones.Dynamis-Tavnazia.npcs.qm1.onTrade', zoneName),
-        function(player, npc)
-            xi.dynamis.timeExtensionOnTrigger(player, npc)
-        end)
+    --     m:addOverride(string.format('xi.zones.Dynamis-Tavnazia.npcs.qm1.onTrade', zoneName),
+    --     function(player, npc)
+    --         xi.dynamis.timeExtensionOnTrigger(player, npc)
+    --     end)
 
-        m:addOverride(string.format('xi.zones.Dynamis-Tavnazia.Zone.onTriggerAreaEnter', zoneName),
-        function(player, triggerArea)
-            xi.dynamis.onTriggerAreaEnter(player, triggerArea)
-        end)
-    end
+    --     m:addOverride(string.format('xi.zones.Dynamis-Tavnazia.Zone.onTriggerAreaEnter', zoneName),
+    --     function(player, triggerArea)
+    --         xi.dynamis.onTriggerAreaEnter(player, triggerArea)
+    --     end)
+    -- end
 end
 
 -- Helper function for entry NPC overrides
@@ -241,6 +295,75 @@ end) -- Not used...  Era Dynamis does not have QM pops.
 
 m:addOverride('xi.dynamis.getExtensions', function(player)
 end)
+
+-----------------------------------
+-- Mob Type Overrides
+-----------------------------------
+
+-- Helper function to create mob overrides based on mob type
+local function registerMobOverrides(zoneName, mobName, mobType)
+    local mobPath = string.format('xi.zones.%s.mobs.%s', zoneName, mobName)
+
+    if mobType == 'STATUE' then
+        m:addOverride(mobPath .. '.onMobSpawn', function(mob)
+            xi.dynamis.statueOnSpawn(mob)
+        end)
+
+        m:addOverride(mobPath .. '.onMobEngage', function(mob, target)
+            xi.dynamis.statueOnEngaged(mob, target)
+        end)
+
+        m:addOverride(mobPath .. '.onMobFight', function(mob, target)
+            xi.dynamis.onStatueFight(mob, target)
+        end)
+
+        m:addOverride(mobPath .. '.onMobDeath', function(mob, player, optParams)
+            xi.dynamis.onStatueDeath(mob, player, optParams)
+        end)
+
+    elseif mobType == 'BOSS' then
+        m:addOverride(mobPath .. '.onMobSpawn', function(mob)
+            xi.dynamis.statueOnSpawn(mob)
+        end)
+
+        m:addOverride(mobPath .. '.onMobEngage', function(mob, target)
+            xi.dynamis.statueOnEngaged(mob, target)
+        end)
+
+        m:addOverride(mobPath .. '.onMobDeath', function(mob, player, optParams)
+            xi.dynamis.onMobDeath(mob, player, optParams)
+        end)
+
+    elseif mobType == 'NM' then
+        m:addOverride(mobPath .. '.onMobSpawn', function(mob)
+            xi.dynamis.onMobSpawn(mob)
+        end)
+
+        m:addOverride(mobPath .. '.onMobDeath', function(mob, player, optParams)
+            xi.dynamis.onMobDeath(mob, player, optParams)
+        end)
+
+    elseif mobType == 'NORMAL' then
+        m:addOverride(mobPath .. '.onMobSpawn', function(mob)
+            xi.dynamis.onMobSpawn(mob)
+        end)
+
+        m:addOverride(mobPath .. '.onMobDeath', function(mob, player, optParams)
+            xi.dynamis.onMobDeath(mob, player, optParams)
+        end)
+    end
+end
+
+-- Register all mob overrides from the mobNames table
+for zoneName, mobs in pairs(mobNames) do
+    if mobs then
+        for _, mobEntry in ipairs(mobs) do
+            local mobName = mobEntry[1]
+            local mobType = mobEntry[2]
+            registerMobOverrides(zoneName, mobName, mobType)
+        end
+    end
+end
 
 -- Overrides for Dynamis Hourglass Vendors (Not sure if we need this anymore)
 -- TODO AUDIT THE VENDORS

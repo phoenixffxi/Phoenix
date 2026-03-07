@@ -7,6 +7,12 @@
 xi = xi or {}
 xi.dynamis = xi.dynamis or {}
 
+-----------------------------------
+--   Global Dynamis Variables    --
+-----------------------------------
+local dynamisTimelessHourglass = xi.item.TIMELESS_HOURGLASS
+local dynamisPerpetual         = xi.item.PERPETUAL_HOURGLASS
+
 -- Helper function to clean up trade
 local function releaseTrade(player)
     local tradeContainer = player:getTrade()
@@ -46,6 +52,9 @@ xi.dynamis.entryNpcOnTrade = function(player, npc, trade)
     -- Zone stuff
     local zoneTimepoint         = GetServerVariable(varTimepoint)
     local dynamisTimeRemaining  = xi.dynamis.getDynaTimeRemaining(zoneTimepoint)
+    print('DEBUG: entryNpcOnTrade - lockout: ' .. tostring(lockout) .. ' | zoneCooldown: ' .. tostring(GetServerVariable(varZoneCooldown)) .. ' | cleanupScript: ' .. tostring(GetServerVariable(varCleanupScript)) .. ' | timeRemaining: ' .. tostring(dynamisTimeRemaining))
+
+     -- 1. Check if player has the required item to trade
     local zoneCooldown          = zone:getLocalVar(varZoneCooldown)
     local cleanupScript         = zone:getLocalVar(varCleanupScript)
 

@@ -207,73 +207,62 @@ xi.dynamis.onMobSpawn = function(mob)
 end
 
 xi.dynamis.onMobDeath = function(mob, player, optParams)
-    -- Lets pull the var table first from the zone data - do I move everything to here?
+    -- Let's pull the var table first from the zone data
     local zoneID = mob:getZoneID()
     local mobID  = mob:getID()
 
     xi.dynamis.addTimeToDynamis(mob:getZone(), mob) -- Check for TEs
 
-    -- Checks for specific vars for spawning waves
-    local deathAction = xi.dynamis.nmDeathActions[zoneID][mobID]
-    print('NM Death Config:', deathAction)
-    if deathAction then
-        xi.dynamis.onNMDeath(mob, player, optParams, deathAction)
-    end
+    -- Check for NM death actions
+    xi.dynamis.onNMDeath(mob, player, optParams)
 end
 
 -- NM Death Actions - define conditional spawns when specific NMs die
-xi.dynamis.onNMDeath = function(mob, player, optParams, nmDeathConfig)
-    -- nmDeathConfig:
-    -- {
-    --     checkVars = { 'Var1', 'Var2' }, -- Optional: Vars to check (all must be 1)
-    --     spawnOnBoth = { wave or IDs },  -- Spawn if all checkVars and this NM killed
-    --     spawnAlways = { wave or IDs },  -- Always spawn on this NM death
-    -- }
+xi.dynamis.onNMDeath = function(mob, player, optParams)
+    local zoneID = mob:getZoneID()
+    local mobID = mob:getID()
+    local zone = mob:getZone()
 
-    -- Return early if there is no death config
-    if not nmDeathConfig then
+    -- Get the death var for this mob
+    local deathVarByMob = xi.dynamis.deathVarByMob[zoneID]
+    if not deathVarByMob or not deathVarByMob[mobID] then
         return
     end
 
-    -- Set local var for this NM death
-    if not nmDeathConfig.varName then
-        print('No varName defined for NM death config')
-        return
-    end
+    local deathVar = deathVarByMob[mobID]
 
-    -- We set the var for three reasons.
+    -- We set the var for three reasons:
     -- 1. To track that this NM has been killed for future checks
     -- 2. To prevent double spawns if the NM is revived and killed again
     -- 3. To allow GMs in case of bugs/crashes to reset the var and respawn the NM
-    local zone = mob:getZone()
-    zone:setLocalVar(nmDeathConfig.varName, 1)
-    -- print('Set NM death var:', nmDeathConfig.varName)
-    -- print('zone var is now', zone:getLocalVar(nmDeathConfig.varName))
+    zone:setLocalVar(deathVar, 1)
 
-    -- Check for conditional spawns based on other NM deaths
-    if nmDeathConfig.checkVars then
-        local allCheckVarsMet = true
-        for _, varName in ipairs(nmDeathConfig.checkVars) do
-            if zone:getLocalVar(varName) ~= 1 then
-                allCheckVarsMet = false
-                break
-            end
-        end
-
-        if allCheckVarsMet and nmDeathConfig.spawnOnBoth then
-            -- print('All NM death conditions met, spawning mobs...')
-            xi.dynamis.spawnWave(nmDeathConfig.spawnOnBoth)
-        end
+    -- Check spawnCheck table for any spawn conditions that are now met
+    local spawnCheckTable = xi.dynamis.spawnCheck[zoneID]
+    if not spawnCheckTable then
+        return
     end
 
-    -- Always spawn if the NM dies
-    local getItself = zone:getLocalVar(nmDeathConfig.varName)
-    -- print('Itself NM death var is', getItself)
-    if
-        nmDeathConfig.spawnAlways and
-        getItself ~= 1
-    then
-        xi.dynamis.spawnWave(nmDeathConfig.spawnAlways)
+    for _, spawnCheck in ipairs(spawnCheckTable) do
+
+        -- Only evaluate if it hasn't spawned yet
+        if zone:getLocalVar(spawnCheck.spawnedVar) ~= 1 then
+            -- Check if all required vars are met
+            local allRequiredVarsMet = true
+
+            for _, requiredVar in ipairs(spawnCheck.requiredVars or {}) do
+                if zone:getLocalVar(requiredVar) ~= 1 then
+                    allRequiredVarsMet = false
+                    break
+                end
+            end
+
+            -- If all conditions are met, spawn and set the var to prevent respawn
+            if allRequiredVarsMet and spawnCheck.spawn then
+                xi.dynamis.spawnWave(spawnCheck.spawn)
+                zone:setLocalVar(spawnCheck.spawnedVar, 1)
+            end
+        end
     end
 end
 
@@ -301,11 +290,6 @@ xi.dynamis.spawnNextMobsOnce = function(statue, statueId, count, target, checkFo
             mobToSpawn:setMobMod(xi.mobMod.SUPERLINK, statueId)
             mobToSpawn:setSpawn(statuePos.x + math.random() * 6 - 3, statuePos.y, statuePos.z + math.random() * 6 - 3, statuePos.rot)
             mobToSpawn:spawn()
-            -- If the statue dies in 1 shot and it has an NM then spawn the mobs regardless
-            print('Check force spawn is:', checkForceSpawn)
-            if checkForceSpawn == 1 then
-                return
-            end
 
             mobToSpawn:updateEnmity(target)
 
@@ -326,7 +310,7 @@ end
 
 xi.dynamis.spawnWave = function(wave)
     print('Spawning wave...')
-    -- print('Wave data:', wave)
+    print('Wave data:', wave)
     if not wave then
         return
     end
