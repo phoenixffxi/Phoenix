@@ -129,8 +129,6 @@ auto SearchHandler::run() -> Task<void>
 
     asio::error_code ec;
     socket_.lowest_layer().close(ec);
-
-    co_return;
 }
 
 void SearchHandler::decrypt(uint16_t length)

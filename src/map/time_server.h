@@ -25,4 +25,4 @@
 #include <common/scheduler.h>
 #include <common/timer.h>
 
-void time_server(Scheduler& scheduler);
+auto time_server(Scheduler& scheduler) -> Task<void>;

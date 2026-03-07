@@ -274,7 +274,7 @@ const QueryByNameResult_t& CZone::queryEntitiesByName(const std::string& pattern
 
 uint32 CZone::GetLocalVar(const char* var)
 {
-    return m_LocalVars[var];
+    return localVars_[var];
 }
 
 std::unordered_map<std::string, uint32>& CZone::GetLocalVars()
@@ -284,12 +284,12 @@ std::unordered_map<std::string, uint32>& CZone::GetLocalVars()
 
 void CZone::SetLocalVar(const char* var, uint32 val)
 {
-    m_LocalVars[var] = val;
+    localVars_[var] = val;
 }
 
 void CZone::ResetLocalVars()
 {
-    m_LocalVars.clear();
+    localVars_.clear();
 }
 
 bool CZone::CanUseMisc(uint16 misc) const
@@ -672,7 +672,6 @@ void CZone::UpdateWeather()
             {
                 this->UpdateWeather();
             }
-            co_return;
         });
 }
 
@@ -974,7 +973,6 @@ void CZone::createZoneTimers()
         [this]() -> Task<void>
         {
             co_await this->ZoneServer(timer::now());
-            co_return;
         });
 
     zoneTimerTriggerAreasToken_ = scheduler_.intervalOnMain(
@@ -982,7 +980,6 @@ void CZone::createZoneTimers()
         [this]() -> Task<void>
         {
             co_await this->CheckTriggerAreas();
-            co_return;
         });
 }
 

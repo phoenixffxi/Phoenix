@@ -178,8 +178,8 @@ timer::duration CInstance::GetElapsedTime(timer::time_point tick)
 
 uint64_t CInstance::GetLocalVar(const std::string& name) const
 {
-    auto var = m_LocalVars.find(name);
-    return var != m_LocalVars.end() ? var->second : 0;
+    auto var = localVars_.find(name);
+    return var != localVars_.end() ? var->second : 0;
 }
 
 void CInstance::SetLevelCap(uint8 cap)
@@ -218,7 +218,7 @@ void CInstance::SetWipeTime(timer::duration time)
 
 void CInstance::SetLocalVar(const std::string& name, uint64_t value)
 {
-    m_LocalVars[name] = value;
+    localVars_[name] = value;
 }
 
 /************************************************************************

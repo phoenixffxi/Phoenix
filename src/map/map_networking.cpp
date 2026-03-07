@@ -173,7 +173,7 @@ void MapNetworking::handle_incoming_packet(const std::error_code& ec, std::span<
 
                 // Client failed to receive 0x00B, resend it
                 GP_SERV_COMMAND_LOGOUT zonePacket(map_session_data->zone_type, map_session_data->zone_ipp);
-                sendSinglePacketNoPchar(PBuff.data(), &size, map_session_data, true, &zonePacket);
+                sendSinglePacketNoPChar(PBuff.data(), &size, map_session_data, true, &zonePacket);
 
                 // Increment sync count with every packet
                 // TODO: match incoming with a new parse that only cares about sync count
@@ -784,7 +784,7 @@ int32 MapNetworking::send_parse(uint8* buff, size_t* buffsize, MapSession* map_s
     return 0;
 }
 
-int32 MapNetworking::sendSinglePacketNoPchar(uint8* buff, size_t* buffsize, MapSession* map_session_data, bool usePreviousKey, CBasicPacket* packet)
+int32 MapNetworking::sendSinglePacketNoPChar(uint8* buff, size_t* buffsize, MapSession* map_session_data, bool usePreviousKey, CBasicPacket* packet)
 {
     TracyZoneScoped;
 

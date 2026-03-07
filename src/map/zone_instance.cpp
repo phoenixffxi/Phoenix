@@ -413,8 +413,6 @@ auto CZoneInstance::ZoneServer(timer::time_point tick) -> Task<void>
                     return el.get() == PInstance;
                 }));
     }
-
-    co_return;
 }
 
 auto CZoneInstance::CheckTriggerAreas() -> Task<void>

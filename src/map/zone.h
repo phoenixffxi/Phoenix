@@ -680,6 +680,21 @@ public:
     void LoadNavMesh();
     void LoadZoneLos();
 
+protected:
+    Scheduler& scheduler_;
+
+    Maybe<Scheduler::Token> zoneTimerToken_;
+    Maybe<Scheduler::Token> zoneTimerTriggerAreasToken_;
+    Maybe<Scheduler::Token> spawnHandlerTimerToken_;
+
+    triggerAreaList_t m_triggerAreaList;
+
+    void createZoneTimers();
+    void CharZoneIn(CCharEntity* PChar);
+    void CharZoneOut(CCharEntity* PChar);
+
+    std::unordered_map<std::string, uint32> localVars_;
+
 private:
     ZONEID         m_zoneID;
     ZONE_TYPE      m_zoneType;
@@ -701,8 +716,6 @@ private:
 
     zoneMusic_t m_zoneMusic{};
 
-    std::unordered_map<std::string, uint32> m_LocalVars;
-
     zoneLineList_t m_zoneLineList;
 
     void LoadZoneSettings();
@@ -714,19 +727,4 @@ private:
     timer::time_point m_timeZoneEmpty; // The time point when the last player left the zone
 
     std::unordered_map<std::string, QueryByNameResult_t> m_queryByNameResults;
-
-protected:
-    Scheduler& scheduler_;
-
-    Maybe<Scheduler::Token> zoneTimerToken_;
-    Maybe<Scheduler::Token> zoneTimerTriggerAreasToken_;
-    Maybe<Scheduler::Token> spawnHandlerTimerToken_;
-
-    triggerAreaList_t m_triggerAreaList;
-
-    void createZoneTimers();
-    void CharZoneIn(CCharEntity* PChar);
-    void CharZoneOut(CCharEntity* PChar);
-
-    std::unordered_map<std::string, uint32> m_localVars;
 };

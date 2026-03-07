@@ -946,7 +946,7 @@ auto LoadChar(const uint32 charId) -> std::unique_ptr<CCharEntity>
     PChar->health.mp = canRestore ? PChar->GetMaxMP() : MP;
     PChar->UpdateHealth();
 
-    // TODO: Fix me
+    // TODO: Fix me. Once LoadChar is a coroutine we can just co_await here
     // Lazy loading: ensure initial zone is loaded synchronously before OnZoneIn
     // if (zoneutils::IsLazyLoadingEnabled() && !zoneutils::GetZone(PChar->loc.destination))
     // {

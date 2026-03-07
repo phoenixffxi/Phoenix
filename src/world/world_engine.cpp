@@ -53,9 +53,9 @@ WorldEngine::WorldEngine(Scheduler& scheduler)
 {
     timeServerToken_ = scheduler_.intervalOnMain(
         kTimeServerTickInterval,
-        [this]()
+        [this]() -> Task<void>
         {
-            time_server(this);
+            co_await time_server(this);
         });
 
     // TODO: Bind ZMQ socket FD to ASIO directly

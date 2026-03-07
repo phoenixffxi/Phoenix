@@ -342,7 +342,7 @@ public:
     timer::time_point m_nextUpdateTimer; // next time the entity should push an update packet
 
 protected:
-    std::map<std::string, uint32> m_localVars;
+    std::map<std::string, uint32> localVars_;
     uint8                         speed; // speed of movement
 };
 

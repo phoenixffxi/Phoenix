@@ -389,8 +389,6 @@ auto LoadNPCList(Scheduler& scheduler, const std::vector<uint16>& zoneIds) -> Ta
                     luautils::OnNpcSpawn(PNpc);
                 });
         });
-
-    co_return;
 }
 
 /************************************************************************
@@ -720,8 +718,6 @@ auto LoadMOBList(Scheduler& scheduler, const std::vector<uint16>& zoneIds) -> Ta
                     }
                 });
         });
-
-    co_return;
 }
 
 /************************************************************************
@@ -839,8 +835,6 @@ auto LoadZones(Scheduler& scheduler, const std::vector<uint16>& zoneIds) -> Task
             luautils::OnZoneInitialize(g_PZoneList[zoneId]->GetID());
         }
     }
-
-    co_return;
 }
 
 auto LoadZoneList(Scheduler& scheduler, const IPP mapIPP) -> Task<void>
@@ -856,8 +850,6 @@ auto LoadZoneList(Scheduler& scheduler, const IPP mapIPP) -> Task<void>
 
     co_await LoadZones(scheduler, zoneIds);
     luautils::InitInteractionGlobal();
-
-    co_return;
 }
 
 // Initialize zone loading: immediate (load all now) or lazy (load on-demand)
@@ -876,11 +868,9 @@ auto Initialize(Scheduler& scheduler, const IPP mapIPP, bool lazyLoading, bool a
     lazyLoad.managedZones = std::set(zones.begin(), zones.end());
 
     luautils::InitInteractionGlobal();
-
-    co_return;
 }
 
-void ProcessLoadQueue(Scheduler& scheduler)
+auto ProcessLoadQueue(Scheduler& scheduler) -> Task<void>
 {
     TracyZoneScoped;
 
@@ -888,8 +878,10 @@ void ProcessLoadQueue(Scheduler& scheduler)
     {
         auto zoneId = lazyLoad.loadQueue.front();
         lazyLoad.loadQueue.pop();
-        LoadZones(scheduler, { zoneId });
+        co_await LoadZones(scheduler, { zoneId });
     }
+
+    co_return;
 }
 
 auto IsLazyLoadingEnabled() -> bool
@@ -947,7 +939,7 @@ auto IsZoneReady(Scheduler& scheduler, uint16 zoneId) -> Task<bool>
     // Sync mode: load now
     if (!lazyLoad.asyncMode)
     {
-        LoadZones(scheduler, { zoneId });
+        co_await LoadZones(scheduler, { zoneId });
         co_return true;
     }
 

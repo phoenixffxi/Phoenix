@@ -244,9 +244,9 @@ auto MapEngine::init() -> Task<void>
 
     timeServerToken_ = scheduler_.intervalOnMain(
         kTimeServerTickInterval,
-        [this]
+        [this]() -> Task<void>
         {
-            time_server(scheduler_);
+            co_await time_server(scheduler_);
         });
 
     persistVolatileServerVarsToken_ = scheduler_.intervalOnMain(kPersistVolatileServerVarsInterval, serverutils::PersistVolatileServerVars);
@@ -288,8 +288,6 @@ auto MapEngine::init() -> Task<void>
     //
 
     application_.markLoaded();
-
-    co_return;
 }
 
 auto MapEngine::watchdogUpdater() -> Task<void>
@@ -304,8 +302,6 @@ auto MapEngine::watchdogUpdater() -> Task<void>
         watchdogLastUpdate_ = timer::now();
         co_await scheduler_.yieldFor(200ms);
     }
-
-    co_return;
 }
 
 auto MapEngine::watchdogWatcher() -> Task<void>
@@ -361,8 +357,6 @@ auto MapEngine::watchdogWatcher() -> Task<void>
 
         co_await scheduler_.yieldFor(periodMs);
     }
-
-    co_return;
 }
 
 void MapEngine::sessionCleanup() const

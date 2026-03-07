@@ -291,6 +291,4 @@ auto ConsoleService::consoleLoop() -> Task<void>
         // Yield only when there is no data to process.
         co_await scheduler.yieldFor(100ms);
     }
-
-    co_return;
 }

@@ -59,7 +59,7 @@ public:
     CLuaSimulation& operator=(CLuaSimulation&&)      = default;
 
     void cleanClients(Maybe<ClientScope> scope = std::nullopt);
-    auto tick(Maybe<TickType> boundary = std::nullopt) const -> Task<void>;
+    void tick(Maybe<TickType> boundary = std::nullopt) const;
     void processClientUpdates() const;
     void tickEntity(CLuaBaseEntity& entity) const;
     void skipTime(uint32 seconds) const;

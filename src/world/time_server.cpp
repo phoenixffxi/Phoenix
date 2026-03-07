@@ -29,7 +29,7 @@
 #include "daily_tally.h"
 #include "world_engine.h"
 
-void time_server(const WorldEngine* worldServer)
+auto time_server(const WorldEngine* worldServer) -> Task<void>
 {
     TracyZoneScoped;
 
@@ -125,4 +125,6 @@ void time_server(const WorldEngine* worldServer)
 
         nextVHourlyUpdate = std::chrono::ceil<xi::vanadiel_clock::hours>(vanaTime);
     }
+
+    co_return;
 }

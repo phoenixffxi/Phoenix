@@ -49,7 +49,7 @@ struct LazyLoadState
 auto LoadZones(Scheduler& scheduler, const std::vector<uint16>& zoneIds) -> Task<void>;
 auto LoadZoneList(Scheduler& scheduler, IPP mapIPP) -> Task<void>;
 auto Initialize(Scheduler& scheduler, IPP mapIPP, bool lazyLoading, bool asyncMode) -> Task<void>;
-void ProcessLoadQueue(Scheduler& scheduler);
+auto ProcessLoadQueue(Scheduler& scheduler) -> Task<void>;
 
 auto IsLazyLoadingEnabled() -> bool;
 
