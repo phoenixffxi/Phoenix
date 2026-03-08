@@ -6,17 +6,9 @@
 local zoneID = xi.zone.DYNAMIS_BASTOK
 xi = xi or { }
 xi.dynamis = xi.dynamis or { }
-xi.dynamis.wave = xi.dynamis.wave or { }
-xi.dynamis.aggro = xi.dynamis.aggro or { }
-xi.dynamis.paths = xi.dynamis.paths or { }
-xi.dynamis.spawnTable = xi.dynamis.spawnTable or { }
-xi.dynamis.nmDeathActions = xi.dynamis.nmDeathActions or { }
-xi.dynamis.timeExtension = xi.dynamis.timeExtension or { }
-xi.dynamis.deathVarByMob = xi.dynamis.deathVarByMob or {}
-xi.dynamis.spawnCheck    = xi.dynamis.spawnCheck or {}
-xi.bastok = xi.bastok or { }
 
 -- Main spawn table for all 150 statues
+xi.dynamis.spawnTable = xi.dynamis.spawnTable or { }
 xi.dynamis.spawnTable[zoneID] =
 {
     -- ID = { # to spawn, eye color, force spawn mobs }
@@ -165,25 +157,8 @@ xi.dynamis.spawnTable[zoneID] =
     [17539577] = { 3, xi.dynamis.eye.RED   }, -- (142-Q) | DRG, DRG, DRG
 }
 
-xi.bastok.mobs =
-{
-    -- Statues
-    ADAMANTKING_EFFIGY_001 = 17539424,
-    ADAMANTKING_EFFIGY_019 = 17539366,
-    ADAMANTKING_EFFIGY_041 = 17539227,
-    VANGUARD_CONSTABLE_89  = 17539090,
-    VANGUARD_VINDICATOR_89 = 17539091,
-    VANGUARD_MILITANT_89   = 17539093,
-    -- NMs
-    GUNHI_NOONDOZER        = 17539291,
-    KODHO_CANNONBALL       = 17539156,
-    GIPHA_MANAMEISTER      = 17539295,
-    ZEVHO_FALLSPLITTER     = 17539074,
-    -- Boss
-    GUDHA_EFFIGY           = 17539449,
-}
-
 -- Wave spawn table for large waves
+xi.dynamis.wave = xi.dynamis.wave or { }
 xi.dynamis.wave[zoneID] =
 {
     [1] = -- Spawns at start of the instance
@@ -327,7 +302,27 @@ xi.dynamis.wave[zoneID] =
     },
 }
 
+xi.bastok = xi.bastok or { }
+xi.bastok.mobs =
+{
+    -- Statues
+    ADAMANTKING_EFFIGY_001 = 17539424,
+    ADAMANTKING_EFFIGY_019 = 17539366,
+    ADAMANTKING_EFFIGY_041 = 17539227,
+    VANGUARD_CONSTABLE_89  = 17539090,
+    VANGUARD_VINDICATOR_89 = 17539091,
+    VANGUARD_MILITANT_89   = 17539093,
+    -- NMs
+    GUNHI_NOONDOZER        = 17539291,
+    KODHO_CANNONBALL       = 17539156,
+    GIPHA_MANAMEISTER      = 17539295,
+    ZEVHO_FALLSPLITTER     = 17539074,
+    -- Boss
+    GUDHA_EFFIGY           = 17539449,
+}
+
 -- Vars for death wave actions
+xi.dynamis.deathVarByMob = xi.dynamis.deathVarByMob or {}
 xi.dynamis.deathVarByMob[zoneID] =
 {
     [xi.bastok.mobs.GUDHA_EFFIGY]       = '[DynaBastok]MegaBossKilled',
@@ -336,6 +331,7 @@ xi.dynamis.deathVarByMob[zoneID] =
     [xi.bastok.mobs.ZEVHO_FALLSPLITTER] = '[DynaBastok]ZeVhoKilled',
 }
 
+xi.dynamis.spawnCheck = xi.dynamis.spawnCheck or {}
 xi.dynamis.spawnCheck[zoneID] =
 {
     {
@@ -353,6 +349,7 @@ xi.dynamis.spawnCheck[zoneID] =
 }
 
 --Specific Statues
+xi.dynamis.aggro = xi.dynamis.aggro or { }
 xi.dynamis.aggro[zoneID] =
 {
     nonAggressive =
@@ -369,6 +366,7 @@ xi.dynamis.aggro[zoneID] =
 }
 
 -- Pathing table
+xi.dynamis.paths = xi.dynamis.paths or { }
 xi.dynamis.paths[zoneID] =
 {
     [17539409] = { { 40,    0,   -85 },  {   40,    1,  -96 }                      }, -- W1 Choc C
@@ -398,6 +396,7 @@ xi.dynamis.paths[zoneID] =
     [17539442] = { {   74,    0,   8 },  {   60,    0,    8 }                      }, -- W1 O.St. CW Enc.#4
 }
 
+xi.dynamis.timeExtension = xi.dynamis.timeExtension or { }
 xi.dynamis.timeExtension[zoneID] =
 {
     [xi.bastok.mobs.ADAMANTKING_EFFIGY_001] = 20,

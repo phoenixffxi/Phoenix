@@ -6,17 +6,9 @@
 local zoneID = xi.zone.DYNAMIS_SAN_DORIA
 xi = xi or { }
 xi.dynamis = xi.dynamis or { }
-xi.dynamis.wave = xi.dynamis.wave or { }
-xi.dynamis.aggro = xi.dynamis.aggro or { }
-xi.dynamis.paths = xi.dynamis.paths or { }
-xi.dynamis.spawnTable = xi.dynamis.spawnTable or { }
-xi.dynamis.nmDeathActions = xi.dynamis.nmDeathActions or { }
-xi.dynamis.timeExtension = xi.dynamis.timeExtension or { }
-xi.dynamis.deathVarByMob = xi.dynamis.deathVarByMob or { }
-xi.dynamis.spawnCheck    = xi.dynamis.spawnCheck or { }
-xi.sandy = xi.sandy or { }
 
 -- Main spawn table for all 150 statues
+xi.dynamis.spawnTable = xi.dynamis.spawnTable or { }
 xi.dynamis.spawnTable[zoneID] =
 {
     -- ID = { # to spawn, eye color, force spawn mobs (used for NM safeguard) }
@@ -174,21 +166,8 @@ xi.dynamis.spawnTable[zoneID] =
     [17535189] = { 0, xi.dynamis.eye.RED   }, -- (150-O/S) |
 }
 
-xi.sandy.mobs =
-{
-    WYRMGNASHER_BJAKDEK     = 17535064,
-    REAPERTONGUE_GADGQUOK   = 17535223,
-    OVERLORDS_TOMBSTONE     = 17535130,
-    VOIDSTREAKER_BUTCHNOTCH = 17535345,
-    SERJEANT_TOMBSTONE_7    = 17535000,
-    SERJEANT_TOMBSTONE_9    = 17535004,
-    SERJEANT_TOMBSTONE_26   = 17535053,
-    SERJEANT_TOMBSTONE_41   = 17535151,
-    SERJEANT_TOMBSTONE_64   = 17535193,
-    SERJEANT_TOMBSTONE_74   = 17535219,
-}
-
 -- Wave spawn table for large waves
+xi.dynamis.wave = xi.dynamis.wave or { }
 xi.dynamis.wave[zoneID] =
 {
     [1] = -- Spawns at start of the instance
@@ -324,7 +303,26 @@ xi.dynamis.wave[zoneID] =
     },
 }
 
+xi.sandy = xi.sandy or { }
+xi.sandy.mobs =
+{
+    -- NM
+    WYRMGNASHER_BJAKDEK     = 17535064,
+    REAPERTONGUE_GADGQUOK   = 17535223,
+    VOIDSTREAKER_BUTCHNOTCH = 17535345,
+    -- Boss
+    OVERLORDS_TOMBSTONE     = 17535130,
+    -- Statues
+    SERJEANT_TOMBSTONE_7    = 17535000,
+    SERJEANT_TOMBSTONE_9    = 17535004,
+    SERJEANT_TOMBSTONE_26   = 17535053,
+    SERJEANT_TOMBSTONE_41   = 17535151,
+    SERJEANT_TOMBSTONE_64   = 17535193,
+    SERJEANT_TOMBSTONE_74   = 17535219,
+}
+
 -- Vars for death wave actions
+xi.dynamis.deathVarByMob = xi.dynamis.deathVarByMob or { }
 xi.dynamis.deathVarByMob[zoneID] =
 {
     [xi.sandy.mobs.OVERLORDS_TOMBSTONE]     = '[DynaSand]MegaBossKilled',
@@ -333,6 +331,7 @@ xi.dynamis.deathVarByMob[zoneID] =
     [xi.sandy.mobs.WYRMGNASHER_BJAKDEK]     = '[DynaSand]WyrmgnasherKilled',
 }
 
+xi.dynamis.spawnCheck    = xi.dynamis.spawnCheck or { }
 xi.dynamis.spawnCheck[zoneID] =
 {
     {
@@ -368,6 +367,7 @@ xi.dynamis.spawnCheck[zoneID] =
 }
 
 --Specific Statues
+xi.dynamis.aggro = xi.dynamis.aggro or { }
 xi.dynamis.aggro[zoneID] =
 {
     nonAggressive =
@@ -386,6 +386,7 @@ xi.dynamis.aggro[zoneID] =
 }
 
 -- Pathing table
+xi.dynamis.paths = xi.dynamis.paths or { }
 xi.dynamis.paths[zoneID] =
 {
     [17534980] = { { 121, 0, 96   }, { 127, 0, 102  } },
@@ -452,6 +453,7 @@ xi.dynamis.paths[zoneID] =
     [17535281] = { { -200, -2, 87 }, { -193, -2, 69 } },
 }
 
+xi.dynamis.timeExtension = xi.dynamis.timeExtension or { }
 xi.dynamis.timeExtension[zoneID] =
 {
     [xi.sandy.mobs.SERJEANT_TOMBSTONE_7]    = 15, -- (007-O/S)

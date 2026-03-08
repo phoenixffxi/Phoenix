@@ -208,7 +208,7 @@ xi.dynamis.entryNpcOnTriggerEra = function(player, npc)
         player:getCharVar(entryInfo.hasSeenWinCSVar) == 0
     then
         if zoneID == xi.zone.DYNAMIS_TAVNAZIA then
-            player:startEvent(entryInfo.csWin, 0, getDynamisTavWinParam(player))
+            -- player:startEvent(entryInfo.csWin, 0, getDynamisTavWinParam(player))
         else
             player:startEvent(entryInfo.csWin)
         end

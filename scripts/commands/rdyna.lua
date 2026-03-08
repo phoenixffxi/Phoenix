@@ -24,10 +24,10 @@ local resetPlayerVars = function(playerEntity, dynaZone)
     -- Entry and reservation vars
     playerEntity:setCharVar('DynaEnterCount', math.max(0, playerEntity:getCharVar('DynaEnterCount') - 1))
     playerEntity:setCharVar('DynaReservationStart', 0)
-    
+
     -- Lockout
     playerEntity:setCharVar('[DYNA]lockout', 0)
-    
+
     -- Zone-specific registration vars
     if dynaZone and dynaZone ~= nil then
         playerEntity:setCharVar(string.format('[DYNA]PlayerRegistered_%s', dynaZone), 0)
@@ -40,7 +40,7 @@ local resetZoneVars = function(dynaZone)
     if not dynaZone or dynaZone == nil then
         return
     end
-    
+
     SetServerVariable(string.format('[DYNA]Token_%s', dynaZone), 0)
     SetServerVariable(string.format('[DYNA]Timepoint_%s', dynaZone), 0)
     SetServerVariable(string.format('[DYNA]Given10MinuteWarning_%s', dynaZone), 0)

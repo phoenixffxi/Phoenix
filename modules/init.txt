@@ -55,5 +55,4 @@ phoenix/lua
 
 # Dynamis
 phoenix/dynamis/cpp/
-phoenix/dynamis/scripts/globals/dynamis.lua
-phoenix/dynamis/scripts/globals/dynamis_zones.lua
+phoenix/dynamis/scripts/globals/dynamis_overrides.lua

@@ -95,7 +95,6 @@ xi.dynamis.updatePlayerHourglass = function(player, zoneDynamisToken)
     player:updateHourglass(zoneDynamisToken, zoneTimepoint)
 end
 
-
 -- Apply entry zone restrictions (SJ restriction, status effects)
 xi.dynamis.applyEntryRestrictions = function(player, dynaZoneID)
     local zone = GetZone(dynaZoneID)

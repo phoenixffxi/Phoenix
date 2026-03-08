@@ -55,7 +55,12 @@ end
 
 xi.dynamis.statueOnEngaged = function(mob, target) -- Do I remove this from engage call?
     print('I am engaged')
-    print('Engage check var is:', mob:getLocalVar('engageCheck'))
+    -- Check for aggro cases first
+    if mob:getLocalVar('aggroCheck') == 0 then
+        xi.dynamis.spawnAggroStatues(mob, target)
+        mob:setLocalVar('aggroCheck', 1)
+    end
+
     -- Stop the spawning if the statue is re-engaged after a wipe
     if mob:getLocalVar('engageCheck') == 1 then
         return
@@ -81,7 +86,11 @@ xi.dynamis.statueOnEngaged = function(mob, target) -- Do I remove this from enga
     if count > 0 then
         xi.dynamis.spawnNextMobsOnce(mob, statueId, count, target) -- Spawn the next X amount of IDs from that staue
     end
+end
 
+xi.dynamis.spawnAggroStatues = function(mob, target)
+    local zoneID   = mob:getZoneID()
+    local statueId = mob:getID()
     -- Check special spawns on aggro conditions
     local zoneAggro          = xi.dynamis.aggro[zoneID]
     local nonAggressiveSpawn = zoneAggro.nonAggressive and zoneAggro.nonAggressive[statueId]
@@ -160,13 +169,24 @@ end
 -- BLUE    = 2, -- HP refill
 -- GREEN   = 3, -- MP refill
 xi.dynamis.onStatueDeath = function(mob, player, optParams)
+    if not optParams.isKiller then
+        return
+    end
+
     -- If the statue gets 1 shotted
     -- Force spawn check for NMs
     local zoneID   = mob:getZoneID()
     local statueId = mob:getID()
+
+    -- If the statue gets 1 shotted we need to force spawn the statues for aggro conditions
+    if mob:getLocalVar('aggroCheck') == 0 then
+        xi.dynamis.spawnAggroStatues(mob, player)
+    end
+
     local checkForceSpawn = xi.dynamis.spawnTable[zoneID][statueId][3] or 0
+    -- If the mob is one shotted we need to force spawn the NM mobs
+    -- This means it has NOT been engaged yet
     if mob:getLocalVar('engageCheck') == 0 and checkForceSpawn == 1 then
-        mob:setLocalVar('engageCheck', 1) -- Set engage check to prevent double spawns if it gets re-engaged after death
         local count    = xi.dynamis.spawnTable[zoneID][statueId][1]
         if count > 0 then
             xi.dynamis.spawnNextMobsOnce(mob, statueId, count, nil, checkForceSpawn) -- Spawn the next X amount of IDs from that staue
@@ -180,13 +200,8 @@ xi.dynamis.onStatueDeath = function(mob, player, optParams)
 
     mob:setLocalVar('deathCheck', 1)
 
+    -- Check for time extensions
     xi.dynamis.addTimeToDynamis(mob:getZone(), mob) -- Check for TEs
-
-    -- MP/HP refill
-    -- TODO check if we need this
-    if not optParams.isKiller then
-        return
-    end
 end
 
 -- ---------------------
@@ -207,11 +222,8 @@ xi.dynamis.onMobSpawn = function(mob)
 end
 
 xi.dynamis.onMobDeath = function(mob, player, optParams)
-    -- Let's pull the var table first from the zone data
-    local zoneID = mob:getZoneID()
-    local mobID  = mob:getID()
-
-    xi.dynamis.addTimeToDynamis(mob:getZone(), mob) -- Check for TEs
+    -- Check for time extensions
+    xi.dynamis.addTimeToDynamis(mob:getZone(), mob)
 
     -- Check for NM death actions
     xi.dynamis.onNMDeath(mob, player, optParams)
@@ -288,8 +300,15 @@ xi.dynamis.spawnNextMobsOnce = function(statue, statueId, count, target, checkFo
         local mobToSpawn = GetMobByID(mobId)
         if mobToSpawn and not mobToSpawn:isSpawned() then
             mobToSpawn:setMobMod(xi.mobMod.SUPERLINK, statueId)
+            mobToSpawn:setRoamFlags(xi.roamFlag.SCRIPTED)
             mobToSpawn:setSpawn(statuePos.x + math.random() * 6 - 3, statuePos.y, statuePos.z + math.random() * 6 - 3, statuePos.rot)
             mobToSpawn:spawn()
+
+            -- If the statue dies in 1 shot and it has an NM then spawn the mobs regardless but do not update enmity
+            print('Check force spawn is:', checkForceSpawn)
+            if checkForceSpawn == 1 then
+                return
+            end
 
             mobToSpawn:updateEnmity(target)
 
@@ -300,9 +319,9 @@ xi.dynamis.spawnNextMobsOnce = function(statue, statueId, count, target, checkFo
             mobToSpawn:stun(randomStunTime)
             mobToSpawn:timer(3000, function(mobArg)
                 mobArg:lookAt(target:getPos())
-                mobToSpawn:setAutoAttackEnabled(true)
-                mobToSpawn:setMagicCastingEnabled(true)
-                mobToSpawn:setMobAbilityEnabled(true)
+                mobArg:setAutoAttackEnabled(true)
+                mobArg:setMagicCastingEnabled(true)
+                mobArg:setMobAbilityEnabled(true)
             end)
         end
     end

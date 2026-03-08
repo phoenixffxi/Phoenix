@@ -16,6 +16,7 @@ require('modules/module_utils')
 require('scripts/globals/dynamis')
 require('scripts/globals/dynamis/dynamis_mobs_sandy')
 require('scripts/globals/dynamis/dynamis_mobs_bastok')
+require('scripts/globals/dynamis/dynamis_mobs_windurst')
 -----------------------------------
 local m = Module:new('dynamis_entry_info')
 
@@ -25,31 +26,28 @@ xi.dynamis = xi.dynamis or {}
 -----------------------------------
 --   Global Dynamis Variables    --
 -----------------------------------
-local dynamisTimelessHourglass = xi.item.TIMELESS_HOURGLASS
-local dynamisPerpetual         = xi.item.PERPETUAL_HOURGLASS
+-- Come back when I do tav
+-- local function getDynamisTavWinParam(player)
+--     local zmComplete = player:getCurrentMission(xi.mission.log_id.ZILART) >= xi.mission.id.zilart.AWAKENING
+--     local copComplete = player:getCurrentMission(xi.mission.log_id.COP) >= xi.mission.id.cop.DAWN
+--     local anComplete = player:hasCompletedQuest(xi.quest.log_id.JEUNO, xi.quest.id.jeuno.APOCALYPSE_NIGH)
 
--- What the fuck is this function doing ??
-local function getDynamisTavWinParam(player)
-    local zmComplete = player:getCurrentMission(xi.mission.log_id.ZILART) >= xi.mission.id.zilart.AWAKENING
-    local copComplete = player:getCurrentMission(xi.mission.log_id.COP) >= xi.mission.id.cop.DAWN
-    local anComplete = player:hasCompletedQuest(xi.quest.log_id.JEUNO, xi.quest.id.jeuno.APOCALYPSE_NIGH)
+--     if anComplete then
+--         -- AN requires ZM and CoP
+--         return 3
+--     elseif zmComplete then
+--         if copComplete then
+--             -- ZM and CoP
+--             return 2
+--         end
 
-    if anComplete then
-        -- AN requires ZM and CoP
-        return 3
-    elseif zmComplete then
-        if copComplete then
-            -- ZM and CoP
-            return 2
-        end
+--         -- ZM only
+--         return 1
+--     end
 
-        -- ZM only
-        return 1
-    end
-
-    -- Not ZM complete
-    return 0
-end
+--     -- Not ZM complete
+--     return 0
+-- end
 
 -----------------------------------
 -- onZoneTick Dynamis Functions  --
@@ -159,7 +157,7 @@ xi.dynamis.handleDynamis = function(zone)
         end
     end
 
-    print(#playersInZone .. ' players in zone | NoPlayerTimer: ' .. tostring(noPlayerTimer) .. ' | CleanupScript: ' .. tostring(cleanupScript) .. ' | ZoneCooldown: ' .. tostring(zoneCooldown))
+    -- print(#playersInZone .. ' players in zone | NoPlayerTimer: ' .. tostring(noPlayerTimer) .. ' | CleanupScript: ' .. tostring(cleanupScript) .. ' | ZoneCooldown: ' .. tostring(zoneCooldown))
 
      -- Handle empty zone (start no-player timer if not already started, 5 min timer)
      -- Clear no-player timer if players re-enter
@@ -310,7 +308,7 @@ end
 -- Cleanup Done
 xi.dynamis.getDynaTimeRemaining = function(zoneTimePoint)
     local zoneTimeResult = (zoneTimePoint - GetSystemTime()) -- Returns difference.
-    print('Dynamis Time Remaining Check | TimePoint: ' .. tostring(zoneTimePoint) .. ' | CurrentTime: ' .. tostring(GetSystemTime()) .. ' | Result: ' .. tostring(zoneTimeResult))
+    -- print('Dynamis Time Remaining Check | TimePoint: ' .. tostring(zoneTimePoint) .. ' | CurrentTime: ' .. tostring(GetSystemTime()) .. ' | Result: ' .. tostring(zoneTimeResult))
     if zoneTimeResult < 0 then
         return 0
     else
