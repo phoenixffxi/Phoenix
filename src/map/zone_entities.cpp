@@ -768,7 +768,7 @@ void CZoneEntities::SpawnMOBs(CCharEntity* PChar)
             }
 
             // checking monsters night/daytime sleep is already taken into account in the CurrentAction check, because monsters don't move in their sleep
-            const EMobDifficulty mobCheck = charutils::CheckMob(PChar->GetMLevel(), PCurrentMob->GetMLevel());
+            const EMobDifficulty mobCheck = charutils::CheckMob(PChar->GetMLevel(), PCurrentMob);
 
             CMobController* PController = static_cast<CMobController*>(PCurrentMob->PAI->GetController());
 

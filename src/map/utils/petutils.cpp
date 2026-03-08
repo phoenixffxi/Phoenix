@@ -49,6 +49,7 @@
 #include "ai/controllers/pet_controller.h"
 #include "ai/states/ability_state.h"
 
+#include "enums/automaton.h"
 #include "mob_modifier.h"
 #include "packets/char_status.h"
 #include "packets/entity_update.h"
@@ -592,21 +593,21 @@ void LoadAutomatonStats(CCharEntity* PMaster, CPetEntity* PPet, Pet_t* petStats,
 
         switch (PAutomaton->getFrame())
         {
-            default: // case FRAME_HARLEQUIN:
+            default: // case AutomatonFrame::Harlequin:
                 tempSkills.evasion = battleutils::GetMaxSkill(2, mlvl > 99 ? 99 : mlvl);
                 PPet->setModifier(Mod::DEF, battleutils::GetMaxSkill(10, mlvl > 99 ? 99 : mlvl));
                 break;
-            case FRAME_VALOREDGE:
+            case AutomatonFrame::Valoredge:
                 PPet->setModifier(Mod::SHIELDBLOCKRATE, 45);
                 PPet->setMobMod(MOBMOD_CAN_SHIELD_BLOCK, 1);
                 tempSkills.evasion = battleutils::GetMaxSkill(5, mlvl > 99 ? 99 : mlvl);
                 PPet->setModifier(Mod::DEF, battleutils::GetMaxSkill(5, mlvl > 99 ? 99 : mlvl));
                 break;
-            case FRAME_SHARPSHOT:
+            case AutomatonFrame::Sharpshot:
                 tempSkills.evasion = battleutils::GetMaxSkill(1, mlvl > 99 ? 99 : mlvl);
                 PPet->setModifier(Mod::DEF, battleutils::GetMaxSkill(11, mlvl > 99 ? 99 : mlvl));
                 break;
-            case FRAME_STORMWAKER:
+            case AutomatonFrame::Stormwaker:
                 tempSkills.evasion = battleutils::GetMaxSkill(10, mlvl > 99 ? 99 : mlvl);
                 PPet->setModifier(Mod::DEF, battleutils::GetMaxSkill(12, mlvl > 99 ? 99 : mlvl));
                 break;
@@ -1021,19 +1022,19 @@ void CalculateAutomatonStats(CBattleEntity* PMaster, CBattleEntity* PPet)
 
         switch (PChar->getAutomatonFrame())
         {
-            default: // case FRAME_HARLEQUIN:
+            default: // case AutomatonFrame::Harlequin:
                 mjob = JOB_WAR;
                 sjob = JOB_RDM;
                 break;
-            case FRAME_VALOREDGE:
+            case AutomatonFrame::Valoredge:
                 mjob = JOB_PLD;
                 sjob = JOB_WAR;
                 break;
-            case FRAME_SHARPSHOT:
+            case AutomatonFrame::Sharpshot:
                 mjob = JOB_RNG;
                 sjob = JOB_PUP;
                 break;
-            case FRAME_STORMWAKER:
+            case AutomatonFrame::Stormwaker:
                 mjob = JOB_RDM;
                 sjob = JOB_WHM;
                 break;
@@ -1053,16 +1054,16 @@ void CalculateAutomatonStats(CBattleEntity* PMaster, CBattleEntity* PPet)
         {
             switch (PChar->getAutomatonFrame())
             {
-                case FRAME_VALOREDGE:
+                case AutomatonFrame::Valoredge:
                     petID = PETID_VALOREDGEFRAME;
                     break;
-                case FRAME_SHARPSHOT:
+                case AutomatonFrame::Sharpshot:
                     petID = PETID_SHARPSHOTFRAME;
                     break;
-                case FRAME_STORMWAKER:
+                case AutomatonFrame::Stormwaker:
                     petID = PETID_STORMWAKERFRAME;
                     break;
-                case FRAME_HARLEQUIN:
+                case AutomatonFrame::Harlequin:
                 default:
                     petID = PETID_HARLEQUINFRAME;
                     break;
@@ -1814,6 +1815,12 @@ void LoadPet(CBattleEntity* PMaster, uint32 PetID, bool spawningFromZone)
         // this is calculated in the action packet to avoid incorrect placement after casting
         // m_ActionOffsetPos is a combination of targets pos + action offset pos
         PPet->loc.p = static_cast<CCharEntity*>(PMaster)->m_ActionOffsetPos;
+    }
+    else if (PetID == PETID_ALEXANDER || PetID == PETID_ODIN || PetID == PETID_ATOMOS)
+    {
+        // spawn at master's position
+        // nearPosition with 0 distance to ensure correct placement and avoid any potential issues with pet collision on spawn
+        PPet->loc.p = nearPosition(PMaster->loc.p, 0, PMaster->loc.p.rotation);
     }
     else
     {

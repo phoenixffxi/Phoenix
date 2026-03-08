@@ -9,6 +9,17 @@ xi.mobSkill =
     SHARK_BITE                    =   24,
     EVISCERATION                  =   25,
 
+    FAST_BLADE_1                  =   32,
+
+    RED_LOTUS_BLADE_1             =   34,
+    FLAT_BLADE_1                  =   35,
+
+    SERAPH_BLADE_1                =   37,
+
+    SPIRITS_WITHIN_1              =   39,
+
+    SAVAGE_BLADE_1                =   42,
+
     HARD_SLASH_1                  =   48,
     POWER_SLASH_1                 =   49,
     FROSTBITE_1                   =   50,
@@ -86,6 +97,7 @@ xi.mobSkill =
 
     VELOCIOUS_BLADE               =  347, -- Mammet-800
 
+    DEATH_SCISSORS                =  353,
     WILD_RAGE                     =  354,
     EARTH_POUNDER                 =  355,
 
@@ -193,6 +205,7 @@ xi.mobSkill =
 
     TREMOROUS_TREAD               =  540, -- Mammet-800
     GRAVITY_FIELD                 =  541,
+    EMPTY_SEED                    =  542,
 
     CAMISADO_1                    =  544,
 
@@ -298,7 +311,7 @@ xi.mobSkill =
 
     QUADRATIC_CONTINUUM_2         =  742,
 
-    SPIRIT_ABSORPTION_2           =  745,
+    SPIRIT_ABSORPTION_GORGER_2    =  745,
 
     VANITY_DRIVE_2                =  748,
 
@@ -328,6 +341,12 @@ xi.mobSkill =
     WATER_BLADE_1                 =  828,
     GREAT_WHEEL_1                 =  829,
     LIGHT_BLADE_1                 =  830,
+    MOONLIT_CHARGE                =  831,
+    CRESCENT_FANG                 =  832,
+    LUNAR_CRY                     =  833,
+
+    LUNAR_ROAR                    =  835,
+    ECLIPSE_BITE                  =  836,
 
     HOWLING_MOON_1                =  838, -- Unknown usage.
     HOWLING_MOON_2                =  839, -- Confirmed usage: "The Moonlit Path" bcnm (Fenrir).
@@ -607,10 +626,22 @@ xi.mobSkill =
     REVELATION_1                  = 1510,
 
     HOWLING_MOON_3                = 1520, -- Unknown usage.
+    ARMOR_BUSTER                  = 1521,
+    ENERGY_SCREEN                 = 1522,
+    MANA_SCREEN                   = 1523,
+    DISSIPATION                   = 1524,
+
+    CITADEL_BUSTER                = 1540,
 
     FOOT_KICK_2                   = 1567,
     DUST_CLOUD_2                  = 1568,
     WHIRL_CLAWS_2                 = 1569,
+
+    MIASMIC_BREATH_1              = 1604, -- Cirrate Christelle - Mobskill Version
+    MIASMIC_BREATH_2              = 1605, -- Cirrate Christelle - Skill Attack version
+
+    PUTRID_BREATH_1               = 1608, -- Cirrate Christelle - Mobskill Version
+    PUTRID_BREATH_2               = 1609, -- Cirrate Christelle - Skill Attack version
 
     FROGKICK_2                    = 1621,
 
@@ -649,6 +680,7 @@ xi.mobSkill =
     VENOM_SPRAY_2                 = 1843,
     PIT_AMBUSH_2                  = 1844,
     MANDIBULAR_BITE_2             = 1845,
+    FIRESPIT_BLUE_MAMOOLJA        = 1923, -- Ignores shadows
 
     RANGED_ATTACK_15              = 1949,
 

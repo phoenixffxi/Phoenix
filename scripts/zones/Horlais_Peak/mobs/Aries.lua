@@ -31,7 +31,7 @@ local applySelfSleep = function(mob)
 
     mob:setLocalVar('isSelfSleeping', 1)
     mob:setMod(xi.mod.REGEN, regenPower)
-    mob:addStatusEffect(xi.effect.SLEEP_I, 255, 3, 30 * 3600)
+    mob:addStatusEffect(xi.effect.SLEEP_I, { power = 255, duration = 30 * 3600, origin = mob, tick = 3 })
     mob:messageText(mob, ID.text.FALLS_INTO_A_DEEP_SLEEP)
 end
 
@@ -170,7 +170,7 @@ end
 -----------------------------------
 -- Handle local variables upon weaponskill use.
 -----------------------------------
-entity.onMobWeaponSkill = function(target, mob, skill)
+entity.onMobWeaponSkill = function(mob, target, skill, action)
     local skillID = skill:getID()
     local doubleAbilityCount = mob:getLocalVar('doubleAbilityCount')
 

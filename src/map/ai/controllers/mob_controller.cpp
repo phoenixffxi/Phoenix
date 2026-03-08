@@ -189,7 +189,7 @@ void CMobController::TryLink()
 
     // handle pet behavior on the targets behalf (faster than in ai_pet_dummy)
     // Avatars defend masters by attacking mobs if the avatar isn't attacking anything currently (bodyguard behavior)
-    // Alexander and Odin are passive and do not protect the master.
+    // Alexander, Odin and Atomos are passive and do not protect the master.
     if (PTarget->PPet != nullptr && PTarget->PPet->GetBattleTargetID() == 0)
     {
         if (PTarget->PPet->objtype == TYPE_PET)
@@ -197,7 +197,8 @@ void CMobController::TryLink()
             const auto PPetEntity = static_cast<CPetEntity*>(PTarget->PPet);
             if (PPetEntity->getPetType() == PET_TYPE::AVATAR &&
                 PPetEntity->m_PetID != PETID_ALEXANDER &&
-                PPetEntity->m_PetID != PETID_ODIN)
+                PPetEntity->m_PetID != PETID_ODIN &&
+                PPetEntity->m_PetID != PETID_ATOMOS)
             {
                 if (PTarget->objtype == TYPE_PC)
                 {
@@ -814,7 +815,7 @@ void CMobController::Move()
         // attempt to teleport (type 1) if target is out of melee range but within 30 distance
         if (PMob->getMobMod(MOBMOD_TELEPORT_TYPE) == 1 && currentDistance > attack_range && currentDistance <= 30.0f)
         {
-            if (m_Tick >= m_LastSpecialTime + std::chrono::milliseconds(PMob->getBigMobMod(MOBMOD_TELEPORT_CD)))
+            if (m_Tick >= m_LastSpecialTime + std::chrono::seconds(PMob->getMobMod(MOBMOD_TELEPORT_CD)))
             {
                 if (const CMobSkill* teleportBegin = battleutils::GetMobSkill(PMob->getMobMod(MOBMOD_TELEPORT_START)))
                 {
@@ -1077,7 +1078,7 @@ void CMobController::DoRoamTick(timer::time_point tick)
             PMob->PAI->PathFind->ResumePatrol();
             FollowRoamPath();
         }
-        else if (m_Tick >= m_LastActionTime + std::chrono::milliseconds(PMob->getBigMobMod(MOBMOD_ROAM_COOL)))
+        else if (m_Tick >= m_LastActionTime + std::chrono::seconds(PMob->getMobMod(MOBMOD_ROAM_COOL)))
         {
             // lets buff up or move around
             if (PMob->GetCallForHelpFlag())
@@ -1105,7 +1106,7 @@ void CMobController::DoRoamTick(timer::time_point tick)
                     FollowRoamPath();
 
                     // move back every 5 seconds
-                    m_LastActionTime = m_Tick - (std::chrono::milliseconds(PMob->getBigMobMod(MOBMOD_ROAM_COOL)) + 10s);
+                    m_LastActionTime = m_Tick - (std::chrono::seconds(PMob->getMobMod(MOBMOD_ROAM_COOL)) + 10s);
                 }
                 else if (!(PMob->getMobMod(MOBMOD_NO_DESPAWN) != 0) && !settings::get<bool>("map.MOB_NO_DESPAWN"))
                 {
@@ -1243,7 +1244,7 @@ void CMobController::FollowRoamPath()
         // if I just finished reset my last action time
         if (!PMob->PAI->PathFind->IsFollowingPath())
         {
-            const uint16 roamRandomness = static_cast<uint16>(PMob->getBigMobMod(MOBMOD_ROAM_COOL) / PMob->GetRoamRate());
+            const uint32 roamRandomness = std::clamp<uint32>(static_cast<uint16>(PMob->getMobMod(MOBMOD_ROAM_COOL) * 1000 / PMob->GetRoamRate()), 0, 120 * 1000);
             m_LastActionTime            = m_Tick - std::chrono::milliseconds(xirand::GetRandomNumber(roamRandomness));
 
             // i'm a worm pop back up
@@ -1296,7 +1297,7 @@ void CMobController::Reset()
 {
     TracyZoneScoped;
     // Wait a little before roaming / casting spell / spawning pet
-    m_LastActionTime = m_Tick - std::chrono::milliseconds(xirand::GetRandomNumber(PMob->getBigMobMod(MOBMOD_ROAM_COOL)));
+    m_LastActionTime = m_Tick - std::chrono::seconds(xirand::GetRandomNumber(PMob->getMobMod(MOBMOD_ROAM_COOL)));
 
     // Don't attack player right off of spawn
     PMob->m_neutral = true;
@@ -1323,7 +1324,7 @@ auto CMobController::Disengage() -> bool
 {
     TracyZoneScoped;
     // this will let me decide to walk home or despawn
-    m_LastActionTime = m_Tick - std::chrono::milliseconds(PMob->getBigMobMod(MOBMOD_ROAM_COOL)) + 10s;
+    m_LastActionTime = m_Tick - std::chrono::seconds(PMob->getMobMod(MOBMOD_ROAM_COOL)) + 10s;
     PMob->m_neutral  = true;
     m_NeutralTime    = m_Tick;
 
@@ -1360,16 +1361,16 @@ auto CMobController::Engage(const uint16 targid) -> bool
         }
 
         // Don't cast magic or use special ability right away
-        if (PMob->getBigMobMod(MOBMOD_MAGIC_DELAY) != 0)
+        if (PMob->getMobMod(MOBMOD_MAGIC_DELAY) != 0)
         {
             m_nextMagicTime =
-                m_Tick + std::chrono::milliseconds(PMob->getBigMobMod(MOBMOD_MAGIC_COOL) + xirand::GetRandomNumber(PMob->getBigMobMod(MOBMOD_MAGIC_DELAY)));
+                m_Tick + std::chrono::seconds(PMob->getMobMod(MOBMOD_MAGIC_COOL) + xirand::GetRandomNumber(PMob->getMobMod(MOBMOD_MAGIC_DELAY)));
         }
 
-        if (PMob->getBigMobMod(MOBMOD_SPECIAL_DELAY) != 0)
+        if (PMob->getMobMod(MOBMOD_SPECIAL_DELAY) != 0)
         {
-            m_LastSpecialTime = m_Tick - std::chrono::milliseconds(PMob->getBigMobMod(MOBMOD_SPECIAL_COOL) +
-                                                                   xirand::GetRandomNumber(PMob->getBigMobMod(MOBMOD_SPECIAL_DELAY)));
+            m_LastSpecialTime = m_Tick - std::chrono::seconds(PMob->getMobMod(MOBMOD_SPECIAL_COOL) +
+                                                              xirand::GetRandomNumber(PMob->getMobMod(MOBMOD_SPECIAL_DELAY)));
         }
 
         m_tpThreshold = xirand::GetRandomNumber(1000, 3000);
@@ -1503,8 +1504,8 @@ void CMobController::ClearFollowTarget()
 
 void CMobController::OnCastStopped(CMagicState& state, action_t& action)
 {
-    int32 magicCool = PMob->getBigMobMod(MOBMOD_MAGIC_COOL);
-    m_nextMagicTime = m_Tick + std::chrono::milliseconds(xirand::GetRandomNumber(magicCool / 2, magicCool));
+    int32 magicCool = PMob->getMobMod(MOBMOD_MAGIC_COOL);
+    m_nextMagicTime = m_Tick + std::chrono::seconds(xirand::GetRandomNumber(magicCool / 2, magicCool));
 }
 
 auto CMobController::CanMoveForward(const float currentDistance) -> bool
@@ -1564,10 +1565,10 @@ auto CMobController::IsSpecialSkillReady(const float currentDistance) const -> b
     if (currentDistance > 5)
     {
         // Mobs use ranged attacks quicker when standing back
-        bonusTime = PMob->getBigMobMod(MOBMOD_STANDBACK_COOL);
+        bonusTime = PMob->getMobMod(MOBMOD_STANDBACK_COOL);
     }
 
-    return m_Tick >= m_LastSpecialTime + std::chrono::milliseconds(PMob->getBigMobMod(MOBMOD_SPECIAL_COOL) - bonusTime);
+    return m_Tick >= m_LastSpecialTime + std::chrono::seconds(PMob->getMobMod(MOBMOD_SPECIAL_COOL) - bonusTime);
 }
 
 auto CMobController::IsSpellReady(const float currentDistance) const -> bool
@@ -1582,7 +1583,7 @@ auto CMobController::IsSpellReady(const float currentDistance) const -> bool
     if (currentDistance > 5)
     {
         // Mobs use magic quicker when standing back
-        return m_Tick >= (m_nextMagicTime - std::chrono::milliseconds(PMob->getBigMobMod(MOBMOD_STANDBACK_COOL)));
+        return m_Tick >= (m_nextMagicTime - std::chrono::seconds(PMob->getMobMod(MOBMOD_STANDBACK_COOL)));
     }
 
     return m_Tick >= m_nextMagicTime;

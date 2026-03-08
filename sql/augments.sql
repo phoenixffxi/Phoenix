@@ -67,7 +67,7 @@ INSERT INTO `augments` VALUES (38,0,31,-1,0,0); -- Mag.Evasion-1
 INSERT INTO `augments` VALUES (39,0,27,1,0,0); -- Enmity+1
 INSERT INTO `augments` VALUES (40,0,27,-1,0,0); -- Enmity-1
 INSERT INTO `augments` VALUES (41,0,165,1,0,0); -- Crit.hit rate+1%
-INSERT INTO `augments` VALUES (42,0,166,-1,0,0); -- Enemy crit. hit rate-1%
+INSERT INTO `augments` VALUES (42,0,166,1,0,0); -- Enemy crit. hit rate-1%
 INSERT INTO `augments` VALUES (43,0,391,1,0,0); -- Charm+1 Could not determine retail AUGMENT effect. Duration? Chance to land charm? Just set as chance for now.
 INSERT INTO `augments` VALUES (44,0,73,1,0,0); -- Store TP+1 Subtle Blow+1
 INSERT INTO `augments` VALUES (44,0,289,1,0,0); -- Cont.
@@ -1100,7 +1100,7 @@ INSERT INTO `augments` VALUES (895,0,0,0,0,0);
 INSERT INTO `augments` VALUES (896,0,432,1,0,0); -- Sword Enhancement Spell Damage +1
 INSERT INTO `augments` VALUES (897,0,96,1,0,0); -- Enhances Souleater Effect +1%
 INSERT INTO `augments` VALUES (898,0,0,0,0,0);
-INSERT INTO `augments` VALUES (899,0,0,0,0,0); --  Sword Enhancement spell damage +1% (Percent Damage)
+INSERT INTO `augments` VALUES (899,0,1195,1,0,0); --  Sword Enhancement spell damage +1% (Percent Damage)
 INSERT INTO `augments` VALUES (900,0,0,0,0,0);
 INSERT INTO `augments` VALUES (901,0,0,0,0,0);
 INSERT INTO `augments` VALUES (902,0,0,0,0,0);

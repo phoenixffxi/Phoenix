@@ -2,6 +2,7 @@
 -- Flame Thrower
 -- Family: Ultima
 -- Description: Uses a flamethrower that deals Fire damage to players in a fan-shaped area of effect. Additional Effect: Plague
+-- TODO: Figure out damage values for Ultima/Omega Master Trial
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -10,11 +11,11 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
+mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
     params.percentMultipier = 0.05
-    params.damageCap        = 490
+    params.damageCap        = mob:getMainLvl() < 65 and 490 or 750
     params.bonusDamage      = 0
     params.mAccuracyBonus   = { 0, 0, 0 }
     params.resistStat       = xi.mod.INT

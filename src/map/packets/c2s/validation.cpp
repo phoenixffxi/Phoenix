@@ -26,6 +26,7 @@
 #include "items/item_linkshell.h"
 #include "status_effect_container.h"
 #include "trade_container.h"
+#include "utils/jailutils.h"
 
 auto PacketValidator::isNotResting(const CCharEntity* PChar) -> PacketValidator&
 {
@@ -185,6 +186,10 @@ auto PacketValidator::isAllianceLeader(const CCharEntity* PChar) -> PacketValida
     {
         result_.addError("Not in an alliance.");
     }
+    else if (PChar->PParty->m_PAlliance->getMainParty() == nullptr)
+    {
+        result_.addError("No alliance main party.");
+    }
     else if (PChar->PParty->m_PAlliance->getMainParty()->GetLeader() != PChar)
     {
         result_.addError("Not the alliance leader.");
@@ -239,6 +244,36 @@ auto PacketValidator::isEngaged(const CCharEntity* PChar) -> PacketValidator&
     if (!PChar->PAI->IsEngaged())
     {
         result_.addError("Character is not engaged.");
+    }
+
+    return *this;
+}
+
+auto PacketValidator::isNotEngaged(const CCharEntity* PChar) -> PacketValidator&
+{
+    if (PChar->PAI->IsEngaged())
+    {
+        result_.addError("Character is engaged.");
+    }
+
+    return *this;
+}
+
+auto PacketValidator::isNotInEvent(const CCharEntity* PChar) -> PacketValidator&
+{
+    if (PChar->isInEvent())
+    {
+        result_.addError("Character is in an event.");
+    }
+
+    return *this;
+}
+
+auto PacketValidator::isNotJailed(const CCharEntity* PChar) -> PacketValidator&
+{
+    if (jailutils::InPrison(PChar))
+    {
+        result_.addError("Character is jailed.");
     }
 
     return *this;

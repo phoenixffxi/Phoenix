@@ -2,6 +2,8 @@
 -- Cryo Jet
 -- Family: Ultima
 -- Description: Deals Ice breath damage to targets in front of mob. Additional Effect: Paralysis
+--  additional effect : Paralyze
+-- TODO: Figure out damage values for Ultima/Omega Master Trial
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -10,18 +12,16 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill, action)
+mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
-    params.percentMultipier = 0.05
-    params.damageCap        = 490
-    params.bonusDamage      = 0
-    params.mAccuracyBonus   = { 0, 0, 0 }
-    params.resistStat       = xi.mod.INT
-    params.element          = xi.element.ICE
-    params.attackType       = xi.attackType.BREATH
-    params.damageType       = xi.damageType.ICE
-    params.shadowBehavior   = xi.mobskills.shadowBehavior.IGNORE_SHADOWS
+    params.percentMultipier  = 0.05 -- TODO: Capture HP multiplier/threshhold.
+    params.element           = xi.element.ICE
+    params.damageCap         = mob:getMainLvl() < 65 and 490 or 750
+    params.bonusDamage       = 0
+    params.mAccuracyBonus    = { 0, 0, 0 }
+    params.resistStat        = xi.mod.INT
+    params.resistStat        = xi.mod.INT
 
     local info = xi.mobskills.mobBreathMove(mob, target, skill, action, params)
 

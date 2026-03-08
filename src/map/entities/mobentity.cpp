@@ -517,11 +517,6 @@ void CMobEntity::resetMobMod(uint16 type)
     m_mobModStat[type] = m_mobModStatSave[type];
 }
 
-int32 CMobEntity::getBigMobMod(uint16 type)
-{
-    return getMobMod(type) * 1000;
-}
-
 void CMobEntity::saveMobModifiers()
 {
     m_mobModStatSave = m_mobModStat;
@@ -1020,7 +1015,7 @@ void CMobEntity::DropItems(CCharEntity* PChar)
     bool      validZone = !(this->m_Type & MOBTYPE_BATTLEFIELD) && !(zoneType & ZONE_TYPE::DYNAMIS);
 
     // Check if mob can drop seals -- mobmod to disable drops, zone type isnt battlefield/dynamis, mob is stronger than Too Weak, or mobmod for EXP bonus is -100 or lower (-100% exp)
-    if (!getMobMod(MOBMOD_NO_DROPS) && validZone && charutils::CheckMob(m_HiPCLvl, GetMLevel()) > EMobDifficulty::TooWeak && getMobMod(MOBMOD_EXP_BONUS) > -100)
+    if (!getMobMod(MOBMOD_NO_DROPS) && validZone && charutils::CheckMob(m_HiPCLvl, this) > EMobDifficulty::TooWeak && getMobMod(MOBMOD_EXP_BONUS) > -100)
     {
         // Check for seal drops
         // Only one type of seal can drop per mob
@@ -1254,11 +1249,11 @@ void CMobEntity::Die()
         {
             if (auto* PLastAttacker = GetEntity(lastAttackerId_.targid); PLastAttacker && PLastAttacker->id == lastAttackerId_.id)
             {
-                loc.zone->PushPacket(this, CHAR_INRANGE, std::make_unique<GP_SERV_COMMAND_BATTLE_MESSAGE>(PLastAttacker, this, 0, 0, MsgBasic::DEFEATS_TARG));
+                loc.zone->PushPacket(this, CHAR_INRANGE, std::make_unique<GP_SERV_COMMAND_BATTLE_MESSAGE>(PLastAttacker, this, 0, 0, MsgBasic::DefeatsTarget));
             }
             else
             {
-                loc.zone->PushPacket(this, CHAR_INRANGE, std::make_unique<GP_SERV_COMMAND_BATTLE_MESSAGE>(this, this, 0, 0, MsgBasic::FALLS_TO_GROUND));
+                loc.zone->PushPacket(this, CHAR_INRANGE, std::make_unique<GP_SERV_COMMAND_BATTLE_MESSAGE>(this, this, 0, 0, MsgBasic::FallsToGround));
             }
 
             DistributeRewards();

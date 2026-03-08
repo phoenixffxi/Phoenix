@@ -9,7 +9,7 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
-mobskillObject.onMobWeaponSkill = function(target, mob, skill)
+mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local numhits = 1
     local accmod = 1
     local ftp    = 0.8
@@ -19,7 +19,7 @@ mobskillObject.onMobWeaponSkill = function(target, mob, skill)
         target:delStatusEffectSilent(xi.effect.FOOD)
     end
 
-    target:addStatusEffect(xi.effect.FOOD, 255, 0, 1800, 0, 0, 0, xi.effectSourceType.FOOD, 0, mob:getID())
+    target:addStatusEffect(xi.effect.FOOD, { power = 255, duration = 1800, origin = mob, sourceType = xi.effectSourceType.FOOD })
     target:takeDamage(dmg, mob, xi.attackType.PHYSICAL, xi.damageType.BLUNT)
     return dmg
 end

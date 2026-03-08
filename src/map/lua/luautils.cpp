@@ -2354,7 +2354,7 @@ void OnAdditionalEffect(CBattleEntity* PAttacker, CBattleEntity* PDefender, acti
     }
 
     Action->additionalEffect = result.get_type(0) == sol::type::number ? result.get<ActionProcAddEffect>(0) : ActionProcAddEffect::None;
-    Action->addEffectMessage = result.get_type(1) == sol::type::number ? result.get<MsgBasic>(1) : MsgBasic::NONE;
+    Action->addEffectMessage = result.get_type(1) == sol::type::number ? result.get<MsgBasic>(1) : MsgBasic::None;
     Action->addEffectParam   = result.get_type(2) == sol::type::number ? result.get<int32>(2) : 0;
 }
 
@@ -2381,7 +2381,7 @@ void OnSpikesDamage(CBattleEntity* PDefender, CBattleEntity* PAttacker, action_r
     }
 
     Action->spikesEffect  = result.get_type(0) == sol::type::number ? result.get<ActionReactKind>(0) : ActionReactKind::None;
-    Action->spikesMessage = result.get_type(1) == sol::type::number ? result.get<MsgBasic>(1) : MsgBasic::NONE;
+    Action->spikesMessage = result.get_type(1) == sol::type::number ? result.get<MsgBasic>(1) : MsgBasic::None;
     Action->spikesParam   = result.get_type(2) == sol::type::number ? result.get<int32>(2) : 0;
 }
 
@@ -2410,7 +2410,7 @@ int32 additionalEffectAttack(CBattleEntity* PAttacker, CBattleEntity* PDefender,
     }
 
     Action->additionalEffect = result.get_type(0) == sol::type::number ? result.get<ActionProcAddEffect>(0) : ActionProcAddEffect::None;
-    Action->addEffectMessage = result.get_type(1) == sol::type::number ? result.get<MsgBasic>(1) : MsgBasic::NONE;
+    Action->addEffectMessage = result.get_type(1) == sol::type::number ? result.get<MsgBasic>(1) : MsgBasic::None;
     Action->addEffectParam   = result.get_type(2) == sol::type::number ? result.get<int32>(2) : 0;
 
     return 0;
@@ -2439,7 +2439,7 @@ int32 OnItemAdditionalEffect(CBattleEntity* PAttacker, CBattleEntity* PDefender,
     }
 
     Action->additionalEffect = result.get_type(0) == sol::type::number ? result.get<ActionProcAddEffect>(0) : ActionProcAddEffect::None;
-    Action->addEffectMessage = result.get_type(1) == sol::type::number ? result.get<MsgBasic>(1) : MsgBasic::NONE;
+    Action->addEffectMessage = result.get_type(1) == sol::type::number ? result.get<MsgBasic>(1) : MsgBasic::None;
     Action->addEffectParam   = result.get_type(2) == sol::type::number ? result.get<int32>(2) : 0;
 
     return 0;
@@ -2466,7 +2466,7 @@ void additionalEffectSpikes(CBattleEntity* PDefender, CBattleEntity* PAttacker, 
     }
 
     Action->spikesEffect  = result.get_type(0) == sol::type::number ? result.get<ActionReactKind>(0) : ActionReactKind::None;
-    Action->spikesMessage = result.get_type(1) == sol::type::number ? result.get<MsgBasic>(1) : MsgBasic::NONE;
+    Action->spikesMessage = result.get_type(1) == sol::type::number ? result.get<MsgBasic>(1) : MsgBasic::None;
     Action->spikesParam   = result.get_type(2) == sol::type::number ? result.get<int32>(2) : 0;
 }
 
@@ -2813,7 +2813,7 @@ void OnSpellPrecast(CBattleEntity* PCaster, CSpell* PSpell)
 {
     TracyZoneScoped;
 
-    if (PCaster->objtype != TYPE_MOB)
+    if (PCaster->objtype == TYPE_PC)
     {
         return;
     }
@@ -2829,6 +2829,30 @@ void OnSpellPrecast(CBattleEntity* PCaster, CSpell* PSpell)
     {
         sol::error err = result;
         ShowError("luautils::onSpellPrecast: %s", err.what());
+        ReportErrorToPlayer(PCaster, err.what());
+    }
+}
+
+void OnSpellCastStart(CBattleEntity* PCaster, CBattleEntity* PTarget, CSpell* PSpell)
+{
+    TracyZoneScoped;
+
+    if (PCaster->objtype == TYPE_PC)
+    {
+        return;
+    }
+
+    sol::function onSpellInterrupted = getEntityCachedFunction(PCaster, "onSpellCastStart");
+    if (!onSpellInterrupted.valid())
+    {
+        return;
+    }
+
+    auto result = onSpellInterrupted(PCaster, PSpell);
+    if (!result.valid())
+    {
+        sol::error err = result;
+        ShowError("luautils::onSpellCastStart: %s", err.what());
         ReportErrorToPlayer(PCaster, err.what());
     }
 }
@@ -3815,7 +3839,7 @@ uint16 OnMobMobskillChoose(CBattleEntity* PMob, CBattleEntity* PTarget, uint16 c
     return 0;
 }
 
-int32 OnMobWeaponSkill(CBaseEntity* PTarget, CBaseEntity* PMob, CMobSkill* PMobSkill, action_t* action)
+int32 OnMobWeaponSkill(CBaseEntity* PMob, CBaseEntity* PTarget, CMobSkill* PMobSkill, action_t* action)
 {
     TracyZoneScoped;
 
@@ -3827,7 +3851,7 @@ int32 OnMobWeaponSkill(CBaseEntity* PTarget, CBaseEntity* PMob, CMobSkill* PMobS
         auto onMobWeaponSkill = lua["xi"]["zones"][zone]["mobs"][name]["onMobWeaponSkill"];
         if (onMobWeaponSkill.valid())
         {
-            auto result = onMobWeaponSkill(PTarget, PMob, PMobSkill, action);
+            auto result = onMobWeaponSkill(PMob, PTarget, PMobSkill, action);
             if (!result.valid())
             {
                 sol::error err = result;
@@ -3846,7 +3870,7 @@ int32 OnMobWeaponSkill(CBaseEntity* PTarget, CBaseEntity* PMob, CMobSkill* PMobS
         return 0;
     }
 
-    auto result = onMobWeaponSkill(PTarget, PMob, PMobSkill, action);
+    auto result = onMobWeaponSkill(PMob, PTarget, PMobSkill, action);
     if (!result.valid())
     {
         sol::error err = result;

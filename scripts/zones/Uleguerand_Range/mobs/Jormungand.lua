@@ -61,7 +61,7 @@ entity.spawnPoints =
 
 local function enterFlight(mob)
     mob:setAnimationSub(1)
-    mob:addStatusEffectEx(xi.effect.ALL_MISS, 0, 1, 0, 0)
+    mob:addStatusEffect(xi.effect.ALL_MISS, { power = 1, origin = mob, icon = 0 })
     mob:setMobSkillAttack(732)
     mob:setLocalVar('flightTime', GetSystemTime() + 30)
     mob:setLocalVar('changeHP', mob:getHP() - 6000)
@@ -208,7 +208,7 @@ entity.onMobMobskillChoose = function(mob, target, skillId)
     end
 end
 
-entity.onMobWeaponSkill = function(target, mob, skill)
+entity.onMobWeaponSkill = function(mob, target, skill, action)
     -- Don't lose TP from autos during flight
     if skill:getID() == 1288 then
         mob:addTP(64) -- Needs to gain TP from flight auto attacks

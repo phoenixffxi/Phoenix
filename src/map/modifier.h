@@ -38,6 +38,8 @@ enum class Mod
     FOOD_HP      = 1130, // Food HP (this is added after curse)
     FOOD_MP      = 1131, // Food MP (this is added after curse)
 
+    EXP_LVL_MOD = 1196, // Modifies level during /check, exp calculation and certain packets only
+
     STR = 8,  // Strength
     DEX = 9,  // Dexterity
     VIT = 10, // Vitality
@@ -618,16 +620,18 @@ enum class Mod
     SEIGAN_COUNTER_BONUS     = 1188, // Enables Seigan counter bonus based on Zanshin rate
 
     // Ninja
-    UTSUSEMI             = 307, // Everyone's favorite --tracks shadows.
-    UTSUSEMI_BONUS       = 900, // Extra shadows from gear
-    NINJA_TOOL           = 308, // Percent chance to not use a tool.
-    NIN_NUKE_BONUS_INNIN = 223, // Ninjutsu damage multiplier from Innin.
-    NIN_NUKE_BONUS_GEAR  = 522, // Ninjutsu damage multiplier from gear.
-    DAKEN                = 911, // chance to throw a shuriken without consuming it
-    NINJUTSU_DURATION    = 1000,
-    ENHANCES_SANGE       = 1091, // 1 = +1 attack for Daken during Sange per Sange merit (i.e. 20 with 5 merits = +100 attack during Sange)
-    ENHANCES_FUTAE       = 1148, // Adds to the +50% bonus damage to elemental ninjutsu provided by Futae (percent)
-    UTSUSEMI_AOE         = 1179, // "Utsusemi" effect extends to an area
+    UTSUSEMI              = 307, // Everyone's favorite --tracks shadows.
+    UTSUSEMI_BONUS        = 900, // Extra shadows from gear
+    NINJA_TOOL            = 308, // Percent chance to not use a tool.
+    NIN_NUKE_BONUS_INNIN  = 223, // Ninjutsu damage multiplier from Innin.
+    NIN_NUKE_BONUS_GEAR   = 522, // Ninjutsu damage multiplier from gear.
+    DAKEN                 = 911, // chance to throw a shuriken without consuming it
+    NINJUTSU_DURATION     = 1000,
+    ENHANCES_SANGE        = 1091, // 1 = +1 attack for Daken during Sange per Sange merit (i.e. 20 with 5 merits = +100 attack during Sange)
+    ENHANCES_FUTAE        = 1148, // Adds to the +50% bonus damage to elemental ninjutsu provided by Futae (percent)
+    UTSUSEMI_AOE          = 1179, // "Utsusemi" effect extends to an area
+    YONIN_UTSUSEMI_ENMITY = 1192, // Enables extra enmity from Utsusemi spells while under Yonin
+    SANGE_MULTI_HIT       = 1193, // Sange uses shadow-based multi-hit ranged attack instead of Daken boost
 
     // Dragoon
     ANCIENT_CIRCLE_DURATION    = 859,  // Ancient Circle extended duration in seconds
@@ -645,6 +649,7 @@ enum class Mod
     WYVERN_BREATH_MACC         = 986,  // Increases accuracy of wyvern's breath. adds 10 magic accuracy per merit to the trait Strafe
     WYVERN_LVL_BONUS           = 1043, // Wyvern: Lv.+ (Increases wyvern's base level above 99)
     WYVERN_ATTRIBUTE_DA        = 1056, // Adds an amount of Double Attack to Dragoon each time Wyverns Attributes Increase (percent)
+    WYVERN_SHOW_READYING       = 1195, // Pet shows readying animation instead of suppressing it (e.g., wyvern breath)
     DRAGOON_BREATH_RECAST      = 1057, // Restoring/Smithing Breath Recast Reduction (seconds)
     ENHANCE_DEEP_BREATHING     = 283,  // Add 5/256 to deep breathing bonus per merit level when calculating healing breath
     UNCAPPED_WYVERN_BREATH     = 284,  // Uncapped wyvern breath boost. Used on retail for augments, normal gear should use WYVERN_BREATH.
@@ -807,8 +812,9 @@ enum class Mod
 
     ENSPELL           = 341,  // stores the type of enspell active (0 if nothing)
     ENSPELL_DMG       = 343,  // stores the base damage of the enspell before reductions
-    ENSPELL_DMG_BONUS = 432,  //
+    ENSPELL_DMG_BONUS = 432,  // adds X to the base damage of the enspell before bonuses and reductions
     ENSPELL_CHANCE    = 856,  // Chance of enspell activating (0 = 100%, 10 = 10%, 30 = 30%, ...)
+    ENSPELL_DMG_PCT   = 1195, // adds X% to the multiplier applied to enspell damage after base damage is calculated, before day and weather bonuses and reductions
     SPIKES            = 342,  // store the type of spike spell active (0 if nothing)
     SPIKES_DMG        = 344,  // stores the base damage of the spikes before reductions
     SPIKES_DMG_BONUS  = 1079, // Increases Blaze/Ice/Shock spikes damage by percentage (e.g. mod value 50 = +50% spikes damage)
@@ -988,7 +994,7 @@ enum class Mod
     NO_SPELL_MP_DEPLETION     = 530,  // % to not deplete MP on spellcast.
     STONESKIN_BONUS_HP        = 539,  // Bonus "HP" granted to Stoneskin spell.
     DAY_NUKE_BONUS            = 565,  // Bonus damage from "Elemental magic affected by day" (Sorc. Tonban)
-    DAY_WEATHER_PROC_BONUS    = 1787, // Bonus damage from Twilight cape which works with both day OR weather procs.
+    DAY_WEATHER_PROC_BONUS    = 1194, // Bonus damage from Twilight cape which works with both day OR weather procs.
     IRIDESCENCE               = 566,  // Iridescence trait (additional weather damage/penalty)
     BARSPELL_AMOUNT           = 567,  // Additional elemental resistance granted by bar- spells
     BARSPELL_MDEF_BONUS       = 827,  // Extra magic defense bonus granted to the bar- spell effect
@@ -1146,7 +1152,7 @@ enum class Mod
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
     //
-    // SPARE IDs: 1192 and onward
+    // SPARE IDs: 1197 and onward
 };
 
 // temporary workaround for using enum class as unordered_map key until compilers support it
