@@ -287,6 +287,7 @@ bool CRecastContainer::HasRecast(RECASTTYPE type, Recast id, timer::duration rec
 void CRecastContainer::Check()
 {
     TracyZoneScoped;
+
     for (auto type : { RECAST_MAGIC, RECAST_ABILITY })
     {
         RecastList_t* PRecastList = GetRecastList(type);

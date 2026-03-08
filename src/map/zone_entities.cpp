@@ -1586,6 +1586,240 @@ void CZoneEntities::WideScan(CCharEntity* PChar, uint16 radius)
     PChar->pushPacket<GP_SERV_COMMAND_TRACKING_STATE>(GP_TRACKING_STATE::ListEnd);
 }
 
+auto CZoneEntities::mobTick(CMobEntity* PMob, timer::time_point tick) -> Task<void>
+{
+    TracyZoneScoped;
+    TracyZoneString(PMob->getName());
+
+    ShowTraceFmt("CZoneEntities::ZoneServer: Mob: {} ({})", PMob->getName(), PMob->id);
+
+    PMob->PRecastContainer->Check();
+
+    PMob->StatusEffectContainer->CheckEffectsExpiry(tick);
+    if (tick > m_EffectCheckTime)
+    {
+        PMob->StatusEffectContainer->TickRegen(tick);
+        PMob->StatusEffectContainer->TickEffects(tick);
+    }
+
+    PMob->PAI->Tick(tick);
+
+    // This is only valid for dynamic entities
+    if (PMob->status == STATUS_TYPE::DISAPPEAR && PMob->m_bReleaseTargIDOnDisappear)
+    {
+        if (PMob->PPet != nullptr)
+        {
+            PMob->PPet->PMaster = nullptr;
+        }
+
+        if (PMob->PMaster != nullptr)
+        {
+            PMob->PMaster->PPet = nullptr;
+        }
+
+        FOR_EACH_PAIR_CAST_SECOND(CMobEntity*, POtherMob, m_mobList)
+        {
+            POtherMob->PEnmityContainer->Clear(PMob->id);
+        }
+
+        if (PMob->PParty)
+        {
+            PMob->PParty->RemoveMember(PMob);
+        }
+
+        FOR_EACH_PAIR_CAST_SECOND(CCharEntity*, PChar, m_charList)
+        {
+            if (PChar->PClaimedMob == PMob)
+            {
+                PChar->PClaimedMob = nullptr;
+            }
+
+            if (PChar->currentEvent && PChar->currentEvent->targetEntity == PMob)
+            {
+                PChar->currentEvent->targetEntity = nullptr;
+            }
+
+            if (PChar->SpawnMOBList.find(PMob->id) != PChar->SpawnMOBList.end())
+            {
+                PChar->SpawnMOBList.erase(PMob->id);
+            }
+        }
+
+        m_mobsToDelete.emplace_back(PMob);
+        co_return;
+    }
+
+    if (PMob->allegiance == ALLEGIANCE_TYPE::PLAYER && PMob->m_isAggroable)
+    {
+        m_aggroableMobs.emplace_back(PMob);
+    }
+
+    co_return;
+}
+
+auto CZoneEntities::mobAggroCheck(CMobEntity* PMob, timer::time_point tick) -> Task<void>
+{
+    TracyZoneScoped;
+    TracyZoneString(PMob->getName());
+
+    ShowTraceFmt("CZoneEntities::ZoneServer: Mob Aggro: {} ({})", PMob->getName(), PMob->id);
+
+    // TODO: We desperately need spatial hashing or something to reduce this cost
+    FOR_EACH_PAIR_CAST_SECOND(CMobEntity*, PCurrentMob, m_mobList)
+    {
+        const auto isInHeightRange = isWithinVerticalDistance(PMob, PCurrentMob);
+        const auto isInRange       = isWithinDistance(PMob->loc.p, PCurrentMob->loc.p, ENTITY_RENDER_DISTANCE);
+
+        if (PCurrentMob != nullptr && PCurrentMob->isAlive() && PMob->allegiance != PCurrentMob->allegiance && isInHeightRange && isInRange)
+        {
+            CMobController* PController = static_cast<CMobController*>(PCurrentMob->PAI->GetController());
+            if (PController != nullptr && PController->CanAggroTarget(PMob))
+            {
+                PCurrentMob->PAI->Engage(PMob->targid);
+            }
+        }
+    }
+
+    co_return;
+}
+
+auto CZoneEntities::npcTick(CNpcEntity* PNpc, timer::time_point tick) -> Task<void>
+{
+    TracyZoneScoped;
+    TracyZoneString(PNpc->getName());
+
+    ShowTraceFmt("CZoneEntities::ZoneServer: NPC: {} ({})", PNpc->getName(), PNpc->id);
+
+    PNpc->PAI->Tick(tick);
+
+    // This is only valid for dynamic entities
+    if (PNpc->status == STATUS_TYPE::DISAPPEAR && PNpc->m_bReleaseTargIDOnDisappear)
+    {
+        FOR_EACH_PAIR_CAST_SECOND(CCharEntity*, PChar, m_charList)
+        {
+            if (PChar->SpawnNPCList.find(PNpc->id) != PChar->SpawnNPCList.end())
+            {
+                PChar->SpawnNPCList.erase(PNpc->id);
+            }
+        }
+
+        m_npcsToDelete.emplace_back(PNpc);
+        co_return;
+    }
+
+    co_return;
+}
+
+auto CZoneEntities::petTick(CPetEntity* PPet, timer::time_point tick) -> Task<void>
+{
+    TracyZoneScoped;
+    TracyZoneString(PPet->getName());
+
+    // TODO: The static_cast in this loop includes Battlefield Allies. Allies shouldn't be handled here in
+    //     : this way, but we need to do this to keep allies working (for now).
+    ShowTraceFmt("CZoneEntities::ZoneServer: Pet: {} ({})", PPet->getName(), PPet->id);
+
+    // TODO: Is this still necessary?
+
+    // Pets specifically need to have their AI tick skipped if they're marked for deletion
+    // to prevent a number of issues which can result from a pet having a deleted/nullptr'd PMaster
+    if (PPet->status == STATUS_TYPE::DISAPPEAR)
+    {
+        FOR_EACH_PAIR_CAST_SECOND(CMobEntity*, PCurrentMob, m_mobList)
+        {
+            PCurrentMob->PEnmityContainer->Clear(PPet->id);
+        }
+
+        m_petsToDelete.emplace_back(PPet);
+        co_return;
+    }
+
+    PPet->PRecastContainer->Check();
+    PPet->StatusEffectContainer->CheckEffectsExpiry(tick);
+    if (tick > m_EffectCheckTime)
+    {
+        PPet->StatusEffectContainer->TickRegen(tick);
+        PPet->StatusEffectContainer->TickEffects(tick);
+    }
+
+    PPet->PAI->Tick(tick);
+
+    co_return;
+}
+
+auto CZoneEntities::trustTick(CTrustEntity* PTrust, timer::time_point tick) -> Task<void>
+{
+    TracyZoneScoped;
+    TracyZoneString(PTrust->getName());
+
+    ShowTraceFmt("CZoneEntities::ZoneServer: Trust: {} ({})", PTrust->getName(), PTrust->id);
+
+    PTrust->PRecastContainer->Check();
+    PTrust->StatusEffectContainer->CheckEffectsExpiry(tick);
+    if (tick > m_EffectCheckTime)
+    {
+        PTrust->StatusEffectContainer->TickRegen(tick);
+        PTrust->StatusEffectContainer->TickEffects(tick);
+    }
+
+    PTrust->PAI->Tick(tick);
+
+    if (PTrust->status == STATUS_TYPE::DISAPPEAR)
+    {
+        FOR_EACH_PAIR_CAST_SECOND(CMobEntity*, PCurrentMob, m_mobList)
+        {
+            PCurrentMob->PEnmityContainer->Clear(PTrust->id);
+        }
+
+        FOR_EACH_PAIR_CAST_SECOND(CCharEntity*, PChar, m_charList)
+        {
+            if (distance(PChar->loc.p, PTrust->loc.p) < ENTITY_RENDER_DISTANCE)
+            {
+                PChar->SpawnTRUSTList.erase(PTrust->id);
+            }
+        }
+
+        m_trustsToDelete.emplace_back(PTrust);
+        co_return;
+    }
+
+    co_return;
+}
+
+auto CZoneEntities::charTick(CCharEntity* PChar, timer::time_point tick) -> Task<void>
+{
+    TracyZoneScoped;
+    TracyZoneString(PChar->getName());
+
+    ShowTraceFmt("CZoneEntities::ZoneServer: Char: {} ({})", PChar->getName(), PChar->id);
+
+    if (PChar->status != STATUS_TYPE::SHUTDOWN)
+    {
+        PChar->PRecastContainer->Check();
+
+        PChar->StatusEffectContainer->CheckEffectsExpiry(tick);
+        if (tick > m_EffectCheckTime)
+        {
+            PChar->StatusEffectContainer->TickRegen(tick);
+            PChar->StatusEffectContainer->TickEffects(tick);
+        }
+
+        PChar->PAI->Tick(tick);
+
+        if (PChar->PTreasurePool)
+        {
+            PChar->PTreasurePool->checkItems(tick);
+        }
+    }
+
+    if (PChar->requestedZoneChange || PChar->requestedWarp || PChar->status == STATUS_TYPE::SHUTDOWN)
+    {
+        m_charsToChangeZone.insert(PChar);
+    }
+
+    co_return;
+}
+
 auto CZoneEntities::ZoneServer(timer::time_point tick) -> Task<void>
 {
     TracyZoneScoped;
@@ -1593,235 +1827,92 @@ auto CZoneEntities::ZoneServer(timer::time_point tick) -> Task<void>
 
     luautils::OnZoneTick(this->m_zone);
 
-    //
-    // Mob tick logic
-    //
-
-    FOR_EACH_PAIR_CAST_SECOND(CMobEntity*, PMob, m_mobList)
-    {
-        if (!PMob)
+    co_await Scheduler::TaskGroup(
+        m_mobList.size(),
+        [&](auto& add)
         {
-            continue;
-        }
-
-        ShowTrace(fmt::format("CZoneEntities::ZoneServer: Mob: {} ({})", PMob->getName(), PMob->id).c_str());
-
-        if (PMob->PBattlefield && PMob->PBattlefield->CanCleanup())
-        {
-            continue;
-        }
-
-        PMob->PRecastContainer->Check();
-        PMob->StatusEffectContainer->CheckEffectsExpiry(tick);
-        if (tick > m_EffectCheckTime)
-        {
-            PMob->StatusEffectContainer->TickRegen(tick);
-            PMob->StatusEffectContainer->TickEffects(tick);
-        }
-
-        PMob->PAI->Tick(tick);
-
-        // This is only valid for dynamic entities
-        if (PMob->status == STATUS_TYPE::DISAPPEAR && PMob->m_bReleaseTargIDOnDisappear)
-        {
-            if (PMob->PPet != nullptr)
+            FOR_EACH_PAIR_CAST_SECOND(CMobEntity*, PMob, m_mobList)
             {
-                PMob->PPet->PMaster = nullptr;
-            }
-
-            if (PMob->PMaster != nullptr)
-            {
-                PMob->PMaster->PPet = nullptr;
-            }
-
-            FOR_EACH_PAIR_CAST_SECOND(CMobEntity*, POtherMob, m_mobList)
-            {
-                POtherMob->PEnmityContainer->Clear(PMob->id);
-            }
-
-            if (PMob->PParty)
-            {
-                PMob->PParty->RemoveMember(PMob);
-            }
-
-            FOR_EACH_PAIR_CAST_SECOND(CCharEntity*, PChar, m_charList)
-            {
-                if (PChar->PClaimedMob == PMob)
+                if (!PMob)
                 {
-                    PChar->PClaimedMob = nullptr;
+                    continue;
                 }
 
-                if (PChar->currentEvent && PChar->currentEvent->targetEntity == PMob)
+                if (PMob->PBattlefield && PMob->PBattlefield->CanCleanup())
                 {
-                    PChar->currentEvent->targetEntity = nullptr;
+                    continue;
                 }
 
-                if (PChar->SpawnMOBList.find(PMob->id) != PChar->SpawnMOBList.end())
-                {
-                    PChar->SpawnMOBList.erase(PMob->id);
-                }
+                add(mobTick(PMob, tick));
             }
+        });
 
-            m_mobsToDelete.emplace_back(PMob);
-            continue;
-        }
-
-        if (PMob->allegiance == ALLEGIANCE_TYPE::PLAYER && PMob->m_isAggroable)
+    co_await Scheduler::TaskGroup(
+        m_aggroableMobs.size(),
+        [&](auto& add)
         {
-            m_aggroableMobs.emplace_back(PMob);
-        }
-    }
-
-    // Check to see if any aggroable mobs should be aggroed by other mobs
-    for (const auto& PMob : m_aggroableMobs)
-    {
-        FOR_EACH_PAIR_CAST_SECOND(CMobEntity*, PCurrentMob, m_mobList)
-        {
-            const auto isInHeightRange = isWithinVerticalDistance(PMob, PCurrentMob);
-            const auto isInRange       = isWithinDistance(PMob->loc.p, PCurrentMob->loc.p, ENTITY_RENDER_DISTANCE);
-
-            if (PCurrentMob != nullptr && PCurrentMob->isAlive() && PMob->allegiance != PCurrentMob->allegiance && isInHeightRange && isInRange)
+            // Check to see if any aggroable mobs should be aggroed by other mobs
+            for (const auto& PMob : m_aggroableMobs)
             {
-                CMobController* PController = static_cast<CMobController*>(PCurrentMob->PAI->GetController());
-                if (PController != nullptr && PController->CanAggroTarget(PMob))
-                {
-                    PCurrentMob->PAI->Engage(PMob->targid);
-                }
+                add(mobAggroCheck(PMob, tick));
             }
-        }
-    }
+        });
 
     //
     // NPC tick logic
     //
 
-    FOR_EACH_PAIR_CAST_SECOND(CNpcEntity*, PNpc, m_npcList)
-    {
-        ShowTrace(fmt::format("CZoneEntities::ZoneServer: NPC: {} ({})", PNpc->getName(), PNpc->id).c_str());
-
-        PNpc->PAI->Tick(tick);
-
-        // This is only valid for dynamic entities
-        if (PNpc->status == STATUS_TYPE::DISAPPEAR && PNpc->m_bReleaseTargIDOnDisappear)
+    co_await Scheduler::TaskGroup(
+        m_npcList.size(),
+        [&](auto& add)
         {
-            FOR_EACH_PAIR_CAST_SECOND(CCharEntity*, PChar, m_charList)
+            FOR_EACH_PAIR_CAST_SECOND(CNpcEntity*, PNpc, m_npcList)
             {
-                if (PChar->SpawnNPCList.find(PNpc->id) != PChar->SpawnNPCList.end())
-                {
-                    PChar->SpawnNPCList.erase(PNpc->id);
-                }
+                add(npcTick(PNpc, tick));
             }
-
-            m_npcsToDelete.emplace_back(PNpc);
-            continue;
-        }
-    }
+        });
 
     //
     // Pet tick logic
     //
 
-    FOR_EACH_PAIR_CAST_SECOND(CPetEntity*, PPet, m_petList)
-    {
-        // TODO: The static_cast in this loop includes Battlefield Allies. Allies shouldn't be handled here in
-        //     : this way, but we need to do this to keep allies working (for now).
-        ShowTrace(fmt::format("CZoneEntities::ZoneServer: Pet: {} ({})", PPet->getName(), PPet->id).c_str());
-
-        // TODO: Is this still necessary?
-
-        // Pets specifically need to have their AI tick skipped if they're marked for deletion
-        // to prevent a number of issues which can result from a pet having a deleted/nullptr'd PMaster
-        if (PPet->status == STATUS_TYPE::DISAPPEAR)
+    co_await Scheduler::TaskGroup(
+        m_petList.size(),
+        [&](auto& add)
         {
-            FOR_EACH_PAIR_CAST_SECOND(CMobEntity*, PCurrentMob, m_mobList)
+            FOR_EACH_PAIR_CAST_SECOND(CPetEntity*, PPet, m_petList)
             {
-                PCurrentMob->PEnmityContainer->Clear(PPet->id);
+                add(petTick(PPet, tick));
             }
-
-            m_petsToDelete.emplace_back(PPet);
-            continue;
-        }
-
-        PPet->PRecastContainer->Check();
-        PPet->StatusEffectContainer->CheckEffectsExpiry(tick);
-        if (tick > m_EffectCheckTime)
-        {
-            PPet->StatusEffectContainer->TickRegen(tick);
-            PPet->StatusEffectContainer->TickEffects(tick);
-        }
-
-        PPet->PAI->Tick(tick);
-    }
+        });
 
     //
     // Trust tick logic
     //
 
-    FOR_EACH_PAIR_CAST_SECOND(CTrustEntity*, PTrust, m_trustList)
-    {
-        ShowTrace(fmt::format("CZoneEntities::ZoneServer: Trust: {} ({})", PTrust->getName(), PTrust->id).c_str());
-
-        PTrust->PRecastContainer->Check();
-        PTrust->StatusEffectContainer->CheckEffectsExpiry(tick);
-        if (tick > m_EffectCheckTime)
+    co_await Scheduler::TaskGroup(
+        m_trustList.size(),
+        [&](auto& add)
         {
-            PTrust->StatusEffectContainer->TickRegen(tick);
-            PTrust->StatusEffectContainer->TickEffects(tick);
-        }
-
-        PTrust->PAI->Tick(tick);
-
-        if (PTrust->status == STATUS_TYPE::DISAPPEAR)
-        {
-            FOR_EACH_PAIR_CAST_SECOND(CMobEntity*, PCurrentMob, m_mobList)
+            FOR_EACH_PAIR_CAST_SECOND(CTrustEntity*, PTrust, m_trustList)
             {
-                PCurrentMob->PEnmityContainer->Clear(PTrust->id);
+                add(trustTick(PTrust, tick));
             }
-
-            FOR_EACH_PAIR_CAST_SECOND(CCharEntity*, PChar, m_charList)
-            {
-                if (distance(PChar->loc.p, PTrust->loc.p) < ENTITY_RENDER_DISTANCE)
-                {
-                    PChar->SpawnTRUSTList.erase(PTrust->id);
-                }
-            }
-
-            m_trustsToDelete.emplace_back(PTrust);
-            continue;
-        }
-    }
+        });
 
     //
     // Char tick logic
     //
 
-    FOR_EACH_PAIR_CAST_SECOND(CCharEntity*, PChar, m_charList)
-    {
-        ShowTrace(fmt::format("CZoneEntities::ZoneServer: Char: {} ({})", PChar->getName(), PChar->id).c_str());
-
-        if (PChar->status != STATUS_TYPE::SHUTDOWN)
+    co_await Scheduler::TaskGroup(
+        m_charList.size(),
+        [&](auto& add)
         {
-            PChar->PRecastContainer->Check();
-            PChar->StatusEffectContainer->CheckEffectsExpiry(tick);
-            if (tick > m_EffectCheckTime)
+            FOR_EACH_PAIR_CAST_SECOND(CCharEntity*, PChar, m_charList)
             {
-                PChar->StatusEffectContainer->TickRegen(tick);
-                PChar->StatusEffectContainer->TickEffects(tick);
+                add(charTick(PChar, tick));
             }
-
-            PChar->PAI->Tick(tick);
-
-            if (PChar->PTreasurePool)
-            {
-                PChar->PTreasurePool->checkItems(tick);
-            }
-        }
-
-        if (PChar->requestedZoneChange || PChar->requestedWarp || PChar->status == STATUS_TYPE::SHUTDOWN)
-        {
-            m_charsToChangeZone.insert(PChar);
-        }
-    }
+        });
 
     //
     // Cleanup logic
@@ -1996,7 +2087,10 @@ auto CZoneEntities::ZoneServer(timer::time_point tick) -> Task<void>
 
     moduleutils::OnZoneTick(m_zone);
 
+    //
     // Clear intermediate containers
+    //
+
     m_mobsToDelete.clear();
     m_npcsToDelete.clear();
     m_petsToDelete.clear();

@@ -104,6 +104,13 @@ public:
     auto GetUsedDynamicTargIDsCount() const -> std::size_t;
 
 private:
+    auto mobTick(CMobEntity* PMob, timer::time_point tick) -> Task<void>;
+    auto mobAggroCheck(CMobEntity* PMob, timer::time_point tick) -> Task<void>;
+    auto npcTick(CNpcEntity* PNpc, timer::time_point tick) -> Task<void>;
+    auto petTick(CPetEntity* PPet, timer::time_point tick) -> Task<void>;
+    auto trustTick(CTrustEntity* PTrust, timer::time_point tick) -> Task<void>;
+    auto charTick(CCharEntity* PChar, timer::time_point tick) -> Task<void>;
+
     Scheduler& scheduler_;
 
     CZone* m_zone;
