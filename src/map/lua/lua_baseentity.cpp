@@ -11845,7 +11845,7 @@ bool CLuaBaseEntity::checkKillCredit(CLuaBaseEntity* PLuaBaseEntity, const sol::
     float        range  = minRange.is<float>() ? minRange.as<float>() : 100;
     bool         credit = false;
 
-    if (charutils::CheckMob(PMob->m_HiPCLvl, PMob->GetMLevel()) > EMobDifficulty::TooWeak && distance(PMob->loc.p, PChar->loc.p) < range && !PMob->GetCallForHelpFlag())
+    if (charutils::CheckMob(PMob->m_HiPCLvl, PMob) > EMobDifficulty::TooWeak && distance(PMob->loc.p, PChar->loc.p) < range && !PMob->GetCallForHelpFlag())
     {
         if (PChar->PParty && PChar->PParty->GetSyncTarget())
         {
@@ -11882,7 +11882,7 @@ uint8 CLuaBaseEntity::checkDifficulty(CLuaBaseEntity* PLuaBaseEntity)
 
     if (PChar && PMob)
     {
-        return (uint8)charutils::CheckMob((PChar->GetMLevel()), (PMob->GetMLevel()));
+        return static_cast<uint8>(charutils::CheckMob(PChar->GetMLevel(), PMob));
     }
 
     ShowError("Value is not valid");
