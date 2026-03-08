@@ -91,7 +91,7 @@ class DynaFuncModule : public CPPModule
                                                                     });
                 if (numitemsupdated)
                 {
-                    PCharEntity->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();
+                    PCharEntity->pushPacket<GP_SERV_COMMAND_ITEM_SAME>(PCharEntity);
                 }
             }
             return;
