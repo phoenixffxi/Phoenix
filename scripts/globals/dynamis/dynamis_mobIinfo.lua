@@ -165,12 +165,14 @@ xi.dynamis.onMobRoam = function(mob)
     if mob:getLocalVar('currentPath') == 1 then
         return
     end
+
     -- Check the rotation after the mob casts a spell on a party member
     local spawnPos = mob:getSpawnPos()
     if mob:checkDistance(spawnPos) < 1 then
         mob:setRotation(spawnPos.rot)
         return
     end
+
     -- Check if mob is far from spawn position
     if mob:checkDistance(spawnPos) > 5 then
         -- Return to original spawn position
