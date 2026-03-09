@@ -4565,7 +4565,7 @@ INSERT INTO `mob_groups` VALUES (49,910,79,'Dark_Bugler',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (50,914,79,'Dark_Esquire',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (51,3109,79,'Peallaidh',0,32,2656,14400,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (52,4503,79,'Zikko',0,128,2799,9000,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (53,606,79,'Caedarva_Toad',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (53,606,79,'Caedarva_Toad',0,128,0,8400,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (54,2144,79,'Jazaraat',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (55,3331,79,'Ravin_Raven',0,128,2078,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (56,2349,79,'Lamia_No27',0,128,0,0,0,0,NULL);
