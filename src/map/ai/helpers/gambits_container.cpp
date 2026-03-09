@@ -39,6 +39,7 @@
 #include "ai/controllers/trust_controller.h"
 #include "weapon_skill.h"
 
+#include <algorithm>
 #include <ranges>
 
 namespace gambits
@@ -364,38 +365,38 @@ void CGambitsContainer::Tick(timer::time_point tick)
                 }
                 else if (action.select == G_SELECT::DEF_BAR_ELEMENT)
                 {
-                    auto spell_id = POwner->SpellContainer->GetAvailable(SpellID::Barfire);
-                    auto element  = POwner->GetLocalVar("[Gambit]CastElement");
+                    auto maybeSpellId = POwner->SpellContainer->GetAvailable(SpellID::Barfire);
+                    auto element      = POwner->GetLocalVar("[Gambit]CastElement");
 
                     if (element != 0)
                     {
                         switch (element)
                         {
                             case ELEMENT_FIRE:
-                                spell_id = SpellID::Barfire;
+                                maybeSpellId = SpellID::Barfire;
                                 break;
                             case ELEMENT_ICE:
-                                spell_id = SpellID::Barblizzard;
+                                maybeSpellId = SpellID::Barblizzard;
                                 break;
                             case ELEMENT_WIND:
-                                spell_id = SpellID::Baraero;
+                                maybeSpellId = SpellID::Baraero;
                                 break;
                             case ELEMENT_EARTH:
-                                spell_id = SpellID::Barstone;
+                                maybeSpellId = SpellID::Barstone;
                                 break;
                             case ELEMENT_THUNDER:
-                                spell_id = SpellID::Barthunder;
+                                maybeSpellId = SpellID::Barthunder;
                                 break;
                             case ELEMENT_WATER:
-                                spell_id = SpellID::Barwater;
+                                maybeSpellId = SpellID::Barwater;
                                 break;
                             default:
                                 break;
                         }
 
-                        if (spell_id.has_value())
+                        if (maybeSpellId.has_value())
                         {
-                            controller->Cast(target->targid, spell_id.value());
+                            controller->Cast(target->targid, maybeSpellId.value());
                         }
                     }
                 }
@@ -762,7 +763,8 @@ bool CGambitsContainer::CheckTrigger(const CBattleEntity* triggerTarget, Predica
             }
             case G_CONDITION::HAS_RUNES:
             {
-                predicateResults.push_back(triggerTarget->StatusEffectContainer->GetAllRuneEffects().size() > 0);
+                bool hasRunes = !triggerTarget->StatusEffectContainer->GetAllRuneEffects().empty();
+                predicateResults.push_back(hasRunes);
                 continue;
             }
             case G_CONDITION::NO_MAX_RUNE:
@@ -876,65 +878,51 @@ bool CGambitsContainer::CheckTrigger(const CBattleEntity* triggerTarget, Predica
             }
             case G_CONDITION::LUNGE_MB_AVAILABLE:
             {
-                auto* PSCEffect        = triggerTarget->StatusEffectContainer->GetStatusEffect(EFFECT_SKILLCHAIN);
-                bool  isLungeAvailable = PSCEffect && PSCEffect->GetStartTime() + 3s < timer::now() && PSCEffect->GetTier() == 0;
-                bool  hasCorrectRunes  = false;
-                bool  canUseLunge      = false;
-                if (PSCEffect != nullptr)
-                {
-                    std::list<SKILLCHAIN_ELEMENT> resonanceProperties;
-                    if (uint16 power = PSCEffect->GetPower())
-                    {
-                        resonanceProperties.emplace_back((SKILLCHAIN_ELEMENT)(power & 0xF));
-                        resonanceProperties.emplace_back((SKILLCHAIN_ELEMENT)(power >> 4 & 0xF));
-                        resonanceProperties.emplace_back((SKILLCHAIN_ELEMENT)(power >> 8));
-                    }
+                auto* PSCEffect     = triggerTarget->StatusEffectContainer->GetStatusEffect(EFFECT_SKILLCHAIN);
+                bool  maybeUseLunge = false;
 
-                    for (auto& resonance_element : resonanceProperties)
+                if (PSCEffect && PSCEffect->GetStartTime() + 3s < timer::now() && PSCEffect->GetTier() > 0)
+                {
+                    SKILLCHAIN_ELEMENT sc = static_cast<SKILLCHAIN_ELEMENT>(PSCEffect->GetPower());
+
+                    if (sc != SC_NONE)
                     {
-                        for (auto& chain_element : battleutils::GetSkillchainMagicElement(resonance_element))
+                        // Only consider tier 3 or 4 skillchains (Light/Dark are tier 3/4)
+                        const auto tier = battleutils::GetSkillchainTier(sc);
+                        if (tier >= 3)
                         {
-                            switch (chain_element)
+                            // Match Light/Dark enums (covers Light, Light II, Darkness, Darkness II)
+                            if (sc == SC_LIGHT || sc == SC_LIGHT_II)
                             {
-                                case ELEMENT_FIRE:
-                                    hasCorrectRunes = POwner->StatusEffectContainer->HasStatusEffect(EFFECT_IGNIS);
-                                    break;
-                                case ELEMENT_ICE:
-                                    hasCorrectRunes = POwner->StatusEffectContainer->HasStatusEffect(EFFECT_GELUS);
-                                    break;
-                                case ELEMENT_WIND:
-                                    hasCorrectRunes = POwner->StatusEffectContainer->HasStatusEffect(EFFECT_FLABRA);
-                                    break;
-                                case ELEMENT_EARTH:
-                                    hasCorrectRunes = POwner->StatusEffectContainer->HasStatusEffect(EFFECT_TELLUS);
-                                    break;
-                                case ELEMENT_THUNDER:
-                                    hasCorrectRunes = POwner->StatusEffectContainer->HasStatusEffect(EFFECT_SULPOR);
-                                    break;
-                                case ELEMENT_WATER:
-                                    hasCorrectRunes = POwner->StatusEffectContainer->HasStatusEffect(EFFECT_UNDA);
-                                    break;
-                                case ELEMENT_LIGHT:
-                                    hasCorrectRunes = POwner->StatusEffectContainer->HasStatusEffect(EFFECT_LUX);
-                                    break;
-                                case ELEMENT_DARK:
-                                    hasCorrectRunes = POwner->StatusEffectContainer->HasStatusEffect(EFFECT_TENEBRAE);
-                                    break;
-                                case ELEMENT_NONE:
-                                    hasCorrectRunes = false;
-                                    break;
-                                default:
-                                    hasCorrectRunes = false;
-                                    break;
+                                if (POwner->StatusEffectContainer->HasStatusEffect(
+                                        {
+                                            EFFECT_LUX,
+                                            EFFECT_IGNIS,
+                                            EFFECT_FLABRA,
+                                            EFFECT_SULPOR,
+                                        }))
+                                {
+                                    maybeUseLunge = true;
+                                }
+                            }
+                            else if (sc == SC_DARKNESS || sc == SC_DARKNESS_II)
+                            {
+                                if (POwner->StatusEffectContainer->HasStatusEffect(
+                                        {
+                                            EFFECT_TENEBRAE,
+                                            EFFECT_TELLUS,
+                                            EFFECT_UNDA,
+                                            EFFECT_GELUS,
+                                        }))
+                                {
+                                    maybeUseLunge = true;
+                                }
                             }
                         }
                     }
-                    if (isLungeAvailable && hasCorrectRunes)
-                    {
-                        canUseLunge = true;
-                    }
                 }
-                predicateResults.push_back(canUseLunge);
+
+                predicateResults.push_back(maybeUseLunge);
                 continue;
             }
             case G_CONDITION::READYING_WS:
@@ -1104,6 +1092,11 @@ bool CGambitsContainer::TryTrustSkill()
     TracyZoneScoped;
 
     auto* target = POwner->GetBattleTarget();
+
+    if (!target)
+    {
+        return false;
+    }
 
     auto checkTPTrigger = [&]() -> bool
     {

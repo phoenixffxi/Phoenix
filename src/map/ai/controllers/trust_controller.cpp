@@ -116,45 +116,41 @@ void CTrustController::DoCombatTick(timer::time_point tick)
 {
     TracyZoneScoped;
 
-    if (!POwner->PMaster->PAI->IsEngaged())
+    CTrustEntity* PTrust  = static_cast<CTrustEntity*>(POwner);
+    CCharEntity*  PMaster = static_cast<CCharEntity*>(POwner->PMaster);
+    CMobEntity*   PMob    = dynamic_cast<CMobEntity*>(PMaster->GetBattleTarget());
+    PTarget               = POwner->GetBattleTarget();
+
+    if (!PMaster->PAI->IsEngaged())
     {
-        POwner->PAI->Internal_Disengage();
+        PTrust->PAI->Internal_Disengage();
         m_LastTopEnmity = nullptr;
         m_CombatEndTime = m_Tick;
     }
 
-    CTrustEntity* PTrust  = static_cast<CTrustEntity*>(POwner);
-    CCharEntity*  PMaster = static_cast<CCharEntity*>(POwner->PMaster);
-    PTarget               = POwner->GetBattleTarget();
-
-    if (PMaster->GetBattleTarget() && PTarget->objtype == TYPE_MOB && PTrust->GetBattleTargetID() != PMaster->GetBattleTargetID())
+    if (PMaster && PMob && PTrust->GetBattleTargetID() != PMaster->GetBattleTargetID())
     {
-        CMobEntity* PMob = dynamic_cast<CMobEntity*>(PMaster->GetBattleTarget());
+        auto  masterID   = PMaster->id;
+        auto* enmityList = PMob->PEnmityContainer->GetEnmityList();
+        bool  hasEnmity  = false;
 
-        if (PMob && PMaster)
+        if (auto it = enmityList->find(masterID); it != enmityList->end())
         {
-            auto  masterID   = PMaster->id;
-            auto* enmityList = PMob->PEnmityContainer->GetEnmityList();
-            bool  hasEnmity  = false;
-
-            if (auto it = enmityList->find(masterID); it != enmityList->end())
+            const EnmityObject_t& entry = it->second;
+            // Only treat as "has enmity" if:
+            // the entry is active,
+            // the CE+VE is positive,
+            // and the master is within enmity range (same checks used when adding enmity).
+            if (entry.active && (entry.CE + entry.VE) > 0)
             {
-                const EnmityObject_t& entry = it->second;
-                // Only treat as "has enmity" if:
-                // the entry is active,
-                // the CE+VE is positive,
-                // and the master is within enmity range (same checks used when adding enmity).
-                if (entry.active && (entry.CE + entry.VE) > 0)
-                {
-                    hasEnmity = true;
-                }
+                hasEnmity = true;
             }
+        }
 
-            if (hasEnmity)
-            {
-                PTrust->PAI->Internal_ChangeTarget(PMaster->GetBattleTargetID());
-                m_LastTopEnmity = nullptr;
-            }
+        if (hasEnmity)
+        {
+            PTrust->PAI->Internal_ChangeTarget(PMaster->GetBattleTargetID());
+            m_LastTopEnmity = nullptr;
         }
     }
 
@@ -197,18 +193,18 @@ void CTrustController::DoCombatTick(timer::time_point tick)
                 case TRUST_MOVEMENT_TYPE::MELEE:
                 {
                     std::unique_ptr<CBasicPacket> err;
-                    if (!POwner->CanAttack(PTarget, err) && POwner->GetSpeed() > 0)
+                    if (!PTrust->CanAttack(PTarget, err) && PTrust->GetSpeed() > 0)
                     {
                         if (currentDistanceToTarget > RoamDistance)
                         {
                             if (currentDistanceToTarget < RoamDistance * 3.0f &&
-                                POwner->PAI->PathFind->PathAround(PTarget->loc.p, RoamDistance, PATHFLAG_RUN | PATHFLAG_WALLHACK))
+                                PTrust->PAI->PathFind->PathAround(PTarget->loc.p, RoamDistance, PATHFLAG_RUN | PATHFLAG_WALLHACK))
                             {
-                                POwner->PAI->PathFind->FollowPath(m_Tick);
+                                PTrust->PAI->PathFind->FollowPath(m_Tick);
                             }
-                            else if (POwner->GetSpeed() > 0)
+                            else if (PTrust->GetSpeed() > 0)
                             {
-                                POwner->PAI->PathFind->StepTo(PTarget->loc.p, true);
+                                PTrust->PAI->PathFind->StepTo(PTarget->loc.p, true);
                             }
                         }
                     }

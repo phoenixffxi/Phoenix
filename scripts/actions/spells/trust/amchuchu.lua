@@ -13,10 +13,8 @@ spellObject.onSpellCast = function(caster, target, spell)
 end
 
 spellObject.onMobSpawn = function(mob)
-    -- Trust spawn message
     xi.trust.message(mob, xi.trust.messageOffset.SPAWN)
 
-    -- Mods
     mob:addMod(xi.mod.INSPIRATION_FAST_CAST, 50)
 
     -----------------------------------
@@ -53,10 +51,8 @@ spellObject.onMobSpawn = function(mob)
         { ai.r.MA, ai.s.SPECIFIC, xi.magic.spell.STONESKIN }
     )
 
-    -- TP Settings
     mob:setTrustTPSkillSettings(ai.tp.CLOSER_UNTIL_TP, ai.s.HIGHEST, 3000)
 
-    -- Weaponskill MSG Listener
     mob:addListener('WEAPONSKILL_USE', 'AMCHUCHU_WEAPONSKILL_USE', function(mobArg, target, wsid, tp, action)
         if wsid == 61 then -- Dimidation
             -- Nothing-wothing wrong with a little mad science now and again!
