@@ -4789,7 +4789,7 @@ void DistributeExperiencePoints(CCharEntity* PChar, CMobEntity* PMob)
 
             bool chainactive = false;
 
-            const uint8 moblevel    = PMob->GetMLevel() + PMob->getMod(Mod::EXP_LVL_MOD);
+            const int16 moblevel    = PMob->GetMLevel() + PMob->getMod(Mod::EXP_LVL_MOD);
             const uint8 memberlevel = PMember->GetMLevel();
 
             EMobDifficulty mobCheck = CheckMob(maxlevel, PMob);
