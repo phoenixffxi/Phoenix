@@ -118,7 +118,61 @@ local mobNames =
         { 'Vanguard_Visionary',      'NORMAL' },
         { 'Wuu_Qoho_the_Razorclaw',  'NM'     },
         { 'Xoo_Kaza_the_Solemn',     'NM'     },
-    }
+    },
+    ['Dynamis-Jeuno'] =
+    {
+        { 'Anvilix_Sootwrists',     'NM'     },
+        { 'Bandrix_Rockjaw',        'NM'     },
+        { 'Blazox_Boneybod',        'NM'     },
+        { 'Bootrix_Jaggedelbow',    'NM'     },
+        { 'Buffrix_Eargone',        'NM'     },
+        { 'Cloktix_Longnail',       'NM'     },
+        { 'Distilix_Stickytoes',    'NM'     },
+        { 'Elixmix_Hooknose',       'NM'     },
+        { 'Eremix_Snottynostril',   'NM'     },
+        { 'Gabblox_Magpietongue',   'NM'     },
+        { 'Goblin_Golem',           'STATUE' },
+        { 'Goblin_Replica',         'STATUE' },
+        { 'Goblin_Statue',          'STATUE' },
+        { 'Hermitrix_Toothrot',     'NM'     },
+        { 'Humnox_Drumbelly',       'NM'     },
+        { 'Jabbrox_Grannyguise',    'NM'     },
+        { 'Jabkix_Pigeonpecs',      'NM'     },
+        { 'Karashix_Swollenskull',  'NM'     },
+        { 'Kikklix_Longlegs',       'NM'     },
+        { 'Lurklox_Dhalmelneck',    'NM'     },
+        { 'Mobpix_Mucousmouth',     'NM'     },
+        { 'Morgmox_Moldnoggin',     'NM'     },
+        { 'Mortilox_Wartpaws',      'NM'     },
+        { 'Prowlox_Barrelbelly',    'NM'     },
+        { 'Rutrix_Hamgams',         'NM'     },
+        { 'Scruffix_Shaggychest',   'NM'     },
+        { 'Slystix_Megapeepers',    'NM'     },
+        { 'Smeltix_Thickhide',      'NM'     },
+        { 'Snypestix_Eaglebeak',    'NM'     },
+        { 'Sparkspox_Sweatbrow',    'NM'     },
+        { 'Ticktox_Beadyeyes',      'NM'     },
+        { 'Trailblix_Goatmug',      'NM'     },
+        { 'Tufflix_Loglimbs',       'NM'     },
+        { 'Tymexox_Ninefingers',    'NM'     },
+        { 'Vanguard_Alchemist',     'NORMAL' },
+        { 'Vanguard_Ambusher',      'NORMAL' },
+        { 'Vanguard_Armorer',       'NORMAL' },
+        { 'Vanguard_Dragontamer',   'NORMAL' },
+        { 'Vanguard_Enchanter',     'NORMAL' },
+        { 'Vanguard_Hitman',        'NORMAL' },
+        { 'Vanguard_Maestro',       'NORMAL' },
+        { 'Vanguard_Necromancer',   'NORMAL' },
+        { 'Vanguard_Pathfinder',    'NORMAL' },
+        { 'Vanguard_Pitfighter',    'NORMAL' },
+        { 'Vanguard_Ronin',         'NORMAL' },
+        { 'Vanguard_Shaman',        'NORMAL' },
+        { 'Vanguard_Smithy',        'NORMAL' },
+        { 'Vanguard_Tinkerer',      'NORMAL' },
+        { 'Vanguard_Welldigger',    'NORMAL' },
+        { 'Wasabix_Callusdigit',    'NM'     },
+        { 'Wyrmwix_Snakespecs',     'NM'     },
+    },
 }
 
 -- local currencyHaggle =
@@ -208,11 +262,6 @@ local function registerDynamisZoneOverrides(zoneID, zoneName, zoneNumber)
     m:addOverride(string.format('xi.zones.%s.Zone.onInitialize', zoneName),
     function(zone)
         xi.dynamis.zoneOnZoneInitializeEra(zone)
-    end)
-
-    m:addOverride(string.format('xi.zones.%s.Zone.onZoneOut', zoneName),
-    function(player)
-        xi.dynamis.zoneOnZoneOut(player)
     end)
 
     m:addOverride(string.format('xi.zones.%s.Zone.onZoneIn', zoneName),
@@ -341,6 +390,10 @@ local function registerMobOverrides(zoneName, mobName, mobType)
             xi.dynamis.statueOnEngaged(mob, target)
         end)
 
+        m:addOverride(mobPath .. '.onMobRoam', function(mob)
+            xi.dynamis.onMobRoam(mob)
+        end)
+
         m:addOverride(mobPath .. '.onMobFight', function(mob, target)
             xi.dynamis.onStatueFight(mob, target)
         end)
@@ -358,6 +411,10 @@ local function registerMobOverrides(zoneName, mobName, mobType)
             xi.dynamis.statueOnEngaged(mob, target)
         end)
 
+        m:addOverride(mobPath .. '.onMobRoam', function(mob)
+            xi.dynamis.onMobRoam(mob)
+        end)
+
         m:addOverride(mobPath .. '.onMobDeath', function(mob, player, optParams)
             xi.dynamis.onMobDeath(mob, player, optParams)
         end)
@@ -365,6 +422,10 @@ local function registerMobOverrides(zoneName, mobName, mobType)
     elseif mobType == 'NM' then
         m:addOverride(mobPath .. '.onMobSpawn', function(mob)
             xi.dynamis.onMobSpawn(mob)
+        end)
+
+        m:addOverride(mobPath .. '.onMobRoam', function(mob)
+            xi.dynamis.onMobRoam(mob)
         end)
 
         m:addOverride(mobPath .. '.onMobDeath', function(mob, player, optParams)
@@ -376,8 +437,15 @@ local function registerMobOverrides(zoneName, mobName, mobType)
             xi.dynamis.onMobSpawn(mob)
         end)
 
+        m:addOverride(mobPath .. '.onMobRoam', function(mob)
+            xi.dynamis.onMobRoam(mob)
+        end)
+
         m:addOverride(mobPath .. '.onMobDeath', function(mob, player, optParams)
             xi.dynamis.onMobDeath(mob, player, optParams)
+        end)
+
+        m:addOverride(mobPath .. '.onMobDespawn', function(mob, player, optParams)
         end)
     end
 end

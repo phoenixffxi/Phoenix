@@ -5,6 +5,7 @@ UPDATE `mob_groups` SET spawntype = 128, respawntime = 0 WHERE zoneid = 185; -- 
 
 -- Delete new dyna spawn points table
 DELETE FROM `mob_spawn_points` WHERE `mobid` BETWEEN 17534977 AND 17535300;
+DELETE FROM `npc_list` WHERE `npcid` BETWEEN 17535214 AND 17535237;
 
 -- Insert new dyna spawn points
 INSERT INTO `mob_spawn_points` VALUES (17534977,0,'Serjeant_Tombstone','Serjeant Tombstone',22,80,80,137.079,-2.000,105.150,225);
@@ -524,6 +525,7 @@ INSERT INTO `mob_groups` VALUES (101,16,186,'BeEbo_Tortoisedriver',900,0,2907,80
 
 -- Delete new dyna spawn points table
 DELETE FROM `mob_spawn_points` WHERE `mobid` BETWEEN 17539073 AND 17539400;
+DELETE FROM `npc_list` WHERE `npcid` BETWEEN 17539314 AND 17539337;
 
 -- Insert new dyna spawn points
 INSERT INTO `mob_spawn_points` VALUES (17539073,0,'Adamantking_Effigy','Adamantking Effigy',20,80,80,-178.407,-8.136,-17.950,254);
@@ -1070,6 +1072,7 @@ INSERT INTO `mob_groups` VALUES (100,5122,187,'Manifest_Icon',0,128,0,1000,10000
 
 -- Delete new dyna spawn points table
 DELETE FROM `mob_spawn_points` WHERE `mobid` BETWEEN 17543169 AND 17543500;
+DELETE FROM `npc_list` WHERE `npcid` BETWEEN 17543471 AND 17543494;
 
 -- Insert new dyna spawn points
 INSERT INTO `mob_spawn_points` VALUES (17543169,0,'Avatar_Icon','Avatar Icon',23,80,80,-191.359,-0.801,-119.423,131);
@@ -1582,10 +1585,10 @@ INSERT INTO `mob_spawn_points` VALUES (17543673,0,'Vanguards_Wyvern','Vanguard\'
 -- Dynamis - Jeuno (Zone 188)
 -- ------------------------------
 UPDATE `mob_groups` SET spawntype = 128, respawntime = 0 WHERE zoneid = 188; -- Sets mobs to not spawn
-INSERT INTO `mob_groups` VALUES (100,5122,188,'Manifest_Icon',0,128,0,1000,10000,0,NULL);
 
 -- Delete new dyna spawn points table
 DELETE FROM `mob_spawn_points` WHERE `mobid` BETWEEN 17547265 AND 17547525;
+DELETE FROM `npc_list` WHERE `npcid` BETWEEN 17547500 AND 17547524;
 
 -- Insert new dyna spawn points
 INSERT INTO `mob_spawn_points` VALUES (17547265,0,'Goblin_Replica','Goblin Replica',22,80,80,43.351,9.000,-52.484,0);

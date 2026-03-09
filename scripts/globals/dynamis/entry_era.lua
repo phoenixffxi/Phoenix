@@ -125,8 +125,8 @@ xi.dynamis.applyEntryRestrictions = function(player, dynaZoneID)
         end
     end
 
-    -- Apply SJ restriction effect (18000 = duration in ticks)
-    player:addStatusEffect(xi.effect.SJ_RESTRICTION, 0, 0, 18000)
+    -- Apply SJ restriction effect
+    player:addStatusEffect(xi.effect.SJ_RESTRICTION, { origin = player })
 end
 
 -- Get the appropriate message ID for zone connection status

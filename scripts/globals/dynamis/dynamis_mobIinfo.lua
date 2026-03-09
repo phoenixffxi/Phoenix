@@ -19,8 +19,6 @@ xi.dynamis.generalInfo = function(mob)
     mob:setMobMod(xi.mobMod.CLAIM_TYPE, xi.claimType.NON_EXCLUSIVE)
     mob:setMobMod(xi.mobMod.GIL_BONUS, -100)
     mob:setMobMod(xi.mobMod.EXP_BONUS, -100)
-    -- mob:setMobType(xi.mobType.BATTLEFIELD) -- Needed for battlefield effect
-    mob:addStatusEffect(xi.effect.BATTLEFIELD, 1, 0, 0, true) -- Both players and mobs need this
 end
 
 -- ---------------------
@@ -45,6 +43,7 @@ xi.dynamis.statueOnSpawn = function(mob)
     -- Set the eye color before the 1 shot happens
     local zoneID   = mob:getZoneID()
     local statueId = mob:getID()
+    print('Statue spawned - ID:', statueId, 'Zone:', zoneID, 'isSpawned:', mob:isSpawned(), 'HP:', mob:getHP())
     local eyeColor = xi.dynamis.spawnTable[zoneID][statueId][2]
     if eyeColor ~= xi.dynamis.eye.RED then
         mob:setUnkillable(true)
@@ -53,18 +52,16 @@ xi.dynamis.statueOnSpawn = function(mob)
     xi.dynamis.generatePath(mob)
 end
 
-xi.dynamis.statueOnEngaged = function(mob, target) -- Do I remove this from engage call?
-    print('I am engaged')
-    -- Check for aggro cases first
-    if mob:getLocalVar('aggroCheck') == 0 then
-        xi.dynamis.spawnAggroStatues(mob, target)
-        mob:setLocalVar('aggroCheck', 1)
-    end
+xi.dynamis.statueOnEngaged = function(mob, target)
+    print('Statue engaged, checking for spawns...')
+    print('Engaged mob ID:', mob:getID(), 'isSpawned:', mob:isSpawned(), 'Distance to spawn:', mob:checkDistance(mob:getSpawnPos()))
 
     -- Stop the spawning if the statue is re-engaged after a wipe
     if mob:getLocalVar('engageCheck') == 1 then
         return
     end
+
+    xi.dynamis.spawnAggroStatues(mob, target)
 
     mob:setLocalVar('engageCheck', 1)
     local zoneID   = mob:getZoneID()
@@ -81,8 +78,8 @@ xi.dynamis.statueOnEngaged = function(mob, target) -- Do I remove this from enga
     mob:setMobMod(xi.mobMod.MAGIC_DELAY, math.random(5, 15)) -- Random magic delay to make the casts delayed
     mob:stun(3000) -- Used to make the mob not move at all for 3 seconds
 
-    local count    = xi.dynamis.spawnTable[zoneID][statueId][1]
-    -- print('Spawning next mobs for statue ID:', statueId, 'Count:', count)
+    local count = xi.dynamis.spawnTable[zoneID][statueId][1]
+    print('Spawning next mobs for statue ID:', statueId, 'Count:', count)
     if count > 0 then
         xi.dynamis.spawnNextMobsOnce(mob, statueId, count, target) -- Spawn the next X amount of IDs from that staue
     end
@@ -95,7 +92,7 @@ xi.dynamis.spawnAggroStatues = function(mob, target)
     local zoneAggro          = xi.dynamis.aggro[zoneID]
     local nonAggressiveSpawn = zoneAggro.nonAggressive and zoneAggro.nonAggressive[statueId]
     local aggressiveSpawn    = zoneAggro.aggressive and zoneAggro.aggressive[statueId]
-    print('Statue Aggro Spawns:', nonAggressiveSpawn, aggressiveSpawn)
+    print('Statue Aggro Spawns:', nonAggressiveSpawn or 0, aggressiveSpawn or 0)
     if nonAggressiveSpawn then
         for _, mobId in ipairs(nonAggressiveSpawn) do
             local mobToSpawn = GetMobByID(mobId)
@@ -164,6 +161,23 @@ xi.dynamis.onStatueFight = function(mob, target)
     end)
 end
 
+xi.dynamis.onMobRoam = function(mob)
+    if mob:getLocalVar('currentPath') == 1 then
+        return
+    end
+    -- Check the rotation after the mob casts a spell on a party member
+    local spawnPos = mob:getSpawnPos()
+    if mob:checkDistance(spawnPos) < 1 then
+        mob:setRotation(spawnPos.rot)
+        return
+    end
+    -- Check if mob is far from spawn position
+    if mob:checkDistance(spawnPos) > 5 then
+        -- Return to original spawn position
+        mob:pathThrough({ spawnPos }, xi.path.flag.COORDS)
+    end
+end
+
 -- NONE    = 0,
 -- RED     = 1, -- Default statue eye color
 -- BLUE    = 2, -- HP refill
@@ -179,7 +193,7 @@ xi.dynamis.onStatueDeath = function(mob, player, optParams)
     local statueId = mob:getID()
 
     -- If the statue gets 1 shotted we need to force spawn the statues for aggro conditions
-    if mob:getLocalVar('aggroCheck') == 0 then
+    if mob:getLocalVar('engageCheck') == 0 then
         xi.dynamis.spawnAggroStatues(mob, player)
     end
 
@@ -281,7 +295,6 @@ end
 -- Spawn functions
 xi.dynamis.spawnNextMobsOnce = function(statue, statueId, count, target, checkForceSpawn)
     print('Spawning next mobs once...')
-    print('Statue HP is:', statue:getHP())
     if
         count <= 0 or
         statue:getLocalVar('spawnedAdds') == 1
@@ -293,19 +306,25 @@ xi.dynamis.spawnNextMobsOnce = function(statue, statueId, count, target, checkFo
 
     local statuePos = statue:getPos()
     local randomStunTime = math.random(4000, 8000)
-    print('Stun time for spawned mobs:', randomStunTime)
-    for i = 1, count do
+    local spawnedCount = 0
+    local i = 1
+    while spawnedCount < count do
         local mobId = statueId + i
-        -- print('Spawning mob ID:', mobId)
         local mobToSpawn = GetMobByID(mobId)
-        if mobToSpawn and not mobToSpawn:isSpawned() then
+
+        -- If the mob you are trying to spawn is a pet, skip it and go to next ID
+        if mobToSpawn and mobToSpawn:getMaster() ~= nil then
+            i = i + 1
+        elseif mobToSpawn and not mobToSpawn:isSpawned() then
             mobToSpawn:setMobMod(xi.mobMod.SUPERLINK, statueId)
             mobToSpawn:setRoamFlags(xi.roamFlag.SCRIPTED)
             mobToSpawn:setSpawn(statuePos.x + math.random() * 6 - 3, statuePos.y, statuePos.z + math.random() * 6 - 3, statuePos.rot)
             mobToSpawn:spawn()
 
+            spawnedCount = spawnedCount + 1
+            i = i + 1
+
             -- If the statue dies in 1 shot and it has an NM then spawn the mobs regardless but do not update enmity
-            print('Check force spawn is:', checkForceSpawn)
             if checkForceSpawn == 1 then
                 return
             end
@@ -323,6 +342,9 @@ xi.dynamis.spawnNextMobsOnce = function(statue, statueId, count, target, checkFo
                 mobArg:setMagicCastingEnabled(true)
                 mobArg:setMobAbilityEnabled(true)
             end)
+
+        else
+            i = i + 1
         end
     end
 end
@@ -402,5 +424,6 @@ xi.dynamis.generatePath = function(mob)
             { x = second[1], y = second[2], z = second[3], wait = 1000 }
         }
         mob:pathThrough(pathNodes, xi.path.flag.PATROL)
+        mob:setLocalVar('currentPath', 1)
     end
 end

@@ -626,17 +626,10 @@ xi.dynamis.zoneOnZoneInEra = function(player, prevZone)
 
     player:timer(5000, function(playerArg)
         local timepoint = xi.dynamis.getDynaTimeRemaining(zoneTimepoint)
-        playerArg:addStatusEffectEx(xi.effect.BATTLEFIELD, 0, 1, 0, 0, true)
         playerArg:messageSpecial(ID.text.DYNAMIS_TIME_UPDATE_2, math.floor(utils.clamp(timepoint, 0, timepoint) / 60), 1) -- Send message letting player know how long they have.
     end)
 
     return -1
-end
-
-xi.dynamis.zoneOnZoneOut = function(player)
-    if player:hasStatusEffect(xi.effect.BATTLEFIELD) then
-        player:delStatusEffectSilent(xi.effect.BATTLEFIELD)
-    end
 end
 
 return m
