@@ -12356,7 +12356,7 @@ INSERT INTO `mob_groups` VALUES (122,3184,175,'Poroggo_Prince',0,128,0,0,0,0,NUL
 INSERT INTO `mob_groups` VALUES (123,3186,175,'Poroggo_Servant',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (124,2180,175,'Kaiser_Behemoth',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (125,1324,175,'Ferreous_Coffin',0,128,0,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (126,2403,80,'Lewenhart',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (126,2403,175,'Lewenhart',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (127,291,175,'Auroral_Alicorn',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (128,5178,175,'Giltine',0,128,0,0,20000,0,NULL);
 
