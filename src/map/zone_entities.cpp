@@ -762,7 +762,7 @@ void CZoneEntities::SpawnMOBs(CCharEntity* PChar)
         const auto tapAggro = [&]()
         {
             // Check to skip aggro routine
-            if (PChar->isDead() || PChar->visibleGmLevel >= 3 || PCurrentMob->PMaster)
+            if (PCurrentMob->isDead() || PChar->isDead() || PChar->visibleGmLevel >= 3 || PCurrentMob->PMaster)
             {
                 return;
             }
