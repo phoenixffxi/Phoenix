@@ -353,6 +353,7 @@ xi.item =
     SILVER_BEASTCOIN                    = 750,
     PLATINUM_BEASTCOIN                  = 751,
     GOLD_SHEET                          = 752,
+    PLATINUM_SHEET                      = 754,
     CHUNK_OF_DURIUM_ORE                 = 756,
     SILVER_CHAIN                        = 760,
     GOLD_CHAIN                          = 761,
