@@ -59,7 +59,7 @@ end
 -- Verify hourglass trade and determine if NEW or REGISTERED
 -- Returns: xi.dynamis.hourglassTradeResult.NEW, REGISTERED, or INVALID
 xi.dynamis.verifyTradeHourglass = function(player, zoneID)
-    local dynaZone = xi.dynamis.dynaInfoEra[zoneID].dynaZone
+    local dynaZone = xi.dynamis.entryInfoEra[zoneID].dynaZone
     -- Check if the zone is valid for Dynamis
     if not dynaZone then
         return xi.dynamis.hourglassTradeResult.INVALID

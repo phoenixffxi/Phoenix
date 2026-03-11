@@ -355,13 +355,13 @@ xi.jeuno.mobs =
 xi.dynamis.deathVarByMob = xi.dynamis.deathVarByMob or {}
 xi.dynamis.deathVarByMob[zoneID] =
 {
-    [xi.jeuno.mobs.GOBLIN_STATUE_44]   = '[DynaJeuno]44Killed',
-    [xi.jeuno.mobs.GOBLIN_STATUE_64]   = '[DynaJeuno]64Killed',
-    [xi.jeuno.mobs.GOBLIN_REPLICA_73]  = '[DynaJeuno]73Killed',
-    [xi.jeuno.mobs.GOBLIN_REPLICA_98]  = '[DynaJeuno]98Killed',
-    [xi.jeuno.mobs.GOBLIN_STATUE_99]   = '[DynaJeuno]99Killed',
-    [xi.jeuno.mobs.GOBLIN_REPLICA_100] = '[DynaJeuno]100Killed',
-    [xi.jeuno.mobs.GOBLIN_GOLEM]       = '[DynaJeuno]MegaBossKilled',
+    [xi.jeuno.mobs.GOBLIN_STATUE_44]   = '[DYNA]44Killed',
+    [xi.jeuno.mobs.GOBLIN_STATUE_64]   = '[DYNA]64Killed',
+    [xi.jeuno.mobs.GOBLIN_REPLICA_73]  = '[DYNA]73Killed',
+    [xi.jeuno.mobs.GOBLIN_REPLICA_98]  = '[DYNA]98Killed',
+    [xi.jeuno.mobs.GOBLIN_STATUE_99]   = '[DYNA]99Killed',
+    [xi.jeuno.mobs.GOBLIN_REPLICA_100] = '[DYNA]100Killed',
+    [xi.jeuno.mobs.GOBLIN_GOLEM]       = '[DYNA]MegaBossKilled',
 }
 
 xi.dynamis.spawnCheck = xi.dynamis.spawnCheck or {}
@@ -369,33 +369,33 @@ xi.dynamis.spawnCheck[zoneID] =
 {
     {
         -- Spawns 98-100 when 73 is killed
-        requiredVars    = { '[DynaJeuno]73Killed' },
+        requiredVars    = { '[DYNA]73Killed' },
         spawn           = { xi.jeuno.mobs.GOBLIN_REPLICA_98, xi.jeuno.mobs.GOBLIN_STATUE_99, xi.jeuno.mobs.GOBLIN_REPLICA_100 },
-        spawnedVar      = '[DynaJeuno]Wave2Spawned',
+        spawnedVar      = '[DYNA]Wave2Spawned',
     },
     {
         -- Spawns 101-112 when 98,99 and 100 all are killed
-        requiredVars    = { '[DynaJeuno]98Killed', '[DynaJeuno]99Killed', '[DynaJeuno]100Killed' },
+        requiredVars    = { '[DYNA]98Killed', '[DYNA]99Killed', '[DYNA]100Killed' },
         spawn           = xi.dynamis.wave[zoneID][2],
-        spawnedVar      = '[DynaJeuno]Wave2Spawned',
+        spawnedVar      = '[DYNA]Wave2Spawned',
     },
     {
         -- Spawns 89-97 when 44 is killed
-        requiredVars    = { '[DynaJeuno]44Killed' },
+        requiredVars    = { '[DYNA]44Killed' },
         spawn           = xi.dynamis.wave[zoneID][3],
-        spawnedVar      = '[DynaJeuno]Wave3Spawned',
+        spawnedVar      = '[DYNA]Wave3Spawned',
     },
     {
         -- Spawns 78-89, 113 (Megaboss) and 114-120 when 64 is killed
-        requiredVars    = { '[DynaJeuno]64Killed' },
+        requiredVars    = { '[DYNA]64Killed' },
         spawn           = xi.dynamis.wave[zoneID][4],
-        spawnedVar      = '[DynaJeuno]Wave4Spawned',
+        spawnedVar      = '[DYNA]Wave4Spawned',
     },
     {
         -- Spawns 121-150 when Megaboss killed
-        requiredVars    = { '[DynaJeuno]MegaBossKilled' },
+        requiredVars    = { '[DYNA]MegaBossKilled' },
         spawn           = xi.dynamis.wave[zoneID][5],
-        spawnedVar      = '[DynaJeuno]Wave5Spawned',
+        spawnedVar      = '[DYNA]Wave5Spawned',
     },
 }
 

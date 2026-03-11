@@ -9,10 +9,13 @@ local m = Module:new('dynamis_items')
 -- perpetual_hourglass
 -----------------------------------
 m:addOverride('xi.items.perpetual_hourglass.onItemCheck', function(target, effect)
+    -- Only allow inside dynamis and previous zone
     local targetZone = target:getZoneID()
-    local zoneID = xi.dynamis.dynaInfoEra[targetZone]
+    local zoneID = xi.dynamis.entryInfoEra[targetZone] -- Check if the target is in the zone before dyna
 
-    if zoneID then
+    if target:isInDynamis() then
+        zoneID = targetZone
+    elseif zoneID then
         zoneID = zoneID.dynaZone
     else
         return xi.msg.basic.ITEM_UNABLE_TO_USE
@@ -35,7 +38,12 @@ end)
 
 m:addOverride('xi.items.perpetual_hourglass.onItemUse', function(target, effect)
     local targetZone = target:getZoneID()
-    local zoneID = xi.dynamis.dynaInfoEra[targetZone].dynaZone
+    local zoneID = xi.dynamis.entryInfoEra[targetZone].dynaZone
+
+    if target:isInDynamis() then
+        zoneID = targetZone
+    end
+
     local zoneToken = GetServerVariable(string.format('[DYNA]Token_%s', zoneID))
     local zoneOriginalRegistrant = GetServerVariable(string.format('[DYNA]OriginalRegistrant_%s', zoneID))
 

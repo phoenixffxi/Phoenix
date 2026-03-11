@@ -373,7 +373,7 @@ xi.beauc.mobs =
 xi.dynamis.deathVarByMob = xi.dynamis.deathVarByMob or {}
 xi.dynamis.deathVarByMob[zoneID] =
 {
-    [xi.beauc.mobs.VANGUARD_EYE_157] = '[DynaBeauc]157Killed',
+    [xi.beauc.mobs.VANGUARD_EYE_157] = '[DYNA]157Killed',
 }
 
 xi.dynamis.spawnCheck = xi.dynamis.spawnCheck or {}
@@ -381,9 +381,9 @@ xi.dynamis.spawnCheck[zoneID] =
 {
     {
         -- Spawns paper NMs after killing 157 Vanguard Eye
-        requiredVars    = { '[DynaBeauc]157Killed' },
+        requiredVars    = { '[DYNA]157Killed' },
         spawn           = { xi.dynamis.wave[zoneID][2] },
-        spawnedVar      = '[DynaBeauc]Wave2Spawned',
+        spawnedVar      = '[DYNA]Wave2Spawned',
     },
 }
 

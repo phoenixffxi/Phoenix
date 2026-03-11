@@ -297,13 +297,13 @@ xi.windurst.mobs =
 xi.dynamis.deathVarByMob = xi.dynamis.deathVarByMob or {}
 xi.dynamis.deathVarByMob[zoneID] =
 {
-    [xi.windurst.mobs.TZEE_XICU_IDOL]           = '[DynaWindurst]MegaBossKilled',
-    [xi.windurst.mobs.WUU_QOHO_THE_RAZORCLAW]   = '[DynaWindurst]WuuKilled',
-    [xi.windurst.mobs.LOO_HEPE_THE_EYEPIERCER]  = '[DynaWindurst]LooKilled',
-    [xi.windurst.mobs.XOO_KAZA_THE_SOLEMN]      = '[DynaWindurst]XooKilled',
-    [xi.windurst.mobs.HAA_PEVI_THE_STENTORIAN]  = '[DynaWindurst]HaaKilled',
-    [xi.windurst.mobs.MANIFEST_ICON_101]        = '[DynaWindurst]101Killed',
-    [xi.windurst.mobs.MANIFEST_ICON_57]         = '[DynaWindurst]57Killed',
+    [xi.windurst.mobs.TZEE_XICU_IDOL]           = '[DYNA]MegaBossKilled',
+    [xi.windurst.mobs.WUU_QOHO_THE_RAZORCLAW]   = '[DYNA]WuuKilled',
+    [xi.windurst.mobs.LOO_HEPE_THE_EYEPIERCER]  = '[DYNA]LooKilled',
+    [xi.windurst.mobs.XOO_KAZA_THE_SOLEMN]      = '[DYNA]XooKilled',
+    [xi.windurst.mobs.HAA_PEVI_THE_STENTORIAN]  = '[DYNA]HaaKilled',
+    [xi.windurst.mobs.MANIFEST_ICON_101]        = '[DYNA]101Killed',
+    [xi.windurst.mobs.MANIFEST_ICON_57]         = '[DYNA]57Killed',
 }
 
 xi.dynamis.spawnCheck = xi.dynamis.spawnCheck or {}
@@ -311,57 +311,57 @@ xi.dynamis.spawnCheck[zoneID] =
 {
     {
         -- Spawn the Mega Boss if all 3 NMs died
-        requiredVars    = { '[DynaWindurst]LooKilled' },
+        requiredVars    = { '[DYNA]LooKilled' },
         spawn           = { xi.windurst.mobs.TZEE_XICU_IDOL },
-        spawnedVar      = '[DynaWindurst]MegaBossSpawned',
+        spawnedVar      = '[DYNA]MegaBossSpawned',
     },
     {
         -- Spawn mobs when the Mega Boss is killed
-        requiredVars    = { '[DynaWindurst]MegaBossKilled' },
+        requiredVars    = { '[DYNA]MegaBossKilled' },
         spawn           = xi.dynamis.wave[zoneID][2],
-        spawnedVar      = '[DynaWindurst]Wave2Spawned',
+        spawnedVar      = '[DYNA]Wave2Spawned',
     },
     {
         -- Wuu Qoho the Razorclaw spawns 2 Statues at Heavens Tower
-        requiredVars    = { '[DynaWindurst]WuuKilled' },
+        requiredVars    = { '[DYNA]WuuKilled' },
         spawn           = { 17543490, 17543491 },
-        spawnedVar      = '[DynaWindurst]Wave3Spawned',
+        spawnedVar      = '[DYNA]Wave3Spawned',
     },
     {
         -- Xoo Kaza the Solemn NM spawns 2 Statues at Heavens Tower
-        requiredVars    = { '[DynaWindurst]XooKilled' },
+        requiredVars    = { '[DYNA]XooKilled' },
         spawn           = { 17543493, 17543494 },
-        spawnedVar      = '[DynaWindurst]Wave4Spawned',
+        spawnedVar      = '[DYNA]Wave4Spawned',
     },
     {
         -- Haa Pevi the Stentorian NM spawns 2 Statues at Heavens Tower
-        requiredVars    = { '[DynaWindurst]HaaKilled' },
+        requiredVars    = { '[DYNA]HaaKilled' },
         spawn           = { 17543496, 17543497 },
-        spawnedVar      = '[DynaWindurst]Wave5Spawned',
+        spawnedVar      = '[DYNA]Wave5Spawned',
     },
     {
         -- Spawn main Heavens Tower statues + the RDM NM on 3 NM deaths
-        requiredVars    = { '[DynaWindurst]WuuKilled', '[DynaWindurst]XooKilled', '[DynaWindurst]HaaKilled' },
+        requiredVars    = { '[DYNA]WuuKilled', '[DYNA]XooKilled', '[DYNA]HaaKilled' },
         spawn           = { 17543509, 17543512, 17543505 },
-        spawnedVar      = '[DynaWindurst]Wave6Spawned',
+        spawnedVar      = '[DYNA]Wave6Spawned',
     },
     {
         -- Spawns 102/103 when 101 dies
-        requiredVars    = { '[DynaWindurst]101Killed' },
+        requiredVars    = { '[DYNA]101Killed' },
         spawn           = { 17543395, 17543399 },
-        spawnedVar      = '[DynaWindurst]Wave7Spawned',
+        spawnedVar      = '[DYNA]Wave7Spawned',
     },
     {
         -- Spawns 54/55 when 57 dies
-        requiredVars    = { '[DynaWindurst]57Killed' },
+        requiredVars    = { '[DYNA]57Killed' },
         spawn           = { 17543344, 17543347 },
-        spawnedVar      = '[DynaWindurst]Wave8Spawned',
+        spawnedVar      = '[DYNA]Wave8Spawned',
     },
     {
         -- Spawn mobs when the Mega Boss is killed
-        requiredVars    = { '[DynaWindurst]MegaBossKilled' },
+        requiredVars    = { '[DYNA]MegaBossKilled' },
         spawn           = xi.dynamis.wave[zoneID][2],
-        spawnedVar      = '[DynaWindurst]Wave9Spawned',
+        spawnedVar      = '[DYNA]Wave9Spawned',
     },
 }
 

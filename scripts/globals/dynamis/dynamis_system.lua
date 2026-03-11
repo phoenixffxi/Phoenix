@@ -14,12 +14,10 @@ require('modules/module_utils')
 --   Module Affected Scripts     --
 -----------------------------------
 require('scripts/globals/dynamis')
-require('scripts/globals/dynamis/dynamis_mobs_sandy')
-require('scripts/globals/dynamis/dynamis_mobs_bastok')
-require('scripts/globals/dynamis/dynamis_mobs_windurst')
+require('scripts/globals/dynamis/mobs/dynamis_mobs_sandy')
+require('scripts/globals/dynamis/mobs/dynamis_mobs_bastok')
+require('scripts/globals/dynamis/mobs/dynamis_mobs_windurst')
 -----------------------------------
-local m = Module:new('dynamis_entry_info')
-
 xi = xi or {}
 xi.dynamis = xi.dynamis or {}
 
@@ -195,7 +193,7 @@ end
 -- Cleanup Done
 xi.dynamis.onNewDynamis = function(player)
     local playerZoneID = player:getZoneID()
-    local zoneID = xi.dynamis.dynaInfoEra[playerZoneID].dynaZone
+    local zoneID = xi.dynamis.entryInfoEra[playerZoneID].dynaZone
     local zone = GetZone(zoneID)
 
     if not zone then
@@ -372,7 +370,7 @@ end
 -- Cleanup Done
 xi.dynamis.registerDynamis = function(player)
     local zoneID      = player:getZoneID()
-    local dynaInfo    = xi.dynamis.dynaInfoEra[zoneID]
+    local dynaInfo    = xi.dynamis.entryInfoEra[zoneID]
     local dynaZone    = GetZone(dynaInfo.dynaZone)
     local parentZone  = GetZone(zoneID)
     local currentTime = GetSystemTime()
@@ -443,7 +441,7 @@ end
 -- Cleanup Done
 xi.dynamis.registerPlayer = function(player)
     local zoneID     = player:getZoneID()
-    local dynaInfo   = xi.dynamis.dynaInfoEra[zoneID]
+    local dynaInfo   = xi.dynamis.entryInfoEra[zoneID]
     local instanceID = GetServerVariable(string.format('[DYNA]InstanceID_%s', dynaInfo.dynaZone))
 
     print('DEBUG: zoneID: ' .. tostring(zoneID))
@@ -484,7 +482,7 @@ xi.dynamis.ejectPlayer = function(player, forceEject)
 
                 player:setLocalVar('Received_Eject_Warning', 1)
                 player:timer(30000, function(playerArgTwo)
-                    playerArgTwo:setCharVar(string.format('[DYNA]EjectPlayer_%s', xi.dynamis.dynaInfoEra[zoneID].dynaZone), -1) -- Reset player's eject timer.
+                    playerArgTwo:setCharVar(string.format('[DYNA]EjectPlayer_%s', zoneID), -1) -- Reset player's eject timer.
                     playerArgTwo:disengage() -- Force disengage.
                     playerArgTwo:timer(2000, function(playerArgThree)
                         playerArgThree:startCutscene(100) -- Wait 2 seconds then play exit CS.
@@ -493,7 +491,7 @@ xi.dynamis.ejectPlayer = function(player, forceEject)
             else
                 player:timer(2000, function(playerArgFour)
                     playerArgFour:messageSpecial(xi.dynamis.getZoneMessageID('NO_LONGER_HAVE_CLEARANCE', zoneID), 0, 0)
-                    playerArgFour:setCharVar(string.format('[DYNA]EjectPlayer_%s', xi.dynamis.dynaInfoEra[zoneID].dynaZone), -1) -- Reset player's eject timer.
+                    playerArgFour:setCharVar(string.format('[DYNA]EjectPlayer_%s', zoneID), -1) -- Reset player's eject timer.
                     playerArgFour:disengage() -- Force disengage.
                     playerArgFour:timer(4000, function(playerArgFive)
                         playerArgFive:startCutscene(100) -- Wait 2 seconds then play exit CS.
@@ -508,6 +506,21 @@ xi.dynamis.ejectAllPlayers = function(zone)
     local playersInZone = zone:getPlayers()
     for _, player in pairs(playersInZone) do
         xi.dynamis.ejectPlayer(player) -- Runs the ejectPlayer function per player.
+    end
+end
+
+-- Reset all player-related dynamis charvars
+xi.dynamis.resetPlayerVars = function(playerEntity, dynaZone)
+    -- Entry and reservation vars
+    playerEntity:setCharVar('DynaReservationStart', 0)
+
+    -- Lockout
+    playerEntity:setCharVar('[DYNA]lockout', 0)
+
+    -- Zone-specific registration vars
+    if dynaZone and dynaZone ~= nil then
+        playerEntity:setCharVar(string.format('[DYNA]PlayerRegistered_%s', dynaZone), 0)
+        playerEntity:setCharVar(string.format('[DYNA]PlayerRegisterKey_%s', dynaZone), 0)
     end
 end
 
@@ -632,4 +645,23 @@ xi.dynamis.zoneOnZoneInEra = function(player, prevZone)
     return -1
 end
 
-return m
+-----------------------------------
+--   Dynamis Zone Validation     --
+-----------------------------------
+local dynamisZones =
+{
+    [xi.zone.DYNAMIS_BASTOK]     = true,
+    [xi.zone.DYNAMIS_WINDURST]   = true,
+    [xi.zone.DYNAMIS_SAN_DORIA]  = true,
+    [xi.zone.DYNAMIS_JEUNO]      = true,
+    [xi.zone.DYNAMIS_BEAUCEDINE] = true,
+    [xi.zone.DYNAMIS_XARCABARD]  = true,
+    [xi.zone.DYNAMIS_VALKURM]    = true,
+    [xi.zone.DYNAMIS_QUFIM]      = true,
+    [xi.zone.DYNAMIS_BUBURIMU]   = true,
+    [xi.zone.DYNAMIS_TAVNAZIA]   = true,
+}
+
+xi.dynamis.isValidDynamisZone = function(zoneID)
+    return dynamisZones[zoneID] == true
+end

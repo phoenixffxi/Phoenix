@@ -11,47 +11,29 @@ local commandObj = {}
 commandObj.cmdprops =
 {
     permission = 3,
-    parameters = 'ss'
+    parameters = 'sss'
+}
+
+local dynaZones =
+{
+    BASTOK     = xi.zone.DYNAMIS_BASTOK,
+    WINDURST   = xi.zone.DYNAMIS_WINDURST,
+    SANDORIA   = xi.zone.DYNAMIS_SAN_DORIA,
+    JEUNO      = xi.zone.DYNAMIS_JEUNO,
+    BEAUCEDINE = xi.zone.DYNAMIS_BEAUCEDINE,
+    XARCABARD  = xi.zone.DYNAMIS_XARCABARD,
+    VALKURM    = xi.zone.DYNAMIS_VALKURM,
+    QUFIM      = xi.zone.DYNAMIS_QUFIM,
+    BUBURIMU   = xi.zone.DYNAMIS_BUBURIMU,
+    TAVNAZIA   = xi.zone.DYNAMIS_TAVNAZIA
 }
 
 local error = function(player, msg)
     player:printToPlayer(msg)
-    player:printToPlayer('!rdyna <single/party/alliance> <target>')
+    player:printToPlayer('!rdyna [single/party/alliance] [target] [dyna zone]')
 end
 
--- Reset all player-related dynamis charvars
-local resetPlayerVars = function(playerEntity, dynaZone)
-    -- Entry and reservation vars
-    playerEntity:setCharVar('DynaEnterCount', math.max(0, playerEntity:getCharVar('DynaEnterCount') - 1))
-    playerEntity:setCharVar('DynaReservationStart', 0)
-
-    -- Lockout
-    playerEntity:setCharVar('[DYNA]lockout', 0)
-
-    -- Zone-specific registration vars
-    if dynaZone and dynaZone ~= nil then
-        playerEntity:setCharVar(string.format('[DYNA]PlayerRegistered_%s', dynaZone), 0)
-        playerEntity:setCharVar(string.format('[DYNA]PlayerRegisterKey_%s', dynaZone), 0)
-    end
-end
-
--- Reset all zone-related dynamis variables
-local resetZoneVars = function(dynaZone)
-    if not dynaZone or dynaZone == nil then
-        return
-    end
-
-    SetServerVariable(string.format('[DYNA]Token_%s', dynaZone), 0)
-    SetServerVariable(string.format('[DYNA]Timepoint_%s', dynaZone), 0)
-    SetServerVariable(string.format('[DYNA]Given10MinuteWarning_%s', dynaZone), 0)
-    SetServerVariable(string.format('[DYNA]Given3MinuteWarning_%s', dynaZone), 0)
-    SetServerVariable(string.format('[DYNA]Given1MinuteWarning_%s', dynaZone), 0)
-    SetServerVariable(string.format('[DYNA]NoPlayerTimer_%s', dynaZone), 0)
-    SetServerVariable(string.format('[DYNA]ZoneCooldown_%s', dynaZone), 0)
-    SetServerVariable(string.format('[DYNA]CleanupScript_%s', dynaZone), 0)
-end
-
-commandObj.onTrigger = function(player, aoe, target)
+commandObj.onTrigger = function(player, aoe, target, zoneName)
     local targ = nil
     local cursortarget = player:getCursorTarget()
 
@@ -75,17 +57,16 @@ commandObj.onTrigger = function(player, aoe, target)
 
     local playersinparty = targ:getParty()
     local playersinally = targ:getAlliance()
-    local dynaZone = xi.dynamis.dynaInfoEra[targ:getZoneID()].dynaZone
+    local dynaZone = dynaZones[string.upper(zoneName)]
     local zone = GetZone(dynaZone)
 
     if aoe == 'party' then
         for _, playerEntity in pairs(playersinparty) do
-            resetPlayerVars(playerEntity, dynaZone)
+            xi.dynamis.resetPlayerVars(playerEntity, dynaZone)
             player:printToPlayer(string.format('%s\'s variables have been reset.', playerEntity:getName()))
         end
 
         if dynaZone ~= nil then
-            resetZoneVars(dynaZone)
             player:printToPlayer(string.format('NOTICE: Resetting dynamis zone variables for %s', dynaZone))
             xi.dynamis.cleanupDynamis(zone)
         end
@@ -93,19 +74,20 @@ commandObj.onTrigger = function(player, aoe, target)
         player:printToPlayer('NOTICE: Players must wait at minimum 5 minutes to re-enter dynamis so it can cleanup.')
     elseif aoe == 'alliance' then
         for _, playerEntity in pairs(playersinally) do
-            resetPlayerVars(playerEntity, dynaZone)
+        -- Reset only the player's variables (no zone cleanup)
+        xi.dynamis.resetPlayerVars(targ, dynaZone)
             player:printToPlayer(string.format('%s\'s variables have been reset.', playerEntity:getName()))
         end
 
         if dynaZone ~= nil then
-            resetZoneVars(dynaZone)
             player:printToPlayer(string.format('NOTICE: Resetting dynamis zone variables for %s', dynaZone))
             xi.dynamis.cleanupDynamis(zone)
         end
 
         player:printToPlayer('NOTICE: Players must wait at minimum 5 minutes to re-enter dynamis so it can cleanup.')
     else
-        resetPlayerVars(targ, dynaZone)
+        -- Reset only the player's variables (no zone cleanup)
+        xi.dynamis.resetPlayerVars(targ, dynaZone)
         player:printToPlayer(string.format('%s\'s variables have been reset.', targ:getName()))
     end
 end

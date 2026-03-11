@@ -131,7 +131,7 @@ local mobNames =
         { 'Elixmix_Hooknose',       'NM'     },
         { 'Eremix_Snottynostril',   'NM'     },
         { 'Gabblox_Magpietongue',   'NM'     },
-        { 'Goblin_Golem',           'STATUE' },
+        { 'Goblin_Golem',           'BOSS'   },
         { 'Goblin_Replica',         'STATUE' },
         { 'Goblin_Statue',          'STATUE' },
         { 'Hermitrix_Toothrot',     'NM'     },
@@ -405,6 +405,7 @@ local function registerMobOverrides(zoneName, mobName, mobType)
     elseif mobType == 'BOSS' then
         m:addOverride(mobPath .. '.onMobSpawn', function(mob)
             xi.dynamis.statueOnSpawn(mob)
+            xi.dynamis.onBossInitialize(mob)
         end)
 
         m:addOverride(mobPath .. '.onMobEngage', function(mob, target)

@@ -38,7 +38,7 @@ xi.dynamis.entryNpcOnTrade = function(player, npc, trade)
         return
     end
 
-    local dynaZoneID = xi.dynamis.dynaInfoEra[zoneID].dynaZone
+    local dynaZoneID = entryInfo.dynaZone
     local sysTime    = GetSystemTime()
 
     -- Vars again for readability
@@ -244,7 +244,7 @@ xi.dynamis.entryNpcOnEventUpdate = function(player, csid, option, npc)
         print('[DEBUG] npc is valid - ID: ' .. tostring(npc:getID()) .. ' | Name: ' .. tostring(npc:getName()))
     end
 
-    local dynaZoneID           = xi.dynamis.dynaInfoEra[zoneID].dynaZone
+    local dynaZoneID           = entryInfo.dynaZone
     local zoneTimepoint        = GetServerVariable(string.format('[DYNA]Timepoint_%s', dynaZoneID))
     local dynamisTimeRemaining = xi.dynamis.getDynaTimeRemaining(zoneTimepoint)
 

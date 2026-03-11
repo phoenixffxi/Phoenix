@@ -116,6 +116,7 @@ xi.dynamis.entryInfoEra =
         csDyna          = 16,
         maxCapacity     = 64,
         enabled         = true,
+        dynaZone        = xi.zone.DYNAMIS_XARCABARD,
         winVar          = 'DynaXarcabard_Win',
         enteredVar      = 'DynaXarcabard_entered',
         hasSeenWinCSVar = 'DynaXarcabard_HasSeenWinCS',
@@ -136,6 +137,7 @@ xi.dynamis.entryInfoEra =
         csDyna            = 58,
         maxCapacity       = 36,
         enabled           = true,
+        dynaZone        = xi.zone.DYNAMIS_VALKURM,
         hasSeenFirstCSVar = 'DynamisCop_First',
         winVar            = 'DynaValkurm_Win',
         enteredVar        = 'DynaValkurm_entered',
@@ -153,6 +155,7 @@ xi.dynamis.entryInfoEra =
         csDyna            = 22,
         maxCapacity       = 36,
         enabled           = true,
+        dynaZone        = xi.zone.DYNAMIS_BUBURIMU,
         hasSeenFirstCSVar = 'DynamisCop_First',
         winVar            = 'DynaBuburimu_Win',
         enteredVar        = 'DynaBuburimu_entered',
@@ -170,6 +173,7 @@ xi.dynamis.entryInfoEra =
         csDyna            = 3,
         maxCapacity       = 36,
         enabled           = true,
+        dynaZone        = xi.zone.DYNAMIS_QUFIM,
         hasSeenFirstCSVar = 'DynamisCop_First',
         winVar            = 'DynaQufim_Win',
         enteredVar        = 'DynaQufim_entered',
@@ -187,6 +191,7 @@ xi.dynamis.entryInfoEra =
         csDyna            = 588,
         maxCapacity       = 18,
         enabled           = true,
+        dynaZone        = xi.zone.DYNAMIS_TAVNAZIA,
         hasSeenFirstCSVar = 'DynaTavnazia_First',
         winVar            = 'DynaTavnazia_Win',
         enteredVar        = 'DynaTavnazia_entered',
@@ -226,11 +231,6 @@ xi.dynamis.dynaInfoEra =
         entryPos        = { 161.838, -2.000, 161.673, 93, xi.zone.DYNAMIS_SAN_DORIA },
         ejectPos        = { 161.000, -2.000, 161.000, 94, xi.zone.SOUTHERN_SAN_DORIA },
     },
-    [xi.zone.SOUTHERN_SAN_DORIA] =
-    {
-        dynaZone             = xi.zone.DYNAMIS_SAN_DORIA,
-        dynaZoneMessageParam = 1,
-    },
     [xi.zone.DYNAMIS_BASTOK] =
     {
         winVar          = 'DynaBastok_Win',
@@ -241,11 +241,6 @@ xi.dynamis.dynaInfoEra =
         winQM           = 17539323,
         entryPos        = { 116.482, 0.994, -72.121, 128, xi.zone.DYNAMIS_BASTOK },
         ejectPos        = { 112.000, 0.994, -72.000, 127, xi.zone.BASTOK_MINES },
-    },
-    [xi.zone.BASTOK_MINES] =
-    {
-        dynaZone             = xi.zone.DYNAMIS_BASTOK,
-        dynaZoneMessageParam = 2,
     },
     [xi.zone.DYNAMIS_WINDURST] =
     {
@@ -258,11 +253,6 @@ xi.dynamis.dynaInfoEra =
         entryPos        = { -221.988, 1.000, -120.184, 0, xi.zone.DYNAMIS_WINDURST },
         ejectPos        = { -217.000, 1.000, -119.000, 94, xi.zone.WINDURST_WALLS },
     },
-    [xi.zone.WINDURST_WALLS] =
-    {
-        dynaZone             = xi.zone.DYNAMIS_WINDURST,
-        dynaZoneMessageParam = 3,
-    },
     [xi.zone.DYNAMIS_JEUNO] =
     {
         winVar          = 'DynaJeuno_Win',
@@ -273,11 +263,6 @@ xi.dynamis.dynaInfoEra =
         winQM           = 17547510,
         entryPos        = { 48.930, 10.002, -71.032, 195, xi.zone.DYNAMIS_JEUNO },
         ejectPos        = { 48.930, 10.002, -71.032, 195, xi.zone.RULUDE_GARDENS },
-    },
-    [xi.zone.RULUDE_GARDENS] =
-    {
-        dynaZone             = xi.zone.DYNAMIS_JEUNO,
-        dynaZoneMessageParam = 4,
     },
     [xi.zone.DYNAMIS_BEAUCEDINE] =
     {
@@ -290,11 +275,6 @@ xi.dynamis.dynaInfoEra =
         entryPos          = { -284.751, -39.923, -422.948, 235, xi.zone.DYNAMIS_BEAUCEDINE },
         ejectPos          = { -284.751, -39.923, -422.948, 235, xi.zone.BEAUCEDINE_GLACIER },
     },
-    [xi.zone.BEAUCEDINE_GLACIER] =
-    {
-        dynaZone             = xi.zone.DYNAMIS_BEAUCEDINE,
-        dynaZoneMessageParam = 5,
-    },
     [xi.zone.DYNAMIS_XARCABARD] =
     {
         winVar            = 'DynaXarcabard_Win',
@@ -306,11 +286,6 @@ xi.dynamis.dynaInfoEra =
         entryPos          = { 569.312, -0.098, -270.158, 90, xi.zone.DYNAMIS_XARCABARD },
         ejectPos          = { 569.312, -0.098, -270.158, 90, xi.zone.XARCABARD },
     },
-    [xi.zone.XARCABARD] =
-    {
-        dynaZone             = xi.zone.DYNAMIS_XARCABARD,
-        dynaZoneMessageParam = 6,
-    },
     [xi.zone.DYNAMIS_VALKURM] =
     {
         winVar            = 'DynaValkurm_Win',
@@ -321,11 +296,6 @@ xi.dynamis.dynaInfoEra =
         winQM             = 16937587,
         entryPos          = { 100, -8, 131, 47, xi.zone.DYNAMIS_VALKURM },
         ejectPos          = { 119, -9, 131, 52, xi.zone.VALKURM_DUNES },
-    },
-    [xi.zone.VALKURM_DUNES] =
-    {
-        dynaZone             = xi.zone.DYNAMIS_VALKURM,
-        dynaZoneMessageParam = 7,
     },
     [xi.zone.DYNAMIS_BUBURIMU] =
     {
@@ -345,11 +315,6 @@ xi.dynamis.dynaInfoEra =
             [3] = {  427.460, -0.308,  189.224, 50  },
             [4] = {  320.489, -0.642,  366.648, 101 },
         }
-    },
-    [xi.zone.BUBURIMU_PENINSULA] =
-    {
-        dynaZone             = xi.zone.DYNAMIS_BUBURIMU,
-        dynaZoneMessageParam = 8,
     },
     [xi.zone.DYNAMIS_QUFIM] =
     {
@@ -378,11 +343,6 @@ xi.dynamis.dynaInfoEra =
             [12] = { -340.976, -20.421,  31.154, 66  },
         }
     },
-    [xi.zone.QUFIM_ISLAND] =
-    {
-        dynaZone             = xi.zone.DYNAMIS_QUFIM,
-        dynaZoneMessageParam = 9,
-    },
     [xi.zone.DYNAMIS_TAVNAZIA] =
     {
         winVar            = 'DynaTavnazia_Win',
@@ -396,11 +356,6 @@ xi.dynamis.dynaInfoEra =
         entryPos          = { 0.1, -7, -21, 190, xi.zone.DYNAMIS_TAVNAZIA },
         ejectPos          = { 0, -7, -23, 195, xi.zone.TAVNAZIAN_SAFEHOLD },
         timeExtensions    = { 16949398, 16949399 },
-    },
-    [xi.zone.TAVNAZIAN_SAFEHOLD] =
-    {
-        dynaZone             = xi.zone.DYNAMIS_TAVNAZIA,
-        dynaZoneMessageParam = 10,
     },
 }
 
