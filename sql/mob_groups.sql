@@ -343,11 +343,11 @@ INSERT INTO `mob_groups` VALUES (59,5723,7,'Muuts_Sacrifice',0,128,0,0,0,0,NULL)
 -- Boneyard_Gully (Zone 8)
 -- ------------------------------------------------------------
 
-INSERT INTO `mob_groups` VALUES (1,3601,8,'Shikaree_Z_HW',0,128,0,2000,2000,0,NULL); -- Head Wind (CoP 5-3)
-INSERT INTO `mob_groups` VALUES (2,3600,8,'Shikaree_Y_HW',0,128,0,1900,2000,0,NULL); -- Head Wind (CoP 5-3)
-INSERT INTO `mob_groups` VALUES (3,3598,8,'Shikaree_X_HW',0,128,0,2100,2000,0,NULL); -- Head Wind (CoP 5-3)
+INSERT INTO `mob_groups` VALUES (1,3601,8,'Shikaree_Z_HW',0,128,0,2000,2000,0,NULL);     -- Head Wind (CoP 5-3)
+INSERT INTO `mob_groups` VALUES (2,3600,8,'Shikaree_Y_HW',0,128,0,1900,2000,0,NULL);     -- Head Wind (CoP 5-3)
+INSERT INTO `mob_groups` VALUES (3,3598,8,'Shikaree_X_HW',0,128,0,2100,2000,0,NULL);     -- Head Wind (CoP 5-3)
 INSERT INTO `mob_groups` VALUES (4,3602,8,'Shikaree_Zs_Wyvern',0,128,0,1000,100,0,NULL); -- Head Wind (CoP 5-3)
-INSERT INTO `mob_groups` VALUES (5,3599,8,'Shikaree_Xs_Rabbit',0,128,0,1000,0,0,NULL); -- Head Wind (CoP 5-3)
+INSERT INTO `mob_groups` VALUES (5,3599,8,'Shikaree_Xs_Rabbit',0,128,0,1000,0,0,NULL);   -- Head Wind (CoP 5-3)
 INSERT INTO `mob_groups` VALUES (6,4046,8,'Tuchulcha',0,128,0,9000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (7,3827,8,'Swift_Hunter',0,128,0,5000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (8,3613,8,'Shrewd_Hunter',0,128,0,5000,0,0,NULL);
@@ -363,11 +363,11 @@ INSERT INTO `mob_groups` VALUES (17,599,8,'Cadaver_Witch',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (18,1250,8,'Erdgeist',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (19,0,8,'Antiphus',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (20,0,8,'Antiphuss_Spawn',0,128,0,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (21,3601,8,'Shikaree_Z_ROS',0,128,0,4000,0,0,NULL); -- Requiem of Sin
-INSERT INTO `mob_groups` VALUES (22,3600,8,'Shikaree_Y_ROS_TWT',0,128,0,3900,2000,0,NULL); -- Tango with a Tracker / Requiem of Sin
-INSERT INTO `mob_groups` VALUES (23,3598,8,'Shikaree_X_ROS_TWT',0,128,0,4100,0,0,NULL); -- Tango with a Tracker / Requiem of Sin
-INSERT INTO `mob_groups` VALUES (24,3602,8,'Shikaree_Zs_Wyvern',0,128,0,4500,100,0,NULL); -- Requiem of Sin
-INSERT INTO `mob_groups` VALUES (25,3599,8,'Shikaree_Xs_Rabbit',0,128,0,4500,0,0,NULL); -- Tango with a Tracker / Requiem of Sin
+INSERT INTO `mob_groups` VALUES (21,3601,8,'Shikaree_Z_ROS',0,128,0,4400,4000,0,NULL);     -- Requiem of Sin
+INSERT INTO `mob_groups` VALUES (22,3600,8,'Shikaree_Y_ROS_TWT',0,128,0,4000,4000,0,NULL); -- Tango with a Tracker / Requiem of Sin
+INSERT INTO `mob_groups` VALUES (23,3598,8,'Shikaree_X_ROS_TWT',0,128,0,4200,4000,0,NULL); -- Tango with a Tracker / Requiem of Sin
+INSERT INTO `mob_groups` VALUES (24,3602,8,'Shikaree_Zs_Wyvern',0,128,0,2000,100,0,NULL);  -- Requiem of Sin
+INSERT INTO `mob_groups` VALUES (25,3599,8,'Shikaree_Xs_Rabbit',0,128,0,4500,0,0,NULL);    -- Tango with a Tracker / Requiem of Sin
 
 -- ------------------------------------------------------------
 -- PsoXja (Zone 9)
