@@ -949,7 +949,8 @@ auto LoadChar(Scheduler& scheduler, const uint32 charId) -> std::unique_ptr<CCha
     // Lazy loading: ensure initial zone is loaded synchronously before OnZoneIn
     if (zoneutils::IsLazyLoadingEnabled() && !zoneutils::GetZone(PChar->loc.destination))
     {
-        scheduler.dispatchToMainThread(zoneutils::LoadZones(scheduler, { PChar->loc.destination }));
+        // TODO: Remove this usage of blockOnMain, it's here to help with xi_test
+        scheduler.blockOnMain(zoneutils::LoadZones(scheduler, { PChar->loc.destination }));
     }
 
     luautils::OnZoneIn(PChar);

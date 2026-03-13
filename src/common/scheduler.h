@@ -361,54 +361,6 @@ public:
         asio::post(workerPool_.executor(), asio::bind_allocator(asio::recycling_allocator<void>(), std::forward<T>(func)));
     }
 
-    // dispatchToMainThread
-    //   Start executing work eagerly on the main thread. If already on the main thread, the work is executed inline immediately and blocks the caller.
-    template <detail::IsAwaitableReturnsVoid T>
-    void dispatchToMainThread(T&& task)
-    {
-        asio::co_spawn(mainContext_.get_executor(), std::forward<T>(task), asio::bind_allocator(asio::recycling_allocator<void>(), asio::detached));
-    }
-
-    // dispatchToMainThread
-    //   Start executing work eagerly on the main thread. If already on the main thread, the work is executed inline immediately and blocks the caller.
-    template <detail::IsInvocableReturnsAwaitableVoid T>
-    void dispatchToMainThread(T&& func)
-    {
-        asio::co_spawn(mainContext_.get_executor(), std::forward<T>(func), asio::bind_allocator(asio::recycling_allocator<void>(), asio::detached));
-    }
-
-    // dispatchToMainThread
-    //   Start executing work eagerly on the main thread. If already on the main thread, the work is executed inline immediately and blocks the caller.
-    template <detail::IsInvocableReturnsVoid T>
-    void dispatchToMainThread(T&& func)
-    {
-        asio::dispatch(mainContext_.get_executor(), asio::bind_allocator(asio::recycling_allocator<void>(), std::forward<T>(func)));
-    }
-
-    // dispatchToWorkerThread
-    //   Start executing work eagerly on the worker thread pool. If already on a worker thread, the work is executed inline immediately and blocks the caller.
-    template <detail::IsAwaitableReturnsVoid T>
-    void dispatchToWorkerThread(T&& task)
-    {
-        asio::co_spawn(workerPool_.executor(), std::forward<T>(task), asio::bind_allocator(asio::recycling_allocator<void>(), asio::detached));
-    }
-
-    // dispatchToWorkerThread
-    //   Start executing work eagerly on the worker thread pool. If already on a worker thread, the work is executed inline immediately and blocks the caller.
-    template <detail::IsInvocableReturnsAwaitableVoid T>
-    void dispatchToWorkerThread(T&& func)
-    {
-        asio::co_spawn(workerPool_.executor(), std::forward<T>(func), asio::bind_allocator(asio::recycling_allocator<void>(), asio::detached));
-    }
-
-    // dispatchToWorkerThread
-    //   Start executing work eagerly on the worker thread pool. If already on a worker thread, the work is executed inline immediately and blocks the caller.
-    template <detail::IsInvocableReturnsVoid T>
-    void dispatchToWorkerThread(T&& func)
-    {
-        asio::dispatch(workerPool_.executor(), asio::bind_allocator(asio::recycling_allocator<void>(), std::forward<T>(func)));
-    }
-
     // intervalOnMain
     //   Queues a task on the main thread that repeats at the specified interval.
     //   Returns a Token that can be used to cancel the task.
@@ -508,6 +460,7 @@ public:
     // yieldFor
     //   co_await on this to hand control back to the scheduler, without re-scheduling until the
     //   duration has elapsed.
+    //   TODO: Enforce construction of the timer outside of this call and pass it in
     [[nodiscard]] static auto yieldFor(std::chrono::steady_clock::duration duration) -> Task<void>
     {
         auto executor = co_await asio::this_coro::executor;
@@ -531,6 +484,69 @@ public:
         co_return std::nullopt;
     }
 
+    // blockOnMain
+    //   Puts `task` on the main context wrapped with a gated check, and manually pumps the main
+    //   context until that gate is passed - signalling that the task is complete.
+    //   This blocks the main thread.
+    //   Other queued work may run in this pumping loop, but your task is guaranteed to be actioned.
+    //   This is only to be used as a bridge for xi_test so we don't have to implement Lua
+    //   coroutines. This isn't to be used as a crutch in regular code.
+    template <detail::IsAwaitable T>
+    auto blockOnMain(T&& task) -> typename detail::AwaitableResult<std::decay_t<T>>::type
+    {
+        if (std::this_thread::get_id() != mainThreadId_)
+        {
+            throw std::runtime_error("blockOnMain called from non-main thread");
+        }
+
+        using ResultType      = typename detail::AwaitableResult<std::decay_t<T>>::type;
+        constexpr bool IsVoid = std::is_void_v<ResultType>;
+        using StoredType      = std::conditional_t<IsVoid, char, ResultType>;
+
+        auto exceptPtr = std::exception_ptr();
+        auto done      = false;
+
+        std::unique_ptr<StoredType> result;
+
+        auto completion = [&](std::exception_ptr e, auto... res)
+        {
+            exceptPtr = e;
+            if constexpr (!IsVoid)
+            {
+                if (!e && sizeof...(res) > 0)
+                {
+                    result = std::make_unique<ResultType>(std::move(std::get<0>(std::forward_as_tuple(res...))));
+                }
+            }
+            done = true;
+        };
+
+        asio::co_spawn(
+            mainContext_.get_executor(),
+            std::forward<T>(task),
+            asio::bind_allocator(asio::recycling_allocator<void>(), completion));
+
+        mainContext_.restart();
+        while (!done && !mainContext_.stopped())
+        {
+            mainContext_.poll_one();
+        }
+
+        if (exceptPtr)
+        {
+            std::rethrow_exception(exceptPtr);
+        }
+
+        if constexpr (!IsVoid)
+        {
+            if (!result)
+            {
+                throw std::runtime_error("Task completed without result or exception");
+            }
+            return std::move(*result);
+        }
+    }
+
     // mainContext
     //   Return the main io_context.
     [[nodiscard]] auto mainContext() noexcept -> asio::io_context&
@@ -539,6 +555,8 @@ public:
     }
 
 private:
+    std::thread::id mainThreadId_{ std::this_thread::get_id() };
+
     std::atomic<bool> closeRequested_{ false };
 
     asio::io_context                                           mainContext_;

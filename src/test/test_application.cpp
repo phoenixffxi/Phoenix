@@ -105,81 +105,76 @@ void TestApplication::run()
 {
     TracyZoneScoped;
 
-    scheduler_.postToMainThread(
-        [&]() -> Task<void>
-        {
-            //
-            // Prepare MapEngine
-            //
+    //
+    // Prepare MapEngine
+    //
 
-            // Without a world server actively pumping the queues,
-            // the embedded map server deadlocks on exit
-            //
-            // We will need this to work to support multiprocess tests and validating systems that rely on world server.
-            // However, that requires deeper rework to the IPP logic so we can smartly route messages during tests.
-            MapConfig mapConfig{
-                .isTestServer      = true,
-                .lazyZones         = true,
-                .controlledWeather = true,
-            };
-            auto mapEngine = std::make_unique<MapEngine>(*this, mapConfig);
+    // Without a world server actively pumping the queues,
+    // the embedded map server deadlocks on exit
+    //
+    // We will need this to work to support multiprocess tests and validating systems that rely on world server.
+    // However, that requires deeper rework to the IPP logic so we can smartly route messages during tests.
+    MapConfig mapConfig{
+        .isTestServer      = true,
+        .lazyZones         = true,
+        .controlledWeather = true,
+    };
+    auto mapEngine = std::make_unique<MapEngine>(*this, mapConfig);
 
-            // We must ensure that mapEngine->init() is complete before we
-            // try and construct TestEngine or run the tests
-            scheduler_.dispatchToMainThread(mapEngine->init());
+    // We must ensure that mapEngine->init() is complete before we
+    // try and construct TestEngine or run the tests
+    scheduler_.blockOnMain(mapEngine->init());
 
-            mapEngine->onInitialize();
+    mapEngine->onInitialize();
 
-            //
-            // Prepare WorldEngine
-            //
+    //
+    // Prepare WorldEngine
+    //
 
-            auto worldEngine = std::make_unique<WorldEngine>(scheduler_);
+    auto worldEngine = std::make_unique<WorldEngine>(scheduler_);
 
-            worldEngine->onInitialize();
+    worldEngine->onInitialize();
 
-            //
-            // Prepare TestEngine with MapEngine and WorldEngine
-            //
+    //
+    // Prepare TestEngine with MapEngine and WorldEngine
+    //
 
-            TestConfig config{
-                .loggerSink = sink_,
-                .verbose    = args().get<bool>("--verbose"),
-                .output     = args().present<std::string>("--output").value_or(""),
-                .keepGoing  = args().get<bool>("--keep-going"),
-                .watch      = args().get<bool>("--watch"),
-                .filters    = {
-                       .includePatterns = args().get<std::vector<std::string>>("--file"),
-                       .excludePatterns = args().get<std::vector<std::string>>("--no-file"),
-                       .includeFilters  = args().get<std::vector<std::string>>("--filter"),
-                       .excludeFilters  = args().get<std::vector<std::string>>("--no-filter"),
-                       .includeTags     = args().get<std::vector<std::string>>("--tag"),
-                       .excludeTags     = args().get<std::vector<std::string>>("--no-tag"),
-                },
-            };
+    TestConfig config{
+        .loggerSink = sink_,
+        .verbose    = args().get<bool>("--verbose"),
+        .output     = args().present<std::string>("--output").value_or(""),
+        .keepGoing  = args().get<bool>("--keep-going"),
+        .watch      = args().get<bool>("--watch"),
+        .filters    = {
+               .includePatterns = args().get<std::vector<std::string>>("--file"),
+               .excludePatterns = args().get<std::vector<std::string>>("--no-file"),
+               .includeFilters  = args().get<std::vector<std::string>>("--filter"),
+               .excludeFilters  = args().get<std::vector<std::string>>("--no-filter"),
+               .includeTags     = args().get<std::vector<std::string>>("--tag"),
+               .excludeTags     = args().get<std::vector<std::string>>("--no-tag"),
+        },
+    };
 
-            engine_ = std::make_unique<TestEngine>(*this, std::move(config), std::move(mapEngine), std::move(worldEngine));
+    engine_ = std::make_unique<TestEngine>(*this, std::move(config), std::move(mapEngine), std::move(worldEngine));
 
-            // From this point, every logging statements end up in the in-memory sink
-            // Print to stderr directly if needed
-            captureLogger();
+    // From this point, every logging statements end up in the in-memory sink
+    // Print to stderr directly if needed
+    captureLogger();
 
-            const auto testEngine = static_cast<TestEngine*>(engine_.get());
-
-            auto success = co_await testEngine->executeTests();
-            if (!success)
-            {
-                std::exit(EXIT_FAILURE);
-            }
-        });
+    const auto testEngine = static_cast<TestEngine*>(engine_.get());
 
     try
     {
-        scheduler_.run(); // blocks
+        auto success = scheduler_.blockOnMain(testEngine->executeTests());
+        if (!success)
+        {
+            std::exit(EXIT_FAILURE);
+        }
     }
     catch (const std::exception& e)
     {
         ShowCriticalFmt("Fatal Exception: {}", e.what());
+        std::exit(EXIT_FAILURE);
     }
 }
 

@@ -232,7 +232,7 @@ auto MapEngine::init() -> Task<void>
     }
 
     //
-    // Queue up tasks for the Scheduler
+    // Queue up regular tasks for the Scheduler
     //
 
     if (!engineConfig_.isTestServer)
@@ -270,6 +270,10 @@ auto MapEngine::init() -> Task<void>
     }
 
     db::enableTimers();
+
+    //
+    // Set up the watchdog tasks
+    //
 
     if (!engineConfig_.isTestServer)
     {

@@ -75,7 +75,7 @@ void CLuaTestEntity::despawn() const
     for (uint32 i = 0; i <= 20; ++i)
     {
         // We cannot co_await within a Lua binding - the suspension will obliterate the Lua stack.
-        engine_->scheduler().dispatchToMainThread(
+        engine_->scheduler().blockOnMain(
             mob->PAI->Tick(timer::now() + std::chrono::seconds(i)));
     }
 }

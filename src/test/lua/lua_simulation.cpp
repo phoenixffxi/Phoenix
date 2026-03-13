@@ -116,7 +116,7 @@ void CLuaSimulation::tickEntity(CLuaBaseEntity& entity) const
     DebugTestFmt("Ticking entity: {} (ID: {})", entity.getName(), entity.GetBaseEntity()->id);
 
     // We cannot co_await within a Lua binding - the suspension will obliterate the Lua stack.
-    engine_->scheduler().dispatchToMainThread(
+    engine_->scheduler().blockOnMain(
         entity.GetBaseEntity()->PAI->Tick(timer::now()));
 }
 
@@ -353,7 +353,7 @@ void CLuaSimulation::tick(const Maybe<TickType> boundary) const
                 if (!PZone->GetZoneEntities()->CharListEmpty()) // Only tick zones with players
                 {
                     // We cannot co_await within a Lua binding - the suspension will obliterate the Lua stack.
-                    engine_->scheduler().dispatchToMainThread(PZone->ZoneServer(timePoint));
+                    engine_->scheduler().blockOnMain(PZone->ZoneServer(timePoint));
                 }
             }
         }
@@ -371,8 +371,8 @@ void CLuaSimulation::tick(const Maybe<TickType> boundary) const
                     // ZoneServer processes the actual events.
 
                     // We cannot co_await within a Lua binding - the suspension will obliterate the Lua stack.
-                    engine_->scheduler().dispatchToMainThread(PZone->CheckTriggerAreas());
-                    engine_->scheduler().dispatchToMainThread(PZone->ZoneServer(timePoint));
+                    engine_->scheduler().blockOnMain(PZone->CheckTriggerAreas());
+                    engine_->scheduler().blockOnMain(PZone->ZoneServer(timePoint));
                 }
             }
         }
@@ -383,7 +383,7 @@ void CLuaSimulation::tick(const Maybe<TickType> boundary) const
             timer::add_offset(kTimeServerTickInterval);
 
             // We cannot co_await within a Lua binding - the suspension will obliterate the Lua stack.
-            engine_->scheduler().dispatchToMainThread(time_server(engine_->scheduler()));
+            engine_->scheduler().blockOnMain(time_server(engine_->scheduler()));
         }
         break;
         case TickType::EffectTick:
@@ -408,7 +408,7 @@ void CLuaSimulation::tick(const Maybe<TickType> boundary) const
                 if (!PZone->GetZoneEntities()->CharListEmpty())
                 {
                     // We cannot co_await within a Lua binding - the suspension will obliterate the Lua stack.
-                    engine_->scheduler().dispatchToMainThread(PZone->GetZoneEntities()->ZoneServer(timePoint));
+                    engine_->scheduler().blockOnMain(PZone->GetZoneEntities()->ZoneServer(timePoint));
                 }
             }
         }
@@ -420,7 +420,7 @@ void CLuaSimulation::tick(const Maybe<TickType> boundary) const
             earth_time::add_offset(nextJstHourlyUpdate - timerAdjustedUtcTime);
 
             // We cannot co_await within a Lua binding - the suspension will obliterate the Lua stack.
-            engine_->scheduler().dispatchToMainThread(time_server(engine_->scheduler()));
+            engine_->scheduler().blockOnMain(time_server(engine_->scheduler()));
         }
         break;
         case TickType::JSTDaily:
@@ -430,7 +430,7 @@ void CLuaSimulation::tick(const Maybe<TickType> boundary) const
             earth_time::add_offset(nextJstDailyUpdate - timerAdjustedUtcTime);
 
             // We cannot co_await within a Lua binding - the suspension will obliterate the Lua stack.
-            engine_->scheduler().dispatchToMainThread(time_server(engine_->scheduler()));
+            engine_->scheduler().blockOnMain(time_server(engine_->scheduler()));
         }
         break;
         case TickType::VanadielHourly:
@@ -440,7 +440,7 @@ void CLuaSimulation::tick(const Maybe<TickType> boundary) const
             earth_time::add_offset(vanadiel_time::to_earth_time(nextVHourlyUpdate) - timerAdjustedUtcTime);
 
             // We cannot co_await within a Lua binding - the suspension will obliterate the Lua stack.
-            engine_->scheduler().dispatchToMainThread(time_server(engine_->scheduler()));
+            engine_->scheduler().blockOnMain(time_server(engine_->scheduler()));
         }
         break;
         case TickType::VanadielDaily:
@@ -450,7 +450,7 @@ void CLuaSimulation::tick(const Maybe<TickType> boundary) const
             earth_time::add_offset(vanadiel_time::to_earth_time(nextVDailyUpdate) - timerAdjustedUtcTime);
 
             // We cannot co_await within a Lua binding - the suspension will obliterate the Lua stack.
-            engine_->scheduler().dispatchToMainThread(time_server(engine_->scheduler()));
+            engine_->scheduler().blockOnMain(time_server(engine_->scheduler()));
         }
         break;
         case TickType::SpawnHandler:
