@@ -30,13 +30,22 @@ zones[xi.zone.TEMENOS] =
         TIME_LEFT                     = 7384, -- ou have <number> [minute/minutes] left in Limbus.
         CONQUEST_BASE                 = 7386, -- Tallying conquest results...
         ENTERING_THE_BATTLEFIELD_FOR  = 7549, -- You have entered [Temenos - Northern Tower/Temenos - Eastern Tower/Temenos - Western Tower/Central Temenos - 4th Floor/Central Temenos - 3rd Floor/Central Temenos - 2nd Floor/Central Temenos - 1st Floor/Central Temenos - 1st Basement/Central Temenos - 1st Basement/Central Temenos - 4th Floor].
-        CITADEL_BASE                  = 7559, -- 30...
+        CITADEL_30                    = 7559, -- 30...
+        CITADEL_20                    = 7560, -- 20...
+        CITADEL_10                    = 7561, -- 10...
+        CITADEL_5                     = 7562, -- 5.
+        CITADEL_4                     = 7563, -- 4.
+        CITADEL_3                     = 7564, -- 3!
+        CITADEL_2                     = 7565, -- 2!!
+        CITADEL_1                     = 7566, -- 1!!!
         CANNOT_OPEN_CHEST             = 7567, -- You cannot open the treasure chest now.
         GATE_OPEN                     = 7568, -- he gate opens...
     },
+
     mob =
     {
     },
+
     npc =
     {
         C1_LOOT_CRATE = GetFirstID('C1_Loot_Crate'),

@@ -196,7 +196,7 @@ INSERT INTO `mob_spawn_points` VALUES (16928963,0,'Enhanced_Vulture','Enhanced V
 INSERT INTO `mob_spawn_points` VALUES (16928964,0,'Enhanced_Vulture','Enhanced Vulture',250,78,80,-596.000,84.500,-116.000,64);
 
 -- Central 4th Floor
-INSERT INTO `mob_spawn_points` VALUES (16928966,0,'Proto-Ultima','Proto-Ultima',305,85,85,-560.000,4.500,-360.000,64);
+INSERT INTO `mob_spawn_points` VALUES (16928966,0,'Proto-Ultima','Proto-Ultima',305,85,85,-560.000,5.000,-360.000,64);
 INSERT INTO `mob_spawn_points` VALUES (16928967,0,'Armoury_Crate_Fourth','Armoury Crate',326,1,1,-492.000,1.500,-412.000,96);
 INSERT INTO `mob_spawn_points` VALUES (16928968,0,'Armoury_Crate_Fourth','Armoury Crate',326,1,1,-492.000,1.500,-508.000,160);
 INSERT INTO `mob_spawn_points` VALUES (16928969,0,'Armoury_Crate_Fourth','Armoury Crate',326,1,1,-628.000,1.500,-508.000,224);
