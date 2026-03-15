@@ -20,17 +20,16 @@ spellObject.onMobSpawn = function(mob)
     mob:addMod(xi.mod.DMG, -10)
     mob:addMod(xi.mod.HPP, 20)
     mob:addMod(xi.mod.ABSORB_PHYSDMG_TO_MP, 5)
-    
     local lastSynergyBonus = 0
 
     -- Dynamic modifier that checks party member list on tick to apply
     mob:addListener('COMBAT_TICK', 'AAEV_CTICK', function(mobArg)
-        local synergyMembers = 
-        { 
-            xi.magic.spell.AAHM, 
-            xi.magic.spell.AAMR, 
-            xi.magic.spell.AATT, 
-            xi.magic.spell.AAGK 
+        local synergyMembers =
+        {
+            xi.magic.spell.AAHM,
+            xi.magic.spell.AAMR,
+            xi.magic.spell.AATT,
+            xi.magic.spell.AAGK
         }
 
         local synergyCount = 0
@@ -58,7 +57,7 @@ spellObject.onMobSpawn = function(mob)
             mobArg:delMod(xi.mod.MEVA, lastSynergyBonus)
             -- Add the new bonus
             mobArg:addMod(xi.mod.MEVA, targetBonus)
-            
+
             -- Update lastSynergyBonus
             lastSynergyBonus = targetBonus
         end
@@ -69,8 +68,9 @@ spellObject.onMobSpawn = function(mob)
     -----------------------------------
     -- 1 condition
     mob:addGambit(ai.t.TARGET,  { ai.c.NOT_STATUS,         xi.effect.FLASH         }, { ai.r.MA, ai.s.SPECIFIC,        xi.magic.spell.FLASH      })
+    mob:addGambit(ai.t.SELF,    { ai.c.HPP_LT,             75                      }, { ai.r.MA, ai.s.HIGHEST,         xi.magic.spellFamily.CURE })
     mob:addGambit(ai.t.PARTY,   { ai.c.HPP_LT,             50                      }, { ai.r.MA, ai.s.HIGHEST,         xi.magic.spellFamily.CURE })
-    mob:addGambit(ai.t.TARGET,  { ai.c.CASTING_ELE_MA_AOE, 0                       }, { ai.r.JA, ai.s.SPECIFIC,        xi.ja.SHIELD_STRIKE       })
+    mob:addGambit(ai.t.TARGET,  { ai.c.CASTING_ELE_MA_AOE, 0                       }, { ai.r.MS, ai.s.SPECIFIC,        3714                      }) -- Shield Strike
     mob:addGambit(ai.t.TARGET,  { ai.c.STATUS,             xi.effect.MANAFONT      }, { ai.r.JA, ai.s.SPECIFIC,        xi.ja.RAMPART             })
     mob:addGambit(ai.t.TARGET,  { ai.c.STATUS,             xi.effect.CHAINSPELL    }, { ai.r.JA, ai.s.SPECIFIC,        xi.ja.RAMPART             })
     mob:addGambit(ai.t.TARGET,  { ai.c.STATUS,             xi.effect.ASTRAL_FLOW   }, { ai.r.JA, ai.s.SPECIFIC,        xi.ja.RAMPART             })
@@ -80,17 +80,18 @@ spellObject.onMobSpawn = function(mob)
     mob:addGambit(ai.t.SELF,    { ai.c.NOT_STATUS,         xi.effect.ENLIGHT       }, { ai.r.MA, ai.s.SPECIFIC,        xi.magic.spell.ENLIGHT    })
     mob:addGambit(ai.t.SELF,    { ai.c.NOT_STATUS,         xi.effect.DIVINE_EMBLEM }, { ai.r.JA, ai.s.SPECIFIC,        xi.ja.DIVINE_EMBLEM       })
     mob:addGambit(ai.t.SELF,    { ai.c.NOT_STATUS,         xi.effect.PALISADE      }, { ai.r.MA, ai.s.SPECIFIC,        xi.magic.spell.PALISADE   })
-    
+
     -- 2 conditions
     mob:addGambit(ai.t.SELF,    { { ai.c.MPP_LT,           25                      }, { ai.c.TP_GTE,           1000 }, }, { ai.r.JA, ai.s.SPECIFIC,        xi.ja.CHIVALRY })
 
-    mob:setTrustTPSkillSettings(ai.tp.CLOSER_UNTIL_TP, ai.s.HIGHEST, 2000)
+    mob:setTrustTPSkillSettings(ai.tp.CLOSER_UNTIL_TP, ai.s.RANDOM, 2000)
 
     mob:addListener('WEAPONSKILL_USE', 'AAEV_WEAPONSKILL_USE', function(mobArg, target, wsid, tp, action)
-        --if wsid == 61 then -- 
-            -- 
+        if wsid == 3710 then
             xi.trust.message(mobArg, xi.trust.messageOffset.SPECIAL_MOVE_1)
-        --end
+        elseif wsid == 3712 then
+            xi.trust.message(mobArg, xi.trust.messageOffset.SPECIAL_MOVE_2)
+        end
     end)
 end
 

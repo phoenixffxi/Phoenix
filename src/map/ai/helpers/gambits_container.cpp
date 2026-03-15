@@ -708,6 +708,11 @@ bool CGambitsContainer::CheckTrigger(const CBattleEntity* triggerTarget, Predica
 {
     TracyZoneScoped;
 
+    if (triggerTarget == nullptr)
+    {
+        return false;
+    }
+
     auto*             controller = static_cast<CTrustController*>(POwner->PAI->GetController());
     std::vector<bool> predicateResults;
 
@@ -950,10 +955,10 @@ bool CGambitsContainer::CheckTrigger(const CBattleEntity* triggerTarget, Predica
                 bool isAOE = false;
                 if (triggerTarget->PAI->IsCurrentState<CMagicState>())
                 {
-                    auto spellFamily = static_cast<CMagicState*>(triggerTarget->PAI->GetCurrentState())->GetSpell()->getSpellFamily();
-                    if ((spellFamily >= SPELLFAMILY::SPELLFAMILY_FIRAGA && spellFamily <= SPELLFAMILY::SPELLFAMILY_WATERGA) ||
-                        (spellFamily >= SPELLFAMILY::SPELLFAMILY_FIRA && spellFamily <= SPELLFAMILY::SPELLFAMILY_WATERA) ||
-                         spellFamily == SPELLFAMILY::SPELLFAMILY_JA)
+                    auto spellElement  = static_cast<CMagicState*>(triggerTarget->PAI->GetCurrentState())->GetSpell()->getElement();
+                    auto isElementalMA = spellElement >= ELEMENT_FIRE && spellElement <= ELEMENT_WATER;
+                    auto spellAOEType  = static_cast<CMagicState*>(triggerTarget->PAI->GetCurrentState())->GetSpell()->getAOE();
+                    if (isElementalMA && spellAOEType == SPELLAOE_RADIAL)
                     {
                         isAOE = true;
                     }
@@ -966,11 +971,8 @@ bool CGambitsContainer::CheckTrigger(const CBattleEntity* triggerTarget, Predica
                 bool isElementalMA = false;
                 if (triggerTarget->PAI->IsCurrentState<CMagicState>())
                 {
-                    auto spellFamily = static_cast<CMagicState*>(triggerTarget->PAI->GetCurrentState())->GetSpell()->getSpellFamily();
-                    isElementalMA    = ((spellFamily >= SPELLFAMILY::SPELLFAMILY_FIRE && spellFamily <= SPELLFAMILY::SPELLFAMILY_FLOOD) ||
-                                        (spellFamily >= SPELLFAMILY::SPELLFAMILY_FIRA && spellFamily <= SPELLFAMILY::SPELLFAMILY_WATERA) ||
-                                         spellFamily == SPELLFAMILY::SPELLFAMILY_JA);
-                    
+                    auto spellElement = static_cast<CMagicState*>(triggerTarget->PAI->GetCurrentState())->GetSpell()->getElement();
+                    isElementalMA     = spellElement >= ELEMENT_FIRE && spellElement <= ELEMENT_WATER;
                 }
                 predicateResults.push_back(isElementalMA);
                 continue;
@@ -980,11 +982,9 @@ bool CGambitsContainer::CheckTrigger(const CBattleEntity* triggerTarget, Predica
                 bool isElementalMAOnSelf = false;
                 if (triggerTarget->PAI->IsCurrentState<CMagicState>())
                 {
-                    auto spellFamily   = static_cast<CMagicState*>(triggerTarget->PAI->GetCurrentState())->GetSpell()->getSpellFamily();
+                    auto spellElement  = static_cast<CMagicState*>(triggerTarget->PAI->GetCurrentState())->GetSpell()->getElement();
                     auto targetID      = static_cast<CMagicState*>(triggerTarget->PAI->GetCurrentState())->GetTarget()->id;
-                    bool isElementalMA = ((spellFamily >= SPELLFAMILY::SPELLFAMILY_FIRE && spellFamily <= SPELLFAMILY::SPELLFAMILY_FLOOD) ||
-                                          (spellFamily >= SPELLFAMILY::SPELLFAMILY_FIRA && spellFamily <= SPELLFAMILY::SPELLFAMILY_WATERA) ||
-                                           spellFamily == SPELLFAMILY::SPELLFAMILY_JA);
+                    bool isElementalMA = spellElement >= ELEMENT_FIRE && spellElement <= ELEMENT_WATER;
                     if (targetID == POwner->id && isElementalMA)
                     {
                         isElementalMAOnSelf = true;
@@ -998,58 +998,34 @@ bool CGambitsContainer::CheckTrigger(const CBattleEntity* triggerTarget, Predica
                 bool needBarEffect = false;
                 if (triggerTarget->PAI->IsCurrentState<CMagicState>())
                 {
-                    auto   spellFamily = static_cast<CMagicState*>(triggerTarget->PAI->GetCurrentState())->GetSpell()->getSpellFamily();
-                    auto   targetID    = static_cast<CMagicState*>(triggerTarget->PAI->GetCurrentState())->GetTarget()->id;
-                    uint32 element     = 0;
-                    if (targetID == POwner->id && ((spellFamily >= SPELLFAMILY::SPELLFAMILY_FIRE && spellFamily <= SPELLFAMILY::SPELLFAMILY_FLOOD) ||
-                                                   (spellFamily >= SPELLFAMILY::SPELLFAMILY_FIRA && spellFamily <= SPELLFAMILY::SPELLFAMILY_WATERA) ||
-                                                    spellFamily == SPELLFAMILY::SPELLFAMILY_JA))
+                    auto spellElement = static_cast<CMagicState*>(triggerTarget->PAI->GetCurrentState())->GetSpell()->getElement();
+
+                    switch (spellElement)
                     {
-                        switch (spellFamily)
-                        {
-                            case SPELLFAMILY::SPELLFAMILY_FIRE:
-                            case SPELLFAMILY::SPELLFAMILY_FLARE:
-                            case SPELLFAMILY::SPELLFAMILY_FIRA:
-                                needBarEffect = !POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BARFIRE);
-                                element       = ELEMENT_FIRE;
-                                break;
-                            case SPELLFAMILY::SPELLFAMILY_BLIZZARD:
-                            case SPELLFAMILY::SPELLFAMILY_FREEZE:
-                            case SPELLFAMILY::SPELLFAMILY_BLIZZARA:
-                                needBarEffect = !POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BARBLIZZARD);
-                                element       = ELEMENT_ICE;
-                                break;
-                            case SPELLFAMILY::SPELLFAMILY_AERO:
-                            case SPELLFAMILY::SPELLFAMILY_TORNADO:
-                            case SPELLFAMILY::SPELLFAMILY_AERORA:
-                                needBarEffect = !POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BARAERO);
-                                element       = ELEMENT_WIND;
-                                break;
-                            case SPELLFAMILY::SPELLFAMILY_STONE:
-                            case SPELLFAMILY::SPELLFAMILY_QUAKE:
-                            case SPELLFAMILY::SPELLFAMILY_STONERA:
-                                needBarEffect = !POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BARSTONE);
-                                element       = ELEMENT_EARTH;
-                                break;
-                            case SPELLFAMILY::SPELLFAMILY_THUNDER:
-                            case SPELLFAMILY::SPELLFAMILY_BURST:
-                            case SPELLFAMILY::SPELLFAMILY_THUNDARA:
-                                needBarEffect = !POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BARTHUNDER);
-                                element       = ELEMENT_THUNDER;
-                                break;
-                            case SPELLFAMILY::SPELLFAMILY_WATER:
-                            case SPELLFAMILY::SPELLFAMILY_FLOOD:
-                            case SPELLFAMILY::SPELLFAMILY_WATERA:
-                                needBarEffect = !POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BARWATER);
-                                element       = ELEMENT_WATER;
-                                break;
-                            default:
-                                needBarEffect = false;
-                                element       = battleutils::GetDayElement();
-                                break;
-                        }
-                        POwner->SetLocalVar("[Gambit]CastElement", element);
+                        case ELEMENT_FIRE:
+                            needBarEffect = !POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BARFIRE);
+                            break;
+                        case ELEMENT_ICE:
+                            needBarEffect = !POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BARBLIZZARD);
+                            break;
+                        case ELEMENT_WIND:
+                            needBarEffect = !POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BARAERO);
+                            break;
+                        case ELEMENT_EARTH:
+                            needBarEffect = !POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BARSTONE);
+                            break;
+                        case ELEMENT_THUNDER:
+                            needBarEffect = !POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BARTHUNDER);
+                            break;
+                        case ELEMENT_WATER:
+                            needBarEffect = !POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BARWATER);
+                            break;
+                        default:
+                            needBarEffect = false;
+                            spellElement  = (uint16)battleutils::GetDayElement();
+                            break;
                     }
+                    POwner->SetLocalVar("[Gambit]CastElement", spellElement);
                 }
                 predicateResults.push_back(needBarEffect);
                 continue;
@@ -1184,7 +1160,39 @@ bool CGambitsContainer::TryTrustSkill()
         {
             case G_SELECT::RANDOM:
             {
-                chosen_skill = xirand::GetRandomElement(tp_skills);
+                auto* PSCEffect = target->StatusEffectContainer->GetStatusEffect(EFFECT_SKILLCHAIN);
+
+                if (!PSCEffect) // Opener, if no skillchain available select a random ws
+                {
+                    chosen_skill = xirand::GetRandomElement(tp_skills);
+                    break;
+                }
+
+                // Closer, if a skillchain is available select a random ws that can close it, if multiple are available select the one that creates the best skillchain
+                for (auto& skill : tp_skills)
+                {
+                    std::list<SKILLCHAIN_ELEMENT> resonanceProperties;
+                    if (uint16 power = PSCEffect->GetPower())
+                    {
+                        resonanceProperties.emplace_back((SKILLCHAIN_ELEMENT)(power & 0xF));
+                        resonanceProperties.emplace_back((SKILLCHAIN_ELEMENT)(power >> 4 & 0xF));
+                        resonanceProperties.emplace_back((SKILLCHAIN_ELEMENT)(power >> 8));
+                    }
+
+                    std::list<SKILLCHAIN_ELEMENT> skillProperties;
+                    skillProperties.emplace_back((SKILLCHAIN_ELEMENT)skill.primary);
+                    skillProperties.emplace_back((SKILLCHAIN_ELEMENT)skill.secondary);
+                    skillProperties.emplace_back((SKILLCHAIN_ELEMENT)skill.tertiary);
+                    if (SKILLCHAIN_ELEMENT possible_skillchain = battleutils::FormSkillchain(resonanceProperties, skillProperties);
+                        possible_skillchain != SC_NONE)
+                    {
+                        if (possible_skillchain >= chosen_skillchain)
+                        {
+                            chosen_skill      = skill;
+                            chosen_skillchain = possible_skillchain;
+                        }
+                    }
+                }
                 break;
             }
             case G_SELECT::HIGHEST: // Form the best possible skillchain
