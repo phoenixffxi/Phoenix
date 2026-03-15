@@ -951,7 +951,9 @@ bool CGambitsContainer::CheckTrigger(const CBattleEntity* triggerTarget, Predica
                 if (triggerTarget->PAI->IsCurrentState<CMagicState>())
                 {
                     auto spellFamily = static_cast<CMagicState*>(triggerTarget->PAI->GetCurrentState())->GetSpell()->getSpellFamily();
-                    if (spellFamily >= SPELLFAMILY::SPELLFAMILY_FIRAGA && spellFamily <= SPELLFAMILY::SPELLFAMILY_WATERGA)
+                    if ((spellFamily >= SPELLFAMILY::SPELLFAMILY_FIRAGA && spellFamily <= SPELLFAMILY::SPELLFAMILY_WATERGA) ||
+                        (spellFamily >= SPELLFAMILY::SPELLFAMILY_FIRA && spellFamily <= SPELLFAMILY::SPELLFAMILY_WATERA) ||
+                         spellFamily == SPELLFAMILY::SPELLFAMILY_JA)
                     {
                         isAOE = true;
                     }
@@ -965,7 +967,10 @@ bool CGambitsContainer::CheckTrigger(const CBattleEntity* triggerTarget, Predica
                 if (triggerTarget->PAI->IsCurrentState<CMagicState>())
                 {
                     auto spellFamily = static_cast<CMagicState*>(triggerTarget->PAI->GetCurrentState())->GetSpell()->getSpellFamily();
-                    isElementalMA    = spellFamily >= SPELLFAMILY::SPELLFAMILY_FIRE && spellFamily <= SPELLFAMILY::SPELLFAMILY_FLOOD;
+                    isElementalMA    = ((spellFamily >= SPELLFAMILY::SPELLFAMILY_FIRE && spellFamily <= SPELLFAMILY::SPELLFAMILY_FLOOD) ||
+                                        (spellFamily >= SPELLFAMILY::SPELLFAMILY_FIRA && spellFamily <= SPELLFAMILY::SPELLFAMILY_WATERA) ||
+                                         spellFamily == SPELLFAMILY::SPELLFAMILY_JA);
+                    
                 }
                 predicateResults.push_back(isElementalMA);
                 continue;
@@ -977,7 +982,9 @@ bool CGambitsContainer::CheckTrigger(const CBattleEntity* triggerTarget, Predica
                 {
                     auto spellFamily   = static_cast<CMagicState*>(triggerTarget->PAI->GetCurrentState())->GetSpell()->getSpellFamily();
                     auto targetID      = static_cast<CMagicState*>(triggerTarget->PAI->GetCurrentState())->GetTarget()->id;
-                    bool isElementalMA = spellFamily >= SPELLFAMILY::SPELLFAMILY_FIRE && spellFamily <= SPELLFAMILY::SPELLFAMILY_FLOOD;
+                    bool isElementalMA = ((spellFamily >= SPELLFAMILY::SPELLFAMILY_FIRE && spellFamily <= SPELLFAMILY::SPELLFAMILY_FLOOD) ||
+                                          (spellFamily >= SPELLFAMILY::SPELLFAMILY_FIRA && spellFamily <= SPELLFAMILY::SPELLFAMILY_WATERA) ||
+                                           spellFamily == SPELLFAMILY::SPELLFAMILY_JA);
                     if (targetID == POwner->id && isElementalMA)
                     {
                         isElementalMAOnSelf = true;
@@ -994,37 +1001,45 @@ bool CGambitsContainer::CheckTrigger(const CBattleEntity* triggerTarget, Predica
                     auto   spellFamily = static_cast<CMagicState*>(triggerTarget->PAI->GetCurrentState())->GetSpell()->getSpellFamily();
                     auto   targetID    = static_cast<CMagicState*>(triggerTarget->PAI->GetCurrentState())->GetTarget()->id;
                     uint32 element     = 0;
-                    if (targetID == POwner->id && (spellFamily >= SPELLFAMILY::SPELLFAMILY_FIRE && spellFamily <= SPELLFAMILY::SPELLFAMILY_FLOOD))
+                    if (targetID == POwner->id && ((spellFamily >= SPELLFAMILY::SPELLFAMILY_FIRE && spellFamily <= SPELLFAMILY::SPELLFAMILY_FLOOD) ||
+                                                   (spellFamily >= SPELLFAMILY::SPELLFAMILY_FIRA && spellFamily <= SPELLFAMILY::SPELLFAMILY_WATERA) ||
+                                                    spellFamily == SPELLFAMILY::SPELLFAMILY_JA))
                     {
                         switch (spellFamily)
                         {
                             case SPELLFAMILY::SPELLFAMILY_FIRE:
                             case SPELLFAMILY::SPELLFAMILY_FLARE:
+                            case SPELLFAMILY::SPELLFAMILY_FIRA:
                                 needBarEffect = !POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BARFIRE);
                                 element       = ELEMENT_FIRE;
                                 break;
                             case SPELLFAMILY::SPELLFAMILY_BLIZZARD:
                             case SPELLFAMILY::SPELLFAMILY_FREEZE:
+                            case SPELLFAMILY::SPELLFAMILY_BLIZZARA:
                                 needBarEffect = !POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BARBLIZZARD);
                                 element       = ELEMENT_ICE;
                                 break;
                             case SPELLFAMILY::SPELLFAMILY_AERO:
                             case SPELLFAMILY::SPELLFAMILY_TORNADO:
+                            case SPELLFAMILY::SPELLFAMILY_AERORA:
                                 needBarEffect = !POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BARAERO);
                                 element       = ELEMENT_WIND;
                                 break;
                             case SPELLFAMILY::SPELLFAMILY_STONE:
                             case SPELLFAMILY::SPELLFAMILY_QUAKE:
+                            case SPELLFAMILY::SPELLFAMILY_STONERA:
                                 needBarEffect = !POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BARSTONE);
                                 element       = ELEMENT_EARTH;
                                 break;
                             case SPELLFAMILY::SPELLFAMILY_THUNDER:
                             case SPELLFAMILY::SPELLFAMILY_BURST:
+                            case SPELLFAMILY::SPELLFAMILY_THUNDARA:
                                 needBarEffect = !POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BARTHUNDER);
                                 element       = ELEMENT_THUNDER;
                                 break;
                             case SPELLFAMILY::SPELLFAMILY_WATER:
                             case SPELLFAMILY::SPELLFAMILY_FLOOD:
+                            case SPELLFAMILY::SPELLFAMILY_WATERA:
                                 needBarEffect = !POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BARWATER);
                                 element       = ELEMENT_WATER;
                                 break;
