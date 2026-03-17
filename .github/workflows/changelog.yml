@@ -11,12 +11,13 @@ jobs:
     name: Generate and Publish Changelog
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: fregante/setup-git-user@v1
+    - uses: actions/checkout@v6
+    - run: git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+    - run: git config --global user.name "github-actions[bot]"
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y python3.7
+        sudo apt-get install -y python3
         pip3 install requests
     - name: Generate changelog
       run: |
