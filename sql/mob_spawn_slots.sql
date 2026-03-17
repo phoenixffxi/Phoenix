@@ -199,6 +199,28 @@ INSERT INTO `mob_spawn_slots` VALUES (111,14,0);
 INSERT INTO `mob_spawn_slots` VALUES (111,15,0);
 INSERT INTO `mob_spawn_slots` VALUES (111,16,0);
 
+-- Ro'Maeve
+INSERT INTO `mob_spawn_slots` VALUES (122,1,0);
+INSERT INTO `mob_spawn_slots` VALUES (122,2,0);
+INSERT INTO `mob_spawn_slots` VALUES (122,3,0);
+INSERT INTO `mob_spawn_slots` VALUES (122,4,0);
+INSERT INTO `mob_spawn_slots` VALUES (122,5,0);
+INSERT INTO `mob_spawn_slots` VALUES (122,6,0);
+INSERT INTO `mob_spawn_slots` VALUES (122,7,0);
+INSERT INTO `mob_spawn_slots` VALUES (122,8,0);
+INSERT INTO `mob_spawn_slots` VALUES (122,9,0);
+INSERT INTO `mob_spawn_slots` VALUES (122,10,0);
+INSERT INTO `mob_spawn_slots` VALUES (122,11,0);
+INSERT INTO `mob_spawn_slots` VALUES (122,12,0);
+INSERT INTO `mob_spawn_slots` VALUES (122,13,0);
+INSERT INTO `mob_spawn_slots` VALUES (122,14,0);
+INSERT INTO `mob_spawn_slots` VALUES (122,15,0);
+INSERT INTO `mob_spawn_slots` VALUES (122,16,0);
+INSERT INTO `mob_spawn_slots` VALUES (122,17,0);
+INSERT INTO `mob_spawn_slots` VALUES (122,18,0);
+INSERT INTO `mob_spawn_slots` VALUES (122,19,0);
+INSERT INTO `mob_spawn_slots` VALUES (122,20,0);
+
 -- Qufim Island
 INSERT INTO `mob_spawn_slots` VALUES (126,1,0);
 INSERT INTO `mob_spawn_slots` VALUES (126,2,0);
