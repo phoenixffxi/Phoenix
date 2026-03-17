@@ -131,7 +131,7 @@ xi.spells.absorb.doDrainingSpell = function(caster, target, spell)
     local elementalStaffBonus    = xi.spells.damage.calculateElementalStaffBonus(caster, xi.element.DARK)
     local elementalAffinityBonus = xi.spells.damage.calculateElementalAffinityBonus(caster, xi.element.DARK)
     local dayAndWeather          = xi.spells.damage.calculateDayAndWeather(caster, xi.element.DARK, false)
-    local absorbMultiplier       = 1 + caster:getMod(xi.mod.AUGMENTS_ABSORB) / 100
+    local absorbMultiplier       = 1 + caster:getMod(xi.mod.AUGMENTS_ABSORB) / 100 + caster:getMod(xi.mod.ENH_DRAIN_ASPIR) / 100
     local liberatorMultiplier    = 1 + caster:getMod(xi.mod.AUGMENTS_ABSORB_LIBERATOR) / 100
     local netherVoidMultiplier   = 1
     if caster:hasStatusEffect(xi.effect.NETHER_VOID) then
