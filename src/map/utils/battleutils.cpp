@@ -605,7 +605,13 @@ int32 CalculateEnspellDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender,
         double       runeDPS = 0.0;
         CItemWeapon* PWeapon = static_cast<CItemWeapon*>(static_cast<CCharEntity*>(PAttacker)->getEquip(SLOT_MAIN));
 
-        if (PWeapon == nullptr) // h2h, though base DPS is so low it will never hit non-zero enspell damage numbers with current rune count and modifiers.
+        // If no player equip, try the entity's internal weapon slot (used by mobs/trusts)
+        if (PWeapon == nullptr)
+        {
+            PWeapon = dynamic_cast<CItemWeapon*>(PAttacker->m_Weapons[SLOT_MAIN]);
+        }
+
+        if (PWeapon == nullptr) // h2h or no weapon; base DPS is small
         {
             runeDPS = 3.0 / 240.0;
         }
@@ -3836,7 +3842,7 @@ int32 TakeSkillchainDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, i
         PDefender->setModifier(Mod::SENGIKORI_SC_DMG_DEBUFF, 0); // Consume the effect
     }
 
-    float damageReductionMult = (10000.0f - static_cast<float>(resistance)) / 10000.0f;
+    float damageReductionMult = (10000.0f + static_cast<float>(resistance)) / 10000.0f;
 
     damage = std::floor(static_cast<float>(damage) * damageReductionMult);
     damage = MagicDmgTaken(PDefender, damage, appliedEle);
