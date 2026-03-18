@@ -1034,6 +1034,31 @@ INSERT INTO `mob_spawn_slots` VALUES (161,26,0);
 INSERT INTO `mob_spawn_slots` VALUES (161,27,0);
 INSERT INTO `mob_spawn_slots` VALUES (161,28,0);
 
+-- Castle Zvahl Keep
+INSERT INTO `mob_spawn_slots` VALUES (162,1,0);
+INSERT INTO `mob_spawn_slots` VALUES (162,2,0);
+INSERT INTO `mob_spawn_slots` VALUES (162,3,0);
+INSERT INTO `mob_spawn_slots` VALUES (162,4,0);
+INSERT INTO `mob_spawn_slots` VALUES (162,5,0);
+INSERT INTO `mob_spawn_slots` VALUES (162,6,0);
+INSERT INTO `mob_spawn_slots` VALUES (162,7,0);
+INSERT INTO `mob_spawn_slots` VALUES (162,8,0);
+INSERT INTO `mob_spawn_slots` VALUES (162,9,0);
+INSERT INTO `mob_spawn_slots` VALUES (162,10,0);
+INSERT INTO `mob_spawn_slots` VALUES (162,11,0);
+INSERT INTO `mob_spawn_slots` VALUES (162,12,0);
+INSERT INTO `mob_spawn_slots` VALUES (162,13,0);
+INSERT INTO `mob_spawn_slots` VALUES (162,14,0);
+INSERT INTO `mob_spawn_slots` VALUES (162,15,0);
+INSERT INTO `mob_spawn_slots` VALUES (162,16,0);
+INSERT INTO `mob_spawn_slots` VALUES (162,17,0);
+INSERT INTO `mob_spawn_slots` VALUES (162,18,0);
+INSERT INTO `mob_spawn_slots` VALUES (162,19,0);
+INSERT INTO `mob_spawn_slots` VALUES (162,20,0);
+INSERT INTO `mob_spawn_slots` VALUES (162,21,0);
+INSERT INTO `mob_spawn_slots` VALUES (162,22,0);
+INSERT INTO `mob_spawn_slots` VALUES (162,23,0);
+
 -- Ranguemont Pass
 INSERT INTO `mob_spawn_slots` VALUES (166,1,0);
 INSERT INTO `mob_spawn_slots` VALUES (166,2,0);
