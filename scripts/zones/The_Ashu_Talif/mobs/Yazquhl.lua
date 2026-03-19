@@ -63,7 +63,7 @@ entity.onMobFight = function(mob, target)
             yazquhlMob:getTP() < 1000 or
             not scTarget or
             scTarget:isDead() or
-            yazquhlMob:checkDistance(scTarget) >= 8
+            yazquhlMob:checkDistance(scTarget) >= 25
         then
             yazquhlMob:setMobAbilityEnabled(true)
             return
@@ -106,7 +106,7 @@ entity.onMobMobskillChoose = function(mob, target, skillId)
     if
         gowam:isDead() or
         gowam:getTP() < 1000 or
-        mob:checkDistance(gowam) >= 12
+        mob:checkDistance(gowam) >= 25
     then
         table.insert(tpTable, xi.mobSkill.FLAT_BLADE_1)
         table.insert(tpTable, xi.mobSkill.VORPAL_BLADE_1)
@@ -142,7 +142,7 @@ entity.onMobWeaponSkill = function(mob, target, skill, action)
     if
         gowam and
         gowam:isAlive() and
-        mob:checkDistance(gowam) < 12
+        mob:checkDistance(gowam) < 25
     then
         gowam:setMobAbilityEnabled(false)
         gowam:setMagicCastingEnabled(false)
