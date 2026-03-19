@@ -92,5 +92,6 @@ void GP_CLI_COMMAND_CHAT_NAME::process(MapSession* PSession, CCharEntity* PChar)
         .gmLevel       = PChar->m_GMlevel,
     });
 
+    // TODO: Don't pass around Scheduler& through PSession
     auditTell(*PSession->scheduler, PChar, recipientName, rawMessage);
 }

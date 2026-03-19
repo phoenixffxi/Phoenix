@@ -41,7 +41,7 @@ SearchEngine::SearchEngine(Scheduler& scheduler)
     if (settings::get<bool>("search.EXPIRE_AUCTIONS"))
     {
         const auto interval   = std::chrono::seconds(settings::get<uint32>("search.EXPIRE_INTERVAL"));
-        periodicCleanupToken_ = scheduler_.intervalOnMain(
+        periodicCleanupToken_ = scheduler_.intervalOnMainThread(
             interval,
             [this]()
             {

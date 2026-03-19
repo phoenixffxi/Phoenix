@@ -52,7 +52,7 @@ ConnectEngine::ConnectEngine(Scheduler& scheduler)
 , m_dataHandler(scheduler_, settings::get<uint32>("network.LOGIN_DATA_PORT"), zmqDealerWrapper_)
 , m_viewHandler(scheduler_, settings::get<uint32>("network.LOGIN_VIEW_PORT"), zmqDealerWrapper_)
 {
-    periodicCleanupToken_ = scheduler.intervalOnMain(
+    periodicCleanupToken_ = scheduler.intervalOnMainThread(
         kSessionCleanTime,
         [this]()
         {

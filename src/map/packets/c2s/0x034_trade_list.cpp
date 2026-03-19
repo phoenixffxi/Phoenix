@@ -141,6 +141,7 @@ void GP_CLI_COMMAND_TRADE_LIST::process(MapSession* PSession, CCharEntity* PChar
         PChar->UContainer->SetItem(TradeIndex, PItem);
     }
 
+    // TODO: Don't pass around Scheduler& through PSession
     auditTrade(*PSession->scheduler, PChar, PTarget, PItem, ItemNum);
 
     ShowDebug("GP_CLI_COMMAND_TRADE_LIST: %s->%s trade pushing packet to %s", PChar->getName(), PTarget->getName(), PChar->getName());

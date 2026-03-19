@@ -21,8 +21,10 @@
 
 #include "world_engine.h"
 
-#include "common/application.h"
-#include "common/logging.h"
+#include <common/application.h>
+#include <common/logging.h>
+
+#include <map/map_constants.h>
 
 #include "besieged_system.h"
 #include "campaign_system.h"
@@ -32,14 +34,6 @@
 #include "ipc_server.h"
 #include "party_system.h"
 #include "time_server.h"
-
-namespace
-{
-
-constexpr auto kTimeServerTickInterval = 2400ms;
-constexpr auto kPumpQueuesTime         = 250ms;
-
-} // namespace
 
 WorldEngine::WorldEngine(Scheduler& scheduler)
 : scheduler_(scheduler)
@@ -51,16 +45,15 @@ WorldEngine::WorldEngine(Scheduler& scheduler)
 , colonizationSystem_(std::make_unique<ColonizationSystem>(*this))
 , httpServer_(std::make_unique<HTTPServer>(scheduler_))
 {
-    timeServerToken_ = scheduler_.intervalOnMain(
+    timeServerToken_ = scheduler_.intervalOnMainThread(
         kTimeServerTickInterval,
         [this]() -> Task<void>
         {
             co_await time_server(this);
         });
 
-    // TODO: Bind ZMQ socket FD to ASIO directly
-    pumpQueuesToken_ = scheduler_.intervalOnMain(
-        kPumpQueuesTime,
+    pumpQueuesToken_ = scheduler_.intervalOnMainThread(
+        kIPCPumpInterval,
         [this]()
         {
             ipcServer_->handleIncomingMessages();

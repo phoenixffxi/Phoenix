@@ -98,7 +98,7 @@ CZone::CZone(Scheduler& scheduler, ZONEID ZoneID, REGION_TYPE RegionID, CONTINEN
     }
 
     // This must run continually, regardless of if the zone is awake
-    spawnHandlerTimerToken_ = scheduler.intervalOnMain(
+    spawnHandlerTimerToken_ = scheduler.intervalOnMainThread(
         kSpawnHandlerInterval,
         [this]() -> Task<void>
         {
@@ -284,7 +284,7 @@ uint32 CZone::GetLocalVar(const char* var)
 
 std::unordered_map<std::string, uint32>& CZone::GetLocalVars()
 {
-    return m_LocalVars;
+    return localVars_;
 }
 
 void CZone::SetLocalVar(const char* var, uint32 val)
@@ -978,14 +978,14 @@ void CZone::createZoneTimers()
         return;
     }
 
-    zoneTimerToken_ = scheduler_.intervalOnMain(
+    zoneTimerToken_ = scheduler_.intervalOnMainThread(
         kLogicUpdateInterval,
         [this]() -> Task<void>
         {
             co_await this->ZoneServer(timer::now());
         });
 
-    zoneTimerTriggerAreasToken_ = scheduler_.intervalOnMain(
+    zoneTimerTriggerAreasToken_ = scheduler_.intervalOnMainThread(
         kTriggerAreaInterval,
         [this]() -> Task<void>
         {

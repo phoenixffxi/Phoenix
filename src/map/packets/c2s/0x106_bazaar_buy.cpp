@@ -135,8 +135,8 @@ void GP_CLI_COMMAND_BAZAAR_BUY::process(MapSession* PSession, CCharEntity* PChar
 
         if (settings::get<bool>("map.AUDIT_PLAYER_BAZAAR"))
         {
-            auto& scheduler = *PSession->scheduler;
-            scheduler.postToWorkerThread(
+            // TODO: Don't pass around Scheduler& through PSession
+            PSession->scheduler->postToWorkerThread(
                 [itemID        = PItem->getID(),
                  quantity      = this->BuyNum,
                  sellerID      = PTarget->id,

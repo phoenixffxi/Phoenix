@@ -16593,7 +16593,7 @@ auto CLuaBaseEntity::getAutomatonName() const -> std::string
  *  Notes   :
  ************************************************************************/
 
-auto CLuaBaseEntity::getAutomatonFrame() const -> std::optional<AutomatonFrame>
+auto CLuaBaseEntity::getAutomatonFrame() const -> Maybe<AutomatonFrame>
 {
     if (m_PBaseEntity->objtype == TYPE_PC)
     {
@@ -16644,7 +16644,7 @@ void CLuaBaseEntity::setAutomatonFrame(const AutomatonFrame frame) const
  *  Notes   :
  ************************************************************************/
 
-auto CLuaBaseEntity::getAutomatonHead() const -> std::optional<AutomatonHead>
+auto CLuaBaseEntity::getAutomatonHead() const -> Maybe<AutomatonHead>
 {
     if (m_PBaseEntity->objtype == TYPE_PC)
     {

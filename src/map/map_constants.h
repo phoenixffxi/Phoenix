@@ -21,20 +21,18 @@
 
 #pragma once
 
-#include "common/cbasetypes.h"
-#include "common/timer.h"
-
 #include <array>
 #include <chrono>
 #include <cstdint>
 
 using namespace std::chrono_literals;
 
+// TODO: Move this file to common/constants.h
+
 //
-// There are 3 types of updates, all with similar names but different functions:
+// There are 2 types of updates, with similar names but different functions:
 // - The time server tick interval is every 2400ms, and is used for things like status effect ticks, etc. (the same as the FFXI tick)
 // - The server logic update interval is every 400ms, and is used for things like AI updates, etc.
-// - The server main loop update interval is every 200ms, and is split between the task manager and the networking workload.
 //
 
 static constexpr auto kTimeServerTickInterval = 2400ms;
@@ -54,11 +52,8 @@ static constexpr auto kTriggerAreaInterval = std::chrono::milliseconds(static_ca
 static constexpr auto kSpawnHandlerInterval = 30s;
 static constexpr auto kSpawnHandlerWindow   = kSpawnHandlerInterval / 2;
 
-// Split betweek task manager and networking workload (200ms)
-static constexpr auto kMainLoopInterval = 200ms;
-
-// If the main loop is more than 100ms behind, we're in trouble.
-static constexpr auto kMainLoopBacklogThreshold = 100ms;
+// If the main loop is more than 200ms behind, we're in trouble.
+static constexpr auto kMainThreadBacklogThreshold = 200ms;
 
 // The rate at which we cleanup timed-out and finished sessions
 static constexpr auto kSessionCleanupInterval = 5s;
@@ -77,4 +72,5 @@ static constexpr auto kMaxBufferSize           = 2500U;
 static constexpr auto kMaxPacketPerCompression = 32U;
 static constexpr auto kMaxPacketBacklogSize    = kMaxPacketPerCompression * 6U; // If we hit this number, things are going very very badly.
 
+// TODO: Should this be moved to cbasetypes.h or similar?
 using NetworkBuffer = std::array<uint8, kMaxBufferSize>;

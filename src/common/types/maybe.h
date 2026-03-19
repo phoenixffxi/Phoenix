@@ -30,6 +30,8 @@
 // Maybe<T>
 //
 
+// TODO: Replace with a third-party optional impl which supports reference types, until the STL
+//     : supports them.
 template <typename T>
 using Maybe = std::optional<T>;
 

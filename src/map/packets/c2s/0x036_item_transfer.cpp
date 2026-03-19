@@ -115,6 +115,7 @@ void GP_CLI_COMMAND_ITEM_TRANSFER::process(MapSession* PSession, CCharEntity* PC
             return;
         }
 
+        // TODO: Don't pass around Scheduler& through PSession
         auditTrade(*PSession->scheduler, PChar, PNpc, PItem->getID(), quantity);
 
         PItem->setReserve(quantity);

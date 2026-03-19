@@ -31,8 +31,8 @@
 
 // Thin wrapper over CBaseEntity with assertions and some helpers.
 CLuaTestEntity::CLuaTestEntity(Scheduler& scheduler, CBaseEntity* entity)
-: scheduler_(scheduler)
-, CLuaBaseEntity(entity)
+: CLuaBaseEntity(entity)
+, scheduler_(scheduler)
 {
 }
 
@@ -76,7 +76,7 @@ void CLuaTestEntity::despawn() const
     for (uint32 i = 0; i <= 20; ++i)
     {
         // We cannot co_await within a Lua binding - the suspension will obliterate the Lua stack.
-        scheduler_.blockOnMain(
+        scheduler_.blockOnMainThread(
             mob->PAI->Tick(timer::now() + std::chrono::seconds(i)));
     }
 }

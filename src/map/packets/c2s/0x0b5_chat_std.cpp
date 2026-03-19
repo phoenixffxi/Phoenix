@@ -121,6 +121,7 @@ void GP_CLI_COMMAND_CHAT_STD::process(MapSession* PSession, CCharEntity* PChar) 
     // Handle possible !commands
     if (firstChar == '!' && !jailutils::InPrison(PChar))
     {
+        // TODO: Don't pass around Scheduler& through PSession
         if (CCommandHandler::call(*PSession->scheduler, lua, PChar, rawMessageWithoutFirstChar) == 0 || PChar->m_GMlevel > 0)
         {
             // A command was handled OR a GM may have mistyped.
@@ -147,6 +148,7 @@ void GP_CLI_COMMAND_CHAT_STD::process(MapSession* PSession, CCharEntity* PChar) 
     {
         if (Kind == static_cast<uint8_t>(GP_CLI_COMMAND_CHAT_STD_KIND::Say))
         {
+            // TODO: Don't pass around Scheduler& through PSession
             auditChat(*PSession->scheduler, PChar, "SAY", rawMessage);
             PChar->loc.zone->PushPacket(PChar, CHAR_INRANGE, std::make_unique<GP_SERV_COMMAND_CHAT_STD>(PChar, MESSAGE_SAY, rawMessage));
         }
@@ -163,6 +165,7 @@ void GP_CLI_COMMAND_CHAT_STD::process(MapSession* PSession, CCharEntity* PChar) 
     {
         case GP_CLI_COMMAND_CHAT_STD_KIND::Say:
         {
+            // TODO: Don't pass around Scheduler& through PSession
             auditChat(*PSession->scheduler, PChar, "SAY", rawMessage);
             PChar->loc.zone->PushPacket(PChar, CHAR_INRANGE, std::make_unique<GP_SERV_COMMAND_CHAT_STD>(PChar, MESSAGE_SAY, rawMessage));
         }
@@ -174,6 +177,7 @@ void GP_CLI_COMMAND_CHAT_STD::process(MapSession* PSession, CCharEntity* PChar) 
         break;
         case GP_CLI_COMMAND_CHAT_STD_KIND::Shout:
         {
+            // TODO: Don't pass around Scheduler& through PSession
             auditChat(*PSession->scheduler, PChar, "SHOUT", rawMessage);
             PChar->loc.zone->PushPacket(PChar, CHAR_INSHOUT, std::make_unique<GP_SERV_COMMAND_CHAT_STD>(PChar, MESSAGE_SHOUT, rawMessage));
         }
@@ -191,6 +195,7 @@ void GP_CLI_COMMAND_CHAT_STD::process(MapSession* PSession, CCharEntity* PChar) 
                     .gmLevel     = PChar->m_GMlevel,
                 });
 
+                // TODO: Don't pass around Scheduler& through PSession
                 auditLinkshell(*PSession->scheduler, PChar, PChar->PLinkshell1, rawMessage);
             }
         }
@@ -208,6 +213,7 @@ void GP_CLI_COMMAND_CHAT_STD::process(MapSession* PSession, CCharEntity* PChar) 
                     .gmLevel     = PChar->m_GMlevel,
                 });
 
+                // TODO: Don't pass around Scheduler& through PSession
                 auditLinkshell(*PSession->scheduler, PChar, PChar->PLinkshell2, rawMessage);
             }
         }
@@ -239,6 +245,7 @@ void GP_CLI_COMMAND_CHAT_STD::process(MapSession* PSession, CCharEntity* PChar) 
                     });
                 }
 
+                // TODO: Don't pass around Scheduler& through PSession
                 auditChat(*PSession->scheduler, PChar, "PARTY", rawMessage);
             }
         }
@@ -268,6 +275,7 @@ void GP_CLI_COMMAND_CHAT_STD::process(MapSession* PSession, CCharEntity* PChar) 
                         .gmLevel    = PChar->m_GMlevel,
                     });
 
+                    // TODO: Don't pass around Scheduler& through PSession
                     auditChat(*PSession->scheduler, PChar, "YELL", rawMessage);
                 }
                 else
@@ -300,12 +308,14 @@ void GP_CLI_COMMAND_CHAT_STD::process(MapSession* PSession, CCharEntity* PChar) 
 
             roeutils::event(ROE_EVENT::ROE_UNITY_CHAT, PChar, RoeDatagram("unityMessage", rawMessage));
 
+            // TODO: Don't pass around Scheduler& through PSession
             auditUnity(*PSession->scheduler, PChar, rawMessage);
         }
         break;
         case GP_CLI_COMMAND_CHAT_STD_KIND::LinkshellPvp:
         {
             // Not implemented
+            // TODO: Don't pass around Scheduler& through PSession
             auditChat(*PSession->scheduler, PChar, "BALLISTA", rawMessage);
         }
         break;
@@ -331,6 +341,7 @@ void GP_CLI_COMMAND_CHAT_STD::process(MapSession* PSession, CCharEntity* PChar) 
                 .messageType = MESSAGE_JP_ASSIST,
             });
 
+            // TODO: Don't pass around Scheduler& through PSession
             auditChat(*PSession->scheduler, PChar, "ASSISTJ", rawMessage);
         }
         break;
@@ -356,6 +367,7 @@ void GP_CLI_COMMAND_CHAT_STD::process(MapSession* PSession, CCharEntity* PChar) 
                 .messageType = MESSAGE_NA_ASSIST,
             });
 
+            // TODO: Don't pass around Scheduler& through PSession
             auditChat(*PSession->scheduler, PChar, "ASSISTE", rawMessage);
         }
         break;

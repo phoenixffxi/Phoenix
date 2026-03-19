@@ -127,7 +127,7 @@ void TestApplication::run()
 
             // We must ensure that mapEngine->init() is complete before we
             // try and construct TestEngine or run the tests
-            scheduler_.blockOnMain(mapEngine->init());
+            scheduler_.blockOnMainThread(mapEngine->init());
 
             mapEngine->onInitialize();
 

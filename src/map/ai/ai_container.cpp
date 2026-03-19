@@ -443,13 +443,13 @@ auto CAIContainer::Tick(timer::time_point tick) -> Task<void>
             // If DoUpdate returns true, the state has signaled it's done
             // Clean it up.
             // If the state stack is not empty, the next state will be polled.
-            if (top->DoUpdate(_tick))
+            if (top->DoUpdate(tick))
             {
                 // the state may change (and get cleaned up) during DoUpdate as a consequence of things it does
                 // Only clean up the state if the current state is still the same one we ran DoUpdate on
                 if (top == GetCurrentState())
                 {
-                    top->Cleanup(_tick);
+                    top->Cleanup(tick);
                     m_stateStack.pop();
                 }
             }

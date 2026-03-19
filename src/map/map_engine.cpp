@@ -237,18 +237,18 @@ auto MapEngine::init() -> Task<void>
 
     if (!engineConfig_.isTestServer)
     {
-        mapCleanupToken_        = scheduler_.intervalOnMain(kSessionCleanupInterval, std::bind(&MapEngine::sessionCleanup, this));
-        mapGarbageCollectToken_ = scheduler_.intervalOnMain(kGarbageCollectionInterval, std::bind(&MapEngine::garbageCollect, this));
+        mapCleanupToken_        = scheduler_.intervalOnMainThread(kSessionCleanupInterval, std::bind(&MapEngine::sessionCleanup, this));
+        mapGarbageCollectToken_ = scheduler_.intervalOnMainThread(kGarbageCollectionInterval, std::bind(&MapEngine::garbageCollect, this));
 
-        timeServerToken_ = scheduler_.intervalOnMain(
+        timeServerToken_ = scheduler_.intervalOnMainThread(
             kTimeServerTickInterval,
             [this]() -> Task<void>
             {
                 co_await time_server(scheduler_);
             });
-    
-        persistVolatileServerVarsToken_ = scheduler_.intervalOnMain(kPersistVolatileServerVarsInterval, serverutils::PersistVolatileServerVars);
-        pumpIPCToken_                   = scheduler_.intervalOnMain(kIPCPumpInterval, message::handle_incoming);
+
+        persistVolatileServerVarsToken_ = scheduler_.intervalOnMainThread(kPersistVolatileServerVarsInterval, serverutils::PersistVolatileServerVars);
+        pumpIPCToken_                   = scheduler_.intervalOnMainThread(kIPCPumpInterval, message::handle_incoming);
     }
 
     zoneutils::TOTDChange(vanadiel_time::get_totd()); // This tells the zones to spawn stuff based on time of day conditions (such as undead at night)
@@ -303,7 +303,7 @@ auto MapEngine::watchdogUpdater() -> Task<void>
         // We do this because if the main thread is blocked severely enough to trigger the watchdog,
         // your server is degraded - likely beyond repair.
         watchdogLastUpdate_ = timer::now();
-        co_await scheduler_.yieldFor(200ms);
+        co_await scheduler_.yieldFor(kMainThreadBacklogThreshold);
     }
 }
 

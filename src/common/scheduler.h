@@ -78,7 +78,7 @@ struct IsASIOAwaitable<asio::awaitable<T, E>> : std::true_type
 };
 
 template <typename T>
-concept IsAwaitable = IsASIOAwaitable<std::decay_t<T>>::value;
+concept IsAwaitable = IsASIOAwaitable<std::remove_cvref_t<T>>::value;
 
 template <typename T>
 struct AwaitableResult;
@@ -90,16 +90,19 @@ struct AwaitableResult<asio::awaitable<T, E>>
 };
 
 template <typename T>
-concept IsInvocable = std::invocable<std::decay_t<T>>;
+using AwaitableResultType = typename AwaitableResult<std::remove_cvref_t<T>>::type;
 
 template <typename T>
-concept IsInvocableReturnsVoid = IsInvocable<T> && std::is_void_v<std::invoke_result_t<std::decay_t<T>>>;
+concept IsInvocable = std::invocable<std::remove_cvref_t<T>>;
 
 template <typename T>
-concept IsAwaitableReturnsVoid = IsAwaitable<T> && std::is_void_v<typename AwaitableResult<std::decay_t<T>>::type>;
+concept IsInvocableReturnsVoid = IsInvocable<T> && std::is_void_v<std::invoke_result_t<std::remove_cvref_t<T>>>;
 
 template <typename T>
-concept IsInvocableReturnsAwaitableVoid = IsInvocable<T> && IsAwaitableReturnsVoid<std::invoke_result_t<std::decay_t<T>>>;
+concept IsAwaitableReturnsVoid = IsAwaitable<T> && std::is_void_v<AwaitableResultType<T>>;
+
+template <typename T>
+concept IsInvocableReturnsAwaitableVoid = IsInvocable<T> && IsAwaitableReturnsVoid<std::invoke_result_t<std::remove_cvref_t<T>>>;
 
 template <typename T>
 concept IsInvocableReturnsVoidOrAwaitableVoid = IsInvocableReturnsAwaitableVoid<T> || IsInvocableReturnsVoid<T>;
@@ -117,9 +120,9 @@ using Task = asio::awaitable<T, asio::any_io_executor>;
 // All
 //   Await multiple tasks in parallel and return their results as a tuple.
 //
-template <typename... Tasks>
+template <detail::IsAwaitable... Tasks>
     requires(sizeof...(Tasks) > 0)
-auto All(Tasks&&... tasks)
+[[nodiscard]] auto All(Tasks&&... tasks)
 {
     using namespace asio::experimental::awaitable_operators;
     return (std::forward<Tasks>(tasks) && ...);
@@ -129,9 +132,9 @@ auto All(Tasks&&... tasks)
 // One
 //   Race multiple tasks and return a variant of the winner.
 //
-template <typename... Tasks>
+template <detail::IsAwaitable... Tasks>
     requires(sizeof...(Tasks) > 0)
-auto One(Tasks&&... tasks)
+[[nodiscard]] auto One(Tasks&&... tasks)
 {
     using namespace asio::experimental::awaitable_operators;
     return (std::forward<Tasks>(tasks) || ...);
@@ -145,11 +148,12 @@ class Scheduler final
 public:
     //
     // Token
+    //   Cancellation token for recurring or delayed tasks.
     //
     class Token
     {
     public:
-        explicit Token(std::shared_ptr<asio::cancellation_signal> signal)
+        explicit Token(std::shared_ptr<asio::cancellation_signal> signal) noexcept
         : signal_(std::move(signal))
         {
         }
@@ -159,7 +163,7 @@ public:
             stop();
         }
 
-        void stop()
+        void stop() noexcept
         {
             if (signal_)
             {
@@ -185,11 +189,12 @@ public:
     //   Builds an awaitable collection of tasks.
     //
     template <typename F>
-    static auto TaskGroup(std::size_t reserveSize, F&& func) -> Task<void>
+    [[nodiscard]] static auto TaskGroup(const std::size_t reserveSize, F&& func) -> Task<void>
     {
-        auto executor = co_await asio::this_coro::executor;
+        const auto executor = co_await asio::this_coro::executor;
 
-        std::vector<decltype(asio::co_spawn(executor, std::declval<Task<void>>(), asio::bind_allocator(asio::recycling_allocator<void>(), asio::deferred)))> ops;
+        using DeferredOp = decltype(asio::co_spawn(executor, std::declval<Task<void>>(), asio::bind_allocator(asio::recycling_allocator<void>(), asio::deferred)));
+        std::vector<DeferredOp> ops;
         if (reserveSize > 0)
         {
             ops.reserve(reserveSize);
@@ -200,7 +205,7 @@ public:
             ops.push_back(asio::co_spawn(executor, std::move(task), asio::bind_allocator(asio::recycling_allocator<void>(), asio::deferred)));
         };
 
-        func(add);
+        std::forward<F>(func)(add);
 
         if (ops.empty())
         {
@@ -211,7 +216,7 @@ public:
         co_await group.async_wait(asio::experimental::wait_for_all(), asio::bind_allocator(asio::recycling_allocator<void>(), asio::use_awaitable));
     }
 
-    Scheduler(std::size_t numThreads = std::max(1U, std::thread::hardware_concurrency() - 1U))
+    explicit Scheduler(const std::size_t numThreads = std::max<std::size_t>(1U, std::thread::hardware_concurrency() > 0 ? std::thread::hardware_concurrency() - 1U : 1U))
     : mainContext_()
     , mainGuard_(asio::make_work_guard(mainContext_))
     , workerPool_(numThreads)
@@ -231,6 +236,8 @@ public:
     Scheduler(Scheduler&&)                 = delete;
     Scheduler& operator=(Scheduler&&)      = delete;
 
+    // run
+    //   Runs the main thread's event loop. Blocks until stopped.
     void run()
     {
         try
@@ -247,9 +254,11 @@ public:
         stop();
     }
 
+    // stop
+    //   Requests the scheduler to stop all execution and joins threads.
     void stop()
     {
-        closeRequested_ = true;
+        closeRequested_.store(true, std::memory_order_relaxed);
 
         // NOTE: The order of operations is important here
 
@@ -258,19 +267,20 @@ public:
 
         workerPool_.stop();
         workerPool_.join();
-
     }
 
+    // closeRequested
+    //   Returns whether a shutdown has been requested.
     [[nodiscard]] auto closeRequested() const noexcept -> bool
     {
-        return closeRequested_;
+        return closeRequested_.load(std::memory_order_relaxed);
     }
 
     // spawnOnMainThread
     //   Queue work lazily on the main thread. It won't start executing until you co_await the
     //   returned task. Does not block the caller.
     template <detail::IsAwaitable T>
-    [[nodiscard]] auto spawnOnMainThread(T&& task) -> Task<typename detail::AwaitableResult<std::decay_t<T>>::type>
+    [[nodiscard]] auto spawnOnMainThread(T&& task) -> Task<detail::AwaitableResultType<T>>
     {
         return asio::co_spawn(mainContext_.get_executor(), std::forward<T>(task), asio::bind_allocator(asio::recycling_allocator<void>(), asio::use_awaitable));
     }
@@ -279,11 +289,11 @@ public:
     //   Queue work lazily on the main thread. It won't start executing until you co_await the
     //   returned task. Does not block the caller.
     template <detail::IsInvocable F>
-    [[nodiscard]] auto spawnOnMainThread(F&& func) -> Task<std::invoke_result_t<std::decay_t<F>>>
+    [[nodiscard]] auto spawnOnMainThread(F&& func) -> Task<std::invoke_result_t<std::remove_cvref_t<F>>>
     {
         return asio::co_spawn(
             mainContext_.get_executor(),
-            [fn = std::forward<F>(func)]() mutable -> Task<std::invoke_result_t<std::decay_t<F>>>
+            [fn = std::forward<F>(func)]() mutable -> Task<std::invoke_result_t<std::remove_cvref_t<F>>>
             {
                 co_return fn();
             },
@@ -294,7 +304,7 @@ public:
     //   Queue work lazily on the worker thread pool. It won't start executing until you co_await
     //   the returned task. Does not block the caller.
     template <detail::IsAwaitable T>
-    [[nodiscard]] auto spawnOnWorkerThread(T&& task) -> Task<typename detail::AwaitableResult<std::decay_t<T>>::type>
+    [[nodiscard]] auto spawnOnWorkerThread(T&& task) -> Task<detail::AwaitableResultType<T>>
     {
         return asio::co_spawn(workerPool_.executor(), std::forward<T>(task), asio::bind_allocator(asio::recycling_allocator<void>(), asio::use_awaitable));
     }
@@ -303,11 +313,11 @@ public:
     //   Queue work lazily on the worker thread pool. It won't start executing until you co_await
     //   the returned task. Does not block the caller.
     template <detail::IsInvocable F>
-    [[nodiscard]] auto spawnOnWorkerThread(F&& func) -> Task<std::invoke_result_t<std::decay_t<F>>>
+    [[nodiscard]] auto spawnOnWorkerThread(F&& func) -> Task<std::invoke_result_t<std::remove_cvref_t<F>>>
     {
         return asio::co_spawn(
             workerPool_.executor(),
-            [fn = std::forward<F>(func)]() mutable -> Task<std::invoke_result_t<std::decay_t<F>>>
+            [fn = std::forward<F>(func)]() mutable -> Task<std::invoke_result_t<std::remove_cvref_t<F>>>
             {
                 co_return fn();
             },
@@ -362,14 +372,14 @@ public:
         asio::post(workerPool_.executor(), asio::bind_allocator(asio::recycling_allocator<void>(), std::forward<T>(func)));
     }
 
-    // intervalOnMain
+    // intervalOnMainThread
     //   Queues a task on the main thread that repeats at the specified interval.
     //   Returns a Token that can be used to cancel the task.
     //   The task will stop if the token goes out of scope, or if the scheduler is stopped.
     //   Since a coroutine cannot be restarted once it has been completed, we must either pass in
     //   an invocable, or an invocable which _produces_ a coroutine for co_await-ing.
     template <detail::IsInvocableReturnsVoidOrAwaitableVoid T>
-    [[nodiscard]] auto intervalOnMain(std::chrono::steady_clock::duration duration, T&& func) -> Token
+    [[nodiscard]] auto intervalOnMainThread(const std::chrono::steady_clock::duration duration, T&& func) -> Token
     {
         auto signal = std::make_shared<asio::cancellation_signal>();
 
@@ -406,14 +416,58 @@ public:
         return Token(std::move(signal));
     }
 
-    // delayOnMain
+    // intervalOnWorkerThread
+    //   Queues a task on the worker thread pool that repeats at the specified interval.
+    //   Returns a Token that can be used to cancel the task.
+    //   The task will stop if the token goes out of scope, or if the scheduler is stopped.
+    //   Since a coroutine cannot be restarted once it has been completed, we must either pass in
+    //   an invocable, or an invocable which _produces_ a coroutine for co_await-ing.
+    template <detail::IsInvocableReturnsVoidOrAwaitableVoid T>
+    [[nodiscard]] auto intervalOnWorkerThread(const std::chrono::steady_clock::duration duration, T&& func) -> Token
+    {
+        auto signal = std::make_shared<asio::cancellation_signal>();
+
+        asio::co_spawn(
+            workerPool_.executor(),
+            [this, duration, signal, fn = std::forward<T>(func)]() mutable -> Task<void>
+            {
+                try
+                {
+                    while (!this->closeRequested())
+                    {
+                        if constexpr (detail::IsInvocableReturnsVoid<T>)
+                        {
+                            fn();
+                        }
+                        else
+                        {
+                            co_await fn();
+                        }
+                        co_await yieldFor(duration);
+                    }
+                }
+                catch (const asio::system_error& e)
+                {
+                    // operation_aborted is expected when the Token is destroyed
+                    if (e.code() != asio::error::operation_aborted)
+                    {
+                        throw;
+                    }
+                }
+            },
+            asio::bind_allocator(asio::recycling_allocator<void>(), asio::bind_cancellation_slot(signal->slot(), asio::detached)));
+
+        return Token(std::move(signal));
+    }
+
+    // delayOnMainThread
     //   Queues a task on the main thread that executes once after the specified duration.
     //   Returns a Token that can be used to cancel the task before it executes.
     //   The task will be cancelled if the token goes out of scope, or if the scheduler is stopped.
     //   Since a coroutine cannot be restarted once it has been completed, we must either pass in
     //   an invocable, or an invocable which _produces_ a coroutine for co_await-ing.
     template <detail::IsInvocableReturnsVoidOrAwaitableVoid T>
-    [[nodiscard]] auto delayOnMain(std::chrono::steady_clock::duration duration, T&& func) -> Token
+    [[nodiscard]] auto delayOnMainThread(const std::chrono::steady_clock::duration duration, T&& func) -> Token
     {
         auto signal = std::make_shared<asio::cancellation_signal>();
 
@@ -451,21 +505,20 @@ public:
     }
 
     // yield
-    //   co_await on this to hand control back to the scheduler.
+    //   co_await on this to hand control back to the scheduler immediately.
     [[nodiscard]] static auto yield() -> Task<void>
     {
-        auto ex = co_await asio::this_coro::executor;
-        co_await asio::post(ex, asio::bind_allocator(asio::recycling_allocator<void>(), asio::use_awaitable));
+        const auto executor = co_await asio::this_coro::executor;
+        co_await asio::post(executor, asio::bind_allocator(asio::recycling_allocator<void>(), asio::use_awaitable));
     }
 
     // yieldFor
     //   co_await on this to hand control back to the scheduler, without re-scheduling until the
     //   duration has elapsed.
-    //   TODO: Enforce construction of the timer outside of this call and pass it in
-    [[nodiscard]] static auto yieldFor(std::chrono::steady_clock::duration duration) -> Task<void>
+    [[nodiscard]] static auto yieldFor(const std::chrono::steady_clock::duration duration) -> Task<void>
     {
-        auto executor = co_await asio::this_coro::executor;
-        auto timer    = asio::steady_timer(executor);
+        const auto executor = co_await asio::this_coro::executor;
+        auto       timer    = asio::steady_timer(executor);
         timer.expires_after(duration);
         co_await timer.async_wait(asio::bind_allocator(asio::recycling_allocator<void>(), asio::use_awaitable));
     }
@@ -474,7 +527,7 @@ public:
     //   Executes a task with a given timeout. Returns Maybe<T>, which is empty if the timeout
     //   was reached before the task completed.
     template <typename T>
-    [[nodiscard]] static auto withTimeout(Task<T> task, std::chrono::steady_clock::duration timeout) -> Task<Maybe<T>>
+    [[nodiscard]] static auto withTimeout(Task<T> task, const std::chrono::steady_clock::duration timeout) -> Task<Maybe<T>>
     {
         using namespace asio::experimental::awaitable_operators;
         auto result = co_await (std::move(task) || yieldFor(timeout));
@@ -485,15 +538,15 @@ public:
         co_return std::nullopt;
     }
 
-    // blockOnMain
+    // blockOnMainThread
     //   Puts `task` on the main context wrapped with a gated check, and manually pumps the main
     //   context until that gate is passed - signalling that the task is complete.
-    //   This blocks the main thread.
+    //   !!! This blocks the main thread !!!
     //   Other queued work may run in this pumping loop, but your task is guaranteed to be actioned.
-    //   This is only to be used as a bridge for xi_test so we don't have to implement Lua
-    //   coroutines. This isn't to be used as a crutch in regular code.
+    //   This is only to be used as a bridge for tests/legacy so we don't have to implement Lua
+    //   coroutines. This isn't to be used as a crutch in regular non-test code!
     template <detail::IsAwaitable T>
-    auto blockOnMain(T&& task) -> typename detail::AwaitableResult<std::decay_t<T>>::type
+    auto blockOnMainThread(T&& task) -> detail::AwaitableResultType<T>
     {
         if (std::this_thread::get_id() != mainThreadId_)
         {
@@ -504,9 +557,9 @@ public:
         // the current task is the only thing left and it is suspended.
         auto work = asio::make_work_guard(mainContext_);
 
-        using ResultType      = typename detail::AwaitableResult<std::decay_t<T>>::type;
+        using ResultType      = detail::AwaitableResultType<T>;
         constexpr bool IsVoid = std::is_void_v<ResultType>;
-        using StoredType      = std::conditional_t<IsVoid, char, ResultType>;
+        using StoredType      = std::conditional_t<IsVoid, std::monostate, ResultType>;
 
         auto exceptPtr = std::exception_ptr();
         auto done      = false;
@@ -520,7 +573,7 @@ public:
             {
                 if (!e && sizeof...(res) > 0)
                 {
-                    result = std::make_unique<ResultType>(std::move(std::get<0>(std::forward_as_tuple(res...))));
+                    result = std::make_unique<StoredType>(std::move(std::get<0>(std::forward_as_tuple(res...))));
                 }
             }
             done = true;
@@ -572,14 +625,14 @@ public:
         return mainContext_;
     }
 
-    void setIsTest(bool isTest) noexcept
+    void setIsTest(const bool isTest) noexcept
     {
-        isTest_ = isTest;
+        isTest_.store(isTest, std::memory_order_relaxed);
     }
 
     [[nodiscard]] auto isTest() const noexcept -> bool
     {
-        return isTest_;
+        return isTest_.load(std::memory_order_relaxed);
     }
 
 private:

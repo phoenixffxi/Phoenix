@@ -49,10 +49,10 @@ void SpawnHandler::registerForRespawn(CMobEntity* PMob, const Maybe<timer::durat
     const timer::duration   duration  = respawnTime.value_or(PMob->m_RespawnTime);
     const timer::time_point respawnAt = timer::now() + duration;
 
-    if (SpawnSlot* slot = PMob->GetSpawnSlot())
+    if (auto slot = PMob->GetSpawnSlot())
     {
-        const Maybe<uint32> specificMobId = respawnTime.has_value() ? Maybe(PMob->id) : std::nullopt;
-        pendingSlotRespawns_[slot]        = { respawnAt, specificMobId };
+        const auto specificMobId   = respawnTime.has_value() ? Maybe<uint32>(PMob->id) : std::nullopt;
+        pendingSlotRespawns_[slot] = { respawnAt, specificMobId };
     }
     else
     {

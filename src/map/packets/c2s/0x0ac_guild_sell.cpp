@@ -95,6 +95,7 @@ void GP_CLI_COMMAND_GUILD_SELL::process(MapSession* PSession, CCharEntity* PChar
     {
         if (charutils::UpdateItem(PChar, LOC_INVENTORY, PropertyItemIndex, -quantity) == ItemNo)
         {
+            // TODO: Don't pass around Scheduler& through PSession
             auditSale(*PSession->scheduler, PChar, charItem->getID(), basePrice, quantity);
 
             charutils::UpdateItem(PChar, LOC_INVENTORY, 0, shopItem->getSellPrice() * quantity);
