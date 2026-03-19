@@ -94,7 +94,7 @@ local packets =
         test = function(player, mob)
             player:gotoZone(xi.zone.DYNAMIS_SAN_DORIA)
             local thfMob = player.entities:moveTo('Vanguard_Pillager')
-            thfMob:useMobAbility(xi.jsa.PERFECT_DODGE)
+            thfMob:useMobAbility(xi.mobSkill.PERFECT_DODGE_1)
             xi.test.world:tickEntity(thfMob)
         end,
 
@@ -104,7 +104,7 @@ local packets =
             trg_sum = 1,
             res_sum = 0,
             cmd_no  = xi.action.category.MOBABILITY_FINISH,
-            cmd_arg = xi.jsa.PERFECT_DODGE,
+            cmd_arg = xi.mobSkill.PERFECT_DODGE_1,
             info    = 0,
             target  =
             {

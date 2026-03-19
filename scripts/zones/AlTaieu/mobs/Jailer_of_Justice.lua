@@ -41,7 +41,7 @@ end
 
 entity.onMobSpawn = function(mob)
     mob:setMobMod(xi.mobMod.SPECIAL_SKILL, 0)
-    xi.mix.jobSpecial.config(mob, { specials = { { id = xi.jsa.FAMILIAR, hpp = 50, cooldown = 210 }, }, })
+    xi.mix.jobSpecial.config(mob, { specials = { { id = xi.mobSkill.FAMILIAR_1, hpp = 50, cooldown = 210 }, }, })
 end
 
 entity.onMobEngage = function(mob, target)

@@ -2,7 +2,7 @@
 -- Area: Jade Sepulcher
 --   NM: Raubahn
 -----------------------------------
-local jadeSepulcherID = zones[xi.zone.JADE_SEPULCHER]
+local ID = zones[xi.zone.JADE_SEPULCHER]
 -----------------------------------
 mixins = { require('scripts/mixins/job_special') }
 -----------------------------------
@@ -24,13 +24,13 @@ entity.onMobSpawn = function(mob)
     xi.mix.jobSpecial.config(mob, {
         specials =
         {
-            { id = xi.jsa.AZURE_LORE_RAUBAHN, hpp = math.random(50, 95) },
+            { id = xi.mobSkill.AZURE_LORE_RAUBAHN, hpp = math.random(50, 95) },
         },
     })
 
     mob:addListener('TAKE_DAMAGE', 'RAUBAHN_TAKE_DAMAGE', function(mobArg, damage, attacker, attackType, damageType)
         if damage >= 400 then -- Raubahn uses some sort of stat copy that isn't fully understood after days of testing.  I think it has to do with taking excessive damage.
-            mob:messageText(mob, jadeSepulcherID.text.RAUBAHN_GREATER_POWER)
+            mob:messageText(mob, ID.text.RAUBAHN_GREATER_POWER)
         end
     end)
 end
@@ -56,9 +56,9 @@ entity.onMobRoam = function(mob)
 
     mob:setLocalVar('initialTaunt', 1)
     if players[1]:getLevelCap() >= 75 then -- On retail this message only plays if your cap is exactly 75. Treating this as an oversight.
-        mob:messageText(mob, jadeSepulcherID.text.RAUBAHN_YOUR_SOUL)
+        mob:messageText(mob, ID.text.RAUBAHN_YOUR_SOUL)
     else
-        mob:messageText(mob, jadeSepulcherID.text.RAUBAHN_COME_SURRENDER)
+        mob:messageText(mob, ID.text.RAUBAHN_COME_SURRENDER)
     end
 end
 
@@ -73,9 +73,9 @@ entity.onMobEngage = function(mob, target)
     mob:setLocalVar('initialTaunt', 1)
 
     if target:getLevelCap() >= 75 then -- On retail this message only plays if your cap is exactly 75. Treating this as an oversight.
-        mob:messageText(mob, jadeSepulcherID.text.RAUBAHN_YOUR_SOUL)
+        mob:messageText(mob, ID.text.RAUBAHN_YOUR_SOUL)
     else
-        mob:messageText(mob, jadeSepulcherID.text.RAUBAHN_COME_SURRENDER)
+        mob:messageText(mob, ID.text.RAUBAHN_COME_SURRENDER)
     end
 end
 
@@ -84,8 +84,6 @@ entity.onMobSpellChoose = function(mob, target, spell)
     if not battlefield then
         return
     end
-
-    local playerLevel = battlefield:getLocalVar('playerLevel')
 
     local spellTable =
     {
@@ -108,51 +106,47 @@ entity.onMobSpellChoose = function(mob, target, spell)
         },
         [3] = -- 70 and under
         {
-            [1]  = { xi.magic.spell.BLOOD_SABER,    target, false, xi.action.type.DRAIN_HP,           nil,                    0, 100 },
-            [2]  = { xi.magic.spell.BLUDGEON,       target, false, xi.action.type.DAMAGE_TARGET,      nil,                    0, 100 },
-            [3]  = { xi.magic.spell.FRENETIC_RIP,   target, false, xi.action.type.DAMAGE_TARGET,      nil,                    0, 100 },
-            [4]  = { xi.magic.spell.FRIGHTFUL_ROAR, target, false, xi.action.type.ENFEEBLING_TARGET,  xi.effect.DEFENSE_DOWN, 0, 100 },
-            [5]  = { xi.magic.spell.GEIST_WALL,     target, false, xi.action.type.DAMAGE_TARGET,      nil,                    0, 100 },
-            [6]  = { xi.magic.spell.HEAD_BUTT,      target, false, xi.action.type.DAMAGE_TARGET,      nil,                    0, 100 },
-            [7]  = { xi.magic.spell.HEALING_BREEZE, mob,    false, xi.action.type.HEALING_FORCE_SELF, 100,                    0, 100 },
-            [8]  = { xi.magic.spell.MAGIC_FRUIT,    mob,    false, xi.action.type.HEALING_FORCE_SELF, 100,                    0, 100 },
-            [9]  = { xi.magic.spell.RADIANT_BREATH, target, false, xi.action.type.DAMAGE_TARGET,      nil,                    0, 100 },
+            [ 1] = { xi.magic.spell.BLOOD_SABER,    target, false, xi.action.type.DRAIN_HP,           nil,                    0, 100 },
+            [ 2] = { xi.magic.spell.BLUDGEON,       target, false, xi.action.type.DAMAGE_TARGET,      nil,                    0, 100 },
+            [ 3] = { xi.magic.spell.FRENETIC_RIP,   target, false, xi.action.type.DAMAGE_TARGET,      nil,                    0, 100 },
+            [ 4] = { xi.magic.spell.FRIGHTFUL_ROAR, target, false, xi.action.type.ENFEEBLING_TARGET,  xi.effect.DEFENSE_DOWN, 0, 100 },
+            [ 5] = { xi.magic.spell.GEIST_WALL,     target, false, xi.action.type.DAMAGE_TARGET,      nil,                    0, 100 },
+            [ 6] = { xi.magic.spell.HEAD_BUTT,      target, false, xi.action.type.DAMAGE_TARGET,      nil,                    0, 100 },
+            [ 7] = { xi.magic.spell.HEALING_BREEZE, mob,    false, xi.action.type.HEALING_FORCE_SELF, 100,                    0, 100 },
+            [ 8] = { xi.magic.spell.MAGIC_FRUIT,    mob,    false, xi.action.type.HEALING_FORCE_SELF, 100,                    0, 100 },
+            [ 9] = { xi.magic.spell.RADIANT_BREATH, target, false, xi.action.type.DAMAGE_TARGET,      nil,                    0, 100 },
             [10] = { xi.magic.spell.SMITE_OF_RAGE,  target, false, xi.action.type.DAMAGE_TARGET,      nil,                    0, 100 },
             [11] = { xi.magic.spell.TAIL_SLAP,      target, false, xi.action.type.DAMAGE_TARGET,      nil,                    0, 100 },
         },
         [4] = -- Over 70
         {
-            [1]  = { xi.magic.spell.BAD_BREATH,       target, false, xi.action.type.DAMAGE_TARGET,      nil,                    0, 100 },
-            [2]  = { xi.magic.spell.ENERVATION,       target, false, xi.action.type.ENFEEBLING_TARGET,  xi.effect.DEFENSE_DOWN, 0, 100 },
-            [3]  = { xi.magic.spell.EYES_ON_ME,       target, false, xi.action.type.DAMAGE_TARGET,      nil,                    0, 100 },
-            [4]  = { xi.magic.spell.FILAMENTED_HOLD,  target, false, xi.action.type.ENFEEBLING_TARGET,  xi.effect.SLOW,         1, 100 },
-            [5]  = { xi.magic.spell.FROST_BREATH,     target, false, xi.action.type.DAMAGE_TARGET,      nil,                    0, 100 },
-            [6]  = { xi.magic.spell.HYSTERIC_BARRAGE, target, false, xi.action.type.DAMAGE_TARGET,      nil,                    0, 100 },
-            [7]  = { xi.magic.spell.MAGIC_FRUIT,      mob,    false, xi.action.type.HEALING_FORCE_SELF, 100,                    0, 100 },
-            [8]  = { xi.magic.spell.SPINAL_CLEAVE,    target, false, xi.action.type.DAMAGE_TARGET,      nil,                    0, 100 },
-            [9]  = { xi.magic.spell.TAIL_SLAP,        target, false, xi.action.type.DAMAGE_TARGET,      nil,                    0, 100 },
+            [ 1] = { xi.magic.spell.BAD_BREATH,       target, false, xi.action.type.DAMAGE_TARGET,      nil,                    0, 100 },
+            [ 2] = { xi.magic.spell.ENERVATION,       target, false, xi.action.type.ENFEEBLING_TARGET,  xi.effect.DEFENSE_DOWN, 0, 100 },
+            [ 3] = { xi.magic.spell.EYES_ON_ME,       target, false, xi.action.type.DAMAGE_TARGET,      nil,                    0, 100 },
+            [ 4] = { xi.magic.spell.FILAMENTED_HOLD,  target, false, xi.action.type.ENFEEBLING_TARGET,  xi.effect.SLOW,         1, 100 },
+            [ 5] = { xi.magic.spell.FROST_BREATH,     target, false, xi.action.type.DAMAGE_TARGET,      nil,                    0, 100 },
+            [ 6] = { xi.magic.spell.HYSTERIC_BARRAGE, target, false, xi.action.type.DAMAGE_TARGET,      nil,                    0, 100 },
+            [ 7] = { xi.magic.spell.MAGIC_FRUIT,      mob,    false, xi.action.type.HEALING_FORCE_SELF, 100,                    0, 100 },
+            [ 8] = { xi.magic.spell.SPINAL_CLEAVE,    target, false, xi.action.type.DAMAGE_TARGET,      nil,                    0, 100 },
+            [ 9] = { xi.magic.spell.TAIL_SLAP,        target, false, xi.action.type.DAMAGE_TARGET,      nil,                    0, 100 },
             [10] = { xi.magic.spell.THOUSAND_NEEDLES, target, false, xi.action.type.DAMAGE_TARGET,      nil,                    0, 100 },
             [11] = { xi.magic.spell.UPPERCUT,         target, false, xi.action.type.DAMAGE_TARGET,      nil,                    0, 100 },
         },
     }
 
-    local listIndex
-
+    local listIndex = battlefield:getLocalVar('playerLevel') > 70 and 2 or 1
     if mob:isEngaged() then
-        listIndex = (playerLevel > 70) and 4 or 3
-    else
-        listIndex = (playerLevel > 70) and 2 or 1
+        listIndex = listIndex + 2
     end
 
-    local spellList = spellTable[listIndex]
-    return xi.combat.behavior.chooseAction(mob, target, nil, spellList)
+    return xi.combat.behavior.chooseAction(mob, target, nil, spellTable[listIndex])
 end
 
 entity.onSpellCastStart = function(mob, target, spell)
     local spellMessage =
     {
-        [1] = jadeSepulcherID.text.RAUBAHN_BE_BURIED,
-        [2] = jadeSepulcherID.text.RAUBAHN_SHOW_ME,
+        [1] = ID.text.RAUBAHN_BE_BURIED,
+        [2] = ID.text.RAUBAHN_SHOW_ME,
     }
 
     if mob:isEngaged() then
@@ -166,7 +160,7 @@ entity.onMobFight = function(mob, target)
         GetSystemTime() >= mob:getLocalVar('talkTime')
     then
         mob:setLocalVar('alreadyTalked', 1)
-        mob:showText(mob, jadeSepulcherID.text.RAUBAHN_IT_IS_OVER) -- Sometimes this trigger will cause Raubahn to stop casting spells on retail, it's very buggy and I don't quite understand it.
+        mob:showText(mob, ID.text.RAUBAHN_IT_IS_OVER) -- Sometimes this trigger will cause Raubahn to stop casting spells on retail, it's very buggy and I don't quite understand it.
         mob:setTP(3000)
     end
 
@@ -181,7 +175,7 @@ entity.onMobFight = function(mob, target)
     end
 
     if mob:getHPP() < 20 then
-        mob:showText(mob, jadeSepulcherID.text.RAUBAHN_STRENGTH_FAILED_ME)
+        mob:showText(mob, ID.text.RAUBAHN_STRENGTH_FAILED_ME)
         players[1]:disengage()
         mob:getBattlefield():win()
     end
@@ -213,28 +207,28 @@ entity.onMobWeaponSkill = function(mob, target, skill, action)
 
     local skillMessage =
     {
-        [xi.mobSkill.FAST_BLADE_1     ] = jadeSepulcherID.text.RAUBAHN_OUR_ARSENAL,
-        [xi.mobSkill.RED_LOTUS_BLADE_1] = jadeSepulcherID.text.RAUBAHN_OUR_ARSENAL,
-        [xi.mobSkill.FLAT_BLADE_1     ] = jadeSepulcherID.text.RAUBAHN_OUR_ARSENAL,
-        [xi.mobSkill.SERAPH_BLADE_1   ] = jadeSepulcherID.text.RAUBAHN_OUR_ARSENAL,
-        [xi.mobSkill.SPIRITS_WITHIN_1 ] = jadeSepulcherID.text.RAUBAHN_OUR_ARSENAL,
-        [xi.mobSkill.SAVAGE_BLADE_1   ] = jadeSepulcherID.text.RAUBAHN_OUR_ARSENAL,
-        [xi.jsa.AZURE_LORE_RAUBAHN    ] = jadeSepulcherID.text.RAUBAHN_AZURE_SAVEGERY,
+        [xi.mobSkill.FAST_BLADE_1      ] = ID.text.RAUBAHN_OUR_ARSENAL,
+        [xi.mobSkill.RED_LOTUS_BLADE_1 ] = ID.text.RAUBAHN_OUR_ARSENAL,
+        [xi.mobSkill.FLAT_BLADE_1      ] = ID.text.RAUBAHN_OUR_ARSENAL,
+        [xi.mobSkill.SERAPH_BLADE_1    ] = ID.text.RAUBAHN_OUR_ARSENAL,
+        [xi.mobSkill.SPIRITS_WITHIN_1  ] = ID.text.RAUBAHN_OUR_ARSENAL,
+        [xi.mobSkill.SAVAGE_BLADE_1    ] = ID.text.RAUBAHN_OUR_ARSENAL,
+        [xi.mobSkill.AZURE_LORE_RAUBAHN] = ID.text.RAUBAHN_AZURE_SAVEGERY,
     }
 
-    if skillId == xi.jsa.AZURE_LORE_RAUBAHN then
+    if skillId == xi.mobSkill.AZURE_LORE_RAUBAHN then
         action:setCategory(xi.action.category.JOBABILITY_FINISH)
     end
 
     local messageId = skillMessage[skillId] or 0
 
     if messageId > 0 then
-        mob:showText(mob, jadeSepulcherID.text.RAUBAHN_OUR_ARSENAL)
+        mob:showText(mob, ID.text.RAUBAHN_OUR_ARSENAL)
     end
 end
 
 entity.onMobDisengage = function(mob)
-    mob:showText(mob, jadeSepulcherID.text.RAUBAHN_BEAST_OF_AMBITION)
+    mob:showText(mob, ID.text.RAUBAHN_BEAST_OF_AMBITION)
 end
 
 entity.onMobDespawn = function(mob)
