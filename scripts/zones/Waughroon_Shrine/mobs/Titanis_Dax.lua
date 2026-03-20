@@ -21,7 +21,7 @@ entity.onMobSpawn = function(mob)
     xi.mix.jobSpecial.config(mob, {
         specials =
         {
-            { id = xi.jsa.SOUL_VOICE, hpp = 60 },
+            { id = xi.mobSkill.SOUL_VOICE_1, hpp = 60 },
         },
     })
 end

@@ -195,7 +195,7 @@ entity.onMobSpawn = function(mob)
     xi.mix.jobSpecial.config(mob, {
         specials =
         {
-            { id = xi.jsa.ASTRAL_FLOW, hpp = math.random(45, 55) },
+            { id = xi.mobSkill.ASTRAL_FLOW_1, hpp = math.random(45, 55) },
         },
     })
 end

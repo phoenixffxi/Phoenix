@@ -48,7 +48,7 @@ entity.onMobSpawn = function(mob)
     xi.mix.jobSpecial.config(mob, {
         specials =
         {
-            { id = xi.jsa.HUNDRED_FISTS, hpp = 50, duration = 45 },
+            { id = xi.mobSkill.HUNDRED_FISTS_1, hpp = 50, duration = 45 },
         },
     })
 end

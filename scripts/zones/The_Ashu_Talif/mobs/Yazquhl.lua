@@ -127,7 +127,7 @@ entity.onMobMobskillChoose = function(mob, target, skillId)
 end
 
 entity.onMobWeaponSkill = function(mob, target, skill, action)
-    if skill:getID() == xi.jsa.MIGHTY_STRIKES then
+    if skill:getID() == xi.mobSkill.MIGHTY_STRIKES_1 then
         mob:showText(mob, ID.text.YOU_WILL_REGRET)
     end
 
