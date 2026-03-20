@@ -19,6 +19,8 @@ xi.dynamis.generalInfo = function(mob)
     mob:setMobMod(xi.mobMod.CLAIM_TYPE, xi.claimType.NON_EXCLUSIVE)
     mob:setMobMod(xi.mobMod.GIL_BONUS, -100)
     mob:setMobMod(xi.mobMod.EXP_BONUS, -100)
+    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 150)
+    mob:setRoamFlags(xi.roamFlag.SCRIPTED)
 end
 
 -- ---------------------
@@ -216,8 +218,8 @@ xi.dynamis.onStatueDeath = function(mob, player, optParams)
 
     mob:setLocalVar('deathCheck', 1)
 
-    -- Check for time extensions
-    xi.dynamis.addTimeToDynamis(mob:getZone(), mob) -- Check for TEs
+    -- This will check for TEs and NM deaths
+    xi.dynamis.onMobDeath(mob, player, optParams)
 end
 
 -- ---------------------
@@ -247,6 +249,10 @@ end
 
 -- NM Death Actions - define conditional spawns when specific NMs die
 xi.dynamis.onNMDeath = function(mob, player, optParams)
+    if not optParams.isKiller then
+        return
+    end
+
     local zoneID = mob:getZoneID()
     local mobID = mob:getID()
     local zone = mob:getZone()
@@ -359,7 +365,7 @@ xi.dynamis.spawnWave = function(wave)
     end
 
     for _, mobId in ipairs(wave) do
-        -- print('Spawning mob ID:', mobId)
+        print('Spawning mob ID:', mobId)
         local mob = GetMobByID(mobId)
         if mob and not mob:isSpawned() then
             mob:spawn()

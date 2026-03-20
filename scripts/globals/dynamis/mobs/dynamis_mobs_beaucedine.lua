@@ -382,7 +382,7 @@ xi.dynamis.spawnCheck[zoneID] =
     {
         -- Spawns paper NMs after killing 157 Vanguard Eye
         requiredVars    = { '[DYNA]157Killed' },
-        spawn           = { xi.dynamis.wave[zoneID][2] },
+        spawn           = xi.dynamis.wave[zoneID][2],
         spawnedVar      = '[DYNA]Wave2Spawned',
     },
 }
