@@ -94,7 +94,7 @@ void CGambitsContainer::RemoveAllGambits()
     gambits.clear();
 }
 
-void CGambitsContainer::Tick(timer::time_point tick)
+auto CGambitsContainer::Tick(timer::time_point tick) -> Task<void>
 {
     TracyZoneScoped;
 
@@ -104,7 +104,7 @@ void CGambitsContainer::Tick(timer::time_point tick)
 
     if ((tick + position_offset) < m_lastAction)
     {
-        return;
+        co_return;
     }
 
     // TODO: Is this necessary?
@@ -113,7 +113,7 @@ void CGambitsContainer::Tick(timer::time_point tick)
         POwner->PAI->IsCurrentState<CWeaponSkillState>() || POwner->PAI->IsCurrentState<CMobSkillState>() ||
         POwner->PAI->IsCurrentState<CPetSkillState>())
     {
-        return;
+        co_return;
     }
 
     auto random_offset = static_cast<std::chrono::milliseconds>(xirand::GetRandomNumber(1000, 2500));
@@ -123,7 +123,7 @@ void CGambitsContainer::Tick(timer::time_point tick)
     // TODO: Should this be its own special gambit?
     if (POwner->health.tp >= 1000 && TryTrustSkill())
     {
-        return;
+        co_return;
     }
 
     // Didn't WS/MS, go for other Gambits
@@ -456,7 +456,7 @@ void CGambitsContainer::Tick(timer::time_point tick)
                     if (PSCEffect == nullptr)
                     {
                         ShowError("G_SELECT::MB_ELEMENT: PSCEffect was null.");
-                        return;
+                        co_return;
                     }
 
                     std::list<SKILLCHAIN_ELEMENT> resonanceProperties;
@@ -467,7 +467,7 @@ void CGambitsContainer::Tick(timer::time_point tick)
                         resonanceProperties.emplace_back((SKILLCHAIN_ELEMENT)(power >> 8));
                     }
 
-                    std::optional<SpellID> spell_id;
+                    Maybe<SpellID> spell_id;
                     for (auto& resonance_element : resonanceProperties)
                     {
                         for (auto& chain_element : battleutils::GetSkillchainMagicElement(resonance_element))
@@ -498,7 +498,7 @@ void CGambitsContainer::Tick(timer::time_point tick)
                 auto* PAbility = ability::GetAbility(action.select_arg);
                 if (PAbility == nullptr)
                 {
-                    return;
+                    co_return;
                 }
 
                 auto mLevel = POwner->GetMLevel();
@@ -1152,8 +1152,8 @@ bool CGambitsContainer::TryTrustSkill()
         }
     };
 
-    std::optional<TrustSkill_t> chosen_skill;
-    SKILLCHAIN_ELEMENT          chosen_skillchain = SC_NONE;
+    Maybe<TrustSkill_t> chosen_skill;
+    SKILLCHAIN_ELEMENT  chosen_skillchain = SC_NONE;
     if (checkTPTrigger() && !tp_skills.empty())
     {
         switch (tp_select)

@@ -47,7 +47,7 @@ CPetController::CPetController(CMobEntity* _PPet)
     SetWeaponSkillEnabled(false);
 }
 
-void CPetController::Tick(timer::time_point tick)
+auto CPetController::Tick(timer::time_point tick) -> Task<void>
 {
     TracyZoneScoped;
     TracyZoneString(PPet->getName());
@@ -61,7 +61,7 @@ void CPetController::Tick(timer::time_point tick)
         if (PPet->isCharmed && tick > PPet->charmTime)
         {
             petutils::DespawnPet(PPet->PMaster);
-            return;
+            co_return;
         }
 
         // if a jug pet and the current time > jug spawn time + jug duration then despawn
@@ -71,25 +71,26 @@ void CPetController::Tick(timer::time_point tick)
             if (tick > PPetEntity->getJugSpawnTime() + PPetEntity->getJugDuration())
             {
                 petutils::DespawnPet(PPetEntity->PMaster);
-                return;
+                co_return;
             }
         }
     }
-    CMobController::Tick(tick);
+
+    co_await CMobController::Tick(tick);
 }
 
-void CPetController::DoRoamTick(timer::time_point tick)
+auto CPetController::DoRoamTick(timer::time_point tick) -> Task<void>
 {
     if ((PPet->PMaster == nullptr || PPet->PMaster->isDead()) && PPet->isAlive() && PPet->objtype != TYPE_MOB)
     {
         PPet->Die();
-        return;
+        co_return;
     }
 
     // if pet cannot change state (for example because pet is asleep) then just return
     if (!PPet->PAI->CanChangeState())
     {
-        return;
+        co_return;
     }
 
     if (PPet->objtype == TYPE_PET || (PPet->objtype == TYPE_MOB && PPet->PMaster && PPet->PMaster->objtype == TYPE_PC))
@@ -100,30 +101,30 @@ void CPetController::DoRoamTick(timer::time_point tick)
         {
             if (PetIsHealing())
             {
-                return;
+                co_return;
             }
         }
         else if (PetEntity->isBstPet() && PPet->StatusEffectContainer->GetStatusEffect(EFFECT_HEALING))
         {
-            return;
+            co_return;
         }
         else if (PetEntity->m_PetID == PETID_LIGHTSPIRIT) // Only Light Spirit will cast on roam tick
         {
             // this will respect the pet's mob casting cooldown properties via MOBMOD_MAGIC_COOL
             if (CMobController::IsSpellReady(0) && CMobController::TryCastSpell())
             {
-                return;
+                co_return;
             }
         }
         else if (immobilePets.contains(static_cast<PETID>(PetEntity->m_PetID))) // certain pets do not roam
         {
-            return;
+            co_return;
         }
     }
 
     if (!PPet->PMaster)
     {
-        return;
+        co_return;
     }
 
     float currentDistance = distance(PPet->loc.p, PPet->PMaster->loc.p);

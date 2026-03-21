@@ -239,7 +239,7 @@ void CPetSkill::setFinalAnimationSub(uint8 newAnimationSub)
     m_FinalAnimationSub = newAnimationSub;
 }
 
-std::optional<uint8> CPetSkill::getFinalAnimationSub()
+Maybe<uint8> CPetSkill::getFinalAnimationSub()
 {
     return m_FinalAnimationSub;
 }

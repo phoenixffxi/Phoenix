@@ -21,12 +21,13 @@
 
 #pragma once
 
-#include "common/cbasetypes.h"
-#include "common/timer.h"
-#include "common/vana_time.h"
+#include <common/cbasetypes.h>
+#include <common/timer.h>
+#include <common/types/maybe.h>
+#include <common/vana_time.h>
+
 #include "map_constants.h"
 
-#include <optional>
 #include <unordered_map>
 
 enum class Weather : uint16_t;
@@ -37,8 +38,8 @@ class SpawnSlot;
 
 struct PendingSlotRespawn
 {
-    timer::time_point     respawnAt;
-    std::optional<uint32> specificMobId;
+    timer::time_point respawnAt;
+    Maybe<uint32>     specificMobId;
 };
 
 class SpawnHandler
@@ -47,10 +48,10 @@ public:
     explicit SpawnHandler(CZone* PZone);
 
     void Tick(timer::time_point now);
-    void registerForRespawn(CMobEntity* PMob, std::optional<timer::duration> respawnTime = std::nullopt);
+    void registerForRespawn(CMobEntity* PMob, Maybe<timer::duration> respawnTime = std::nullopt);
     void unregister(CMobEntity* PMob);
     auto isRegistered(CMobEntity* PMob) const -> bool;
-    auto getRemainingRespawnTime(CMobEntity* PMob) const -> std::optional<timer::duration>;
+    auto getRemainingRespawnTime(CMobEntity* PMob) const -> Maybe<timer::duration>;
     void onTOTDChange(vanadiel_time::TOTD totd) const;
     void onWeatherChange(Weather weather) const;
     auto canSpawnNow(const CMobEntity* PMob) const -> bool;

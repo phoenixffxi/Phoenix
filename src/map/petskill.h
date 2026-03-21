@@ -57,7 +57,7 @@ public:
     uint8           getHPP() const;
     uint16          getTotalTargets() const;
     uint32          getPrimaryTargetID() const;
-    auto            getFinalAnimationSub() -> std::optional<uint8>;
+    auto            getFinalAnimationSub() -> Maybe<uint8>;
     uint16          getMsgForAction() const;
     float           getRadius() const;
     int16           getParam() const;
@@ -127,7 +127,7 @@ private:
     uint16 m_TotalTargets;
     uint32 m_PrimaryTargetID; // primary target ID
 
-    std::optional<uint8> m_FinalAnimationSub; // If non-null, entity will get this new animation sub after state exits
+    Maybe<uint8> m_FinalAnimationSub; // If non-null, entity will get this new animation sub after state exits
 };
 
 #endif

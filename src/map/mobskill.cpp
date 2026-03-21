@@ -243,7 +243,7 @@ void CMobSkill::setFinalAnimationSub(uint8 newAnimationSub)
     m_FinalAnimationSub = newAnimationSub;
 }
 
-std::optional<uint8> CMobSkill::getFinalAnimationSub()
+Maybe<uint8> CMobSkill::getFinalAnimationSub()
 {
     return m_FinalAnimationSub;
 }

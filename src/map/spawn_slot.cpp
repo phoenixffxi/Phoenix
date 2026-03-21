@@ -36,7 +36,7 @@ void SpawnSlot::RemoveMob(const CMobEntity* mob)
                   });
 }
 
-auto SpawnSlot::TrySpawn(const std::optional<uint32> specificMobId) -> bool
+auto SpawnSlot::TrySpawn(const Maybe<uint32> specificMobId) -> bool
 {
     // Get SpawnHandler from first mob's zone for condition checking
     SpawnHandler* spawnHandler = nullptr;

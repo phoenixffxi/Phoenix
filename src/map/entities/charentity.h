@@ -460,9 +460,9 @@ public:
     void   erasePackets(uint8 num); // Erase num elements from front of packet list
     bool   isPacketFiltered(std::unique_ptr<CBasicPacket>& packet);
 
-    bool                 pendingPositionUpdate;
-    bool                 sendServerStatus_ = false;
-    std::optional<int32> servmesLastOffset_; // Last /servmes fragment offset we responded to
+    bool         pendingPositionUpdate;
+    bool         sendServerStatus_ = false;
+    Maybe<int32> servmesLastOffset_; // Last /servmes fragment offset we responded to
 
     virtual void HandleErrorMessage(std::unique_ptr<CBasicPacket>&) override;
 
@@ -485,11 +485,11 @@ public:
     CUContainer*     UContainer;     // Container used for universal actions -- used for trading at least despite the dedicated trading container above
     CTradeContainer* CraftContainer; // Container used for crafting actions.
 
-    // TODO: All member instances of EntityID_t should be std::optional<EntityID_t> to allow for them not to be set,
+    // TODO: All member instances of EntityID_t should be Maybe<EntityID_t> to allow for them not to be set,
     //     : instead of checking for entityId.id != 0, etc.
     // TODO: We don't want to replace this with just an ID, because in the future EntityID_t will be able to
     //     : disambiguate between entities who have been rebuilt (players, dynamic entities) and have the same ID.
-    xi::optional<EntityID_t> WideScanTarget;
+    Maybe<EntityID_t> WideScanTarget;
 
     // NOTE: These are all keyed by id
     SpawnIDList_t SpawnPCList;    // list of visible characters
@@ -598,7 +598,7 @@ public:
     bool PersistData();
     bool PersistData(timer::time_point tick);
 
-    virtual void Tick(timer::time_point) override;
+    virtual auto Tick(timer::time_point) -> Task<void> override;
     void         PostTick() override;
 
     virtual void addTrait(CTrait*) override;
@@ -681,8 +681,8 @@ protected:
 
 private:
     // Lazily initialized AMAN data
-    xi::optional<CAMANContainer> m_AMAN;
-    GMCallContainer              gmCallContainer_;
+    Maybe<CAMANContainer> m_AMAN;
+    GMCallContainer       gmCallContainer_;
 
     std::unique_ptr<CItemContainer> m_Inventory;
     std::unique_ptr<CItemContainer> m_Mogsafe;

@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-  Copyright (c) 2022 LandSandBoat Dev Teams
+  Copyright (c) 2026 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,35 +21,28 @@
 
 #pragma once
 
-#include "cbasetypes.h"
-#include "timer.h"
+#include <optional>
 
-#include <atomic>
-#include <chrono>
-#include <condition_variable>
-#include <functional>
-#include <mutex>
-#include <thread>
+// namespace xi
+// {
 
-class Watchdog final
+//
+// Maybe<T>
+//
+
+// TODO: Replace with a third-party optional impl which supports reference types, until the STL
+//     : supports them.
+template <typename T>
+using Maybe = std::optional<T>;
+
+// TODO: Rename to apply() once we're using xi:: namespace, because otherwise we'll collide with std
+template <typename T, typename F>
+void applyTo(const Maybe<T>& maybe, F fn)
 {
-public:
-    Watchdog(timer::duration timeout, std::function<void()> callback);
-    ~Watchdog();
+    if (maybe)
+    {
+        fn(*maybe);
+    }
+}
 
-    void update();
-
-private:
-    void _innerFunc();
-
-    using voidFunc_t = std::function<void()>;
-
-    timer::duration   m_timeout;
-    voidFunc_t        m_callback;
-    timer::time_point m_lastUpdate;
-
-    std::jthread            m_watchdog;
-    std::atomic_bool        m_running;
-    std::mutex              m_bottleneck;
-    std::condition_variable m_stopCondition;
-};
+// } // namespace xi

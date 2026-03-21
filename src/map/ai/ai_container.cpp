@@ -108,7 +108,7 @@ bool CAIContainer::WeaponSkill(uint16 targid, uint16 wsid)
     return false;
 }
 
-bool CAIContainer::MobSkill(uint16 targid, uint16 wsid, std::optional<timer::duration> castTimeOverride)
+bool CAIContainer::MobSkill(uint16 targid, uint16 wsid, Maybe<timer::duration> castTimeOverride)
 {
     auto* AIController = dynamic_cast<CMobController*>(Controller.get());
     if (AIController)
@@ -279,7 +279,7 @@ bool CAIContainer::Internal_WeaponSkill(uint16 targid, uint16 wsid)
     return false;
 }
 
-bool CAIContainer::Internal_MobSkill(uint16 targid, uint16 wsid, std::optional<timer::duration> castTimeOverride)
+bool CAIContainer::Internal_MobSkill(uint16 targid, uint16 wsid, Maybe<timer::duration> castTimeOverride)
 {
     auto* entity = dynamic_cast<CBattleEntity*>(PEntity);
     if (entity)
@@ -402,24 +402,26 @@ void CAIContainer::Reset()
     }
 }
 
-void CAIContainer::Tick(timer::time_point _tick)
+auto CAIContainer::Tick(timer::time_point tick) -> Task<void>
 {
     TracyZoneScoped;
+
     m_PrevTick = m_Tick;
-    m_Tick     = _tick;
+    m_Tick     = tick;
 
     // TODO: timestamp in the event?
     EventHandler.triggerListener("TICK", PEntity);
-    PEntity->Tick(_tick);
+
+    co_await PEntity->Tick(tick);
 
     // TODO: check this in the controller instead maybe? (might not want to check every tick)
-    ActionQueue.checkAction(_tick);
+    ActionQueue.checkAction(tick);
 
     // check pathfinding only if there is no controller to do it
     bool isPathingPaused = PEntity->GetLocalVar("pauseNPCPathing");
     if (!Controller && CanFollowPath() && !isPathingPaused)
     {
-        PathFind->FollowPath(_tick);
+        PathFind->FollowPath(tick);
         if (PathFind->OnPoint())
         {
             EventHandler.triggerListener("PATH", PEntity);
@@ -429,7 +431,7 @@ void CAIContainer::Tick(timer::time_point _tick)
 
     if (Controller && Controller->canUpdate)
     {
-        Controller->Tick(_tick);
+        co_await Controller->Tick(tick);
     }
 
     while (!m_stateStack.empty())
@@ -441,13 +443,13 @@ void CAIContainer::Tick(timer::time_point _tick)
             // If DoUpdate returns true, the state has signaled it's done
             // Clean it up.
             // If the state stack is not empty, the next state will be polled.
-            if (top->DoUpdate(_tick))
+            if (top->DoUpdate(tick))
             {
                 // the state may change (and get cleaned up) during DoUpdate as a consequence of things it does
                 // Only clean up the state if the current state is still the same one we ran DoUpdate on
                 if (top == GetCurrentState())
                 {
-                    top->Cleanup(_tick);
+                    top->Cleanup(tick);
                     m_stateStack.pop();
                 }
             }
@@ -463,6 +465,8 @@ void CAIContainer::Tick(timer::time_point _tick)
     }
 
     PEntity->PostTick();
+
+    co_return;
 }
 
 bool CAIContainer::IsStateStackEmpty()

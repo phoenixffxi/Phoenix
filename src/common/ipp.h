@@ -51,6 +51,7 @@
 #include <cstring>
 #include <memory>
 #include <string>
+#include <type_traits>
 
 auto ip2str(uint32 ip) -> std::string;
 auto str2ip(const std::string& ip_str) -> uint32;
@@ -89,3 +90,5 @@ private:
     // Port is always stored and used in host byte order (human-readable).
     uint16 port_{};
 };
+
+static_assert(std::is_standard_layout_v<IPP>, "IPP must be standard-layout");

@@ -68,10 +68,43 @@ void ConnectApplication::registerCommands(ConsoleService& console)
 
             ShowInfo("Serving %u IP addresses with %u accounts", uniqueIPs, uniqueAccounts);
         });
-}
 
-void ConnectApplication::requestExit()
-{
-    Application::requestExit();
-    scheduler_.stop();
+    console.registerCommand(
+        "clear",
+        "Run periodic session cleanup routine",
+        [](std::vector<std::string>& inputs)
+        {
+            auto& sessions       = loginHelpers::getAuthenticatedSessions();
+            auto  ipAddrIterator = sessions.begin();
+            while (ipAddrIterator != sessions.end())
+            {
+                auto sessionIterator = ipAddrIterator->second.begin();
+                while (sessionIterator != ipAddrIterator->second.end())
+                {
+                    session_t& session = sessionIterator->second;
+
+                    // If it's been 15 minutes, erase it from the session list
+                    if (!session.data_session &&
+                        !session.view_session &&
+                        timer::now() > session.authorizedTime)
+                    {
+                        sessionIterator = ipAddrIterator->second.erase(sessionIterator);
+                    }
+                    else
+                    {
+                        ++sessionIterator;
+                    }
+                }
+
+                // If this map entry is empty, clean it up
+                if (ipAddrIterator->second.size() == 0)
+                {
+                    ipAddrIterator = sessions.erase(ipAddrIterator);
+                }
+                else
+                {
+                    ++ipAddrIterator;
+                }
+            }
+        });
 }

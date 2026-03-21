@@ -85,7 +85,7 @@ void CTrustController::Despawn()
     CMobController::Despawn();
 }
 
-void CTrustController::Tick(timer::time_point tick)
+auto CTrustController::Tick(timer::time_point tick) -> Task<void>
 {
     TracyZoneScoped;
     TracyZoneString(POwner->getName());
@@ -94,7 +94,7 @@ void CTrustController::Tick(timer::time_point tick)
 
     if (!POwner->PMaster)
     {
-        return;
+        co_return;
     }
 
     if (POwner->PMaster->isCharmed)
@@ -104,15 +104,15 @@ void CTrustController::Tick(timer::time_point tick)
 
     if (POwner->PAI->IsEngaged())
     {
-        DoCombatTick(tick);
+        co_await DoCombatTick(tick);
     }
     else if (!POwner->isDead())
     {
-        DoRoamTick(tick);
+        co_await DoRoamTick(tick);
     }
 }
 
-void CTrustController::DoCombatTick(timer::time_point tick)
+auto CTrustController::DoCombatTick(timer::time_point tick) -> Task<void>
 {
     TracyZoneScoped;
 
@@ -157,7 +157,7 @@ void CTrustController::DoCombatTick(timer::time_point tick)
     // If busy, don't run around!
     if (PTrust->PAI->IsCurrentState<CMagicState>() || PTrust->PAI->IsCurrentState<CRangeState>())
     {
-        return;
+        co_return;
     }
 
     if (PTarget)
@@ -232,13 +232,13 @@ void CTrustController::DoCombatTick(timer::time_point tick)
             PTrust->PAI->PathFind->FollowPath(m_Tick);
         }
 
-        m_GambitsContainer->Tick(tick);
+        co_await m_GambitsContainer->Tick(tick);
 
         PTrust->PAI->EventHandler.triggerListener("COMBAT_TICK", PTrust, PMaster, PTarget);
     }
 }
 
-void CTrustController::DoRoamTick(timer::time_point tick)
+auto CTrustController::DoRoamTick(timer::time_point tick) -> Task<void>
 {
     TracyZoneScoped;
 
@@ -331,6 +331,8 @@ void CTrustController::DoRoamTick(timer::time_point tick)
             m_NumHealingTicks = std::clamp(m_NumHealingTicks + 1, static_cast<std::size_t>(0U), m_tickDelays.size() - 1U);
         }
     }
+
+    co_return;
 }
 
 void CTrustController::Declump(CCharEntity* PMaster, CBattleEntity* PTarget)

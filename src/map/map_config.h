@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2023 LandSandBoat Dev Teams
+  Copyright (c) 2026 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,41 +21,15 @@
 
 #pragma once
 
-#include "singleton.h"
-#include "xi.h"
+#include <common/ipp.h>
 
-#include <atomic>
-#include <condition_variable>
-#include <functional>
-#include <mutex>
-#include <thread>
-
-namespace asio
+struct MapConfig final
 {
-
-class thread_pool;
-
-}
-
-class Async : public Singleton<Async>
-{
-public:
-    ~Async();
-
-    void submit(const xi::Fn<void()>& func);
-    void wait();
-    auto currentTaskCount() const -> std::size_t;
-
-    void setThreadpoolSize(std::size_t size);
-
-protected:
-    Async();
-
-private:
-    std::mutex                         mutex_;
-    std::condition_variable            cv_;
-    std::size_t                        threadPoolSize_{ 1U };
-    std::atomic<std::size_t>           taskCount_{ 0U };
-    std::unique_ptr<asio::thread_pool> threadPool_;
-    std::thread::id                    mainThreadId_;
+    IPP  ipp{};
+    bool inCI{ false };              // Is the process running in CI (GitHub runners, etc.)
+    bool isTestServer{ false };      // Disables watchdog and certain recurring tasks when ticks are externally managed.
+    bool lazyZones{ false };         // Load zones when first accessed
+    bool controlledWeather{ false }; // Disables automated weather
 };
+
+static_assert(std::is_standard_layout_v<MapConfig>, "MapConfig must be standard-layout");

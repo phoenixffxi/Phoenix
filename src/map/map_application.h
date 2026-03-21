@@ -24,9 +24,8 @@
 #include "map_engine.h"
 #include "pch.h"
 
-#include "common/application.h"
-#include "common/timer.h"
-#include "common/watchdog.h"
+#include <common/application.h>
+#include <common/timer.h>
 
 #include "zone.h"
 
@@ -48,7 +47,6 @@ public:
     auto createEngine() -> std::unique_ptr<Engine> override;
     void registerCommands(ConsoleService& console) override;
     void run() override;
-    void requestExit() override;
 
 private:
     MapConfig engineConfig_{};

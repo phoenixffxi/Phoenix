@@ -23,7 +23,6 @@
 
 #include <limits>
 
-#include "common/async.h"
 #include "entities/charentity.h"
 #include "packets/s2c/0x01d_item_same.h"
 #include "packets/s2c/0x020_item_attr.h"
@@ -136,7 +135,8 @@ void GP_CLI_COMMAND_BAZAAR_BUY::process(MapSession* PSession, CCharEntity* PChar
 
         if (settings::get<bool>("map.AUDIT_PLAYER_BAZAAR"))
         {
-            Async::getInstance()->submit(
+            // TODO: Don't pass around Scheduler& through PSession
+            PSession->scheduler->postToWorkerThread(
                 [itemID        = PItem->getID(),
                  quantity      = this->BuyNum,
                  sellerID      = PTarget->id,

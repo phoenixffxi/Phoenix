@@ -192,7 +192,7 @@ void view_session::read_func()
                 char CharName[PacketNameLength] = {};
                 std::memcpy(CharName, buffer_.data() + 32, PacketNameLength - 1);
 
-                std::optional<std::string> invalidNameReason = std::nullopt;
+                Maybe<std::string> invalidNameReason = std::nullopt;
 
                 // Sanitize name & check for invalid characters
                 std::string nameStr = CharName;

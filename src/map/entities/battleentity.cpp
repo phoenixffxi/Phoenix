@@ -3242,9 +3242,11 @@ uint16 CBattleEntity::getBattleID()
     return m_battleID;
 }
 
-void CBattleEntity::Tick(timer::time_point /*unused*/)
+auto CBattleEntity::Tick(timer::time_point /*unused*/) -> Task<void>
 {
     TracyZoneScoped;
+
+    co_return;
 }
 
 void CBattleEntity::PostTick()

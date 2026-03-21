@@ -424,12 +424,12 @@ public:
     bool   getEminenceCompleted(uint16 recordID);
     uint16 getNumEminenceCompleted();
     bool   setEminenceProgress(uint16 recordID, uint32 progress, const sol::object& arg2);
-    auto   getEminenceProgress(uint16 recordID) -> std::optional<uint32>;
+    auto   getEminenceProgress(uint16 recordID) -> Maybe<uint32>;
     bool   hasEminenceRecord(uint16 recordID);
     void   triggerRoeEvent(uint8 eventNum, const sol::object& reqTable);
     void   setUnityLeader(uint8 leaderID);
     uint8  getUnityLeader();
-    auto   getUnityRank(const sol::object& unityObj) -> std::optional<uint8>;
+    auto   getUnityRank(const sol::object& unityObj) -> Maybe<uint8>;
     auto   getClaimedDeedMask() -> sol::table;
     void   toggleReceivedDeedRewards();
     void   setClaimedDeed(uint16 deedBitNum);
@@ -811,9 +811,9 @@ public:
 
     auto hasAttachment(uint16 itemID) const -> bool;
     auto getAutomatonName() const -> std::string;
-    auto getAutomatonFrame() const -> std::optional<AutomatonFrame>;
+    auto getAutomatonFrame() const -> Maybe<AutomatonFrame>;
     void setAutomatonFrame(AutomatonFrame frame) const;
-    auto getAutomatonHead() const -> std::optional<AutomatonHead>;
+    auto getAutomatonHead() const -> Maybe<AutomatonHead>;
     void setAutomatonHead(AutomatonHead head) const;
     auto unlockAttachment(uint16 itemID) const -> bool;
     auto getActiveManeuverCount() const -> uint8;

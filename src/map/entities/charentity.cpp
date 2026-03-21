@@ -1066,10 +1066,12 @@ bool CCharEntity::PersistData(timer::time_point tick)
     return true;
 }
 
-void CCharEntity::Tick(timer::time_point tick)
+auto CCharEntity::Tick(timer::time_point tick) -> Task<void>
 {
     TracyZoneScoped;
-    CBattleEntity::Tick(tick);
+
+    co_await CBattleEntity::Tick(tick);
+
     if (m_DeathTimestamp > timer::time_point::min() && tick >= m_deathSyncTime)
     {
         // Send an update packet at a regular interval to keep the player's death variables synced

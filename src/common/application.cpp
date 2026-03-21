@@ -27,7 +27,6 @@
 #include "logging.h"
 #include "lua.h"
 #include "settings.h"
-#include "task_manager.h"
 #include "xirand.h"
 
 #ifdef _WIN32
@@ -44,18 +43,8 @@
 namespace
 {
 
-// Marked as true by markLoaded() when the
-// application is fully loaded and the main
-// loop has begun.
-bool gIsRunning = false;
-
 void handleSignal(const std::error_code& error, int signal)
 {
-    if (error)
-    {
-        return;
-    }
-
     switch (signal)
     {
 #ifdef _WIN32
@@ -63,7 +52,6 @@ void handleSignal(const std::error_code& error, int signal)
 #endif // _WIN32
         case SIGINT:
         case SIGTERM:
-            gIsRunning = false;
             std::exit(0);
 #ifndef _WIN32
         case SIGABRT:
@@ -121,7 +109,6 @@ Application::Application(const ApplicationConfig& appConfig, int argc, char** ar
 
 Application::~Application()
 {
-    signals_.cancel();
     tryRestoreQuickEditMode();
     logging::ShutDown();
 }
@@ -230,7 +217,6 @@ void Application::markLoaded()
     ShowInfoFmt("The {}-server is ready to work...", serverName_);
     ShowInfoFmt("Type 'help' for a list of available commands.");
     ShowInfoFmt("=======================================================================");
-    gIsRunning = true;
 
     if (Application::isRunningInCI())
     {
@@ -241,12 +227,21 @@ void Application::markLoaded()
 
 auto Application::isRunning() const -> bool
 {
-    return gIsRunning;
+    return !scheduler_.closeRequested();
 }
 
 void Application::requestExit()
 {
-    gIsRunning = false;
+    scheduler_.postToMainThread(
+        [this]()
+        {
+            scheduler_.stop();
+        });
+}
+
+auto Application::closeRequested() const -> bool
+{
+    return scheduler_.closeRequested();
 }
 
 auto Application::isRunningInCI() const -> bool
@@ -270,34 +265,26 @@ void Application::run()
 
     markLoaded();
 
-    try
-    {
-        // NOTE: scheduler_.run() takes over and blocks this thread. Anything after this point will only fire
-        // if scheduler_ finishes!
-        //
-        // This busy loop looks nasty, however:
-        // https://think-async.com/asio/asio-1.24.0/doc/asio/reference/io_service.html
-        //
-        // If an exception is thrown from a handler, the exception is allowed to propagate through the throwing thread's invocation of
-        // run(), run_one(), run_for(), run_until(), poll() or poll_one(). No other threads that are calling any of these functions are affected.
-        // It is then the responsibility of the application to catch the exception.
+    // NOTE: scheduler_.run() takes over and blocks this thread. Anything after this point will only fire
+    // if scheduler_ finishes!
+    //
+    // https://think-async.com/asio/asio-1.24.0/doc/asio/reference/io_service.html
+    //
+    // If an exception is thrown from a handler, the exception is allowed to propagate through the throwing thread's invocation of
+    // run(), run_one(), run_for(), run_until(), poll() or poll_one(). No other threads that are calling any of these functions are affected.
+    // It is then the responsibility of the application to catch the exception.
 
-        while (isRunning())
-        {
-            try
-            {
-                scheduler_.run();
-                break;
-            }
-            catch (std::exception& e)
-            {
-                ShowErrorFmt("Inner fatal: {}", e.what());
-            }
-        }
-    }
-    catch (std::exception& e)
+    while (isRunning())
     {
-        ShowErrorFmt("Outer fatal: {}", e.what());
+        try
+        {
+            scheduler_.run();
+            break;
+        }
+        catch (std::exception& e)
+        {
+            ShowErrorFmt("Fatal exception: {}", e.what());
+        }
     }
 }
 

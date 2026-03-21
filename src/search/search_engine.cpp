@@ -40,7 +40,13 @@ SearchEngine::SearchEngine(Scheduler& scheduler)
 
     if (settings::get<bool>("search.EXPIRE_AUCTIONS"))
     {
-        scheduler_.postToMainThread(periodicCleanup());
+        const auto interval   = std::chrono::seconds(settings::get<uint32>("search.EXPIRE_INTERVAL"));
+        periodicCleanupToken_ = scheduler_.intervalOnMainThread(
+            interval,
+            [this]()
+            {
+                expireAH(settings::get<uint16>("search.EXPIRE_DAYS"));
+            });
     }
 }
 
@@ -72,21 +78,8 @@ void SearchEngine::onExpireAll(std::vector<std::string>& inputs) const
     expireAH(std::nullopt);
 }
 
-void SearchEngine::expireAH(const std::optional<uint16> days) const
+void SearchEngine::expireAH(const Maybe<uint16> days) const
 {
     CDataLoader data;
     data.ExpireAHItems(days.value_or(0));
-}
-
-auto SearchEngine::periodicCleanup() -> Task<void>
-{
-    while (!scheduler_.closeRequested())
-    {
-        co_await scheduler_.yieldFor(std::chrono::seconds(settings::get<uint32>("search.EXPIRE_INTERVAL")));
-
-        if (!scheduler_.closeRequested())
-        {
-            expireAH(settings::get<uint16>("search.EXPIRE_DAYS"));
-        }
-    }
 }

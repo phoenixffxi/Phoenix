@@ -22,10 +22,8 @@
 #ifndef _LUAUTILS_H
 #define _LUAUTILS_H
 
-#include <optional>
-
-#include "common/cbasetypes.h"
-#include "common/task_manager.h"
+#include <common/cbasetypes.h>
+#include <common/types/maybe.h>
 
 #include "common/lua.h"
 extern sol::state lua;
@@ -210,8 +208,8 @@ void CacheLuaObjectFromFile(const std::string& filename, bool overwriteCurrentEn
 auto GetCacheEntryFromFilename(const std::string& filename) -> sol::table;
 void OnEntityLoad(CBaseEntity* PEntity);
 
-void PopulateIDLookupsByFilename(std::optional<std::string> maybeFilename = std::nullopt);
-void PopulateIDLookupsByZone(std::optional<uint16> maybeZoneId = std::nullopt);
+void PopulateIDLookupsByFilename(Maybe<std::string> maybeFilename = std::nullopt);
+void PopulateIDLookupsByZone(Maybe<uint16> maybeZoneId = std::nullopt);
 
 void SendEntityVisualPacket(uint32 npcId, const char* command);
 void InitInteractionGlobal();
@@ -341,7 +339,7 @@ int32 OnSpellCast(CBattleEntity* PCaster, CBattleEntity* PTarget, CSpell* PSpell
 void  OnSpellPrecast(CBattleEntity* PCaster, CSpell* PSpell);
 void  OnSpellCastStart(CBattleEntity* PCaster, CBattleEntity* PTarget, CSpell* PSpell);
 void  OnSpellInterrupted(CBattleEntity* PCaster, CSpell* PSpell);
-auto  OnMobSpellChoose(CBattleEntity* PCaster, CBattleEntity* PTarget, std::optional<SpellID> startingSpellId) -> std::tuple<std::optional<SpellID>, std::optional<CBattleEntity*>>;
+auto  OnMobSpellChoose(CBattleEntity* PCaster, CBattleEntity* PTarget, Maybe<SpellID> startingSpellId) -> std::tuple<Maybe<SpellID>, Maybe<CBattleEntity*>>;
 void  OnMagicHit(CBattleEntity* PCaster, CBattleEntity* PTarget, CSpell* PSpell);
 void  OnWeaponskillHit(CBattleEntity* PMob, CBaseEntity* PAttacker, uint16 PWeaponskill);
 bool  OnTrustSpellCastCheckBattlefieldTrusts(CBattleEntity* PCaster); // Triggered if spell is a trust spell during onCast to determine to interrupt spell or not
@@ -386,7 +384,7 @@ uint16 OnMobMobskillChoose(CBattleEntity* PMob, CBattleEntity* PTarget, uint16 c
 int32  OnMobWeaponSkill(CBaseEntity* PMob, CBaseEntity* PTarget, CMobSkill* PMobSkill, action_t* action);
 int32  OnMobSkillCheck(CBaseEntity* PChar, CBaseEntity* PMob, CMobSkill* PMobSkill); // triggers before mob weapon skill is used, returns 0 if the move is valid
 auto   OnMobSkillTarget(CBattleEntity* PTarget, CBaseEntity* PMob, CMobSkill* PMobSkill) -> CBattleEntity*;
-auto   OnMobSkillReadyTime(CBattleEntity* PTarget, CBaseEntity* PMob, CMobSkill* PMobSkill) -> std::optional<timer::duration>;
+auto   OnMobSkillReadyTime(CBattleEntity* PTarget, CBaseEntity* PMob, CMobSkill* PMobSkill) -> Maybe<timer::duration>;
 void   OnMobSkillFinalize(CBaseEntity* PMob, CMobSkill* PMobSkill); // triggers when mob skill state cleanup runs
 int32  OnAutomatonAbilityCheck(CBaseEntity* PChar, CAutomatonEntity* PAutomaton, CMobSkill* PMobSkill);
 int32  OnAutomatonAbility(CBaseEntity* PTarget, CBaseEntity* PMob, CMobSkill* PMobSkill, CBaseEntity* PMobMaster, action_t* action);

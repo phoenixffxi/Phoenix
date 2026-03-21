@@ -21,11 +21,13 @@
 
 #pragma once
 
+#include <common/types/maybe.h>
+
 #include "entities/automatonentity.h"
+
 #include "pet_controller.h"
 #include "spell.h"
 #include "status_effect.h"
-#include <optional>
 
 struct CurrentManeuvers
 {
@@ -64,14 +66,15 @@ public:
     virtual auto Disengage() -> bool override;
 
 protected:
-    virtual void DoCombatTick(timer::time_point tick) override;
+    virtual auto DoCombatTick(timer::time_point tick) -> Task<void> override;
     virtual void Move() override;
 
-    void         setCooldowns();
-    void         setMagicCooldowns();
+    void setCooldowns();
+    void setMagicCooldowns();
+
     virtual auto CanCastSpells(IgnoreRecastsAndCosts ignoreRecastsAndCosts) -> bool override;
     virtual auto Cast(uint16 targid, SpellID spellid) -> bool override;
-    virtual auto MobSkill(uint16 targid, uint16 wsid, std::optional<timer::duration> castTimeOverride) -> bool override;
+    virtual auto MobSkill(uint16 targid, uint16 wsid, Maybe<timer::duration> castTimeOverride) -> bool override;
 
 private:
     auto TryAction() -> bool;
@@ -118,9 +121,9 @@ namespace automaton
 {
 
 void LoadAutomatonSpellList();
-auto CanUseSpell(CAutomatonEntity* PCaster, SpellID spellid) -> bool;
-auto CanUseEnfeeble(CBattleEntity* PTarget, SpellID spell) -> bool;
-auto FindNaSpell(CStatusEffect* PStatus) -> std::optional<SpellID>;
+bool CanUseSpell(CAutomatonEntity* PCaster, SpellID spellid);
+bool CanUseEnfeeble(CBattleEntity* PTarget, SpellID spell);
+auto FindNaSpell(CStatusEffect* PStatus) -> Maybe<SpellID>;
 void LoadAutomatonAbilities();
 
 }; // namespace automaton

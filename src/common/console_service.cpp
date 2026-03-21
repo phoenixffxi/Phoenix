@@ -26,7 +26,6 @@
 #include "logging.h"
 #include "lua.h"
 #include "settings.h"
-#include "task_manager.h"
 #include "tracy.h"
 #include "utils.h"
 #include "version.h"
@@ -147,12 +146,6 @@ void ConsoleService::registerDefaultCommands()
         });
 
     registerCommand(
-        "tasks", "Show the current amount of tasks registered to the application task manager", [](std::vector<std::string>& inputs)
-        {
-            fmt::print("> tasks registered to the application task manager: {}\n", CTaskManager::getInstance()->getTaskList().size());
-        });
-
-    registerCommand(
         "reload_settings", "Reload settings files", [](std::vector<std::string>& inputs)
         {
             fmt::print("Reloading settings files\n");
@@ -233,6 +226,7 @@ auto ConsoleService::consoleLoop() -> Task<void>
 
     std::string line;
 
+    // Run "forever"
     while (!scheduler.closeRequested())
     {
         // If there is data, process as much as possible before yielding.

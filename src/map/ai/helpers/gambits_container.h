@@ -286,7 +286,7 @@ public:
     auto AddGambit(const Gambit_t& gambit) -> std::string;
     void RemoveGambit(const std::string& id);
     void RemoveAllGambits();
-    void Tick(timer::time_point tick);
+    auto Tick(timer::time_point tick) -> Task<void>;
 
     // TODO: make private
     std::vector<TrustSkill_t> tp_skills;

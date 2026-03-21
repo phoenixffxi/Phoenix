@@ -77,22 +77,6 @@ void MapSocket::startReceive()
         });
 }
 
-void MapSocket::recvFor(timer::duration duration)
-{
-    TracyZoneScoped;
-
-    // Blocks until the duration is up
-    scheduler_.mainContext().run_for(duration);
-
-    // Once run_for() or run() return the io_context enters a stopped state,
-    // even if there are still pending asynchronous operations. You need to
-    // call restart() to clear that state before you can run it again.
-    if (isRunning_)
-    {
-        scheduler_.mainContext().restart();
-    }
-}
-
 void MapSocket::send(const IPP& ipp, std::span<uint8> buffer)
 {
     TracyZoneScoped;
