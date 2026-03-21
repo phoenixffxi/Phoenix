@@ -10,7 +10,9 @@ require('scripts/globals/npc_util')
 xi = xi or {}
 xi.dynamis = xi.dynamis or {}
 
--- All mob required for battlefield info
+-- ---------------------
+-- General Info functions
+-- ---------------------
 xi.dynamis.generalInfo = function(mob)
     mob:setTrueDetection(true)
     mob:setMobMod(xi.mobMod.CHARMABLE, 0)
@@ -26,14 +28,6 @@ end
 -- ---------------------
 -- Statue functions
 -- ---------------------
--- TODO: apply this to bosses
-xi.dynamis.onBossInitialize = function(mob)
-    mob:addImmunity(xi.immunity.LIGHT_SLEEP)
-    mob:addImmunity(xi.immunity.DARK_SLEEP)
-    mob:addImmunity(xi.immunity.PETRIFY)
-    mob:addImmunity(xi.immunity.TERROR)
-end
-
 xi.dynamis.statueOnSpawn = function(mob)
     -- Apply the general stats to from dynamis mobs
     xi.dynamis.generalInfo(mob)
@@ -163,25 +157,6 @@ xi.dynamis.onStatueFight = function(mob, target)
     end)
 end
 
-xi.dynamis.onMobRoam = function(mob)
-    if mob:getLocalVar('currentPath') == 1 then
-        return
-    end
-
-    -- Check the rotation after the mob casts a spell on a party member
-    local spawnPos = mob:getSpawnPos()
-    if mob:checkDistance(spawnPos) < 1 then
-        mob:setRotation(spawnPos.rot)
-        return
-    end
-
-    -- Check if mob is far from spawn position
-    if mob:checkDistance(spawnPos) > 5 then
-        -- Return to original spawn position
-        mob:pathThrough({ spawnPos }, xi.path.flag.COORDS)
-    end
-end
-
 -- NONE    = 0,
 -- RED     = 1, -- Default statue eye color
 -- BLUE    = 2, -- HP refill
@@ -239,12 +214,42 @@ xi.dynamis.onMobSpawn = function(mob)
     end
 end
 
+xi.dynamis.onMobRoam = function(mob)
+    if mob:getLocalVar('currentPath') == 1 then
+        return
+    end
+
+    -- Check the rotation after the mob casts a spell on a party member
+    local spawnPos = mob:getSpawnPos()
+    if mob:checkDistance(spawnPos) < 1 then
+        mob:setRotation(spawnPos.rot)
+        return
+    end
+
+    -- Check if mob is far from spawn position
+    if mob:checkDistance(spawnPos) > 5 then
+        -- Return to original spawn position
+        mob:pathThrough({ spawnPos }, xi.path.flag.COORDS)
+    end
+end
+
 xi.dynamis.onMobDeath = function(mob, player, optParams)
     -- Check for time extensions
     xi.dynamis.addTimeToDynamis(mob:getZone(), mob)
 
     -- Check for NM death actions
     xi.dynamis.onNMDeath(mob, player, optParams)
+end
+
+-- ---------------------
+-- NM Mob functions
+-- ---------------------
+-- TODO: apply this to bosses
+xi.dynamis.onBossInitialize = function(mob)
+    mob:addImmunity(xi.immunity.LIGHT_SLEEP)
+    mob:addImmunity(xi.immunity.DARK_SLEEP)
+    mob:addImmunity(xi.immunity.PETRIFY)
+    mob:addImmunity(xi.immunity.TERROR)
 end
 
 -- NM Death Actions - define conditional spawns when specific NMs die
@@ -300,7 +305,9 @@ xi.dynamis.onNMDeath = function(mob, player, optParams)
     end
 end
 
--- Spawn functions
+-- ---------------------
+-- Spawn mechanics
+-- ---------------------
 xi.dynamis.spawnNextMobsOnce = function(statue, statueId, count, target, checkForceSpawn)
     print('Spawning next mobs once...')
     if

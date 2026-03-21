@@ -402,7 +402,8 @@ xi.dynamis.aggro[zoneID] =
 }
 
 -- Pathing table
--- No mobs path in this zone
+-- TODO: apparently some of these path
+-- https://www.youtube.com/watch?v=rKMDiR5jx4w&t=19s
 
 xi.dynamis.timeExtension = xi.dynamis.timeExtension or { }
 xi.dynamis.timeExtension[zoneID] =
