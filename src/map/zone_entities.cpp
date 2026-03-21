@@ -171,6 +171,11 @@ void CZoneEntities::TryAddToNearbySpawnLists(CBaseEntity* PEntity)
                             continue;
                         }
 
+                        if (PChar->m_isGMHidden)
+                        {
+                            continue;
+                        }
+
                         PCurrentChar->SpawnPCList[PEntity->id] = PEntity;
                         PCurrentChar->updateEntityPacket(PChar, ENTITY_SPAWN, UPDATE_ALL_CHAR);
                         break;
