@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2026 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,10 +21,15 @@
 
 #pragma once
 
-#include <common/cbasetypes.h>
-#include <common/scheduler.h>
-#include <common/timer.h>
+#include <common/ipp.h>
 
-#include "map_config.h"
+struct MapConfig final
+{
+    IPP  ipp{};
+    bool inCI{ false };              // Is the process running in CI (GitHub runners, etc.)
+    bool isTestServer{ false };      // Disables watchdog and certain recurring tasks when ticks are externally managed.
+    bool lazyZones{ false };         // Load zones when first accessed
+    bool controlledWeather{ false }; // Disables automated weather
+};
 
-auto time_server(Scheduler& scheduler, MapConfig config) -> Task<void>;
+static_assert(std::is_standard_layout_v<MapConfig>, "MapConfig must be standard-layout");

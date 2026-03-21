@@ -39,7 +39,7 @@
 class CZoneEntities
 {
 public:
-    CZoneEntities(Scheduler& scheduler, CZone* zone);
+    CZoneEntities(Scheduler& scheduler, MapConfig config, CZone* zone);
     ~CZoneEntities();
 
     void HealAllMobs();
@@ -112,6 +112,7 @@ private:
     auto charTick(CCharEntity* PChar, timer::time_point tick) -> Task<void>;
 
     Scheduler& scheduler_;
+    MapConfig  config_;
 
     CZone* m_zone;
 

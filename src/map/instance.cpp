@@ -30,8 +30,8 @@
 
 #include "common/timer.h"
 
-CInstance::CInstance(Scheduler& scheduler, CZone* zone, uint32 instanceid)
-: CZoneEntities(scheduler, zone)
+CInstance::CInstance(Scheduler& scheduler, MapConfig config, CZone* zone, uint32 instanceid)
+: CZoneEntities(scheduler, config, zone)
 , m_instanceid(instanceid)
 , m_zone(zone)
 , m_startTime(timer::now())

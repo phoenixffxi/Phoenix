@@ -625,20 +625,9 @@ public:
         return mainContext_;
     }
 
-    void setIsTest(const bool isTest) noexcept
-    {
-        isTest_.store(isTest, std::memory_order_relaxed);
-    }
-
-    [[nodiscard]] auto isTest() const noexcept -> bool
-    {
-        return isTest_.load(std::memory_order_relaxed);
-    }
-
 private:
     std::thread::id mainThreadId_{ std::this_thread::get_id() };
 
-    std::atomic<bool> isTest_{ false };
     std::atomic<bool> closeRequested_{ false };
 
     asio::io_context                                           mainContext_;

@@ -116,7 +116,7 @@ void CLuaClientEntityPairPackets::sendZonePackets()
     // TestChar holds the actual CCharEntity, while parent_ is the Lua wrapper
     // that also needs its internal pointer updated to the newly loaded entity
     testChar->setBlowfish(BLOWFISH_PENDING_ZONE);
-    testChar->setEntity(charutils::LoadChar(parent_->engine()->scheduler(), testChar->charId()));
+    testChar->setEntity(charutils::LoadChar(parent_->engine()->scheduler(), parent_->engine()->config(), testChar->charId()));
     parent_->setEntity(testChar->entity());
 
     // Send LOGIN packet to begin zone-in sequence

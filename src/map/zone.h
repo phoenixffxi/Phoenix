@@ -22,6 +22,7 @@
 #pragma once
 
 #include <common/cbasetypes.h>
+#include <common/logging.h>
 #include <common/mmo.h>
 #include <common/scheduler.h>
 #include <common/timer.h>
@@ -33,7 +34,7 @@
 
 #include "battlefield_handler.h"
 #include "campaign_handler.h"
-#include "common/logging.h"
+#include "map_config.h"
 #include "packets/basic.h"
 #include "spawn_slot.h"
 #include "trigger_area.h"
@@ -661,7 +662,7 @@ public:
     virtual void ForEachAlly(const std::function<void(CMobEntity*)>& func);
     virtual void ForEachAllyInstance(CBaseEntity* PEntity, const std::function<void(CMobEntity*)>& func);
 
-    CZone(Scheduler& scheduler, ZONEID ZoneID, REGION_TYPE RegionID, CONTINENT_TYPE ContinentID, uint8 levelRestriction);
+    CZone(Scheduler& scheduler, MapConfig config, ZONEID ZoneID, REGION_TYPE RegionID, CONTINENT_TYPE ContinentID, uint8 levelRestriction);
     virtual ~CZone();
 
     CBattlefieldHandler*          m_BattlefieldHandler; // BCNM Instances in this zone
@@ -682,6 +683,7 @@ public:
 
 protected:
     Scheduler& scheduler_;
+    MapConfig  config_;
 
     Maybe<Scheduler::Token> zoneTimerToken_;
     Maybe<Scheduler::Token> zoneTimerTriggerAreasToken_;

@@ -28,8 +28,8 @@
 #include "utils/charutils.h"
 #include "utils/zoneutils.h"
 
-CZoneInstance::CZoneInstance(Scheduler& scheduler, ZONEID ZoneID, REGION_TYPE RegionID, CONTINENT_TYPE ContinentID, uint8 levelRestriction)
-: CZone(scheduler, ZoneID, RegionID, ContinentID, levelRestriction)
+CZoneInstance::CZoneInstance(Scheduler& scheduler, MapConfig config, ZONEID ZoneID, REGION_TYPE RegionID, CONTINENT_TYPE ContinentID, uint8 levelRestriction)
+: CZone(scheduler, config, ZoneID, RegionID, ContinentID, levelRestriction)
 {
     TracyZoneScoped;
 }
@@ -582,6 +582,6 @@ CInstance* CZoneInstance::CreateInstance(uint32 instanceid)
 {
     TracyZoneScoped;
 
-    m_InstanceList.emplace_back(std::make_unique<CInstance>(scheduler_, this, instanceid));
+    m_InstanceList.emplace_back(std::make_unique<CInstance>(scheduler_, config_, this, instanceid));
     return m_InstanceList.back().get();
 }

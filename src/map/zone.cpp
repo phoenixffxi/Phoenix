@@ -65,8 +65,9 @@ constexpr std::uint16_t WeatherCycle = 2160;
 #include "utils/charutils.h"
 #include "utils/moduleutils.h"
 
-CZone::CZone(Scheduler& scheduler, ZONEID ZoneID, REGION_TYPE RegionID, CONTINENT_TYPE ContinentID, uint8 levelRestriction)
+CZone::CZone(Scheduler& scheduler, MapConfig config, ZONEID ZoneID, REGION_TYPE RegionID, CONTINENT_TYPE ContinentID, uint8 levelRestriction)
 : scheduler_(scheduler)
+, config_(config)
 , m_zoneID(ZoneID)
 , m_zoneType(ZONE_TYPE::UNKNOWN)
 , m_regionID(RegionID)
@@ -82,7 +83,7 @@ CZone::CZone(Scheduler& scheduler, ZONEID ZoneID, REGION_TYPE RegionID, CONTINEN
     m_TreasurePool       = nullptr;
     m_BattlefieldHandler = nullptr;
     m_Weather            = Weather::None;
-    m_zoneEntities       = new CZoneEntities(scheduler_, this);
+    m_zoneEntities       = new CZoneEntities(scheduler_, config_, this);
     m_CampaignHandler    = new CCampaignHandler(this);
     m_spawnHandler       = std::make_unique<SpawnHandler>(this);
 
@@ -92,7 +93,7 @@ CZone::CZone(Scheduler& scheduler, ZONEID ZoneID, REGION_TYPE RegionID, CONTINEN
     LoadZoneLines();
     LoadZoneWeather();
 
-    if (scheduler.isTest())
+    if (config_.isTestServer)
     {
         return;
     }
@@ -973,7 +974,8 @@ void CZone::createZoneTimers()
 {
     TracyZoneScoped;
 
-    if (scheduler_.isTest())
+    // We'll manually tick on while testing, don't install the timers
+    if (config_.isTestServer)
     {
         return;
     }

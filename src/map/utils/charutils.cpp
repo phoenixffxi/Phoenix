@@ -394,7 +394,7 @@ void CalculateStats(CCharEntity* PChar)
  *                                                                       *
  ************************************************************************/
 
-auto LoadChar(Scheduler& scheduler, const uint32 charId) -> std::unique_ptr<CCharEntity>
+auto LoadChar(Scheduler& scheduler, MapConfig config, const uint32 charId) -> std::unique_ptr<CCharEntity>
 {
     TracyZoneScoped;
 
@@ -952,7 +952,7 @@ auto LoadChar(Scheduler& scheduler, const uint32 charId) -> std::unique_ptr<CCha
     if (zoneutils::IsLazyLoadingEnabled() && !zoneutils::GetZone(PChar->loc.destination))
     {
         // TODO: Remove this usage of blockOnMain, it's here to help with xi_test
-        scheduler.blockOnMainThread(zoneutils::LoadZones(scheduler, { PChar->loc.destination }));
+        scheduler.blockOnMainThread(zoneutils::LoadZones(scheduler, config, { PChar->loc.destination }));
     }
 
     luautils::OnZoneIn(PChar);

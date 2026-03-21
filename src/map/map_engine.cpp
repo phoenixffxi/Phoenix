@@ -98,7 +98,7 @@ MapEngine::MapEngine(Application& application, MapConfig& config)
 , scheduler_(application_.scheduler())
 , mapStatistics_(std::make_unique<MapStatistics>())
 , networking_(std::make_unique<MapNetworking>(scheduler_, *mapStatistics_, config))
-, engineConfig_(config)
+, config_(config)
 {
 }
 
@@ -147,14 +147,14 @@ auto MapEngine::init() -> Task<void>
     ShowInfo(fmt::format("database server version: {}", db::getDatabaseVersion()).c_str());
     ShowInfo(fmt::format("database client version: {}", db::getDriverVersion()).c_str());
 
-    if (!engineConfig_.inCI)
+    if (!config_.inCI)
     {
         db::checkCharset();
     }
 
     db::checkTriggers();
 
-    luautils::init(mapIPP, engineConfig_.inCI); // Also calls moduleutils::LoadLuaModules();
+    luautils::init(mapIPP, config_.inCI); // Also calls moduleutils::LoadLuaModules();
 
     PacketParserInitialize();
 
@@ -214,9 +214,9 @@ auto MapEngine::init() -> Task<void>
         ShowInfo("./losmeshes/ directory isn't present or is empty");
     }
 
-    co_await zoneutils::Initialize(scheduler_, mapIPP, engineConfig_.lazyZones, !engineConfig_.isTestServer);
+    co_await zoneutils::Initialize(scheduler_, config_);
 
-    if (!engineConfig_.lazyZones)
+    if (!config_.lazyZones)
     {
         instanceutils::LoadInstanceList(mapIPP);
         CTransportHandler::getInstance()->InitializeTransport(mapIPP);
@@ -226,7 +226,7 @@ auto MapEngine::init() -> Task<void>
 
     monstrosity::LoadStaticData();
 
-    if (!engineConfig_.controlledWeather)
+    if (!config_.controlledWeather)
     {
         zoneutils::InitializeWeather(); // Need VanaTime initialized
     }
@@ -235,7 +235,7 @@ auto MapEngine::init() -> Task<void>
     // Queue up regular tasks for the Scheduler
     //
 
-    if (!engineConfig_.isTestServer)
+    if (!config_.isTestServer)
     {
         mapCleanupToken_        = scheduler_.intervalOnMainThread(kSessionCleanupInterval, std::bind(&MapEngine::sessionCleanup, this));
         mapGarbageCollectToken_ = scheduler_.intervalOnMainThread(kGarbageCollectionInterval, std::bind(&MapEngine::garbageCollect, this));
@@ -244,7 +244,7 @@ auto MapEngine::init() -> Task<void>
             kTimeServerTickInterval,
             [this]() -> Task<void>
             {
-                co_await time_server(scheduler_);
+                co_await time_server(scheduler_, config_);
             });
 
         persistVolatileServerVarsToken_ = scheduler_.intervalOnMainThread(kPersistVolatileServerVarsInterval, serverutils::PersistVolatileServerVars);
@@ -264,7 +264,7 @@ auto MapEngine::init() -> Task<void>
 
     luautils::OnServerStart();
 
-    if (!engineConfig_.isTestServer)
+    if (!config_.isTestServer)
     {
         moduleutils::ReportLuaModuleUsage();
     }
@@ -275,7 +275,7 @@ auto MapEngine::init() -> Task<void>
     // Set up the watchdog tasks
     //
 
-    if (!engineConfig_.isTestServer)
+    if (!config_.isTestServer)
     {
         scheduler_.postToMainThread(watchdogUpdater());
         scheduler_.postToWorkerThread(watchdogWatcher());
@@ -311,7 +311,7 @@ auto MapEngine::watchdogWatcher() -> Task<void>
 {
     auto period = settings::get<uint32>("main.INACTIVITY_WATCHDOG_PERIOD");
 
-    if (engineConfig_.inCI)
+    if (config_.inCI)
     {
         // Double the timer period, to account for the slower CI environment
         period *= 2;
@@ -446,4 +446,9 @@ auto MapEngine::zones() const -> std::map<uint16, CZone*>&
 auto MapEngine::scheduler() -> Scheduler&
 {
     return scheduler_;
+}
+
+auto MapEngine::config() const -> MapConfig&
+{
+    return config_;
 }

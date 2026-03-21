@@ -23,10 +23,11 @@
 
 #include "pch.h"
 
-#include "common/application.h"
-#include "common/timer.h"
+#include <common/application.h>
+#include <common/ipp.h>
+#include <common/timer.h>
 
-#include "common/ipp.h"
+#include "map_config.h"
 #include "zone.h"
 
 //
@@ -37,15 +38,6 @@ class IPP;
 class MapNetworking;
 class MapStatistics;
 class CZone;
-
-struct MapConfig final
-{
-    IPP  ipp{};
-    bool inCI{ false };
-    bool isTestServer{ false };      // Disables watchdog and certain recurring tasks when ticks are externally managed.
-    bool lazyZones{ false };         // Load zones when first accessed
-    bool controlledWeather{ false }; // Disables automated weather
-};
 
 //
 // Exposed globals
@@ -92,6 +84,7 @@ public:
     auto statistics() const -> MapStatistics&;
     auto scheduler() -> Scheduler&;
     auto zones() const -> std::map<uint16, CZone*>&; // g_PZoneList
+    auto config() const -> MapConfig&;
     // TODO: gameState()
 
 private:
@@ -106,5 +99,5 @@ private:
     std::unique_ptr<MapStatistics> mapStatistics_;
     std::unique_ptr<MapNetworking> networking_;
     std::atomic<timer::time_point> watchdogLastUpdate_;
-    MapConfig&                     engineConfig_;
+    MapConfig&                     config_;
 };

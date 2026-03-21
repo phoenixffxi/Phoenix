@@ -726,7 +726,7 @@ auto LoadMOBList(Scheduler& scheduler, const std::vector<uint16>& zoneIds) -> Ta
  *                                                                       *
  ************************************************************************/
 
-auto CreateZone(Scheduler& scheduler, uint16 ZoneID) -> CZone*
+auto CreateZone(Scheduler& scheduler, MapConfig config, uint16 ZoneID) -> CZone*
 {
     const auto query = "SELECT zonetype, restriction FROM zone_settings "
                        "WHERE zoneid = ? LIMIT 1";
@@ -739,10 +739,10 @@ auto CreateZone(Scheduler& scheduler, uint16 ZoneID) -> CZone*
 
         if (zoneType & ZONE_TYPE::INSTANCED)
         {
-            return new CZoneInstance(scheduler, static_cast<ZONEID>(ZoneID), GetCurrentRegion(ZoneID), GetCurrentContinent(ZoneID), restriction);
+            return new CZoneInstance(scheduler, config, static_cast<ZONEID>(ZoneID), GetCurrentRegion(ZoneID), GetCurrentContinent(ZoneID), restriction);
         }
 
-        return new CZone(scheduler, static_cast<ZONEID>(ZoneID), GetCurrentRegion(ZoneID), GetCurrentContinent(ZoneID), restriction);
+        return new CZone(scheduler, config, static_cast<ZONEID>(ZoneID), GetCurrentRegion(ZoneID), GetCurrentContinent(ZoneID), restriction);
     }
 
     ShowCritical("zoneutils::CreateZone: Cannot load zone settings (%u)", ZoneID);
@@ -755,7 +755,7 @@ auto CreateZone(Scheduler& scheduler, uint16 ZoneID) -> CZone*
  *                                                                       *
  ************************************************************************/
 
-auto LoadZones(Scheduler& scheduler, const std::vector<uint16>& zoneIds) -> Task<void>
+auto LoadZones(Scheduler& scheduler, MapConfig config, const std::vector<uint16>& zoneIds) -> Task<void>
 {
     TracyZoneScoped;
 
@@ -784,14 +784,14 @@ auto LoadZones(Scheduler& scheduler, const std::vector<uint16>& zoneIds) -> Task
 
     for (auto zoneId : zonesIdsToLoad)
     {
-        g_PZoneList[zoneId] = CreateZone(scheduler, zoneId);
+        g_PZoneList[zoneId] = CreateZone(scheduler, config, zoneId);
     }
 
     if (!g_PZoneList.contains(0))
     {
         // False positive: "performance: Searching before insertion is not necessary."
         // cppcheck-suppress stlFindInsert
-        g_PZoneList[0] = CreateZone(scheduler, 0);
+        g_PZoneList[0] = CreateZone(scheduler, config, 0);
     }
 
     co_await Scheduler::TaskGroup(
@@ -835,40 +835,40 @@ auto LoadZones(Scheduler& scheduler, const std::vector<uint16>& zoneIds) -> Task
     }
 }
 
-auto LoadZoneList(Scheduler& scheduler, const IPP mapIPP) -> Task<void>
+auto LoadZoneList(Scheduler& scheduler, MapConfig config) -> Task<void>
 {
     TracyZoneScoped;
 
-    const auto zoneIds = GetZonesAssignedToThisProcess(mapIPP);
+    const auto zoneIds = GetZonesAssignedToThisProcess(config.ipp);
     if (zoneIds.empty())
     {
         ShowCritical("Unable to load any zones! Check IP and port params");
         std::exit(1);
     }
 
-    co_await LoadZones(scheduler, zoneIds);
+    co_await LoadZones(scheduler, config, zoneIds);
     luautils::InitInteractionGlobal();
 }
 
 // Initialize zone loading: immediate (load all now) or lazy (load on-demand)
-auto Initialize(Scheduler& scheduler, const IPP mapIPP, bool lazyLoading, bool asyncMode) -> Task<void>
+auto Initialize(Scheduler& scheduler, MapConfig config) -> Task<void>
 {
-    if (!lazyLoading)
+    if (!config.lazyZones)
     {
-        co_await LoadZoneList(scheduler, mapIPP);
+        co_await LoadZoneList(scheduler, config);
         co_return;
     }
 
     lazyLoad.enabled   = true;
-    lazyLoad.asyncMode = asyncMode;
+    lazyLoad.asyncMode = false; // hardcoding to false since it wasn't in config
 
-    auto zones            = GetZonesAssignedToThisProcess(mapIPP);
+    auto zones            = GetZonesAssignedToThisProcess(config.ipp);
     lazyLoad.managedZones = std::set(zones.begin(), zones.end());
 
     luautils::InitInteractionGlobal();
 }
 
-auto ProcessLoadQueue(Scheduler& scheduler) -> Task<void>
+auto ProcessLoadQueue(Scheduler& scheduler, MapConfig config) -> Task<void>
 {
     TracyZoneScoped;
 
@@ -876,7 +876,7 @@ auto ProcessLoadQueue(Scheduler& scheduler) -> Task<void>
     {
         auto zoneId = lazyLoad.loadQueue.front();
         lazyLoad.loadQueue.pop();
-        co_await LoadZones(scheduler, { zoneId });
+        co_await LoadZones(scheduler, config, { zoneId });
     }
 
     co_return;
@@ -920,7 +920,7 @@ auto GetManagedZones() -> std::vector<std::pair<uint16, std::string>>
 // TODO:
 // This shouldn't have side effects, it should be const and the caller should be responsible
 // for requesting the zone is loaded if it isn't ready.
-auto IsZoneReady(Scheduler& scheduler, uint16 zoneId) -> Task<bool>
+auto IsZoneReady(Scheduler& scheduler, MapConfig config, uint16 zoneId) -> Task<bool>
 {
     // Zone already loaded, or lazy loading disabled (all zones loaded at startup)
     if (GetZone(zoneId) || !lazyLoad.enabled)
@@ -937,7 +937,7 @@ auto IsZoneReady(Scheduler& scheduler, uint16 zoneId) -> Task<bool>
     // Sync mode: load now
     if (!lazyLoad.asyncMode)
     {
-        co_await LoadZones(scheduler, { zoneId });
+        co_await LoadZones(scheduler, config, { zoneId });
         co_return true;
     }
 

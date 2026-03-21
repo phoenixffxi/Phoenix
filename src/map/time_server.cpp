@@ -37,7 +37,7 @@
 #include "utils/moduleutils.h"
 #include "utils/zoneutils.h"
 
-auto time_server(Scheduler& scheduler) -> Task<void>
+auto time_server(Scheduler& scheduler, MapConfig config) -> Task<void>
 {
     TracyZoneScoped;
 
@@ -174,7 +174,7 @@ auto time_server(Scheduler& scheduler) -> Task<void>
     CTriggerHandler::getInstance()->triggerTimer();
     CTransportHandler::getInstance()->TransportTimer();
     instanceutils::CheckInstance();
-    co_await zoneutils::ProcessLoadQueue(scheduler);
+    co_await zoneutils::ProcessLoadQueue(scheduler, config);
     luautils::OnTimeServerTick();
     luautils::TryReloadFilewatchList();
     moduleutils::OnTimeServerTick();

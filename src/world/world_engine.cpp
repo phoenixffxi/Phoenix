@@ -35,7 +35,7 @@
 #include "party_system.h"
 #include "time_server.h"
 
-WorldEngine::WorldEngine(Scheduler& scheduler)
+WorldEngine::WorldEngine(Scheduler& scheduler, EnableHTTPServer enableHTTPServer)
 : scheduler_(scheduler)
 , ipcServer_(std::make_unique<IPCServer>(*this))
 , partySystem_(std::make_unique<PartySystem>(*this))
@@ -43,7 +43,7 @@ WorldEngine::WorldEngine(Scheduler& scheduler)
 , besiegedSystem_(std::make_unique<BesiegedSystem>(*this))
 , campaignSystem_(std::make_unique<CampaignSystem>(*this))
 , colonizationSystem_(std::make_unique<ColonizationSystem>(*this))
-, httpServer_(std::make_unique<HTTPServer>(scheduler_))
+, httpServer_(enableHTTPServer ? std::make_unique<HTTPServer>(scheduler_) : nullptr)
 {
     timeServerToken_ = scheduler_.intervalOnMainThread(
         kTimeServerTickInterval,

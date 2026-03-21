@@ -21,11 +21,12 @@
 
 #pragma once
 
-#include "common/blowfish.h"
-#include "common/cbasetypes.h"
-#include "common/ipp.h"
-#include "common/scheduler.h"
+#include <common/blowfish.h>
+#include <common/cbasetypes.h>
+#include <common/ipp.h>
+#include <common/scheduler.h>
 
+#include "map_config.h"
 #include "map_constants.h"
 #include "map_session.h"
 #include "map_session_container.h"
@@ -36,12 +37,12 @@
 #include <span>
 
 class CBasicPacket;
-struct MapConfig;
 class MapEngine;
+
 class MapNetworking
 {
 public:
-    MapNetworking(Scheduler& scheduler, MapStatistics& mapStatistics, const MapConfig& mapConfig);
+    MapNetworking(Scheduler& scheduler, MapStatistics& mapStatistics, MapConfig config);
 
     //
     // Networking
@@ -76,4 +77,5 @@ private:
     IPP                        mapIPP_;
     MapSessionContainer        mapSessions_;
     std::unique_ptr<MapSocket> mapSocket_;
+    MapConfig                  config_;
 };

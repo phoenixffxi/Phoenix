@@ -83,8 +83,9 @@ inline bool isWithinVerticalDistance(CBaseEntity* source, CBaseEntity* target)
 
 typedef std::pair<float, CCharEntity*> CharScorePair;
 
-CZoneEntities::CZoneEntities(Scheduler& scheduler, CZone* zone)
+CZoneEntities::CZoneEntities(Scheduler& scheduler, MapConfig config, CZone* zone)
 : scheduler_(scheduler)
+, config_(config)
 , m_zone(zone)
 , m_nextDynamicTargID(DYNAMIC_ENTITY_TARGID_RANGE_START)
 {
@@ -1989,7 +1990,7 @@ auto CZoneEntities::ZoneServer(timer::time_point tick) -> Task<void>
         }
         else if (PChar->requestedWarp)
         {
-            const bool ready = co_await zoneutils::IsZoneReady(scheduler_, PChar->profile.home_point.destination);
+            const bool ready = co_await zoneutils::IsZoneReady(scheduler_, config_, PChar->profile.home_point.destination);
             if (ready)
             {
                 PChar->clearPacketList();
@@ -1999,7 +2000,7 @@ auto CZoneEntities::ZoneServer(timer::time_point tick) -> Task<void>
         }
         else if (PChar->loc.destination != 0xFFFF)
         {
-            const bool ready = co_await zoneutils::IsZoneReady(scheduler_, PChar->loc.destination);
+            const bool ready = co_await zoneutils::IsZoneReady(scheduler_, config_, PChar->loc.destination);
             if (ready)
             {
                 PChar->clearPacketList();

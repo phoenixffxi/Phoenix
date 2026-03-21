@@ -49,5 +49,6 @@ WorldApplication::~WorldApplication() = default;
 
 auto WorldApplication::createEngine() -> std::unique_ptr<Engine>
 {
-    return std::make_unique<WorldEngine>(scheduler_);
+    const auto httpEnabled = settings::get<bool>("network.ENABLE_HTTP");
+    return std::make_unique<WorldEngine>(scheduler_, WorldEngine::EnableHTTPServer{ httpEnabled });
 }

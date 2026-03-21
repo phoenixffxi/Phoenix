@@ -66,15 +66,16 @@ uint32 TotalPacketsDelayedPerTick = 0U;
 
 } // namespace
 
-MapNetworking::MapNetworking(Scheduler& scheduler, MapStatistics& mapStatistics, const MapConfig& mapConfig)
+MapNetworking::MapNetworking(Scheduler& scheduler, MapStatistics& mapStatistics, MapConfig config)
 : scheduler_(scheduler)
 , mapStatistics_(mapStatistics)
-, mapIPP_(mapConfig.ipp)
+, mapIPP_(config.ipp) // TODO: Refactor to not use this, since we have config_ in here
+, config_(config)
 {
     TracyZoneScoped;
 
     // Embedded map server for testing does not actually need to open a socket
-    if (mapConfig.isTestServer)
+    if (config_.isTestServer)
     {
         return;
     }
@@ -350,7 +351,7 @@ int32 MapNetworking::recv_parse(uint8* buff, size_t* buffsize, MapSession* map_s
                 ShowError("recv_parse: Cannot load session_key for charid %u", packetCharID);
             }
 
-            map_session_data->PChar     = charutils::LoadChar(scheduler_, packetCharID);
+            map_session_data->PChar     = charutils::LoadChar(scheduler_, config_, packetCharID);
             map_session_data->charID    = packetCharID;
             map_session_data->accountID = accountID;
 

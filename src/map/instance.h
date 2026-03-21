@@ -45,7 +45,7 @@ struct zoneMusicOverride_t
 class CInstance : public CZoneEntities
 {
 public:
-    CInstance(Scheduler& scheduler, CZone* zone, uint32 instanceid);
+    CInstance(Scheduler& scheduler, MapConfig config, CZone* zone, uint32 instanceid);
     ~CInstance();
 
     void RegisterChar(CCharEntity*);

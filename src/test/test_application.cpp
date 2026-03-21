@@ -91,7 +91,6 @@ TestApplication::TestApplication(const int argc, char** argv)
 : Application(appConfig(), argc, argv)
 , sink_(std::make_shared<InMemorySink>())
 {
-    scheduler_.setIsTest(true);
 }
 
 TestApplication::~TestApplication() = default;
@@ -135,7 +134,7 @@ void TestApplication::run()
             // Prepare WorldEngine
             //
 
-            auto worldEngine = std::make_unique<WorldEngine>(scheduler_);
+            auto worldEngine = std::make_unique<WorldEngine>(scheduler_, WorldEngine::EnableHTTPServer::No);
 
             worldEngine->onInitialize();
 
@@ -143,7 +142,7 @@ void TestApplication::run()
             // Prepare TestEngine with MapEngine and WorldEngine
             //
 
-            TestConfig config{
+            TestConfig testConfig{
                 .loggerSink = sink_,
                 .verbose    = args().get<bool>("--verbose"),
                 .output     = args().present<std::string>("--output").value_or(""),
@@ -159,7 +158,7 @@ void TestApplication::run()
                 },
             };
 
-            engine_ = std::make_unique<TestEngine>(*this, std::move(config), std::move(mapEngine), std::move(worldEngine));
+            engine_ = std::make_unique<TestEngine>(*this, std::move(testConfig), std::move(mapEngine), std::move(worldEngine));
 
             // From this point, every logging statements end up in the in-memory sink
             // Print to stderr directly if needed
