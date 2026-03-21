@@ -157,7 +157,7 @@ m:addOverride('xi.zones.GM_Home.Zone.onInitialize', function(zone)
         -- NOTE: This name will be used by the operating system to look up script names, so it needs
         --     : to only use simple ASCII characters.
         name = 'Horro',
-        
+
         -- Optional: Define a different name that is visible to players.
         -- The basic name 'Horro' (DE_Horro) will still be used internally for lookups.
         -- NOTE: You can use xi.icon.* to add icons to the name, with string.format() or the

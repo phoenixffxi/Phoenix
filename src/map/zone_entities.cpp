@@ -1958,10 +1958,16 @@ auto CZoneEntities::ZoneServer(timer::time_point tick) -> Task<void>
         }
     }
 
+    // Forcibly insert a yield here, so we allow other tasks (other zone ticks, etc.) to be
+    // progressed while we deal with this non-client facing work when we can.
+    co_await scheduler_.yield();
+
     //
     // Process players waiting to zone.
     // If lazy loading a zone, the players may get processed on the next tick.
     //
+
+    auto processedCount = 0U;
 
     auto it = m_charsToChangeZone.begin();
     while (it != m_charsToChangeZone.end())
@@ -2011,7 +2017,18 @@ auto CZoneEntities::ZoneServer(timer::time_point tick) -> Task<void>
         {
             ++it; // Move to next element if we didn't erase
         }
+
+        // We're going to yield to the scheduler every 16 players we process to ensure
+        // we don't starve the main thread during huge spikes of player zoning.
+        if (++processedCount % 16 == 0)
+        {
+            co_await scheduler_.yield();
+        }
     }
+
+    // Forcibly insert a yield here, so we allow other tasks (other zone ticks, etc.) to be
+    // progressed while we deal with this non-client facing work when we can.
+    co_await scheduler_.yield();
 
     //
     // Processing offsets
@@ -2084,6 +2101,10 @@ auto CZoneEntities::ZoneServer(timer::time_point tick) -> Task<void>
 
         m_lastCharComputeTargId = *charTargIdIter;
     }
+
+    //
+    // Module hooks
+    //
 
     moduleutils::OnZoneTick(m_zone);
 
