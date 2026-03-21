@@ -227,7 +227,7 @@ xi.dynamis.dynaInfoEra =
         hasSeenWinCSVar = 'DynaSandoria_HasSeenWinCS',
         winKI           = xi.ki.HYDRA_CORPS_COMMAND_SCEPTER,
         winTitle        = xi.title.DYNAMIS_SAN_DORIA_INTERLOPER,
-        winQM           = 17535224,
+        winQM           = 17535486,
         entryPos        = { 161.838, -2.000, 161.673, 93, xi.zone.DYNAMIS_SAN_DORIA },
         ejectPos        = { 161.000, -2.000, 161.000, 94, xi.zone.SOUTHERN_SAN_DORIA },
     },
@@ -238,7 +238,7 @@ xi.dynamis.dynaInfoEra =
         hasSeenWinCSVar = 'DynaBastok_HasSeenWinCS',
         winKI           = xi.ki.HYDRA_CORPS_EYEGLASS,
         winTitle        = xi.title.DYNAMIS_BASTOK_INTERLOPER,
-        winQM           = 17539323,
+        winQM           = 17539610,
         entryPos        = { 116.482, 0.994, -72.121, 128, xi.zone.DYNAMIS_BASTOK },
         ejectPos        = { 112.000, 0.994, -72.000, 127, xi.zone.BASTOK_MINES },
     },
@@ -249,7 +249,7 @@ xi.dynamis.dynaInfoEra =
         hasSeenWinCSVar = 'DynaWindurst_HasSeenWinCS',
         winKI           = xi.ki.HYDRA_CORPS_LANTERN,
         winTitle        = xi.title.DYNAMIS_WINDURST_INTERLOPER,
-        winQM           = 17543480,
+        winQM           = 17543676,
         entryPos        = { -221.988, 1.000, -120.184, 0, xi.zone.DYNAMIS_WINDURST },
         ejectPos        = { -217.000, 1.000, -119.000, 94, xi.zone.WINDURST_WALLS },
     },
@@ -260,7 +260,7 @@ xi.dynamis.dynaInfoEra =
         hasSeenWinCSVar = 'DynaJeuno_HasSeenWinCS',
         winKI           = xi.ki.HYDRA_CORPS_TACTICAL_MAP,
         winTitle        = xi.title.DYNAMIS_JEUNO_INTERLOPER,
-        winQM           = 17547510,
+        winQM           = 17547777,
         entryPos        = { 48.930, 10.002, -71.032, 195, xi.zone.DYNAMIS_JEUNO },
         ejectPos        = { 48.930, 10.002, -71.032, 195, xi.zone.RULUDE_GARDENS },
     },
@@ -271,7 +271,7 @@ xi.dynamis.dynaInfoEra =
         hasSeenWinCSVar   = 'DynaBeaucedine_HasSeenWinCS',
         winKI             = xi.ki.HYDRA_CORPS_INSIGNIA,
         winTitle          = xi.title.DYNAMIS_BEAUCEDINE_INTERLOPER,
-        winQM             = 17326801,
+        winQM             = 17326616,
         entryPos          = { -284.751, -39.923, -422.948, 235, xi.zone.DYNAMIS_BEAUCEDINE },
         ejectPos          = { -284.751, -39.923, -422.948, 235, xi.zone.BEAUCEDINE_GLACIER },
     },
@@ -282,7 +282,7 @@ xi.dynamis.dynaInfoEra =
         hasSeenWinCSVar   = 'DynaXarcabard_HasSeenWinCS',
         winKI             = xi.ki.HYDRA_CORPS_BATTLE_STANDARD,
         winTitle          = xi.title.DYNAMIS_XARCABARD_INTERLOPER,
-        winQM             = 17330781,
+        winQM             = 17330839,
         entryPos          = { 569.312, -0.098, -270.158, 90, xi.zone.DYNAMIS_XARCABARD },
         ejectPos          = { 569.312, -0.098, -270.158, 90, xi.zone.XARCABARD },
     },
@@ -293,7 +293,7 @@ xi.dynamis.dynaInfoEra =
         hasSeenWinCSVar   = 'DynaValkurm_HasSeenWinCS',
         winKI             = xi.ki.DYNAMIS_VALKURM_SLIVER,
         winTitle          = xi.title.DYNAMIS_VALKURM_INTERLOPER,
-        winQM             = 16937587,
+        winQM             = 16937587, -- TODO - Update after DATs
         entryPos          = { 100, -8, 131, 47, xi.zone.DYNAMIS_VALKURM },
         ejectPos          = { 119, -9, 131, 52, xi.zone.VALKURM_DUNES },
     },
@@ -304,10 +304,10 @@ xi.dynamis.dynaInfoEra =
         hasSeenWinCSVar        = 'DynaBuburimu_HasSeenWinCS',
         winKI                  = xi.ki.DYNAMIS_BUBURIMU_SLIVER,
         winTitle               = xi.title.DYNAMIS_BUBURIMU_INTERLOPER,
-        winQM                  = 16941678,
+        winQM                  = 16941678, -- TODO - Update after DATs
         entryPos               = { 155, -1, -169, 170, xi.zone.DYNAMIS_BUBURIMU },
         ejectPos               = { 154, -1, -170, 190, xi.zone.BUBURIMU_PENINSULA },
-        sjRestrictionNPC       = 16941677,
+        sjRestrictionNPC       = 16941677, -- TODO - Update after DATs
         sjRestrictionLocation  =
         {
             [1] = { -214.161, 15.360, -269.202, 54  },
@@ -323,10 +323,10 @@ xi.dynamis.dynaInfoEra =
         hasSeenWinCSVar        = 'DynaQufim_HasSeenWinCS',
         winKI                  = xi.ki.DYNAMIS_QUFIM_SLIVER,
         winTitle               = xi.title.DYNAMIS_QUFIM_INTERLOPER,
-        winQM                  = 16945640,
+        winQM                  = 16945640, -- TODO - Update after DATs
         entryPos               = { -19, -17, 104, 253, xi.zone.DYNAMIS_QUFIM },
         ejectPos               = { 18, -19, 162, 240, xi.zone.QUFIM_ISLAND },
-        sjRestrictionNPC       = 16945639,
+        sjRestrictionNPC       = 16945639, -- TODO - Update after DATs
         sjRestrictionLocation  =
         {
             [1]  = { -264.498, -19.255, 401.465, 54  },
@@ -352,10 +352,10 @@ xi.dynamis.dynaInfoEra =
         qmTitle           = xi.title.DYNAMIS_TAVNAZIA_INTERLOPER,
         winTitle          = xi.title.NIGHTMARE_AWAKENER,
         csTitle           = xi.title.CONFRONTER_OF_NIGHTMARES,
-        winQM             = 16949400,
+        winQM             = 16949400, -- TODO - Update after DATs
         entryPos          = { 0.1, -7, -21, 190, xi.zone.DYNAMIS_TAVNAZIA },
         ejectPos          = { 0, -7, -23, 195, xi.zone.TAVNAZIAN_SAFEHOLD },
-        timeExtensions    = { 16949398, 16949399 },
+        timeExtensions    = { 16949398, 16949399 }, -- TODO - Update after DATs
     },
 }
 

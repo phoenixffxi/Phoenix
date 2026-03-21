@@ -1,11 +1,14 @@
 -- ------------------------------
--- Dynamis Sandy (Zone 185)
+-- Dynamis Sandoria (Zone 185)
 -- ------------------------------
 UPDATE `mob_groups` SET spawntype = 128, respawntime = 0 WHERE zoneid = 185; -- Sets mobs to not spawn
 
 -- Delete new dyna spawn points table
 DELETE FROM `mob_spawn_points` WHERE `mobid` BETWEEN 17534977 AND 17535300;
 DELETE FROM `npc_list` WHERE `npcid` BETWEEN 17535214 AND 17535237;
+
+-- Insert Win QM
+INSERT INTO `npc_list` VALUES (17535486,'qm0','???',0,0.000,-2.000,43.000,1,50,50,0,0,0,0,3,0x0000340000000000000000000000000000000000,0,NULL,0);
 
 -- Insert new dyna spawn points
 INSERT INTO `mob_spawn_points` VALUES (17534977,0,'Serjeant_Tombstone','Serjeant Tombstone',22,80,80,137.079,-2.000,105.150,225);
@@ -526,6 +529,9 @@ INSERT INTO `mob_groups` VALUES (101,16,186,'BeEbo_Tortoisedriver',900,0,2907,80
 -- Delete new dyna spawn points table
 DELETE FROM `mob_spawn_points` WHERE `mobid` BETWEEN 17539073 AND 17539400;
 DELETE FROM `npc_list` WHERE `npcid` BETWEEN 17539314 AND 17539337;
+
+-- Insert Win QM
+INSERT INTO `npc_list` VALUES (17539610,'qm0','???',0,0.000,-2.000,43.000,1,50,50,0,0,0,0,3,0x0000340000000000000000000000000000000000,0,NULL,0);
 
 -- Insert new dyna spawn points
 INSERT INTO `mob_spawn_points` VALUES (17539073,0,'Adamantking_Effigy','Adamantking Effigy',20,80,80,-178.407,-8.136,-17.950,254);
@@ -1074,6 +1080,9 @@ INSERT INTO `mob_groups` VALUES (100,5122,187,'Manifest_Icon',0,128,0,1000,10000
 DELETE FROM `mob_spawn_points` WHERE `mobid` BETWEEN 17543169 AND 17543500;
 DELETE FROM `npc_list` WHERE `npcid` BETWEEN 17543471 AND 17543494;
 
+-- Insert Win QM
+INSERT INTO `npc_list` VALUES (17543676,'qm0','???',0,0.000,-2.000,43.000,1,50,50,0,0,0,0,3,0x0000340000000000000000000000000000000000,0,NULL,0);
+
 -- Insert new dyna spawn points
 INSERT INTO `mob_spawn_points` VALUES (17543169,0,'Avatar_Icon','Avatar Icon',23,80,80,-191.359,-0.801,-119.423,131);
 INSERT INTO `mob_spawn_points` VALUES (17543170,0,'Vanguard_Exemplar','Vanguard Exemplar',12,80,80,1.000,1.000,1.000,1);
@@ -1589,6 +1598,9 @@ UPDATE `mob_groups` SET spawntype = 128, respawntime = 0 WHERE zoneid = 188; -- 
 -- Delete new dyna spawn points table
 DELETE FROM `mob_spawn_points` WHERE `mobid` BETWEEN 17547265 AND 17547525;
 DELETE FROM `npc_list` WHERE `npcid` BETWEEN 17547500 AND 17547524;
+
+-- Insert Win QM
+INSERT INTO `npc_list` VALUES (17547777,'qm0','???',0,0.000,-2.000,43.000,1,50,50,0,0,0,0,3,0x0000340000000000000000000000000000000000,0,NULL,0);
 
 -- Insert new dyna spawn points
 INSERT INTO `mob_spawn_points` VALUES (17547265,0,'Goblin_Replica','Goblin Replica',22,80,80,43.351,9.000,-52.484,0);
@@ -2114,6 +2126,9 @@ INSERT INTO `mob_groups` VALUES (303,1156,134,'Dynamis_Tombstone',0,128,0,9000,1
 -- Delete new dyna spawn points table
 DELETE FROM `mob_spawn_points` WHERE `mobid` BETWEEN 17326081 AND 17326790;
 DELETE FROM `npc_list` WHERE `npcid` BETWEEN 17326792 AND 17326820;
+
+-- Insert Win QM
+INSERT INTO `npc_list` VALUES (17326616,'qm0','???',0,0.000,-2.000,43.000,1,50,50,0,0,0,0,3,0x0000340000000000000000000000000000000000,0,NULL,0);
 
 -- Insert new dyna spawn points
 INSERT INTO `mob_spawn_points` VALUES (17326081,0,'Avatar_Icon','Avatar Icon',123,80,80,-279.073,-39.101,-342.000,8);
@@ -2661,6 +2676,9 @@ UPDATE `mob_groups` SET spawntype = 128, respawntime = 0 WHERE zoneid = 135; -- 
 -- Delete new dyna spawn points table
 DELETE FROM `mob_spawn_points` WHERE `mobid` BETWEEN 17330177 AND 17330771;
 DELETE FROM `npc_list` WHERE `npcid` BETWEEN 17330771 AND 17330816;
+
+-- Insert Win QM
+INSERT INTO `npc_list` VALUES (17330839,'qm0','???',0,0.000,-2.000,43.000,1,50,50,0,0,0,0,3,0x0000340000000000000000000000000000000000,0,NULL,0);
 
 -- Add new dyna spawn points
 INSERT INTO `mob_spawn_points` VALUES (17330177,0,'Vanguard_Eye','Vanguard Eye',38,80,80,297.739,-5.274,-102.616,62);

@@ -305,6 +305,37 @@ xi.dynamis.onNMDeath = function(mob, player, optParams)
     end
 end
 
+-- Boss Mechanics
+xi.dynamis.onBossDeath = function(mob, player, optParams)
+    if not optParams.isKiller then
+        return
+    end
+
+    -- Death happens once per player - only run once per mob
+    if mob:getLocalVar('deathTriggered') == 1 then
+        return
+    end
+
+    mob:setLocalVar('deathTriggered', 1)
+
+    -- Set position for win QM
+    local zoneID = mob:getZoneID()
+    local pos    = mob:getPos()
+    local winQM  = GetNPCByID(xi.dynamis.dynaInfoEra[zoneID].winQM)
+    winQM:setPos(pos.x, pos.y, pos.z, pos.rot)
+    winQM:setStatus(xi.status.NORMAL)
+
+    -- Award Title
+    local zone = mob:getZone()
+    local playerList = zone:getPlayers()
+    for _, players in pairs(playerList) do
+        players:addTitle(xi.dynamis.dynaInfoEra[zoneID].winTitle)
+    end
+
+    -- Run normal dead function
+    xi.dynamis.onMobDeath(mob, player, optParams)
+end
+
 -- ---------------------
 -- Spawn mechanics
 -- ---------------------

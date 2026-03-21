@@ -670,6 +670,7 @@ local function registerMobOverrides(zoneName, mobName, mobType)
 
         m:addOverride(mobPath .. '.onMobDeath', function(mob, player, optParams)
             xi.dynamis.onMobDeath(mob, player, optParams)
+            xi.dynamis.onBossDeath(mob, player, optParams)
         end)
 
     elseif mobType == 'NM' then
