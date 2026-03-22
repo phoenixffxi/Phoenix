@@ -15,13 +15,16 @@ end
 spellObject.onMobSpawn = function(mob)
     xi.trust.message(mob, xi.trust.messageOffset.SPAWN)
 
+    mob:addMobMod(xi.mobMod.CAN_PARRY, 3)
+
     mob:addMod(xi.mod.HPP, 20)
     mob:addMod(xi.mod.UTSUSEMI_BONUS, 1)
-
+    mob:addMod(xi.mod.FASTCAST, 30)
+    mob:addMod(xi.mod.DUAL_WIELD, 10)
     local lastSynergyBonus = 0
 
     -- Dynamic modifier that checks party member list on tick to apply
-    mob:addListener('COMBAT_TICK', 'AAEV_CTICK', function(mobArg)
+    mob:addListener('COMBAT_TICK', 'AAHM_CTICK', function(mobArg)
         local synergyMembers =
         {
             xi.magic.spell.AAEV,
@@ -78,8 +81,9 @@ spellObject.onMobSpawn = function(mob)
 
     mob:setTrustTPSkillSettings(ai.tp.ASAP, ai.s.RANDOM)
 
-    mob:addListener('WEAPONSKILL_USE', 'AAEV_WEAPONSKILL_USE', function(mobArg, target, wsid, tp, action)
-        if wsid == 3706 then
+    mob:addListener('WEAPONSKILL_USE', 'AAHM_WEAPONSKILL_USE', function(mobArg, target, skill, tp, action)
+        if skill:getID() == 3706 then -- Cross Reaver
+            -- Apathy strikes!
             xi.trust.message(mobArg, xi.trust.messageOffset.SPECIAL_MOVE_1)
         end
     end)
