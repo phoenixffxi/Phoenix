@@ -4104,6 +4104,7 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_AAEV',406,3,30,255);   -- cure_iii 
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_AAEV',406,4,55,255);   -- cure_iv (55~255)
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_AAEV',406,21,55,255);  -- holy (55~255)
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_AAEV',406,22,99,255);  -- holy_ii (99~255)
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_AAEV',406,97,61,255);  -- reprisal (61~255)
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_AAEV',406,106,77,255); -- phalanx (77~255)
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_AAEV',406,112,37,255); -- flash (37~255)
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_AAEV',406,310,85,255); -- enlight (85~255)

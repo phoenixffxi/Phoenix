@@ -3732,16 +3732,16 @@ INSERT INTO `mob_skills` VALUES (3703,406,'unceasing_dread',0,0.0,7.0,2000,1500,
 INSERT INTO `mob_skills` VALUES (3704,407,'dignified_awe',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3705,408,'naakuals_vengeance',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- Trust: AAHM
-INSERT INTO `mob_skills` VALUES (3706,633,'cross_reaver',4,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (3706,633,'cross_reaver',4,0.0,7.0,2000,500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (3707,3451,'circle_blade',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (3708,641,'swift_blade',0,0.0,7.0,2000,1500,4,0,0,0,9,0,0);
-INSERT INTO `mob_skills` VALUES (3709,2283,'chant_du_cygne',0,0.0,7.0,2000,1500,4,0,0,0,13,10,0); -- Capture shows 235. Adding 2048 for it to work properly.
+INSERT INTO `mob_skills` VALUES (3708,641,'swift_blade',0,0.0,7.0,2000,500,4,0,0,0,9,0,0);
+INSERT INTO `mob_skills` VALUES (3709,2283,'chant_du_cygne',0,0.0,7.0,2000,500,4,0,0,0,13,10,0); -- Capture shows 235. Adding 2048 for it to work properly.
 -- Trust: AAEV
-INSERT INTO `mob_skills` VALUES (3710,2285,'arrogance_incarnate',1,0.0,7.0,2000,1500,4,0,0,0,0,0,0); -- Capture shows 237. Adding 2048 for it to work properly.
-INSERT INTO `mob_skills` VALUES (3711,643,'vorpal_blade',0,0.0,7.0,2000,1500,4,0,0,0,4,8,0);
-INSERT INTO `mob_skills` VALUES (3712,635,'dominion_slash',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (3713,2284,'chant_du_cygne',0,0.0,7.0,2000,1500,4,0,0,0,13,10,0); -- Capture shows 236. Adding 2048 for it to work properly.
-INSERT INTO `mob_skills` VALUES (3714,638,'shield_strike',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (3710,2285,'arrogance_incarnate',1,0.0,7.0,2000,1000,4,0,0,0,0,0,0); -- Capture shows 237. Adding 2048 for it to work properly.
+INSERT INTO `mob_skills` VALUES (3711,643,'vorpal_blade',0,0.0,7.0,2000,1000,4,0,0,0,4,8,0);
+INSERT INTO `mob_skills` VALUES (3712,635,'dominion_slash',0,0.0,7.0,2000,1000,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (3713,2284,'chant_du_cygne',0,0.0,7.0,2000,1000,4,0,0,0,13,10,0); -- Capture shows 236. Adding 2048 for it to work properly.
+INSERT INTO `mob_skills` VALUES (3714,638,'shield_strike',0,0.0,7.0,2000,0,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3715,644,'rampage',0,0.0,7.0,2000,1500,4,0,0,0,4,0,0);              -- AAMR
 INSERT INTO `mob_skills` VALUES (3716,3460,'calamity',0,0.0,7.0,2000,1500,4,0,0,0,4,8,0);            -- AAMR
 INSERT INTO `mob_skills` VALUES (3717,634,'havoc_spiral',1,0.0,7.0,2000,1500,4,0,0,0,0,0,0);         -- AAMR

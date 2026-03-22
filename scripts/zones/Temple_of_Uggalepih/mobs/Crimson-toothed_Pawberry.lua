@@ -27,7 +27,7 @@ entity.onMobInitialize = function(mob)
 end
 
 entity.onMobSpawn = function(mob)
-    mob:useMobAbility(xi.jsa.ASTRAL_FLOW)
+    mob:useMobAbility(xi.mobSkill.ASTRAL_FLOW_1)
     mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 150)
 end
 

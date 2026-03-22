@@ -183,12 +183,12 @@ auto CAutomatonController::GetCurrentManeuvers() const -> CurrentManeuvers
     };
 }
 
-void CAutomatonController::DoCombatTick(timer::time_point tick)
+auto CAutomatonController::DoCombatTick(timer::time_point tick) -> Task<void>
 {
     if ((PAutomaton->PMaster == nullptr || PAutomaton->PMaster->isDead()) && PAutomaton->isAlive())
     {
         PAutomaton->Die();
-        return;
+        co_return;
     }
 
     PTarget = static_cast<CBattleEntity*>(PAutomaton->GetEntity(PAutomaton->GetBattleTargetID()));
@@ -196,7 +196,7 @@ void CAutomatonController::DoCombatTick(timer::time_point tick)
     if (TryDeaggro())
     {
         Disengage();
-        return;
+        co_return;
     }
 
     // Automatons only attempt actions in 3 second intervals (Reduced by the Tactical Processor)
@@ -207,27 +207,28 @@ void CAutomatonController::DoCombatTick(timer::time_point tick)
         if (TryShieldBash())
         {
             m_LastShieldBashTime = m_Tick;
-            return;
+            co_return;
         }
         else if (TrySpellcast(maneuvers))
         {
             m_LastMagicTime = m_Tick;
-            return;
+            co_return;
         }
         else if (TryTPMove())
         {
-            return;
+            co_return;
         }
         else if (TryRangedAttack())
         {
             m_LastRangedTime = m_Tick;
-            return;
+            co_return;
         }
         else if (TryAttachment())
         {
-            return;
+            co_return;
         }
     }
+
     Move();
 }
 
@@ -1636,7 +1637,7 @@ auto CAutomatonController::Cast(uint16 targid, SpellID spellid) -> bool
     return CPetController::Cast(targid, spellid);
 }
 
-auto CAutomatonController::MobSkill(uint16 targid, uint16 wsid, std::optional<timer::duration> castTimeOverride) -> bool
+auto CAutomatonController::MobSkill(uint16 targid, uint16 wsid, Maybe<timer::duration> castTimeOverride) -> bool
 {
     if (PAutomaton->PRecastContainer->HasRecast(RECAST_ABILITY, static_cast<Recast>(wsid), 0s))
     {
@@ -1709,7 +1710,7 @@ bool CanUseEnfeeble(CBattleEntity* PTarget, SpellID spell)
     return (!statuses->HasStatusEffect(PSpell.enfeeble) && !PTarget->hasImmunity(PSpell.immunity));
 }
 
-std::optional<SpellID> FindNaSpell(CStatusEffect* PStatus)
+Maybe<SpellID> FindNaSpell(CStatusEffect* PStatus)
 {
     for (auto spell : naSpells)
     {

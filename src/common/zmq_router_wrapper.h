@@ -21,8 +21,8 @@
 
 #pragma once
 
-#include "common/ipp.h"
-#include "common/logging.h"
+#include <common/ipp.h>
+#include <common/logging.h>
 
 #include <atomic>
 #include <memory>
@@ -83,7 +83,7 @@ class ZMQRouterWrapper final
                 std::array<zmq::message_t, 2> msgs;
                 try
                 {
-                    if (!zmq::recv_multipart_n(zmqSocket_, msgs.data(), msgs.size(), zmq::recv_flags::none))
+                    if (!zmq::recv_multipart_n(zmqSocket_, msgs.data(), msgs.size(), zmq::recv_flags::dontwait))
                     {
                         IPPMessage msg;
                         while (outgoingQueue_.try_dequeue(msg))
@@ -91,7 +91,7 @@ class ZMQRouterWrapper final
                             // We send the same way as we receive: [routing id (IPP), message]
                             msgs[0] = msg.ipp.toZMQMessage();
                             msgs[1] = zmq::message_t(msg.payload);
-                            zmq::send_multipart(zmqSocket_, msgs, zmq::send_flags::none);
+                            zmq::send_multipart(zmqSocket_, msgs, zmq::send_flags::dontwait);
                         }
                         continue;
                     }

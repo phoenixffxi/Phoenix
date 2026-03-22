@@ -45,10 +45,10 @@ public:
     void onAHCleanup(std::vector<std::string>& inputs) const;
     void onExpireAll(std::vector<std::string>& inputs) const;
 
-    void expireAH(std::optional<uint16> days) const;
+    void expireAH(Maybe<uint16> days) const;
 
 private:
-    auto periodicCleanup() -> Task<void>;
+    Maybe<Scheduler::Token> periodicCleanupToken_;
 
     Scheduler&     scheduler_;
     SearchListener searchListener_;

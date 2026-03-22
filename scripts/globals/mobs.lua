@@ -675,7 +675,7 @@ xi.mob.callPets = function(mob, petIds, params)
                 {
                     finishCategory = xi.action.category.MOBABILITY_FINISH,
                     animationID = 438,
-                    actionID = xi.mobSkill.CALL_WYVERN,
+                    actionID = xi.mobSkill.CALL_WYVERN_1,
                     messageID = xi.msg.basic.USES,
                     param = 0,
                 }

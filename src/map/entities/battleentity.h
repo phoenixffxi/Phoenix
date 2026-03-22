@@ -526,7 +526,7 @@ public:
     void   setBattleID(uint16 battleID);
     uint16 getBattleID();
 
-    virtual void Tick(timer::time_point) override;
+    virtual auto Tick(timer::time_point) -> Task<void> override;
     virtual void PostTick() override;
 
     health_t health{}; // hp,mp,tp

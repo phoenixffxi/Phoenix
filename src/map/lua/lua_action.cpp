@@ -107,7 +107,7 @@ void CLuaAction::messageId(const uint32 actionTargetId, const MsgBasic messageId
     }
 }
 
-auto CLuaAction::getMsg(const uint32 actionTargetId) const -> std::optional<MsgBasic>
+auto CLuaAction::getMsg(const uint32 actionTargetId) const -> Maybe<MsgBasic>
 {
     for (auto&& actionTarget : m_PLuaAction->targets)
     {
@@ -120,7 +120,7 @@ auto CLuaAction::getMsg(const uint32 actionTargetId) const -> std::optional<MsgB
     return std::nullopt;
 }
 
-auto CLuaAction::getAnimation(const uint32 actionTargetId) const -> std::optional<ActionAnimation>
+auto CLuaAction::getAnimation(const uint32 actionTargetId) const -> Maybe<ActionAnimation>
 {
     for (auto&& actionTarget : m_PLuaAction->targets)
     {
@@ -203,7 +203,7 @@ void CLuaAction::knockback(const uint32 actionTargetId, const Knockback knockbac
     }
 }
 
-void CLuaAction::recordDamage(const CLuaBaseEntity* PLuaTarget, const ATTACK_TYPE atkType, const int32 damage, const std::optional<bool> isCritical) const
+void CLuaAction::recordDamage(const CLuaBaseEntity* PLuaTarget, const ATTACK_TYPE atkType, const int32 damage, const Maybe<bool> isCritical) const
 {
     if (auto* PTarget = dynamic_cast<CBattleEntity*>(PLuaTarget->GetBaseEntity()))
     {

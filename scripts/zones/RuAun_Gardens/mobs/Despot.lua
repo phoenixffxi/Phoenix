@@ -50,17 +50,23 @@ entity.onMobInitialize = function(mob)
         -- Despot rapidly uses several Panzerfaust in a row
         local counter  = mob:getLocalVar('panzerfaustCounter')
         local maxCount = mob:getLocalVar('panzerfaustMax')
-        mob:setLocalVar('panzerfaustCounter', counter + 1)
 
-        -- Initialize on first use
-        if maxCount == 0 then
-            maxCount = math.random(2, 5)
-            mob:setAutoAttackEnabled(false)
-            mob:setLocalVar('panzerfaustMax', maxCount)
+        if wasExecuted then
+            counter = counter + 1
+            mob:setLocalVar('panzerfaustCounter', counter)
         end
 
-        -- Reset for next sequence
-        if counter >= maxCount then
+        -- Continue sequence.
+        local target = mob:getTarget()
+        if
+            target and
+            target:isAlive() and
+            counter < maxCount
+        then
+            mob:useMobAbility(xi.mobSkill.PANZERFAUST, target, 0)
+
+        -- Break sequence.
+        else
             mob:setAutoAttackEnabled(true)
             mob:setLocalVar('panzerfaustCounter', 0)
             mob:setLocalVar('panzerfaustMax', 0)
@@ -70,6 +76,11 @@ end
 
 entity.onMobSpawn = function(mob)
     mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 150)
+
+    -- Ensure default state.
+    mob:setAutoAttackEnabled(true)
+    mob:setLocalVar('panzerfaustCounter', 0)
+    mob:setLocalVar('panzerfaustMax', 0)
 
     -- Early return: No zone object.
     local zone = mob:getZone()
@@ -106,20 +117,16 @@ entity.onMobSpawn = function(mob)
     end
 end
 
-entity.onMobFight = function(mob, target)
-    if xi.combat.behavior.isEntityBusy(mob) then
-        return
-    end
-
-    local counter = mob:getLocalVar('panzerfaustCounter')
-    if counter == 0 then
-        return
-    end
-
+entity.onMobMobskillChoose = function(mob, target)
     local maxCount = mob:getLocalVar('panzerfaustMax')
-    if counter <= maxCount then
-        mob:useMobAbility(xi.mobSkill.PANZERFAUST, nil, 0)
+
+    -- Initialize sequence.
+    if maxCount == 0 then
+        mob:setAutoAttackEnabled(false)
+        mob:setLocalVar('panzerfaustMax', math.random(2, 5))
     end
+
+    return xi.mobSkill.PANZERFAUST
 end
 
 entity.onMobWeaponSkill = function(mob, target, skill, action)

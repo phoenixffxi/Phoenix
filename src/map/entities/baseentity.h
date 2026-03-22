@@ -296,7 +296,8 @@ public:
     auto   GetLocalVars() -> std::map<std::string, uint32>&;
 
     // pre-tick update
-    virtual void Tick(timer::time_point) = 0;
+    virtual auto Tick(timer::time_point) -> Task<void> = 0;
+
     // post-tick update
     virtual void PostTick() = 0;
 
@@ -342,7 +343,7 @@ public:
     timer::time_point m_nextUpdateTimer; // next time the entity should push an update packet
 
 protected:
-    std::map<std::string, uint32> m_localVars;
+    std::map<std::string, uint32> localVars_;
     uint8                         speed; // speed of movement
 };
 

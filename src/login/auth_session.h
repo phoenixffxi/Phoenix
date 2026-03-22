@@ -137,5 +137,5 @@ protected:
 private:
     ZMQDealerWrapper& zmqDealerWrapper_;
 
-    std::optional<std::pair<uint32, uint32>> validatePassword(std::string username, std::string password);
+    Maybe<std::pair<uint32, uint32>> validatePassword(std::string username, std::string password);
 };

@@ -14,7 +14,7 @@ entity.onMobInitialize = function(mob)
 end
 
 entity.onMobSpawn = function(mob)
-    xi.mix.jobSpecial.config(mob, { specials = { { id = xi.jsa.SOUL_VOICE, hpp = 99, cooldown = 300 } } })
+    xi.mix.jobSpecial.config(mob, { specials = { { id = xi.mobSkill.SOUL_VOICE_1, hpp = 99, cooldown = 300 } } })
 end
 
 entity.onMobFight = function(mob, target)

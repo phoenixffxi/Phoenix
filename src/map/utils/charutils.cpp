@@ -394,7 +394,7 @@ void CalculateStats(CCharEntity* PChar)
  *                                                                       *
  ************************************************************************/
 
-auto LoadChar(const uint32 charId) -> std::unique_ptr<CCharEntity>
+auto LoadChar(Scheduler& scheduler, MapConfig config, const uint32 charId) -> std::unique_ptr<CCharEntity>
 {
     TracyZoneScoped;
 
@@ -947,9 +947,12 @@ auto LoadChar(const uint32 charId) -> std::unique_ptr<CCharEntity>
     PChar->UpdateHealth();
 
     // Lazy loading: ensure initial zone is loaded synchronously before OnZoneIn
+    // TODO: Hoist his block out of LoadChar() so we're guaranteeing that a char's zone exists
+    //     : before we try to put them in it.
     if (zoneutils::IsLazyLoadingEnabled() && !zoneutils::GetZone(PChar->loc.destination))
     {
-        zoneutils::LoadZones({ PChar->loc.destination });
+        // TODO: Remove this usage of blockOnMain, it's here to help with xi_test
+        scheduler.blockOnMainThread(zoneutils::LoadZones(scheduler, config, { PChar->loc.destination }));
     }
 
     luautils::OnZoneIn(PChar);

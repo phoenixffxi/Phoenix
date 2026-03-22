@@ -62,7 +62,7 @@ g_mixins.families.gigas_beastmaster_nm = function(mob)
 
         local pet = mobArg:getPet()
         if pet and pet:isAlive() then
-            abilityToUse = xi.jsa.FAMILIAR
+            abilityToUse = xi.mobSkill.FAMILIAR_1
         end
 
         mobArg:useMobAbility(abilityToUse)

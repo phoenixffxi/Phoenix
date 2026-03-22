@@ -80,7 +80,7 @@ CLuaSimulation::CLuaSimulation(MapEngine* _mapServer, const std::shared_ptr<InMe
 {
 }
 
-void CLuaSimulation::cleanClients(std::optional<ClientScope> scope)
+void CLuaSimulation::cleanClients(Maybe<ClientScope> scope)
 {
     if (!scope.has_value())
     {
@@ -114,7 +114,10 @@ void CLuaSimulation::tickEntity(CLuaBaseEntity& entity) const
     TracyZoneScoped;
 
     DebugTestFmt("Ticking entity: {} (ID: {})", entity.getName(), entity.GetBaseEntity()->id);
-    entity.GetBaseEntity()->PAI->Tick(timer::now());
+
+    // We cannot co_await within a Lua binding - the suspension will obliterate the Lua stack.
+    engine_->scheduler().blockOnMainThread(
+        entity.GetBaseEntity()->PAI->Tick(timer::now()));
 }
 
 /************************************************************************
@@ -285,7 +288,7 @@ void CLuaSimulation::processClientUpdates() const
  *          : This does not execute unrelated tasks, when possible.
  ************************************************************************/
 
-void CLuaSimulation::tick(const std::optional<TickType> boundary) const
+void CLuaSimulation::tick(const Maybe<TickType> boundary) const
 {
     TracyZoneScoped;
 
@@ -349,7 +352,8 @@ void CLuaSimulation::tick(const std::optional<TickType> boundary) const
             {
                 if (!PZone->GetZoneEntities()->CharListEmpty()) // Only tick zones with players
                 {
-                    PZone->ZoneServer(timePoint);
+                    // We cannot co_await within a Lua binding - the suspension will obliterate the Lua stack.
+                    engine_->scheduler().blockOnMainThread(PZone->ZoneServer(timePoint));
                 }
             }
         }
@@ -365,8 +369,10 @@ void CLuaSimulation::tick(const std::optional<TickType> boundary) const
                 {
                     // CheckTriggerAreas _only_ adds a trigger area to the player list.
                     // ZoneServer processes the actual events.
-                    PZone->CheckTriggerAreas();
-                    PZone->ZoneServer(timePoint);
+
+                    // We cannot co_await within a Lua binding - the suspension will obliterate the Lua stack.
+                    engine_->scheduler().blockOnMainThread(PZone->CheckTriggerAreas());
+                    engine_->scheduler().blockOnMainThread(PZone->ZoneServer(timePoint));
                 }
             }
         }
@@ -375,7 +381,9 @@ void CLuaSimulation::tick(const std::optional<TickType> boundary) const
         {
             // Execute time_server with no specific task in mind.
             timer::add_offset(kTimeServerTickInterval);
-            time_server(timer::now() + 1ms, nullptr);
+
+            // We cannot co_await within a Lua binding - the suspension will obliterate the Lua stack.
+            engine_->scheduler().blockOnMainThread(time_server(engine_->scheduler(), engine_->config()));
         }
         break;
         case TickType::EffectTick:
@@ -399,7 +407,8 @@ void CLuaSimulation::tick(const std::optional<TickType> boundary) const
             {
                 if (!PZone->GetZoneEntities()->CharListEmpty())
                 {
-                    PZone->GetZoneEntities()->ZoneServer(timePoint);
+                    // We cannot co_await within a Lua binding - the suspension will obliterate the Lua stack.
+                    engine_->scheduler().blockOnMainThread(PZone->GetZoneEntities()->ZoneServer(timePoint));
                 }
             }
         }
@@ -409,7 +418,9 @@ void CLuaSimulation::tick(const std::optional<TickType> boundary) const
             // Skip to next JST Hourly and execute time_server
             timer::add_offset(kTimeServerTickInterval);
             earth_time::add_offset(nextJstHourlyUpdate - timerAdjustedUtcTime);
-            time_server(timer::now(), nullptr);
+
+            // We cannot co_await within a Lua binding - the suspension will obliterate the Lua stack.
+            engine_->scheduler().blockOnMainThread(time_server(engine_->scheduler(), engine_->config()));
         }
         break;
         case TickType::JSTDaily:
@@ -417,7 +428,9 @@ void CLuaSimulation::tick(const std::optional<TickType> boundary) const
             // Skip to next JST Daily and execute time_server
             timer::add_offset(kTimeServerTickInterval);
             earth_time::add_offset(nextJstDailyUpdate - timerAdjustedUtcTime);
-            time_server(timer::now(), nullptr);
+
+            // We cannot co_await within a Lua binding - the suspension will obliterate the Lua stack.
+            engine_->scheduler().blockOnMainThread(time_server(engine_->scheduler(), engine_->config()));
         }
         break;
         case TickType::VanadielHourly:
@@ -425,7 +438,9 @@ void CLuaSimulation::tick(const std::optional<TickType> boundary) const
             // Skip to next VanaDiel Hourly and execute time_server
             timer::add_offset(kTimeServerTickInterval);
             earth_time::add_offset(vanadiel_time::to_earth_time(nextVHourlyUpdate) - timerAdjustedUtcTime);
-            time_server(timer::now(), nullptr);
+
+            // We cannot co_await within a Lua binding - the suspension will obliterate the Lua stack.
+            engine_->scheduler().blockOnMainThread(time_server(engine_->scheduler(), engine_->config()));
         }
         break;
         case TickType::VanadielDaily:
@@ -433,7 +448,9 @@ void CLuaSimulation::tick(const std::optional<TickType> boundary) const
             // Skip to next VanaDiel Daily and execute time_server
             timer::add_offset(kTimeServerTickInterval);
             earth_time::add_offset(vanadiel_time::to_earth_time(nextVDailyUpdate) - timerAdjustedUtcTime);
-            time_server(timer::now(), nullptr);
+
+            // We cannot co_await within a Lua binding - the suspension will obliterate the Lua stack.
+            engine_->scheduler().blockOnMainThread(time_server(engine_->scheduler(), engine_->config()));
         }
         break;
         case TickType::SpawnHandler:
@@ -580,7 +597,7 @@ auto CLuaSimulation::getSpawnSlot(const ZONEID zoneId, const uint32 slotId) cons
     {
         if (mob)
         {
-            result[i] = CLuaTestEntity(mob);
+            result[i] = CLuaTestEntity(engine_->scheduler(), mob);
         }
 
         ++i;

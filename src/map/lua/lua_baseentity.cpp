@@ -2633,7 +2633,8 @@ void CLuaBaseEntity::leaveGame()
     auto* PChar = dynamic_cast<CCharEntity*>(m_PBaseEntity);
     if (PChar)
     {
-        // Because we can't detect if this is happening in the middle of an effect wearing off or not, this can be processed after player tick in CZoneEntities::ZoneServer
+        // Because we can't detect if this is happening in the middle of an effect wearing off or not,
+        // this can be processed after player tick in CZoneEntities::ZoneServer
         PChar->status = STATUS_TYPE::SHUTDOWN;
     }
 }
@@ -8523,7 +8524,7 @@ bool CLuaBaseEntity::setEminenceProgress(uint16 recordID, uint32 progress, const
  *  Notes   : returns nil if player does not have the record.
  ************************************************************************/
 
-std::optional<uint32> CLuaBaseEntity::getEminenceProgress(uint16 recordID)
+Maybe<uint32> CLuaBaseEntity::getEminenceProgress(uint16 recordID)
 {
     if (m_PBaseEntity->objtype != TYPE_PC)
     {
@@ -8652,7 +8653,7 @@ uint8 CLuaBaseEntity::getUnityLeader()
  *  Example : player:getUnityRank()
  ************************************************************************/
 
-std::optional<uint8> CLuaBaseEntity::getUnityRank(const sol::object& unityObj)
+Maybe<uint8> CLuaBaseEntity::getUnityRank(const sol::object& unityObj)
 {
     if (m_PBaseEntity->objtype != TYPE_PC)
     {
@@ -16592,7 +16593,7 @@ auto CLuaBaseEntity::getAutomatonName() const -> std::string
  *  Notes   :
  ************************************************************************/
 
-auto CLuaBaseEntity::getAutomatonFrame() const -> std::optional<AutomatonFrame>
+auto CLuaBaseEntity::getAutomatonFrame() const -> Maybe<AutomatonFrame>
 {
     if (m_PBaseEntity->objtype == TYPE_PC)
     {
@@ -16643,7 +16644,7 @@ void CLuaBaseEntity::setAutomatonFrame(const AutomatonFrame frame) const
  *  Notes   :
  ************************************************************************/
 
-auto CLuaBaseEntity::getAutomatonHead() const -> std::optional<AutomatonHead>
+auto CLuaBaseEntity::getAutomatonHead() const -> Maybe<AutomatonHead>
 {
     if (m_PBaseEntity->objtype == TYPE_PC)
     {
@@ -18460,7 +18461,7 @@ void CLuaBaseEntity::useMobAbility(sol::variadic_args va)
         PTarget                        = PLuaBaseEntity ? (CBattleEntity*)PLuaBaseEntity->m_PBaseEntity : nullptr;
     }
 
-    std::optional<timer::duration> castTimeOverride = std::nullopt;
+    Maybe<timer::duration> castTimeOverride = std::nullopt;
     if (va.size() >= 3)
     {
         if (va.get_type(2) == sol::type::number)

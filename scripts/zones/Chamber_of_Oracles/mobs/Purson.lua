@@ -27,7 +27,7 @@ end
 
 entity.onMobFight = function(mob, target)
     if mob:getLocalVar('BloodWeaponTimer') < GetSystemTime() then
-        mob:useMobAbility(xi.jobSpecialAbility.BLOOD_WEAPON) -- Blood Weapon
+        mob:useMobAbility(xi.mobSkill.BLOOD_WEAPON_1) -- Blood Weapon
         mob:setLocalVar('BloodWeaponTimer', GetSystemTime() + 40) -- Will use Blood Weapon every 40 seconds.
     end
 end

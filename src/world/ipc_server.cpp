@@ -54,7 +54,7 @@ IPCServer::IPCServer(WorldEngine& worldServer)
 // IPP Lookup
 //
 
-auto IPCServer::getIPPForCharId(uint32 charId) -> std::optional<IPP>
+auto IPCServer::getIPPForCharId(uint32 charId) -> Maybe<IPP>
 {
     TracyZoneScoped;
 
@@ -79,7 +79,7 @@ auto IPCServer::getIPPForCharId(uint32 charId) -> std::optional<IPP>
     return std::nullopt;
 }
 
-auto IPCServer::getIPPForCharName(const std::string& charName) -> std::optional<IPP>
+auto IPCServer::getIPPForCharName(const std::string& charName) -> Maybe<IPP>
 {
     TracyZoneScoped;
 
@@ -98,7 +98,7 @@ auto IPCServer::getIPPForCharName(const std::string& charName) -> std::optional<
     return std::nullopt;
 }
 
-auto IPCServer::getIPPForZoneId(uint16 zoneId) -> std::optional<IPP>
+auto IPCServer::getIPPForZoneId(uint16 zoneId) -> Maybe<IPP>
 {
     TracyZoneScoped;
 

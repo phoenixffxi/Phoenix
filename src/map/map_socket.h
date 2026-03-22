@@ -41,7 +41,6 @@ public:
     MapSocket(Scheduler& scheduler, uint16 port, ReceiveFn onReceiveFn);
     ~MapSocket();
 
-    void recvFor(timer::duration duration);
     void send(const IPP& ipp, std::span<uint8> buffer);
 
     void requestExit();

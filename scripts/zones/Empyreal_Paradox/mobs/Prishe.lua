@@ -20,12 +20,8 @@ local helperConfig =
     isAggroable    = true,
     targetMobs     = function(mob)
         local battlefieldArea = mob:getBattlefield():getArea()
-        local areaOffset = (battlefieldArea - 1) * 2
-        return
-        {
-            ID.mob.PROMATHIA + areaOffset,     -- Promathia
-            ID.mob.PROMATHIA + areaOffset + 1, -- Promathia v2
-        }
+        local areaOffset      = (battlefieldArea - 1) * 2
+        return { ID.mob.PROMATHIA + areaOffset, ID.mob.PROMATHIA + areaOffset + 1 }
     end,
 }
 
@@ -134,8 +130,8 @@ entity.onMobSpawn = function(mob)
         {
             specials =
             {
-                { id = xi.jsa.HUNDRED_FISTS, hpp = 50 },
-                { id = xi.jsa.BENEDICTION,   hpp = 10 },
+                { id = xi.mobSkill.HUNDRED_FISTS_1, hpp = 50 },
+                { id = xi.mobSkill.BENEDICTION_1,   hpp = 10 },
             },
         })
 
@@ -144,8 +140,8 @@ entity.onMobSpawn = function(mob)
         {
             [xi.mobSkill.AURORAL_UPPERCUT_1   ] = ID.text.PRISHE_TEXT + 4,
             [xi.mobSkill.NULLIFYING_DROPKICK_1] = ID.text.PRISHE_TEXT + 5,
-            [xi.jsa.HUNDRED_FISTS             ] = ID.text.PRISHE_TEXT + 6,
-            [xi.jsa.BENEDICTION               ] = ID.text.PRISHE_TEXT + 7,
+            [xi.mobSkill.HUNDRED_FISTS_1      ] = ID.text.PRISHE_TEXT + 6,
+            [xi.mobSkill.BENEDICTION_1        ] = ID.text.PRISHE_TEXT + 7,
         }
 
         if message[skillID] then
@@ -254,9 +250,7 @@ entity.onMobSpellChoose = function(mob, target, spellId)
         [4] = { xi.magic.spell.CURE_IV,      mob,    true,  xi.action.type.HEALING_TARGET,  33, 0, 100 },
     }
 
-    local groupTable = battlefield:getPlayers()
-
-    return xi.combat.behavior.chooseAction(mob, target, groupTable, spellList)
+    return xi.combat.behavior.chooseAction(mob, target, battlefield:getPlayers(), spellList)
 end
 
 entity.onMobDisengage = function(mob)

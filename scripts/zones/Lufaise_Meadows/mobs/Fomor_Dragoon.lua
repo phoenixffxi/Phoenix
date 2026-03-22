@@ -20,7 +20,7 @@ entity.onMobSpawn = function(mob)
     xi.mix.fomorParty.onPartySpawn(mob)
 
     -- Summon wyvern immediately on spawn
-    mob:useMobAbility(xi.jsa.CALL_WYVERN)
+    mob:useMobAbility(xi.mobSkill.CALL_WYVERN_1)
 end
 
 entity.onMobRoam = function(mob)

@@ -84,7 +84,7 @@ public:
     auto            getTargets() const -> const std::vector<CBattleEntity*>&;
     uint16          getTotalTargets() const;
     uint32          getPrimaryTargetID() const;
-    auto            getFinalAnimationSub() -> std::optional<uint8>;
+    auto            getFinalAnimationSub() -> Maybe<uint8>;
     uint16          getMsgForAction() const;
     float           getRadius() const;
     int16           getParam() const;
@@ -149,7 +149,7 @@ private:
     ATTACK_TYPE     m_attackType{ ATTACK_TYPE::NONE };
     bool            m_isCritical{ false };
 
-    std::optional<uint8> m_FinalAnimationSub; // If non-null, entity will get this new animation sub after state exits
+    Maybe<uint8> m_FinalAnimationSub; // If non-null, entity will get this new animation sub after state exits
 
     std::string m_name;
 

@@ -599,7 +599,7 @@ void auth_session::do_write(std::size_t length)
         });
 }
 
-std::optional<std::pair<uint32, uint32>> auth_session::validatePassword(std::string username, std::string password)
+Maybe<std::pair<uint32, uint32>> auth_session::validatePassword(std::string username, std::string password)
 {
     uint32 accountID = 0;
     uint32 status    = 0;

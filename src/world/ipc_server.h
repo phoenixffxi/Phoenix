@@ -53,9 +53,9 @@ public:
     // IPP Lookup
     //
 
-    auto getIPPForCharId(uint32 charId) -> std::optional<IPP>;
-    auto getIPPForCharName(const std::string& charName) -> std::optional<IPP>;
-    auto getIPPForZoneId(uint16 zoneId) -> std::optional<IPP>;
+    auto getIPPForCharId(uint32 charId) -> Maybe<IPP>;
+    auto getIPPForCharName(const std::string& charName) -> Maybe<IPP>;
+    auto getIPPForZoneId(uint16 zoneId) -> Maybe<IPP>;
     auto getIPPsForParty(uint32 partyId) -> std::vector<IPP>;
     auto getIPPsForAlliance(uint32 allianceId) -> std::vector<IPP>;
     auto getIPPsForLinkshell(uint32 linkshellId) -> std::vector<IPP>;

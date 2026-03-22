@@ -734,7 +734,7 @@ auto preparedStmt(const std::string& rawQuery, Args&&... args) -> std::unique_pt
 template <typename... Args>
 auto preparedStmt(Scheduler& scheduler, const std::string& rawQuery, Args&&... args) -> Task<std::unique_ptr<db::detail::ResultSetWrapper>>
 {
-    co_return scheduler.onWorkerThread(
+    co_return scheduler.spawnOnWorkerThread(
         [rawQuery, ... capturedArgs = std::forward<Args>(args)]() mutable
         {
             return db::preparedStmt(rawQuery, std::forward<Args>(capturedArgs)...);

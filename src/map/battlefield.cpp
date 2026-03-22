@@ -166,8 +166,8 @@ timer::duration CBattlefield::GetLastTimeUpdate() const
 
 uint64_t CBattlefield::GetLocalVar(const std::string& name) const
 {
-    auto var = m_LocalVars.find(name);
-    return var != m_LocalVars.end() ? var->second : 0;
+    auto var = localVars_.find(name);
+    return var != localVars_.end() ? var->second : 0;
 }
 
 size_t CBattlefield::GetMaxParticipants() const
@@ -254,7 +254,7 @@ void CBattlefield::SetLevelCap(uint8 cap)
 
 void CBattlefield::SetLocalVar(const std::string& name, uint64_t value)
 {
-    m_LocalVars[name] = value;
+    localVars_[name] = value;
 }
 
 void CBattlefield::SetLastTimeUpdate(timer::duration time)

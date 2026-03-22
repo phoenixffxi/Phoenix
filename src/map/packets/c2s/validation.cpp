@@ -80,7 +80,7 @@ auto PacketValidator::isNotMonstrosity(const CCharEntity* PChar) -> PacketValida
     return *this;
 }
 
-auto PacketValidator::isInEvent(const CCharEntity* PChar, std::optional<uint16_t> eventId) -> PacketValidator&
+auto PacketValidator::isInEvent(const CCharEntity* PChar, Maybe<uint16_t> eventId) -> PacketValidator&
 {
     if (!PChar->isInEvent())
     {

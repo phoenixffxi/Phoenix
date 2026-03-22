@@ -16,9 +16,8 @@
 
 #pragma once
 
-#include "common/cbasetypes.h"
-
-#include <optional>
+#include <common/cbasetypes.h>
+#include <common/types/maybe.h>
 
 class CMobEntity;
 
@@ -37,7 +36,7 @@ class SpawnSlot
 public:
     void AddMob(CMobEntity* mob, uint8 spawnChance);
     void RemoveMob(const CMobEntity* mob);
-    auto TrySpawn(std::optional<uint32> specificMobId = std::nullopt) -> bool;
+    auto TrySpawn(Maybe<uint32> specificMobId = std::nullopt) -> bool;
     auto IsEmpty() const -> bool;
     auto GetEntries() const -> const std::vector<SpawnSlotEntry>&;
 

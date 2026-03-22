@@ -21,11 +21,12 @@
 
 #pragma once
 
-#include "common/cbasetypes.h"
-#include "common/mmo.h"
-#include "common/task_manager.h"
-#include "common/timer.h"
-#include "common/vana_time.h"
+#include <common/cbasetypes.h>
+#include <common/logging.h>
+#include <common/mmo.h>
+#include <common/scheduler.h>
+#include <common/timer.h>
+#include <common/vana_time.h>
 
 #include <list>
 #include <map>
@@ -33,7 +34,7 @@
 
 #include "battlefield_handler.h"
 #include "campaign_handler.h"
-#include "common/logging.h"
+#include "map_config.h"
 #include "packets/basic.h"
 #include "spawn_slot.h"
 #include "trigger_area.h"
@@ -561,8 +562,6 @@ typedef std::map<uint16, CBaseEntity*> EntityList_t;
 
 using QueryByNameResult_t = std::vector<CBaseEntity*>;
 
-int32 zone_update_weather(uint32 tick, CTaskManager::CTask* PTask);
-
 class CZone
 {
 public:
@@ -621,8 +620,8 @@ public:
 
     virtual void WideScan(CCharEntity* PChar, uint16 radius);
 
-    virtual void DecreaseZoneCounter(CCharEntity* PChar); // Remove a character to the zone
-    virtual void IncreaseZoneCounter(CCharEntity* PChar); // Add a character from the zone
+    virtual void DecreaseZoneCounter(CCharEntity* PChar); // Remove a character from the zone
+    virtual void IncreaseZoneCounter(CCharEntity* PChar); // Add a character to the zone
 
     virtual void InsertNPC(CBaseEntity* PNpc);
     virtual void InsertMOB(CBaseEntity* PMob);
@@ -647,8 +646,8 @@ public:
 
     weatherVector_t m_WeatherVector; // The probability of each weather type
 
-    virtual void ZoneServer(timer::time_point tick);
-    virtual void CheckTriggerAreas();
+    virtual auto ZoneServer(timer::time_point tick) -> Task<void>;
+    virtual auto CheckTriggerAreas() -> Task<void>;
 
     virtual void ForEachChar(const std::function<void(CCharEntity*)>& func);
     virtual void ForEachCharInstance(CBaseEntity* PEntity, const std::function<void(CCharEntity*)>& func);
@@ -663,7 +662,7 @@ public:
     virtual void ForEachAlly(const std::function<void(CMobEntity*)>& func);
     virtual void ForEachAllyInstance(CBaseEntity* PEntity, const std::function<void(CMobEntity*)>& func);
 
-    CZone(ZONEID ZoneID, REGION_TYPE RegionID, CONTINENT_TYPE ContinentID, uint8 levelRestriction);
+    CZone(Scheduler& scheduler, MapConfig config, ZONEID ZoneID, REGION_TYPE RegionID, CONTINENT_TYPE ContinentID, uint8 levelRestriction);
     virtual ~CZone();
 
     CBattlefieldHandler*          m_BattlefieldHandler; // BCNM Instances in this zone
@@ -681,6 +680,22 @@ public:
 
     void LoadNavMesh();
     void LoadZoneLos();
+
+protected:
+    Scheduler& scheduler_;
+    MapConfig  config_;
+
+    Maybe<Scheduler::Token> zoneTimerToken_;
+    Maybe<Scheduler::Token> zoneTimerTriggerAreasToken_;
+    Maybe<Scheduler::Token> spawnHandlerTimerToken_;
+
+    triggerAreaList_t m_triggerAreaList;
+
+    void createZoneTimers();
+    void CharZoneIn(CCharEntity* PChar);
+    void CharZoneOut(CCharEntity* PChar);
+
+    std::unordered_map<std::string, uint32> localVars_;
 
 private:
     ZONEID         m_zoneID;
@@ -703,8 +718,6 @@ private:
 
     zoneMusic_t m_zoneMusic{};
 
-    std::unordered_map<std::string, uint32> m_LocalVars;
-
     zoneLineList_t m_zoneLineList;
 
     void LoadZoneSettings();
@@ -716,17 +729,4 @@ private:
     timer::time_point m_timeZoneEmpty; // The time point when the last player left the zone
 
     std::unordered_map<std::string, QueryByNameResult_t> m_queryByNameResults;
-
-protected:
-    CTaskManager::CTask* ZoneTimer; // The pointer to the created timer is necessary for the possibility of stopping it
-    CTaskManager::CTask* ZoneTimerTriggerAreas;
-    CTaskManager::CTask* SpawnHandlerTimer;
-
-    triggerAreaList_t m_triggerAreaList;
-
-    void createZoneTimers();
-    void CharZoneIn(CCharEntity* PChar);
-    void CharZoneOut(CCharEntity* PChar);
-
-    std::unordered_map<std::string, uint32> m_localVars;
 };
