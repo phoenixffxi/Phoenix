@@ -29,6 +29,8 @@ xi.mobSkill =
     CRESCENT_MOON_1               =   53,
     SICKLE_MOON_1                 =   54,
 
+    DIMIDIATION_1                 =   61,
+
     VORPAL_SCYTHE                 =  101,
     GUILLOTINE_1                  =  102,
 
@@ -39,6 +41,8 @@ xi.mobSkill =
     SKEWER                        =  118,
     WHEELING_THRUST               =  119,
     IMPULSE_DRIVE                 =  120,
+
+    RANDGRITH_1                   =  170,
 
     BARBED_CRESCENT_1             =  245,
 
@@ -410,7 +414,9 @@ xi.mobSkill =
     PINECONE_BOMB_NM              =  928,
     LEAFSTORM_DISPEL              =  929,
     ENTANGLE_POISON               =  930,
+    CROSS_REAVER_1                =  931, -- Ark Angel HM
 
+    DOMINION_SLASH_1              =  933, -- Ark Angel EV
     SHIELD_STRIKE                 =  934, -- Ark Angel EV
 
     ARKANGEL_TT_WARP_OUT          =  936, -- Ark Angel TT Warp Out
@@ -470,6 +476,8 @@ xi.mobSkill =
     MIJIN_GAKURE_MAAT             = 1021,
     CALL_WYVERN_MAAT              = 1022,
     ASTRAL_FLOW_MAAT              = 1023,
+
+    DRAGON_BREATH_2               = 1041,
 
     HOWL                          = 1062,
 
@@ -866,6 +874,10 @@ xi.mobSkill =
 
     -- MEIKYO_SHISUI                 = 3175,
 
+    CROSS_REAVER_2                = 3174,
+
+    ARROGANCE_INCARNATE_1         = 3178,
+
     LIGHT_BLADE_2                 = 3214,
 
     -- ELEMENTAL_SFORZO              = 3265,
@@ -886,12 +898,24 @@ xi.mobSkill =
 
     SHEEP_SONG_3                  = 3433,
 
+    DRAGON_BREATH_3               = 3438, -- Areuhat Trust
+
+    TWIRLING_DERVISH              = 3469, -- Adelheid Trust
+
     LIGHT_BLADE_3                 = 3471,
 
     -- ELEMENTAL_SFORZO              = 3479,
 
     -- AZURE_LORE                    = 3481,
     BOLSTER                       = 3482,
+
+    CROSS_REAVER_3                = 3706, -- Ark Angel HM Trust
+
+    ARROGANCE_INCARNATE_2         = 3710, -- Ark Angel EV Trust
+
+    DOMINION_SLASH_2              = 3712, -- Ark Angel EV Trust
+
+    ARROGANCE_INCARNATE_3         = 3728,
 
     FOOT_KICK_3                   = 3840,
     DUST_CLOUD_3                  = 3841,
@@ -918,4 +942,6 @@ xi.mobSkill =
     SANDPIT_3                     = 3883,
     VENOM_SPRAY_3                 = 3884,
     MANDIBULAR_BITE_3             = 3885,
+
+    MIX_FINAL_ELIXIR              = 4231, -- Monbereaux Trust
 }
