@@ -5475,9 +5475,12 @@ xi.data.augments.bundles =
     },
 }
 
--- Cumulative Reinforcement point per rank for bundled augments
--- Equipment exdata stores cumulated value, client uses below table to calculate RP to next rank.
--- Source: ROM/118/114.DAT (mnc2, 48 bytes after header)
+-- Reinforcement point per rank for bundled and mezzotint augments
+-- Bundled augments store TOTAL accumulated value. Mezzotint stores CURRENT RANK value.
+-- Client uses below tables to calculate RP to next rank.
+-- Sources:
+--   - Bundled augments: ROM/118/114.DAT (mnc2, 48 bytes after header)
+--   - Mezzotint: FFXiMain.dll signature C1 E8 02 83 E0 1F 33 D2 66 8B 14 45 ?? ?? ?? ?? 33 C0 66 8B 41 04 2B D0
 xi.data.augments.rpCurves =
 {
     [xi.augment.rpCurve.A] =
@@ -5548,5 +5551,23 @@ xi.data.augments.rpCurves =
         [28] = 49200,
         [29] = 52400,
         [30] = 55800,
+    },
+    [xi.augment.rpCurve.MEZZOTINT] = -- Effectively a copy of curve A, duplicated for clarity.
+    {
+        [ 0] =   30,
+        [ 1] =   50,
+        [ 2] =   80,
+        [ 3] =  120,
+        [ 4] =  170,
+        [ 5] =  220,
+        [ 6] =  280,
+        [ 7] =  340,
+        [ 8] =  410,
+        [ 9] =  480,
+        [10] =  560,
+        [11] =  650,
+        [12] =  750,
+        [13] =  860,
+        [14] =  980,
     },
 }
