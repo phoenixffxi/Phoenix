@@ -15,6 +15,7 @@ xi.dynamis = xi.dynamis or {}
 -- ---------------------
 xi.dynamis.generalInfo = function(mob)
     mob:setTrueDetection(true)
+    mob:setSpawnAnimation(1) -- This is the cool looking spwan animation
     mob:setMobMod(xi.mobMod.CHARMABLE, 0)
     mob:setMobMod(xi.mobMod.CHECK_AS_NM, 1)
     mob:setMobMod(xi.mobMod.NO_DESPAWN, 1)
@@ -23,6 +24,15 @@ xi.dynamis.generalInfo = function(mob)
     mob:setMobMod(xi.mobMod.EXP_BONUS, -100)
     mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 150)
     mob:setRoamFlags(xi.roamFlag.SCRIPTED)
+
+    -- TODO: figure out DRG wyvern calls later
+    local job = mob:getMainJob()
+    if
+        job == xi.job.BST or
+        job == xi.job.SMN
+    then
+        xi.mob.callPets(mob, mob:getID() + 1)
+    end
 end
 
 -- ---------------------
@@ -142,10 +152,13 @@ xi.dynamis.onStatueFight = function(mob, target)
                 -- TODO: figure out if this wakes slept players up
                 playerObj:restoreHP(missingHP)
                 playerObj:messageBasic(xi.msg.basic.RECOVERS_HP, 0, missingHP)
+                mob:injectActionPacket(playerObj:getID(), 11, 772, 0, 0, xi.msg.basic.AOE_REGAIN_HP, 0, missingHP)
+                
             else
                 local missingMP = playerObj:getMaxMP() - playerObj:getMP()
                 playerObj:restoreMP(missingMP)
                 playerObj:messageBasic(xi.msg.basic.RECOVERS_MP, 0, missingMP)
+                mob:injectActionPacket(playerObj:getID(), 11, 773, 0, 0, xi.msg.basic.AOE_REGAIN_MP, 0, missingMP)
             end
         end
     end
@@ -200,17 +213,11 @@ end
 -- ---------------------
 -- Regular Mob functions
 -- ---------------------
-xi.dynamis.onMobSpawn = function(mob)
-    mob:setSpawnAnimation(1) -- This is the cool looking spwan animation
+xi.dynamis.onMobSpawn = function(mob, mobType)
     xi.dynamis.generalInfo(mob)
 
-    -- TODO: figure out DRG wyvern calls later
-    local job = mob:getMainJob()
-    if
-        job == xi.job.BST or
-        job == xi.job.SMN
-    then
-        xi.mob.callPets(mob, mob:getID() + 1)
+    if mobType == 'Nightmare' then
+        mob:setRoamFlags(xi.roamFlag.NONE)
     end
 end
 

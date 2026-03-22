@@ -137,7 +137,7 @@ xi.dynamis.entryInfoEra =
         csDyna            = 58,
         maxCapacity       = 36,
         enabled           = true,
-        dynaZone        = xi.zone.DYNAMIS_VALKURM,
+        dynaZone          = xi.zone.DYNAMIS_VALKURM,
         hasSeenFirstCSVar = 'DynamisCop_First',
         winVar            = 'DynaValkurm_Win',
         enteredVar        = 'DynaValkurm_entered',
@@ -155,7 +155,7 @@ xi.dynamis.entryInfoEra =
         csDyna            = 22,
         maxCapacity       = 36,
         enabled           = true,
-        dynaZone        = xi.zone.DYNAMIS_BUBURIMU,
+        dynaZone          = xi.zone.DYNAMIS_BUBURIMU,
         hasSeenFirstCSVar = 'DynamisCop_First',
         winVar            = 'DynaBuburimu_Win',
         enteredVar        = 'DynaBuburimu_entered',
@@ -173,7 +173,7 @@ xi.dynamis.entryInfoEra =
         csDyna            = 3,
         maxCapacity       = 36,
         enabled           = true,
-        dynaZone        = xi.zone.DYNAMIS_QUFIM,
+        dynaZone          = xi.zone.DYNAMIS_QUFIM,
         hasSeenFirstCSVar = 'DynamisCop_First',
         winVar            = 'DynaQufim_Win',
         enteredVar        = 'DynaQufim_entered',
@@ -191,7 +191,7 @@ xi.dynamis.entryInfoEra =
         csDyna            = 588,
         maxCapacity       = 18,
         enabled           = true,
-        dynaZone        = xi.zone.DYNAMIS_TAVNAZIA,
+        dynaZone          = xi.zone.DYNAMIS_TAVNAZIA,
         hasSeenFirstCSVar = 'DynaTavnazia_First',
         winVar            = 'DynaTavnazia_Win',
         enteredVar        = 'DynaTavnazia_entered',
@@ -461,10 +461,10 @@ xi.dynamis.dynaIDLookup =
     {
         text =
         {
-            INFORMATION_RECORDED        = zones[xi.zone.WINDURST_WALLS].text.YOU_CANNOT_ENTER_DYNAMIS - 4,
-            ANOTHER_GROUP               = zones[xi.zone.WINDURST_WALLS].text.YOU_CANNOT_ENTER_DYNAMIS - 5,
-            UNABLE_TO_CONNECT           = zones[xi.zone.WINDURST_WALLS].text.YOU_CANNOT_ENTER_DYNAMIS - 7,
-            CONNECTING_WITH_THE_SERVER  = zones[xi.zone.WINDURST_WALLS].text.YOU_CANNOT_ENTER_DYNAMIS - 8,
+            INFORMATION_RECORDED        = zones[xi.zone.WINDURST_WALLS].text.YOU_CANNOT_ENTER_DYNAMIS - 8,
+            ANOTHER_GROUP               = zones[xi.zone.WINDURST_WALLS].text.YOU_CANNOT_ENTER_DYNAMIS - 7,
+            UNABLE_TO_CONNECT           = zones[xi.zone.WINDURST_WALLS].text.YOU_CANNOT_ENTER_DYNAMIS - 5,
+            CONNECTING_WITH_THE_SERVER  = zones[xi.zone.WINDURST_WALLS].text.YOU_CANNOT_ENTER_DYNAMIS - 4,
         },
         entryZone = xi.zone.WINDURST_WALLS,
     },
@@ -482,52 +482,52 @@ xi.dynamis.dynaIDLookup =
     -- Dynamis Zones
     [xi.zone.DYNAMIS_BASTOK] =
     {
-        text = { NO_LONGER_HAVE_CLEARANCE = zones[xi.zone.DYNAMIS_BASTOK].text.MEMBERS_LEVELS_ARE_RESTRICTED + 48 },
+        text = { NO_LONGER_HAVE_CLEARANCE = zones[xi.zone.DYNAMIS_BASTOK].text.MEMBERS_LEVELS_ARE_RESTRICTED + 49 },
         entryZone = xi.zone.BASTOK_MINES,
-    },
-    [xi.zone.DYNAMIS_BEAUCEDINE] =
-    {
-        text = { NO_LONGER_HAVE_CLEARANCE = zones[xi.zone.DYNAMIS_BEAUCEDINE].text.MEMBERS_LEVELS_ARE_RESTRICTED + 48 },
-        entryZone = xi.zone.BEAUCEDINE_GLACIER,
-    },
-    [xi.zone.DYNAMIS_BUBURIMU] =
-    {
-        text = { NO_LONGER_HAVE_CLEARANCE = zones[xi.zone.DYNAMIS_BUBURIMU].text.MEMBERS_LEVELS_ARE_RESTRICTED + 48 },
-        entryZone = xi.zone.BUBURIMU_PENINSULA,
-    },
-    [xi.zone.DYNAMIS_JEUNO] =
-    {
-        text = { NO_LONGER_HAVE_CLEARANCE = zones[xi.zone.DYNAMIS_JEUNO].text.MEMBERS_LEVELS_ARE_RESTRICTED + 48 },
-        entryZone = xi.zone.RULUDE_GARDENS,
-    },
-    [xi.zone.DYNAMIS_QUFIM] =
-    {
-        text = { NO_LONGER_HAVE_CLEARANCE = zones[xi.zone.DYNAMIS_QUFIM].text.MEMBERS_LEVELS_ARE_RESTRICTED + 48 },
-        entryZone = xi.zone.QUFIM_ISLAND,
     },
     [xi.zone.DYNAMIS_SAN_DORIA] =
     {
-        text = { NO_LONGER_HAVE_CLEARANCE = zones[xi.zone.DYNAMIS_SAN_DORIA].text.MEMBERS_LEVELS_ARE_RESTRICTED + 48 },
+        text = { NO_LONGER_HAVE_CLEARANCE = zones[xi.zone.DYNAMIS_SAN_DORIA].text.MEMBERS_LEVELS_ARE_RESTRICTED + 49 },
         entryZone = xi.zone.SOUTHERN_SAN_DORIA,
-    },
-    [xi.zone.DYNAMIS_TAVNAZIA] =
-    {
-        text = { NO_LONGER_HAVE_CLEARANCE = zones[xi.zone.DYNAMIS_TAVNAZIA].text.MEMBERS_LEVELS_ARE_RESTRICTED + 48 },
-        entryZone = xi.zone.TAVNAZIAN_SAFEHOLD,
-    },
-    [xi.zone.DYNAMIS_VALKURM] =
-    {
-        text = { NO_LONGER_HAVE_CLEARANCE = zones[xi.zone.DYNAMIS_VALKURM].text.MEMBERS_LEVELS_ARE_RESTRICTED + 48 },
-        entryZone = xi.zone.VALKURM_DUNES,
     },
     [xi.zone.DYNAMIS_WINDURST] =
     {
-        text = { NO_LONGER_HAVE_CLEARANCE = zones[xi.zone.DYNAMIS_WINDURST].text.MEMBERS_LEVELS_ARE_RESTRICTED + 48 },
+        text = { NO_LONGER_HAVE_CLEARANCE = zones[xi.zone.DYNAMIS_WINDURST].text.MEMBERS_LEVELS_ARE_RESTRICTED + 49 },
         entryZone = xi.zone.WINDURST_WALLS,
+    },
+    [xi.zone.DYNAMIS_JEUNO] =
+    {
+        text = { NO_LONGER_HAVE_CLEARANCE = zones[xi.zone.DYNAMIS_JEUNO].text.MEMBERS_LEVELS_ARE_RESTRICTED + 49 },
+        entryZone = xi.zone.RULUDE_GARDENS,
+    },
+    [xi.zone.DYNAMIS_BEAUCEDINE] =
+    {
+        text = { NO_LONGER_HAVE_CLEARANCE = zones[xi.zone.DYNAMIS_BEAUCEDINE].text.MEMBERS_LEVELS_ARE_RESTRICTED + 49 },
+        entryZone = xi.zone.BEAUCEDINE_GLACIER,
     },
     [xi.zone.DYNAMIS_XARCABARD] =
     {
-        text = { NO_LONGER_HAVE_CLEARANCE = zones[xi.zone.DYNAMIS_XARCABARD].text.MEMBERS_LEVELS_ARE_RESTRICTED + 48 },
+        text = { NO_LONGER_HAVE_CLEARANCE = zones[xi.zone.DYNAMIS_XARCABARD].text.MEMBERS_LEVELS_ARE_RESTRICTED + 49 },
         entryZone = xi.zone.XARCABARD,
+    },
+    [xi.zone.DYNAMIS_VALKURM] =
+    {
+        text = { NO_LONGER_HAVE_CLEARANCE = zones[xi.zone.DYNAMIS_VALKURM].text.MEMBERS_LEVELS_ARE_RESTRICTED + 309 },
+        entryZone = xi.zone.VALKURM_DUNES,
+    },
+    [xi.zone.DYNAMIS_BUBURIMU] =
+    {
+        text = { NO_LONGER_HAVE_CLEARANCE = zones[xi.zone.DYNAMIS_BUBURIMU].text.MEMBERS_LEVELS_ARE_RESTRICTED + 309 },
+        entryZone = xi.zone.BUBURIMU_PENINSULA,
+    },
+    [xi.zone.DYNAMIS_QUFIM] =
+    {
+        text = { NO_LONGER_HAVE_CLEARANCE = zones[xi.zone.DYNAMIS_QUFIM].text.MEMBERS_LEVELS_ARE_RESTRICTED + 309 },
+        entryZone = xi.zone.QUFIM_ISLAND,
+    },
+    [xi.zone.DYNAMIS_TAVNAZIA] =
+    {
+        text = { NO_LONGER_HAVE_CLEARANCE = zones[xi.zone.DYNAMIS_TAVNAZIA].text.MEMBERS_LEVELS_ARE_RESTRICTED + 309 },
+        entryZone = xi.zone.TAVNAZIAN_SAFEHOLD,
     },
 }
