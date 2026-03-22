@@ -2,6 +2,8 @@
 -- 2007 Experience Tables Module
 -----------------------------------
 -- Source: https://ffxiclopedia.fandom.com/wiki/Experience_Points?oldid=334881#Base_Experience
+-- Use in tandem with 2007_exp_curve.lua
+-- date changed: https://www.bg-wiki.com/ffxi/Version_Update_(02/14/2011)
 -----------------------------------
 
 UPDATE exp_table SET r1 = "600", r2 = "600", r3 = "600", r4 = "600", r5 = "600", r6 = "600", r7 = "600", r8 = "600", r9 = "600", r10 = "530", r11 = "530", r12 = "580", r13 = "800", r14 = "800", r15 = "800", r16 = "800", r17 = "800", r18 = "800", r19 = "800", r20 = "800" WHERE level = 15;
