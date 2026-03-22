@@ -20,17 +20,20 @@ xi.augment.subKind =
     STANDARD        = 0x03, -- Base flags for standard augments
     CRAFTING_SHIELD = 0x08, -- Crafting shields
     SERIALIZED      = 0x10, -- Serialized number + server name (Lu Shang +1, Ebisu +1)
-    BUNDLED         = 0x20, -- Dyna-D, Odyssey, JSE necks
+    MEZZOTINT       = 0x20, -- Mezzotinting (Geas Fete, Delve)
     TRIAL           = 0x40, -- Magian trial present
     EVOLITH         = 0x80,
 }
 
--- RP curve in use by a given item using Bundled augments. Stored in equipment exdata.
+-- RP curve used to calculate reinforcement points needed per rank.
+-- Bundled augments select A or B via RPCurve field in exdata.
+-- Mezzotint always uses MEZZOTINT.
 ---@enum xi.augment.rpCurve
 xi.augment.rpCurve =
 {
-    A = 0, -- Up to 4750 RP
-    B = 1, -- Up to 55800 RP
+    A         = 0, -- Bundled: cumulative, up to 4750 RP total
+    B         = 1, -- Bundled: cumulative, up to 55800 RP total
+    MEZZOTINT = 2, -- Mezzotint: per-rank (resets), up to 5980 RP total
 }
 
 -- Used with bundled augments
