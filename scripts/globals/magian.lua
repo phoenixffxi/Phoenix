@@ -963,7 +963,7 @@ xi.magian.onItemEquip = function(player, itemObj)
         end)
 
     elseif trialData.useWeaponskill then
-        player:addListener('WEAPONSKILL_USE', 'TRIAL_' .. itemTrialId, function(playerObj, mobObj, skill, tpSpent, action, damage)
+        player:addListener('WEAPONSKILL_USE', 'TRIAL_' .. itemTrialId, function(playerObj, mobObj, skill, tp, action, damage)
             if not playerObj:isDead() and playerObj:checkKillCredit(mobObj) then
                 local conditionResult = checkConditions(trialData, playerObj, mobObj, { weaponskillUsed = skill:getID(), weaponskillDamage = damage })
 

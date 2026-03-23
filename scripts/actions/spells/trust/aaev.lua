@@ -105,9 +105,10 @@ spellObject.onMobSpawn = function(mob)
     mob:setTrustTPSkillSettings(ai.tp.CLOSER_UNTIL_TP, ai.s.RANDOM, 2000)
 
     mob:addListener('WEAPONSKILL_USE', 'AAEV_WEAPONSKILL_USE', function(mobArg, target, skill, tp, action)
-        if skill:getID() == 3710 then -- Arrogance Incarnate
+        local skillId = skill:getID()
+        if skillId == xi.mobSkill.ARROGANCE_INCARNATE_2 then
             xi.trust.message(mobArg, xi.trust.messageOffset.SPECIAL_MOVE_1)
-        elseif skill:getID() == 3712 then -- Dominion Slash
+        elseif skillId == xi.mobSkill.DOMINION_SLASH_2 then
             xi.trust.message(mobArg, xi.trust.messageOffset.SPECIAL_MOVE_2)
         end
     end)

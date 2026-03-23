@@ -82,9 +82,8 @@ spellObject.onMobSpawn = function(mob)
     mob:setTrustTPSkillSettings(ai.tp.ASAP, ai.s.RANDOM)
 
     mob:addListener('WEAPONSKILL_USE', 'AAHM_WEAPONSKILL_USE', function(mobArg, target, skill, tp, action)
-        if skill:getID() == 3706 then -- Cross Reaver
-            -- Apathy strikes!
-            xi.trust.message(mobArg, xi.trust.messageOffset.SPECIAL_MOVE_1)
+        if skill:getID() == xi.mobSkill.CROSS_REAVER_3 then
+            xi.trust.message(mobArg, xi.trust.messageOffset.SPECIAL_MOVE_1) -- Apathy strikes!
         end
     end)
 end
