@@ -41,6 +41,7 @@ end
 xi.dynamis.statueOnSpawn = function(mob)
     -- Apply the general stats to from dynamis mobs
     xi.dynamis.generalInfo(mob)
+    mob:setSpawnAnimation(0)
 
     mob:setAnimationSub(0) -- Set statue to closed eye state
     mob:setRoamFlags(xi.roamFlag.SCRIPTED)
@@ -50,15 +51,17 @@ xi.dynamis.statueOnSpawn = function(mob)
     local zoneID   = mob:getZoneID()
     local statueId = mob:getID()
     print('Statue spawned - ID:', statueId, 'Zone:', zoneID, 'isSpawned:', mob:isSpawned(), 'HP:', mob:getHP())
-    local eyeColor = xi.dynamis.spawnTable[zoneID][statueId][2]
-    if eyeColor ~= xi.dynamis.eye.RED then
+
+    -- Check if table value exists to prevent nil errors
+    local eyeColor = xi.dynamis.eyeColor[zoneID] and xi.dynamis.eyeColor[zoneID][statueId]
+    if eyeColor and eyeColor ~= xi.dynamis.eye.RED then
         mob:setUnkillable(true)
     end
 
     xi.dynamis.generatePath(mob)
 end
 
-xi.dynamis.statueOnEngaged = function(mob, target)
+xi.dynamis.mobOnEngage = function(mob, target)
     print('Statue engaged, checking for spawns...')
     print('Engaged mob ID:', mob:getID(), 'isSpawned:', mob:isSpawned(), 'Distance to spawn:', mob:checkDistance(mob:getSpawnPos()))
 
@@ -67,27 +70,42 @@ xi.dynamis.statueOnEngaged = function(mob, target)
         return
     end
 
-    xi.dynamis.spawnAggroStatues(mob, target)
-
     mob:setLocalVar('engageCheck', 1)
-    local zoneID   = mob:getZoneID()
-    local statueId = mob:getID()
-
-    -- Sets the eye color
-    local eyeColor = xi.dynamis.spawnTable[zoneID][statueId][2]
-    if eyeColor ~= xi.dynamis.eye.RED then
-        mob:setAnimationSub(eyeColor)
-    else
-        mob:setAnimationSub(xi.dynamis.eye.RED) -- Default to red if none specified
-    end
+    local zoneID = mob:getZoneID()
+    local mobID  = mob:getID()
 
     mob:setMobMod(xi.mobMod.MAGIC_DELAY, math.random(5, 15)) -- Random magic delay to make the casts delayed
     mob:stun(3000) -- Used to make the mob not move at all for 3 seconds
 
-    local count = xi.dynamis.spawnTable[zoneID][statueId][1]
-    print('Spawning next mobs for statue ID:', statueId, 'Count:', count)
+    -- Check for mobs on aggro conditions
+    xi.dynamis.spawnAggroStatues(mob, target)
+
+    -- If the mob has spawned from the master mob then do not check for more spawns
+    if mob:getLocalVar('spawnedFromMaster') == 1 then
+        print("I am an add, not spawning more mobs")
+        return
+    end
+
+    local count = xi.dynamis.spawnTable[zoneID][mobID][1]
     if count > 0 then
-        xi.dynamis.spawnNextMobsOnce(mob, statueId, count, target) -- Spawn the next X amount of IDs from that staue
+        local checkForceSpawn = xi.dynamis.spawnTable[zoneID][mobID][2]
+        xi.dynamis.spawnNextMobsOnce(mob, mobID, count, target, checkForceSpawn) -- Spawn the next X amount of IDs from that staue
+    end
+end
+
+xi.dynamis.checkEyeColor = function(mob)
+    local zoneID = mob:getZoneID()
+    local mobID  = mob:getID()
+
+    -- Check if table values exist to prevent nil errors
+    local eyeColor = xi.dynamis.eyeColor[zoneID] and xi.dynamis.eyeColor[zoneID][mobID]
+    if
+        eyeColor == xi.dynamis.eye.BLUE or
+        eyeColor == xi.dynamis.eye.GREEN
+    then
+        mob:setAnimationSub(eyeColor)
+    else
+        mob:setAnimationSub(xi.dynamis.eye.RED) -- Default to red if none specified
     end
 end
 
@@ -153,7 +171,6 @@ xi.dynamis.onStatueFight = function(mob, target)
                 playerObj:restoreHP(missingHP)
                 playerObj:messageBasic(xi.msg.basic.RECOVERS_HP, 0, missingHP)
                 mob:injectActionPacket(playerObj:getID(), 11, 772, 0, 0, xi.msg.basic.AOE_REGAIN_HP, 0, missingHP)
-                
             else
                 local missingMP = playerObj:getMaxMP() - playerObj:getMP()
                 playerObj:restoreMP(missingMP)
@@ -189,10 +206,10 @@ xi.dynamis.onStatueDeath = function(mob, player, optParams)
         xi.dynamis.spawnAggroStatues(mob, player)
     end
 
-    local checkForceSpawn = xi.dynamis.spawnTable[zoneID][statueId][3] or 0
     -- If the mob is one shotted we need to force spawn the NM mobs
     -- This means it has NOT been engaged yet
-    if mob:getLocalVar('engageCheck') == 0 and checkForceSpawn == 1 then
+    local checkForceSpawn = xi.dynamis.spawnTable[zoneID][statueId][2]
+    if mob:getLocalVar('engageCheck') == 0 and checkForceSpawn then
         local count    = xi.dynamis.spawnTable[zoneID][statueId][1]
         if count > 0 then
             xi.dynamis.spawnNextMobsOnce(mob, statueId, count, nil, checkForceSpawn) -- Spawn the next X amount of IDs from that staue
@@ -373,12 +390,13 @@ xi.dynamis.spawnNextMobsOnce = function(statue, statueId, count, target, checkFo
             mobToSpawn:setRoamFlags(xi.roamFlag.SCRIPTED)
             mobToSpawn:setSpawn(statuePos.x + math.random() * 6 - 3, statuePos.y, statuePos.z + math.random() * 6 - 3, statuePos.rot)
             mobToSpawn:spawn()
+            mobToSpawn:setLocalVar('spawnedFromMaster', 1) -- nightmare mob check to prevent multiple spawns from the master mob
 
             spawnedCount = spawnedCount + 1
             i = i + 1
 
             -- If the statue dies in 1 shot and it has an NM then spawn the mobs regardless but do not update enmity
-            if checkForceSpawn == 1 then
+            if checkForceSpawn then
                 return
             end
 

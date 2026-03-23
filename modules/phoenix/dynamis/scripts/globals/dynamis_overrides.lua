@@ -50,7 +50,7 @@ local mobNames =
         { 'Reapertongue_Gadgquok',   'NM'     },
         { 'Soulsender_Fugbrag',      'NM'     },
         { 'Voidstreaker_Butchnotch', 'NM'     },
-        { 'Wyrmgnasher_Bjakdek',     'NM '    },
+        { 'Wyrmgnasher_Bjakdek',     'NM'     },
         { 'Vanguard_Amputator',      'Normal' },
         { 'Vanguard_Backstabber',    'Normal' },
         { 'Vanguard_Bugler',         'Normal' },
@@ -425,25 +425,17 @@ local mobNames =
     {
         { 'Cirrate_Christelle',     'Boss'      },
         { 'Adamantking_Effigy',     'Statue'    },
-        { 'Adamantking_Image',      'Statue'    },
-        { 'Avatar_Idol',            'Statue'    },
         { 'Goblin_Replica',         'Statue'    },
-        { 'Goblin_Statue',          'Statue'    },
         { 'Manifest_Icon',          'Statue'    },
-        { 'Serjeant_Tombstone',     'Statue'    },
         { 'Warchief_Tombstone',     'Statue'    },
         { 'Fairy_Ring',             'NM'        },
         { 'Nantina',                'NM'        },
         { 'Nightmare_Fly',          'NM'        },
         { 'Stcemqestcint',          'NM'        },
-        { 'Nightmare_Flytrap',      'Nightmare' },
-        { 'Nightmare_Funguar',      'Nightmare' },
-        { 'Nightmare_Goobbue',      'Nightmare' },
         { 'Nightmare_Hippogryph',   'Nightmare' },
         { 'Nightmare_Manticore',    'Nightmare' },
         { 'Nightmare_Sabotender',   'Nightmare' },
         { 'Nightmare_Sheep',        'Nightmare' },
-        { 'Nightmare_Treant',       'Nightmare' },
         { 'Vanguard_Alchemist',     'Normal'    },
         { 'Vanguard_Ambusher',      'Normal'    },
         { 'Vanguard_Amputator',     'Normal'    },
@@ -683,26 +675,8 @@ m:addOverride('xi.dynamis.qmOnTrigger', function(player, npc) -- Override standa
     xi.dynamis.qmOnTriggerEra(player, npc)
 end)
 
--- TODO Cleanup/Delete
-m:addOverride('xi.dynamis.somnialThresholdOnTrigger', function(player, npc)
-end)
-
-m:addOverride('xi.dynamis.somnialThresholdOnEventFinish', function(player, npc)
-end)
-
-m:addOverride('xi.dynamis.timeExtensionOnDeath', function(mob, player, optParams)
-end)
-
-m:addOverride('xi.dynamis.refillStatueOnSpawn', function(mob)
-end)
-
-m:addOverride('xi.dynamis.refillStatueOnSDeath', function(mob, player, optParams)
-end)
-
 m:addOverride('xi.dynamis.qmOnTrade', function(player, npc, trade)
-end) -- Not used...  Era Dynamis does not have QM pops.
-
-m:addOverride('xi.dynamis.getExtensions', function(player)
+    -- No trade functions for era dynamis
 end)
 
 m:addOverride('xi.dynamis.procMonster', function(player)
@@ -712,21 +686,6 @@ end)
 -----------------------------------
 -- Mob Type Overrides
 -----------------------------------
-
--- get mobtype
-local table =
-{
-    ['Statue'] =
-    {
-        onMobSpawn = xi.dynamis.statueOnSpawn(mob),
-        onMobEngage = xi.dynamis.statueOnEngaged(mob, target),
-        onMobRoam = xi.dynamis.onMobRoam(mob),
-        onMobFight = xi.dynamis.onStatueFight(mob, target),
-        onMobDeath = xi.dynamis.onStatueDeath(mob, player, optParams),
-        onMobDespawn = function(mob, player, optParams) end
-    }
-}
-
 -- Helper function to create mob overrides based on mob type
 local function registerMobOverrides(zoneName, mobName, mobType)
     local mobPath = string.format('xi.zones.%s.mobs.%s', zoneName, mobName)
@@ -737,7 +696,8 @@ local function registerMobOverrides(zoneName, mobName, mobType)
         end)
 
         m:addOverride(mobPath .. '.onMobEngage', function(mob, target)
-            xi.dynamis.statueOnEngaged(mob, target)
+            xi.dynamis.mobOnEngage(mob, target)
+            xi.dynamis.checkEyeColor(mob)
         end)
 
         m:addOverride(mobPath .. '.onMobRoam', function(mob)
@@ -765,7 +725,7 @@ local function registerMobOverrides(zoneName, mobName, mobType)
         end)
 
         m:addOverride(mobPath .. '.onMobEngage', function(mob, target)
-            xi.dynamis.statueOnEngaged(mob, target)
+            xi.dynamis.mobOnEngage(mob, target)
         end)
 
         m:addOverride(mobPath .. '.onMobRoam', function(mob)
@@ -813,6 +773,10 @@ local function registerMobOverrides(zoneName, mobName, mobType)
     elseif mobType == 'Nightmare' then
         m:addOverride(mobPath .. '.onMobSpawn', function(mob)
             xi.dynamis.onMobSpawn(mob, mobType)
+        end)
+
+        m:addOverride(mobPath .. '.onMobEngage', function(mob, target)
+            xi.dynamis.mobOnEngage(mob, target)
         end)
 
         m:addOverride(mobPath .. '.onMobRoam', function(mob)

@@ -4,19 +4,9 @@
 -----------------------------------
 --    Module Required Scripts    --
 -----------------------------------
-require('scripts/mixins/job_special')
 require('scripts/globals/battlefield')
 require('scripts/globals/missions')
 require('scripts/globals/npc_util')
-require('scripts/globals/pathfind')
-require('modules/module_utils')
------------------------------------
---   Module Affected Scripts     --
------------------------------------
-require('scripts/globals/dynamis')
-require('scripts/globals/dynamis/mobs/dynamis_mobs_sandy')
-require('scripts/globals/dynamis/mobs/dynamis_mobs_bastok')
-require('scripts/globals/dynamis/mobs/dynamis_mobs_windurst')
 -----------------------------------
 xi = xi or {}
 xi.dynamis = xi.dynamis or {}
@@ -54,6 +44,10 @@ xi.dynamis = xi.dynamis or {}
 -- TODO remove cyclomatic complexity
 -- luacheck: ignore 561
 xi.dynamis.handleDynamis = function(zone)
+    if zone:getLocalVar('debugMode') == 1 then
+        return
+    end
+
     local zoneID = zone:getID()
 
     -- Lets make the vars look pretty so I can see what we are actually setting
@@ -191,9 +185,16 @@ end
 --   Dynamis Start Functions    --
 -----------------------------------
 -- Cleanup Done
-xi.dynamis.onNewDynamis = function(player)
+xi.dynamis.onNewDynamis = function(player, mode)
     local playerZoneID = player:getZoneID()
-    local zoneID = xi.dynamis.entryInfoEra[playerZoneID].dynaZone
+    local zoneID = 0
+
+    if mode == 1 and player:isInDynamis() then
+        zoneID = playerZoneID
+    else
+        zoneID = xi.dynamis.entryInfoEra[playerZoneID].dynaZone
+    end
+
     local zone = GetZone(zoneID)
 
     if not zone then
@@ -232,6 +233,10 @@ xi.dynamis.onNewDynamis = function(player)
     -- Might redo all of the tav stuff. For now just leave it here.
     if zoneID == xi.zone.DYNAMIS_TAVNAZIA then
         xi.dynamis.dynamisTavnaziaOnNewDynamis(player, zone)
+    end
+
+    if mode == 1 then
+        zone:setLocalVar('debugMode', 1)
     end
 end
 
@@ -422,7 +427,7 @@ xi.dynamis.registerDynamis = function(player)
     parentZone:setLocalVar(varCleanupScript, 0)
 
     -- Start the zone baby
-    xi.dynamis.onNewDynamis(player)
+    xi.dynamis.onNewDynamis(player, 0) -- 0 for normal, 1 for debug gm only
 
     -- Set zone vars?
     -- I am not sure why we need the same local vars AND server vars???
