@@ -603,7 +603,16 @@ int32 CalculateEnspellDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender,
     {
         // see https://www.ffxiah.com/forum/topic/56613/rune-enhancement-damage-formula-testing/ for data and comments
         double       runeDPS = 0.0;
-        CItemWeapon* PWeapon = static_cast<CItemWeapon*>(static_cast<CCharEntity*>(PAttacker)->getEquip(SLOT_MAIN));
+        CItemWeapon* PWeapon = nullptr;
+
+        // Prefer player equip if attacker is a player
+        if (auto* PChar = dynamic_cast<CCharEntity*>(PAttacker))
+        {
+            if (auto* equip = PChar->getEquip(SLOT_MAIN))
+            {
+                PWeapon = dynamic_cast<CItemWeapon*>(equip);
+            }
+        }
 
         // If no player equip, try the entity's internal weapon slot (used by mobs/trusts)
         if (PWeapon == nullptr)
