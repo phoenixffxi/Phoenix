@@ -1,4 +1,11 @@
 set(ITEM_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/base.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/legion_pass.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/legion_pass.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/perpetual_hourglass.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/perpetual_hourglass.h
     ${CMAKE_CURRENT_SOURCE_DIR}/item_currency.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/item_currency.h
     ${CMAKE_CURRENT_SOURCE_DIR}/item_equipment.cpp

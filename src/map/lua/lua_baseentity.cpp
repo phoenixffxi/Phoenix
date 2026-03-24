@@ -98,6 +98,7 @@
 #include "enums/automaton.h"
 #include "enums/chat_message_area.h"
 #include "enums/item_lockflg.h"
+#include "items/exdata.h"
 #include "items/item_furnishing.h"
 #include "items/item_linkshell.h"
 
@@ -4111,17 +4112,18 @@ uint32 CLuaBaseEntity::getItemCount(uint16 itemID)
  *  Notes   : See format and variable options below
  ************************************************************************/
 
-bool CLuaBaseEntity::addItem(sol::variadic_args va)
+auto CLuaBaseEntity::addItem(sol::variadic_args va) const -> CItem*
 {
     if (m_PBaseEntity->objtype != TYPE_PC)
     {
         ShowWarning("Invalid entity type calling function (%s).", m_PBaseEntity->getName());
-        return false;
+        return nullptr;
     }
 
-    uint8 SlotID = ERROR_SLOTID;
+    uint8  SlotID    = ERROR_SLOTID;
+    CItem* AddedItem = nullptr;
 
-    CCharEntity* PChar = (CCharEntity*)m_PBaseEntity;
+    auto* PChar = static_cast<CCharEntity*>(m_PBaseEntity);
 
     /* FORMAT 1:
     player:addItem({ id = itemID, quantity  = quantity               }) -- add quantity of itemID
@@ -4138,7 +4140,7 @@ bool CLuaBaseEntity::addItem(sol::variadic_args va)
         if (!table["id"].valid())
         {
             ShowError("AddItem: id is nil");
-            return false;
+            return nullptr;
         }
         uint16 id = table.get<uint16>("id");
 
@@ -4204,18 +4206,21 @@ bool CLuaBaseEntity::addItem(sol::variadic_args va)
                 if (exdataObj.is<sol::table>())
                 {
                     auto exdataTable = exdataObj.as<sol::table>();
-                    for (const auto& entryPair : exdataTable)
+                    if (!Exdata::fromTable(PItem, exdataTable))
                     {
-                        uint8 index = entryPair.first.as<uint8>();
-                        uint8 value = entryPair.second.as<uint8>();
+                        for (const auto& [keyObj, valObj] : exdataTable)
+                        {
+                            uint8 index = keyObj.as<uint8>();
+                            uint8 value = valObj.as<uint8>();
 
-                        if (index < CItem::extra_size)
-                        {
-                            PItem->m_extra[index] = value;
-                        }
-                        else
-                        {
-                            ShowWarning("AddItem: Trying to write to invalid exdata index: <%i>", index);
+                            if (index < CItem::extra_size)
+                            {
+                                PItem->m_extra[index] = value;
+                            }
+                            else
+                            {
+                                ShowWarning("AddItem: Trying to write to invalid exdata index: <%i>", index);
+                            }
                         }
                     }
                 }
@@ -4225,6 +4230,7 @@ bool CLuaBaseEntity::addItem(sol::variadic_args va)
                 {
                     break;
                 }
+                AddedItem = PItem;
             }
             else
             {
@@ -4307,6 +4313,7 @@ bool CLuaBaseEntity::addItem(sol::variadic_args va)
                 {
                     break;
                 }
+                AddedItem = PItem;
             }
             else
             {
@@ -4316,7 +4323,7 @@ bool CLuaBaseEntity::addItem(sol::variadic_args va)
         }
     }
 
-    return SlotID != ERROR_SLOTID;
+    return AddedItem;
 }
 
 /************************************************************************

@@ -20,7 +20,11 @@
 */
 
 #include "inventory_sync_state.h"
+
+#include "common/database.h"
+#include "entities/charentity.h"
 #include "items/item.h"
+#include "packets/s2c/0x020_item_attr.h"
 
 // Marks a given container as having been entirely streamed to the client
 void InventorySyncState::markSynced(const CONTAINER_ID id)
@@ -69,4 +73,31 @@ auto InventorySyncState::pendingEquipChanges() const -> const std::vector<equip_
 auto InventorySyncState::dirtyContainers() const -> const std::set<CONTAINER_ID>&
 {
     return dirtyContainers_;
+}
+
+void InventorySyncState::flushDirtyItems(CCharEntity* PChar)
+{
+    for (uint8 loc = 0; loc < MAX_CONTAINER_ID; ++loc)
+    {
+        auto* PContainer = PChar->getStorage(loc);
+        if (!PContainer)
+        {
+            continue;
+        }
+
+        for (uint8 slot = 0; slot <= PContainer->GetSize(); ++slot)
+        {
+            auto* PItem = PContainer->GetItem(slot);
+            if (PItem && PItem->isDirty())
+            {
+                db::preparedStmt("UPDATE char_inventory SET extra = ? WHERE charid = ? AND location = ? AND slot = ? LIMIT 1",
+                                 PItem->m_extra,
+                                 PChar->id,
+                                 loc,
+                                 slot);
+                PChar->pushPacket<GP_SERV_COMMAND_ITEM_ATTR>(PItem, static_cast<CONTAINER_ID>(loc), slot);
+                PItem->setDirty(false);
+            }
+        }
+    }
 }

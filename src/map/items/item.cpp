@@ -373,6 +373,16 @@ bool CItem::isStorageSlip() const
     return m_id < 29340 && m_id > 29311;
 }
 
+auto CItem::isDirty() const -> bool
+{
+    return dirty_;
+}
+
+void CItem::setDirty(const bool dirty)
+{
+    dirty_ = dirty;
+}
+
 bool CItem::isSoultrapper() const
 {
     return m_id == 18721 || m_id == 18724;

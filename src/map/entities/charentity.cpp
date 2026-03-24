@@ -1147,6 +1147,8 @@ void CCharEntity::PostTick()
         sendServerStatus_ = false;
         updatemask        = 0;
     }
+
+    inventorySyncState_.flushDirtyItems(this);
 }
 
 // Flush all pending equipment changes at end of network cycle after all SmallPackets have been processed
