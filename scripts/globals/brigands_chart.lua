@@ -24,6 +24,7 @@ local function resetEvent()
             player:changeMusic(1, 0)
             player:changeMusic(2, 101)
             player:changeMusic(3, 102)
+            player:setLocalVar('bChartActive', 0)
         end
 
         qm1:resetLocalVars()
@@ -111,6 +112,7 @@ xi.brigandsChart.onEventUpdate = function(player, csid, option, npc)
         player:confirmTrade()
 
         npc:setLocalVar('bChartSpawnerID', player:getID())
+        player:setLocalVar('bChartActive', 1)
 
         player:changeMusic(0, 136)
         player:changeMusic(1, 136)
