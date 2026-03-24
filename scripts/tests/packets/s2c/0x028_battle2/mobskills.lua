@@ -54,7 +54,8 @@ local packets =
             local bats = player.entities:moveTo('Incubus_Bats') -- Incubus Bats
             bats:addTP(3000)
             bats:useMobAbility(xi.mobSkill.SONIC_BOOM_1, player, 0)
-            xi.test.world:tickEntity(bats) -- Tick the AI so the skill gets readied
+            xi.test.world:skipTime(4)
+            xi.test.world:tickEntity(bats) -- Tick the AI so the skill finishes
         end,
 
         expected =
