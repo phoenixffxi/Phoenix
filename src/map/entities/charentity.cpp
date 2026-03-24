@@ -44,6 +44,8 @@
 #include "packets/s2c/0x053_systemmes.h"
 #include "packets/s2c/0x055_scenarioitem.h"
 #include "packets/s2c/0x058_assist.h"
+#include "packets/s2c/0x0aa_magic_data.h"
+#include "packets/s2c/0x0ac_command_data.h"
 #include "packets/s2c/0x0df_group_attr.h"
 
 #include "ai/ai_container.h"
@@ -1196,6 +1198,10 @@ void CCharEntity::flushEquipChanges()
             pushPacket<GP_SERV_COMMAND_ITEM_SAME>(this);
         }
     }
+
+    // Send updated list of spells, abilities and weaponskills
+    pushPacket<GP_SERV_COMMAND_MAGIC_DATA>(this);
+    pushPacket<GP_SERV_COMMAND_COMMAND_DATA>(this);
 
     inventorySyncState_.clearEquipChanges();
 }
