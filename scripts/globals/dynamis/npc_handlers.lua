@@ -28,13 +28,13 @@ xi.dynamis.entryNpcOnTrade = function(player, npc, trade)
 
     -- Validate zone exists
     if not zone then
-        print('[DEBUG] Zone is nil | xi.dynamis.entryNpcOnTrade')
+        xi.dynamis.debugPrint('Zone is nil | xi.dynamis.entryNpcOnTrade')
         return
     end
 
     -- Check if zone is enabled
     if not entryInfo.enabled then
-        print('[DEBUG] entryNpcOnTrade - zone not enabled')
+        xi.dynamis.debugPrint('entryNpcOnTrade - zone not enabled')
         return
     end
 
@@ -52,7 +52,7 @@ xi.dynamis.entryNpcOnTrade = function(player, npc, trade)
     -- Zone stuff
     local zoneTimepoint         = GetServerVariable(varTimepoint)
     local dynamisTimeRemaining  = xi.dynamis.getDynaTimeRemaining(zoneTimepoint)
-    print('DEBUG: entryNpcOnTrade - lockout: ' .. tostring(lockout) .. ' | zoneCooldown: ' .. tostring(GetServerVariable(varZoneCooldown)) .. ' | cleanupScript: ' .. tostring(GetServerVariable(varCleanupScript)) .. ' | timeRemaining: ' .. tostring(dynamisTimeRemaining))
+    xi.dynamis.debugPrint('entryNpcOnTrade - lockout: ' .. tostring(lockout) .. ' | zoneCooldown: ' .. tostring(GetServerVariable(varZoneCooldown)) .. ' | cleanupScript: ' .. tostring(GetServerVariable(varCleanupScript)) .. ' | timeRemaining: ' .. tostring(dynamisTimeRemaining))
 
      -- 1. Check if player has the required item to trade
     local zoneCooldown          = zone:getLocalVar(varZoneCooldown)
@@ -66,7 +66,7 @@ xi.dynamis.entryNpcOnTrade = function(player, npc, trade)
     if player:getLocalVar(entryInfo.enteredVar) == 0 then
         if not xi.dynamis.checkEntryRequirements(player, zoneID) then
             releaseTrade(player)
-            print('DEBUG: entryNpcOnTrade - entry requirements not met')
+            xi.dynamis.debugPrint('entryNpcOnTrade - entry requirements not met')
             return
         end
     end
@@ -80,7 +80,7 @@ xi.dynamis.entryNpcOnTrade = function(player, npc, trade)
     -- Need to test that still
     -- TODO
     if npcUtil.tradeHasExactly(trade, { dynamisTimelessHourglass }) then
-        print('DEBUG: entryNpcOnTrade - timeless hourglass trade detected')
+        xi.dynamis.debugPrint('entryNpcOnTrade - timeless hourglass trade detected')
 
         -- Check if another group is currently in Dynamis
         if dynamisTimeRemaining > 0 then
@@ -117,7 +117,7 @@ xi.dynamis.entryNpcOnTrade = function(player, npc, trade)
 
     -- Handle perpetual hourglass trade, this means an instance that is already running
     elseif npcUtil.tradeHasExactly(trade, { dynamisPerpetual }) then
-        print('DEBUG: entryNpcOnTrade - perpetual hourglass trade detected')
+        xi.dynamis.debugPrint('entryNpcOnTrade - perpetual hourglass trade detected')
 
         local glassValid   = xi.dynamis.verifyTradeHourglass(player, zoneID)
         local dynaCapacity = GetServerVariable(varRegisteredPlayers)
@@ -234,14 +234,14 @@ xi.dynamis.entryNpcOnEventUpdate = function(player, csid, option, npc)
         return
     end
 
-    print('DEBUG: entryNpcOnEventUpdate - csRegisterGlass cutscene')
+    xi.dynamis.debugPrint('entryNpcOnEventUpdate - csRegisterGlass cutscene')
 
     if npc == nil then
-        print('[DEBUG] npc is nil | xi.dynamis.entryNpcOnEventUpdate - csRegisterGlass')
+        xi.dynamis.debugPrint('npc is nil | xi.dynamis.entryNpcOnEventUpdate - csRegisterGlass')
         return
     else
         -- Delete this later???
-        print('[DEBUG] npc is valid - ID: ' .. tostring(npc:getID()) .. ' | Name: ' .. tostring(npc:getName()))
+        xi.dynamis.debugPrint('npc is valid - ID: ' .. tostring(npc:getID()) .. ' | Name: ' .. tostring(npc:getName()))
     end
 
     local dynaZoneID           = entryInfo.dynaZone
@@ -250,14 +250,14 @@ xi.dynamis.entryNpcOnEventUpdate = function(player, csid, option, npc)
 
     -- Proceed if cutscene completed successfully
     if option == 0 and dynamisTimeRemaining <= 0 then
-        print('DEBUG: entryNpcOnEventUpdate - calling registerDynamis')
+        xi.dynamis.debugPrint('entryNpcOnEventUpdate - calling registerDynamis')
 
         xi.dynamis.registerDynamis(player) -- Trigger the generation of a token, timepoint, and start spawning wave 1.
         player:tradeComplete()
 
         local dynaZone = GetZone(dynaZoneID)
         if dynaZone == nil then
-            print('[DEBUG] dynaZone is nil | xi.dynamis.entryNpcOnEventUpdate')
+            xi.dynamis.debugPrint('dynaZone is nil | xi.dynamis.entryNpcOnEventUpdate')
             return
         end
 

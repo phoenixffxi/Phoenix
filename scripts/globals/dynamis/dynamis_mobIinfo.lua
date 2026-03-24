@@ -10,6 +10,16 @@ require('scripts/globals/npc_util')
 xi = xi or {}
 xi.dynamis = xi.dynamis or {}
 
+-- Debug control
+xi.mobinfo = xi.mobinfo or {}
+xi.mobinfo.DEBUG = false
+
+local function debugPrint(message)
+    if xi.mobinfo.DEBUG then
+        print('[DynaDebug] ' .. message)
+    end
+end
+
 -- ---------------------
 -- General Info functions
 -- ---------------------
@@ -50,7 +60,7 @@ xi.dynamis.statueOnSpawn = function(mob)
     -- Set the eye color before the 1 shot happens
     local zoneID   = mob:getZoneID()
     local statueId = mob:getID()
-    print('Statue spawned - ID:', statueId, 'Zone:', zoneID, 'isSpawned:', mob:isSpawned(), 'HP:', mob:getHP())
+    debugPrint('Statue spawned - ID: ' .. statueId .. ' Zone: ' .. zoneID .. ' isSpawned: ' .. tostring(mob:isSpawned()) .. ' HP: ' .. mob:getHP())
 
     -- Check if table value exists to prevent nil errors
     local eyeColor = xi.dynamis.eyeColor[zoneID] and xi.dynamis.eyeColor[zoneID][statueId]
@@ -62,8 +72,8 @@ xi.dynamis.statueOnSpawn = function(mob)
 end
 
 xi.dynamis.mobOnEngage = function(mob, target)
-    print('Statue engaged, checking for spawns...')
-    print('Engaged mob ID:', mob:getID(), 'isSpawned:', mob:isSpawned(), 'Distance to spawn:', mob:checkDistance(mob:getSpawnPos()))
+    debugPrint('Statue engaged, checking for spawns...')
+    debugPrint('Engaged mob ID: ' .. mob:getID() .. ' isSpawned: ' .. tostring(mob:isSpawned()) .. ' Distance to spawn: ' .. mob:checkDistance(mob:getSpawnPos()))
 
     -- Stop the spawning if the statue is re-engaged after a wipe
     if mob:getLocalVar('engageCheck') == 1 then
@@ -82,7 +92,7 @@ xi.dynamis.mobOnEngage = function(mob, target)
 
     -- If the mob has spawned from the master mob then do not check for more spawns
     if mob:getLocalVar('spawnedFromMaster') == 1 then
-        print("I am an add, not spawning more mobs")
+        debugPrint('I am an add, not spawning more mobs')
         return
     end
 
@@ -116,7 +126,7 @@ xi.dynamis.spawnAggroStatues = function(mob, target)
     local zoneAggro          = xi.dynamis.aggro[zoneID]
     local nonAggressiveSpawn = zoneAggro.nonAggressive and zoneAggro.nonAggressive[statueId]
     local aggressiveSpawn    = zoneAggro.aggressive and zoneAggro.aggressive[statueId]
-    print('Statue Aggro Spawns:', nonAggressiveSpawn or 0, aggressiveSpawn or 0)
+    debugPrint('Statue Aggro Spawns: ' .. (nonAggressiveSpawn or 0) .. ', ' .. (aggressiveSpawn or 0))
     if nonAggressiveSpawn then
         for _, mobId in ipairs(nonAggressiveSpawn) do
             local mobToSpawn = GetMobByID(mobId)
@@ -129,7 +139,7 @@ xi.dynamis.spawnAggroStatues = function(mob, target)
     if aggressiveSpawn then
         for _, mobId in ipairs(aggressiveSpawn) do
             local mobToSpawn = GetMobByID(mobId)
-            print('Aggressive Spawn Mob ID:', mobId)
+            debugPrint('Aggressive Spawn Mob ID: ' .. mobId)
             if mobToSpawn and not mobToSpawn:isSpawned() then
                 mobToSpawn:spawn()
                 mobToSpawn:updateEnmity(target)
@@ -156,7 +166,7 @@ xi.dynamis.onStatueFight = function(mob, target)
         return
     end
 
-    print('I am at 1 HP')
+    debugPrint('I am at 1 HP')
     -- I can probably just removed RED from everything, including the spawn files and use RED as default
 
     local zone    = mob:getZone()
@@ -364,7 +374,7 @@ end
 -- Spawn mechanics
 -- ---------------------
 xi.dynamis.spawnNextMobsOnce = function(statue, statueId, count, target, checkForceSpawn)
-    print('Spawning next mobs once...')
+    debugPrint('Spawning next mobs once...')
     if
         count <= 0 or
         statue:getLocalVar('spawnedAdds') == 1
@@ -421,14 +431,14 @@ xi.dynamis.spawnNextMobsOnce = function(statue, statueId, count, target, checkFo
 end
 
 xi.dynamis.spawnWave = function(wave)
-    print('Spawning wave...')
-    print('Wave data:', wave)
+    debugPrint('Spawning wave...')
+    debugPrint('Wave data: ' .. tostring(wave))
     if not wave then
         return
     end
 
     for _, mobId in ipairs(wave) do
-        print('Spawning mob ID:', mobId)
+        debugPrint('Spawning mob ID: ' .. mobId)
         local mob = GetMobByID(mobId)
         if mob and not mob:isSpawned() then
             mob:spawn()
@@ -441,8 +451,7 @@ end
 
 -- FOR TESTING PURPOSES ONLY
 xi.dynamis.despawnWave = function(wave, mobArg)
-    print(mobArg)
-    print('Despawning wave...')
+    debugPrint('Despawning wave...')
     if not wave then
         return
     end
@@ -460,8 +469,7 @@ end
 
 -- FOR TESTING PURPOSES ONLY
 xi.dynamis.despawnEverything = function(target)
-    print(target)
-    print('Despawning everything...')
+    debugPrint('Despawning everything...')
     local zone = target:getZone()
     for _, mobInZone in pairs(zone:getMobs()) do
         if
@@ -478,7 +486,6 @@ end
 --    Dynamis Mob Pathing/Roam   --
 -----------------------------------
 xi.dynamis.generatePath = function(mob)
-    -- print(mob)
     local zoneID = mob:getZoneID()
     local getID  = mob:getID()
 

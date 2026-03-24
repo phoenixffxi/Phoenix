@@ -11,6 +11,15 @@ require('scripts/globals/npc_util')
 xi = xi or {}
 xi.dynamis = xi.dynamis or {}
 
+-- Debug control
+xi.dynamis.DEBUG = false
+
+xi.dynamis.debugPrint = function(message)
+    if xi.dynamis.DEBUG then
+        print('[DynaDebug] ' .. message)
+    end
+end
+
 -----------------------------------
 --   Global Dynamis Variables    --
 -----------------------------------
@@ -79,7 +88,7 @@ xi.dynamis.handleDynamis = function(zone)
 
     local parentZone = GetZone(xi.dynamis.dynaIDLookup[zoneID].entryZone)
     if not parentZone then
-        print('[DEBUG] Parent Zone is nil | xi.dynamis.handleDynamis ABORTED')
+        xi.dynamis.debugPrint(' Parent Zone is nil | xi.dynamis.handleDynamis ABORTED')
         return
     end
 
@@ -149,7 +158,7 @@ xi.dynamis.handleDynamis = function(zone)
         end
     end
 
-    -- print(#playersInZone .. ' players in zone | NoPlayerTimer: ' .. tostring(noPlayerTimer) .. ' | CleanupScript: ' .. tostring(cleanupScript) .. ' | ZoneCooldown: ' .. tostring(zoneCooldown))
+    -- xi.dynamis.debugPrint(#playersInZone .. ' players in zone | NoPlayerTimer: ' .. tostring(noPlayerTimer) .. ' | CleanupScript: ' .. tostring(cleanupScript) .. ' | ZoneCooldown: ' .. tostring(zoneCooldown))
 
      -- Handle empty zone (start no-player timer if not already started, 5 min timer)
      -- Clear no-player timer if players re-enter
@@ -198,7 +207,7 @@ xi.dynamis.onNewDynamis = function(player, mode)
     local zone = GetZone(zoneID)
 
     if not zone then
-        print('[DEBUG] Zone is nil | xi.dynamis.onNewDynamis')
+        xi.dynamis.debugPrint('Zone is nil | xi.dynamis.onNewDynamis')
         return
     end
 
@@ -212,7 +221,7 @@ xi.dynamis.onNewDynamis = function(player, mode)
 
     -- Spawn Wave 1
     xi.dynamis.spawnWave(xi.dynamis.wave[zoneID][1])
-    print(string.format('[DYNAMIS] Spawning Wave 1 mobs for zoneID: %d', zoneID))
+    xi.dynamis.debugPrint(string.format('Spawning Wave 1 mobs for zoneID: %d', zoneID))
     -- Check for locations, if you got some lets pick one
     local locations = dynaInfo.sjRestrictionLocation
     if locations then
@@ -291,14 +300,14 @@ xi.dynamis.addTimeToDynamis = function(zone, mob)
     local zoneID = zone:getID()
     local mobID  = mob:getID()
 
-    -- print(('Dynamis Time Extension Check | ZoneID: %d | MobID: %d'):format(zoneID, mobID))
+    -- xi.dynamis.debugPrint(('Dynamis Time Extension Check | ZoneID: %d | MobID: %d'):format(zoneID, mobID))
 
     local extTable = xi.dynamis.timeExtension[zoneID]
     local minutes  = extTable[mobID]
-    -- print('printing minutes ' .. tostring(minutes))
+    -- xi.dynamis.debugPrint('printing minutes ' .. tostring(minutes))
 
     if minutes then
-        print(('TIME EXTENSION FOUND: %d minutes for mobID: %d'):format(minutes, mobID))
+        xi.dynamis.debugPrint(('TIME EXTENSION FOUND: %d minutes for mobID: %d'):format(minutes, mobID))
         xi.dynamis.addMinutesToDynamis(zone, minutes)
     end
 
@@ -311,7 +320,7 @@ end
 -- Cleanup Done
 xi.dynamis.getDynaTimeRemaining = function(zoneTimePoint)
     local zoneTimeResult = (zoneTimePoint - GetSystemTime()) -- Returns difference.
-    -- print('Dynamis Time Remaining Check | TimePoint: ' .. tostring(zoneTimePoint) .. ' | CurrentTime: ' .. tostring(GetSystemTime()) .. ' | Result: ' .. tostring(zoneTimeResult))
+    xi.dynamis.debugPrint('Dynamis Time Remaining Check | TimePoint: ' .. tostring(zoneTimePoint) .. ' | CurrentTime: ' .. tostring(GetSystemTime()) .. ' | Result: ' .. tostring(zoneTimeResult))
     if zoneTimeResult < 0 then
         return 0
     else
@@ -325,7 +334,7 @@ xi.dynamis.cleanupDynamis = function(zone)
     local parentZone = GetZone(xi.dynamis.dynaIDLookup[zoneID].entryZone)
 
     if parentZone == nil then
-        print('[DEBUG] Parent Zone is nil | xi.dynamis.cleanupDynamis')
+        xi.dynamis.debugPrint('Parent Zone is nil | xi.dynamis.cleanupDynamis')
         return
     end
 
@@ -340,7 +349,7 @@ xi.dynamis.cleanupDynamis = function(zone)
 end
 
 xi.dynamis.despawnAll = function(zone)
-    print('[DYNADEBUG] despawnAll zoneID: ' .. tostring(zone:getID()))
+    xi.dynamis.debugPrint('despawnAll zoneID: ' .. tostring(zone:getID()))
 
     local mobsInZone = zone:getMobs()
     local npcsInZone = zone:getNPCs()
@@ -350,7 +359,7 @@ xi.dynamis.despawnAll = function(zone)
 
     for _, npcEntity in pairs(npcsInZone) do
         npcEntity:setStatus(xi.status.DISAPPEAR)
-        print('[DYNADEBUG] despawnAll DISAPPEAR NPC ID: ' .. tostring(npcEntity:getID()))
+        xi.dynamis.debugPrint('despawnAll DISAPPEAR NPC ID: ' .. tostring(npcEntity:getID()))
     end
 end
 
@@ -381,12 +390,12 @@ xi.dynamis.registerDynamis = function(player)
     local currentTime = GetSystemTime()
     -- Validate zones exist
     if not dynaZone then
-        print('[DEBUG] dynaZone is nil | xi.dynamis.registerDynamis')
+        xi.dynamis.debugPrint('dynaZone is nil | xi.dynamis.registerDynamis')
         return
     end
 
     if not parentZone then
-        print('[DEBUG] Parent Zone is nil | xi.dynamis.registerDynamis')
+        xi.dynamis.debugPrint('Parent Zone is nil | xi.dynamis.registerDynamis')
         return
     end
 
@@ -401,9 +410,9 @@ xi.dynamis.registerDynamis = function(player)
     local instanceID   = RegisterDynamisInstance(zoneID, player:getID())
     local dynamisToken = dynaInfo.dynaZone + expirationTime
 
-    print('DEBUG: registerDynamis - zoneID: ' .. tostring(zoneID))
-    print('DEBUG: registerDynamis - dynaZone: ' .. tostring(dynaInfo.dynaZone))
-    print('DEBUG: registerDynamis - instanceID from RegisterDynamisInstance: ' .. tostring(instanceID))
+    xi.dynamis.debugPrint('registerDynamis - zoneID: ' .. tostring(zoneID))
+    xi.dynamis.debugPrint('registerDynamis - dynaZone: ' .. tostring(dynaInfo.dynaZone))
+    xi.dynamis.debugPrint('registerDynamis - instanceID from RegisterDynamisInstance: ' .. tostring(instanceID))
 
     -- Define the vars so we can read what is going on again
     -- As said previously possibly move these to a lua var instead
@@ -449,9 +458,9 @@ xi.dynamis.registerPlayer = function(player)
     local dynaInfo   = xi.dynamis.entryInfoEra[zoneID]
     local instanceID = GetServerVariable(string.format('[DYNA]InstanceID_%s', dynaInfo.dynaZone))
 
-    print('DEBUG: zoneID: ' .. tostring(zoneID))
-    print('DEBUG: dynaZone: ' .. tostring(dynaInfo.dynaZone))
-    print('DEBUG: instanceID from server var: ' .. tostring(instanceID))
+    xi.dynamis.debugPrint('zoneID: ' .. tostring(zoneID))
+    xi.dynamis.debugPrint('dynaZone: ' .. tostring(dynaInfo.dynaZone))
+    xi.dynamis.debugPrint('instanceID from server var: ' .. tostring(instanceID))
 
     local dynamisToken = GetServerVariable(string.format('[DYNA]Token_%s', dynaInfo.dynaZone))
     local regTimepoint = GetServerVariable(string.format('[DYNA]RegTimepoint_%s', dynaInfo.dynaZone))
@@ -465,8 +474,8 @@ xi.dynamis.registerPlayer = function(player)
     xi.dynamis.recordLockout(player)
 
     -- luacheck: ignore 113
-    print('DEBUG: Final instanceID: ' .. tostring(instanceID))
-    print('DEBUG: playerId: ' .. tostring(player:getID()))
+    xi.dynamis.debugPrint('Final instanceID: ' .. tostring(instanceID))
+    xi.dynamis.debugPrint('playerId: ' .. tostring(player:getID()))
     AddDynamisParticipant(instanceID, player:getID())
 end
 

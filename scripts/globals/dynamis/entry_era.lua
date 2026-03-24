@@ -12,7 +12,7 @@ end
 -- Check if player meets entry requirements for a zone
 xi.dynamis.checkEntryRequirements = function(player, entryZoneID)
     local entryInfo = xi.dynamis.entryInfoEra[entryZoneID]
-    print('[DEBUG] Checking player charvar ' .. entryInfo.enteredVar .. ' for previous Dynamis entry.')
+    xi.dynamis.debugPrint('Checking player charvar ' .. entryInfo.enteredVar .. ' for previous Dynamis entry.')
 
     -- Check if entryInfo is valid
     if not entryInfo then
@@ -24,7 +24,7 @@ xi.dynamis.checkEntryRequirements = function(player, entryZoneID)
         xi.dynamis.isGM(player) or
         player:getCharVar(entryInfo.enteredVar) ~= 0
     then
-        print('[DEBUG] Player is GM or has already entered this Dynamis before, skipping requirements.')
+        xi.dynamis.debugPrint('Player is GM or has already entered this Dynamis before, skipping requirements.')
         return true
     end
 
@@ -39,7 +39,7 @@ xi.dynamis.checkEntryRequirements = function(player, entryZoneID)
         entryInfo.csBit >= 7 and
         not player:hasCompletedMission(xi.mission.log_id.COP, xi.mission.id.cop.DARKNESS_NAMED)
     then
-        print('[DEBUG] Missing CoP mission requirement to enter Dynamis.')
+        xi.dynamis.debugPrint('Missing CoP mission requirement to enter Dynamis.')
         player:printToPlayer('You have not completed the required CoP mission.', xi.msg.channel.NS_SAY)
         return false
     end
@@ -47,7 +47,7 @@ xi.dynamis.checkEntryRequirements = function(player, entryZoneID)
     -- 4. Check all required key items
     for _, keyItemID in ipairs(entryInfo.reqs) do
         if not player:hasKeyItem(keyItemID) then
-            print('[DEBUG] Missing required key item to enter Dynamis: ', keyItemID)
+            xi.dynamis.debugPrint('Missing required key item to enter Dynamis: ', keyItemID)
             player:printToPlayer('You do not have the required key item.', xi.msg.channel.NS_SAY)
             return false
         end
