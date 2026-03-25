@@ -12,11 +12,18 @@ xi = xi or {}
 xi.dynamis = xi.dynamis or {}
 
 -- Debug control
-xi.dynamis.DEBUG = false
+xi.dynamis.DEBUG     = true
+xi.dynamis.tickDebug = true
 
 xi.dynamis.debugPrint = function(message)
     if xi.dynamis.DEBUG then
         print('[DynaDebug] ' .. message)
+    end
+end
+
+local function debugTickPrint(message)
+    if xi.dynamis.tickDebug then
+        print('[DynaTickDebug] ' .. message)
     end
 end
 
@@ -49,9 +56,6 @@ end
 -----------------------------------
 -- onZoneTick Dynamis Functions  --
 -----------------------------------
--- Cleanup Done
--- TODO remove cyclomatic complexity
--- luacheck: ignore 561
 xi.dynamis.handleDynamis = function(zone)
     if zone:getLocalVar('debugMode') == 1 then
         return
@@ -61,20 +65,19 @@ xi.dynamis.handleDynamis = function(zone)
 
     -- Lets make the vars look pretty so I can see what we are actually setting
     -- Could change it back to what it is with zone:getLocalVar calls but this is easier to read for my eyes
-    local varToken        = string.format('[DYNA]Token_%s', zoneID)
-    local varTimepoint    = string.format('[DYNA]Timepoint_%s', zoneID)
-    local varWarn10       = string.format('[DYNA]Given10MinuteWarning_%s', zoneID)
-    local varWarn3        = string.format('[DYNA]Given3MinuteWarning_%s', zoneID)
-    local varWarn1        = string.format('[DYNA]Given1MinuteWarning_%s', zoneID)
-    local varNoPlayer     = string.format('[DYNA]NoPlayerTimer_%s', zoneID)
-    local varZoneCooldown = string.format('[DYNA]ZoneCooldown_%s', zoneID)
-    local varCleanup      = string.format('[DYNA]CleanupScript_%s', zoneID)
+    local varSessionID     = string.format('[DYNA]SessionID_%s', zoneID)
+    local varExpiration    = string.format('[DYNA]ExpirationTime_%s', zoneID)
+    local varWarn10        = string.format('[DYNA]Given10MinuteWarning_%s', zoneID)
+    local varWarn3         = string.format('[DYNA]Given3MinuteWarning_%s', zoneID)
+    local varWarn1         = string.format('[DYNA]Given1MinuteWarning_%s', zoneID)
+    local varZoneCooldown  = string.format('[DYNA]ZoneCooldown_%s', zoneID)
+    local varCleanup       = string.format('[DYNA]CleanupScript_%s', zoneID)
 
     -- Now that we can see what vars we have lets get everything we need
     -- Token and timepoints
-    local zoneDynamistoken  = zone:getLocalVar(varToken)
-    local zoneTimepoint     = GetServerVariable(varTimepoint)
-    local zoneTimeRemaining = xi.dynamis.getDynaTimeRemaining(zoneTimepoint)
+    local zoneSessionID     = zone:getLocalVar(varSessionID)
+    local zoneExpiration    = GetServerVariable(varExpiration)
+    local zoneTimeRemaining = xi.dynamis.getDynaTimeRemaining(zoneExpiration)
 
     -- Warning vars
     local zoneWarn10 = zone:getLocalVar(varWarn10)
@@ -83,7 +86,6 @@ xi.dynamis.handleDynamis = function(zone)
 
     -- Player counts and timers
     local playersInZone = zone:getPlayers()
-    local noPlayerTimer = zone:getLocalVar(varNoPlayer)
     local currentTime   = GetSystemTime()
 
     local parentZone = GetZone(xi.dynamis.dynaIDLookup[zoneID].entryZone)
@@ -92,8 +94,8 @@ xi.dynamis.handleDynamis = function(zone)
         return
     end
 
-    local zoneCooldown  = parentZone:getLocalVar(varZoneCooldown)
-    local cleanupScript = parentZone:getLocalVar(varCleanup)
+    local zoneCooldownEnter  = parentZone:getLocalVar(varZoneCooldown)
+    local cleanupScript      = parentZone:getLocalVar(varCleanup)
 
     -- Unfortuntealy I don't know a better way to check for everything once per
     -- player on entry other than looping through here
@@ -102,7 +104,7 @@ xi.dynamis.handleDynamis = function(zone)
     for _, player in pairs(playersInZone) do
         if player:getLocalVar('Requires_Initial_Update') == 0 then
             -- Need to update every players hourglass
-            xi.dynamis.updatePlayerHourglass(player, zoneDynamistoken)
+            xi.dynamis.updatePlayerHourglass(player, zoneSessionID)
 
             -- Check for dreamland SJ restriction and apply if necessary
             xi.dynamis.applyEntryRestrictions(player, zoneID)
@@ -111,11 +113,13 @@ xi.dynamis.handleDynamis = function(zone)
         end
 
         -- Hourglass validity checks (GMs can stay until expiry)
+        -- Check every 5 seconds to prevent excessive checks
+        -- Check for valid hourglass to prevent players from just holding onto an old hourglass and re-entering after time expires
         if
             not xi.dynamis.isGM(player) and
             player:getLocalVar('[DYNA]NextHourglassCheck') < currentTime
         then
-            if xi.dynamis.verifyHoldsValidHourglass(player, zoneDynamistoken, zoneTimepoint) then
+            if xi.dynamis.verifyHasHourglass(player, zoneSessionID, zoneExpiration) then
                 player:setLocalVar('[DYNA]NextHourglassCheck', currentTime + 5)
             end
         end
@@ -127,19 +131,19 @@ xi.dynamis.handleDynamis = function(zone)
             zoneWarn1 == 0 and
             zoneTimeRemaining < 80
         then
-            xi.dynamis.dynamisTimeWarning(zone, zoneTimepoint)
+            xi.dynamis.dynamisTimeWarning(zone, zoneExpiration)
             zone:setLocalVar(varWarn1, 1) -- Don't give another warning
         elseif
             zoneWarn3 == 0 and
             zoneTimeRemaining < 200
         then
-            xi.dynamis.dynamisTimeWarning(zone, zoneTimepoint)
+            xi.dynamis.dynamisTimeWarning(zone, zoneExpiration)
             zone:setLocalVar(varWarn3, 1) -- Don't give another warning
         elseif
             zoneWarn10 == 0 and
             zoneTimeRemaining < 620
         then
-            xi.dynamis.dynamisTimeWarning(zone, zoneTimepoint)
+            xi.dynamis.dynamisTimeWarning(zone, zoneExpiration)
             zone:setLocalVar(varWarn10, 1) -- Don't give another warning
         end
     end
@@ -151,43 +155,69 @@ xi.dynamis.handleDynamis = function(zone)
         -- After ejecting everyone run the cleanup it it hasnt ran already
         if
             cleanupScript == 0 and
-            zoneCooldown == 0
+            zoneCooldownEnter == 0
         then
             parentZone:setLocalVar(varZoneCooldown, currentTime + 90)
             xi.dynamis.cleanupDynamis(zone)
         end
     end
 
-    -- xi.dynamis.debugPrint(#playersInZone .. ' players in zone | NoPlayerTimer: ' .. tostring(noPlayerTimer) .. ' | CleanupScript: ' .. tostring(cleanupScript) .. ' | ZoneCooldown: ' .. tostring(zoneCooldown))
+    -- xi.dynamis.debugPrint(#playersInZone .. ' players in zone | NoPlayerTimer: ' .. tostring(noPlayerTimer) .. ' | CleanupScript: ' .. tostring(cleanupScript) .. ' | zoneCooldownEnter: ' .. tostring(zoneCooldownEnter))
 
-     -- Handle empty zone (start no-player timer if not already started, 5 min timer)
-     -- Clear no-player timer if players re-enter
-     -- If timer expires and no players, run cleanup
-    -- Handle no players in zone, no timers on players present, no cleanup script ran
+    xi.dynamis.handleNoPlayers(playersInZone, cleanupScript, zoneCooldownEnter, zone, parentZone, zoneSessionID)
+end
+
+xi.dynamis.handleNoPlayers = function(playersInZone, cleanupScript, zoneCooldownEnter, zone, parentZone, zoneSessionID)
+    local zoneID = zone:getID()
+    local currentTime = GetSystemTime()
+
+    -- Build variable name strings
+    local varNoPlayerTimer = string.format('[DYNA]NoPlayerTimer_%s', zoneID)
+    local varExpiration    = string.format('[DYNA]ExpirationTime_%s', zoneID)
+    local varZoneCooldown  = string.format('[DYNA]ZoneCooldown_%s', zoneID)
+
+    -- Get current state
+    local noPlayerTimer = zone:getLocalVar(varNoPlayerTimer)
+    local zoneExpiration = GetServerVariable(varExpiration)
+    debugTickPrint('Current Players in Zone: ' .. tostring(#playersInZone))
+    debugTickPrint('No Player Timer: ' .. tostring(noPlayerTimer))
+    debugTickPrint('Zone Expiration: ' .. tostring(zoneExpiration))
+    debugTickPrint('Zone Cooldown Enter: ' .. tostring(zoneCooldownEnter))
+    debugTickPrint('Time Remaining: ' .. tostring(xi.dynamis.getDynaTimeRemaining(zoneExpiration)/60))
+    -- Start no-player timer if zone is empty
     if
-        #playersInZone == 0 and
-        noPlayerTimer == 0 and
-        cleanupScript == 0
+        #playersInZone == 0 and             -- No players in the zone
+        noPlayerTimer == 0 and              -- The timer for no players in the zone is not set
+        cleanupScript == 0 and              -- Cleanup has not run yet
+        zoneExpiration > currentTime + 600  -- Zone has more than 10 minutes left
     then
-        -- NOTE: We do 5sec less than 5min to prevent zone idle from happening before cleanup fired
-        zone:setLocalVar(varNoPlayer, currentTime + 295)
+        -- 5sec less than 10min to prevent zone idle before cleanup fires
+        zone:setLocalVar(varNoPlayerTimer, currentTime + 595)
+        -- Sync with zone expiration to handle valid hourglass edge cases
+        SetServerVariable(varExpiration, currentTime + 595)
+        -- We need to update all player hourglasses to match the new 10 min expiration
+        -- TODO update the hourglass for the last person to exit zone
+        xi.dynamis.updatePlayerHourglassForAll(zone, zoneSessionID)
+    -- Clear timer if players return with sufficient time remaining (10+ minutes)
     elseif
         #playersInZone > 0 and
-        noPlayerTimer ~= 0
+        noPlayerTimer ~= 0 and
+        zoneExpiration >= currentTime + 600
     then
-        zone:setLocalVar(varNoPlayer, 0)
+        zone:setLocalVar(varNoPlayerTimer, 0)
     end
 
-    -- Cleanup after no-player timer expires, cleanup has not run, no cooldown timer set
+    -- Run cleanup when no-player timer expires
     if
         noPlayerTimer > 0 and
         noPlayerTimer <= currentTime and
         cleanupScript == 0 and
-        zoneCooldown == 0
+        zoneCooldownEnter == 0
     then
         parentZone:setLocalVar(varZoneCooldown, currentTime + 90)
         xi.dynamis.cleanupDynamis(zone)
     end
+    debugTickPrint('-----------------------------------')
 end
 
 -----------------------------------
@@ -221,7 +251,7 @@ xi.dynamis.onNewDynamis = function(player, mode)
 
     -- Spawn Wave 1
     xi.dynamis.spawnWave(xi.dynamis.wave[zoneID][1])
-    xi.dynamis.debugPrint(string.format('Spawning Wave 1 mobs for zoneID: %d', zoneID))
+    xi.dynamis.debugPrint(string.format('Spawning Initial wave for zoneID: %d', zoneID))
     -- Check for locations, if you got some lets pick one
     local locations = dynaInfo.sjRestrictionLocation
     if locations then
@@ -256,21 +286,21 @@ end
 -- Re-wrote the function to be used for everything not just GMs
 xi.dynamis.addMinutesToDynamis = function(zone, minutes)
     local zoneID          = zone:getID()
-    local varToken        = string.format('[DYNA]Token_%s', zoneID)
-    local varTimepoint    = string.format('[DYNA]Timepoint_%s', zoneID)
+    local varSessionID    = string.format('[DYNA]SessionID_%s', zoneID)
+    local varExpiration   = string.format('[DYNA]ExpirationTime_%s', zoneID)
     local varWarn10       = string.format('[DYNA]Given10MinuteWarning_%s', zoneID)
     local varWarn3        = string.format('[DYNA]Given3MinuteWarning_%s', zoneID)
     local varWarn1        = string.format('[DYNA]Given1MinuteWarning_%s', zoneID)
 
     -- Now that we can see what vars we have lets get everything we need
     -- Token and timepoints
-    local zoneDynamisToken  = zone:getLocalVar(varToken)
-    local zoneTimepoint     = GetServerVariable(varTimepoint)-- Determine previous expiration time.
-    local zoneTimeRemaining = xi.dynamis.getDynaTimeRemaining(zoneTimepoint)
-    local newZoneTimepoint  = zoneTimepoint + (60 * minutes) -- Add more time to increase previous expiration point.
+    local zoneSessionID     = zone:getLocalVar(varSessionID)
+    local zoneExpiration    = GetServerVariable(varExpiration)-- Determine previous expiration time.
+    local zoneTimeRemaining = xi.dynamis.getDynaTimeRemaining(zoneExpiration)
+    local newZoneExpiration = zoneExpiration + (60 * minutes) -- Add more time to increase previous expiration point.
 
     -- Update Time Remaining
-    SetServerVariable(string.format('[DYNA]Timepoint_%s', zoneID), newZoneTimepoint)
+    SetServerVariable(varExpiration, newZoneExpiration)
 
     -- Player counts and timers
     local playersInZone = zone:getPlayers()
@@ -278,10 +308,10 @@ xi.dynamis.addMinutesToDynamis = function(zone, minutes)
     -- Update Hourglasses for Players
     for _, player in pairs(playersInZone) do
         player:messageSpecial(zones[zoneID].text.DYNAMIS_TIME_EXTEND, minutes)
-        xi.dynamis.updatePlayerHourglass(player, zoneDynamisToken)
+        xi.dynamis.updatePlayerHourglass(player, zoneSessionID)
     end
 
-    -- Handle Time Limit Warnings
+    -- Handle Time Limit Warnings in case the message was already given to players
     if zoneTimeRemaining > 620 then -- Checks if time remaining > 11 minutes.
         zone:setLocalVar(varWarn10, 0) -- Resets var if time remaining greater than threshold.
     end
@@ -318,13 +348,13 @@ xi.dynamis.addTimeToDynamis = function(zone, mob)
 end
 
 -- Cleanup Done
-xi.dynamis.getDynaTimeRemaining = function(zoneTimePoint)
-    local zoneTimeResult = (zoneTimePoint - GetSystemTime()) -- Returns difference.
-    xi.dynamis.debugPrint('Dynamis Time Remaining Check | TimePoint: ' .. tostring(zoneTimePoint) .. ' | CurrentTime: ' .. tostring(GetSystemTime()) .. ' | Result: ' .. tostring(zoneTimeResult))
-    if zoneTimeResult < 0 then
+xi.dynamis.getDynaTimeRemaining = function(zoneExpiration)
+    local timeRemaining = (zoneExpiration - GetSystemTime()) -- Returns difference.
+    -- xi.dynamis.debugPrint('Dynamis Time Remaining Check | Expiration: ' .. tostring(zoneExpiration) .. ' | CurrentTime: ' .. tostring(GetSystemTime()) .. ' | Result: ' .. tostring(timeRemaining))
+    if timeRemaining < 0 then
         return 0
     else
-        return zoneTimeResult
+        return timeRemaining
     end
 end
 
@@ -338,9 +368,9 @@ xi.dynamis.cleanupDynamis = function(zone)
         return
     end
 
-    SetServerVariable(string.format('[DYNA]RegisteredPlayers_%s', zoneID), 0)
-    SetServerVariable(string.format('[DYNA]Token_%s', zoneID), 0)
-    SetServerVariable(string.format('[DYNA]Timepoint_%s', zoneID), 0)
+    SetServerVariable(string.format('[DYNA]#OfRegisteredPlayers_%s', zoneID), 0)
+    SetServerVariable(string.format('[DYNA]SessionID_%s', zoneID), 0)
+    SetServerVariable(string.format('[DYNA]ExpirationTime_%s', zoneID), 0)
     SetServerVariable(string.format('[DYNA]OriginalRegistrant_%s', zoneID), 0)
     parentZone:setLocalVar(string.format('[DYNA]CleanupScript_%s', zoneID), 1)
     zone:resetLocalVars()
@@ -363,11 +393,10 @@ xi.dynamis.despawnAll = function(zone)
     end
 end
 
--- Fine
-xi.dynamis.dynamisTimeWarning = function(zone, zoneTimepoint)
+xi.dynamis.dynamisTimeWarning = function(zone, zoneExpiration)
     local zoneID        = zone:getID()
     local playersInZone = zone:getPlayers()
-    local timeRemaining = math.floor((xi.dynamis.getDynaTimeRemaining(zoneTimepoint) / 60)) -- Get time remaining, convert to minutes, floor value.
+    local timeRemaining = math.floor((xi.dynamis.getDynaTimeRemaining(zoneExpiration) / 60))
     local ID            = zones[zoneID]
     for _, player in pairs(playersInZone) do
         if timeRemaining <= 2 then
@@ -417,18 +446,15 @@ xi.dynamis.registerDynamis = function(player)
     -- Define the vars so we can read what is going on again
     -- As said previously possibly move these to a lua var instead
     local dynazoneID        = dynaInfo.dynaZone
-    local varToken          = string.format('[DYNA]Token_%s', dynazoneID)
-    local varTimepoint      = string.format('[DYNA]Timepoint_%s', dynazoneID)
-    local varRegTimepoint   = string.format('[DYNA]RegTimepoint_%s', dynazoneID)
+    local varSessionID      = string.format('[DYNA]SessionID_%s', dynazoneID)
+    local varExpiration     = string.format('[DYNA]ExpirationTime_%s', dynazoneID)
     local varOrigRegistrant = string.format('[DYNA]OriginalRegistrant_%s', dynazoneID)
     local varInstanceID     = string.format('[DYNA]InstanceID_%s', dynazoneID)
     local varCleanupScript  = string.format('[DYNA]CleanupScript_%s', dynazoneID)
-    local varCurrentWave    = string.format('[DYNA]CurrentWave_%s', zoneID)
 
     -- Set server vars
-    SetServerVariable(varToken, dynamisToken)
-    SetServerVariable(varTimepoint, expirationTime)
-    SetServerVariable(varRegTimepoint, currentTime)
+    SetServerVariable(varSessionID, dynamisToken)
+    SetServerVariable(varExpiration, expirationTime)
     SetServerVariable(varOrigRegistrant, player:getID())
     SetServerVariable(varInstanceID, instanceID)
 
@@ -441,14 +467,13 @@ xi.dynamis.registerDynamis = function(player)
     -- Set zone vars?
     -- I am not sure why we need the same local vars AND server vars???
     -- TODO cleanup this later if possible
-    dynaZone:setLocalVar(varToken, dynamisToken)
+    dynaZone:setLocalVar(varSessionID, dynamisToken)
     dynaZone:setLocalVar(varInstanceID, instanceID)
-    dynaZone:setLocalVar(varCurrentWave, 1)
 
     -- Player stuff
     -- yes dynamisToken is correct - the old script was setting then getting then setting the var? Idk
     local playerZone = player:getZone()
-    playerZone:setLocalVar(varToken, dynamisToken)
+    playerZone:setLocalVar(varSessionID, dynamisToken)
     playerZone:setLocalVar(varInstanceID, instanceID)
 end
 
@@ -462,14 +487,12 @@ xi.dynamis.registerPlayer = function(player)
     xi.dynamis.debugPrint('dynaZone: ' .. tostring(dynaInfo.dynaZone))
     xi.dynamis.debugPrint('instanceID from server var: ' .. tostring(instanceID))
 
-    local dynamisToken = GetServerVariable(string.format('[DYNA]Token_%s', dynaInfo.dynaZone))
-    local regTimepoint = GetServerVariable(string.format('[DYNA]RegTimepoint_%s', dynaInfo.dynaZone))
+    local dynamisToken = GetServerVariable(string.format('[DYNA]SessionID_%s', dynaInfo.dynaZone))
 
     local playerRegKey = math.random(1, 100) -- Obfuscate player registration value with dynamis token + player's zone ID info. (Ensures
     player:setCharVar(string.format('[DYNA]PlayerRegisterKey_%s', (dynaInfo.dynaZone)), playerRegKey) -- Obfuscate player registration value with dynamis token + player's zone ID info. (Ensures the player is counted as new registrant if token is different.)
     player:setCharVar(string.format('[DYNA]PlayerRegistered_%s', (dynaInfo.dynaZone)), (dynamisToken + playerRegKey))
     player:setCharVar(string.format('[DYNA]PlayerZoneToken_%s', dynaInfo.dynaZone), dynamisToken) -- Give the player a copy of the token value.
-    player:setCharVar(string.format('[DYNA]PlayerRegisterTime_%s', dynaInfo.dynaZone), regTimepoint)
 
     xi.dynamis.recordLockout(player)
 
@@ -538,25 +561,6 @@ xi.dynamis.resetPlayerVars = function(playerEntity, dynaZone)
     end
 end
 
-xi.dynamis.verifyHoldsValidHourglass = function(player, zoneDynamistoken, zoneTimepoint)
-    local zoneID = player:getZoneID()
-
-    -- luacheck: ignore 113
-    if player:validateHourglass(zoneDynamistoken) then
-        return true
-    else
-        if xi.dynamis.isGM(player) then
-            player:setCharVar(string.format('[DYNA]EjectPlayer_%s', zoneID), zoneTimepoint) -- Player is a GM and can bypass the hourglass requirement.
-        elseif player:getCharVar(string.format('[DYNA]PlayerZoneToken_%s', player:getZoneID())) ~= zoneDynamistoken then
-            xi.dynamis.ejectPlayer(player, true)
-        else
-            xi.dynamis.ejectPlayer(player)
-        end
-
-        return false
-    end
-end
-
 -- Dynamis NPC triggers
 -- TODO Cleanup
 xi.dynamis.sjQMOnTrigger = function(npc)
@@ -601,20 +605,6 @@ xi.dynamis.timeExtensionOnTrigger = function(player, npc)
     npc:setStatus(xi.status.DISAPPEAR)
 end
 
--- TODO Cleanup
-xi.dynamis.qmOnTriggerEra = function(player, npc) -- Override standard qmOnTrigger()
-    local zoneId = npc:getZoneID()
-
-    -- Win KIs
-    if not player:hasKeyItem(xi.dynamis.dynaInfoEra[zoneId].winKI) then
-        npcUtil.giveKeyItem(player, xi.dynamis.dynaInfoEra[zoneId].winKI)
-    end
-
-    if zoneId == xi.zone.DYNAMIS_TAVNAZIA then
-        player:addTitle(xi.dynamis.dynaInfoEra[zoneId].qmTitle)
-    end
-end
-
 -----------------------------------
 -- Dynamis Player/Zone Functions --
 -----------------------------------
@@ -637,7 +627,7 @@ end
 -- TODO Cleanup -- currently being used
 xi.dynamis.zoneOnZoneInEra = function(player, prevZone)
     local zoneID = player:getZoneID()
-    local zoneTimepoint = GetServerVariable(string.format('[DYNA]Timepoint_%s', zoneID))
+    local zoneExpiration = GetServerVariable(string.format('[DYNA]ExpirationTime_%s', zoneID))
     local info = xi.dynamis.dynaInfoEra[zoneID]
     local ID = zones[zoneID]
 
@@ -652,7 +642,7 @@ xi.dynamis.zoneOnZoneInEra = function(player, prevZone)
     end
 
     player:timer(5000, function(playerArg)
-        local timepoint = xi.dynamis.getDynaTimeRemaining(zoneTimepoint)
+        local timepoint = xi.dynamis.getDynaTimeRemaining(zoneExpiration)
         playerArg:messageSpecial(ID.text.DYNAMIS_TIME_UPDATE_2, math.floor(utils.clamp(timepoint, 0, timepoint) / 60), 1) -- Send message letting player know how long they have.
     end)
 

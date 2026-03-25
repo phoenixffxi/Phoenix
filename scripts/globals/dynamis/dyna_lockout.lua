@@ -10,7 +10,7 @@ xi.dynamis.isPlayerLockedOut = function(player)
         return 0
     end
 
-    return math.ceil((lockout - GetSystemTime()) / 2088) -- Vanadiel days
+    return math.floor((lockout - GetSystemTime()) / 3456) -- Vanadiel days
 end
 
 xi.dynamis.recordLockout = function(player)

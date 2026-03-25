@@ -444,9 +444,6 @@ xi.dynamis.spawnWave = function(wave)
             mob:spawn()
         end
     end
-
-    -- zone:setLocalVar(string.format('Wave_%i_Spawned', 1), 1)
-    -- zone:setLocalVar(string.format('[DYNA]CurrentWave_%s', zoneID), 1)
 end
 
 -- FOR TESTING PURPOSES ONLY

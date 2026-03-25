@@ -56,45 +56,6 @@ xi.dynamis.checkEntryRequirements = function(player, entryZoneID)
     return true
 end
 
--- Verify hourglass trade and determine if NEW or REGISTERED
--- Returns: xi.dynamis.hourglassTradeResult.NEW, REGISTERED, or INVALID
-xi.dynamis.verifyTradeHourglass = function(player, zoneID)
-    local dynaZone = xi.dynamis.entryInfoEra[zoneID].dynaZone
-    -- Check if the zone is valid for Dynamis
-    if not dynaZone then
-        return xi.dynamis.hourglassTradeResult.INVALID
-    end
-
-    local dynamisToken = GetServerVariable(string.format('[DYNA]Token_%s', dynaZone))
-
-    -- Validate hourglass first
-    -- luacheck: ignore 113
-    if not player:validateHourglass(dynamisToken) then
-        return xi.dynamis.hourglassTradeResult.INVALID
-    end
-
-    -- Check if player is already registered in this session
-    local playerRegistered = player:getCharVar(string.format('[DYNA]PlayerRegistered_%s', dynaZone))
-    local playerRegKey     = player:getCharVar(string.format('[DYNA]PlayerRegisterKey_%s', dynaZone))
-
-    -- If remainder matches key, player already registered
-    if (playerRegistered - dynamisToken) == playerRegKey then
-        return xi.dynamis.hourglassTradeResult.REGISTERED
-    end
-
-    return xi.dynamis.hourglassTradeResult.NEW
-end
-
--- Update player's hourglass with session info using Player API
-xi.dynamis.updatePlayerHourglass = function(player, zoneDynamisToken)
-    local zoneID        = player:getZoneID()
-    local zoneTimepoint = GetServerVariable(string.format('[DYNA]Timepoint_%s', zoneID))
-
-    -- This updates the actual hourglass item with the new timepoint
-    -- luacheck: ignore 113
-    player:updateHourglass(zoneDynamisToken, zoneTimepoint)
-end
-
 -- Apply entry zone restrictions (SJ restriction, status effects)
 xi.dynamis.applyEntryRestrictions = function(player, dynaZoneID)
     local zone = GetZone(dynaZoneID)
@@ -104,16 +65,19 @@ xi.dynamis.applyEntryRestrictions = function(player, dynaZoneID)
 
     -- Only apply restrictions if this is a dreamlands zone (SJ restricted)
     if not xi.dynamis.dreamlandsZones[dynaZoneID] then
+        xi.dynamis.debugPrint('Zone is not a dreamlands zone, skipping entry restrictions.')
         return
     end
 
     -- Check if SJ unlock flag is already set (skip if already unlocked)
     if zone:getLocalVar('SJUnlock') == 1 then
+        xi.dynamis.debugPrint('SJ unlock flag already set, skipping entry restrictions.')
         return
     end
 
     -- Skip restrictions for GMs
-    if player:getGMLevel() >= 2 then
+    if player:getGMLevel() >= 3 then
+        xi.dynamis.debugPrint('Player is a GM, skipping entry restrictions.')
         return
     end
 

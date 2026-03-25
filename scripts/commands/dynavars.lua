@@ -74,11 +74,11 @@ commandObj.onTrigger = function(player, zoneName)
         player:printToPlayer(string.format('No local vars for zone: %s', zone:getName()), xi.msg.channel.SYSTEM_3)
     end
 
-    local varTimepoint      = string.format('[DYNA]Timepoint_%s', dynaZoneID)
-    -- Calculate time remaining if timepoint is set
-    local zoneTimepoint = GetServerVariable(varTimepoint)
-    if zoneTimepoint and zoneTimepoint ~= 0 then
-        local timeRemaining = xi.dynamis.getDynaTimeRemaining(zoneTimepoint)
+    local varExpiration      = string.format('[DYNA]ExpirationTime_%s', dynaZoneID)
+    -- Calculate time remaining if expiration is set
+    local zoneExpiration = GetServerVariable(varExpiration)
+    if zoneExpiration and zoneExpiration ~= 0 then
+        local timeRemaining = xi.dynamis.getDynaTimeRemaining(zoneExpiration)
         player:printToPlayer('Time Remaining: ' .. timeRemaining .. ' seconds | ' .. math.floor(timeRemaining / 60) .. ' minutes', xi.msg.channel.SYSTEM_3)
     end
 

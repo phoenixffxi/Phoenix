@@ -636,20 +636,20 @@ end
 local function registerEntryNpcOverrides(zoneName, npcName)
     m:addOverride(string.format('xi.zones.%s.npcs.%s.onTrade', zoneName, npcName),
     function(player, npc, trade)
+        xi.dynamis.debugPrint('1. Trail markings on trade working')
         xi.dynamis.entryNpcOnTrade(player, npc, trade)
-        print('trail markings on trade working')
     end)
 
     m:addOverride(string.format('xi.zones.%s.npcs.%s.onEventUpdate', zoneName, npcName),
     function(player, csid, option, npc)
         xi.dynamis.entryNpcOnEventUpdate(player, csid, option, npc)
-        print('trail markings on event update working')
+        xi.dynamis.debugPrint('2. Trail markings on event update working')
     end)
 
     m:addOverride(string.format('xi.zones.%s.npcs.%s.onEventFinish', zoneName, npcName),
     function(player, csid, option, npc)
         xi.dynamis.entryNpcOnEventFinish(player, csid, option, npc)
-        print('trail markings on event finish working')
+        xi.dynamis.debugPrint('Trail markings on event finish working')
     end)
 end
 

@@ -461,10 +461,10 @@ xi.dynamis.dynaIDLookup =
     {
         text =
         {
-            INFORMATION_RECORDED        = zones[xi.zone.WINDURST_WALLS].text.YOU_CANNOT_ENTER_DYNAMIS - 8,
-            ANOTHER_GROUP               = zones[xi.zone.WINDURST_WALLS].text.YOU_CANNOT_ENTER_DYNAMIS - 7,
-            UNABLE_TO_CONNECT           = zones[xi.zone.WINDURST_WALLS].text.YOU_CANNOT_ENTER_DYNAMIS - 5,
-            CONNECTING_WITH_THE_SERVER  = zones[xi.zone.WINDURST_WALLS].text.YOU_CANNOT_ENTER_DYNAMIS - 4,
+            CONNECTING_WITH_THE_SERVER  = zones[xi.zone.WINDURST_WALLS].text.YOU_CANNOT_ENTER_DYNAMIS - 8,
+            UNABLE_TO_CONNECT           = zones[xi.zone.WINDURST_WALLS].text.YOU_CANNOT_ENTER_DYNAMIS - 7,
+            ANOTHER_GROUP               = zones[xi.zone.WINDURST_WALLS].text.YOU_CANNOT_ENTER_DYNAMIS - 5,
+            INFORMATION_RECORDED        = zones[xi.zone.WINDURST_WALLS].text.YOU_CANNOT_ENTER_DYNAMIS - 4,
         },
         entryZone = xi.zone.WINDURST_WALLS,
     },
