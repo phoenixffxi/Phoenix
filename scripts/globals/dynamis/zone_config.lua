@@ -293,7 +293,7 @@ xi.dynamis.dynaInfoEra =
         hasSeenWinCSVar   = 'DynaValkurm_HasSeenWinCS',
         winKI             = xi.ki.DYNAMIS_VALKURM_SLIVER,
         winTitle          = xi.title.DYNAMIS_VALKURM_INTERLOPER,
-        winQM             = 16937587, -- TODO - Update after DATs
+        winQM             = 16937394,
         entryPos          = { 100, -8, 131, 47, xi.zone.DYNAMIS_VALKURM },
         ejectPos          = { 119, -9, 131, 52, xi.zone.VALKURM_DUNES },
     },

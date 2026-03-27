@@ -268,24 +268,26 @@ xi.dynamis.onMobRoam = function(mob)
 end
 
 xi.dynamis.onMobDeath = function(mob, player, optParams)
+    local zone   = mob:getZone()
+    local zoneID = mob:getZoneID()
     -- Check for time extensions
-    xi.dynamis.addTimeToDynamis(mob:getZone(), mob)
+    xi.dynamis.addTimeToDynamis(zone, mob)
 
     -- Check for NM death actions
     xi.dynamis.onNMDeath(mob, player, optParams)
+
+    -- Zone specific death actions
+    if
+        zoneID == xi.zone.DYNAMIS_VALKURM and
+        mob:getName() == 'Nightmare_Fly'
+    then
+         xi.dynamis.flyCheck(zone)
+    end
 end
 
 -- ---------------------
 -- NM Mob functions
 -- ---------------------
--- TODO: apply this to bosses
-xi.dynamis.onBossInitialize = function(mob)
-    mob:addImmunity(xi.immunity.LIGHT_SLEEP)
-    mob:addImmunity(xi.immunity.DARK_SLEEP)
-    mob:addImmunity(xi.immunity.PETRIFY)
-    mob:addImmunity(xi.immunity.TERROR)
-end
-
 -- NM Death Actions - define conditional spawns when specific NMs die
 xi.dynamis.onNMDeath = function(mob, player, optParams)
     if not optParams.isKiller then
@@ -339,7 +341,16 @@ xi.dynamis.onNMDeath = function(mob, player, optParams)
     end
 end
 
--- Boss Mechanics
+-- ---------------------
+-- Boss functions
+-- ---------------------
+xi.dynamis.onBossInitialize = function(mob)
+    mob:addImmunity(xi.immunity.LIGHT_SLEEP)
+    mob:addImmunity(xi.immunity.DARK_SLEEP)
+    mob:addImmunity(xi.immunity.PETRIFY)
+    mob:addImmunity(xi.immunity.TERROR)
+end
+
 xi.dynamis.onBossDeath = function(mob, player, optParams)
     if not optParams.isKiller then
         return
@@ -356,6 +367,7 @@ xi.dynamis.onBossDeath = function(mob, player, optParams)
     local zoneID = mob:getZoneID()
     local pos    = mob:getPos()
     local winQM  = GetNPCByID(xi.dynamis.dynaInfoEra[zoneID].winQM)
+
     winQM:setPos(pos.x, pos.y, pos.z, pos.rot)
     winQM:setStatus(xi.status.NORMAL)
 
@@ -444,39 +456,6 @@ xi.dynamis.spawnWave = function(wave)
             mob:spawn()
         end
     end
-end
-
--- FOR TESTING PURPOSES ONLY
-xi.dynamis.despawnWave = function(wave, mobArg)
-    debugPrint('Despawning wave...')
-    if not wave then
-        return
-    end
-
-    for _, mobId in ipairs(wave) do
-        local mob = GetMobByID(mobId)
-        if mob and mob:isSpawned() then
-            DespawnMob(mobId)
-        end
-    end
-
-    local zone = mobArg:getZone()
-    zone:resetLocalVars()
-end
-
--- FOR TESTING PURPOSES ONLY
-xi.dynamis.despawnEverything = function(target)
-    debugPrint('Despawning everything...')
-    local zone = target:getZone()
-    for _, mobInZone in pairs(zone:getMobs()) do
-        if
-            mobInZone:isSpawned()
-        then
-            DespawnMob(mobInZone:getID())
-        end
-    end
-
-    zone:resetLocalVars()
 end
 
 -----------------------------------

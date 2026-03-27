@@ -47,7 +47,7 @@ xi.dynamis.checkEntryRequirements = function(player, entryZoneID)
     -- 4. Check all required key items
     for _, keyItemID in ipairs(entryInfo.reqs) do
         if not player:hasKeyItem(keyItemID) then
-            xi.dynamis.debugPrint('Missing required key item to enter Dynamis: ', keyItemID)
+            xi.dynamis.debugPrint('Missing required key item to enter Dynamis: ' .. keyItemID)
             player:printToPlayer('You do not have the required key item.', xi.msg.channel.NS_SAY)
             return false
         end
@@ -70,15 +70,15 @@ xi.dynamis.applyEntryRestrictions = function(player, dynaZoneID)
     end
 
     -- Check if SJ unlock flag is already set (skip if already unlocked)
-    if zone:getLocalVar('SJUnlock') == 1 then
+    if zone:getLocalVar('SJUnlocked') == 1 then
         xi.dynamis.debugPrint('SJ unlock flag already set, skipping entry restrictions.')
         return
     end
 
     -- Skip restrictions for GMs
-    if player:getGMLevel() >= 3 then
+    if xi.dynamis.isGM(player) then
         xi.dynamis.debugPrint('Player is a GM, skipping entry restrictions.')
-        return
+        -- return
     end
 
     -- Remove status effects that aren't preserved
@@ -90,6 +90,7 @@ xi.dynamis.applyEntryRestrictions = function(player, dynaZoneID)
     end
 
     -- Apply SJ restriction effect
+    xi.dynamis.debugPrint('Applying SJ restriction effect to player.')
     player:addStatusEffect(xi.effect.SJ_RESTRICTION, { origin = player })
 end
 

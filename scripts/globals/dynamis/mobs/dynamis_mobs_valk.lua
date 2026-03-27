@@ -296,7 +296,9 @@ xi.valk.mobs =
 {
     -- Statues
     CIRRATE_CHRISTELLE = 16936961,
-
+    NIGHTMARE_FLY_1    = 16937006,
+    NIGHTMARE_FLY_2    = 16937007,
+    NIGHTMARE_FLY_3    = 16937008,
 }
 
 -- Vars for death wave actions
@@ -304,6 +306,9 @@ xi.dynamis.deathVarByMob = xi.dynamis.deathVarByMob or {}
 xi.dynamis.deathVarByMob[zoneID] =
 {
     [xi.valk.mobs.CIRRATE_CHRISTELLE] = '[DYNA]CirrateChristelleKilled',
+    [xi.valk.mobs.NIGHTMARE_FLY_1]    = '[DYNA]NightmareFly1Killed',
+    [xi.valk.mobs.NIGHTMARE_FLY_2]    = '[DYNA]NightmareFly2Killed',
+    [xi.valk.mobs.NIGHTMARE_FLY_3]    = '[DYNA]NightmareFly3Killed',
 }
 
 xi.dynamis.spawnCheck = xi.dynamis.spawnCheck or {}

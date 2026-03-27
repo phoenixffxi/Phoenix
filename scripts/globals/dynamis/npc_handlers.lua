@@ -312,16 +312,11 @@ xi.dynamis.entryNpcOnEventFinishEra = function(player, csid, option)
             return
         end
 
-        local entryPos = entryInfo.enterPos
-        if not entryPos then
-            return
-        end
-
         -- Does this message even happen?
         -- TODO Check
         player:messageSpecial(xi.dynamis.getZoneMessageID('CONNECTING_WITH_THE_SERVER', zoneID))
         player:setCharVar(entryInfo.enteredVar, 1) -- Mark the player as having entered at least once.
-        player:setPos(entryPos[1], entryPos[2], entryPos[3], entryPos[4], entryPos[5])
+        player:setPos(unpack(entryInfo.enterPos))
         return
     end
 

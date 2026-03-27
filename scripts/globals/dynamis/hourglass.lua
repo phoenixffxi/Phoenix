@@ -9,6 +9,7 @@ xi.dynamis.makeGlass = function(player, starTime, expirationTime, dynaZoneID, dy
     local startTime = os.time()
     local endTime   = startTime + expirationTime
 
+    -- TODO: Make use of new table format after PR is merged
     player:addItem({
         id = xi.item.PERPETUAL_HOURGLASS,
         quantity = 1,
@@ -151,34 +152,6 @@ xi.dynamis.verifyTradeHourglass = function(player, zoneID)
     return xi.dynamis.hourglassTradeResult.NEW
 end
 
-xi.dynamis.updatePlayerHourglass = function(player, zoneSessionID)
-    if not player:hasItem(xi.item.PERPETUAL_HOURGLASS) then
-        xi.dynamis.debugPrint('Player does not have a perpetual hourglass, skipping update')
-        return
-    end
-
-    local zoneID = player:getZoneID()
-
-    if not player:isInDynamis() then
-        zoneID = xi.dynamis.entryInfoEra[zoneID].dynaZone
-    end
-
-    local zoneExpiration = GetServerVariable(string.format('[DYNA]ExpirationTime_%s', zoneID))
-    xi.dynamis.debugPrint(string.format('Updating player hourglass with token %s and timepoint %s', zoneSessionID, zoneExpiration))
-    -- Update hourglass exdata with new timepoint
-    updatePlayerHourglassExdata(player, zoneSessionID, zoneExpiration)
-end
-
-xi.dynamis.updatePlayerHourglassForAll = function(zone, zoneSessionID)
-    local zoneID        = zone:getID()
-    local parentZone    = GetZone(xi.dynamis.dynaIDLookup[zoneID].entryZone)
-    local playersInZone = parentZone:getPlayers()
-
-    for _, player in pairs(playersInZone) do
-        xi.dynamis.updatePlayerHourglass(player, zoneSessionID)
-    end
-end
-
 local function updatePlayerHourglassExdata(player, dynamisToken, timepoint)
     local perpetualHourglass = xi.item.PERPETUAL_HOURGLASS
 
@@ -218,5 +191,33 @@ local function updatePlayerHourglassExdata(player, dynamisToken, timepoint)
                 xi.dynamis.debugPrint('Token mismatch, skipping update')
             end
         end
+    end
+end
+
+xi.dynamis.updatePlayerHourglass = function(player, zoneSessionID)
+    if not player:hasItem(xi.item.PERPETUAL_HOURGLASS) then
+        xi.dynamis.debugPrint('Player does not have a perpetual hourglass, skipping update')
+        return
+    end
+
+    local zoneID = player:getZoneID()
+
+    if not player:isInDynamis() then
+        zoneID = xi.dynamis.entryInfoEra[zoneID].dynaZone
+    end
+
+    local zoneExpiration = GetServerVariable(string.format('[DYNA]ExpirationTime_%s', zoneID))
+    xi.dynamis.debugPrint(string.format('Updating player hourglass with token %s and timepoint %s', zoneSessionID, zoneExpiration))
+    -- Update hourglass exdata with new timepoint
+    updatePlayerHourglassExdata(player, zoneSessionID, zoneExpiration)
+end
+
+xi.dynamis.updatePlayerHourglassForAll = function(zone, zoneSessionID)
+    local zoneID        = zone:getID()
+    local parentZone    = GetZone(xi.dynamis.dynaIDLookup[zoneID].entryZone)
+    local playersInZone = parentZone:getPlayers()
+
+    for _, player in pairs(playersInZone) do
+        xi.dynamis.updatePlayerHourglass(player, zoneSessionID)
     end
 end

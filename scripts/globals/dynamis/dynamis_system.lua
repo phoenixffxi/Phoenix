@@ -13,7 +13,7 @@ xi.dynamis = xi.dynamis or {}
 
 -- Debug control
 xi.dynamis.DEBUG     = true
-xi.dynamis.tickDebug = true
+xi.dynamis.tickDebug = false
 
 xi.dynamis.debugPrint = function(message)
     if xi.dynamis.DEBUG then
@@ -97,20 +97,17 @@ xi.dynamis.handleDynamis = function(zone)
     local zoneCooldownEnter  = parentZone:getLocalVar(varZoneCooldown)
     local cleanupScript      = parentZone:getLocalVar(varCleanup)
 
-    -- Unfortuntealy I don't know a better way to check for everything once per
-    -- player on entry other than looping through here
-    -- This should only run ONCE on every player when they enter the zone
-    -- Start iterating through the player list
     for _, player in pairs(playersInZone) do
-        if player:getLocalVar('Requires_Initial_Update') == 0 then
-            -- Need to update every players hourglass
-            xi.dynamis.updatePlayerHourglass(player, zoneSessionID)
+        -- LEAVING THIS HERE FOR TESTING ON WHY IT BREAKS THE GAME
+        -- if player:getLocalVar('Requires_Initial_Update') == 0 then
+        --     -- Need to update every players hourglass
+        --     xi.dynamis.updatePlayerHourglass(player, zoneSessionID)
 
-            -- Check for dreamland SJ restriction and apply if necessary
-            xi.dynamis.applyEntryRestrictions(player, zoneID)
+        --     -- Check for dreamland SJ restriction and apply if necessary
+        --     xi.dynamis.applyEntryRestrictions(player, zoneID)
 
-            player:setLocalVar('Requires_Initial_Update', 1) -- Don't run again for this player
-        end
+        --     player:setLocalVar('Requires_Initial_Update', 1) -- Don't run again for this player
+        -- end
 
         -- Hourglass validity checks (GMs can stay until expiry)
         -- Check every 5 seconds to prevent excessive checks
@@ -572,7 +569,7 @@ xi.dynamis.sjQMOnTrigger = function(npc)
         end
     end
 
-    zone:setLocalVar('SJUnlock', 1)
+    zone:setLocalVar('SJUnlocked', 1)
 end
 
 -- TODO Cleanup
@@ -626,10 +623,10 @@ end
 
 -- TODO Cleanup -- currently being used
 xi.dynamis.zoneOnZoneInEra = function(player, prevZone)
-    local zoneID = player:getZoneID()
+    local zoneID         = player:getZoneID()
     local zoneExpiration = GetServerVariable(string.format('[DYNA]ExpirationTime_%s', zoneID))
-    local info = xi.dynamis.dynaInfoEra[zoneID]
-    local ID = zones[zoneID]
+    local info           = xi.dynamis.dynaInfoEra[zoneID]
+    local ID             = zones[zoneID]
 
     -- usually happens when zoning in with !zone command
     -- If player is in void, move player to entry.
@@ -638,14 +635,23 @@ xi.dynamis.zoneOnZoneInEra = function(player, prevZone)
         player:getYPos() == 0 and
         player:getZPos() == 0
     then
-        player:setPos(info.entryPos[1], info.entryPos[2], info.entryPos[3], info.entryPos[4])
+        player:setPos(unpack(info.entryPos))
     end
 
+    -- Send message letting player know how long they have.
     player:timer(5000, function(playerArg)
         local timepoint = xi.dynamis.getDynaTimeRemaining(zoneExpiration)
-        playerArg:messageSpecial(ID.text.DYNAMIS_TIME_UPDATE_2, math.floor(utils.clamp(timepoint, 0, timepoint) / 60), 1) -- Send message letting player know how long they have.
+        playerArg:messageSpecial(ID.text.DYNAMIS_TIME_UPDATE_2, math.floor(utils.clamp(timepoint, 0, timepoint) / 60), 1)
     end)
 
+    -- Update hourglass if player has one
+    if player:hasItem(xi.item.PERPETUAL_HOURGLASS) then
+        local zoneSessionID = GetServerVariable(string.format('[DYNA]SessionID_%s', zoneID))
+        xi.dynamis.updatePlayerHourglass(player, zoneSessionID)
+    end
+
+    -- Check for dreamland SJ restriction and apply if necessary
+    xi.dynamis.applyEntryRestrictions(player, zoneID)
     return -1
 end
 
