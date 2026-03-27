@@ -962,9 +962,6 @@ public:
     auto   getContestRankHistory() -> sol::table;
     void   claimContestReward();
 
-    void addPacketMod(uint16 packetId, uint16 offset, uint8 value);
-    void clearPacketMods();
-
     bool operator==(const CLuaBaseEntity& other) const
     {
         return this->m_PBaseEntity == other.m_PBaseEntity;

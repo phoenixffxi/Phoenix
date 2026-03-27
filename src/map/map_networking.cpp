@@ -48,9 +48,6 @@
 
 extern std::map<uint16, CZone*> g_PZoneList; // Global array of pointers for zones
 
-// TODO: Extract into a class and a packetMods() member of MapNetworking
-std::unordered_map<uint32, std::unordered_map<uint16, std::vector<std::pair<uint16, uint8>>>> PacketMods;
-
 namespace
 {
 
@@ -619,25 +616,6 @@ int32 MapNetworking::send_parse(uint8* buff, size_t* buffsize, MapSession* map_s
                 PSmallPacket->setSequence(map_session_data->server_packet_id);
                 auto type = PSmallPacket->getType();
 
-                // Apply packet mods if available
-                if (!PacketMods[PChar->id].empty())
-                {
-                    if (PacketMods[PChar->id].find(type) != PacketMods[PChar->id].end())
-                    {
-                        for (auto& entry : PacketMods[PChar->id][type])
-                        {
-                            auto offset = entry.first;
-                            auto value  = entry.second;
-                            ShowInfo(fmt::format("Packet Mod ({}): {}: {}: {}",
-                                                 PChar->name,
-                                                 hex16ToString(type),
-                                                 hex16ToString(offset),
-                                                 hex8ToString(value)));
-                            PSmallPacket->ref<uint8>(offset) = value;
-                        }
-                    }
-                }
-
                 // Store zoneout packet in case we need to re-send this
                 if (type == 0x00B)
                 {
@@ -811,25 +789,6 @@ int32 MapNetworking::sendSinglePacketNoPChar(uint8* buff, size_t* buffsize, MapS
     packets   = 0;
 
     packet->setSequence(map_session_data->server_packet_id);
-
-    // Apply packet mods if available
-    if (!PacketMods[map_session_data->charID].empty())
-    {
-        if (PacketMods[map_session_data->charID].find(type) != PacketMods[map_session_data->charID].end())
-        {
-            for (auto& entry : PacketMods[map_session_data->charID][type])
-            {
-                auto offset = entry.first;
-                auto value  = entry.second;
-                ShowInfo(fmt::format("Packet Mod (char ID {}): {}: {}: {}",
-                                     map_session_data->charID,
-                                     hex16ToString(type),
-                                     hex16ToString(offset),
-                                     hex8ToString(value)));
-                packet->ref<uint8>(offset) = value;
-            }
-        }
-    }
 
     std::memcpy(buff + *buffsize, *packet, packet->getSize());
     *buffsize += packet->getSize();
