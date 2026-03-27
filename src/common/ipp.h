@@ -82,6 +82,7 @@ public:
     //
 
     auto operator<(const IPP& other) const -> bool;
+    auto operator==(const IPP& other) const -> bool;
 
 private:
     // IP is always stored and used in network byte order.
@@ -92,3 +93,17 @@ private:
 };
 
 static_assert(std::is_standard_layout_v<IPP>, "IPP must be standard-layout");
+
+namespace std
+{
+
+template <>
+struct hash<IPP>
+{
+    size_t operator()(const IPP& ipp) const noexcept
+    {
+        return hash<uint64>{}(ipp.getRawIPP());
+    }
+};
+
+} // namespace std
