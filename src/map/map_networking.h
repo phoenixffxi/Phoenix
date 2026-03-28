@@ -50,12 +50,20 @@ public:
     // TODO: Stop changing the buffsize size_t as we go along
     // TODO: All of these need to become coroutines
     // TODO: Properly use size_t or u32/i32 where appropriate, we do a lot of casting
-    void handle_incoming_packet(ByteSpan buffer, IPP ipp);
+    // TODO: Do better than returning -1 as an error code
+    void handle_incoming_packet(ByteSpan buffer, const IPP& ipp);
 
-    int32 map_decipher_packet(uint8*, size_t, MapSession*, blowfish_t*); // Decipher packet
-    int32 recv_parse(uint8*, size_t*, MapSession*, IPP ipp);             // main function to parse recv packets
-    int32 parse(uint8*, size_t*, MapSession*);                           // main function parsing the packets
-    int32 send_parse(uint8*, size_t*, MapSession*, UsePreviousKey);      // main function is building big packet
+    // Decipher packet
+    int32 map_decipher_packet(uint8* buff, size_t buffsize, MapSession* PSession, blowfish_t* pbfkey);
+
+    // main function to parse recv packets
+    int32 recv_parse(uint8* buff, size_t* buffsize, MapSession* PSession, const IPP& ipp);
+
+    // main function parsing the packets
+    int32 parse(uint8* buff, size_t* buffsize, MapSession* PSession);
+
+    // main function is building big packet
+    int32 send_parse(uint8* buff, size_t* buffsize, MapSession* PSession, UsePreviousKey usePreviousKey);
 
     //
     // Packet Building
@@ -94,7 +102,8 @@ private:
     std::unique_ptr<MapSocket> mapSocket_;
     MapConfig                  config_;
 
-    // TODO: We can probably dedupe these and move the main buffer into MapSocket
+    // TODO: We can probably dedupe these and move the main buffer into MapSocket, passing a span
+    //     : to it back into here when we've got our buffer of network data.
     // TODO: Update the naming conventions of these
     NetworkBuffer PBuff;          // Global packet clipboard
     NetworkBuffer PBuffCopy;      // Copy of above, used to decrypt a second time if necessary.

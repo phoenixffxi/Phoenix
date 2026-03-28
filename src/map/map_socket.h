@@ -36,12 +36,12 @@
 class MapSocket
 {
 public:
-    using ReceiveFn = std::function<void(ByteSpan, IPP)>;
+    using ReceiveFn = std::function<void(ByteSpan, const IPP&)>;
 
     MapSocket(Scheduler& scheduler, uint16 port, ReceiveFn onReceiveFn);
     ~MapSocket();
 
-    void send(IPP ipp, ByteSpan buffer);
+    void send(const IPP& ipp, ByteSpan buffer);
 
 private:
     void receive();

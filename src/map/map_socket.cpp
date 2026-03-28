@@ -88,7 +88,7 @@ void MapSocket::receive()
         });
 }
 
-void MapSocket::send(IPP ipp, ByteSpan buffer)
+void MapSocket::send(const IPP& ipp, ByteSpan buffer)
 {
     TracyZoneScoped;
 

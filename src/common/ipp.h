@@ -61,6 +61,9 @@ auto sockaddr2hostport(const sockaddr_in& addr) -> uint16;
 //
 // An IP-Port Pair
 //
+// Even though this is a very simple type, cppcheck is unhappy if you pass it around by value,
+// so pass it around by reference :(
+//
 class IPP final
 {
 public:
