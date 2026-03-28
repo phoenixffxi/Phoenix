@@ -496,7 +496,112 @@ local mobNames =
         { 'Vanguard_Vindicator',    'Normal'    },
         { 'Vanguard_Visionary',     'Normal'    },
         { 'Vanguard_Welldigger',    'Normal'    },
-    }
+    },
+    ['Dynamis-Buburimu'] =
+    {
+        { 'Apocalyptic_Beast',        'Boss'      },
+        { 'Dragons_Wyvern',           'Normal'    },
+        { 'Adamantking_Effigy',       'Statue'    },
+        { 'Manifest_Icon',            'Statue'    },
+        { 'Warchief_Tombstone',       'Statue'    },
+        { 'Goblin_Replica',           'Statue'    },
+        { 'Nightmare_Bunny',          'Nightmare' },
+        { 'Nightmare_Cockatrice',     'Nightmare' },
+        { 'Nightmare_Crab',           'Nightmare' },
+        { 'Nightmare_Crawler',        'Nightmare' },
+        { 'Nightmare_Dhalmel',        'Nightmare' },
+        { 'Nightmare_Eft',            'Nightmare' },
+        { 'Nightmare_Mandragora',     'Nightmare' },
+        { 'Nightmare_Raven',          'Nightmare' },
+        { 'Nightmare_Scorpion',       'Nightmare' },
+        { 'Nightmare_Uragnite',       'Nightmare' },
+        { 'Baa_Dava_the_Bibliophage', 'Normal'    },
+        { 'Doo_Peku_the_Fleetfoot',   'Normal'    },
+        { 'Elvaansticker_Bxafraff',   'Normal'    },
+        { 'Flamecaller_Zoeqdoq',      'Normal'    },
+        { 'GiBhe_Fleshfeaster',       'Normal'    },
+        { 'Gosspix_Blabberlips',      'Normal'    },
+        { 'Hamfist_Gukhbuk',          'Normal'    },
+        { 'Koo_Rahi_the_Levinblade',  'Normal'    },
+        { 'Lyncean_Juwgneg',          'Normal'    },
+        { 'QuPho_Bloodspiller',       'Normal'    },
+        { 'Ree_Nata_the_Melomanic',   'Normal'    },
+        { 'Shamblix_Rottenheart',     'Normal'    },
+        { 'TeZha_Ironclad',           'Normal'    },
+        { 'Vanguard_Alchemist',       'Normal'    },
+        { 'Vanguard_Ambusher',        'Normal'    },
+        { 'Vanguard_Amputator',       'Normal'    },
+        { 'Vanguard_Armorer',         'Normal'    },
+        { 'Vanguard_Assassin',        'Normal'    },
+        { 'Vanguards_Avatar',         'Normal'    },
+        { 'Vanguard_Backstabber',     'Normal'    },
+        { 'Vanguard_Beasttender',     'Normal'    },
+        { 'Vanguard_Bugler',          'Normal'    },
+        { 'Vanguard_Chanter',         'Normal'    },
+        { 'Vanguard_Constable',       'Normal'    },
+        { 'Vanguard_Defender',        'Normal'    },
+        { 'Vanguard_Dollmaster',      'Normal'    },
+        { 'Vanguard_Dragontamer',     'Normal'    },
+        { 'Vanguard_Drakekeeper',     'Normal'    },
+        { 'Vanguard_Enchanter',       'Normal'    },
+        { 'Vanguard_Exemplar',        'Normal'    },
+        { 'Vanguard_Footsoldier',     'Normal'    },
+        { 'Vanguard_Grappler',        'Normal'    },
+        { 'Vanguard_Gutslasher',      'Normal'    },
+        { 'Vanguard_Hatamoto',        'Normal'    },
+        { 'Vanguard_Hawker',          'Normal'    },
+        { 'Vanguard_Hitman',          'Normal'    },
+        { 'Vanguard_Impaler',         'Normal'    },
+        { 'Vanguard_Inciter',         'Normal'    },
+        { 'Vanguard_Kusa',            'Normal'    },
+        { 'Vanguard_Liberator',       'Normal'    },
+        { 'Vanguard_Maestro',         'Normal'    },
+        { 'Vanguard_Mason',           'Normal'    },
+        { 'Vanguard_Mesmerizer',      'Normal'    },
+        { 'Vanguard_Militant',        'Normal'    },
+        { 'Vanguard_Minstrel',        'Normal'    },
+        { 'Vanguard_Neckchopper',     'Normal'    },
+        { 'Vanguard_Necromancer',     'Normal'    },
+        { 'Vanguard_Ogresoother',     'Normal'    },
+        { 'Vanguard_Oracle',          'Normal'    },
+        { 'Vanguard_Partisan',        'Normal'    },
+        { 'Vanguard_Pathfinder',      'Normal'    },
+        { 'Vanguard_Persecutor',      'Normal'    },
+        { 'Vanguard_Pillager',        'Normal'    },
+        { 'Vanguard_Pitfighter',      'Normal'    },
+        { 'Vanguard_Predator',        'Normal'    },
+        { 'Vanguard_Prelate',         'Normal'    },
+        { 'Vanguard_Priest',          'Normal'    },
+        { 'Vanguard_Protector',       'Normal'    },
+        { 'Vanguard_Purloiner',       'Normal'    },
+        { 'Vanguard_Ronin',           'Normal'    },
+        { 'Vanguard_Salvager',        'Normal'    },
+        { 'Vanguard_Sentinel',        'Normal'    },
+        { 'Vanguard_Shaman',          'Normal'    },
+        { 'Vanguard_Skirmisher',      'Normal'    },
+        { 'Vanguard_Smithy',          'Normal'    },
+        { 'Vanguard_Thaumaturge',     'Normal'    },
+        { 'Vanguard_Tinkerer',        'Normal'    },
+        { 'Vanguard_Trooper',         'Normal'    },
+        { 'Vanguard_Undertaker',      'Normal'    },
+        { 'Vanguard_Vexer',           'Normal'    },
+        { 'Vanguard_Vigilante',       'Normal'    },
+        { 'Vanguard_Vindicator',      'Normal'    },
+        { 'Vanguard_Visionary',       'Normal'    },
+        { 'Vanguard_Welldigger',      'Normal'    },
+        { 'Vanguards_Wyvern',         'Normal'    },
+        { 'VaRhu_Bodysnatcher',       'Normal'    },
+        { 'Aitvaras',                 'Boss'      },
+        { 'Alklha',                   'Boss'      },
+        { 'Barong',                   'Boss'      },
+        { 'Basilic',                  'Boss'      },
+        { 'Koshchei',                 'Boss'      },
+        { 'Stihi',                    'Boss'      },
+        { 'Stollenwurm',              'Boss'      },
+        { 'Tarasca',                  'Boss'      },
+        { 'Jurik',                    'Boss'      },
+        { 'Vishap',                   'Boss'      },
+    },
 }
 
 -- local currencyHaggle =
@@ -599,11 +704,11 @@ local function registerDynamisZoneOverrides(zoneID, zoneName, zoneNumber)
     end)
 
     -- Special case for SJ zones (7-9)
-    -- Dynamis - Valkurm (7), Dynamis - Buburimu (8), Dynamis - Qufim (9)
-    if zoneNumber > 7 and zoneNumber < 10 then
-        m:addOverride(string.format('xi.zones.%s.npcs.qm0.onTrigger', zoneName),
+    -- Dynamis - Buburimu (8), Dynamis - Qufim (9)
+    if zoneID == xi.zone.DYNAMIS_BUBURIMU or zoneID == xi.zone.DYNAMIS_QUFIM then
+        m:addOverride(string.format('xi.zones.%s.npcs.qm1.onTrigger', zoneName),
         function(player, npc)
-            xi.dynamis.sjQMOnTrigger(npc)
+            xi.dynamis.sjQMOnTrigger(player, npc)
         end)
     end
 
@@ -721,19 +826,20 @@ local function registerMobOverrides(zoneName, mobName, mobType)
         end)
 
         m:addOverride(mobPath .. '.onMobSpawn', function(mob)
-            xi.dynamis.statueOnSpawn(mob)
+            xi.dynamis.onBossSpawn(mob)
         end)
 
         m:addOverride(mobPath .. '.onMobEngage', function(mob, target)
-            xi.dynamis.mobOnEngage(mob, target)
+            xi.dynamis.mobOnEngage(mob, target) -- This is for spawning statues on boss aggro
+            xi.dynamis.onBossEngage(mob, target) -- TODO: for qufim maybe
         end)
 
         m:addOverride(mobPath .. '.onMobRoam', function(mob)
             xi.dynamis.onMobRoam(mob)
+            xi.dynamis.onBossRoam(mob)
         end)
 
         m:addOverride(mobPath .. '.onMobDeath', function(mob, player, optParams)
-            xi.dynamis.onMobDeath(mob, player, optParams)
             xi.dynamis.onBossDeath(mob, player, optParams)
         end)
 

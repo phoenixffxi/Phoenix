@@ -304,10 +304,10 @@ xi.dynamis.dynaInfoEra =
         hasSeenWinCSVar        = 'DynaBuburimu_HasSeenWinCS',
         winKI                  = xi.ki.DYNAMIS_BUBURIMU_SLIVER,
         winTitle               = xi.title.DYNAMIS_BUBURIMU_INTERLOPER,
-        winQM                  = 16941678, -- TODO - Update after DATs
+        winQM                  = 16941489,
         entryPos               = { 155, -1, -169, 170, xi.zone.DYNAMIS_BUBURIMU },
         ejectPos               = { 154, -1, -170, 190, xi.zone.BUBURIMU_PENINSULA },
-        sjRestrictionNPC       = 16941677, -- TODO - Update after DATs
+        sjRestrictionNPC       = 16941496,
         sjRestrictionLocation  =
         {
             [1] = { -214.161, 15.360, -269.202, 54  },

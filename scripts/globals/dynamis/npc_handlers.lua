@@ -282,7 +282,7 @@ xi.dynamis.entryNpcOnEventUpdate = function(player, csid, option, npc)
             expirationTime = xi.dynamis.settings.TAVNAZIAN_TIME_LIMIT
         end
 
-        xi.dynamis.makeGlass(player, starTime, expirationTime, dynaZoneID, dynamisToken)
+        xi.dynamis.makeGlass(player, expirationTime, dynaZoneID, dynamisToken)
 
         player:messageSpecial(zones[zoneID].text.ITEM_OBTAINED, dynamisPerpetual) -- Give player a message stating the perpetual has been obtained.
         player:messageSpecial(xi.dynamis.getZoneMessageID('INFORMATION_RECORDED', zoneID), dynamisPerpetual) -- Send player the recorded message.
@@ -306,6 +306,12 @@ xi.dynamis.entryNpcOnEventFinishEra = function(player, csid, option)
         return
     end
 
+    -- 1. Check for KI first
+    if entryInfo.csVial and csid == entryInfo.csVial then
+        npcUtil.giveKeyItem(player, xi.ki.VIAL_OF_SHROUDED_SAND)
+        return
+    end
+
     -- Lets enter dynamis
     if csid == entryInfo.csDyna then
         if option ~= 0 then
@@ -317,12 +323,6 @@ xi.dynamis.entryNpcOnEventFinishEra = function(player, csid, option)
         player:messageSpecial(xi.dynamis.getZoneMessageID('CONNECTING_WITH_THE_SERVER', zoneID))
         player:setCharVar(entryInfo.enteredVar, 1) -- Mark the player as having entered at least once.
         player:setPos(unpack(entryInfo.enterPos))
-        return
-    end
-
-    -- Give Shrouded Sand KI
-    if csid == entryInfo.csVial then
-        npcUtil.giveKeyItem(player, xi.ki.VIAL_OF_SHROUDED_SAND)
         return
     end
 

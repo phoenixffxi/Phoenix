@@ -10,7 +10,7 @@ itemObject.onItemCheck = function(target, item, param, caster)
 end
 
 itemObject.onItemUse = function(target, user, item, action)
-    target:addItem( { id = xi.item.PERPETUAL_HOURGLASS, quantity = 2, exdata = item:getExData() })
+    target:addItem({ id = xi.item.PERPETUAL_HOURGLASS, quantity = 2, exdata = item:getExData()} )
 end
 
 return itemObject

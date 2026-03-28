@@ -6,7 +6,7 @@ xi.dynamis = xi.dynamis or {}
 
 xi.dynamis.makeGlass = function(player, starTime, expirationTime, dynaZoneID, dynamisToken)
     local playerId  = player:getID()
-    local startTime = os.time()
+    local startTime = GetSystemTime()
     local endTime   = startTime + expirationTime
 
     -- TODO: Make use of new table format after PR is merged
@@ -145,7 +145,7 @@ xi.dynamis.verifyTradeHourglass = function(player, zoneID)
     local playerRegKey     = player:getCharVar(string.format('[DYNA]PlayerRegisterKey_%s', dynaZone))
 
     -- If remainder matches key, player already registered
-    if (playerRegistered - dynamisToken) == playerRegKey then
+    if (playerRegistered - zoneSessionID) == playerRegKey then
         return xi.dynamis.hourglassTradeResult.REGISTERED
     end
 

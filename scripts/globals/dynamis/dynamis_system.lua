@@ -180,7 +180,7 @@ xi.dynamis.handleNoPlayers = function(playersInZone, cleanupScript, zoneCooldown
     debugTickPrint('No Player Timer: ' .. tostring(noPlayerTimer))
     debugTickPrint('Zone Expiration: ' .. tostring(zoneExpiration))
     debugTickPrint('Zone Cooldown Enter: ' .. tostring(zoneCooldownEnter))
-    debugTickPrint('Time Remaining: ' .. tostring(xi.dynamis.getDynaTimeRemaining(zoneExpiration)/60))
+    debugTickPrint('Time Remaining: ' .. tostring(xi.dynamis.getDynaTimeRemaining(zoneExpiration) / 60))
     -- Start no-player timer if zone is empty
     if
         #playersInZone == 0 and             -- No players in the zone
@@ -214,6 +214,7 @@ xi.dynamis.handleNoPlayers = function(playersInZone, cleanupScript, zoneCooldown
         parentZone:setLocalVar(varZoneCooldown, currentTime + 90)
         xi.dynamis.cleanupDynamis(zone)
     end
+
     debugTickPrint('-----------------------------------')
 end
 
@@ -240,37 +241,33 @@ xi.dynamis.onNewDynamis = function(player, mode)
 
     local dynaInfo = xi.dynamis.dynaInfoEra[zoneID]
 
-    -- I need to make sure we need wave vars anymore with having specific IDS
-    -- Ensure all Wave Vars are set to 0 before we spawn anything.
-    -- for waveNumber, _ in pairs(xi.dynamis.mobList[zoneID].waveDefeatRequirements) do
-    --     zone:setLocalVar(string.format('Wave_%i_Spawned', waveNumber), 0)
-    -- end
-
-    -- Spawn Wave 1
+    -- 1. Spawn initial wave of mobs
     xi.dynamis.spawnWave(xi.dynamis.wave[zoneID][1])
     xi.dynamis.debugPrint(string.format('Spawning Initial wave for zoneID: %d', zoneID))
-    -- Check for locations, if you got some lets pick one
-    local locations = dynaInfo.sjRestrictionLocation
-    if locations then
-        local pick = locations[math.random(#locations)]
-        local sjNPC = GetNPCByID(dynaInfo.sjRestrictionNPC)
-        if sjNPC then
-            sjNPC:setPos(pick[1], pick[2], pick[3])
-            sjNPC:setStatus(xi.status.NORMAL)
-        end
-    end
 
-    -- Hide winQM until allowed to spawn
+    -- 2. Hide winQM until allowed to spawn
     local winQM = GetNPCByID(dynaInfo.winQM)
     if winQM then
         winQM:setStatus(xi.status.DISAPPEAR)
     end
 
-    -- Might redo all of the tav stuff. For now just leave it here.
+    -- 3. Specific functions for certain zones
     if zoneID == xi.zone.DYNAMIS_TAVNAZIA then
         xi.dynamis.dynamisTavnaziaOnNewDynamis(player, zone)
+    elseif zoneID == xi.zone.DYNAMIS_BUBURIMU or zoneID == xi.zone.DYNAMIS_QUFIM then
+        local locations = dynaInfo.sjRestrictionLocation
+        if locations and #locations > 0 then
+            local pick = locations[math.random(#locations)]
+            local sjNPC = GetNPCByID(dynaInfo.sjRestrictionNPC)
+            if sjNPC then
+                sjNPC:setPos(pick[1], pick[2], pick[3])
+                sjNPC:setStatus(xi.status.NORMAL)
+                xi.dynamis.debugPrint(string.format('Spawning SJ Restriction NPC for zoneID: %d at coordinates (%.2f, %.2f, %.2f)', zoneID, pick[1], pick[2], pick[3]))
+            end
+        end
     end
 
+    -- Mode for GMs/Testing
     if mode == 1 then
         zone:setLocalVar('debugMode', 1)
     end
@@ -559,9 +556,8 @@ xi.dynamis.resetPlayerVars = function(playerEntity, dynaZone)
 end
 
 -- Dynamis NPC triggers
--- TODO Cleanup
 xi.dynamis.sjQMOnTrigger = function(npc)
-    local zone = npc:getZone()
+    local zone          = npc:getZone()
     local playersInZone = zone:getPlayers()
     for _, playerEntity in pairs(playersInZone) do
         if  playerEntity:hasStatusEffect(xi.effect.SJ_RESTRICTION) then -- Does player have SJ restriction?

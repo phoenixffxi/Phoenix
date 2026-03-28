@@ -54,7 +54,6 @@ xi.dynamis.statueOnSpawn = function(mob)
     mob:setSpawnAnimation(0)
 
     mob:setAnimationSub(0) -- Set statue to closed eye state
-    mob:setRoamFlags(xi.roamFlag.SCRIPTED)
 
     -- Lets check if it has an eye color. If it does we need to set it to not die
     -- Set the eye color before the 1 shot happens
@@ -281,7 +280,7 @@ xi.dynamis.onMobDeath = function(mob, player, optParams)
         zoneID == xi.zone.DYNAMIS_VALKURM and
         mob:getName() == 'Nightmare_Fly'
     then
-         xi.dynamis.flyCheck(zone)
+        xi.dynamis.flyCheck(zone)
     end
 end
 
@@ -349,6 +348,25 @@ xi.dynamis.onBossInitialize = function(mob)
     mob:addImmunity(xi.immunity.DARK_SLEEP)
     mob:addImmunity(xi.immunity.PETRIFY)
     mob:addImmunity(xi.immunity.TERROR)
+end
+
+xi.dynamis.onBossSpawn = function(mob)
+    xi.dynamis.generalInfo(mob)
+    mob:setSpawnAnimation(0)
+
+    if mob:getName() == 'Apocalyptic_Beast' then
+        xi.dynamis.apocBeastSpawn(mob)
+    end
+end
+
+xi.dynamis.onBossEngage = function(mob, target)
+    -- TODO: for qufim bosses maybe
+end
+
+xi.dynamis.onBossRoam = function(mob)
+    if mob:getName() == 'Apocalyptic_Beast' then
+        xi.dynamis.apocBeastRoam(mob)
+    end
 end
 
 xi.dynamis.onBossDeath = function(mob, player, optParams)
