@@ -21,7 +21,7 @@
 
 #include "map_socket.h"
 
-#include "common/logging.h"
+#include <common/logging.h>
 
 MapSocket::MapSocket(Scheduler& scheduler, const uint16 port, ReceiveFn onReceiveFn)
 : scheduler_(scheduler)
@@ -38,7 +38,7 @@ MapSocket::MapSocket(Scheduler& scheduler, const uint16 port, ReceiveFn onReceiv
     socket_.open(listen_endpoint.protocol());
     socket_.bind(listen_endpoint);
 
-    startReceive();
+    receive(); // begin receiving loop
 }
 
 MapSocket::~MapSocket()
@@ -51,33 +51,44 @@ MapSocket::~MapSocket()
     }
 }
 
-void MapSocket::startReceive()
+void MapSocket::receive()
 {
     TracyZoneScoped;
 
     socket_.async_receive_from(
-        asio::buffer(buffer_), remote_endpoint_, [this](const std::error_code& ec, std::size_t bytes_recvd)
+        asio::buffer(buffer_), remoteEndpoint_, [this](const std::error_code& ec, std::size_t bytesRecvd)
         {
             // NOTE: ASIO returns the address in host byte order, but we store it in network byte order,
             //     : so we convert it back.
-            const auto sender_ip   = htonl(remote_endpoint_.address().to_v4().to_uint());
-            const auto sender_port = remote_endpoint_.port();
-            const auto ipp         = IPP(sender_ip, sender_port);
+            const auto senderIP   = htonl(remoteEndpoint_.address().to_v4().to_uint());
+            const auto senderPort = remoteEndpoint_.port();
+            const auto ipp        = IPP(senderIP, senderPort);
 
-            const auto buffer = std::span(buffer_.data(), bytes_recvd);
+            const auto sizedBuffer = ByteSpan(buffer_.data(), bytesRecvd);
 
-            DebugPacketsFmt("Received {} bytes from {}", buffer.size(), ipp.toString());
+            DebugPacketsFmt("Received {} bytes from {}", sizedBuffer.size(), ipp.toString());
 
-            onReceiveFn_(ec, buffer, ipp);
+            if (ec)
+            {
+                ShowErrorFmt("Receive error from {}: {}", ipp.toString(), ec.message());
+            }
+            else if (sizedBuffer.empty())
+            {
+                ShowErrorFmt("Received empty buffer from {}", ipp.toString());
+            }
+            else // Everything is OK
+            {
+                onReceiveFn_(sizedBuffer, ipp);
+            }
 
             if (!scheduler_.closeRequested() && socket_.is_open())
             {
-                startReceive(); // Queue up more work
+                receive(); // Queue up more work
             }
         });
 }
 
-void MapSocket::send(const IPP& ipp, std::span<uint8> buffer)
+void MapSocket::send(IPP ipp, ByteSpan buffer)
 {
     TracyZoneScoped;
 
@@ -101,10 +112,4 @@ void MapSocket::send(const IPP& ipp, std::span<uint8> buffer)
 
     // This will only be called in the middle of a doSocketsFor() call, so we don't
     // need to enqueue more work when we're done here.
-}
-
-void MapSocket::requestExit()
-{
-    isRunning_ = false;
-    scheduler_.stop();
 }
