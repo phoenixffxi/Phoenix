@@ -19,27 +19,22 @@
 ===========================================================================
 */
 
-#pragma once
+#include "honeymoon_ticket.h"
 
-#include "enums/exdata.h"
+#include <format>
 
-#include "exdata/base.h"
-
-#include "exdata/assault_log.h"
-#include "exdata/betting_slip.h"
-#include "exdata/brenner_book.h"
-#include "exdata/honeymoon_ticket.h"
-#include "exdata/legion_pass.h"
-#include "exdata/meeble_grimoire.h"
-#include "exdata/perpetual_hourglass.h"
-#include "exdata/race_certificate.h"
-
-class CItem;
-
-namespace Exdata
+void Exdata::HoneymoonTicket::toTable(sol::table& table) const
 {
-auto getType(const CItem* item) -> Type;
+    table["plan"] = this->Plan;
+}
 
-auto toTable(const CItem* item, sol::table& table) -> bool;
-auto fromTable(CItem* item, const sol::table& data) -> bool;
-} // namespace Exdata
+void Exdata::HoneymoonTicket::fromTable(const sol::table& data)
+{
+    this->Plan = Exdata::get_or<uint8_t>(data, "plan", this->Plan);
+
+    if (this->Plan >= 1 && this->Plan <= 4)
+    {
+        // "PlanA"
+        Exdata::encodeSignature(std::format("Plan{}", static_cast<char>('A' + this->Plan - 1)), this->Signature);
+    }
+}
