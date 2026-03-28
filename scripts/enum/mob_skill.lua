@@ -268,6 +268,12 @@ xi.mobSkill =
 
     VULTURE_3                     =  626,
 
+    WILD_HORN                     =  628,
+    THUNDERBOLT_BEHEMOTH          =  629,
+    KICK_OUT                      =  630,
+    SHOCK_WAVE_BEHEMOTH           =  631,
+    FLAME_ARMOR                   =  632,
+    HOWL_BEHEMOTH                 =  633,
     FINAL_METEOR                  =  634, -- Final Meteor Chlevnik
 
     RECOIL_DIVE_1                 =  641,
