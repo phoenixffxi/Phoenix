@@ -21,10 +21,10 @@
 
 #include "map_networking.h"
 
-#include "common/arguments.h"
-#include "common/md52.h"
-#include "common/tracy.h"
-#include "common/zlib.h"
+#include <common/arguments.h>
+#include <common/md52.h>
+#include <common/tracy.h>
+#include <common/zlib.h>
 
 #include "entities/charentity.h"
 
@@ -47,21 +47,6 @@
 #include "zone_entities.h"
 
 extern std::map<uint16, CZone*> g_PZoneList; // Global array of pointers for zones
-
-namespace
-{
-
-NetworkBuffer PBuff;          // Global packet clipboard
-NetworkBuffer PBuffCopy;      // Copy of above, used to decrypt a second time if necessary.
-NetworkBuffer PScratchBuffer; // Temporary packet clipboard
-
-// Runtime statistics
-// TODO: Move these to MapStatistics
-uint32 TotalPacketsToSendPerTick  = 0U;
-uint32 TotalPacketsSentPerTick    = 0U;
-uint32 TotalPacketsDelayedPerTick = 0U;
-
-} // namespace
 
 MapNetworking::MapNetworking(Scheduler& scheduler, MapStatistics& mapStatistics, MapConfig config)
 : scheduler_(scheduler)

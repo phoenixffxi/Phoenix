@@ -33,11 +33,7 @@
 #include "map_socket.h"
 #include "map_statistics.h"
 
-#include <map>
-#include <span>
-
 class CBasicPacket;
-class MapEngine;
 
 class MapNetworking
 {
@@ -53,7 +49,8 @@ public:
     // TODO: Pass around std::span<uint8> instead of uint8* and size_t*
     // TODO: Stop changing the buffsize size_t as we go along
     // TODO: All of these need to become coroutines
-    void  handle_incoming_packet(ByteSpan buffer, IPP ipp);
+    void handle_incoming_packet(ByteSpan buffer, IPP ipp);
+
     int32 map_decipher_packet(uint8*, size_t, MapSession*, blowfish_t*); // Decipher packet
     int32 recv_parse(uint8*, size_t*, MapSession*, IPP ipp);             // main function to parse recv packets
     int32 parse(uint8*, size_t*, MapSession*);                           // main function parsing the packets
@@ -79,4 +76,14 @@ private:
     MapSessionContainer        mapSessions_;
     std::unique_ptr<MapSocket> mapSocket_;
     MapConfig                  config_;
+
+    // TODO: We can probably dedupe these and move the main buffer into MapSocket
+    NetworkBuffer PBuff;          // Global packet clipboard
+    NetworkBuffer PBuffCopy;      // Copy of above, used to decrypt a second time if necessary.
+    NetworkBuffer PScratchBuffer; // Temporary packet clipboard
+
+    // TODO: Move these to MapStatistics
+    uint32 TotalPacketsToSendPerTick{ 0U };
+    uint32 TotalPacketsSentPerTick{ 0U };
+    uint32 TotalPacketsDelayedPerTick{ 0U };
 };
