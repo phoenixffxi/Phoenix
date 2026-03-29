@@ -28,6 +28,8 @@
 #include "action/action.h"
 #include "action/interrupts.h"
 #include "ai/ai_container.h"
+#include "ai/helpers/targetfind.h"
+#include "ai/states/ability_state.h"
 #include "ai/states/attack_state.h"
 #include "ai/states/death_state.h"
 #include "ai/states/despawn_state.h"
@@ -2475,6 +2477,107 @@ void CBattleEntity::OnCastInterrupted(CMagicState& state, action_t& action, MsgB
         }
 
         luautils::OnSpellInterrupted(this, PSpell);
+    }
+}
+
+void CBattleEntity::OnAbility(CAbilityState& state, action_t& action)
+{
+    auto* PAbility = state.GetAbility();
+    auto* PTarget  = dynamic_cast<CBattleEntity*>(state.GetTarget());
+    if (!PTarget)
+    {
+        return;
+    }
+
+    std::unique_ptr<CBasicPacket> errMsg;
+    if (IsValidTarget(PTarget->targid, PAbility->getValidTarget(), errMsg))
+    {
+        if (this != PTarget && distance(this->loc.p, PTarget->loc.p) > PAbility->getRange() + modelHitboxSize + PTarget->modelHitboxSize)
+        {
+            return;
+        }
+
+        if (battleutils::IsParalyzed(this))
+        {
+            ActionInterrupts::AbilityParalyzed(this, PTarget);
+            return;
+        }
+
+        action.actorId    = this->id;
+        action.actiontype = PAbility->getActionType();
+        action.actionid   = PAbility->getID();
+        action.recast     = PAbility->getRecastTime();
+
+        if (PAbility->isAoE())
+        {
+            PAI->TargetFind->reset();
+            PAI->TargetFind->findWithinArea(this, AOE_RADIUS::ATTACKER, PAbility->getRadius(), FINDFLAGS_NONE, PAbility->getValidTarget());
+
+            auto prevMsg = MsgBasic::None;
+            for (auto&& PTargetFound : PAI->TargetFind->m_targets)
+            {
+                action_target_t& actionTarget = action.addTarget(PTargetFound->id);
+                action_result_t& actionResult = actionTarget.addResult();
+                actionResult.resolution       = ActionResolution::Hit;
+                actionResult.animation        = PAbility->getAnimationID();
+                actionResult.messageID        = PAbility->getMessage();
+                actionResult.param            = 0;
+
+                int32 value = luautils::OnUseAbility(this, PTargetFound, PAbility, &action);
+
+                if (prevMsg == MsgBasic::None)
+                {
+                    actionResult.messageID = PAbility->getMessage();
+                }
+                else
+                {
+                    actionResult.messageID = messageutils::GetAoEVariant(PAbility->getMessage());
+                }
+
+                actionResult.param = value;
+
+                if (value < 0)
+                {
+                    actionResult.messageID = messageutils::GetAbsorbVariant(actionResult.messageID);
+                    actionResult.param     = -actionResult.param;
+                }
+
+                prevMsg = actionResult.messageID;
+
+                state.ApplyEnmity();
+            }
+        }
+        else
+        {
+            action_target_t& actionTarget = action.addTarget(PTarget->id);
+            action_result_t& actionResult = actionTarget.addResult();
+            actionResult.resolution       = ActionResolution::Hit;
+            actionResult.animation        = PAbility->getAnimationID();
+            auto prevMsg                  = actionResult.messageID;
+
+            int32 value = luautils::OnUseAbility(this, PTarget, PAbility, &action);
+            if (prevMsg == actionResult.messageID)
+            {
+                actionResult.messageID = PAbility->getMessage();
+            }
+
+            if (actionResult.messageID == MsgBasic::None)
+            {
+                actionResult.messageID = MsgBasic::UsesJobAbility;
+            }
+
+            actionResult.param = value;
+
+            if (value < 0)
+            {
+                actionResult.messageID = messageutils::GetAbsorbVariant(actionResult.messageID);
+                actionResult.param     = -value;
+            }
+        }
+
+        state.ApplyEnmity();
+
+        PRecastContainer->Add(RECAST_ABILITY, static_cast<Recast>(action.actionid), action.recast);
     }
 }
 
