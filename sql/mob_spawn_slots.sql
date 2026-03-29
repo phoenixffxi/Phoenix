@@ -66,6 +66,25 @@ INSERT INTO `mob_spawn_slots` VALUES (11,9,0);
 INSERT INTO `mob_spawn_slots` VALUES (11,10,0);
 INSERT INTO `mob_spawn_slots` VALUES (11,11,0);
 
+-- Promyvion - Dem
+INSERT INTO `mob_spawn_slots` VALUES (18,1,0);
+INSERT INTO `mob_spawn_slots` VALUES (18,2,0);
+INSERT INTO `mob_spawn_slots` VALUES (18,3,0);
+INSERT INTO `mob_spawn_slots` VALUES (18,4,0);
+INSERT INTO `mob_spawn_slots` VALUES (18,5,0);
+INSERT INTO `mob_spawn_slots` VALUES (18,6,0);
+INSERT INTO `mob_spawn_slots` VALUES (18,7,0);
+INSERT INTO `mob_spawn_slots` VALUES (18,8,0);
+INSERT INTO `mob_spawn_slots` VALUES (18,9,0);
+INSERT INTO `mob_spawn_slots` VALUES (18,10,0);
+INSERT INTO `mob_spawn_slots` VALUES (18,11,0);
+INSERT INTO `mob_spawn_slots` VALUES (18,12,0);
+INSERT INTO `mob_spawn_slots` VALUES (18,13,0);
+INSERT INTO `mob_spawn_slots` VALUES (18,14,0);
+INSERT INTO `mob_spawn_slots` VALUES (18,15,0);
+INSERT INTO `mob_spawn_slots` VALUES (18,16,0);
+INSERT INTO `mob_spawn_slots` VALUES (18,17,0);
+
 -- Arrapago Reef
 INSERT INTO `mob_spawn_slots` VALUES (54,1,0);
 INSERT INTO `mob_spawn_slots` VALUES (54,2,0);
