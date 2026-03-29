@@ -169,8 +169,6 @@
 
 #include <magic_enum/magic_enum.hpp>
 
-extern std::unordered_map<uint32, std::unordered_map<uint16, std::vector<std::pair<uint16, uint8>>>> PacketMods;
-
 //======================================================//
 
 CLuaBaseEntity::CLuaBaseEntity(CBaseEntity* PEntity)
@@ -19647,31 +19645,6 @@ void CLuaBaseEntity::claimContestReward()
     }
 }
 
-void CLuaBaseEntity::addPacketMod(uint16 packetId, uint16 offset, uint8 value)
-{
-    TracyZoneScoped;
-
-    if (auto* PChar = dynamic_cast<CCharEntity*>(m_PBaseEntity))
-    {
-        ShowInfo(fmt::format("Adding Packet Mod ({}): {}: {}: {}",
-                             PChar->name,
-                             hex16ToString(packetId),
-                             hex16ToString(offset),
-                             hex8ToString(value)));
-        PacketMods[PChar->id][packetId].emplace_back(std::make_pair(offset, value));
-    }
-}
-
-void CLuaBaseEntity::clearPacketMods()
-{
-    TracyZoneScoped;
-
-    if (auto* PChar = dynamic_cast<CCharEntity*>(m_PBaseEntity))
-    {
-        PacketMods[PChar->id].clear();
-    }
-}
-
 //==========================================================//
 
 void CLuaBaseEntity::Register()
@@ -20572,9 +20545,6 @@ void CLuaBaseEntity::Register()
     SOL_REGISTER("getContestRewardStatus", CLuaBaseEntity::getContestRewardStatus);
     SOL_REGISTER("getContestRankHistory", CLuaBaseEntity::getContestRankHistory);
     SOL_REGISTER("claimContestReward", CLuaBaseEntity::claimContestReward);
-
-    SOL_REGISTER("addPacketMod", CLuaBaseEntity::addPacketMod);
-    SOL_REGISTER("clearPacketMods", CLuaBaseEntity::clearPacketMods);
 }
 
 std::ostream& operator<<(std::ostream& os, const CLuaBaseEntity& entity)

@@ -88,13 +88,15 @@ public:
     // TODO: gameState()
 
 private:
-    Application&            application_;
-    Scheduler&              scheduler_;
+    Application& application_;
+    Scheduler&   scheduler_;
+
     Maybe<Scheduler::Token> mapCleanupToken_;
     Maybe<Scheduler::Token> mapGarbageCollectToken_;
     Maybe<Scheduler::Token> timeServerToken_;
     Maybe<Scheduler::Token> persistVolatileServerVarsToken_;
     Maybe<Scheduler::Token> pumpIPCToken_;
+    Maybe<Scheduler::Token> flushStatisticsToken_;
 
     std::unique_ptr<MapStatistics> mapStatistics_;
     std::unique_ptr<MapNetworking> networking_;

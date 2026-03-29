@@ -71,6 +71,3 @@ static constexpr auto kIPCPumpInterval = 100ms;
 static constexpr auto kMaxBufferSize           = 2500U;
 static constexpr auto kMaxPacketPerCompression = 32U;
 static constexpr auto kMaxPacketBacklogSize    = kMaxPacketPerCompression * 6U; // If we hit this number, things are going very very badly.
-
-// TODO: Should this be moved to cbasetypes.h or similar?
-using NetworkBuffer = std::array<uint8, kMaxBufferSize>;
