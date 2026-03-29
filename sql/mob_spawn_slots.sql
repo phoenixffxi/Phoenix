@@ -1246,6 +1246,18 @@ INSERT INTO `mob_spawn_slots` VALUES (174,20,0);
 INSERT INTO `mob_spawn_slots` VALUES (174,21,0);
 INSERT INTO `mob_spawn_slots` VALUES (174,22,0);
 
+-- Sea Serpent Grotto
+INSERT INTO `mob_spawn_slots` VALUES (176,1,0);
+INSERT INTO `mob_spawn_slots` VALUES (176,2,0);
+INSERT INTO `mob_spawn_slots` VALUES (176,3,0);
+INSERT INTO `mob_spawn_slots` VALUES (176,4,0);
+INSERT INTO `mob_spawn_slots` VALUES (176,5,0);
+INSERT INTO `mob_spawn_slots` VALUES (176,6,0);
+INSERT INTO `mob_spawn_slots` VALUES (176,7,0);
+INSERT INTO `mob_spawn_slots` VALUES (176,8,0);
+INSERT INTO `mob_spawn_slots` VALUES (176,9,0);
+INSERT INTO `mob_spawn_slots` VALUES (176,10,0);
+
 -- Lower Delkfutt's Tower
 INSERT INTO `mob_spawn_slots` VALUES (184,1,0);
 INSERT INTO `mob_spawn_slots` VALUES (184,2,0);
