@@ -1203,6 +1203,30 @@ INSERT INTO `mob_spawn_slots` VALUES (173,22,0);
 INSERT INTO `mob_spawn_slots` VALUES (173,23,0);
 INSERT INTO `mob_spawn_slots` VALUES (173,24,0);
 
+-- Kuftal Tunnel
+INSERT INTO `mob_spawn_slots` VALUES (174,1,0);
+INSERT INTO `mob_spawn_slots` VALUES (174,2,0);
+INSERT INTO `mob_spawn_slots` VALUES (174,3,0);
+INSERT INTO `mob_spawn_slots` VALUES (174,4,0);
+INSERT INTO `mob_spawn_slots` VALUES (174,5,0);
+INSERT INTO `mob_spawn_slots` VALUES (174,6,0);
+INSERT INTO `mob_spawn_slots` VALUES (174,7,0);
+INSERT INTO `mob_spawn_slots` VALUES (174,8,0);
+INSERT INTO `mob_spawn_slots` VALUES (174,9,0);
+INSERT INTO `mob_spawn_slots` VALUES (174,10,0);
+INSERT INTO `mob_spawn_slots` VALUES (174,11,0);
+INSERT INTO `mob_spawn_slots` VALUES (174,12,0);
+INSERT INTO `mob_spawn_slots` VALUES (174,13,0);
+INSERT INTO `mob_spawn_slots` VALUES (174,14,0);
+INSERT INTO `mob_spawn_slots` VALUES (174,15,0);
+INSERT INTO `mob_spawn_slots` VALUES (174,16,0);
+INSERT INTO `mob_spawn_slots` VALUES (174,17,0);
+INSERT INTO `mob_spawn_slots` VALUES (174,18,0);
+INSERT INTO `mob_spawn_slots` VALUES (174,19,0);
+INSERT INTO `mob_spawn_slots` VALUES (174,20,0);
+INSERT INTO `mob_spawn_slots` VALUES (174,21,0);
+INSERT INTO `mob_spawn_slots` VALUES (174,22,0);
+
 -- Lower Delkfutt's Tower
 INSERT INTO `mob_spawn_slots` VALUES (184,1,0);
 INSERT INTO `mob_spawn_slots` VALUES (184,2,0);
