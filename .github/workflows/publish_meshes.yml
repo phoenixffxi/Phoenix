@@ -7,6 +7,7 @@ on:
     paths:
       - './losmeshes/**'
       - './navmeshes/**'
+      - './ximeshes/**'
       - '.gitmodules'
   workflow_dispatch:
 

@@ -33,6 +33,7 @@
 #include "utils/mobutils.h"
 #include "zone.h"
 #include "zone_entities.h"
+#include "zone_mesh.h"
 
 CLuaZone::CLuaZone(CZone* PZone)
 : m_pLuaZone(PZone)
@@ -320,6 +321,44 @@ sol::table CLuaZone::queryEntitiesByName(const std::string& name)
     return table;
 }
 
+/************************************************************************
+ *  Function: getTerrainType()
+ *  Purpose : Returns the terrain type at the given position
+ *  Example : zone:getTerrainType(player:getPos())
+ ************************************************************************/
+
+auto CLuaZone::getTerrainType(const sol::table& position) -> TerrainType
+{
+    if (auto mesh = m_pLuaZone->zoneMesh())
+    {
+        return (*mesh)->getTerrainAt(
+            position["x"].get_or<float>(0),
+            position["y"].get_or<float>(0),
+            position["z"].get_or<float>(0));
+    }
+
+    return TerrainType::None;
+}
+
+/************************************************************************
+ *  Function: getFloorId()
+ *  Purpose : Returns the floor ID at the given position
+ *  Example : zone:getFloorId(player:getPos())
+ ************************************************************************/
+
+auto CLuaZone::getFloorId(const sol::table& position) -> uint8
+{
+    if (auto mesh = m_pLuaZone->zoneMesh())
+    {
+        return (*mesh)->getFloorId(
+            position["x"].get_or<float>(0),
+            position["y"].get_or<float>(0),
+            position["z"].get_or<float>(0));
+    }
+
+    return 0;
+}
+
 //======================================================//
 
 void CLuaZone::Register()
@@ -348,6 +387,8 @@ void CLuaZone::Register()
     SOL_REGISTER("getUptime", CLuaZone::getUptime);
     SOL_REGISTER("reloadNavmesh", CLuaZone::reloadNavmesh);
     SOL_REGISTER("isNavigablePoint", CLuaZone::isNavigablePoint);
+    SOL_REGISTER("getTerrainType", CLuaZone::getTerrainType);
+    SOL_REGISTER("getFloorId", CLuaZone::getFloorId);
     SOL_REGISTER("insertDynamicEntity", CLuaZone::insertDynamicEntity);
 
     SOL_REGISTER("getSoloBattleMusic", CLuaZone::getSoloBattleMusic);

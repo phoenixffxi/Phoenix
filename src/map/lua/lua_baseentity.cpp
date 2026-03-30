@@ -67,6 +67,7 @@
 #include "treasure_pool.h"
 #include "weapon_skill.h"
 #include "zone.h"
+#include "zone_mesh.h"
 
 #include "ai/ai_container.h"
 
