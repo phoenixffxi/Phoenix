@@ -409,6 +409,31 @@ INSERT INTO `mob_spawn_slots` VALUES (113,77,0);
 INSERT INTO `mob_spawn_slots` VALUES (113,78,0);
 INSERT INTO `mob_spawn_slots` VALUES (113,79,0);
 
+-- West Sarutabaruta
+INSERT INTO `mob_spawn_slots` VALUES (115,1,0);
+INSERT INTO `mob_spawn_slots` VALUES (115,2,0);
+INSERT INTO `mob_spawn_slots` VALUES (115,3,0);
+INSERT INTO `mob_spawn_slots` VALUES (115,4,0);
+INSERT INTO `mob_spawn_slots` VALUES (115,5,0);
+INSERT INTO `mob_spawn_slots` VALUES (115,6,0);
+INSERT INTO `mob_spawn_slots` VALUES (115,7,0);
+INSERT INTO `mob_spawn_slots` VALUES (115,8,0);
+INSERT INTO `mob_spawn_slots` VALUES (115,9,0);
+INSERT INTO `mob_spawn_slots` VALUES (115,10,0);
+INSERT INTO `mob_spawn_slots` VALUES (115,11,0);
+INSERT INTO `mob_spawn_slots` VALUES (115,12,0);
+INSERT INTO `mob_spawn_slots` VALUES (115,13,0);
+INSERT INTO `mob_spawn_slots` VALUES (115,14,0);
+INSERT INTO `mob_spawn_slots` VALUES (115,15,0);
+INSERT INTO `mob_spawn_slots` VALUES (115,16,0);
+INSERT INTO `mob_spawn_slots` VALUES (115,17,0);
+INSERT INTO `mob_spawn_slots` VALUES (115,18,0);
+INSERT INTO `mob_spawn_slots` VALUES (115,19,0);
+INSERT INTO `mob_spawn_slots` VALUES (115,20,0);
+INSERT INTO `mob_spawn_slots` VALUES (115,21,0);
+INSERT INTO `mob_spawn_slots` VALUES (115,22,0);
+INSERT INTO `mob_spawn_slots` VALUES (115,23,0);
+
 -- Ro'Maeve
 INSERT INTO `mob_spawn_slots` VALUES (122,1,0);
 INSERT INTO `mob_spawn_slots` VALUES (122,2,0);
