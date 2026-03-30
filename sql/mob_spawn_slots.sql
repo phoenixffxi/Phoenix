@@ -1360,6 +1360,47 @@ INSERT INTO `mob_spawn_slots` VALUES (176,8,0);
 INSERT INTO `mob_spawn_slots` VALUES (176,9,0);
 INSERT INTO `mob_spawn_slots` VALUES (176,10,0);
 
+-- Ve'Lugannon Palace
+INSERT INTO `mob_spawn_slots` VALUES (177,1,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,2,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,3,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,4,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,5,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,6,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,7,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,8,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,9,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,10,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,11,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,12,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,13,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,14,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,15,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,16,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,17,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,18,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,19,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,20,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,21,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,22,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,23,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,24,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,25,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,26,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,27,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,28,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,29,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,30,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,31,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,32,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,33,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,34,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,35,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,36,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,37,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,38,0);
+INSERT INTO `mob_spawn_slots` VALUES (177,39,0);
+
 -- Lower Delkfutt's Tower
 INSERT INTO `mob_spawn_slots` VALUES (184,1,0);
 INSERT INTO `mob_spawn_slots` VALUES (184,2,0);
