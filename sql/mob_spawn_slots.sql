@@ -431,6 +431,9 @@ INSERT INTO `mob_spawn_slots` VALUES (122,18,0);
 INSERT INTO `mob_spawn_slots` VALUES (122,19,0);
 INSERT INTO `mob_spawn_slots` VALUES (122,20,0);
 
+-- Yuhtunga Jungle
+INSERT INTO `mob_spawn_slots` VALUES (123,1,0);
+
 -- Qufim Island
 INSERT INTO `mob_spawn_slots` VALUES (126,1,0);
 INSERT INTO `mob_spawn_slots` VALUES (126,2,0);
