@@ -2430,6 +2430,26 @@ fishresponse_t* FishingCheck(CCharEntity* PChar, uint8 fishingSkill, rod_t* rod,
         ItemPoolWeight = 0;
     }
 
+    if (PChar->getZone() == ZONE_BUBURIMU_PENINSULA && PChar->GetLocalVar("bChartActive") == 1)
+    {
+        MobHookPool.clear();
+
+        for (auto fishmob : FishZoneMobList[PChar->getZone()])
+        {
+            if (fishmob.second->mobName == "Puffer_Pugil_Brigand")
+            {
+                CMobEntity* PMob = dynamic_cast<CMobEntity*>(zoneutils::GetEntity(fishmob.second->mobId, TYPE_MOB));
+                if (PMob != nullptr && PMob->GetLocalVar("hooked") == 0 && !PMob->isAlive())
+                {
+                    auto* mob = fishmob.second;
+                    MobHookPool.insert(std::make_pair(mob, 100));
+                }
+
+                break;
+            }
+        }
+    }
+
     // Select mob
     if (!MobHookPool.empty())
     {
@@ -2447,7 +2467,7 @@ fishresponse_t* FishingCheck(CCharEntity* PChar, uint8 fishingSkill, rod_t* rod,
     if (!ChestPool.empty())
     {
         // Brigand's Chart Quest
-        if (PChar->GetLocalVar("bChartActive") == 1)
+        if (PChar->getZone() == ZONE_BUBURIMU_PENINSULA && PChar->GetLocalVar("bChartActive") == 1)
         {
             for (uint32 chestId : ChestPool)
             {
@@ -2709,9 +2729,13 @@ void FishingAction(CCharEntity* PChar, const GP_CLI_COMMAND_FISHING_2_MODE mode,
             fishingarea_t*  fishingArea = GetFishingArea(PChar);
             fishresponse_t* response    = nullptr;
 
-            if (PChar->GetLocalVar("pChartActive") == 1 && PChar->getZone() == ZONE_VALKURM_DUNES)
+            if (PChar->getZone() == ZONE_VALKURM_DUNES && PChar->GetLocalVar("pChartActive") == 1)
             {
                 fishingArea = FishingAreaList[ZONE_VALKURM_DUNES][2];
+            }
+            else if (PChar->getZone() == ZONE_BUBURIMU_PENINSULA && PChar->GetLocalVar("bChartActive") == 1)
+            {
+                fishingArea = FishingAreaList[ZONE_BUBURIMU_PENINSULA][2];
             }
 
             if (PChar->hookedFish != nullptr)
