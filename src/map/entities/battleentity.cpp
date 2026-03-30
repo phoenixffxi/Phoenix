@@ -794,14 +794,29 @@ uint16 CBattleEntity::GetSubWeaponRank()
 
 uint16 CBattleEntity::GetRangedWeaponRank()
 {
-    uint16 wDamage = GetRangedWeaponDmg();
-    // Check ranged slot first, otherwise use ammo if it's null
+    // Weapon rank uses only the ranged weapon's damage (or ammo for throwing),
+    // not the combined ranged + ammo total that GetRangedWeaponDmg() returns.
+    uint16 wDamage = 0;
+
+    // Check ranged slot first, otherwise use ammo if it's null (throwing weapons)
     CItemEquipment* item = m_Weapons[SLOT_RANGED] ? m_Weapons[SLOT_RANGED] : m_Weapons[SLOT_AMMO];
 
     if (auto* weapon = dynamic_cast<CItemWeapon*>(item))
     {
+        if ((weapon->getReqLvl() > GetMLevel()) && objtype == TYPE_PC)
+        {
+            uint16 scaleddmg = weapon->getDamage();
+            scaleddmg *= GetMLevel() * 3;
+            scaleddmg /= 4;
+            scaleddmg /= weapon->getReqLvl();
+            wDamage = scaleddmg;
+        }
+        else
+        {
+            wDamage = weapon->getDamage();
+        }
+
         wDamage += weapon->getModifier(Mod::RANGED_DMG_RANK);
-        wDamage -= weapon->getModifier(Mod::DMG_RATING); // Company sword, Maneater, etc don't boost weapon rank
     }
 
     return wDamage / 9;
