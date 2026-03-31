@@ -7954,18 +7954,6 @@ void loadDeathTimestamp(CCharEntity* PChar)
     }
 }
 
-void loadZoningFlag(CCharEntity* PChar)
-{
-    const auto rset = db::preparedStmt("SELECT pos_prevzone FROM chars WHERE charid = ? LIMIT 1", PChar->id);
-    if (rset && rset->rowsCount() && rset->next())
-    {
-        if (PChar->getZone() == rset->get<uint16>("pos_prevzone"))
-        {
-            PChar->loc.zoning = true;
-        }
-    }
-}
-
 bool isOrchestrionPlaced(CCharEntity* PChar)
 {
     for (auto safeContainerId : { LOC_MOGSAFE, LOC_MOGSAFE2 })

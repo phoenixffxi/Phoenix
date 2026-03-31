@@ -658,6 +658,28 @@ auto CLuaBaseEntity::getCharVarsWithPrefix(const std::string& prefix) -> sol::ta
 }
 
 /************************************************************************
+ *  Function: getCharVarsWithSuffix()
+ *  Purpose :
+ *  Example : local vars = player:getCharVarsWithSuffix("]mustZone")
+ *  Notes   :
+ ************************************************************************/
+
+auto CLuaBaseEntity::getCharVarsWithSuffix(const std::string& suffix) -> sol::table
+{
+    sol::table table = lua.create_table();
+
+    if (auto* PChar = dynamic_cast<CCharEntity*>(m_PBaseEntity))
+    {
+        for (const auto& [varName, value] : PChar->getCharVarsWithSuffix(suffix))
+        {
+            table[varName] = value;
+        }
+    }
+
+    return table;
+}
+
+/************************************************************************
  *  Function: setCharVar()
  *  Purpose : Updates PC's variable to an explicit value
  *  Example : player:setCharVar("[ZM]Status", 4)
@@ -1468,12 +1490,30 @@ void CLuaBaseEntity::setMoghouseFlag(uint16 flag)
 
 bool CLuaBaseEntity::needToZone(const sol::object& arg0)
 {
-    if (arg0 != sol::lua_nil)
+    if (m_PBaseEntity->objtype != TYPE_PC)
     {
-        m_PBaseEntity->loc.zoning = arg0.as<bool>();
+        ShowWarning("Attempting call needToZone from invalid entity type (%s).", m_PBaseEntity->getName());
+        return false;
     }
 
-    return m_PBaseEntity->loc.zoning;
+    if (auto* PChar = dynamic_cast<CCharEntity*>(m_PBaseEntity))
+    {
+        bool writeZoning = false;
+        if (arg0 != sol::lua_nil)
+        {
+            writeZoning = arg0.as<bool>();
+        }
+
+        if (writeZoning)
+        {
+            PChar->setCharVar("[generic]mustZone", PChar->getZone());
+            return true;
+        }
+
+        return PChar->getCharVar("[generic]mustZone") != 0;
+    }
+
+    return false;
 }
 
 /************************************************************************
@@ -19675,6 +19715,7 @@ void CLuaBaseEntity::Register()
     // Variables
     SOL_REGISTER("getCharVar", CLuaBaseEntity::getCharVar);
     SOL_REGISTER("getCharVarsWithPrefix", CLuaBaseEntity::getCharVarsWithPrefix);
+    SOL_REGISTER("getCharVarsWithSuffix", CLuaBaseEntity::getCharVarsWithSuffix);
     SOL_REGISTER("setCharVar", CLuaBaseEntity::setCharVar);
     SOL_REGISTER("setCharVarExpiration", CLuaBaseEntity::setCharVarExpiration);
     SOL_REGISTER("getVar", CLuaBaseEntity::getCharVar); // Compatibility binding

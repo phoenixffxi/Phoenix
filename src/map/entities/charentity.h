@@ -660,6 +660,7 @@ public:
 
     auto getCharVar(const std::string& varName) const -> int32;
     auto getCharVarsWithPrefix(const std::string& prefix) -> std::vector<std::pair<std::string, int32>>;
+    auto getCharVarsWithSuffix(const std::string& prefix) -> std::vector<std::pair<std::string, int32>>;
     void setCharVar(const std::string& varName, int32 value, uint32 expiry = 0);
     void setVolatileCharVar(const std::string& varName, int32 value, uint32 expiry = 0);
     void updateCharVarCache(const std::string& varName, int32 value, uint32 expiry = 0);

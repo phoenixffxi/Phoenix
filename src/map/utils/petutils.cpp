@@ -1362,7 +1362,7 @@ void DetachPet(CBattleEntity* PMaster)
 
             // master using leave command
             auto* state = dynamic_cast<CAbilityState*>(PMaster->PAI->GetCurrentState());
-            if ((state && state->GetAbility()->getID() == ABILITY_LEAVE) || PChar->loc.zoning || PChar->isDead())
+            if ((state && state->GetAbility()->getID() == ABILITY_LEAVE) || PChar->isDead())
             {
                 PMob->PEnmityContainer->Clear();
                 PMob->SetBattleTargetID(0);

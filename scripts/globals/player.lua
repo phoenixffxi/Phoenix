@@ -169,6 +169,15 @@ xi.player.onGameIn = function(player, firstLogin, zoning)
         end
     end
 
+    local zoneID    = player:getZoneID()
+    local questVars = player:getCharVarsWithSuffix(']mustZone')
+
+    for tag, value in pairs(questVars) do
+        if value ~= zoneID then
+            player:setCharVar(tag, 0)
+        end
+    end
+
     -- Abyssea starting quest should be flagged when expansion is active
     if
         xi.settings.main.ENABLE_ABYSSEA == 1 and
