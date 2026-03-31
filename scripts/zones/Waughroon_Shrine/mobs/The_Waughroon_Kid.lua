@@ -34,7 +34,7 @@ entity.onMobFight = function(mob, target)
         mob:getHPP() <= 40 and
         mob:getLocalVar('counterstanceUsed') == 0
     then
-        mob:useMobAbility(xi.mobSkill.COUNTERSTANCE)
+        mob:useMobAbility(xi.mobSkill.COUNTERSTANCE_3)
         mob:setLocalVar('counterstanceUsed', 1)
     end
 end
