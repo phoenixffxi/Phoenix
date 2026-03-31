@@ -220,8 +220,8 @@ INSERT INTO `mob_groups` VALUES (11,5860,5,'Skvader',0,32,3072,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (12,2750,5,'Morozko',300,0,30,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (13,1525,5,'Giant_Buffalo',300,0,966,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (14,537,5,'Brontotaur',300,0,359,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (15,3690,5,'Snow_Maiden',0,128,820,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (16,1303,5,'Father_Frost',0,128,820,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (15,3690,5,'Snow_Maiden',0,128,820,13500,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (16,1303,5,'Father_Frost',0,128,820,14000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (17,3130,5,'Phasma',300,1,1995,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (18,3806,5,'Succubus_Bats',300,0,234,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (19,1085,5,'Doom_Soldier',300,0,683,0,0,0,NULL);
@@ -249,11 +249,11 @@ INSERT INTO `mob_groups` VALUES (40,2156,5,'Jormungand',0,128,1410,100000,100000
 INSERT INTO `mob_groups` VALUES (41,2256,5,'King_Buffalo',300,0,3100,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (42,2761,5,'Mountain_Worm',300,0,1744,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (43,2669,5,'Mindgazer',300,0,315,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (44,500,5,'Bonnacon',0,32,336,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (45,1507,5,'Geush_Urvan',0,128,951,30000,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (44,500,5,'Bonnacon',0,32,336,8800,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (45,1507,5,'Geush_Urvan',0,128,951,32500,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (46,4333,5,'White_Coney',0,128,284,8790,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (47,434,5,'Black_Coney',0,128,284,8790,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (48,6095,5,'Mountain_Worm_NM',75600,0,1801,5800,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (48,6095,5,'Mountain_Worm_NM',75600,0,1801,6000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (49,6096,5,'Frost_Flambeau',7200,0,3129,8000,0,0,NULL);
 -- 50 free
 -- 51 free

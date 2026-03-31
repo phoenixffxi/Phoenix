@@ -185,6 +185,10 @@ xi.mobSkill =
 
     ABYSS_BLAST                   =  492,
 
+    SNORT_1                       =  495,
+    RABID_DANCE                   =  496,
+    LOWING                        =  497,
+
     TRICLIP_1                     =  498,
     BACK_SWISH_1                  =  499,
     MOW_1                         =  500,
@@ -256,6 +260,7 @@ xi.mobSkill =
     COLD_WAVE_2                   =  600, -- Snoll Tzar
     HIEMAL_STORM                  =  601, -- Snoll Tzar
     HYPOTHERMAL_COMBUSTION_2      =  602, -- Snoll Tzar
+    COUNTERSTANCE_1               =  603, -- Geush Urvan
 
     NETHER_BLAST_1                =  610,
 
@@ -291,7 +296,6 @@ xi.mobSkill =
     GRAND_SLAM_1                  =  665,
 
     POWER_ATTACK_ARMED_1          =  667,
-
     KICK_BACK                     =  668,
     IMPLOSION                     =  669,
 
@@ -506,7 +510,6 @@ xi.mobSkill =
 
     -- EES_?                         = 1153,
     RANGED_ATTACK_3               = 1154,
-
     SUBSONICS_1                   = 1155,
     MARROW_DRAIN_1                = 1156,
     SLIPSTREAM_1                  = 1157,
@@ -548,7 +551,6 @@ xi.mobSkill =
     MURK                          = 1232,
     MATERIAL_FEND                 = 1233,
     CAROUSEL_1                    = 1234,
-
     PILE_PITCH                    = 1235,
     GUIDED_MISSILE                = 1236,
     HYPER_PULSE                   = 1237,
@@ -560,7 +562,6 @@ xi.mobSkill =
     NEGATIVE_WHIRL_1              = 1243,
     STYGIAN_VAPOR                 = 1244,
     WINDS_OF_PROMYVION_1          = 1245,
-
     SPIRIT_ABSORPTION             = 1246,
     BINARY_ABSORPTION             = 1247,
     TRINARY_ABSORPTION            = 1248,
@@ -581,7 +582,6 @@ xi.mobSkill =
     NUCLEAR_WASTE                 = 1268,
     CHEMICAL_BOMB                 = 1269,
     PARTICLE_SHIELD               = 1270,
-
     EMPTY_CUTTER                  = 1271,
 
     IMPALEMENT                    = 1274,
@@ -593,8 +593,7 @@ xi.mobSkill =
     -- EES_?                         = 1327,
 
     HOOF_VOLLEY                   = 1330,
-
-    COUNTERSTANCE                 = 1331, -- The Waughroon Kid
+    COUNTERSTANCE_3               = 1331, -- The Waughroon Kid
     EXTREMELY_BAD_BREATH_1        = 1332,
     CONTAGION_TRANSFER            = 1333,
     CONTAMINATION                 = 1334,
