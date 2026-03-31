@@ -50,8 +50,8 @@ void CAIActionQueue::checkAction(timer::time_point tick)
         if (tick > topaction.start_time + topaction.delay)
         {
             queueAction_t action = timerQueue.top();
-            handleAction(action);
             timerQueue.pop();
+            handleAction(action);
         }
         else
         {
@@ -64,8 +64,8 @@ void CAIActionQueue::checkAction(timer::time_point tick)
         if (tick > topaction.start_time + topaction.delay && (!topaction.checkState || PEntity->PAI->CanChangeState()))
         {
             auto action = actionQueue.top();
-            handleAction(action);
             actionQueue.pop();
+            handleAction(action);
         }
         else
         {
