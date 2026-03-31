@@ -70,7 +70,6 @@ entity.onMobFight = function(mob, target)
         end
 
         yazquhlMob:useMobAbility(xi.mobSkill.VORPAL_BLADE_1, scTarget)
-        mob:showText(mob, ID.text.REST_BENEATH)
 
         -- Only add Emnity if the skillchain closer target is different than its current target
         if
@@ -112,6 +111,22 @@ entity.onMobMobskillChoose = function(mob, target, skillId)
         table.insert(tpTable, xi.mobSkill.VORPAL_BLADE_1)
     end
 
+    return tpTable[math.random(1, #tpTable)]
+end
+
+entity.onMobWeaponSkill = function(mob, target, skill, action)
+    if skill:getID() == xi.mobSkill.MIGHTY_STRIKES_1 then
+        mob:showText(mob, ID.text.YOU_WILL_REGRET)
+        return
+    end
+
+    mob:setMobAbilityEnabled(true)
+
+    local instance = mob:getInstance()
+    if not instance then
+        return
+    end
+
     local weaponskillMessage =
     {
         [1] = ID.text.TAKE_THIS,
@@ -121,21 +136,6 @@ entity.onMobMobskillChoose = function(mob, target, skillId)
 
     if mob:isEngaged() then
         mob:showText(mob, weaponskillMessage[math.random(1, #weaponskillMessage)])
-    end
-
-    return tpTable[math.random(1, #tpTable)]
-end
-
-entity.onMobWeaponSkill = function(mob, target, skill, action)
-    if skill:getID() == xi.mobSkill.MIGHTY_STRIKES_1 then
-        mob:showText(mob, ID.text.YOU_WILL_REGRET)
-    end
-
-    mob:setMobAbilityEnabled(true)
-
-    local instance = mob:getInstance()
-    if not instance then
-        return
     end
 
     local gowam = GetMobByID(ID.mob.GOWAM, instance)

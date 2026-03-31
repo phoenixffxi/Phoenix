@@ -16,6 +16,7 @@ spellObject.onMobSpawn = function(mob)
     xi.trust.message(mob, xi.trust.messageOffset.SPAWN)
 
     mob:setMobMod(xi.mobMod.CAN_SHIELD_BLOCK, 1)
+    mob:setMobMod(xi.mobMod.CAN_PARRY, 3)
 
     local lvl = mob:getMainLvl()
     local shieldMasteryPower = 0
@@ -103,10 +104,11 @@ spellObject.onMobSpawn = function(mob)
 
     mob:setTrustTPSkillSettings(ai.tp.CLOSER_UNTIL_TP, ai.s.RANDOM, 2000)
 
-    mob:addListener('WEAPONSKILL_USE', 'AAEV_WEAPONSKILL_USE', function(mobArg, target, wsid, tp, action)
-        if wsid == 3710 then
+    mob:addListener('WEAPONSKILL_USE', 'AAEV_WEAPONSKILL_USE', function(mobArg, target, skill, tp, action)
+        local skillId = skill:getID()
+        if skillId == xi.mobSkill.ARROGANCE_INCARNATE_2 then
             xi.trust.message(mobArg, xi.trust.messageOffset.SPECIAL_MOVE_1)
-        elseif wsid == 3712 then
+        elseif skillId == xi.mobSkill.DOMINION_SLASH_2 then
             xi.trust.message(mobArg, xi.trust.messageOffset.SPECIAL_MOVE_2)
         end
     end)

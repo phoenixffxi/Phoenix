@@ -15,6 +15,8 @@ end
 spellObject.onMobSpawn = function(mob)
     xi.trust.message(mob, xi.trust.messageOffset.SPAWN)
 
+    mob:addMobMod(xi.mobMod.CAN_PARRY, 3)
+
     mob:addMod(xi.mod.INSPIRATION_FAST_CAST, 50)
 
     -----------------------------------
@@ -53,10 +55,9 @@ spellObject.onMobSpawn = function(mob)
 
     mob:setTrustTPSkillSettings(ai.tp.CLOSER_UNTIL_TP, ai.s.HIGHEST, 3000)
 
-    mob:addListener('WEAPONSKILL_USE', 'AMCHUCHU_WEAPONSKILL_USE', function(mobArg, target, wsid, tp, action)
-        if wsid == 61 then -- Dimidation
-            -- Nothing-wothing wrong with a little mad science now and again!
-            xi.trust.message(mobArg, xi.trust.messageOffset.SPECIAL_MOVE_1)
+    mob:addListener('WEAPONSKILL_USE', 'AMCHUCHU_WEAPONSKILL_USE', function(mobArg, target, skill, tp, action)
+        if skill:getID() == xi.mobSkill.DIMIDIATION_1 then
+            xi.trust.message(mobArg, xi.trust.messageOffset.SPECIAL_MOVE_1) -- Nothing-wothing wrong with a little mad science now and again!
         end
     end)
 end

@@ -72,6 +72,7 @@ namespace charutils
 {
 
 void LoadExpTable();
+void SetExpDifficultyCurve(std::vector<std::pair<uint16, EMobDifficulty>>& curve, std::pair<uint16, uint8>& incrediblyEasyPreyData);
 auto LoadChar(Scheduler& scheduler, MapConfig config, uint32 charId) -> std::unique_ptr<CCharEntity>;
 void LoadSpells(CCharEntity* PChar);
 void LoadInventory(CCharEntity* PChar);

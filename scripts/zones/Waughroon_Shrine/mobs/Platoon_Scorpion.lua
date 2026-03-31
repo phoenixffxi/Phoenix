@@ -94,47 +94,49 @@ entity.onMobFight = function(mob)
 end
 
 entity.onMobWeaponSkill = function(mob, target, skill, action)
-    local battlefield = mob:getBattlefield()
+    if target:getID() == action:getPrimaryTargetID() then
+        local battlefield = mob:getBattlefield()
 
-    if not battlefield then
-        return
+        if not battlefield then
+            return
+        end
+
+        -- Store the skill we are using
+        local skillId = skill:getID()
+
+        -- Apply debuff based on skill used and record the time we used it - play flavor text with a 3 second delay to allow skill to finish.
+        if skillId == xi.mobSkill.WILD_RAGE then
+            mob:setAutoAttackEnabled(false)
+            mob:setLocalVar('disableEnd', GetSystemTime() + math.random(10, 25))
+            mob:setLocalVar('isDisabled', 1)
+            mob:timer(3000, function(mobArg)
+                mobArg:messageText(mobArg, ID.text.SCORPION_IS_STUNNED, false)
+            end)
+
+        elseif skillId == xi.mobSkill.EARTH_POUNDER then
+            mob:setMobMod(xi.mobMod.NO_MOVE, 1)
+            mob:setLocalVar('disableEnd', GetSystemTime() + math.random(10, 25))
+            mob:setLocalVar('isDisabled', 1)
+            mob:timer(3000, function(mobArg)
+                mobArg:messageText(mobArg, ID.text.SCORPION_IS_BOUND, false)
+            end)
+        end
+
+        -- If mimic is active, nothing to do here
+        if battlefield:getLocalVar('mimicActive') == 1 then
+            return
+        end
+
+        -- If we make it here, we are the leader of a new mimic round, set it up!
+        local nextRound = battlefield:getLocalVar('mimicRound') + 1
+
+        battlefield:setLocalVar('mimicActive', 1)
+        battlefield:setLocalVar('mimicSkill', skillId)
+        battlefield:setLocalVar('mimicLeader', mob:getID())
+        battlefield:setLocalVar('mimicRound', nextRound)
+
+        mob:setLocalVar('mimicRound', nextRound)
     end
-
-    -- Store the skill we are using
-    local skillId = skill:getID()
-
-    -- Apply debuff based on skill used and record the time we used it - play flavor text with a 3 second delay to allow skill to finish.
-    if skillId == xi.mobSkill.WILD_RAGE then
-        mob:setAutoAttackEnabled(false)
-        mob:setLocalVar('disableEnd', GetSystemTime() + math.random(10, 25))
-        mob:setLocalVar('isDisabled', 1)
-        mob:timer(3000, function(mobArg)
-            mobArg:messageText(mobArg, ID.text.SCORPION_IS_STUNNED, false)
-        end)
-
-    elseif skillId == xi.mobSkill.EARTH_POUNDER then
-        mob:setMobMod(xi.mobMod.NO_MOVE, 1)
-        mob:setLocalVar('disableEnd', GetSystemTime() + math.random(10, 25))
-        mob:setLocalVar('isDisabled', 1)
-        mob:timer(3000, function(mobArg)
-            mobArg:messageText(mobArg, ID.text.SCORPION_IS_BOUND, false)
-        end)
-    end
-
-    -- If mimic is active, nothing to do here
-    if battlefield:getLocalVar('mimicActive') == 1 then
-        return
-    end
-
-    -- If we make it here, we are the leader of a new mimic round, set it up!
-    local nextRound = battlefield:getLocalVar('mimicRound') + 1
-
-    battlefield:setLocalVar('mimicActive', 1)
-    battlefield:setLocalVar('mimicSkill', skillId)
-    battlefield:setLocalVar('mimicLeader', mob:getID())
-    battlefield:setLocalVar('mimicRound', nextRound)
-
-    mob:setLocalVar('mimicRound', nextRound)
 end
 
 entity.onMobDeath = function(mob, player, optParams)

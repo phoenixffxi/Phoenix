@@ -243,7 +243,7 @@ public:
     bool   hasEquipped(uint16 equipmentID); // Returns true if item is equipped in any slot
     bool   hasItem(uint16 itemID, const sol::object& location);
     uint32 getItemCount(uint16 itemID);
-    bool   addItem(sol::variadic_args va);
+    auto   addItem(sol::variadic_args va) const -> CItem*;
     bool   delItem(uint16 itemID, int32 quantity, const sol::object& containerID);
     bool   delItemAt(uint16 itemID, int32 quantity, uint8 containerId, uint8 slotId);
     bool   delContainerItems(const sol::object& containerID);
@@ -961,9 +961,6 @@ public:
     auto   getContestRewardStatus() -> sol::table;
     auto   getContestRankHistory() -> sol::table;
     void   claimContestReward();
-
-    void addPacketMod(uint16 packetId, uint16 offset, uint8 value);
-    void clearPacketMods();
 
     bool operator==(const CLuaBaseEntity& other) const
     {

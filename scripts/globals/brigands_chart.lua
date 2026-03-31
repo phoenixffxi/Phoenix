@@ -10,15 +10,30 @@ local ID = zones[xi.zone.BUBURIMU_PENINSULA]
 xi = xi or {}
 xi.brigandsChart = xi.brigandsChart or {}
 
+local function removeChest(npc)
+    npc:setAnimationSub(0, false)
+    npc:setStatus(xi.status.DISAPPEAR)
+    npc:resetLocalVars()
+end
+
+local function clearChests()
+    for _, chestId in pairs(ID.npc.JADE_ETUI_TABLE) do
+        local chest = GetNPCByID(chestId)
+        if chest then
+            removeChest(chest)
+        end
+    end
+end
+
 local function resetEvent()
     local qm1        = GetNPCByID(ID.npc.BRIGAND_CHART_QM)
     local npcHume    = GetNPCByID(ID.npc.BRIGAND_CHART_HUME)
     local shimmering = GetNPCByID(ID.npc.SHIMMERING_POINT)
-    local jadeEtuis  = ID.npc.JADE_ETUI_TABLE
 
     if qm1 then
         local player = GetPlayerByID(qm1:getLocalVar('bChartSpawnerID'))
-        if player then
+        if player and player:getLocalVar('bChartActive') == 1 then
+            player:setLocalVar('bChartActive', 0)
             player:delStatusEffect(xi.effect.LEVEL_RESTRICTION)
             player:changeMusic(0, 0)
             player:changeMusic(1, 0)
@@ -41,18 +56,7 @@ local function resetEvent()
     end
 
     -- Disappear Jade Etuis
-    if jadeEtuis then
-        for _, id in ipairs(jadeEtuis) do
-            local jade = GetNPCByID(id)
-
-            if jade then
-                jade:setStatus(xi.status.DISAPPEAR)
-                jade:setAnimation(xi.animation.NONE)
-                jade:entityAnimationPacket(xi.animationString.STATUS_DISAPPEAR)
-                jade:resetLocalVars()
-            end
-        end
-    end
+    clearChests()
 end
 
 local eventTable =
@@ -66,7 +70,7 @@ local eventTable =
     [6] = { time = 180, text = ID.text.WHAT_CAN_I_DO + 5 },
 }
 
-local function emoteChecking(npc, spawner, timeRemaining, timeOfLastCheck, phase)
+local function emoteChecking(npc, timeRemaining, timeOfLastCheck, phase)
     -- Event continues if player leaves zone
     -- https://www.youtube.com/watch?v=_opqVW-HIu0
     -- https://discord.com/channels/443544205206355968/446401624102010901/650072608922009660
@@ -77,9 +81,9 @@ local function emoteChecking(npc, spawner, timeRemaining, timeOfLastCheck, phase
 
     -- Check time. Show text and move phase if enough time has passed.
     if totalTimeElapsed > eventTable[phase].time then
-        local qm1 = GetNPCByID(ID.npc.BRIGAND_CHART_QM)
-        if qm1 then
-            spawner:showText(qm1, eventTable[phase].text)
+        local spawner = GetPlayerByID(npc:getLocalVar('bChartSpawnerID'))
+        if spawner then
+            spawner:showText(npc, eventTable[phase].text)
         end
 
         phase = phase + 1
@@ -87,7 +91,7 @@ local function emoteChecking(npc, spawner, timeRemaining, timeOfLastCheck, phase
 
     if newTimeRemaining > 0 then
         npc:timer(1000, function(npcArg)
-            emoteChecking(npcArg, spawner, newTimeRemaining, currentTime, phase)
+            emoteChecking(npcArg, newTimeRemaining, currentTime, phase)
         end)
     else
         resetEvent()
@@ -95,23 +99,24 @@ local function emoteChecking(npc, spawner, timeRemaining, timeOfLastCheck, phase
 end
 
 xi.brigandsChart.onTrade = function(player, npc, trade)
-    --[[
     if
         npc:getStatus() == xi.status.NORMAL and
+        npc:getLocalVar('bChartSpawnerID') == 0 and
         npcUtil.tradeHasExactly(trade, xi.item.BRIGANDS_CHART)
     then
         player:messageSpecial(ID.text.RETURN_TO_SEA, xi.item.BRIGANDS_CHART)
         player:startEvent(902)
     end
-    ]]
 end
 
 xi.brigandsChart.onEventUpdate = function(player, csid, option, npc)
     if csid == 902 and option == 0 then
         player:confirmTrade()
 
+        clearChests()
         npc:setLocalVar('bChartSpawnerID', player:getID())
 
+        player:setLocalVar('bChartActive', 1)
         player:changeMusic(0, 136)
         player:changeMusic(1, 136)
         player:changeMusic(2, 136)
@@ -146,11 +151,110 @@ xi.brigandsChart.onEventFinish = function(player, csid, option, npc)
         player:showText(npc, ID.text.MY_ITEM, xi.item.PENGUIN_RING)
 
         -- Events will occur for the next 180 seconds according to eventTable
-        emoteChecking(npc, player, 180, GetSystemTime(), 1)
-        -- TODO: add fishing hook to catch chests & monster specific to event
+        emoteChecking(npc, 180, GetSystemTime(), 1)
     end
 end
 
+xi.brigandsChart.rewards =
+{
+    common =
+    {
+        {
+            { itemId = xi.item.BEASTCOIN,               weight = xi.loot.weight.NORMAL   },
+            { itemId = xi.item.BLUE_PITCHER,            weight = xi.loot.weight.NORMAL   },
+            { itemId = xi.item.COPY_OF_LINES_AND_SPACE, weight = xi.loot.weight.VERY_LOW },
+            { itemId = xi.item.DWARF_PUGIL,             weight = xi.loot.weight.NORMAL   },
+            { itemId = xi.item.GOLD_BEASTCOIN,          weight = xi.loot.weight.LOW      },
+            { itemId = xi.item.MYTHRIL_BEASTCOIN,       weight = xi.loot.weight.LOW      },
+            { itemId = xi.item.MYTHRIL_SWORD,           weight = xi.loot.weight.LOW      },
+            { itemId = xi.item.ORDELLE_BRONZEPIECE,     weight = xi.loot.weight.LOW      },
+            { itemId = xi.item.ONE_BYNE_BILL,           weight = xi.loot.weight.VERY_LOW },
+            { itemId = xi.item.PLATINUM_BEASTCOIN,      weight = xi.loot.weight.VERY_LOW },
+            { itemId = xi.item.RUSTY_CAP,               weight = xi.loot.weight.LOW      },
+            { itemId = xi.item.RUSTY_LEGGINGS,          weight = xi.loot.weight.NORMAL   },
+            { itemId = xi.item.SILVER_BEASTCOIN,        weight = xi.loot.weight.NORMAL   },
+            { itemId = xi.item.SKY_POT,                 weight = xi.loot.weight.LOW      },
+            { itemId = xi.item.WOODEN_FLOWERPOT,        weight = xi.loot.weight.VERY_LOW },
+        },
+    },
+
+    special =
+    {
+        {
+            { itemId = xi.item.NONE,         weight = xi.loot.weight.NORMAL },
+            { itemId = xi.item.PENGUIN_RING, weight = xi.loot.weight.NORMAL },
+        },
+    },
+}
+
 xi.brigandsChart.jadeEtuiOnTrigger = function(player, npc)
-    -- TODO: Distribute rewards
+    local qm1 = GetNPCByID(ID.npc.BRIGAND_CHART_QM)
+    if not qm1 then
+        return
+    end
+
+    local spawnerID = qm1:getLocalVar('bChartSpawnerID')
+    if spawnerID == 0 then
+        -- Event has been reset since this chest spawned, remove it
+        removeChest(npc)
+        return
+    end
+
+    if
+        player:getID() ~= spawnerID or
+        npc:getLocalVar(xi.animationString.OPEN_CRATE_GLOW) ~= 0
+    then
+        return
+    end
+
+    npc:entityAnimationPacket(xi.animationString.OPEN_CRATE_GLOW)
+    npc:setLocalVar(xi.animationString.OPEN_CRATE_GLOW, 1)
+
+    local chestNumber = player:getLocalVar('bChartChestNum')
+    local rewardTable = {}
+    local penguinFound = false
+
+    -- Fourth or fifth chest, chance to give penguin ring
+    if chestNumber >= 3 then
+        local specialReward = utils.selectFromLootGroups(player, xi.brigandsChart.rewards.special)[1]
+        if
+            specialReward and
+            specialReward.itemId == xi.item.PENGUIN_RING
+        then
+            table.insert(rewardTable, specialReward.itemId)
+            table.insert(rewardTable, xi.item.YELLOW_GLOBE)
+            table.insert(rewardTable, xi.item.YELLOW_GLOBE)
+            table.insert(rewardTable, xi.item.YELLOW_GLOBE)
+            penguinFound = true
+        end
+    end
+
+    if #rewardTable == 0 then
+        local commonReward = utils.selectFromLootGroups(player, xi.brigandsChart.rewards.common)[1]
+        table.insert(rewardTable, commonReward.itemId)
+    end
+
+    for _, reward in pairs(rewardTable) do
+        if reward ~= nil then
+            player:addTreasure(reward, npc)
+        end
+    end
+
+    if
+        penguinFound or
+        chestNumber > 4
+    then
+        -- Event automatically ends once the ring has been found
+        resetEvent()
+    else
+        player:setLocalVar('bChartChestNum', chestNumber + 1)
+
+        npc:timer(15000, function(npcArg)
+            npcArg:entityAnimationPacket(xi.animationString.STATUS_DISAPPEAR)
+        end)
+
+        npc:timer(16000, function(npcArg)
+            removeChest(npcArg)
+        end)
+    end
 end

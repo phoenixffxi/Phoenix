@@ -58,6 +58,9 @@ public:
     auto pendingEquipChanges() const -> const std::vector<equip_change_t>&;
     auto dirtyContainers() const -> const std::set<CONTAINER_ID>&;
 
+    // Dirty item exdata flush
+    void flushDirtyItems(class CCharEntity* PChar);
+
 private:
     xi::bitset<MAX_CONTAINER_ID> syncedContainers_{};
     std::vector<equip_change_t>  pendingEquipChanges_;

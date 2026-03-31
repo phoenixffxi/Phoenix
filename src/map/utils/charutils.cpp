@@ -128,6 +128,23 @@ static constexpr int32                               ExpTableRowCount = 60;
 std::array<std::array<uint16, 20>, ExpTableRowCount> g_ExpTable;
 std::array<uint16, 100>                              g_ExpPerLevel;
 
+std::vector<std::pair<uint16, EMobDifficulty>> ExpToDifficultyTable = {};
+// Eventually loaded as something like...
+/*
+    //  { EXP value, check result }
+    { 400, EMobDifficulty::IncrediblyTough },
+    { 350, EMobDifficulty::VeryTough },
+    { 220, EMobDifficulty::Tough },
+    { 200, EMobDifficulty::EvenMatch },
+    { 160, EMobDifficulty::DecentChallenge },
+    { 60, EMobDifficulty::EasyPrey },
+*/
+
+std::pair<uint16, uint8> IncrediblyEasyPreyCheck = { 1, 56 };
+// { EXP value, mob level }
+// { 1, 56 }
+// Must gain more than 1 exp but less than the lowest of ExpToDifficultyTable and greater than or equal to mob level
+
 namespace
 {
 
@@ -4481,8 +4498,29 @@ void LoadExpTable()
             g_ExpPerLevel[level] = rset->get<uint16>("exp");
         }
     }
+
+    // run the function to fetch the /check difficulty curve.
+    auto expDifficultyCurveFunction = lua["xi"]["expDifficultyCurve"]["loadExpDifficultyCurve"];
+
+    if (!expDifficultyCurveFunction.valid())
+    {
+        ShowCritical("xi.expDifficultyCurve.loadExpDifficultyCurve function is not valid. Terminating.");
+        std::terminate();
+    }
+
+    auto res = expDifficultyCurveFunction();
+    if (!res.valid())
+    {
+        ShowCritical("xi.expDifficultyCurve.loadExpDifficultyCurve function failed to execute. Terminating.");
+        std::terminate();
+    }
 }
 
+void SetExpDifficultyCurve(std::vector<std::pair<uint16, EMobDifficulty>>& curve, std::pair<uint16, uint8>& incrediblyEasyPreyData)
+{
+    ExpToDifficultyTable    = curve;
+    IncrediblyEasyPreyCheck = incrediblyEasyPreyData;
+}
 /************************************************************************
  *                                                                       *
  *  Return mob difficulty according to level difference                  *
@@ -4495,31 +4533,29 @@ EMobDifficulty CheckMob(uint8 charlvl, CBattleEntity* PMob)
 
     uint32 baseExp = GetBaseExp(charlvl, moblvl);
 
-    if (baseExp >= 400)
+    if (baseExp == 0)
     {
-        return EMobDifficulty::IncrediblyTough;
+        return EMobDifficulty::TooWeak;
     }
-    if (baseExp >= 350)
+
+    // Iterate over exp  difficulty table, populated similarly to
+    // { 400, EMobDifficulty::IncrediblyTough }
+    // { 350, EMobDifficulty::EMobDifficulty::VeryTough }
+    for (auto& entry : ExpToDifficultyTable)
     {
-        return EMobDifficulty::VeryTough;
+        auto exp = entry.first;
+
+        if (baseExp >= exp)
+        {
+            auto difficulty = entry.second;
+            return difficulty;
+        }
     }
-    if (baseExp >= 220)
-    {
-        return EMobDifficulty::Tough;
-    }
-    if (baseExp >= 200)
-    {
-        return EMobDifficulty::EvenMatch;
-    }
-    if (baseExp >= 160)
-    {
-        return EMobDifficulty::DecentChallenge;
-    }
-    if (baseExp >= 60)
-    {
-        return EMobDifficulty::EasyPrey;
-    }
-    if (baseExp >= 1 && moblvl > 55)
+
+    auto IEPLevel = IncrediblyEasyPreyCheck.first;
+    auto IEPExp   = IncrediblyEasyPreyCheck.second;
+
+    if (baseExp >= IEPExp && moblvl > IEPLevel)
     {
         return EMobDifficulty::IncrediblyEasyPrey;
     }

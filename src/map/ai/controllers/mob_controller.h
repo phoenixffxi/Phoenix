@@ -43,13 +43,10 @@ public:
     virtual void Reset() override;
 
     virtual auto MobSkill(uint16 targid, uint16 wsid, Maybe<timer::duration> castTimeOverride) -> bool;
-    virtual auto Ability(uint16 targid, uint16 abilityid) -> bool override
-    {
-        return false;
-    }
-    auto MobSkill(int listId = 0) -> bool;
-    auto TryCastSpell() -> bool;
-    auto TrySpecialSkill() -> bool;
+    virtual auto Ability(uint16 targid, uint16 abilityid) -> bool override;
+    auto         MobSkill(int listId = 0) -> bool;
+    auto         TryCastSpell() -> bool;
+    auto         TrySpecialSkill() -> bool;
 
     auto         CanFollowTarget(CBattleEntity*) const -> bool;
     auto         CanAggroTarget(CBattleEntity*) const -> bool;

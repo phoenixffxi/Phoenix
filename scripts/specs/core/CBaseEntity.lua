@@ -951,6 +951,7 @@ end
 
 -- TODO: This one is going to be really messy, might be better to create multiple definitions
 -- for readability.
+---@return CItem?
 function CBaseEntity:addItem(...)
 end
 

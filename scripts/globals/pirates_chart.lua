@@ -110,6 +110,7 @@ local function removeFromConfrontation(player)
     player:changeMusic(1, 0)
     player:changeMusic(2, 101)
     player:changeMusic(3, 102)
+    player:setLocalVar('pChartActive', 0)
 end
 
 local function resetEvent(members)
@@ -304,6 +305,7 @@ xi.piratesChart.onEventUpdate = function(player, csid, option, npc)
     end
 
     player:confirmTrade()
+    player:setLocalVar('pChartActive', 1)
     npc:setLocalVar('pChartSpawnerID', player:getID())
     barnacledBox:setLocalVar('pChartSpawnerID', player:getID())
 
@@ -425,10 +427,8 @@ xi.piratesChart.onMobDeath = function(mob, player, optParams)
 end
 
 xi.piratesChart.onItemCheck = function(target, item, param, caster)
-    local targetID = target:getID()
-
-    for _, pirateMobID in ipairs(barnacleBuddyIDs) do
-        if targetID == pirateMobID then
+    for _, pirateMobID in pairs(barnacleBuddyIDs) do
+        if target:getID() == pirateMobID then
             return 0
         end
     end

@@ -208,6 +208,8 @@ void CacheLuaObjectFromFile(const std::string& filename, bool overwriteCurrentEn
 auto GetCacheEntryFromFilename(const std::string& filename) -> sol::table;
 void OnEntityLoad(CBaseEntity* PEntity);
 
+void LoadExpDifficultyCurves(const sol::table& expToDifficultyTable, const uint8 incrediblyEasyPreyLevel, const uint16 incrediblyEasyPreyMinExp);
+
 void PopulateIDLookupsByFilename(Maybe<std::string> maybeFilename = std::nullopt);
 void PopulateIDLookupsByZone(Maybe<uint16> maybeZoneId = std::nullopt);
 

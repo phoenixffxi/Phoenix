@@ -49,6 +49,21 @@ CMobController::CMobController(CMobEntity* PEntity)
 {
 }
 
+auto CMobController::Ability(uint16 targid, uint16 abilityid) -> bool
+{
+    if (PMob->PRecastContainer->HasRecast(RECAST_ABILITY, static_cast<Recast>(abilityid), 0s))
+    {
+        return false;
+    }
+
+    if (POwner->PAI->CanChangeState())
+    {
+        return POwner->PAI->Internal_Ability(targid, abilityid);
+    }
+
+    return false;
+}
+
 auto CMobController::Tick(const timer::time_point tick) -> Task<void>
 {
     TracyZoneScoped;

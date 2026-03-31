@@ -174,10 +174,12 @@ local packets =
             mnkMob:setMod(xi.mod.ADDITIVE_GUARD, 100)
 
             player.actions:engage(mnkMob)
+            mnkMob:updateEnmity(player)
             xi.test.world:tickEntity(player)
             xi.test.world:skipTime(1)
             player.actions:useWeaponskill(mnkMob, xi.weaponskill.PYRRHIC_KLEOS)
             xi.test.world:skipTime(3)
+            mnkMob:disengage()
         end,
 
         expected =

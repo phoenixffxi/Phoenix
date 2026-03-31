@@ -985,10 +985,12 @@ void doSynthSkillUp(CCharEntity* PChar)
             continue; // Break current loop iteration.
         }
 
-        int16 baseDiff = PChar->CraftContainer->getQuantity(skillID - 40) - charSkill / 10; // the 5 lvl difference rule for breaks does NOT consider the effects of image support/gear
-
-        // We don't Skill Up if over 10 levels above synth skill. (Or at AND above synth skill in era)
-        if ((settings::get<bool>("map.CRAFT_MODERN_SYSTEM") && (baseDiff <= -11)) || (!settings::get<bool>("map.CRAFT_MODERN_SYSTEM") && baseDiff <= 0))
+        // We don't Skill Up if the recipe isn't difficult enough.
+        // Era -> Char lvl must be bellow recipe level. Retail -> Char level myst be bellow recipe level + 10.
+        // Char level does NOT count the effects of image support/gear.
+        int16 baseDiff = PChar->CraftContainer->getQuantity(skillID - 40) - charSkill / 10;
+        int8  minDiff  = settings::get<bool>("map.CRAFT_MODERN_SYSTEM") ? -11 : 0;
+        if (baseDiff <= minDiff)
         {
             continue; // Break current loop iteration.
         }
@@ -1056,47 +1058,41 @@ void doSynthSkillUp(CCharEntity* PChar)
         //------------------------------
         // Section 4: Calculate Skill Up Amount
         //------------------------------
-        uint8 skillUpAmount = 1;
-
+        uint8 maxAllowedAmount = 1;
         if (charSkill < 600) // No skill ups over 0.1 happen over level 60.
         {
-            uint8  satier = 0; // Maximum ammount of skill-up quantity value.
-            double chance = 0.0f;
-
-            // Set satier initial rank
-            if (baseDiff >= 10)
+            if (baseDiff >= 12)
             {
-                satier = 5;
+                maxAllowedAmount = 4;
             }
-            else if (baseDiff >= 8)
+            else if (baseDiff >= 6)
             {
-                satier = 4;
-            }
-            else if (baseDiff >= 5)
-            {
-                satier = 3;
+                maxAllowedAmount = 3;
             }
             else if (baseDiff >= 3)
             {
-                satier = 2;
+                maxAllowedAmount = 2;
             }
-            else if (baseDiff >= 1)
-            {
-                satier = 1;
-            }
+        }
 
-            for (uint8 i = 0; i < 4; i++) // cicle up to 4 times until cap (0.5) or break. The lower the satier, the more likely it will break
-            {
-                chance = satier * 0.15f;
-                random = xirand::GetRandomNumber(1.);
+        // TODO: More info needed for rates. This is using what was already here since the dark ages.
+        uint8 skillUpAmount = 1;
+        if (maxAllowedAmount > 1)
+        {
+            uint8  cicles = maxAllowedAmount - 1;
+            double chance = 0.0f;
 
-                if (chance < random)
+            for (uint8 i = 1; i <= cicles; i++) // Cicle up to 3 times until cap (0.4 skill-up value) or break. The lower the maxAllowedAmount, the more likely it will break.
+            {
+                chance = maxAllowedAmount * 0.1f;
+
+                if (chance < xirand::GetRandomNumber(1.))
                 {
                     break;
                 }
 
                 skillUpAmount++;
-                satier--;
+                maxAllowedAmount--;
             }
         }
 

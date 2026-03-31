@@ -2244,6 +2244,7 @@ xi.item =
     LEVIATITE                           = 3525,
     CARBITE                             = 3526,
     FENRITE                             = 3527,
+    LEGION_PASS                         = 3528,
     MOG_KUPON_A_SAP                     = 3533,
     MOG_KUPON_A_JAD                     = 3534,
     MOG_KUPON_A_RUB                     = 3537,

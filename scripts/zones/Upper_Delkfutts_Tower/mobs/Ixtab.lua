@@ -14,13 +14,8 @@ entity.spawnPoints =
 
 entity.phList =
 {
-    [ID.mob.IXTAB[1] - 3] = ID.mob.IXTAB[1],
-    [ID.mob.IXTAB[1] - 2] = ID.mob.IXTAB[1],
-    [ID.mob.IXTAB[1] - 1] = ID.mob.IXTAB[1],
-
-    [ID.mob.IXTAB[2] - 3] = ID.mob.IXTAB[2],
-    [ID.mob.IXTAB[2] - 2] = ID.mob.IXTAB[2],
-    [ID.mob.IXTAB[2] - 1] = ID.mob.IXTAB[2],
+    [ID.mob.IXTAB[1] - 1] = ID.mob.IXTAB[1], -- Confirmed on retail
+    [ID.mob.IXTAB[2] - 1] = ID.mob.IXTAB[2], -- Confirmed on retail
 }
 
 entity.onMobInitialize = function(mob)

@@ -220,8 +220,8 @@ INSERT INTO `mob_groups` VALUES (11,5860,5,'Skvader',0,32,3072,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (12,2750,5,'Morozko',300,0,30,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (13,1525,5,'Giant_Buffalo',300,0,966,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (14,537,5,'Brontotaur',300,0,359,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (15,3690,5,'Snow_Maiden',0,128,820,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (16,1303,5,'Father_Frost',0,128,820,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (15,3690,5,'Snow_Maiden',0,128,820,13500,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (16,1303,5,'Father_Frost',0,128,820,14000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (17,3130,5,'Phasma',300,1,1995,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (18,3806,5,'Succubus_Bats',300,0,234,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (19,1085,5,'Doom_Soldier',300,0,683,0,0,0,NULL);
@@ -249,11 +249,11 @@ INSERT INTO `mob_groups` VALUES (40,2156,5,'Jormungand',0,128,1410,100000,100000
 INSERT INTO `mob_groups` VALUES (41,2256,5,'King_Buffalo',300,0,3100,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (42,2761,5,'Mountain_Worm',300,0,1744,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (43,2669,5,'Mindgazer',300,0,315,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (44,500,5,'Bonnacon',0,32,336,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (45,1507,5,'Geush_Urvan',0,128,951,30000,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (44,500,5,'Bonnacon',0,32,336,8800,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (45,1507,5,'Geush_Urvan',0,128,951,32500,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (46,4333,5,'White_Coney',0,128,284,8790,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (47,434,5,'Black_Coney',0,128,284,8790,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (48,6095,5,'Mountain_Worm_NM',75600,0,1801,5800,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (48,6095,5,'Mountain_Worm_NM',75600,0,1801,6000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (49,6096,5,'Frost_Flambeau',7200,0,3129,8000,0,0,NULL);
 -- 50 free
 -- 51 free
@@ -266,8 +266,8 @@ INSERT INTO `mob_groups` VALUES (55,6812,5,'Little_Wingman',0,128,0,0,0,0,NULL);
 -- Bearclaw_Pinnacle (Zone 6)
 -- ------------------------------------------------------------
 INSERT INTO `mob_groups` VALUES (1,3684,6,'Snoll_Tzar',0,128,0,7000,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (2,384,6,'Bearclaw_Rabbit',0,128,0,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (3,383,6,'Bearclaw_Leveret',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (2,384,6,'Bearclaw_Rabbit',0,128,0,10000,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (3,383,6,'Bearclaw_Leveret',0,128,0,4500,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (4,7100,6,'Snow_Devil_war',0,128,0,2000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (9,7099,6,'Snow_Devil_blm',0,128,0,2000,4000,0,NULL);
 INSERT INTO `mob_groups` VALUES (5,1190,6,'Eldertaur',0,128,0,5000,10000,0,NULL);
@@ -13120,7 +13120,7 @@ INSERT INTO `mob_groups` VALUES (1,372,192,'Battue_Bats',300,0,244,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (2,1737,192,'Goblin_Thug',300,0,1170,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (3,443,192,'Blade_Bat',300,0,461,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (4,1744,192,'Goblin_Weaver',300,0,1183,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (5,2475,192,'Magicked_Bones_club',0,128,2867,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (5,2475,192,'Magicked_Bones_club',300,0,2867,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (6,4915,192,'Troika_Bats',300,0,244,0,0,0,'ABYSSEA');
 INSERT INTO `mob_groups` VALUES (7,6077,192,'Deathwatch_Beetle',300,0,670,0,0,0,'ABYSSEA');
 INSERT INTO `mob_groups` VALUES (8,6667,192,'Goblin_Flesher',300,0,1035,0,0,0,'ABYSSEA');
@@ -13143,7 +13143,7 @@ INSERT INTO `mob_groups` VALUES (24,483,192,'Boggart',300,0,319,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (25,4567,192,'Nocuous_Weapon',0,32,1497,550,0,0,'WOTG');
 INSERT INTO `mob_groups` VALUES (26,4319,192,'Wendigo_war',300,0,2638,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (27,4320,192,'Wendigo_blm',300,0,2640,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (28,7072,192,'Magicked_Bones_dagger',0,128,2867,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (28,7072,192,'Magicked_Bones_dagger',300,0,2867,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Ordelles_Caves (Zone 193)
