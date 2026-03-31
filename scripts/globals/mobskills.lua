@@ -317,12 +317,12 @@ xi.mobskills.mobPhysicalMove = function(mob, target, skill, numHits, accMod, ftp
     end
 
     -- all hits missed
-    if hitslanded == 0 or finaldmg == 0 then
+    if hitslanded == 0 then
         finaldmg   = 0
         hitslanded = 0
         skill:setMsg(xi.msg.basic.SKILL_MISS)
     -- calculate tp return of mob skill and add if hit primary target
-    elseif skill:getPrimaryTargetID() == target:getID() then
+    elseif skill:getPrimaryTargetID() == target:getID() and finaldmg > 0 then
         local tpReturn = xi.combat.tp.getSingleMeleeHitTPReturn(mob, false)
         tpReturn = tpReturn + 10 * (hitslanded - 1) -- extra hits give 10 TP each
         mob:addTP(tpReturn)
