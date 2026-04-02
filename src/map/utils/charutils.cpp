@@ -6146,7 +6146,7 @@ void SaveCharStats(CCharEntity* PChar)
                      PChar->health.mp,
                      PChar->profile.mhflag,
                      PChar->GetMJob(),
-                     PChar->GetSJob(),
+                     PChar->GetSJob(true),
                      PChar->petZoningInfo.petID,
                      static_cast<uint8>(PChar->petZoningInfo.petType),
                      PChar->petZoningInfo.petHP,

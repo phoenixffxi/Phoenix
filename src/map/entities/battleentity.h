@@ -359,7 +359,7 @@ public:
     bool isSitting();
 
     JOBTYPE GetMJob() const;
-    JOBTYPE GetSJob() const;
+    JOBTYPE GetSJob(bool ignoreRestriction = false) const;
     uint8   GetMLevel() const;
     uint8   GetSLevel() const;
 
