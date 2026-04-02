@@ -323,10 +323,10 @@ xi.dynamis.dynaInfoEra =
         hasSeenWinCSVar        = 'DynaQufim_HasSeenWinCS',
         winKI                  = xi.ki.DYNAMIS_QUFIM_SLIVER,
         winTitle               = xi.title.DYNAMIS_QUFIM_INTERLOPER,
-        winQM                  = 16945640, -- TODO - Update after DATs
+        winQM                  = 16945563,
         entryPos               = { -19, -17, 104, 253, xi.zone.DYNAMIS_QUFIM },
         ejectPos               = { 18, -19, 162, 240, xi.zone.QUFIM_ISLAND },
-        sjRestrictionNPC       = 16945639, -- TODO - Update after DATs
+        sjRestrictionNPC       = 16945564,
         sjRestrictionLocation  =
         {
             [1]  = { -264.498, -19.255, 401.465, 54  },
