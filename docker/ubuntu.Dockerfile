@@ -150,6 +150,7 @@ COPY --chown=$UNAME:$UGROUP \
     --exclude=.git \
     --exclude=losmeshes/** \
     --exclude=navmeshes/** \
+    --exclude=ximeshes/** \
     --exclude=scripts \
     --exclude=sql \
     . /server

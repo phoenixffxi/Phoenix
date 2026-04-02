@@ -31,6 +31,7 @@
 #include "status_effect_container.h"
 #include "trade_container.h"
 #include "treasure_pool.h"
+#include "zone_mesh.h"
 
 #include "ai/ai_container.h"
 #include "ai/controllers/mob_controller.h"
@@ -1578,12 +1579,27 @@ void CZoneEntities::WideScan(CCharEntity* PChar, uint16 radius)
 {
     TracyZoneScoped;
 
+    const auto  maybeZoneMesh = m_zone->zoneMesh();
+    const auto& charPos       = PChar->loc.p;
+    const auto  charFloor     = maybeZoneMesh ? (*maybeZoneMesh)->getFloorId(charPos.x, charPos.y, charPos.z) : uint8{ 0 };
+
+    auto isSameFloor = [&](const CBaseEntity* PEntity) -> bool
+    {
+        if (!maybeZoneMesh)
+        {
+            return true;
+        }
+
+        const auto& pos = PEntity->loc.p;
+        return (*maybeZoneMesh)->getFloorId(pos.x, pos.y, pos.z) == charFloor;
+    };
+
     PChar->pushPacket<GP_SERV_COMMAND_TRACKING_STATE>(GP_TRACKING_STATE::ListStart);
     for (const auto& entityList : { m_npcList, m_mobList })
     {
         for (const auto& [_, PEntity] : entityList)
         {
-            if (PEntity->isWideScannable() && isWithinDistance(PChar->loc.p, PEntity->loc.p, radius))
+            if (PEntity->isWideScannable() && isWithinDistance(PChar->loc.p, PEntity->loc.p, radius) && isSameFloor(PEntity))
             {
                 PChar->pushPacket<GP_SERV_COMMAND_TRACKING_LIST>(PChar, PEntity);
             }
