@@ -82,6 +82,44 @@ auto getType(const CItem* item) -> Type
         return Type::AssaultLog;
     }
 
+    if (itemId == BONANZA_PEARL || itemId == MOG_BONANZA_MARBLE)
+    {
+        return Type::LotteryTicket;
+    }
+
+    if ((itemId >= MAZE_TABULA_M01 && itemId <= MAZE_TABULA_M03) ||
+        (itemId >= MAZE_TABULA_R01 && itemId <= MAZE_TABULA_R03))
+    {
+        return Type::Tabula;
+    }
+
+    if (itemId == EVOLITH)
+    {
+        return Type::Evolith;
+    }
+
+    if (itemId >= WOODWORKING_SET_25 && itemId <= COOKING_SET_95)
+    {
+        return Type::CraftingSet;
+    }
+
+    if (itemId == GLOWING_LAMP)
+    {
+        return Type::GlowingLamp;
+    }
+
+    if (itemId == CHOCOBO_EGG_FAINTLY || itemId == CHOCOBO_EGG_SLIGHTLY ||
+        (itemId >= CHOCOBO_EGG_A_BIT && itemId <= CHOCOBO_EGG_SOMEWHAT))
+    {
+        return Type::ChocoboEgg;
+    }
+
+    if (itemId == VCS_REGISTRATION_CARD || itemId == CHOCOCARD_M ||
+        itemId == CHOCOCARD_F || itemId == CRA_RACING_FORM)
+    {
+        return Type::ChocoboCard;
+    }
+
     return Type::None;
 }
 
@@ -113,6 +151,27 @@ auto toTable(const CItem* item, sol::table& table) -> bool
             return true;
         case Type::RaceCertificate:
             item->exdata<RaceCertificate>().toTable(table);
+            return true;
+        case Type::LotteryTicket:
+            item->exdata<LotteryTicket>().toTable(table);
+            return true;
+        case Type::Tabula:
+            item->exdata<Tabula>().toTable(table);
+            return true;
+        case Type::Evolith:
+            item->exdata<Evolith>().toTable(table);
+            return true;
+        case Type::CraftingSet:
+            item->exdata<CraftingSet>().toTable(table);
+            return true;
+        case Type::GlowingLamp:
+            item->exdata<GlowingLamp>().toTable(table);
+            return true;
+        case Type::ChocoboEgg:
+            item->exdata<ChocoboEgg>().toTable(table);
+            return true;
+        case Type::ChocoboCard:
+            item->exdata<ChocoboCard>().toTable(table);
             return true;
         default:
             return false;
@@ -147,6 +206,27 @@ auto fromTable(CItem* item, const sol::table& data) -> bool
             return true;
         case Type::RaceCertificate:
             item->exdata<RaceCertificate>().fromTable(data);
+            return true;
+        case Type::LotteryTicket:
+            item->exdata<LotteryTicket>().fromTable(data);
+            return true;
+        case Type::Tabula:
+            item->exdata<Tabula>().fromTable(data);
+            return true;
+        case Type::Evolith:
+            item->exdata<Evolith>().fromTable(data);
+            return true;
+        case Type::CraftingSet:
+            item->exdata<CraftingSet>().fromTable(data);
+            return true;
+        case Type::GlowingLamp:
+            item->exdata<GlowingLamp>().fromTable(data);
+            return true;
+        case Type::ChocoboEgg:
+            item->exdata<ChocoboEgg>().fromTable(data);
+            return true;
+        case Type::ChocoboCard:
+            item->exdata<ChocoboCard>().fromTable(data);
             return true;
         default:
             return false;

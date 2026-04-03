@@ -15,11 +15,7 @@ local localSettings =
     MAX_PEARLS            = 1,
     DISABLE_PRIMEVAL_BREW = 1,      -- 0 will turn on the prank the moogle shows when purchasing
 
-    -- 0x55: New Year's Nomad Mog Bonanza 2021
-    -- 0x5A: 20th Vana'versary Nomad Mog Bonanza
-    -- 0x5C: 21st Vana'versary Nomad Mog Bonanza
-    -- 0x5E: <number>
-    BONANZA_ID = 0x5C,
+    BONANZA_ID = xi.bonanza.eventId.TWENTY_FIRST_VANAVERSARY_NOMAD,
 
     -- ALL TIMES JST
     BUYING_PERIOD_START     = { year = 2023, month = 5, day = 17, hour = 1 },
@@ -260,22 +256,17 @@ local giveBonanzaPearl = function(player, number)
         number > 999 or
         number < 0
     then
-        print(string.format('giveBonanzaPearl: %s tried to create a pear with invalid number: %d', player:getName(), number))
+        print(string.format('giveBonanzaPearl: %s tried to create a pearl with invalid number: %d', player:getName(), number))
         return nil
     end
 
-    player:addItem({ id = xi.item.BONANZA_PEARL,
+    player:addItem({
+        id = xi.item.BONANZA_PEARL,
         exdata =
         {
-            [0] = bit.band(number, 0xFF),
-            [1] = bit.band(bit.rshift(number,  8), 0xFF),
-            [2] = bit.band(bit.rshift(number, 16), 0xFF),
-            [3] = bit.band(localSettings.BONANZA_ID, 0xFF),
-            [4] = 0, -- 0xCE, -- These might not be needed
-            [5] = 0, -- 0x62, -- These might not be needed
-            [6] = 0, -- 0x95, -- These might not be needed
-            [7] = 0, -- 0x23, -- These might not be needed
-        }
+            number = number,
+            title  = localSettings.BONANZA_ID,
+        },
     })
 end
 
@@ -287,17 +278,11 @@ xi.events.mogBonanza.onBonanzaMoogleTrade = function(player, npc, trade)
     then
         local bonanzaPearl = trade:getItem(0)
         local exData       = bonanzaPearl:getExData()
-        local eventId      = exData[3]
 
-        if eventId == localSettings.BONANZA_ID then
-            local baseCs      = csidLookup[player:getZoneID()]
-            local pearlNumber = 0
+        if exData.title == localSettings.BONANZA_ID then
+            local baseCs = csidLookup[player:getZoneID()]
 
-            for exIndex = 0, 2 do
-                pearlNumber = pearlNumber + bit.lshift(exData[exIndex], 8 * exIndex)
-            end
-
-            player:setLocalVar('prizeRank', getPrizeRank(player, pearlNumber))
+            player:setLocalVar('prizeRank', getPrizeRank(player, exData.number))
             player:startEvent(baseCs + 2, 0, 0, 0, 0, 0, 0, 0, localSettings.BONANZA_ID)
         end
     end

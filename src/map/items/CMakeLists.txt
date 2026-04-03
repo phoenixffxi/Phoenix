@@ -8,16 +8,30 @@ set(ITEM_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/betting_slip.h
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/brenner_book.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/brenner_book.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/chocobo_card.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/chocobo_card.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/chocobo_egg.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/chocobo_egg.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/crafting_set.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/crafting_set.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/evolith.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/evolith.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/glowing_lamp.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/glowing_lamp.h
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/honeymoon_ticket.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/honeymoon_ticket.h
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/legion_pass.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/legion_pass.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/lottery_ticket.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/lottery_ticket.h
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/meeble_grimoire.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/meeble_grimoire.h
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/perpetual_hourglass.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/perpetual_hourglass.h
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/race_certificate.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/race_certificate.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/tabula.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/tabula.h
     ${CMAKE_CURRENT_SOURCE_DIR}/item_currency.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/item_currency.h
     ${CMAKE_CURRENT_SOURCE_DIR}/item_equipment.cpp

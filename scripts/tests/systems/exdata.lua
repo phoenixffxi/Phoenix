@@ -234,6 +234,170 @@ describe('Exdata', function()
         assert(ex.plan == xi.chocoboRaising.honeymoonPlan.HIKING)
     end)
 
+    it('can get and set Lottery Ticket exdata', function()
+        local item = player:addItem({ id = xi.item.BONANZA_PEARL, quantity = 1 })
+        assert(item)
+
+        item:setExData(
+            {
+                number = 123456,
+                title  = xi.bonanza.eventId.TWENTY_FIRST_VANAVERSARY_NOMAD,
+            })
+
+        local ex = item:getExData()
+        assert(ex.number == 123456)
+        assert(ex.title == xi.bonanza.eventId.TWENTY_FIRST_VANAVERSARY_NOMAD)
+    end)
+
+    it('can get and set Tabula exdata', function()
+        local item = player:addItem({ id = xi.item.MAZE_TABULA_M01, quantity = 1 })
+        assert(item)
+
+        item:setExData(
+            {
+                voucher = xi.maze.voucher.ACTUALIZATION_TEAM,
+                runes   =
+                {
+                    { id = xi.maze.rune.AQUAN,  rotation = 2, position = 0 },
+                    { id = xi.maze.rune.DRAGON, rotation = 1, position = 13 },
+                },
+                uses    = 10,
+            })
+
+        local ex = item:getExData()
+        assert(ex.voucher == xi.maze.voucher.ACTUALIZATION_TEAM)
+        assert(#ex.runes == 2)
+        assert(ex.runes[1].id == xi.maze.rune.AQUAN)
+        assert(ex.runes[1].rotation == 2)
+        assert(ex.runes[1].position == 0)
+        assert(ex.runes[2].id == xi.maze.rune.DRAGON)
+        assert(ex.runes[2].rotation == 1)
+        assert(ex.runes[2].position == 13)
+        assert(ex.uses == 10)
+    end)
+
+    it('can get and set Evolith exdata', function()
+        local item = player:addItem({ id = xi.item.EVOLITH, quantity = 1 })
+        assert(item)
+
+        item:setExData(
+            {
+                augment   = 120,
+                shape     = xi.evolith.shape.DOWN_FILLED,
+                element   = xi.evolith.element.FIRE,
+                bonus     = 3,
+                signature = 'TestCrafter',
+            })
+
+        local ex = item:getExData()
+        assert(ex.augment == 120)
+        assert(ex.shape == xi.evolith.shape.DOWN_FILLED)
+        assert(ex.element == xi.evolith.element.FIRE)
+        assert(ex.bonus == 3)
+        assert(ex.signature == 'TestCrafter')
+    end)
+
+    it('can get and set Crafting Set exdata', function()
+        local item = player:addItem({ id = xi.item.WOODWORKING_SET_25, quantity = 1 })
+        assert(item)
+
+        item:setExData(
+            {
+                quality   = 100,
+                signature = 'Test',
+            })
+
+        local ex = item:getExData()
+        assert(ex.quality == 100)
+        assert(ex.signature == 'Test')
+    end)
+
+    it('can get and set Glowing Lamp exdata', function()
+        local item = player:addItem({ id = xi.item.GLOWING_LAMP, quantity = 1 })
+        assert(item)
+
+        local now = GetSystemTime()
+        item:setExData(
+            {
+                chamberId = xi.einherjar.chamber.SCHWERTLEITE,
+                flags     = 3,
+                startTime = now,
+                endTime   = now + 1800,
+            })
+
+        local ex = item:getExData()
+        assert(ex.chamberId == xi.einherjar.chamber.SCHWERTLEITE)
+        assert(ex.flags == 3)
+        assert(ex.startTime == now)
+        assert(ex.endTime == now + 1800)
+    end)
+
+    it('can get and set Chocobo Egg exdata', function()
+        local item = player:addItem({ id = xi.item.CHOCOBO_EGG_FAINTLY_WARM, quantity = 1 })
+        assert(item)
+
+        item:setExData(
+            {
+                dna     = { 3, 5, 7 },
+                ability = xi.chocoboRaising.ability.TREASURE_FINDER,
+                plan    = xi.chocoboRaising.honeymoonPlan.SPORTS,
+                isBred  = true,
+            })
+
+        local ex = item:getExData()
+        assert(ex.dna[1] == 3)
+        assert(ex.dna[2] == 5)
+        assert(ex.dna[3] == 7)
+        assert(ex.ability == xi.chocoboRaising.ability.TREASURE_FINDER)
+        assert(ex.plan == xi.chocoboRaising.honeymoonPlan.SPORTS)
+        assert(ex.isBred == true)
+    end)
+
+    it('can get and set Chocobo Card exdata', function()
+        local item = player:addItem({ id = xi.item.VCS_REGISTRATION_FORM, quantity = 1 })
+        assert(item)
+
+        item:setExData(
+            {
+                strength    = { trait = true, rp = 8, rank = xi.chocoboRaising.statRank.IMPRESSIVE },
+                endurance   = { trait = false, rp = 4, rank = xi.chocoboRaising.statRank.AVERAGE },
+                discernment = { trait = true, rp = 12, rank = xi.chocoboRaising.statRank.OUTSTANDING },
+                receptivity = { rp = 20, rank = xi.chocoboRaising.statRank.FIRST_CLASS },
+                dna         = { 2, 4, 6 },
+                abilities   = { xi.chocoboRaising.ability.GALLOP, xi.chocoboRaising.ability.CANTER },
+                temperament = xi.chocoboRaising.temperament.ENIGMATIC,
+                weather     = xi.chocoboRaising.weather.CLOUDY,
+                gender      = xi.chocoboRaising.gender.FEMALE,
+                color       = xi.chocoboRaising.color.RED,
+                size        = xi.chocoboRacing.jockeySize.HUME_F,
+                name        = 'ChocoTest',
+            })
+
+        local ex = item:getExData()
+        assert(ex.strength.trait == true)
+        assert(ex.strength.rp == 8)
+        assert(ex.strength.rank == xi.chocoboRaising.statRank.IMPRESSIVE)
+        assert(ex.endurance.trait == false)
+        assert(ex.endurance.rp == 4)
+        assert(ex.endurance.rank == xi.chocoboRaising.statRank.AVERAGE)
+        assert(ex.discernment.trait == true)
+        assert(ex.discernment.rp == 12)
+        assert(ex.discernment.rank == xi.chocoboRaising.statRank.OUTSTANDING)
+        assert(ex.receptivity.rp == 20)
+        assert(ex.receptivity.rank == xi.chocoboRaising.statRank.FIRST_CLASS)
+        assert(ex.dna[1] == 2)
+        assert(ex.dna[2] == 4)
+        assert(ex.dna[3] == 6)
+        assert(ex.abilities[1] == xi.chocoboRaising.ability.GALLOP)
+        assert(ex.abilities[2] == xi.chocoboRaising.ability.CANTER)
+        assert(ex.temperament == xi.chocoboRaising.temperament.ENIGMATIC)
+        assert(ex.weather == xi.chocoboRaising.weather.CLOUDY)
+        assert(ex.gender == xi.chocoboRaising.gender.FEMALE)
+        assert(ex.color == xi.chocoboRaising.color.RED)
+        assert(ex.size == xi.chocoboRacing.jockeySize.HUME_F)
+        assert(ex.name == 'ChocoTest')
+    end)
+
     it('unhandled items fall back to raw bytes', function()
         local item = player:addItem({ id = xi.item.FIRE_CRYSTAL, quantity = 1 })
         assert(item)

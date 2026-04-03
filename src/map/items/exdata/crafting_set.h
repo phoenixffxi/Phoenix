@@ -21,32 +21,20 @@
 
 #pragma once
 
-#include "enums/exdata.h"
-
-#include "exdata/base.h"
-
-#include "exdata/assault_log.h"
-#include "exdata/betting_slip.h"
-#include "exdata/brenner_book.h"
-#include "exdata/chocobo_card.h"
-#include "exdata/chocobo_egg.h"
-#include "exdata/crafting_set.h"
-#include "exdata/evolith.h"
-#include "exdata/glowing_lamp.h"
-#include "exdata/honeymoon_ticket.h"
-#include "exdata/legion_pass.h"
-#include "exdata/lottery_ticket.h"
-#include "exdata/meeble_grimoire.h"
-#include "exdata/perpetual_hourglass.h"
-#include "exdata/race_certificate.h"
-#include "exdata/tabula.h"
-
-class CItem;
+#include "base.h"
 
 namespace Exdata
 {
-auto getType(const CItem* item) -> Type;
+#pragma pack(push, 1)
+struct CraftingSet
+{
+    uint16_t padding00;
+    uint16_t Quality;
+    uint8_t  padding01[8];
+    uint8_t  Signature[12];
 
-auto toTable(const CItem* item, sol::table& table) -> bool;
-auto fromTable(CItem* item, const sol::table& data) -> bool;
+    void toTable(sol::table& table) const;
+    void fromTable(const sol::table& data);
+};
+#pragma pack(pop)
 } // namespace Exdata

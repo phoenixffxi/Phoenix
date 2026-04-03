@@ -19,34 +19,20 @@
 ===========================================================================
 */
 
-#pragma once
+#include "crafting_set.h"
 
-#include "enums/exdata.h"
-
-#include "exdata/base.h"
-
-#include "exdata/assault_log.h"
-#include "exdata/betting_slip.h"
-#include "exdata/brenner_book.h"
-#include "exdata/chocobo_card.h"
-#include "exdata/chocobo_egg.h"
-#include "exdata/crafting_set.h"
-#include "exdata/evolith.h"
-#include "exdata/glowing_lamp.h"
-#include "exdata/honeymoon_ticket.h"
-#include "exdata/legion_pass.h"
-#include "exdata/lottery_ticket.h"
-#include "exdata/meeble_grimoire.h"
-#include "exdata/perpetual_hourglass.h"
-#include "exdata/race_certificate.h"
-#include "exdata/tabula.h"
-
-class CItem;
-
-namespace Exdata
+void Exdata::CraftingSet::toTable(sol::table& table) const
 {
-auto getType(const CItem* item) -> Type;
+    table["quality"]   = this->Quality;
+    table["signature"] = Exdata::decodeSignature(this->Signature);
+}
 
-auto toTable(const CItem* item, sol::table& table) -> bool;
-auto fromTable(CItem* item, const sol::table& data) -> bool;
-} // namespace Exdata
+void Exdata::CraftingSet::fromTable(const sol::table& data)
+{
+    this->Quality = Exdata::get_or<uint16_t>(data, "quality", this->Quality);
+
+    if (sol::optional<std::string> sig = data["signature"])
+    {
+        Exdata::encodeSignature(*sig, this->Signature);
+    }
+}
