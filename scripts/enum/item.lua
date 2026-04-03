@@ -7232,6 +7232,7 @@ xi.item =
     METAL_KNUCKLES                      = 16392,
     KOENIGS_KNUCKLES                    = 16396,
     KATARS                              = 16399,
+    DARKSTEEL_KATARS                    = 16400,
     JAMADHARS                           = 16401,
     CAT_BAGHNAKHS                       = 16405,
     BAGHNAKHS                           = 16406,
