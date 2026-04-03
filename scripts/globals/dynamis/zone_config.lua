@@ -352,10 +352,10 @@ xi.dynamis.dynaInfoEra =
         qmTitle           = xi.title.DYNAMIS_TAVNAZIA_INTERLOPER,
         winTitle          = xi.title.NIGHTMARE_AWAKENER,
         csTitle           = xi.title.CONFRONTER_OF_NIGHTMARES,
-        winQM             = 16949400, -- TODO - Update after DATs
+        winQM             = 16949653,
         entryPos          = { 0.1, -7, -21, 190, xi.zone.DYNAMIS_TAVNAZIA },
         ejectPos          = { 0, -7, -23, 195, xi.zone.TAVNAZIAN_SAFEHOLD },
-        timeExtensions    = { 16949398, 16949399 }, -- TODO - Update after DATs
+        timeExtensions    = { 16949654, 16949655 },
     },
 }
 
@@ -373,7 +373,6 @@ xi.dynamis.dynaIDLookup =
     {
         text =
         {
-            CONNECTING_WITH_THE_SERVER  = zones[xi.zone.BASTOK_MINES].text.YOU_CANNOT_ENTER_DYNAMIS - 8,
             UNABLE_TO_CONNECT           = zones[xi.zone.BASTOK_MINES].text.YOU_CANNOT_ENTER_DYNAMIS - 7,
             ANOTHER_GROUP               = zones[xi.zone.BASTOK_MINES].text.YOU_CANNOT_ENTER_DYNAMIS - 5,
             INFORMATION_RECORDED        = zones[xi.zone.BASTOK_MINES].text.YOU_CANNOT_ENTER_DYNAMIS - 4,
@@ -384,7 +383,6 @@ xi.dynamis.dynaIDLookup =
     {
         text =
         {
-            CONNECTING_WITH_THE_SERVER  = zones[xi.zone.BEAUCEDINE_GLACIER].text.YOU_CANNOT_ENTER_DYNAMIS - 8,
             UNABLE_TO_CONNECT           = zones[xi.zone.BEAUCEDINE_GLACIER].text.YOU_CANNOT_ENTER_DYNAMIS - 7,
             ANOTHER_GROUP               = zones[xi.zone.BEAUCEDINE_GLACIER].text.YOU_CANNOT_ENTER_DYNAMIS - 5,
             INFORMATION_RECORDED        = zones[xi.zone.BEAUCEDINE_GLACIER].text.YOU_CANNOT_ENTER_DYNAMIS - 4,
@@ -395,7 +393,6 @@ xi.dynamis.dynaIDLookup =
     {
         text =
         {
-            CONNECTING_WITH_THE_SERVER  = zones[xi.zone.BUBURIMU_PENINSULA].text.YOU_CANNOT_ENTER_DYNAMIS - 8,
             UNABLE_TO_CONNECT           = zones[xi.zone.BUBURIMU_PENINSULA].text.YOU_CANNOT_ENTER_DYNAMIS - 7,
             ANOTHER_GROUP               = zones[xi.zone.BUBURIMU_PENINSULA].text.YOU_CANNOT_ENTER_DYNAMIS - 5,
             INFORMATION_RECORDED        = zones[xi.zone.BUBURIMU_PENINSULA].text.YOU_CANNOT_ENTER_DYNAMIS - 4,
@@ -406,7 +403,6 @@ xi.dynamis.dynaIDLookup =
     {
         text =
         {
-            CONNECTING_WITH_THE_SERVER  = zones[xi.zone.QUFIM_ISLAND].text.YOU_CANNOT_ENTER_DYNAMIS - 8,
             UNABLE_TO_CONNECT           = zones[xi.zone.QUFIM_ISLAND].text.YOU_CANNOT_ENTER_DYNAMIS - 7,
             ANOTHER_GROUP               = zones[xi.zone.QUFIM_ISLAND].text.YOU_CANNOT_ENTER_DYNAMIS - 5,
             INFORMATION_RECORDED        = zones[xi.zone.QUFIM_ISLAND].text.YOU_CANNOT_ENTER_DYNAMIS - 4,
@@ -417,7 +413,6 @@ xi.dynamis.dynaIDLookup =
     {
         text =
         {
-            CONNECTING_WITH_THE_SERVER  = zones[xi.zone.RULUDE_GARDENS].text.YOU_CANNOT_ENTER_DYNAMIS - 8,
             UNABLE_TO_CONNECT           = zones[xi.zone.RULUDE_GARDENS].text.YOU_CANNOT_ENTER_DYNAMIS - 7,
             ANOTHER_GROUP               = zones[xi.zone.RULUDE_GARDENS].text.YOU_CANNOT_ENTER_DYNAMIS - 5,
             INFORMATION_RECORDED        = zones[xi.zone.RULUDE_GARDENS].text.YOU_CANNOT_ENTER_DYNAMIS - 4,
@@ -428,7 +423,6 @@ xi.dynamis.dynaIDLookup =
     {
         text =
         {
-            CONNECTING_WITH_THE_SERVER  = zones[xi.zone.SOUTHERN_SAN_DORIA].text.YOU_CANNOT_ENTER_DYNAMIS - 8,
             UNABLE_TO_CONNECT           = zones[xi.zone.SOUTHERN_SAN_DORIA].text.YOU_CANNOT_ENTER_DYNAMIS - 7,
             ANOTHER_GROUP               = zones[xi.zone.SOUTHERN_SAN_DORIA].text.YOU_CANNOT_ENTER_DYNAMIS - 5,
             INFORMATION_RECORDED        = zones[xi.zone.SOUTHERN_SAN_DORIA].text.YOU_CANNOT_ENTER_DYNAMIS - 4,
@@ -439,7 +433,6 @@ xi.dynamis.dynaIDLookup =
     {
         text =
         {
-            CONNECTING_WITH_THE_SERVER  = zones[xi.zone.TAVNAZIAN_SAFEHOLD].text.YOU_CANNOT_ENTER_DYNAMIS - 8,
             UNABLE_TO_CONNECT           = zones[xi.zone.TAVNAZIAN_SAFEHOLD].text.YOU_CANNOT_ENTER_DYNAMIS - 7,
             ANOTHER_GROUP               = zones[xi.zone.TAVNAZIAN_SAFEHOLD].text.YOU_CANNOT_ENTER_DYNAMIS - 5,
             INFORMATION_RECORDED        = zones[xi.zone.TAVNAZIAN_SAFEHOLD].text.YOU_CANNOT_ENTER_DYNAMIS - 4,
@@ -450,7 +443,6 @@ xi.dynamis.dynaIDLookup =
     {
         text =
         {
-            CONNECTING_WITH_THE_SERVER  = zones[xi.zone.VALKURM_DUNES].text.YOU_CANNOT_ENTER_DYNAMIS - 8,
             UNABLE_TO_CONNECT           = zones[xi.zone.VALKURM_DUNES].text.YOU_CANNOT_ENTER_DYNAMIS - 7,
             ANOTHER_GROUP               = zones[xi.zone.VALKURM_DUNES].text.YOU_CANNOT_ENTER_DYNAMIS - 5,
             INFORMATION_RECORDED        = zones[xi.zone.VALKURM_DUNES].text.YOU_CANNOT_ENTER_DYNAMIS - 4,
@@ -461,7 +453,6 @@ xi.dynamis.dynaIDLookup =
     {
         text =
         {
-            CONNECTING_WITH_THE_SERVER  = zones[xi.zone.WINDURST_WALLS].text.YOU_CANNOT_ENTER_DYNAMIS - 8,
             UNABLE_TO_CONNECT           = zones[xi.zone.WINDURST_WALLS].text.YOU_CANNOT_ENTER_DYNAMIS - 7,
             ANOTHER_GROUP               = zones[xi.zone.WINDURST_WALLS].text.YOU_CANNOT_ENTER_DYNAMIS - 5,
             INFORMATION_RECORDED        = zones[xi.zone.WINDURST_WALLS].text.YOU_CANNOT_ENTER_DYNAMIS - 4,
@@ -472,7 +463,6 @@ xi.dynamis.dynaIDLookup =
     {
         text =
         {
-            CONNECTING_WITH_THE_SERVER  = zones[xi.zone.XARCABARD].text.YOU_CANNOT_ENTER_DYNAMIS - 8,
             UNABLE_TO_CONNECT           = zones[xi.zone.XARCABARD].text.YOU_CANNOT_ENTER_DYNAMIS - 7,
             ANOTHER_GROUP               = zones[xi.zone.XARCABARD].text.YOU_CANNOT_ENTER_DYNAMIS - 5,
             INFORMATION_RECORDED        = zones[xi.zone.XARCABARD].text.YOU_CANNOT_ENTER_DYNAMIS - 4,

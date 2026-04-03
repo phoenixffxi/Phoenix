@@ -1,6 +1,6 @@
 -----------------------------------
 -- func: dynaspawn
--- desc: Spawns a statue by ID in a dynamis zone
+-- desc: Spawns a statue by enedin ID in a dynamis zone
 -----------------------------------
 ---@type TCommand
 local commandObj = {}

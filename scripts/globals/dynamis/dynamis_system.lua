@@ -221,7 +221,6 @@ end
 -----------------------------------
 --   Dynamis Start Functions    --
 -----------------------------------
--- Cleanup Done
 xi.dynamis.onNewDynamis = function(player, mode)
     local playerZoneID = player:getZoneID()
     local zoneID = 0
@@ -253,7 +252,7 @@ xi.dynamis.onNewDynamis = function(player, mode)
 
     -- 3. Specific functions for certain zones
     if zoneID == xi.zone.DYNAMIS_TAVNAZIA then
-        xi.dynamis.dynamisTavnaziaOnNewDynamis(player, zone)
+        -- xi.dynamis.dynamisTavnaziaOnNewDynamis(player, zone)
     elseif zoneID == xi.zone.DYNAMIS_BUBURIMU or zoneID == xi.zone.DYNAMIS_QUFIM then
         local locations = dynaInfo.sjRestrictionLocation
         if locations and #locations > 0 then
