@@ -50,6 +50,38 @@ auto getType(const CItem* item) -> Type
         return Type::PerpetualHourglass;
     }
 
+    if (itemId == COPY_OF_THE_WYVERN_CODEX || itemId == COPY_OF_THE_GRIFFON_CODEX ||
+        (itemId >= COPY_OF_THE_BALLISTA_REDBOOK && itemId <= PAGE_OF_THE_BALLISTA_WHITEBOOK) ||
+        (itemId >= COPY_OF_THE_BRENNER_BLUEBOOK && itemId <= PAGE_OF_THE_BRENNER_BLACKBOOK))
+    {
+        return Type::BrennerBook;
+    }
+
+    if (itemId == CHOCOBET_TICKET)
+    {
+        return Type::BettingSlip;
+    }
+
+    if (itemId == RACE_COMPLETION_CERTIFICATE)
+    {
+        return Type::RaceCertificate;
+    }
+
+    if (itemId == VCS_HONEYMOON_TICKET)
+    {
+        return Type::HoneymoonTicket;
+    }
+
+    if (itemId >= DILIGENCE_GRIMOIRE && itemId <= SANCTITY_GRIMOIRE)
+    {
+        return Type::MeebleGrimoire;
+    }
+
+    if (itemId >= LEUJAOAM_OBSERVATION_LOG && itemId <= ILRUSI_TRAVEL_LEDGER)
+    {
+        return Type::AssaultLog;
+    }
+
     return Type::None;
 }
 
@@ -63,6 +95,24 @@ auto toTable(const CItem* item, sol::table& table) -> bool
             return true;
         case Type::PerpetualHourglass:
             item->exdata<PerpetualHourglass>().toTable(table);
+            return true;
+        case Type::BettingSlip:
+            item->exdata<BettingSlip>().toTable(table);
+            return true;
+        case Type::AssaultLog:
+            item->exdata<AssaultLog>().toTable(table);
+            return true;
+        case Type::BrennerBook:
+            item->exdata<BrennerBook>().toTable(table);
+            return true;
+        case Type::MeebleGrimoire:
+            item->exdata<MeebleGrimoire>().toTable(table);
+            return true;
+        case Type::HoneymoonTicket:
+            item->exdata<HoneymoonTicket>().toTable(table);
+            return true;
+        case Type::RaceCertificate:
+            item->exdata<RaceCertificate>().toTable(table);
             return true;
         default:
             return false;
@@ -79,6 +129,24 @@ auto fromTable(CItem* item, const sol::table& data) -> bool
             return true;
         case Type::PerpetualHourglass:
             item->exdata<PerpetualHourglass>().fromTable(data);
+            return true;
+        case Type::BettingSlip:
+            item->exdata<BettingSlip>().fromTable(data);
+            return true;
+        case Type::AssaultLog:
+            item->exdata<AssaultLog>().fromTable(data);
+            return true;
+        case Type::BrennerBook:
+            item->exdata<BrennerBook>().fromTable(data);
+            return true;
+        case Type::MeebleGrimoire:
+            item->exdata<MeebleGrimoire>().fromTable(data);
+            return true;
+        case Type::HoneymoonTicket:
+            item->exdata<HoneymoonTicket>().fromTable(data);
+            return true;
+        case Type::RaceCertificate:
+            item->exdata<RaceCertificate>().fromTable(data);
             return true;
         default:
             return false;

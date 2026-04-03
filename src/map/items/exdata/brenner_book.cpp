@@ -19,27 +19,17 @@
 ===========================================================================
 */
 
-#pragma once
+#include "brenner_book.h"
 
-#include "enums/exdata.h"
-
-#include "exdata/base.h"
-
-#include "exdata/assault_log.h"
-#include "exdata/betting_slip.h"
-#include "exdata/brenner_book.h"
-#include "exdata/honeymoon_ticket.h"
-#include "exdata/legion_pass.h"
-#include "exdata/meeble_grimoire.h"
-#include "exdata/perpetual_hourglass.h"
-#include "exdata/race_certificate.h"
-
-class CItem;
-
-namespace Exdata
+void Exdata::BrennerBook::toTable(sol::table& table) const
 {
-auto getType(const CItem* item) -> Type;
+    table["timeValue"] = this->TimeValue;
+    table["level"]     = this->Level;
+}
 
-auto toTable(const CItem* item, sol::table& table) -> bool;
-auto fromTable(CItem* item, const sol::table& data) -> bool;
-} // namespace Exdata
+void Exdata::BrennerBook::fromTable(const sol::table& data)
+{
+    this->Mode      = 1; // Always Mode 1
+    this->TimeValue = Exdata::get_or<uint32_t>(data, "timeValue", this->TimeValue);
+    this->Level     = Exdata::get_or<uint32_t>(data, "level", this->Level);
+}

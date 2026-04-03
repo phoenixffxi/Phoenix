@@ -21,25 +21,23 @@
 
 #pragma once
 
-#include "enums/exdata.h"
-
-#include "exdata/base.h"
-
-#include "exdata/assault_log.h"
-#include "exdata/betting_slip.h"
-#include "exdata/brenner_book.h"
-#include "exdata/honeymoon_ticket.h"
-#include "exdata/legion_pass.h"
-#include "exdata/meeble_grimoire.h"
-#include "exdata/perpetual_hourglass.h"
-#include "exdata/race_certificate.h"
-
-class CItem;
+#include "base.h"
 
 namespace Exdata
 {
-auto getType(const CItem* item) -> Type;
+// NOTE: Mode 0 used to exist packing both TimeValue and Level in a single uint32_t (29 + 3) but only Mode 1 is used nowadays.
+// Only Mode 1 is implemented here.
+#pragma pack(push, 1)
+struct BrennerBook
+{
+    uint32_t TimeValue; // Seconds since epoch 1009929600 (Jan 2, 2002 00:00 UTC)
+    uint32_t Level;
+    uint8_t  padding00[3];
+    uint8_t  Mode;
+    uint8_t  padding01[12];
 
-auto toTable(const CItem* item, sol::table& table) -> bool;
-auto fromTable(CItem* item, const sol::table& data) -> bool;
+    void toTable(sol::table& table) const;
+    void fromTable(const sol::table& data);
+};
+#pragma pack(pop)
 } // namespace Exdata

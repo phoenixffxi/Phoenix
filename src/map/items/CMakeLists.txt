@@ -1,11 +1,23 @@
 set(ITEM_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/assault_log.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/assault_log.h
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/base.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/betting_slip.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/betting_slip.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/brenner_book.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/brenner_book.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/honeymoon_ticket.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/honeymoon_ticket.h
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/legion_pass.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/legion_pass.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/meeble_grimoire.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/meeble_grimoire.h
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/perpetual_hourglass.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/perpetual_hourglass.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/race_certificate.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/race_certificate.h
     ${CMAKE_CURRENT_SOURCE_DIR}/item_currency.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/item_currency.h
     ${CMAKE_CURRENT_SOURCE_DIR}/item_equipment.cpp

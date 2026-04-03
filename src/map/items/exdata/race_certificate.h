@@ -21,25 +21,20 @@
 
 #pragma once
 
-#include "enums/exdata.h"
-
-#include "exdata/base.h"
-
-#include "exdata/assault_log.h"
-#include "exdata/betting_slip.h"
-#include "exdata/brenner_book.h"
-#include "exdata/honeymoon_ticket.h"
-#include "exdata/legion_pass.h"
-#include "exdata/meeble_grimoire.h"
-#include "exdata/perpetual_hourglass.h"
-#include "exdata/race_certificate.h"
-
-class CItem;
+#include "base.h"
 
 namespace Exdata
 {
-auto getType(const CItem* item) -> Type;
+#pragma pack(push, 1)
+struct RaceCertificate
+{
+    uint32_t RaceId : 18;
+    uint32_t RaceGrade : 6;
+    uint32_t padding00 : 8;
+    uint8_t  padding01[20];
 
-auto toTable(const CItem* item, sol::table& table) -> bool;
-auto fromTable(CItem* item, const sol::table& data) -> bool;
+    void toTable(sol::table& table) const;
+    void fromTable(const sol::table& data);
+};
+#pragma pack(pop)
 } // namespace Exdata

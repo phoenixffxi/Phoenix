@@ -19,27 +19,22 @@
 ===========================================================================
 */
 
-#pragma once
+#include "betting_slip.h"
 
-#include "enums/exdata.h"
-
-#include "exdata/base.h"
-
-#include "exdata/assault_log.h"
-#include "exdata/betting_slip.h"
-#include "exdata/brenner_book.h"
-#include "exdata/honeymoon_ticket.h"
-#include "exdata/legion_pass.h"
-#include "exdata/meeble_grimoire.h"
-#include "exdata/perpetual_hourglass.h"
-#include "exdata/race_certificate.h"
-
-class CItem;
-
-namespace Exdata
+void Exdata::BettingSlip::toTable(sol::table& table) const
 {
-auto getType(const CItem* item) -> Type;
+    table["raceId"]       = this->RaceId;
+    table["raceGrade"]    = this->RaceGrade;
+    table["racePairingL"] = this->RacePairingL;
+    table["racePairingR"] = this->RacePairingR;
+    table["quills"]       = this->Quills;
+}
 
-auto toTable(const CItem* item, sol::table& table) -> bool;
-auto fromTable(CItem* item, const sol::table& data) -> bool;
-} // namespace Exdata
+void Exdata::BettingSlip::fromTable(const sol::table& data)
+{
+    this->RaceId       = Exdata::get_or<uint32_t>(data, "raceId", this->RaceId);
+    this->RaceGrade    = Exdata::get_or<uint32_t>(data, "raceGrade", this->RaceGrade);
+    this->RacePairingL = Exdata::get_or<uint32_t>(data, "racePairingL", this->RacePairingL);
+    this->RacePairingR = Exdata::get_or<uint32_t>(data, "racePairingR", this->RacePairingR);
+    this->Quills       = Exdata::get_or<uint16_t>(data, "quills", this->Quills);
+}
