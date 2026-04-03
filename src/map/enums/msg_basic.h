@@ -63,6 +63,7 @@ enum class MsgBasic : uint16_t
     LoseSight                       = 36,  // You lose sight of <target>.
     TooFarForExp                    = 37,  // You are too far from the battle to gain experience.
     SkillGain                       = 38,  // <target>'s <skill> skill rises X points.
+    NeedDualWield                   = 39,  // You need the Dual Wield ability to equip <name of item> as a sub-weapon
     CannotInThisArea                = 40,  // cannot use in this area
     ReadiesWeaponskill              = 43,  // <entity> readies <skill>.
     SpikesEffectDmg                 = 44,  // <target>'s spikes deal <number> damage to <attacker>
