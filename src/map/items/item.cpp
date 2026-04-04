@@ -310,8 +310,10 @@ const std::string CItem::getSignature()
 
 void CItem::setSignature(const std::string& signature)
 {
+    char encoded[SignatureStringLength] = {};
+    EncodeStringSignature(signature, encoded);
     std::memset(m_extra + 0x0C, 0, sizeof(m_extra) - 0x0C);
-    std::memcpy(m_extra + 0x0C, signature.c_str(), signature.size());
+    std::memcpy(m_extra + 0x0C, encoded, sizeof(m_extra) - 0x0C);
 }
 
 /************************************************************************

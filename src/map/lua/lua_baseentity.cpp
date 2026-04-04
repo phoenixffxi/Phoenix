@@ -4207,10 +4207,7 @@ auto CLuaBaseEntity::addItem(sol::variadic_args va) const -> CItem*
 
                 if (!signature.empty())
                 {
-                    char encoded[SignatureStringLength];
-
-                    std::memset(&encoded, 0, sizeof(encoded));
-                    PItem->setSignature(EncodeStringSignature(signature, encoded));
+                    PItem->setSignature(signature);
                 }
 
                 sol::object appraisalObj = table["appraisal"];

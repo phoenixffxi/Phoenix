@@ -20,6 +20,10 @@ set(ITEM_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/evolith.h
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/fish.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/fish.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/flower_pot.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/flower_pot.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/furniture.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/furniture.h
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/glowing_lamp.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/glowing_lamp.h
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/honeymoon_ticket.cpp
@@ -28,6 +32,8 @@ set(ITEM_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/legion_pass.h
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/lottery_ticket.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/lottery_ticket.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/mannequin.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/mannequin.h
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/meeble_grimoire.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/meeble_grimoire.h
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/perpetual_hourglass.cpp

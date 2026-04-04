@@ -1083,9 +1083,7 @@ void LoadInventory(CCharEntity* PChar)
                 }
                 else if (PItem->getFlag() & (ITEM_FLAG_INSCRIBABLE))
                 {
-                    char EncodedString[SignatureStringLength] = {};
-                    EncodeStringSignature(rset->get<std::string>("signature").c_str(), EncodedString);
-                    PItem->setSignature(EncodedString);
+                    PItem->setSignature(rset->get<std::string>("signature"));
                 }
 
                 if (auto PItemUsable = dynamic_cast<CItemUsable*>(PItem))
@@ -8055,30 +8053,6 @@ bool isOrchestrionPlaced(CCharEntity* PChar)
 
 void updateMannequins(CCharEntity* PChar)
 {
-    // Build Mannequin model id list
-    auto getModelIdFromStorageSlot = [](CCharEntity* PChar, uint8 slot) -> uint16
-    {
-        uint16 modelId = 0x0000;
-
-        if (slot == 0)
-        {
-            return modelId;
-        }
-
-        auto* PItem = PChar->getStorage(LOC_STORAGE)->GetItem(slot);
-        if (PItem == nullptr)
-        {
-            return modelId;
-        }
-
-        if (auto* PItemEquipment = dynamic_cast<CItemEquipment*>(PItem))
-        {
-            modelId = PItemEquipment->getModelId();
-        }
-
-        return modelId;
-    };
-
     for (auto safeContainerId : { LOC_MOGSAFE, LOC_MOGSAFE2 })
     {
         CItemContainer* PContainer = PChar->getStorage(safeContainerId);
@@ -8090,27 +8064,14 @@ void updateMannequins(CCharEntity* PChar)
                 auto* PFurnishing = static_cast<CItemFurnishing*>(PContainerItem);
                 if (PFurnishing->isInstalled() && PFurnishing->isMannequin())
                 {
-                    auto* PMannequin = PFurnishing;
+                    auto& mannequin = PFurnishing->exdata<Exdata::Mannequin>();
 
-                    uint16 mainId  = getModelIdFromStorageSlot(PChar, PMannequin->m_extra[10 + 0]);
-                    uint16 subId   = getModelIdFromStorageSlot(PChar, PMannequin->m_extra[10 + 1]);
-                    uint16 rangeId = getModelIdFromStorageSlot(PChar, PMannequin->m_extra[10 + 2]);
-                    uint16 headId  = getModelIdFromStorageSlot(PChar, PMannequin->m_extra[10 + 3]);
-                    uint16 bodyId  = getModelIdFromStorageSlot(PChar, PMannequin->m_extra[10 + 4]);
-                    uint16 handsId = getModelIdFromStorageSlot(PChar, PMannequin->m_extra[10 + 5]);
-                    uint16 legId   = getModelIdFromStorageSlot(PChar, PMannequin->m_extra[10 + 6]);
-                    uint16 feetId  = getModelIdFromStorageSlot(PChar, PMannequin->m_extra[10 + 7]);
-                    uint8  race    = PMannequin->m_extra[10 + 8];
-                    uint8  pose    = PMannequin->m_extra[10 + 9];
-
-                    std::ignore = pose;
-
-                    if (race == 0)
+                    if (mannequin.Race == 0)
                     {
                         ShowWarning("Invalid Mannequin placed (race of 0 in exdata, when races start at 1). It will be unusable.");
                     }
 
-                    PChar->pushPacket<GP_SERV_COMMAND_ITEM_SUBCONTAINER>(safeContainerId, slotIndex, headId, bodyId, handsId, legId, feetId, mainId, subId, rangeId);
+                    PChar->pushPacket<GP_SERV_COMMAND_ITEM_SUBCONTAINER>(PChar, safeContainerId, slotIndex, mannequin);
                 }
             }
         }

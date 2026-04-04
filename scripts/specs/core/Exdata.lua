@@ -138,4 +138,45 @@
 ---@class ExdataWeaponUnlock
 ---@field unlockPoints? integer
 
----@alias Exdata ExdataLegionPass|ExdataPerpetualHourglass|ExdataBettingSlip|ExdataAssaultLog|ExdataBrennerBook|ExdataMeebleGrimoire|ExdataHoneymoonTicket|ExdataRaceCertificate|ExdataLotteryTicket|ExdataTabula|ExdataEvolith|ExdataCraftingSet|ExdataGlowingLamp|ExdataChocoboEgg|ExdataChocoboCard|ExdataFish|ExdataEscutcheon|ExdataSoulPlate|ExdataSoulReflector|ExdataWeaponUnlock
+---@class ExdataFurniture
+---@field on2ndFloor? boolean
+---@field installed?  boolean
+---@field x?          integer
+---@field z?          integer
+---@field y?          integer
+---@field rotation?   integer
+---@field order?      integer                                    # LSB-only: placement order for moghancement tiebreaking
+---@field signature?  string
+
+---@class ExdataFlowerPot
+---@field step?         integer                                  # Flowerpot stage
+---@field dried?        boolean
+---@field crystal1?     integer                                  # First crystal feed element - skipped for single crystal feed plants
+---@field crystal2?     integer                                  # Second crystal feed element
+---@field kind?         integer                                  # Seed/plant type
+---@field examined?     boolean                                  # Examined since last wilt check
+---@field strength?     integer                                  # RNG strength [0-127]
+---@field x?            integer
+---@field z?            integer
+---@field y?            integer
+---@field rotation?     integer
+---@field timePlanted?  integer                                  # Vanatime when planted
+---@field timeNextStep? integer                                  # Vanatime of next stage
+
+---@class ExdataMannequin
+---@field x?        integer
+---@field z?        integer
+---@field y?        integer
+---@field rotation? integer
+---@field main?     integer
+---@field sub?      integer
+---@field ranged?   integer
+---@field head?     integer
+---@field body?     integer
+---@field hands?    integer
+---@field legs?     integer
+---@field feet?     integer
+---@field race?     xi.mannequin.type
+---@field pose?     xi.mannequin.pose
+
+---@alias Exdata ExdataLegionPass|ExdataPerpetualHourglass|ExdataBettingSlip|ExdataAssaultLog|ExdataBrennerBook|ExdataMeebleGrimoire|ExdataHoneymoonTicket|ExdataRaceCertificate|ExdataLotteryTicket|ExdataTabula|ExdataEvolith|ExdataCraftingSet|ExdataGlowingLamp|ExdataChocoboEgg|ExdataChocoboCard|ExdataFish|ExdataEscutcheon|ExdataSoulPlate|ExdataSoulReflector|ExdataWeaponUnlock|ExdataFurniture|ExdataFlowerPot|ExdataMannequin

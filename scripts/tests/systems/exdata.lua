@@ -518,6 +518,73 @@ describe('Exdata', function()
         assert(ex.feralSkills[2].level == 3)
     end)
 
+    it('can get and set Furniture exdata', function()
+        local item = player:addItem({ id = xi.item.OAK_TABLE, quantity = 1 })
+        assert(item)
+
+        item:setExData(
+            {
+                installed  = true,
+                on2ndFloor = false,
+                x          = 5,
+                z          = 0,
+                y          = 10,
+                rotation   = 3,
+                order      = 1,
+            })
+
+        local ex = item:getExData()
+        assert(ex.installed == true)
+        assert(ex.on2ndFloor == false)
+        assert(ex.x == 5)
+        assert(ex.z == 0)
+        assert(ex.y == 10)
+        assert(ex.rotation == 3)
+        assert(ex.order == 1)
+    end)
+
+    it('can get and set FlowerPot exdata', function()
+        local item = player:addItem({ id = xi.item.BRASS_FLOWERPOT, quantity = 1 })
+        assert(item)
+
+        item:setExData(
+            {
+                step         = 3,
+                crystal1     = 1,
+                crystal2     = 4,
+                kind         = 2,
+                examined     = true,
+                strength     = 50,
+                timePlanted  = 100000,
+                timeNextStep = 200000,
+            })
+
+        local ex = item:getExData()
+        assert(ex.step == 3)
+        assert(ex.crystal1 == 1)
+        assert(ex.crystal2 == 4)
+        assert(ex.kind == 2)
+        assert(ex.examined == true)
+        assert(ex.strength == 50)
+        assert(ex.timePlanted == 100000)
+        assert(ex.timeNextStep == 200000)
+    end)
+
+    it('can get and set Mannequin exdata', function()
+        local item = player:addItem({ id = xi.item.HUME_M_MANNEQUIN, quantity = 1 })
+        assert(item)
+
+        item:setExData(
+            {
+                race = xi.mannequin.type.HUME_M,
+                pose = xi.mannequin.pose.HURRAY,
+            })
+
+        local ex = item:getExData()
+        assert(ex.race == xi.mannequin.type.HUME_M)
+        assert(ex.pose == xi.mannequin.pose.HURRAY)
+    end)
+
     it('unhandled items fall back to raw bytes', function()
         local item = player:addItem({ id = xi.item.FIRE_CRYSTAL, quantity = 1 })
         assert(item)

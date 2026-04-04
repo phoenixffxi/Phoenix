@@ -1,4 +1,4 @@
-﻿/*
+/*
 ===========================================================================
 
   Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -21,7 +21,8 @@
 
 #include "item_furnishing.h"
 
-#include "common/utils.h"
+#include "exdata/furniture.h"
+#include "exdata/mannequin.h"
 
 CItemFurnishing::CItemFurnishing(uint16 id)
 : CItem(id)
@@ -38,19 +39,12 @@ CItemFurnishing::~CItemFurnishing() = default;
 
 void CItemFurnishing::setInstalled(bool installed)
 {
-    if (installed)
-    {
-        ref<uint8>(m_extra, 0x01) |= 0x40;
-    }
-    else
-    {
-        ref<uint8>(m_extra, 0x01) &= ~0x40;
-    }
+    this->exdata<Exdata::Furniture>().Installed = installed ? 1 : 0;
 }
 
 bool CItemFurnishing::isInstalled()
 {
-    return ref<uint8>(m_extra, 0x01) & 0x40;
+    return this->exdata<Exdata::Furniture>().Installed;
 }
 
 void CItemFurnishing::setStorage(uint8 storage)
@@ -95,91 +89,96 @@ uint8 CItemFurnishing::getAura() const
 
 void CItemFurnishing::setCol(uint8 col)
 {
-    ref<uint8>(m_extra, 0x06) = col;
+    this->exdata<Exdata::Furniture>().X = col;
 }
 
 uint8 CItemFurnishing::getCol()
 {
-    return ref<uint8>(m_extra, 0x06);
+    return this->exdata<Exdata::Furniture>().X;
 }
 
 void CItemFurnishing::setRow(uint8 row)
 {
-    ref<uint8>(m_extra, 0x08) = row;
+    this->exdata<Exdata::Furniture>().Y = row;
 }
 
 uint8 CItemFurnishing::getRow()
 {
-    return ref<uint8>(m_extra, 0x08);
+    return this->exdata<Exdata::Furniture>().Y;
 }
 
 void CItemFurnishing::setLevel(uint8 level)
 {
-    ref<uint8>(m_extra, 0x07) = level;
+    this->exdata<Exdata::Furniture>().Z = level;
 }
 
 uint8 CItemFurnishing::getLevel()
 {
-    return ref<uint8>(m_extra, 0x07);
+    return this->exdata<Exdata::Furniture>().Z;
 }
 
 void CItemFurnishing::setRotation(uint8 rotation)
 {
-    ref<uint8>(m_extra, 0x09) = rotation;
+    this->exdata<Exdata::Furniture>().Rotation = rotation;
 }
 
 uint8 CItemFurnishing::getRotation()
 {
-    return ref<uint8>(m_extra, 0x09);
+    return this->exdata<Exdata::Furniture>().Rotation;
 }
 
 void CItemFurnishing::setOrder(uint8 order)
 {
-    ref<uint8>(m_extra, 0x0A) = order;
+    this->exdata<Exdata::Furniture>().Order = order;
 }
 
 uint8 CItemFurnishing::getOrder()
 {
-    return ref<uint8>(m_extra, 0x0A);
+    return this->exdata<Exdata::Furniture>().Order;
 }
 
 void CItemFurnishing::setMannequinRace(uint8 race)
 {
-    ref<uint8>(m_extra, 0x12) = race;
+    this->exdata<Exdata::Mannequin>().Race = race;
 }
 
 uint8 CItemFurnishing::getMannequinRace()
 {
-    return ref<uint8>(m_extra, 0x12);
+    return this->exdata<Exdata::Mannequin>().Race;
 }
+
 void CItemFurnishing::setMannequinPose(uint8 pose)
 {
-    ref<uint8>(m_extra, 0x13) = pose;
+    this->exdata<Exdata::Mannequin>().Pose = pose;
 }
 
 uint8 CItemFurnishing::getMannequinPose()
 {
-    return ref<uint8>(m_extra, 0x13);
+    return this->exdata<Exdata::Mannequin>().Pose;
 }
 
 void CItemFurnishing::setOn2ndFloor(bool on2ndFloor)
 {
-    if (on2ndFloor)
-    {
-        ref<uint8>(m_extra, 0x01) |= 0x01;
-    }
-    else
-    {
-        ref<uint8>(m_extra, 0x01) &= ~0x01;
-    }
+    this->exdata<Exdata::Furniture>().On2ndFloor = on2ndFloor ? 1 : 0;
 }
 
 bool CItemFurnishing::getOn2ndFloor()
 {
-    return ref<uint8>(m_extra, 0x01) & 01;
+    return this->exdata<Exdata::Furniture>().On2ndFloor;
 }
 
-bool CItemFurnishing::isGardeningPot()
+auto CItemFurnishing::getSignature() -> const std::string
+{
+    auto& sig = this->exdata<Exdata::Furniture>().Signature;
+    return std::string(reinterpret_cast<const char*>(sig), sizeof(sig));
+}
+
+void CItemFurnishing::setSignature(const std::string& signature)
+{
+    Exdata::encodeSignature(signature, this->exdata<Exdata::Furniture>().Signature);
+}
+
+bool CItemFurnishing::isGardeningPot() const
 {
     const auto id = CItem::getID();
     return id == 216 ||  // porcelain_flowerpot

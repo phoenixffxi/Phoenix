@@ -860,10 +860,7 @@ void handleSynthSuccess(CCharEntity* PChar)
     {
         if ((PItem->getFlag() & ITEM_FLAG_INSCRIBABLE) && (PChar->CraftContainer->getItemID(0) > 0x1080))
         {
-            char encodedSignature[SignatureStringLength];
-
-            std::memset(&encodedSignature, 0, sizeof(encodedSignature));
-            PItem->setSignature(EncodeStringSignature(PChar->name.c_str(), encodedSignature));
+            PItem->setSignature(PChar->name);
 
             db::preparedStmt("UPDATE char_inventory SET signature = ? WHERE charid = ? AND location = 0 AND slot = ? LIMIT 1",
                              PChar->name,

@@ -22,6 +22,7 @@
 #include "exdata.h"
 
 #include "item.h"
+#include "item_furnishing.h"
 #include "item_weapon.h"
 
 #include "items.h"
@@ -144,6 +145,21 @@ auto getType(const CItem* item) -> Type
         return Type::Escutcheon;
     }
 
+    if (item->isType(ITEM_FURNISHING))
+    {
+        if (item->isMannequin())
+        {
+            return Type::Mannequin;
+        }
+
+        if (static_cast<const CItemFurnishing*>(item)->isGardeningPot())
+        {
+            return Type::FlowerPot;
+        }
+
+        return Type::Furniture;
+    }
+
     // Unlockable weapons use specific exdata
     // Must be checked before augments
     if (item->isType(ITEM_WEAPON))
@@ -223,6 +239,15 @@ auto toTable(const CItem* item, sol::table& table) -> bool
         case Type::WeaponUnlock:
             item->exdata<WeaponUnlock>().toTable(table);
             return true;
+        case Type::Furniture:
+            item->exdata<Furniture>().toTable(table);
+            return true;
+        case Type::FlowerPot:
+            item->exdata<FlowerPot>().toTable(table);
+            return true;
+        case Type::Mannequin:
+            item->exdata<Mannequin>().toTable(table);
+            return true;
         default:
             return false;
     }
@@ -292,6 +317,15 @@ auto fromTable(CItem* item, const sol::table& data) -> bool
             return true;
         case Type::WeaponUnlock:
             item->exdata<WeaponUnlock>().fromTable(data);
+            return true;
+        case Type::Furniture:
+            item->exdata<Furniture>().fromTable(data);
+            return true;
+        case Type::FlowerPot:
+            item->exdata<FlowerPot>().fromTable(data);
+            return true;
+        case Type::Mannequin:
+            item->exdata<Mannequin>().fromTable(data);
             return true;
         default:
             return false;
