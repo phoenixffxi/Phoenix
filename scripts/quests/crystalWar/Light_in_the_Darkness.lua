@@ -238,7 +238,10 @@ quest.sections =
             onEventFinish =
             {
                 [27] = function(player, csid, option, npc)
-                    quest:complete(player)
+                    if quest:complete(player) then
+                        xi.quest.setVar(player, xi.questLog.CRYSTAL_WAR, xi.quest.id.crystalWar.BURDEN_OF_SUSPICION, 'Timer', VanadielUniqueDay() + 1)
+                        xi.quest.setMustZone(player, xi.questLog.CRYSTAL_WAR, xi.quest.id.crystalWar.BURDEN_OF_SUSPICION)
+                    end
                 end,
             },
         },
