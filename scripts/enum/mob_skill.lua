@@ -44,7 +44,13 @@ xi.mobSkill =
 
     RANDGRITH_1                   =  170,
 
+    NETHERSPIKES_1                =  241,
+    CARNAL_NIGHTMARE_1            =  242,
+    AEGIS_SCHISM_1                =  243,
+    DANCING_CHAINS_1              =  244,
     BARBED_CRESCENT_1             =  245,
+
+    FOXFIRE                       =  247,
 
     FOOT_KICK_1                   =  257,
     DUST_CLOUD_1                  =  258,
