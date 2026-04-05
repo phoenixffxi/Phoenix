@@ -1219,6 +1219,7 @@ xi.item =
     SPOOL_OF_RED_GRASS_THREAD           = 1828,
     SQUARE_OF_RED_GRASS_CLOTH           = 1829,
     SACK_OF_LUGWORM_SAND                = 1830,
+    SACK_OF_LITTLE_WORM_MULCH           = 1831,
     BROKEN_HUME_FISHING_ROD             = 1832,
     BROKEN_HALCYON_FISHING_ROD          = 1833,
     SABER_SHOOT                         = 1837,
