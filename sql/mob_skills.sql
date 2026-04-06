@@ -1367,10 +1367,10 @@ INSERT INTO `mob_skills` VALUES (1339,220,'bane',1,0.0,15.0,2000,1500,4,0,0,0,0,
 INSERT INTO `mob_skills` VALUES (1340,17,'crossthrash',4,0.0,14.0,2000,1500,4,0,0,5,0,0,0);
 INSERT INTO `mob_skills` VALUES (1341,993,'knife_edge_circle',4,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1342,992,'train_fall',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
--- INSERT INTO `mob_skills` VALUES (1343,1087,'.',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1344,995,'collector_spawn',0,0.0,7.0,2000,0,1,0,0,0,0,0,0);
--- INSERT INTO `mob_skills` VALUES (1345,1089,'.',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
--- INSERT INTO `mob_skills` VALUES (1346,1090,'.',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1343,994,'moblin_emote_1',0,0.0,7.0,2000,0,1,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1344,995,'moblin_emote_2',0,0.0,7.0,2000,0,1,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1345,996,'moblin_emote_3',0,0.0,7.0,2000,0,1,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1346,997,'moblin_emote_4',0,0.0,7.0,2000,0,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1347,998,'dual_strike',0,0.0,7.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1348,999,'siphon_discharge',4,0.0,15.0,2000,1000,4,0,0,1,0,0,0);
 INSERT INTO `mob_skills` VALUES (1349,1000,'mantle_pierce',0,0.0,7.0,2000,1000,4,0,0,3,0,0,0);
