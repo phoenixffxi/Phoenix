@@ -585,7 +585,15 @@ local function GiveAugItem(player, npc, slot)
                 return 0
             elseif player:getFreeSlotsCount() > 0 then
                     if GetAugItemID(npc, 1) ~= 0 then
-                    player:addItem(item1, 1, item1aug1, item1aug1val, item1aug2, item1aug2val)
+                    player:addItem({
+                        id     = item1,
+                        exdata =
+                        {
+                            augmentKind    = xi.augment.kind.HAS_AUGMENTS,
+                            augmentSubKind = xi.augment.subKind.STANDARD,
+                            augments       = { { id = item1aug1, value = item1aug1val }, { id = item1aug2, value = item1aug2val } },
+                        },
+                    })
                     xi.pyxis.messageChest(player, zones[zoneId].text.OBTAINS_ITEM, item1, 0, 0, 0)
                     npc:setLocalVar('ITEM1ID', 0)
                 end
@@ -601,7 +609,15 @@ local function GiveAugItem(player, npc, slot)
                 return 0
             elseif player:getFreeSlotsCount() > 0 then
                     if GetAugItemID(npc, 2) ~= 0 then
-                    player:addItem(item2, 1, item2aug1, item2aug1val, item2aug2, item2aug2val)
+                    player:addItem({
+                        id     = item2,
+                        exdata =
+                        {
+                            augmentKind    = xi.augment.kind.HAS_AUGMENTS,
+                            augmentSubKind = xi.augment.subKind.STANDARD,
+                            augments       = { { id = item2aug1, value = item2aug1val }, { id = item2aug2, value = item2aug2val } },
+                        },
+                    })
                     xi.pyxis.messageChest(player, zones[zoneId].text.OBTAINS_ITEM, item2, 0, 0, 0)
                     npc:setLocalVar('ITEM2ID', 0)
                 end

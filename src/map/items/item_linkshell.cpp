@@ -22,10 +22,9 @@
 #include "item_linkshell.h"
 
 #include "common/utils.h"
+#include "exdata/linkshell.h"
 
-#include <cstring>
-
-CItemLinkshell::CItemLinkshell(uint16 id)
+CItemLinkshell::CItemLinkshell(const uint16 id)
 : CItem(id)
 {
     setType(ITEM_LINKSHELL);
@@ -35,49 +34,54 @@ CItemLinkshell::~CItemLinkshell() = default;
 
 uint32 CItemLinkshell::GetLSID()
 {
-    return ref<uint32>(m_extra, 0x00);
+    return this->exdata<Exdata::Linkshell>().GroupId;
 }
 
-void CItemLinkshell::SetLSID(uint32 lsid)
+void CItemLinkshell::SetLSID(const uint32 lsid)
 {
-    ref<uint32>(m_extra, 0x00) = lsid;
+    this->exdata<Exdata::Linkshell>().GroupId = lsid;
 }
 
 LSTYPE CItemLinkshell::GetLSType()
 {
-    return ref<LSTYPE>(m_extra, 0x08);
+    return static_cast<LSTYPE>(this->exdata<Exdata::Linkshell>().Flag);
 }
 
-lscolor_t CItemLinkshell::GetLSColor()
+auto CItemLinkshell::GetLSColor() -> Exdata::lscolor_t
 {
-    return *(lscolor_t*)(m_extra + 0x06);
+    return this->exdata<Exdata::Linkshell>().Color;
 }
 
 uint16 CItemLinkshell::GetLSRawColor()
 {
-    return ref<uint16>(m_extra, 0x06);
+    uint16 raw = 0;
+    std::memcpy(&raw, &this->exdata<Exdata::Linkshell>().Color, sizeof(raw));
+    return raw;
 }
 
-void CItemLinkshell::SetLSColor(uint16 color)
+void CItemLinkshell::SetLSColor(const uint16 color)
 {
-    ref<uint16>(m_extra, 0x06) = color;
+    std::memcpy(&this->exdata<Exdata::Linkshell>().Color, &color, sizeof(color));
 }
 
 const std::string CItemLinkshell::getSignature()
 {
-    char signature[LinkshellStringLength] = {};
-    std::memcpy(&signature, m_extra + 0x09, sizeof(signature));
-
-    return signature; // return string copy
+    auto& name                           = this->exdata<Exdata::Linkshell>().Name;
+    char  decoded[LinkshellStringLength] = {};
+    DecodeStringLinkshell(std::string(reinterpret_cast<const char*>(name), sizeof(name)), decoded);
+    return decoded;
 }
 
 void CItemLinkshell::setSignature(const std::string& signature)
 {
-    std::memset(m_extra + 0x09, 0, sizeof(m_extra) - 0x09);
-    std::memcpy(m_extra + 0x09, signature.c_str(), signature.size());
+    auto& name                           = this->exdata<Exdata::Linkshell>().Name;
+    char  encoded[LinkshellStringLength] = {};
+    EncodeStringLinkshell(signature, encoded);
+    std::memset(name, 0, sizeof(name));
+    std::memcpy(name, encoded, std::min(sizeof(encoded), sizeof(name)));
 }
 
-void CItemLinkshell::SetLSType(LSTYPE value)
+void CItemLinkshell::SetLSType(const LSTYPE value)
 {
-    ref<LSTYPE>(m_extra, 0x08) = value;
+    this->exdata<Exdata::Linkshell>().Flag = static_cast<uint8_t>(value);
 }

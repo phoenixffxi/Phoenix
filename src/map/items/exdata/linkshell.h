@@ -26,16 +26,21 @@
 namespace Exdata
 {
 #pragma pack(push, 1)
-struct PerpetualHourglass
+struct lscolor_t
 {
-    uint16_t padding00;
-    uint8_t  Flags : 3;
-    uint8_t  padding01 : 5;
-    uint8_t  padding02[5];
-    uint32_t EndTime;
-    uint32_t StartTime;
-    uint16_t ZoneId;
-    uint8_t  padding03[6];
+    uint16_t R : 4;
+    uint16_t G : 4;
+    uint16_t B : 4;
+    uint16_t A : 4;
+};
+
+struct Linkshell
+{
+    uint32_t  GroupId;
+    uint16_t  GroupKey;
+    lscolor_t Color;
+    uint8_t   Flag;
+    uint8_t   Name[15];
 
     void toTable(sol::table& table) const;
     void fromTable(const sol::table& data);

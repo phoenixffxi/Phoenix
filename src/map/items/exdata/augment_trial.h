@@ -21,21 +21,19 @@
 
 #pragma once
 
-#include "base.h"
+#include "augment_standard.h"
 
 namespace Exdata
 {
 #pragma pack(push, 1)
-struct PerpetualHourglass
+struct AugmentTrial
 {
-    uint16_t padding00;
-    uint8_t  Flags : 3;
-    uint8_t  padding01 : 5;
-    uint8_t  padding02[5];
-    uint32_t EndTime;
-    uint32_t StartTime;
-    uint16_t ZoneId;
-    uint8_t  padding03[6];
+    AugmentKindFlags    AugmentKind;
+    AugmentSubKindFlags AugmentSubKind;
+    Augment             Augments[4];
+    uint16_t            TrialId : 15;
+    uint16_t            Completed : 1;
+    uint8_t             Signature[12];
 
     void toTable(sol::table& table) const;
     void fromTable(const sol::table& data);

@@ -22,6 +22,8 @@
 #include <cstring>
 
 #include "common/utils.h"
+#include "exdata/appraisable.h"
+#include "exdata/augment_standard.h"
 #include "item.h"
 
 /************************************************************************
@@ -107,12 +109,12 @@ uint16 CItem::getFlag() const
 
 uint8 CItem::getAppraisalID() const
 {
-    return m_extra[0x16];
+    return this->exdata<Exdata::Appraisable>().AppraisalId;
 }
 
-void CItem::setAppraisalID(uint8 appraisailID)
+void CItem::setAppraisalID(uint8 appraisalID)
 {
-    m_extra[0x16] = appraisailID;
+    this->exdata<Exdata::Appraisable>().AppraisalId = appraisalID;
 }
 
 /************************************************************************
@@ -302,10 +304,7 @@ void CItem::setReceiver(const std::string& receiver)
 
 const std::string CItem::getSignature()
 {
-    char signature[SignatureStringLength] = {};
-    std::memcpy(&signature, m_extra + 0x0C, sizeof(signature));
-
-    return signature; // return string copy
+    return Exdata::decodeSignature(this->exdata<Exdata::AugmentStandard>().Signature);
 }
 
 void CItem::setSignature(const std::string& signature)

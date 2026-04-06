@@ -26,19 +26,11 @@
 namespace Exdata
 {
 #pragma pack(push, 1)
-struct PerpetualHourglass
+struct Appraisable
 {
-    uint16_t padding00;
-    uint8_t  Flags : 3;
-    uint8_t  padding01 : 5;
-    uint8_t  padding02[5];
-    uint32_t EndTime;
-    uint32_t StartTime;
-    uint16_t ZoneId;
-    uint8_t  padding03[6];
-
-    void toTable(sol::table& table) const;
-    void fromTable(const sol::table& data);
+    uint8_t padding00[22];
+    uint8_t AppraisalId;
+    uint8_t padding01;
 };
 #pragma pack(pop)
 } // namespace Exdata

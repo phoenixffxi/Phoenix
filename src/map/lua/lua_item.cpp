@@ -90,7 +90,7 @@ uint16 CLuaItem::getTrialNumber()
 
 uint8 CLuaItem::getWornUses()
 {
-    return m_PLuaItem->m_extra[0];
+    return m_PLuaItem->exdata<Exdata::WornItem>().UseCount;
 }
 
 bool CLuaItem::isType(uint8 type)
@@ -307,18 +307,7 @@ uint8 CLuaItem::getShieldAbsorptionRate()
 
 auto CLuaItem::getSignature() -> std::string
 {
-    char signature[DecodeStringLength] = {};
-
-    if (m_PLuaItem->isType(ITEM_LINKSHELL))
-    {
-        DecodeStringLinkshell(m_PLuaItem->getSignature(), signature);
-    }
-    else
-    {
-        DecodeStringSignature(m_PLuaItem->getSignature(), signature);
-    }
-
-    return signature;
+    return m_PLuaItem->getSignature();
 }
 
 uint8 CLuaItem::getCurrentCharges()
@@ -333,12 +322,12 @@ uint8 CLuaItem::getCurrentCharges()
 
 uint8 CLuaItem::getAppraisalID()
 {
-    return m_PLuaItem->m_extra[0x16];
+    return m_PLuaItem->getAppraisalID();
 }
 
 void CLuaItem::setAppraisalID(uint8 id)
 {
-    m_PLuaItem->m_extra[0x16] = id;
+    m_PLuaItem->setAppraisalID(id);
 }
 
 bool CLuaItem::isInstalled()

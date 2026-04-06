@@ -23,6 +23,9 @@
 
 #include "common/database.h"
 #include "common/logging.h"
+#include "common/utils.h"
+#include "exdata/augment_standard.h"
+#include "exdata/augment_trial.h"
 
 #include <cstring>
 
@@ -356,26 +359,26 @@ bool CItemEquipment::delPetModifier(Mod mod, PetModType petType, int16 modValue)
 
 void CItemEquipment::setTrialNumber(uint16 trial)
 {
+    auto& trialData = this->exdata<Exdata::AugmentTrial>();
+
     if (trial)
     {
-        ref<uint8>(m_extra, 0x01) |= 0x40;
+        trialData.AugmentSubKind |= Exdata::AugmentSubKindFlags::Trial;
         setSubType(ITEM_AUGMENTED);
-        ref<uint8>(m_extra, 0x00) |= 0x02;
-        ref<uint8>(m_extra, 0x01) |= 0x03;
+        trialData.AugmentKind |= Exdata::AugmentKindFlags::HasAugments;
+        trialData.AugmentSubKind |= Exdata::AugmentSubKindFlags::Standard;
     }
     else
     {
-        ref<uint8>(m_extra, 0x01) &= ~0x40;
+        trialData.AugmentSubKind &= ~Exdata::AugmentSubKindFlags::Trial;
     }
 
-    trial &= 0x7FFF; // Trial is only 15 bits long
-    ref<uint16>(m_extra, 0x0A) &= ~0x7FFF;
-    ref<uint16>(m_extra, 0x0A) |= trial;
+    trialData.TrialId = trial;
 }
 
 uint16 CItemEquipment::getTrialNumber()
 {
-    return ref<uint16>(m_extra, 0x0A) & 0x7FFF;
+    return this->exdata<Exdata::AugmentTrial>().TrialId;
 }
 
 /************************************************************************
@@ -385,17 +388,20 @@ uint16 CItemEquipment::getTrialNumber()
  ************************************************************************/
 void CItemEquipment::LoadAugment(uint8 slot, uint16 augment)
 {
-    ref<uint16>(m_extra, 2 + (slot * 2)) = augment;
+    auto& augData = this->exdata<Exdata::AugmentStandard>();
+    std::memcpy(&augData.Augments[slot], &augment, sizeof(uint16));
 }
 
 bool CItemEquipment::PushAugment(uint16 type, uint8 value)
 {
+    auto&  augData = this->exdata<Exdata::AugmentStandard>();
     uint8  slot    = 0;
-    uint16 augment = ref<uint16>(m_extra, 2 + (slot * 2));
+    uint16 augment = 0;
+    std::memcpy(&augment, &augData.Augments[slot], sizeof(uint16));
     while (augment != 0 && slot < 4)
     {
         ++slot;
-        augment = ref<uint16>(m_extra, 2 + (slot * 2));
+        std::memcpy(&augment, &augData.Augments[slot], sizeof(uint16));
     }
     if (augment == 0)
     {
@@ -407,13 +413,15 @@ bool CItemEquipment::PushAugment(uint16 type, uint8 value)
 
 void CItemEquipment::ApplyAugment(uint8 slot)
 {
-    SetAugmentMod((uint16)unpackBitsBE(m_extra, 2 + (slot * 2), 0, 11), (uint8)unpackBitsBE(m_extra, 2 + (slot * 2), 11, 5));
+    auto& augData = this->exdata<Exdata::AugmentStandard>();
+    SetAugmentMod(augData.Augments[slot].Id, augData.Augments[slot].Value);
 }
 
 void CItemEquipment::setAugment(uint8 slot, uint16 type, uint8 value)
 {
-    packBitsBE(m_extra, type, 2 + (slot * 2), 0, 11);
-    packBitsBE(m_extra, value, 2 + (slot * 2), 11, 5);
+    auto& augData                = this->exdata<Exdata::AugmentStandard>();
+    augData.Augments[slot].Id    = type;
+    augData.Augments[slot].Value = value;
 
     SetAugmentMod(type, value);
 }
@@ -428,9 +436,10 @@ void CItemEquipment::SetAugmentMod(uint16 type, uint8 value)
 
     if (type != 0)
     {
+        auto& augData = this->exdata<Exdata::AugmentStandard>();
         setSubType(ITEM_AUGMENTED);
-        ref<uint8>(m_extra, 0x00) |= 0x02;
-        ref<uint8>(m_extra, 0x01) |= 0x03;
+        augData.AugmentKind |= Exdata::AugmentKindFlags::HasAugments;
+        augData.AugmentSubKind |= Exdata::AugmentSubKindFlags::Standard;
     }
 
     const auto& augmentDataModifiers = sAugmentData[type];
@@ -469,5 +478,8 @@ void CItemEquipment::SetAugmentMod(uint16 type, uint8 value)
 
 uint16 CItemEquipment::getAugment(uint8 slot)
 {
-    return ref<uint16>(m_extra, 2 + (slot * 2));
+    auto&  augData = this->exdata<Exdata::AugmentStandard>();
+    uint16 result  = 0;
+    std::memcpy(&result, &augData.Augments[slot], sizeof(uint16));
+    return result;
 }

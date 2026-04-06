@@ -169,8 +169,7 @@ bool CItemFurnishing::getOn2ndFloor()
 
 auto CItemFurnishing::getSignature() -> const std::string
 {
-    auto& sig = this->exdata<Exdata::Furniture>().Signature;
-    return std::string(reinterpret_cast<const char*>(sig), sizeof(sig));
+    return Exdata::decodeSignature(this->exdata<Exdata::Furniture>().Signature);
 }
 
 void CItemFurnishing::setSignature(const std::string& signature)

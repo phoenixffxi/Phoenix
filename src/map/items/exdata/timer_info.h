@@ -26,16 +26,15 @@
 namespace Exdata
 {
 #pragma pack(push, 1)
-struct PerpetualHourglass
+struct ItemTimerInfo
 {
-    uint16_t padding00;
-    uint8_t  Flags : 3;
-    uint8_t  padding01 : 5;
-    uint8_t  padding02[5];
-    uint32_t EndTime;
-    uint32_t StartTime;
-    uint16_t ZoneId;
-    uint8_t  padding03[6];
+    uint8_t  Header;
+    uint8_t  RemainingCharges;
+    uint16_t Flags; // TODO: decode flag bits. Retail observations (high byte only, low always 0x00):
+                    //   0x80=idle, 0xC0=just used, 0x90=charge consumed/cooldown, 0xD0=cooldown expired
+    uint32_t TimeValue1;
+    uint32_t TimeValue2;
+    uint8_t  Signature[12];
 
     void toTable(sol::table& table) const;
     void fromTable(const sol::table& data);
