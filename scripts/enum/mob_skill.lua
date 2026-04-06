@@ -659,6 +659,14 @@ xi.mobSkill =
     MARIONETTE_DICE_4             = 1417,
     MARIONETTE_DICE_5             = 1418,
     MARIONETTE_DICE_6             = 1419,
+    MARIONETTE_DICE_7             = 1420,
+    MARIONETTE_DICE_8             = 1421,
+    MARIONETTE_DICE_9             = 1422,
+    MARIONETTE_DICE_10            = 1423,
+    MARIONETTE_DICE_11            = 1424,
+    MARIONETTE_DICE_12            = 1425,
+
+    MARIONETTE_DICE_14            = 1427,
 
     ACTINIC_BURST                 = 1441,
 
