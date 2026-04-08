@@ -142,6 +142,9 @@ void view_session::read_func()
                              session.accountID,
                              charID,
                              session.accountID);
+
+            // Increment key after delete
+            session.incrementKeyValue += 4;
         }
         break;
         case 0x21: // 33: Registering character name onto the lobby server
