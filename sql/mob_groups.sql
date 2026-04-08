@@ -115,7 +115,7 @@ INSERT INTO `mob_groups` VALUES (45,4834,2,'Cryptonberry_Assassin',0,128,0,4500,
 INSERT INTO `mob_groups` VALUES (46,3971,2,'Tonberrys_Elemental',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (47,3970,2,'Tonberrys_Avatar',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (48,3097,2,'Para',0,128,0,2800,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (49,576,2,'Bullheaded_Grosvez',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (49,576,2,'Bullheaded_Grosvez',0,128,0,5000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (50,2784,2,'Mycophile',0,128,1761,2500,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (51,1934,2,'Hercules_Beetle',0,128,1303,2238,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (52,6809,2,'Orcfeltrap',0,128,0,0,0,0,NULL);
