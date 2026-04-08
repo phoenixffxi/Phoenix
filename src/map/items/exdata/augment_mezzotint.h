@@ -23,19 +23,31 @@
 
 #include "base.h"
 
+#include "enums/exdata.h"
+
 namespace Exdata
 {
 #pragma pack(push, 1)
-struct PerpetualHourglass
+// Mezzotint augments (Delve, Geas Fete).
+// 3 augment slots using client LUT indices (see xi.mezzotint.augment).
+
+struct AugmentSlot
 {
-    uint16_t padding00;
-    uint8_t  Flags : 3;
-    uint8_t  padding01 : 5;
-    uint8_t  padding02[5];
-    uint32_t EndTime;
-    uint32_t StartTime;
-    uint16_t ZoneId;
-    uint8_t  padding03[6];
+    uint8_t Index;
+    uint8_t Value;
+};
+
+struct AugmentMezzotint
+{
+    AugmentKindFlags    AugmentKind;
+    AugmentSubKindFlags AugmentSubKind;
+    uint8_t             Type : 2;
+    uint8_t             Rank : 5;
+    uint8_t             padding00 : 1;
+    uint8_t             padding01;
+    uint16_t            AccumulatedRP;
+    AugmentSlot         Augments[3];
+    uint8_t             Signature[12];
 
     void toTable(sol::table& table) const;
     void fromTable(const sol::table& data);

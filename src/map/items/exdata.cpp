@@ -22,6 +22,7 @@
 #include "exdata.h"
 
 #include "item.h"
+#include "item_equipment.h"
 #include "item_furnishing.h"
 #include "item_weapon.h"
 
@@ -42,6 +43,11 @@ auto getType(const CItem* item) -> Type
     }
 
     const auto itemId = item->getID();
+
+    if (item->isType(ITEM_LINKSHELL))
+    {
+        return Type::Linkshell;
+    }
 
     if (fishingutils::IsFish(item))
     {
@@ -160,8 +166,13 @@ auto getType(const CItem* item) -> Type
         return Type::Furniture;
     }
 
+    if (itemId == LU_SHANGS_FISHING_ROD_P1 || itemId == EBISU_FISHING_ROD_P1)
+    {
+        return Type::Serialized;
+    }
+
     // Unlockable weapons use specific exdata
-    // Must be checked before augments
+    // Must be checked before charged items and augments
     if (item->isType(ITEM_WEAPON))
     {
         auto* PWeapon = static_cast<const CItemWeapon*>(item);
@@ -169,6 +180,18 @@ auto getType(const CItem* item) -> Type
         {
             return Type::WeaponUnlock;
         }
+    }
+
+    // Charged items (equipment or usable) use timer exdata
+    if (item->isSubType(ITEM_CHARGED))
+    {
+        return Type::Usable;
+    }
+
+    // Equipment with augments
+    if (item->isType(ITEM_EQUIPMENT))
+    {
+        return Type::Augment;
     }
 
     return Type::None;
@@ -248,6 +271,38 @@ auto toTable(const CItem* item, sol::table& table) -> bool
         case Type::Mannequin:
             item->exdata<Mannequin>().toTable(table);
             return true;
+        case Type::Linkshell:
+            item->exdata<Linkshell>().toTable(table);
+            return true;
+        case Type::Serialized:
+            item->exdata<Serialized>().toTable(table);
+            return true;
+        case Type::Usable:
+            item->exdata<ItemTimerInfo>().toTable(table);
+            return true;
+        case Type::Augment:
+        {
+            const auto kind    = item->exdata<AugmentStandard>().AugmentKind;
+            const auto subKind = item->exdata<AugmentStandard>().AugmentSubKind;
+
+            if (kind == AugmentKindFlags::Bundled)
+            {
+                item->exdata<AugmentBundle>().toTable(table);
+            }
+            else if (static_cast<uint8_t>(subKind & AugmentSubKindFlags::Mezzotint))
+            {
+                item->exdata<AugmentMezzotint>().toTable(table);
+            }
+            else if (static_cast<uint8_t>(subKind & AugmentSubKindFlags::Trial))
+            {
+                item->exdata<AugmentTrial>().toTable(table);
+            }
+            else
+            {
+                item->exdata<AugmentStandard>().toTable(table);
+            }
+            return true;
+        }
         default:
             return false;
     }
@@ -327,6 +382,58 @@ auto fromTable(CItem* item, const sol::table& data) -> bool
         case Type::Mannequin:
             item->exdata<Mannequin>().fromTable(data);
             return true;
+        case Type::Linkshell:
+            item->exdata<Linkshell>().fromTable(data);
+            return true;
+        case Type::Serialized:
+            item->exdata<Serialized>().fromTable(data);
+            return true;
+        case Type::Usable:
+            item->exdata<ItemTimerInfo>().fromTable(data);
+            return true;
+        case Type::Augment:
+        {
+            const auto kind    = Exdata::get_or<AugmentKindFlags>(data, "augmentKind", AugmentKindFlags{});
+            const auto subKind = Exdata::get_or<AugmentSubKindFlags>(data, "augmentSubKind", AugmentSubKindFlags{});
+
+            if (kind == AugmentKindFlags::Bundled)
+            {
+                item->exdata<AugmentBundle>().fromTable(data);
+            }
+            else if (static_cast<uint8_t>(subKind & AugmentSubKindFlags::Mezzotint))
+            {
+                item->exdata<AugmentMezzotint>().fromTable(data);
+            }
+            else if (static_cast<uint8_t>(subKind & AugmentSubKindFlags::Trial))
+            {
+                item->exdata<AugmentTrial>().fromTable(data);
+                if (auto* PEquip = dynamic_cast<CItemEquipment*>(item))
+                {
+                    for (uint8 slot = 0; slot < std::size(item->exdata<AugmentTrial>().Augments); ++slot)
+                    {
+                        if (item->exdata<AugmentTrial>().Augments[slot].Id != 0)
+                        {
+                            PEquip->ApplyAugment(slot);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                item->exdata<AugmentStandard>().fromTable(data);
+                if (auto* PEquip = dynamic_cast<CItemEquipment*>(item))
+                {
+                    for (uint8 slot = 0; slot < std::size(item->exdata<AugmentStandard>().Augments); ++slot)
+                    {
+                        if (item->exdata<AugmentStandard>().Augments[slot].Id != 0)
+                        {
+                            PEquip->ApplyAugment(slot);
+                        }
+                    }
+                }
+            }
+            return true;
+        }
         default:
             return false;
     }

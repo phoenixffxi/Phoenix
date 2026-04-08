@@ -23,19 +23,23 @@
 
 #include "base.h"
 
+#include "enums/exdata.h"
+
 namespace Exdata
 {
 #pragma pack(push, 1)
-struct PerpetualHourglass
+struct Augment
 {
-    uint16_t padding00;
-    uint8_t  Flags : 3;
-    uint8_t  padding01 : 5;
-    uint8_t  padding02[5];
-    uint32_t EndTime;
-    uint32_t StartTime;
-    uint16_t ZoneId;
-    uint8_t  padding03[6];
+    uint16_t Id : 11;
+    uint16_t Value : 5;
+};
+
+struct AugmentStandard
+{
+    AugmentKindFlags    AugmentKind;
+    AugmentSubKindFlags AugmentSubKind;
+    Augment             Augments[5];
+    uint8_t             Signature[12];
 
     void toTable(sol::table& table) const;
     void fromTable(const sol::table& data);

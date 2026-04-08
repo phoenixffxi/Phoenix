@@ -23,19 +23,22 @@
 
 #include "base.h"
 
+#include "enums/exdata.h"
+
 namespace Exdata
 {
+// Serializes any item without conflicting exdata but the only known retail usage is LuShang +1 and Ebisu +1
 #pragma pack(push, 1)
-struct PerpetualHourglass
+struct Serialized
 {
-    uint16_t padding00;
-    uint8_t  Flags : 3;
-    uint8_t  padding01 : 5;
-    uint8_t  padding02[5];
-    uint32_t EndTime;
-    uint32_t StartTime;
-    uint16_t ZoneId;
-    uint8_t  padding03[6];
+    AugmentKindFlags    AugmentKind;
+    AugmentSubKindFlags AugmentSubKind;
+    uint16_t            padding00;
+    uint8_t             ServerIndex;
+    uint8_t             padding01;
+    uint16_t            SerialNumber;
+    uint8_t             padding02[4];
+    uint8_t             Signature[12];
 
     void toTable(sol::table& table) const;
     void fromTable(const sol::table& data);

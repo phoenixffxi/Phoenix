@@ -251,8 +251,8 @@ public:
     bool   delContainerItems(const sol::object& containerID);
     bool   addUsedItem(uint16 itemID);
     bool   addTempItem(uint16 itemID, const sol::object& arg1);
-    uint8  getWornUses(uint16 itemID);                                     // Check if the item is already worn
-    uint8  incrementItemWear(uint16 itemID);                               // Increment the item's worn value and returns it
+    auto   getWornUses(uint16 itemID) const -> uint8;                      // Check if the item is already worn
+    auto   incrementItemWear(uint16 itemID) const -> uint8;                // Increment the item's worn value and returns it
     auto   findItem(uint16 itemID, const sol::object& location) -> CItem*; // Like hasItem, but returns the item object (nil if not found)
     auto   findItems(uint16 itemID, const sol::object& location) -> sol::table;
     auto   getItems(const sol::object& location) -> sol::table;

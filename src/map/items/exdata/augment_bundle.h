@@ -23,19 +23,29 @@
 
 #include "base.h"
 
+#include "enums/exdata.h"
+
 namespace Exdata
 {
 #pragma pack(push, 1)
-struct PerpetualHourglass
+// Bundled augments (Odyssey, JSE necks, Unity belts).
+// Augments referenced by DAT table index (see xi.data.augments.bundles).
+// MaxRankTier (2 bits): 0=15, 1=20, 2=25, 3=30.
+// RPCurve selects the RP-per-rank table (see xi.data.augments.rpCurves).
+struct AugmentBundle
 {
-    uint16_t padding00;
-    uint8_t  Flags : 3;
-    uint8_t  padding01 : 5;
-    uint8_t  padding02[5];
-    uint32_t EndTime;
-    uint32_t StartTime;
-    uint16_t ZoneId;
-    uint8_t  padding03[6];
+    AugmentKindFlags    AugmentKind;
+    AugmentSubKindFlags AugmentSubKind;
+    uint16_t            padding00{};
+    uint32_t            Type : 2;
+    uint32_t            AccumulatedRP : 16;
+    uint32_t            Rank : 5;
+    uint32_t            MaxRankTier : 2;
+    uint32_t            padding01 : 1;
+    uint32_t            RPCurve : 2; // RP per rank client table
+    uint32_t            padding02 : 4;
+    uint32_t            AugmentIndex;
+    uint8_t             Signature[12];
 
     void toTable(sol::table& table) const;
     void fromTable(const sol::table& data);

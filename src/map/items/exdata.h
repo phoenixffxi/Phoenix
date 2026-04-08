@@ -25,7 +25,12 @@
 
 #include "exdata/base.h"
 
+#include "exdata/appraisable.h"
 #include "exdata/assault_log.h"
+#include "exdata/augment_bundle.h"
+#include "exdata/augment_mezzotint.h"
+#include "exdata/augment_standard.h"
+#include "exdata/augment_trial.h"
 #include "exdata/betting_slip.h"
 #include "exdata/brenner_book.h"
 #include "exdata/chocobo_card.h"
@@ -39,15 +44,19 @@
 #include "exdata/glowing_lamp.h"
 #include "exdata/honeymoon_ticket.h"
 #include "exdata/legion_pass.h"
+#include "exdata/linkshell.h"
 #include "exdata/lottery_ticket.h"
 #include "exdata/mannequin.h"
 #include "exdata/meeble_grimoire.h"
 #include "exdata/perpetual_hourglass.h"
 #include "exdata/race_certificate.h"
+#include "exdata/serialized.h"
 #include "exdata/soul_plate.h"
 #include "exdata/soul_reflector.h"
 #include "exdata/tabula.h"
+#include "exdata/timer_info.h"
 #include "exdata/weapon_unlock.h"
+#include "exdata/worn_item.h"
 
 class CItem;
 

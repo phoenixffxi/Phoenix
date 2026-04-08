@@ -36,7 +36,7 @@ GP_SERV_COMMAND_EQUIP_INSPECT::GENERAL::GENERAL(const CCharEntity* PChar, const 
     if (PLinkshell && PLinkshell->isType(ITEM_LINKSHELL))
     {
         packet.ItemNo = PLinkshell->getID();
-        std::memcpy(packet.sComLinkName, PLinkshell->getSignature().c_str(), std::clamp<size_t>(PLinkshell->getSignature().size(), 0, 15));
+        std::memcpy(packet.sComLinkName, PLinkshell->exdata<Exdata::Linkshell>().Name, sizeof(PLinkshell->exdata<Exdata::Linkshell>().Name));
         packet.sComColor = PLinkshell->GetLSRawColor();
     }
 

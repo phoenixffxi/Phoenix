@@ -179,4 +179,73 @@
 ---@field race?     xi.mannequin.type
 ---@field pose?     xi.mannequin.pose
 
----@alias Exdata ExdataLegionPass|ExdataPerpetualHourglass|ExdataBettingSlip|ExdataAssaultLog|ExdataBrennerBook|ExdataMeebleGrimoire|ExdataHoneymoonTicket|ExdataRaceCertificate|ExdataLotteryTicket|ExdataTabula|ExdataEvolith|ExdataCraftingSet|ExdataGlowingLamp|ExdataChocoboEgg|ExdataChocoboCard|ExdataFish|ExdataEscutcheon|ExdataSoulPlate|ExdataSoulReflector|ExdataWeaponUnlock|ExdataFurniture|ExdataFlowerPot|ExdataMannequin
+---@class ExdataAugment
+---@field id?    integer
+---@field value? integer
+
+---@class ExdataAugmentStandard
+---@field augmentKind?    xi.augment.kind
+---@field augmentSubKind? xi.augment.subKind|integer
+---@field augments?       ExdataAugment[]                        # Up to 5 augments
+---@field signature?      string
+
+---@class ExdataAugmentTrialInfo
+---@field id?        integer
+---@field completed? boolean
+
+---@class ExdataAugmentTrial
+---@field augmentKind?    xi.augment.kind
+---@field augmentSubKind? xi.augment.subKind|integer
+---@field augments?       ExdataAugment[]                        # Up to 4 augments
+---@field trial?          ExdataAugmentTrialInfo
+---@field signature?      string
+
+---@class ExdataMezzotintAugment
+---@field index? xi.mezzotint.augment
+---@field value? integer
+
+---@class ExdataAugmentMezzotint
+---@field augmentKind?    xi.augment.kind
+---@field augmentSubKind? xi.augment.subKind|integer
+---@field type?           xi.mezzotint.type
+---@field rank?           integer
+---@field accumulatedRP?  integer
+---@field augments?       ExdataMezzotintAugment[]                            # Up to 3 slots
+---@field signature?      string
+
+---@class ExdataAugmentBundle
+---@field augmentKind?    xi.augment.kind
+---@field type?           integer
+---@field accumulatedRP?  integer
+---@field rank?           integer
+---@field maxRankTier?    integer
+---@field rpCurve?        xi.augment.rpCurve
+---@field augmentIndex?   integer
+---@field signature?      string
+
+---@class ExdataLinkshellColor
+---@field r? integer
+---@field g? integer
+---@field b? integer
+---@field a? integer
+
+---@class ExdataLinkshell
+---@field groupId?  integer
+---@field groupKey? integer
+---@field color?    ExdataLinkshellColor
+---@field flag?     integer
+---@field name?     string
+
+---@class ExdataSerialized
+---@field serverIndex?    integer                                # Only retail server IDs render correctly
+---@field serialNumber?   integer                                # [1-65535]
+---@field signature?      string
+
+---@class ExdataItemTimerInfo
+---@field remainingCharges? integer
+---@field flags?            integer
+---@field timeValue1?       integer
+---@field timeValue2?       integer
+---@field signature?        string
+
+---@alias Exdata ExdataLegionPass|ExdataPerpetualHourglass|ExdataBettingSlip|ExdataAssaultLog|ExdataBrennerBook|ExdataMeebleGrimoire|ExdataHoneymoonTicket|ExdataRaceCertificate|ExdataLotteryTicket|ExdataTabula|ExdataEvolith|ExdataCraftingSet|ExdataGlowingLamp|ExdataChocoboEgg|ExdataChocoboCard|ExdataFish|ExdataEscutcheon|ExdataSoulPlate|ExdataSoulReflector|ExdataWeaponUnlock|ExdataFurniture|ExdataFlowerPot|ExdataMannequin|ExdataAugmentStandard|ExdataAugmentTrial|ExdataAugmentMezzotint|ExdataAugmentBundle|ExdataLinkshell|ExdataSerialized|ExdataItemTimerInfo
