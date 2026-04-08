@@ -180,26 +180,12 @@ end
 function CItem:isInstalled()
 end
 
----@param name string
----@param interestData integer
----@param zeni integer
----@param skillIndex integer
----@param fp integer
----@return nil
-function CItem:setSoulPlateData(name, interestData, zeni, skillIndex, fp)
-end
-
 ---@nodiscard
----@return table
-function CItem:getSoulPlateData()
-end
-
----@nodiscard
----@return ExdataLegionPass|ExdataPerpetualHourglass
+---@return Exdata
 function CItem:getExData()
 end
 
----@param data ExdataLegionPass|ExdataPerpetualHourglass
+---@param data Exdata
 function CItem:setExData(data)
 end
 

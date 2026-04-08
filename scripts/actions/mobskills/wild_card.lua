@@ -1,7 +1,6 @@
 -----------------------------------
 -- Wild Card (Mob Skill)
 -- Description : Has a random effect on all targets within range.
--- TODO : Research what Wild Card does for mobs, this is just a blank effect application for now so the ability can be used.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -11,9 +10,11 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
 end
 
 mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
-    skill:setMsg(xi.msg.basic.USES)
+    local tp = 3000
+    skill:setMsg(xi.msg.basic.TP_INCREASE)
+    target:setTP(tp)
 
-    return 0
+    return tp
 end
 
 return mobskillObject

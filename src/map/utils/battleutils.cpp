@@ -3785,7 +3785,7 @@ Mod GetResistanceRankModFromElement(ELEMENT& element)
         { ELEMENT_WATER, Mod::WATER_RES_RANK },
         { ELEMENT_WIND, Mod::WIND_RES_RANK },
         { ELEMENT_EARTH, Mod::EARTH_RES_RANK },
-        { ELEMENT_THUNDER, Mod::EARTH_RES_RANK },
+        { ELEMENT_THUNDER, Mod::THUNDER_RES_RANK },
         { ELEMENT_ICE, Mod::ICE_RES_RANK },
         { ELEMENT_LIGHT, Mod::LIGHT_RES_RANK },
         { ELEMENT_DARK, Mod::DARK_RES_RANK },

@@ -55,6 +55,7 @@ constexpr std::uint16_t WeatherCycle = 2160;
 #include "status_effect_container.h"
 #include "treasure_pool.h"
 #include "zone_entities.h"
+#include "zone_mesh.h"
 
 #include "entities/npcentity.h"
 #include "entities/petentity.h"
@@ -480,6 +481,74 @@ void CZone::LoadNavMesh()
     {
         DebugNavmesh("CZone::LoadNavMesh: Cannot load navmesh file (%s)", file);
         m_navMesh = nullptr;
+    }
+}
+
+auto CZone::zoneMesh() const -> Maybe<CZoneMesh*>
+{
+    if (zoneMesh_ && zoneMesh_->isLoaded())
+    {
+        return zoneMesh_.get();
+    }
+
+    return std::nullopt;
+}
+
+void CZone::LoadZoneMesh()
+{
+    TracyZoneScoped;
+
+    if (zoneMesh_ == nullptr)
+    {
+        zoneMesh_ = std::make_unique<CZoneMesh>();
+    }
+
+    // TODO: Align ximesh filenames with zone_settings names so this isn't needed.
+    auto meshName = std::string(getName());
+
+    // Rala_Waterways_U -> Rala_Waterways_[U]
+    // Yorcia_Weald_U -> Yorcia_Weald_[U]
+    // Cirdas_Caverns_U -> Cirdas_Caverns_[U]
+    if (meshName.size() >= 2 && meshName.substr(meshName.size() - 2) == "_U")
+    {
+        meshName.replace(meshName.size() - 2, 2, "_[U]");
+    }
+
+    // Escha_ZiTah -> Escha-ZiTah
+    // Escha_RuAun -> Escha-RuAun
+    if (meshName.starts_with("Escha_"))
+    {
+        meshName.replace(5, 1, "-");
+    }
+
+    // Desuetia_Empyreal_Paradox -> Desuetia-Empyreal_Paradox
+    if (meshName.starts_with("Desuetia_"))
+    {
+        meshName.replace(8, 1, "-");
+    }
+
+    // Ship_bound_for_Selbina_Pirates -> Ship_bound_for_Selbina_ID-227, Ship_bound_for_Mhaura_Pirates -> Ship_bound_for_Mhaura_ID-228
+    if (meshName == "Ship_bound_for_Selbina_Pirates")
+    {
+        meshName = "Ship_bound_for_Selbina_ID-227";
+    }
+    else if (meshName == "Ship_bound_for_Mhaura_Pirates")
+    {
+        meshName = "Ship_bound_for_Mhaura_ID-228";
+    }
+
+    // Maquette_Abdhaljs-Legion_A -> Maquette_Abdhaljs-Legion
+    // Maquette_Abdhaljs-Legion_B -> Maquette_Abdhaljs-Legion
+    if (meshName.starts_with("Maquette_Abdhaljs-Legion_"))
+    {
+        meshName = "Maquette_Abdhaljs-Legion";
+    }
+
+    const auto file = fmt::format("ximeshes/{}.ximesh", meshName);
+    if (!zoneMesh_->load(file))
+    {
+        DebugNavmesh("CZone::LoadZoneMesh: Cannot load zone mesh (%s)", file.c_str());
+        zoneMesh_ = nullptr;
     }
 }
 
@@ -1000,7 +1069,6 @@ void CZone::CharZoneIn(CCharEntity* PChar)
     TracyZoneScoped;
 
     PChar->loc.zone        = this;
-    PChar->loc.zoning      = false;
     PChar->loc.destination = 0;
     PChar->clearTriggerAreas();
 

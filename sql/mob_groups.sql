@@ -4566,7 +4566,7 @@ INSERT INTO `mob_groups` VALUES (50,914,79,'Dark_Esquire',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (51,3109,79,'Peallaidh',0,32,2656,14400,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (52,4503,79,'Zikko',0,128,2799,9000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (53,606,79,'Caedarva_Toad',0,128,0,8400,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (54,2144,79,'Jazaraat',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (54,2144,79,'Jazaraat',0,128,0,13500,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (55,3331,79,'Ravin_Raven',0,128,2078,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (56,2349,79,'Lamia_No27',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (57,2752,79,'Moshdahn',0,128,0,25000,0,0,NULL);
@@ -11074,7 +11074,7 @@ INSERT INTO `mob_groups` VALUES (24,469,153,'Blood_Ball',300,0,0,0,0,0,NULL); --
 INSERT INTO `mob_groups` VALUES (25,4578,153,'Mourning_Crawler',300,0,3007,0,0,0,'ABYSSEA');
 INSERT INTO `mob_groups` VALUES (26,4577,153,'Snaggletooth_Peapuk',300,0,2814,0,0,0,'ABYSSEA');
 INSERT INTO `mob_groups` VALUES (27,6369,153,'Viseclaw',300,0,3197,0,0,0,'ABYSSEA');
-INSERT INTO `mob_groups` VALUES (28,123,153,'Ancient_Goobbue',86400,0,3141,15000,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (28,123,153,'Ancient_Goobbue',86400,0,3141,15700,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (29,515,153,'Boyahda_Sapling',300,0,2912,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (30,344,153,'Bark_Tarantula',300,0,228,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (31,978,153,'Demonic_Rose',300,0,609,0,0,0,NULL);

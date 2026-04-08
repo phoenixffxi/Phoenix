@@ -92,9 +92,6 @@ public:
 
     bool isInstalled();
 
-    void setSoulPlateData(const std::string& name, uint32 interestData, uint8 zeni, uint16 skillIndex, uint8 fp);
-    auto getSoulPlateData() -> sol::table;
-
     auto getExData() const -> sol::table;
     void setExData(const sol::table& data) const;
     auto getExDataRaw() const -> sol::table;         // NOTE: 0-indexed, to be in line with the underlying C++ data

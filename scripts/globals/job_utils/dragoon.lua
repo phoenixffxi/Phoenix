@@ -327,6 +327,7 @@ xi.job_utils.dragoon.applyEmpathyBonus = function(player, wyvern)
     xi.job_utils.dragoon.addWyvernExp(player, 200 * empathyTotal)
 
     if empathyTotal > 0 then
+        ---@type CStatusEffect[]
         local validEffects = {}
         local i            = 0
         local effects      = player:getStatusEffects()

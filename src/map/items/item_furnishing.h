@@ -138,7 +138,10 @@ public:
     void setOn2ndFloor(bool on2ndFloor);
     bool getOn2ndFloor();
 
-    bool isGardeningPot();
+    auto getSignature() -> const std::string override;
+    void setSignature(const std::string& signature) override;
+
+    bool isGardeningPot() const;
 
 private:
     uint8  m_storage;

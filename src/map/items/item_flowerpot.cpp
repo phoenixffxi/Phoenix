@@ -1,4 +1,4 @@
-﻿/*
+/*
 ===========================================================================
 
   Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -21,20 +21,7 @@
 
 #include "item_flowerpot.h"
 
-#include "common/utils.h"
-
-// Flowerpot Extra data explained:
-//          00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17
-// Example: 08 40 03 07 01 37 0A 00 17 00 00 00 E5 C8 9A 1F 88 1A 9F 1F 08 3C 04 08
-// 00 - Flowerpot stage ID (FLOWERPOT_STAGE_TYPE). Plants do not necessarily follow this sequentially and will skip some stages based on seed type.
-// 01 - Tracks if displayed as well as if the plant has been dried
-// 02 - Crystal feed element ID (FLOWERPOT_ELEMENT_TYPE). 4095 + element ID is the crystal item ID. This one is only used by trees that take two feedings.
-// 03 - Same as 0x02 but is the common one used by all plants.
-// 04 - Seed type (FLOWERPOT_PLANT_TYPE) of the plant
-// 05 - Bit 1 tracks if the plant was examined since the last wilting check. Bits 2-N store the RNG "strength" of the plant.
-// 06-0B - MH Display info used in CItemFurnishing
-// 0C-0F - Vanatime of when the seed was planted in the flowerpot
-// 10-13 - Vanatime of when the next plant stage will occur
+#include "exdata/flower_pot.h"
 
 CItemFlowerpot::CItemFlowerpot(uint16 id)
 : CItemFurnishing(id)
@@ -56,7 +43,7 @@ void CItemFlowerpot::cleanPot()
 
 bool CItemFlowerpot::isPlanted()
 {
-    return ref<uint8>(m_extra, 0x00) > 0;
+    return this->exdata<Exdata::FlowerPot>().Step > 0;
 }
 
 bool CItemFlowerpot::isTree()
@@ -79,35 +66,28 @@ bool CItemFlowerpot::isTree()
 
 void CItemFlowerpot::setDried(bool dried)
 {
-    if (dried)
-    {
-        ref<uint8>(m_extra, 0x01) |= 0x80;
-    }
-    else
-    {
-        ref<uint8>(m_extra, 0x01) &= ~0x80;
-    }
+    this->exdata<Exdata::FlowerPot>().Dried = dried ? 1 : 0;
 }
 
 bool CItemFlowerpot::isDried()
 {
-    return ref<uint8>(m_extra, 0x01) & 0x80;
+    return this->exdata<Exdata::FlowerPot>().Dried;
 }
 
 bool CItemFlowerpot::canGrow()
 {
-    uint8 stage = ref<uint8>(m_extra, 0x00);
+    uint8 stage = this->exdata<Exdata::FlowerPot>().Step;
     return stage >= FLOWERPOT_STAGE_INITIAL && stage <= FLOWERPOT_STAGE_THIRD_SPROUTS && !isDried();
 }
 
 void CItemFlowerpot::setPlant(FLOWERPOT_PLANT_TYPE plant)
 {
-    ref<uint8>(m_extra, 0x04) = plant;
+    this->exdata<Exdata::FlowerPot>().Kind = plant;
 }
 
 FLOWERPOT_PLANT_TYPE CItemFlowerpot::getPlant()
 {
-    return (FLOWERPOT_PLANT_TYPE)ref<uint8>(m_extra, 0x04);
+    return static_cast<FLOWERPOT_PLANT_TYPE>(this->exdata<Exdata::FlowerPot>().Kind);
 }
 
 uint16 CItemFlowerpot::getSeedID(FLOWERPOT_PLANT_TYPE plantType)
@@ -163,32 +143,32 @@ FLOWERPOT_PLANT_TYPE CItemFlowerpot::getPlantFromSeed(uint16 seedID)
 
 void CItemFlowerpot::setStage(FLOWERPOT_STAGE_TYPE stage)
 {
-    ref<uint8>(m_extra, 0x00) = stage;
+    this->exdata<Exdata::FlowerPot>().Step = stage;
 }
 
 FLOWERPOT_STAGE_TYPE CItemFlowerpot::getStage()
 {
-    return (FLOWERPOT_STAGE_TYPE)ref<uint8>(m_extra, 0x00);
+    return static_cast<FLOWERPOT_STAGE_TYPE>(this->exdata<Exdata::FlowerPot>().Step);
 }
 
 void CItemFlowerpot::setFirstCrystalFeed(FLOWERPOT_ELEMENT_TYPE element)
 {
-    ref<uint8>(m_extra, 0x02) = element;
+    this->exdata<Exdata::FlowerPot>().Crystal1 = element;
 }
 
 void CItemFlowerpot::setSecondCrystalFeed(FLOWERPOT_ELEMENT_TYPE element)
 {
-    ref<uint8>(m_extra, 0x03) = element;
+    this->exdata<Exdata::FlowerPot>().Crystal2 = element;
 }
 
 FLOWERPOT_ELEMENT_TYPE CItemFlowerpot::getExtraCrystalFeed()
 {
-    return (FLOWERPOT_ELEMENT_TYPE)ref<uint8>(m_extra, 0x02);
+    return static_cast<FLOWERPOT_ELEMENT_TYPE>(this->exdata<Exdata::FlowerPot>().Crystal1);
 }
 
 FLOWERPOT_ELEMENT_TYPE CItemFlowerpot::getCommonCrystalFeed()
 {
-    return (FLOWERPOT_ELEMENT_TYPE)ref<uint8>(m_extra, 0x03);
+    return static_cast<FLOWERPOT_ELEMENT_TYPE>(this->exdata<Exdata::FlowerPot>().Crystal2);
 }
 
 int16 CItemFlowerpot::getItemFromElement(FLOWERPOT_ELEMENT_TYPE element)
@@ -200,50 +180,50 @@ int16 CItemFlowerpot::getItemFromElement(FLOWERPOT_ELEMENT_TYPE element)
 FLOWERPOT_ELEMENT_TYPE CItemFlowerpot::getElementFromItem(int16 itemID)
 {
     // Element and crystal item id ordering is the same with an offset
-    return (FLOWERPOT_ELEMENT_TYPE)(itemID - 4095);
+    return static_cast<FLOWERPOT_ELEMENT_TYPE>(itemID - 4095);
 }
 
 void CItemFlowerpot::setPlantTimestamp(uint32 vanatime)
 {
-    ref<uint32>(m_extra, 0x0C) = vanatime;
+    this->exdata<Exdata::FlowerPot>().TimePlanted = vanatime;
 }
 
 uint32 CItemFlowerpot::getPlantTimestamp()
 {
-    return ref<uint32>(m_extra, 0x0C);
+    return this->exdata<Exdata::FlowerPot>().TimePlanted;
 }
 
 void CItemFlowerpot::setStageTimestamp(uint32 vanatime)
 {
-    ref<uint32>(m_extra, 0x10) = vanatime;
+    this->exdata<Exdata::FlowerPot>().TimeNextStep = vanatime;
 }
 
 uint32 CItemFlowerpot::getStageTimestamp()
 {
-    return ref<uint32>(m_extra, 0x10);
+    return this->exdata<Exdata::FlowerPot>().TimeNextStep;
 }
 
 void CItemFlowerpot::clearExamined()
 {
-    ref<uint8>(m_extra, 0x05) &= ~1;
+    this->exdata<Exdata::FlowerPot>().Examined = 0;
 }
 
 void CItemFlowerpot::markExamined()
 {
-    ref<uint8>(m_extra, 0x05) |= 1;
+    this->exdata<Exdata::FlowerPot>().Examined = 1;
 }
 
 bool CItemFlowerpot::wasExamined()
 {
-    return ref<uint8>(m_extra, 0x05) & 1;
+    return this->exdata<Exdata::FlowerPot>().Examined;
 }
 
 void CItemFlowerpot::setStrength(uint8 strength)
 {
-    ref<uint8>(m_extra, 0x05) = strength << 1;
+    this->exdata<Exdata::FlowerPot>().Strength = strength;
 }
 
 uint8 CItemFlowerpot::getStrength()
 {
-    return ref<uint8>(m_extra, 0x05) >> 1;
+    return this->exdata<Exdata::FlowerPot>().Strength;
 }

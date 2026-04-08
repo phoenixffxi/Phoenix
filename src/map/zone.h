@@ -26,6 +26,7 @@
 #include <common/mmo.h>
 #include <common/scheduler.h>
 #include <common/timer.h>
+#include <common/types/maybe.h>
 #include <common/vana_time.h>
 
 #include <list>
@@ -45,6 +46,7 @@
 
 enum class Weather : uint16_t;
 class CNavMesh;
+class CZoneMesh;
 class SpawnHandler;
 class ZoneLos;
 
@@ -674,11 +676,14 @@ public:
     std::unique_ptr<CNavMesh> m_navMesh;
     std::unique_ptr<ZoneLos>  lineOfSight;
 
+    auto zoneMesh() const -> Maybe<CZoneMesh*>;
+
     std::map<uint32_t, std::unique_ptr<SpawnSlot>> m_spawnSlots; // add unique slots to zone
 
     timer::time_point m_LoadedAt; // The time the zone was loaded
 
     void LoadNavMesh();
+    void LoadZoneMesh();
     void LoadZoneLos();
 
 protected:
@@ -698,6 +703,8 @@ protected:
     std::unordered_map<std::string, uint32> localVars_;
 
 private:
+    std::unique_ptr<CZoneMesh> zoneMesh_;
+
     ZONEID         m_zoneID;
     ZONE_TYPE      m_zoneType;
     REGION_TYPE    m_regionID;

@@ -44,7 +44,13 @@ xi.mobSkill =
 
     RANDGRITH_1                   =  170,
 
+    NETHERSPIKES_1                =  241,
+    CARNAL_NIGHTMARE_1            =  242,
+    AEGIS_SCHISM_1                =  243,
+    DANCING_CHAINS_1              =  244,
     BARBED_CRESCENT_1             =  245,
+
+    FOXFIRE                       =  247,
 
     FOOT_KICK_1                   =  257,
     DUST_CLOUD_1                  =  258,
@@ -605,6 +611,10 @@ xi.mobSkill =
     CROSSTHRASH_1                 = 1340,
     KNIFE_EDGE_CIRCLE             = 1341,
     TRAIN_FALL                    = 1342,
+    MOBLIN_EMOTE_1                = 1343,
+    MOBLIN_EMOTE_2                = 1344,
+    MOBLIN_EMOTE_3                = 1345,
+    MOBLIN_EMOTE_4                = 1346,
 
     MANTLE_PIERCE                 = 1349,
 
@@ -644,12 +654,20 @@ xi.mobSkill =
     RANGED_ATTACK_TENZEN_2        = 1400, -- Tenzen Bow Low
     SOUL_ACCRETION                = 1401,
 
+    MARIONETTE_DICE_2             = 1415,
+    MARIONETTE_DICE_3             = 1416,
+    MARIONETTE_DICE_4             = 1417,
+    MARIONETTE_DICE_5             = 1418,
+    MARIONETTE_DICE_6             = 1419,
+
     ACTINIC_BURST                 = 1441,
 
     HEXIDISCS                     = 1443,
     VORPAL_BLADE_GHRAH            = 1444,
     DAMNATION_DIVE_GHRAH          = 1445,
     SICKLE_SLASH                  = 1446,
+
+    MARIONETTE_DICE_15            = 1457,
 
     REACTOR_COOL                  = 1463,
     OPTIC_INDURATION_CHARGE       = 1464,

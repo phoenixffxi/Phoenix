@@ -351,25 +351,6 @@ bool CLuaItem::isInstalled()
     return PFurnishing->isInstalled();
 }
 
-void CLuaItem::setSoulPlateData(const std::string& name, uint32 interestData, uint8 zeni, uint16 skillIndex, uint8 fp)
-{
-    m_PLuaItem->setSoulPlateData(name, interestData, zeni, skillIndex, fp);
-}
-
-auto CLuaItem::getSoulPlateData() -> sol::table
-{
-    auto       data  = m_PLuaItem->getSoulPlateData();
-    sol::table table = lua.create_table();
-
-    table["name"]         = std::get<0>(data);
-    table["interestData"] = std::get<1>(data);
-    table["zeni"]         = std::get<2>(data);
-    table["skillIndex"]   = std::get<3>(data);
-    table["fp"]           = std::get<4>(data);
-
-    return table;
-}
-
 /************************************************************************
  *  Function: getExData()
  *  Purpose : Returns the item's extra data as a typed table.
@@ -503,8 +484,6 @@ void CLuaItem::Register()
     SOL_REGISTER("setAppraisalID", CLuaItem::setAppraisalID);
     SOL_REGISTER("getCurrentCharges", CLuaItem::getCurrentCharges);
     SOL_REGISTER("isInstalled", CLuaItem::isInstalled);
-    SOL_REGISTER("setSoulPlateData", CLuaItem::setSoulPlateData);
-    SOL_REGISTER("getSoulPlateData", CLuaItem::getSoulPlateData);
     SOL_REGISTER("getExData", CLuaItem::getExData);
     SOL_REGISTER("setExData", CLuaItem::setExData);
     SOL_REGISTER("getExDataRaw", CLuaItem::getExDataRaw);

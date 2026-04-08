@@ -33,6 +33,7 @@ enum class QuestLog : uint8_t;
 enum class POSMODE : uint8;
 enum class MusicSlot : uint16_t;
 enum class ChocoboColor : uint8_t;
+enum class TerrainType : uint8;
 class CBaseEntity;
 class CCharEntity;
 class CLuaBattlefield;
@@ -76,6 +77,7 @@ public:
     // Variables
     int32  getCharVar(const std::string& varName);
     auto   getCharVarsWithPrefix(const std::string& prefix) -> sol::table;
+    auto   getCharVarsWithSuffix(const std::string& suffix) -> sol::table;
     void   setCharVar(const std::string& varname, int32 value, const sol::object& expiry);
     void   setCharVarExpiration(const std::string& varName, uint32 expiry); // Sets character variable expiration timestamp
     void   incrementCharVar(const std::string& varname, int32 value);       // Increments/decrements/sets a character variable
@@ -260,8 +262,6 @@ public:
     auto getCurrentGPItem(uint8 guildId) const -> std::tuple<uint16, uint16>;
     bool breakLinkshell(const std::string& lsname);
     bool addLinkpearl(const std::string& lsname, bool equip);
-
-    auto addSoulPlate(const std::string& name, uint32 interestData, uint8 zeni, uint16 skillIndex, uint8 fp) -> CItem*;
 
     // Trading
     uint8 getContainerSize(uint8 locationID);

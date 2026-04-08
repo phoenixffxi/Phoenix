@@ -3399,6 +3399,35 @@ auto CCharEntity::getCharVarsWithPrefix(const std::string& prefix) -> std::vecto
     return charVars;
 }
 
+auto CCharEntity::getCharVarsWithSuffix(const std::string& suffix) -> std::vector<std::pair<std::string, int32>>
+{
+    const auto currentTimestamp = earth_time::timestamp();
+
+    std::vector<std::pair<std::string, int32>> charVars;
+
+    const auto rset = db::preparedStmt("SELECT varname, value, expiry FROM char_vars WHERE charid = ? AND varname LIKE ?",
+                                       this->id,
+                                       fmt::format("%{}", suffix));
+    if (rset && rset->rowsCount())
+    {
+        while (rset->next())
+        {
+            const auto varname = rset->get<std::string>("varname");
+            const auto value   = rset->get<int32>("value");
+            const auto expiry  = rset->get<uint32>("expiry");
+
+            if (expiry == 0 || expiry > currentTimestamp)
+            {
+                charVarCache[varname] = { value, expiry };
+
+                charVars.emplace_back(varname, value);
+            }
+        }
+    }
+
+    return charVars;
+}
+
 void CCharEntity::setCharVar(const std::string& charVarName, int32 value, uint32 expiry /* = 0 */)
 {
     charVarCache[charVarName] = { value, expiry };

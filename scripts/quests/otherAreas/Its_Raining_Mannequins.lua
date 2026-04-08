@@ -159,7 +159,11 @@ quest.sections =
                     if player:getFreeSlotsCount() > 0 and not player:hasItem(chosenMannequin) then
                         if quest:complete(player) then
                             player:tradeComplete()
-                            player:addItem({ id = chosenMannequin, exdata = { [18] = race, [19] = 0 } })
+                            local item = player:addItem({ id = chosenMannequin })
+                            if item then
+                                item:setExData({ race = race })
+                            end
+
                             player:messageSpecial(mhauraID.text.ITEM_OBTAINED, chosenMannequin)
                         end
                     else

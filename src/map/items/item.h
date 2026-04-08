@@ -125,8 +125,6 @@ public:
     void setDirty(bool dirty);
 
     bool isSoultrapper() const;
-    void setSoulPlateData(const std::string& name, uint32 interestData, uint8 zeni, uint16 skillIndex, uint8 fp);
-    auto getSoulPlateData() -> std::tuple<std::string, uint32, uint8, uint16, uint8>;
 
     bool isMannequin() const;
 

@@ -1145,34 +1145,15 @@ uint16 GetMessageOffset(uint16 ZoneID)
     return MessageOffset[ZoneID];
 }
 
-bool IsFish(CItem* fish)
+auto IsFish(const CItem* fish) -> bool
 {
-    if (fish != nullptr && !FishList.empty())
-    {
-        auto f = FishList.find(fish->getID());
-
-        if (f != FishList.end())
-        {
-            return true;
-        }
-    }
-
-    return false;
+    return fish && FishList.contains(fish->getID());
 }
 
-fish_t* GetFish(uint32 fishId)
+auto GetFish(const uint32 fishId) -> fish_t*
 {
-    if (!FishList.empty())
-    {
-        auto f = FishList.find(fishId);
-
-        if (f != FishList.end())
-        {
-            return f->second;
-        }
-    }
-
-    return nullptr;
+    const auto f = FishList.find(fishId);
+    return f != FishList.end() ? f->second : nullptr;
 }
 
 /************************************************************************

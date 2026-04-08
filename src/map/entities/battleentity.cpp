@@ -1540,9 +1540,9 @@ uint8 CBattleEntity::GetMLevel() const
     return m_mlvl;
 }
 
-JOBTYPE CBattleEntity::GetSJob() const
+JOBTYPE CBattleEntity::GetSJob(bool ignoreRestriction) const
 {
-    if (StatusEffectContainer->HasStatusEffect({ EFFECT_OBLIVISCENCE, EFFECT_SJ_RESTRICTION }))
+    if (!ignoreRestriction && StatusEffectContainer->HasStatusEffect({ EFFECT_OBLIVISCENCE, EFFECT_SJ_RESTRICTION }))
     {
         return JOB_NON;
     }

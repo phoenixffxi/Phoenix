@@ -61,6 +61,8 @@ const std::unordered_map<MsgBasic, MsgBasic> aoeVariants = {
     { MsgBasic::UsesAbilityFortifiedDemons, MsgBasic::TargetFortifiedDemons },
     { MsgBasic::UsesAbilityFortifiedDragons, MsgBasic::TargetFortifiedDragons },
     { MsgBasic::UsesAbilityGainsEffect, MsgBasic::TargetGainsEffect },
+    { MsgBasic::UsesAbilityReceivesEffect, MsgBasic::TargetReceivesEffectAbility },
+    { MsgBasic::UsesAbilityNoEffect, MsgBasic::TargetNoEffect },
     { MsgBasic::UsesAbilityEffect, MsgBasic::ReceivesEffectAbility },
     { MsgBasic::UsesAbilityRecharge, MsgBasic::TargetAbilitiesRecharged },
     { MsgBasic::UsesAbilityRechargeTP, MsgBasic::TargetRechargedTP },

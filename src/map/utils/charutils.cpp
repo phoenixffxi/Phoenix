@@ -1083,9 +1083,7 @@ void LoadInventory(CCharEntity* PChar)
                 }
                 else if (PItem->getFlag() & (ITEM_FLAG_INSCRIBABLE))
                 {
-                    char EncodedString[SignatureStringLength] = {};
-                    EncodeStringSignature(rset->get<std::string>("signature").c_str(), EncodedString);
-                    PItem->setSignature(EncodedString);
+                    PItem->setSignature(rset->get<std::string>("signature"));
                 }
 
                 if (auto PItemUsable = dynamic_cast<CItemUsable*>(PItem))
@@ -3140,7 +3138,72 @@ void EquipItem(CCharEntity* PChar, uint8 slotID, uint8 equipSlotID, uint8 contai
         return;
     }
 
-    // if player attempts to change thier ranged weapon during a ranged state then prevent equip
+    // slotID of zero = unequip
+    if (slotID > 0)
+    {
+        // skip the rest of the function if we are trying to equip the same item to a different slot
+        switch (static_cast<SLOTTYPE>(equipSlotID))
+        {
+            case SLOT_MAIN:
+            {
+                auto PSub = PChar->getEquip(SLOT_SUB);
+                if (PItem == PSub)
+                {
+                    return;
+                }
+                break;
+            }
+            case SLOT_SUB:
+            {
+                auto PMain = PChar->getEquip(SLOT_MAIN);
+                if (PItem == PMain)
+                {
+                    return;
+                }
+                break;
+            }
+            case SLOT_EAR1:
+            {
+                auto PEar2 = PChar->getEquip(SLOT_EAR2);
+                if (PItem == PEar2)
+                {
+                    return;
+                }
+                break;
+            }
+            case SLOT_EAR2:
+            {
+                auto PEar1 = PChar->getEquip(SLOT_EAR1);
+                if (PItem == PEar1)
+                {
+                    return;
+                }
+                break;
+            }
+            case SLOT_RING1:
+            {
+                auto PRing2 = PChar->getEquip(SLOT_RING2);
+                if (PItem == PRing2)
+                {
+                    return;
+                }
+                break;
+            }
+            case SLOT_RING2:
+            {
+                auto PRing1 = PChar->getEquip(SLOT_RING1);
+                if (PItem == PRing1)
+                {
+                    return;
+                }
+                break;
+            }
+            default:
+                break;
+        }
+    }
+
+    // if player attempts to change their ranged weapon during a ranged state then prevent equip
     // this prevents players from starting a RA with short delay x-bow and ending with high dmg longbow
     if (equipSlotID == SLOT_RANGED || (equipSlotID == SLOT_AMMO && !PChar->getEquip(SLOT_RANGED)))
     {
@@ -3154,10 +3217,28 @@ void EquipItem(CCharEntity* PChar, uint8 slotID, uint8 equipSlotID, uint8 contai
     {
         auto PItemWeapon = dynamic_cast<CItemWeapon*>(PItem);
         auto PMainItem   = dynamic_cast<CItemWeapon*>(PChar->getEquip(SLOT_MAIN));
+
         if (PItemWeapon && PItemWeapon->getSkillType() == SKILL_NONE && (!PMainItem || !PMainItem->isTwoHanded()))
         {
             PChar->pushPacket<GP_SERV_COMMAND_BATTLE_MESSAGE>(PChar, PChar, 0, 0, MsgBasic::Requires2HForGrip);
             return;
+        }
+
+        if (PItemWeapon && PItemWeapon->getSkillType() != SKILL_NONE)
+        {
+            // Don't attempt to equip item in equip menu if you don't have dual wield trait (client sees BLU, THF, DNC, NIN, /DNC or /NIN etc as able to equip sub weapons even if sub is too low or no trait on BLU)
+            if (!PChar->hasTrait(TRAIT_DUAL_WIELD))
+            {
+                PChar->pushPacket<GP_SERV_COMMAND_BATTLE_MESSAGE>(PChar, PChar, PItemWeapon->getID(), 0, MsgBasic::NeedDualWield);
+                return;
+            }
+
+            // Don't allow Dual Wield injections to offhand when you dont have a mainahdn (this was visual only)
+            // Don't allow non-shields in offhand with no weapon
+            if ((PMainItem && PMainItem->isTwoHanded()) || !PMainItem)
+            {
+                return;
+            }
         }
 
         // Disallow everything but shields if you're using H2H
@@ -4552,8 +4633,8 @@ EMobDifficulty CheckMob(uint8 charlvl, CBattleEntity* PMob)
         }
     }
 
-    auto IEPLevel = IncrediblyEasyPreyCheck.first;
-    auto IEPExp   = IncrediblyEasyPreyCheck.second;
+    auto IEPExp   = IncrediblyEasyPreyCheck.first;
+    auto IEPLevel = IncrediblyEasyPreyCheck.second;
 
     if (baseExp >= IEPExp && moblvl > IEPLevel)
     {
@@ -6063,7 +6144,7 @@ void SaveCharStats(CCharEntity* PChar)
                      PChar->health.mp,
                      PChar->profile.mhflag,
                      PChar->GetMJob(),
-                     PChar->GetSJob(),
+                     PChar->GetSJob(true),
                      PChar->petZoningInfo.petID,
                      static_cast<uint8>(PChar->petZoningInfo.petType),
                      PChar->petZoningInfo.petHP,
@@ -7294,12 +7375,6 @@ bool AddWeaponSkillPoints(CCharEntity* PChar, SLOTTYPE slotid, int wspoints)
             PChar->pushPacket<GP_SERV_COMMAND_COMMAND_DATA>(PChar);
         }
 
-        db::preparedStmt("UPDATE char_inventory SET extra = ? WHERE charid = ? AND location = ? AND slot = ? LIMIT 1",
-                         PWeapon->m_extra,
-                         PChar->id,
-                         PWeapon->getLocationID(),
-                         PWeapon->getSlotID());
-
         return true;
     }
     return false;
@@ -7954,18 +8029,6 @@ void loadDeathTimestamp(CCharEntity* PChar)
     }
 }
 
-void loadZoningFlag(CCharEntity* PChar)
-{
-    const auto rset = db::preparedStmt("SELECT pos_prevzone FROM chars WHERE charid = ? LIMIT 1", PChar->id);
-    if (rset && rset->rowsCount() && rset->next())
-    {
-        if (PChar->getZone() == rset->get<uint16>("pos_prevzone"))
-        {
-            PChar->loc.zoning = true;
-        }
-    }
-}
-
 bool isOrchestrionPlaced(CCharEntity* PChar)
 {
     for (auto safeContainerId : { LOC_MOGSAFE, LOC_MOGSAFE2 })
@@ -7990,30 +8053,6 @@ bool isOrchestrionPlaced(CCharEntity* PChar)
 
 void updateMannequins(CCharEntity* PChar)
 {
-    // Build Mannequin model id list
-    auto getModelIdFromStorageSlot = [](CCharEntity* PChar, uint8 slot) -> uint16
-    {
-        uint16 modelId = 0x0000;
-
-        if (slot == 0)
-        {
-            return modelId;
-        }
-
-        auto* PItem = PChar->getStorage(LOC_STORAGE)->GetItem(slot);
-        if (PItem == nullptr)
-        {
-            return modelId;
-        }
-
-        if (auto* PItemEquipment = dynamic_cast<CItemEquipment*>(PItem))
-        {
-            modelId = PItemEquipment->getModelId();
-        }
-
-        return modelId;
-    };
-
     for (auto safeContainerId : { LOC_MOGSAFE, LOC_MOGSAFE2 })
     {
         CItemContainer* PContainer = PChar->getStorage(safeContainerId);
@@ -8025,27 +8064,14 @@ void updateMannequins(CCharEntity* PChar)
                 auto* PFurnishing = static_cast<CItemFurnishing*>(PContainerItem);
                 if (PFurnishing->isInstalled() && PFurnishing->isMannequin())
                 {
-                    auto* PMannequin = PFurnishing;
+                    auto& mannequin = PFurnishing->exdata<Exdata::Mannequin>();
 
-                    uint16 mainId  = getModelIdFromStorageSlot(PChar, PMannequin->m_extra[10 + 0]);
-                    uint16 subId   = getModelIdFromStorageSlot(PChar, PMannequin->m_extra[10 + 1]);
-                    uint16 rangeId = getModelIdFromStorageSlot(PChar, PMannequin->m_extra[10 + 2]);
-                    uint16 headId  = getModelIdFromStorageSlot(PChar, PMannequin->m_extra[10 + 3]);
-                    uint16 bodyId  = getModelIdFromStorageSlot(PChar, PMannequin->m_extra[10 + 4]);
-                    uint16 handsId = getModelIdFromStorageSlot(PChar, PMannequin->m_extra[10 + 5]);
-                    uint16 legId   = getModelIdFromStorageSlot(PChar, PMannequin->m_extra[10 + 6]);
-                    uint16 feetId  = getModelIdFromStorageSlot(PChar, PMannequin->m_extra[10 + 7]);
-                    uint8  race    = PMannequin->m_extra[10 + 8];
-                    uint8  pose    = PMannequin->m_extra[10 + 9];
-
-                    std::ignore = pose;
-
-                    if (race == 0)
+                    if (mannequin.Race == 0)
                     {
                         ShowWarning("Invalid Mannequin placed (race of 0 in exdata, when races start at 1). It will be unusable.");
                     }
 
-                    PChar->pushPacket<GP_SERV_COMMAND_ITEM_SUBCONTAINER>(safeContainerId, slotIndex, headId, bodyId, handsId, legId, feetId, mainId, subId, rangeId);
+                    PChar->pushPacket<GP_SERV_COMMAND_ITEM_SUBCONTAINER>(PChar, safeContainerId, slotIndex, mannequin);
                 }
             }
         }

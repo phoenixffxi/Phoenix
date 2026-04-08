@@ -132,45 +132,6 @@ quest.sections =
 
     {
         check = function(player, status, vars)
-            return status == xi.questStatus.QUEST_ACCEPTED and
-                not player:hasItem(xi.item.BOWL_OF_QUADAV_STEW)
-        end,
-
-        [xi.zone.BEADEAUX] =
-        {
-            ['Bronze_Quadav'] =
-            {
-                onSteal = function(player, target, ability, action)
-                    return xi.item.BOWL_OF_QUADAV_STEW
-                end
-            },
-
-            ['Garnet_Quadav'] =
-            {
-                onSteal = function(player, target, ability, action)
-                    return xi.item.BOWL_OF_QUADAV_STEW
-                end
-            },
-
-            ['Silver_Quadav'] =
-            {
-                onSteal = function(player, target, ability, action)
-                    return xi.item.BOWL_OF_QUADAV_STEW
-                end
-            },
-
-            ['Zircon_Quadav'] =
-            {
-                onSteal = function(player, target, ability, action)
-                    return xi.item.BOWL_OF_QUADAV_STEW
-                end
-            }
-        },
-
-    },
-
-    {
-        check = function(player, status, vars)
             return status == xi.questStatus.QUEST_COMPLETED and
                 player:getQuestStatus(xi.questLog.WINDURST, xi.quest.id.windurst.AS_THICK_AS_THIEVES) == xi.questStatus.QUEST_AVAILABLE and
                 player:getMainJob() == xi.job.THF and

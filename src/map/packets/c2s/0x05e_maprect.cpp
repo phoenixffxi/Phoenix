@@ -21,6 +21,8 @@
 
 #include "0x05e_maprect.h"
 
+#include <string_view>
+
 #include "common/utils.h"
 #include "entities/charentity.h"
 #include "enums/msg_std.h"
@@ -63,8 +65,13 @@ void GP_CLI_COMMAND_MAPRECT::process(MapSession* PSession, CCharEntity* PChar) c
 
     PChar->ClearTrusts();
 
-    auto isMogHouseExit     = std::memcmp(&this->RectID, "zmrq", 4) == 0; // zmrq is the universal Mog House exit zoneline
-    auto isMogHouseEntrance = std::memcmp(&this->RectID, "zmr", 3) == 0;  // zmr* are zone-specific Mog House entry zonelines
+    // RectID is a uint32_t holding a 4-character zoneline tag (fourcc); reinterpret as exactly 4 bytes (no trailing NUL).
+    const std::string_view rectView(reinterpret_cast<const char*>(&this->RectID), 4);
+
+    const auto isMogHouseExit = rectView == "zmrq"; // universal Mog House exit zoneline
+
+    const std::string_view mogEntrancePrefix  = rectView.substr(0, 3);
+    const auto             isMogHouseEntrance = mogEntrancePrefix == "zmr" || mogEntrancePrefix == "zms"; // zmr* classic cities; zms* WoTG [S] + Adoulin
 
     if (PChar->status == STATUS_TYPE::NORMAL)
     {
