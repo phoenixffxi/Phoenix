@@ -1,4 +1,4 @@
--- Dynamis Valkurm Mob Information and Mechanics
+-- Dynamis Buburimu Mob Information and Mechanics
 -----------------------------------
 xi = xi or {}
 xi.dynamis = xi.dynamis or {}

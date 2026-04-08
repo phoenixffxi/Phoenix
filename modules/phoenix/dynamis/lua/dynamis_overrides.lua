@@ -742,11 +742,6 @@ local mobNames =
 -- Special cases for SJ zones (7-9) and Tavnazia (10) for NPCs qm0 and qm1
 
 local function registerDynamisZoneOverrides(zoneID, zoneName, zoneNumber)
-    m:addOverride(string.format('xi.zones.%s.Zone.onInitialize', zoneName),
-    function(zone)
-        xi.dynamis.zoneOnZoneInitializeEra(zone)
-    end)
-
     m:addOverride(string.format('xi.zones.%s.Zone.onZoneIn', zoneName),
     function(player, prevZone)
         xi.dynamis.zoneOnZoneInEra(player, prevZone)
@@ -754,7 +749,7 @@ local function registerDynamisZoneOverrides(zoneID, zoneName, zoneNumber)
 
     m:addOverride(string.format('xi.zones.%s.Zone.onZoneTick', zoneName),
     function(zone)
-        xi.dynamis.handleDynamis(zone)
+        xi.dynamis.dynamisTick(zone)
     end)
 
     -- Special case for SJ zones (7-9)
@@ -767,28 +762,36 @@ local function registerDynamisZoneOverrides(zoneID, zoneName, zoneNumber)
     end
 
     -- Special case for Tavnazia (10)
-    -- Still need to audit this later
-    -- if zoneNumber == 10 then
-    --     m:addOverride(string.format('xi.zones.Dynamis-Tavnazia.npcs.qm0.onTrigger', zoneName),
-    --     function(player, npc)
-    --         xi.dynamis.timeExtensionOnTrigger(player, npc)
-    --     end)
+    if zoneNumber == 10 then
+        -- Time extension QMs
+        m:addOverride(string.format('xi.zones.Dynamis-Tavnazia.npcs.qm1.onTrigger', zoneName),
+        function(player, npc)
+            xi.dynamis.teOnTrigger(player, npc)
+        end)
 
-    --     m:addOverride(string.format('xi.zones.Dynamis-Tavnazia.npcs.qm1.onTrigger', zoneName),
-    --     function(player, npc)
-    --         xi.dynamis.timeExtensionOnTrigger(player, npc)
-    --     end)
+        m:addOverride(string.format('xi.zones.Dynamis-Tavnazia.npcs.qm1.onTrade', zoneName),
+        function(player, npc)
+        end)
 
-    --     m:addOverride(string.format('xi.zones.Dynamis-Tavnazia.npcs.qm1.onTrade', zoneName),
-    --     function(player, npc)
-    --         xi.dynamis.timeExtensionOnTrigger(player, npc)
-    --     end)
+        m:addOverride(string.format('xi.zones.Dynamis-Tavnazia.npcs.qm2.onTrigger', zoneName),
+        function(player, npc)
+            xi.dynamis.teOnTrigger(player, npc)
+        end)
 
-    --     m:addOverride(string.format('xi.zones.Dynamis-Tavnazia.Zone.onTriggerAreaEnter', zoneName),
-    --     function(player, triggerArea)
-    --         xi.dynamis.onTriggerAreaEnter(player, triggerArea)
-    --     end)
-    -- end
+        m:addOverride(string.format('xi.zones.Dynamis-Tavnazia.npcs.qm2.onTrade', zoneName),
+        function(player, npc)
+        end)
+        -- Trigger areas
+        m:addOverride(string.format('xi.zones.Dynamis-Tavnazia.Zone.onTriggerAreaEnter', zoneName),
+        function(player, triggerArea)
+            xi.dynamis.onTriggerAreaEnterTav(player, triggerArea)
+        end)
+
+        m:addOverride(string.format('xi.zones.%s.Zone.onInitialize', zoneName),
+        function(zone)
+            xi.dynamis.onZoneInitTav(zone)
+        end)
+    end
 end
 
 -- Helper function for entry NPC overrides
@@ -925,6 +928,7 @@ local function registerMobOverrides(zoneName, mobName, mobType)
         end)
 
         m:addOverride(mobPath .. '.onMobRoam', function(mob)
+            xi.dynamis.onMobRoam(mob)
         end)
 
         m:addOverride(mobPath .. '.onMobDeath', function(mob, player, optParams)

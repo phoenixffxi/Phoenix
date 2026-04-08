@@ -9,11 +9,11 @@ local m = Module:new('dynamis_items')
 -- perpetual_hourglass
 -----------------------------------
 m:addOverride('xi.items.perpetual_hourglass.onItemCheck', function(target, item, param, caster)
-    return xi.itemUtils.itemBoxOnItemCheck(target)
+    return xi.dynamis.onGlassCheck(target, item)
 end)
 
 m:addOverride('xi.items.perpetual_hourglass.onItemUse', function(target, user, item, action)
-    target:addItem({ id = xi.item.PERPETUAL_HOURGLASS, quantity = 2, exdata = item:getExData()} )
+    xi.dynamis.onGlassUse(target, item)
 end)
 
 return m

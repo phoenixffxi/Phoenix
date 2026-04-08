@@ -12,7 +12,7 @@ xi.dynamis = xi.dynamis or {}
 
 -- Debug control
 xi.mobinfo = xi.mobinfo or {}
-xi.mobinfo.DEBUG = false
+xi.mobinfo.DEBUG = true
 
 local function debugPrint(message)
     if xi.mobinfo.DEBUG then
@@ -34,6 +34,8 @@ xi.dynamis.generalInfo = function(mob)
     mob:setMobMod(xi.mobMod.EXP_BONUS, -100)
     mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 150)
     mob:setRoamFlags(xi.roamFlag.SCRIPTED)
+
+    mob:setModelSize(3)
 
     -- TODO: figure out DRG wyvern calls later
     local job = mob:getMainJob()
@@ -57,12 +59,12 @@ xi.dynamis.statueOnSpawn = function(mob)
 
     -- Lets check if it has an eye color. If it does we need to set it to not die
     -- Set the eye color before the 1 shot happens
-    local zoneID   = mob:getZoneID()
+    local zoneId   = mob:getZoneID()
     local statueId = mob:getID()
-    debugPrint('Statue spawned - ID: ' .. statueId .. ' Zone: ' .. zoneID .. ' isSpawned: ' .. tostring(mob:isSpawned()) .. ' HP: ' .. mob:getHP())
+    -- debugPrint('Statue spawned - ID: ' .. statueId .. ' Zone: ' .. zoneId .. ' isSpawned: ' .. tostring(mob:isSpawned()) .. ' HP: ' .. mob:getHP())
 
     -- Check if table value exists to prevent nil errors
-    local eyeColor = xi.dynamis.eyeColor[zoneID] and xi.dynamis.eyeColor[zoneID][statueId]
+    local eyeColor = xi.dynamis.eyeColor[zoneId] and xi.dynamis.eyeColor[zoneId][statueId]
     if eyeColor and eyeColor ~= xi.dynamis.eye.RED then
         mob:setUnkillable(true)
     end
@@ -80,7 +82,7 @@ xi.dynamis.mobOnEngage = function(mob, target)
     end
 
     mob:setLocalVar('engageCheck', 1)
-    local zoneID = mob:getZoneID()
+    local zoneId = mob:getZoneID()
     local mobID  = mob:getID()
 
     mob:setMobMod(xi.mobMod.MAGIC_DELAY, math.random(5, 15)) -- Random magic delay to make the casts delayed
@@ -95,19 +97,19 @@ xi.dynamis.mobOnEngage = function(mob, target)
         return
     end
 
-    local count = xi.dynamis.spawnTable[zoneID][mobID][1]
+    local count = xi.dynamis.spawnTable[zoneId][mobID][1]
     if count > 0 then
-        local checkForceSpawn = xi.dynamis.spawnTable[zoneID][mobID][2]
+        local checkForceSpawn = xi.dynamis.spawnTable[zoneId][mobID][2]
         xi.dynamis.spawnNextMobsOnce(mob, mobID, count, target, checkForceSpawn) -- Spawn the next X amount of IDs from that staue
     end
 end
 
 xi.dynamis.checkEyeColor = function(mob)
-    local zoneID = mob:getZoneID()
+    local zoneId = mob:getZoneID()
     local mobID  = mob:getID()
 
     -- Check if table values exist to prevent nil errors
-    local eyeColor = xi.dynamis.eyeColor[zoneID] and xi.dynamis.eyeColor[zoneID][mobID]
+    local eyeColor = xi.dynamis.eyeColor[zoneId] and xi.dynamis.eyeColor[zoneId][mobID]
     if
         eyeColor == xi.dynamis.eye.BLUE or
         eyeColor == xi.dynamis.eye.GREEN
@@ -119,10 +121,10 @@ xi.dynamis.checkEyeColor = function(mob)
 end
 
 xi.dynamis.spawnAggroStatues = function(mob, target)
-    local zoneID   = mob:getZoneID()
+    local zoneId   = mob:getZoneID()
     local statueId = mob:getID()
     -- Check special spawns on aggro conditions
-    local zoneAggro          = xi.dynamis.aggro[zoneID]
+    local zoneAggro          = xi.dynamis.aggro[zoneId]
     local nonAggressiveSpawn = zoneAggro.nonAggressive and zoneAggro.nonAggressive[statueId]
     local aggressiveSpawn    = zoneAggro.aggressive and zoneAggro.aggressive[statueId]
     debugPrint('Statue Aggro Spawns: ' .. (nonAggressiveSpawn or 0) .. ', ' .. (aggressiveSpawn or 0))
@@ -149,8 +151,8 @@ end
 
 xi.dynamis.onStatueFight = function(mob, target)
     -- If its a normal statue don't try to do the restore effect
-    local zoneID = mob:getZoneID()
-    local restoreStatue = xi.dynamis.spawnTable[zoneID][mob:getID()]
+    local zoneId = mob:getZoneID()
+    local restoreStatue = xi.dynamis.spawnTable[zoneId][mob:getID()]
     local eye = restoreStatue[2]
     if eye == xi.dynamis.eye.RED then
         return
@@ -207,7 +209,7 @@ xi.dynamis.onStatueDeath = function(mob, player, optParams)
 
     -- If the statue gets 1 shotted
     -- Force spawn check for NMs
-    local zoneID   = mob:getZoneID()
+    local zoneId   = mob:getZoneID()
     local statueId = mob:getID()
 
     -- If the statue gets 1 shotted we need to force spawn the statues for aggro conditions
@@ -217,9 +219,9 @@ xi.dynamis.onStatueDeath = function(mob, player, optParams)
 
     -- If the mob is one shotted we need to force spawn the NM mobs
     -- This means it has NOT been engaged yet
-    local checkForceSpawn = xi.dynamis.spawnTable[zoneID][statueId][2]
+    local checkForceSpawn = xi.dynamis.spawnTable[zoneId][statueId][2]
     if mob:getLocalVar('engageCheck') == 0 and checkForceSpawn then
-        local count    = xi.dynamis.spawnTable[zoneID][statueId][1]
+        local count    = xi.dynamis.spawnTable[zoneId][statueId][1]
         if count > 0 then
             xi.dynamis.spawnNextMobsOnce(mob, statueId, count, nil, checkForceSpawn) -- Spawn the next X amount of IDs from that staue
         end
@@ -242,8 +244,14 @@ end
 xi.dynamis.onMobSpawn = function(mob, mobType)
     xi.dynamis.generalInfo(mob)
 
-    if mobType == 'Nightmare' then
+    -- Set model sizes here instead of 100 SQL rows
+    if
+        mobType == 'Nightmare' and
+        mob:getZoneID() ~= xi.zone.DYNAMIS_TAVNAZIA
+    then
         mob:setRoamFlags(xi.roamFlag.NONE)
+    elseif mobType == 'Nightmare' then
+        mob:setModelSize(3)
     end
 end
 
@@ -268,7 +276,7 @@ end
 
 xi.dynamis.onMobDeath = function(mob, player, optParams)
     local zone   = mob:getZone()
-    local zoneID = mob:getZoneID()
+    local zoneId = mob:getZoneID()
     -- Check for time extensions
     xi.dynamis.addTimeToDynamis(zone, mob)
 
@@ -277,10 +285,31 @@ xi.dynamis.onMobDeath = function(mob, player, optParams)
 
     -- Zone specific death actions
     if
-        zoneID == xi.zone.DYNAMIS_VALKURM and
+        zoneId == xi.zone.DYNAMIS_VALKURM and
         mob:getName() == 'Nightmare_Fly'
     then
         xi.dynamis.flyCheck(zone)
+    end
+
+    if zoneId == xi.zone.DYNAMIS_TAVNAZIA then
+        if
+            mob:getName() == 'Nightmare_Worm' or
+            mob:getName() == 'Nightmare_Antlion'
+        then
+            xi.dynamis.sjDeathCheck(zone)
+        end
+
+        local vanguardEyes =
+        {
+            [xi.tav.mobs.VANGUARD_EYE_9]  = true,
+            [xi.tav.mobs.VANGUARD_EYE_15] = true,
+            [xi.tav.mobs.VANGUARD_EYE_67] = true,
+            [xi.tav.mobs.VANGUARD_EYE_75] = true,
+        }
+
+        if vanguardEyes[mob:getID()] then
+            xi.dynamis.checkQmSpawn(mob, zone, zoneId)
+        end
     end
 end
 
@@ -293,12 +322,12 @@ xi.dynamis.onNMDeath = function(mob, player, optParams)
         return
     end
 
-    local zoneID = mob:getZoneID()
+    local zoneId = mob:getZoneID()
     local mobID = mob:getID()
     local zone = mob:getZone()
 
     -- Get the death var for this mob
-    local deathVarByMob = xi.dynamis.deathVarByMob[zoneID]
+    local deathVarByMob = xi.dynamis.deathVarByMob[zoneId]
     if not deathVarByMob or not deathVarByMob[mobID] then
         return
     end
@@ -312,15 +341,15 @@ xi.dynamis.onNMDeath = function(mob, player, optParams)
     zone:setLocalVar(deathVar, 1)
 
     -- Check spawnCheck table for any spawn conditions that are now met
-    local spawnCheckTable = xi.dynamis.spawnCheck[zoneID]
-    if not spawnCheckTable then
+    local spawnCheckTable = xi.dynamis.spawnCheck[zoneId]
+    if not spawnCheckTable or #spawnCheckTable == 0 then
         return
     end
 
     for _, spawnCheck in ipairs(spawnCheckTable) do
-
-        -- Only evaluate if it hasn't spawned yet
-        if zone:getLocalVar(spawnCheck.spawnedVar) ~= 1 then
+        -- Only evaluate if it hasn't spawned yet and spawnedVar is valid
+        local spawnedVar = spawnCheck.spawnedVar and zone:getLocalVar(spawnCheck.spawnedVar)
+        if spawnedVar ~= 1 then
             -- Check if all required vars are met
             local allRequiredVarsMet = true
 
@@ -332,7 +361,7 @@ xi.dynamis.onNMDeath = function(mob, player, optParams)
             end
 
             -- If all conditions are met, spawn and set the var to prevent respawn
-            if allRequiredVarsMet and spawnCheck.spawn then
+            if allRequiredVarsMet and spawnCheck.spawn and spawnCheck.spawnedVar then
                 xi.dynamis.spawnWave(spawnCheck.spawn)
                 zone:setLocalVar(spawnCheck.spawnedVar, 1)
             end
@@ -382,9 +411,9 @@ xi.dynamis.onBossDeath = function(mob, player, optParams)
     mob:setLocalVar('deathTriggered', 1)
 
     -- Set position for win QM
-    local zoneID = mob:getZoneID()
+    local zoneId = mob:getZoneID()
     local pos    = mob:getPos()
-    local winQM  = GetNPCByID(xi.dynamis.dynaInfoEra[zoneID].winQM)
+    local winQM  = GetNPCByID(xi.dynamis.dynaInfoEra[zoneId].winQM)
 
     winQM:setPos(pos.x, pos.y, pos.z, pos.rot)
     winQM:setStatus(xi.status.NORMAL)
@@ -393,7 +422,7 @@ xi.dynamis.onBossDeath = function(mob, player, optParams)
     local zone = mob:getZone()
     local playerList = zone:getPlayers()
     for _, players in pairs(playerList) do
-        players:addTitle(xi.dynamis.dynaInfoEra[zoneID].winTitle)
+        players:addTitle(xi.dynamis.dynaInfoEra[zoneId].winTitle)
     end
 
     -- Run normal dead function
@@ -428,9 +457,22 @@ xi.dynamis.spawnNextMobsOnce = function(statue, statueId, count, target, checkFo
         elseif mobToSpawn and not mobToSpawn:isSpawned() then
             mobToSpawn:setMobMod(xi.mobMod.SUPERLINK, statueId)
             mobToSpawn:setRoamFlags(xi.roamFlag.SCRIPTED)
-            mobToSpawn:setSpawn(statuePos.x + math.random() * 6 - 3, statuePos.y, statuePos.z + math.random() * 6 - 3, statuePos.rot)
+            mobToSpawn:setSpawn(statuePos.x + math.random() * 6 - 3, statuePos.y + 1, statuePos.z + math.random() * 6 - 3, statuePos.rot)
             mobToSpawn:spawn()
             mobToSpawn:setLocalVar('spawnedFromMaster', 1) -- nightmare mob check to prevent multiple spawns from the master mob
+
+            -- Sets the "pet" model sizes to one below its master
+            if string.find(mobToSpawn:getName(), 'Nightmare') then
+                local mainSize = statue:getModelSize()
+                if mainSize > 1 then
+                    mobToSpawn:setModelSize(mainSize - 1)
+                else
+                    mobToSpawn:setModelSize(1)
+                end
+            elseif string.find(mobToSpawn:getName(), 'Hydra') then
+                -- Size 3 does not work for Hydra, max size is 2
+                mobToSpawn:setModelSize(2)
+            end
 
             spawnedCount = spawnedCount + 1
             i = i + 1
@@ -461,14 +503,14 @@ xi.dynamis.spawnNextMobsOnce = function(statue, statueId, count, target, checkFo
 end
 
 xi.dynamis.spawnWave = function(wave)
-    debugPrint('Spawning wave...')
-    debugPrint('Wave data: ' .. tostring(wave))
+    -- debugPrint('Spawning wave...')
+    -- debugPrint('Wave data: ' .. tostring(wave))
     if not wave then
         return
     end
 
     for _, mobId in ipairs(wave) do
-        debugPrint('Spawning mob ID: ' .. mobId)
+        -- debugPrint('Spawning mob ID: ' .. mobId)
         local mob = GetMobByID(mobId)
         if mob and not mob:isSpawned() then
             mob:spawn()
@@ -480,14 +522,14 @@ end
 --    Dynamis Mob Pathing/Roam   --
 -----------------------------------
 xi.dynamis.generatePath = function(mob)
-    local zoneID = mob:getZoneID()
+    local zoneId = mob:getZoneID()
     local getID  = mob:getID()
 
     if
-        xi.dynamis.paths[zoneID] and
-        xi.dynamis.paths[zoneID][getID] ~= nil
+        xi.dynamis.paths[zoneId] and
+        xi.dynamis.paths[zoneId][getID] ~= nil
     then
-        local table = xi.dynamis.paths[zoneID][getID]
+        local table = xi.dynamis.paths[zoneId][getID]
         local first = table[1]
         local second = table[2]
         local pathNodes =

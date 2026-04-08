@@ -6,11 +6,15 @@
 local itemObject = {}
 
 itemObject.onItemCheck = function(target, item, param, caster)
-    return xi.itemUtils.itemBoxOnItemCheck(target)
+    return xi.dynamis.onGlassCheck(target, item)
 end
 
 itemObject.onItemUse = function(target, user, item, action)
-    target:addItem({ id = xi.item.PERPETUAL_HOURGLASS, quantity = 2, exdata = item:getExData()} )
+    xi.dynamis.onGlassUse(target, item)
+end
+
+itemObject.onItemDrop = function(target, item)
+    xi.dynamis.onGlassDrop(target, item)
 end
 
 return itemObject
