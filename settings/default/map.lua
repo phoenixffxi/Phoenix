@@ -291,6 +291,9 @@ xi.settings.map =
     AUDIT_PLAYER_DBOX   = false,
     AUDIT_PLAYER_VENDOR = false,
 
+    -- Maximum number of in-flight items (slots) allowed in a player's delivery box for PC-to-PC transfers.
+    DELIVERY_BOX_MAX_INFLIGHT = 128,
+
     -- Seconds between healing ticks. Default is 10
     HEALING_TICK_DELAY = 10,
 
