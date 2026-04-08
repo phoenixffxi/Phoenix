@@ -23,6 +23,7 @@ zones[xi.zone.LUFAISE_MEADOWS] =
         CONQUEST                      = 7237, -- You've earned conquest points!
         FISHING_MESSAGE_OFFSET        = 7571, -- You can't fish here.
         KI_STOLEN                     = 7700, -- The <keyitem> has been stolen!
+        NO_ROOM_COME_BACK_LATER       = 7716, -- You do not have any room in your bag, so you hide the <item> in the grass nearby. Come and retrieve it later.
         LOGGING_IS_POSSIBLE_HERE      = 7748, -- Logging is possible here if you have <item>.
         SURVEY_THE_SURROUNDINGS       = 7755, -- You survey the surroundings but see nothing out of the ordinary.
         MURDEROUS_PRESENCE            = 7756, -- Wait, you sense a murderous presence...!

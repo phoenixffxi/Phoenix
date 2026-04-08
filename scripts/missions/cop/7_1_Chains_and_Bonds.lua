@@ -6,6 +6,8 @@
 -- Walnut Door    : !pos 111 -41 41 26
 -- Sewer Entrance : !pos 28 -12 44 26
 -----------------------------------
+local lufaiseID = zones[xi.zone.LUFAISE_MEADOWS]
+-----------------------------------
 
 local mission = Mission:new(xi.mission.log_id.COP, xi.mission.id.cop.CHAINS_AND_BONDS)
 
@@ -23,6 +25,15 @@ mission.sections =
 
         [xi.zone.LUFAISE_MEADOWS] =
         {
+            ['qm3'] =
+            {
+                onTrigger = function(player, npc)
+                    if mission:getVar(player, 'RingStashed') == 1 then
+                        return mission:progressEvent(114)
+                    end
+                end,
+            },
+
             onZoneIn = function(player, prevZone)
                 if mission:getVar(player, 'Status') == 0 then
                     return 111
@@ -39,7 +50,17 @@ mission.sections =
             onEventFinish =
             {
                 [111] = function(player, csid, option, npc)
+                    if player:getFreeSlotsCount() == 0 then
+                        player:messageSpecial(lufaiseID.text.NO_ROOM_COME_BACK_LATER, xi.item.DUCAL_GUARDS_RING)
+                        mission:setVar(player, 'RingStashed', 1)
+                    elseif npcUtil.giveItem(player, xi.item.DUCAL_GUARDS_RING) then
+                        mission:setVar(player, 'Status', 1)
+                    end
+                end,
+
+                [114] = function(player, csid, option, npc)
                     if npcUtil.giveItem(player, xi.item.DUCAL_GUARDS_RING) then
+                        mission:setVar(player, 'RingStashed', 0)
                         mission:setVar(player, 'Status', 1)
                     end
                 end,
