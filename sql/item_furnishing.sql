@@ -502,9 +502,9 @@ INSERT INTO `item_furnishing` VALUES (3736,'well',80,517,6,8);
 INSERT INTO `item_furnishing` VALUES (3737,'doll_stand',2,2855,7,15);
 INSERT INTO `item_furnishing` VALUES (3738,'eastern_umbrella',1,521,6,2); -- Moghancement: Gardening - From https://ffxiclopedia.fandom.com/wiki/Eastern_Umbrella (BG doesn't show Moghancement)
 INSERT INTO `item_furnishing` VALUES (3739,'autumn_tree',1,515,4,5);
-INSERT INTO `item_furnishing` VALUES (3740,'model_synergy_furnace',8,0,8,11);  -- TODO: Moghancement: Synergy Skill Gains does not yet exist
-INSERT INTO `item_furnishing` VALUES (3741,'model_synergy_furnace_ii',8,0,7,11);  -- TODO: Moglification: Furnace Duration does not yet exist
-INSERT INTO `item_furnishing` VALUES (3742,'painting_of_a_mercenary',1,0,4,1); -- TODO: Moghancement: Mandragora Mania does not yet exist
+INSERT INTO `item_furnishing` VALUES (3740,'model_synergy_furnace',8,0,8,11);    -- TODO: Moghancement: Synergy Skill Gains does not yet exist
+INSERT INTO `item_furnishing` VALUES (3741,'model_synergy_furnace_ii',8,0,7,11); -- TODO: Moglification: Furnace Duration does not yet exist
+INSERT INTO `item_furnishing` VALUES (3742,'painting_of_a_mercenary',1,0,4,1);   -- TODO: Moghancement: Mandragora Mania does not yet exist
 INSERT INTO `item_furnishing` VALUES (3743,'moogle_bed',1,520,7,8);
 INSERT INTO `item_furnishing` VALUES (3744,'mandragora_pot',1,515,4,1);
 INSERT INTO `item_furnishing` VALUES (3745,'korrigan_pot',1,515,4,1);

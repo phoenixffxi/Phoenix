@@ -3335,6 +3335,8 @@ INSERT INTO `item_basic` VALUES (3344,0,'clump_of_red_pondweed','red_pondweed',@
 INSERT INTO `item_basic` VALUES (3345,0,'treatise_on_monochromacy','tr._on_monochro.',@GENERAL_TYPE,1,@FLAG_NOAUCTION | @FLAG_NOSALE | @FLAG_NODELIVERY | @FLAG_EX | @FLAG_RARE,@NONE,0);
 INSERT INTO `item_basic` VALUES (3346,0,'gloomy_charm','gloomy_charm',@GENERAL_TYPE,1,@FLAG_NOAUCTION | @FLAG_NOSALE | @FLAG_NODELIVERY | @FLAG_EX | @FLAG_RARE,@NONE,0);
 INSERT INTO `item_basic` VALUES (3347,0,'beckoning_bell','beckoning_bell',@GENERAL_TYPE,1,@FLAG_NOAUCTION | @FLAG_NOSALE | @FLAG_NODELIVERY | @FLAG_EX | @FLAG_RARE,@NONE,0);
+INSERT INTO `item_basic` VALUES (3348,0,'crystal_paradise','crystal_paradise',@GENERAL_TYPE,1,@FLAG_NOAUCTION | @FLAG_NOSALE | @FLAG_NODELIVERY | @FLAG_EX | @FLAG_RARE,@NONE,0);
+INSERT INTO `item_basic` VALUES (3349,0,'oathsworn_blade','oathsworn_blade',@GENERAL_TYPE,1,@FLAG_NOAUCTION | @FLAG_NOSALE | @FLAG_NODELIVERY | @FLAG_EX | @FLAG_RARE,@NONE,0);
 INSERT INTO `item_basic` VALUES (3351,0,'phobos_orb','phobos_orb',@GENERAL_TYPE,1,@FLAG_NOAUCTION | @FLAG_NOSALE | @FLAG_NODELIVERY | @FLAG_EX | @FLAG_RARE,@NONE,0);
 INSERT INTO `item_basic` VALUES (3352,0,'deimos_orb','deimos_orb',@GENERAL_TYPE,1,@FLAG_NOAUCTION | @FLAG_NOSALE | @FLAG_NODELIVERY | @FLAG_EX | @FLAG_RARE,@NONE,0);
 INSERT INTO `item_basic` VALUES (3353,0,'barbaric_bijou','barbaric_bijou',@GENERAL_TYPE,1,@FLAG_MYSTERY_BOX | @FLAG_CAN_SEND_ACCT | @FLAG_NOAUCTION | @FLAG_NOSALE | @FLAG_NODELIVERY | @FLAG_EX | @FLAG_RARE,@NONE,0);
@@ -22765,6 +22767,11 @@ INSERT INTO `item_basic` VALUES (29336,0,'moogle_storage_slip_25','storage_slip_
 INSERT INTO `item_basic` VALUES (29337,0,'moogle_storage_slip_26','storage_slip_26',@GENERAL_TYPE,1,@FLAG_NOAUCTION | @FLAG_NOSALE | @FLAG_NODELIVERY | @FLAG_EX | @FLAG_RARE,@NONE,0);
 INSERT INTO `item_basic` VALUES (29338,0,'moogle_storage_slip_27','storage_slip_27',@GENERAL_TYPE,1,@FLAG_NOAUCTION | @FLAG_NOSALE | @FLAG_NODELIVERY | @FLAG_EX | @FLAG_RARE,@NONE,0);
 INSERT INTO `item_basic` VALUES (29339,0,'moogle_storage_slip_28','storage_slip_28',@GENERAL_TYPE,1,@FLAG_NOAUCTION | @FLAG_NOSALE | @FLAG_NODELIVERY | @FLAG_EX | @FLAG_RARE,@NONE,0);
+INSERT INTO `item_basic` VALUES (29340,0,'moogle_storage_slip_29','storage_slip_29',@GENERAL_TYPE,1,@FLAG_NOAUCTION | @FLAG_NOSALE | @FLAG_NODELIVERY | @FLAG_EX | @FLAG_RARE,@NONE,0);
+INSERT INTO `item_basic` VALUES (29341,0,'moogle_storage_slip_30','storage_slip_30',@GENERAL_TYPE,1,@FLAG_NOAUCTION | @FLAG_NOSALE | @FLAG_NODELIVERY | @FLAG_EX | @FLAG_RARE,@NONE,0);
+INSERT INTO `item_basic` VALUES (29342,0,'moogle_storage_slip_31','storage_slip_31',@GENERAL_TYPE,1,@FLAG_NOAUCTION | @FLAG_NOSALE | @FLAG_NODELIVERY | @FLAG_EX | @FLAG_RARE,@NONE,0);
+INSERT INTO `item_basic` VALUES (29343,0,'moogle_storage_slip_32','storage_slip_32',@GENERAL_TYPE,1,@FLAG_NOAUCTION | @FLAG_NOSALE | @FLAG_NODELIVERY | @FLAG_EX | @FLAG_RARE,@NONE,0);
+INSERT INTO `item_basic` VALUES (29344,0,'moogle_storage_slip_33','storage_slip_33',@GENERAL_TYPE,1,@FLAG_NOAUCTION | @FLAG_NOSALE | @FLAG_NODELIVERY | @FLAG_EX | @FLAG_RARE,@NONE,0);
 INSERT INTO `item_basic` VALUES (29695,0,'mangled_mess','mangled_mess',@GENERAL_TYPE,1,@FLAG_NOAUCTION | @FLAG_NOSALE | @FLAG_NODELIVERY,@NONE,0);
 INSERT INTO `item_basic` VALUES (65535,0,'gil','gil',@CURRENCY_TYPE,0,0,@NONE,0);
 /*!40000 ALTER TABLE `item_basic` ENABLE KEYS */;
