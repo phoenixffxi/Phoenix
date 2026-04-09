@@ -6,7 +6,11 @@ The project is migrating from "Old-Style" NPC scripts (hardcoded logic in `onTri
 ## 2. Information Discovery
 
 ## Retail Captures
-TODO
+Retail packet captures are essential for accurate migrations. They provide the exact sequence of events, NPC positions, and parameters needed for the Interaction Framework. (See the [Retail Packet Captures Format Guide](retail-packet-captures.md) for detailed folder structures).
+- **`caplog` (Chat Logs):** Start here to understand the quest flow. The capturer's notes and NPC dialogue will help you identify which events correspond to which quest steps.
+- **`eventview/simple` (Simplified Events):** Use these logs to find the exact Event IDs and parameters triggered during interactions. This directly maps to your IF `quest:progressEvent(id)` or `quest:event(id)` calls.
+- **`npclogger/database` (NPC Data):** Use the `.lua` files here to populate or verify NPC coordinates and properties in `sql/npc_list.sql` or to format your NPC script headers correctly.
+- **`packetviewer` (Raw Packets):** For complex interactions that `eventview` doesn't fully capture, you can dive into the raw packets here to understand what the client is sending and receiving.
 
 ### Database (SQL)
 - **NPC IDs & Positions:** Check `sql/npc_list.sql`. Use this to find the 8-digit NPC ID and their `!pos` coordinates.

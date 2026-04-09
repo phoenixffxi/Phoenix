@@ -54,5 +54,6 @@ You should ask follow-up questions and refer to nearby script and code examples 
 
 ### Available Agent Guides
 
+- [Retail Packet Captures Format Guide](retail-packet-captures.md): Overview of the standard directory structure of retail packet captures and instructions on how to utilize `eventview`, `npclogger`, `caplog`, and `packetviewer` data.
 - [Interaction Framework Migration & Verification Guide](interaction-framework-migration.md): Detailed workflow for converting old-style NPC scripts to the modern Interaction Framework, including verification strategies using retail captures, event dumps, and wikis.
 - [NPC Script Header Guide](npc-header-guide.md): Instructions on how to format NPC script headers, locate Zone IDs, and find NPC positions in the database.
