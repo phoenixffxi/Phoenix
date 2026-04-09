@@ -37,6 +37,7 @@ zones[xi.zone.CARPENTERS_LANDING] =
         CRYPTONBERRY_ASSASSIN_2HR     = 7492, -- ..Take up thy lanternsss. The truth we shall illuminate.
         CRYPTONBERRY_EXECUTOR_2HR     = 7493, -- Through this we ssseek our just reward...
         POLISH_MUSHROOM_SPORE         = 7494, -- You polish the <keyitem> with the glowing mushroom spores!
+        CATCH_HIS_BREATH              = 7496, -- Bullheaded Grosvez pauses to catch his breath.
         MYCOPHILE_MUSHROOM            = 7510, -- There is a rotten mushroom here. There are 3 openings in its cap.
         HERCULES_TREE_NOTHING_YET     = 7512, -- There is nothing here yet. Check again in the morning.
         UNITY_WANTED_BATTLE_INTERACT  = 7555, -- Those who have accepted % must pay # Unity accolades to participate. The content for this Wanted battle is #. [Ready to begin?/You do not have the appropriate object set, so your rewards will be limited.]
@@ -44,13 +45,14 @@ zones[xi.zone.CARPENTERS_LANDING] =
     },
     mob =
     {
-        ORCTRAP               = GetFirstID('Orctrap'),
-        TEMPEST_TIGON         = GetFirstID('Tempest_Tigon'),
-        OVERGROWN_IVY         = GetFirstID('Overgrown_Ivy'),
+        BULLHEADED_GROSVEZ    = GetFirstID('Bullheaded_Grosvez'),
         CRYPTONBERRY_EXECUTOR = GetFirstID('Cryptonberry_Executor'),
-        MYCOPHILE             = GetFirstID('Mycophile'),
         HERCULES_BEETLE       = GetFirstID('Hercules_Beetle'),
+        MYCOPHILE             = GetFirstID('Mycophile'),
+        ORCTRAP               = GetFirstID('Orctrap'),
+        OVERGROWN_IVY         = GetFirstID('Overgrown_Ivy'),
         PARA                  = GetFirstID('Para'),
+        TEMPEST_TIGON         = GetFirstID('Tempest_Tigon'),
     },
     npc =
     {

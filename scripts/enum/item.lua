@@ -5547,6 +5547,7 @@ xi.item =
     KYAHAN                              = 12968,
     COTTON_KYAHAN                       = 12969,
     SOIL_KYAHAN                         = 12970,
+    MANNEQUIN_PUMPS                     = 12973,
     MERCENARYS_KYAHAN                   = 12975,
     GAITERS                             = 12976,
     COTTON_GAITERS                      = 12977,
