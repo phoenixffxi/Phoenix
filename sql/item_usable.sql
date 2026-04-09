@@ -2511,6 +2511,7 @@ INSERT INTO `item_usable` VALUES (6690,'sheet_of_starlight_tunes',1,1,117,0,0,0,
 INSERT INTO `item_usable` VALUES (6691,'sheet_of_mapitoto_tunes',1,1,117,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (6692,'vial_of_experimental_fluid',1,1,0,0,0,0,0,0);  -- TODO: verify animation
 INSERT INTO `item_usable` VALUES (6693,'impish_box',1,1,0,0,0,0,0,0);                  -- TODO: verify animation
+INSERT INTO `item_usable` VALUES (6694,'chocobo_chair_ii',1,1,0,0,0,0,0,0);            -- TODO: verify animation
 INSERT INTO `item_usable` VALUES (6695,'adenium_bench',1,1,0,0,0,0,0,0);               -- TODO: verify animation
 INSERT INTO `item_usable` VALUES (6696,'sheet_of_near_east_tunes',1,1,117,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (6697,'scroll_of_instant_reraise_iii',1,1,0,0,0,0,0,0);  -- TODO: verify animation
