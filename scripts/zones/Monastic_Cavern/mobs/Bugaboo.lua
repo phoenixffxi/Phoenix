@@ -32,7 +32,9 @@ entity.onAdditionalEffect = function(mob, target, damage)
 end
 
 entity.onMobDeath = function(mob, player, optParams)
-    player:setCharVar('circleTime', 8) -- Set flag so that final CS will show when you interact with alter again
+    if player:getCharVar('circleTime') == 7 then
+        player:setCharVar('circleTime', 8) -- Set flag so that final CS will show when you interact with alter again
+    end
 end
 
 return entity
