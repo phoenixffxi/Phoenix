@@ -8,7 +8,10 @@ The project is migrating from "Old-Style" NPC scripts (hardcoded logic in `onTri
 ## Retail Captures
 Retail packet captures are essential for accurate migrations. They provide the exact sequence of events, NPC positions, and parameters needed for the Interaction Framework. (See the [Retail Packet Captures Format Guide](retail-packet-captures.md) for detailed folder structures).
 - **`caplog` (Chat Logs):** Start here to understand the quest flow. The capturer's notes and NPC dialogue will help you identify which events correspond to which quest steps.
-- **`eventview/simple` (Simplified Events):** Use these logs to find the exact Event IDs and parameters triggered during interactions. This directly maps to your IF `quest:progressEvent(id)` or `quest:event(id)` calls.
+- **`eventview/simple` (Simplified Events):** Use these logs to map raw packets directly to Interaction Framework calls:
+  - **`CEventPacket` (`0x032`/`0x034`):** The `EventPara` value is the Event ID. This directly maps to your IF `quest:progressEvent(id)` or `quest:event(id)` calls.
+  - **`CMessageSpecialPacket` (`0x02A`):** The `MessageNumber` value is the Text ID. This directly maps to your IF `quest:messageSpecial(id)` calls (often used for non-standard dialogues or system messages like checking doors/sarcophagi).
+  - **`CMessageNamePacket` (`0x027`):** The `MesNum` value (sometimes requiring a bitwise `& 0xFFFF` depending on the logger output) is the standard chat dialogue ID. This maps to IF `quest:messageName(id)` or standard text lookups.
 - **`npclogger/database` (NPC Data):** Use the `.lua` files here to populate or verify NPC coordinates and properties in `sql/npc_list.sql` or to format your NPC script headers correctly.
 - **`packetviewer` (Raw Packets):** For complex interactions that `eventview` doesn't fully capture, you can dive into the raw packets here to understand what the client is sending and receiving.
 
@@ -91,6 +94,7 @@ QUEST_NAME = 123, -- + Partial conversion. TODO: This needs completing with reta
 ```
 
 ## 4. Advanced Interaction Techniques
+- **Container Action Helpers (`event` vs `progressEvent`):** Under the hood (`scripts/globals/interaction/container.lua`), actions like `quest:progressEvent(id)` are simply syntactic sugar for creating a base Event and applying a priority modifier (e.g. `Event:new(id):progress()`). The same applies to `quest:cutscene(id)` or `quest:replaceEvent(id)`. Use `progressEvent` for critical quest progression to ensure it overrides default NPC behaviors.
 - **Event Updates:** Handle multi-choice menus via `onEventUpdate`.
 - **Bitmasks:** Use `quest:setVarBit(player, 'Prog', bit)` and `quest:isVarBitsSet(player, 'Prog', bit)`.
 - **Variables:** Prefer `quest:getVar` over `player:getCharVar` for framework-managed persistence.
