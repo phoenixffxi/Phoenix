@@ -2910,6 +2910,17 @@ INSERT INTO `item_usable` VALUES (19181,'moogles_largesse',1,12,0,0,9,10,259200,
 INSERT INTO `item_usable` VALUES (19204,'fiendtrapper',20,0,0,0,12,10,30,0);
 INSERT INTO `item_usable` VALUES (19246,'moggiebag',1,3,0,0,8,10,259200,0);
 INSERT INTO `item_usable` VALUES (21074,'kupo_rod',1,3,55,0,1,30,72000,0);
+INSERT INTO `item_usable` VALUES (21760,'dispatchers_axe',1,1,0,0,1,30,3600,0);     -- TODO: verify animation
+INSERT INTO `item_usable` VALUES (21997,'magicians_rod_+1',1,3,0,0,1,30,1800,0);    -- TODO: verify animation
+INSERT INTO `item_usable` VALUES (22003,'arthros_scepter',1,1,0,0,1,30,3600,0);     -- TODO: verify animation
+INSERT INTO `item_usable` VALUES (22168,'pandits_staff',1,1,0,0,1,10,72000,0);      -- TODO: verify animation
+INSERT INTO `item_usable` VALUES (22310,'hoxne_ampulla',1,1,0,0,1,5,60,0);          -- TODO: verify animation
+INSERT INTO `item_usable` VALUES (23870,'eyre_cap',1,2,0,0,1,10,3600,0);            -- TODO: verify animation
+INSERT INTO `item_usable` VALUES (23871,'hebenus_gilet',1,2,0,0,1,30,86400,0);      -- TODO: verify animation
+INSERT INTO `item_usable` VALUES (23873,'hebenus_top',1,2,0,0,1,30,86400,0);        -- TODO: verify animation
+INSERT INTO `item_usable` VALUES (24271,'prishes_boots_+1',1,1,0,0,1,5,216000,0);   -- TODO: verify animation
+INSERT INTO `item_usable` VALUES (24273,'sobu_houou_kabuto',1,3,0,0,1,30,72000,0);  -- TODO: verify animation
+INSERT INTO `item_usable` VALUES (26235,'arrapago_ring',1,8,0,0,10,30,3600,0);      -- TODO: verify animation
 -- INSERT INTO `item_usable` VALUES (20533,'worm_feelers_+1',1,1,55,0,1,30,86400,0); -- item's lua still needs made
 -- INSERT INTO `item_usable` VALUES (20568,'wind_knife_+1',4,1,0,0,1,30,600,0); -- untested
 INSERT INTO `item_usable` VALUES (20953,'escritorio',1,1,55,0,1,30,86400,0); -- Dispenses: Cone Calamary

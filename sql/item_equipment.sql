@@ -9741,6 +9741,7 @@ INSERT INTO `item_equipment` VALUES (20585,'vajra',99,119,32,559,0,1,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (20586,'carnwenhan',99,119,512,563,0,1,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (20587,'twashtar',99,119,262688,571,0,1,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (20592,'sangoma',99,119,512,758,0,0,3,0,0,0);
+INSERT INTO `item_equipment` VALUES (20593,'hedron_dagger',1,0,4194303,0,0,0,3,0,0,0);  -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (20594,'aeneas',99,119,262688,760,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (20595,'malevolence',99,119,1605625,541,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (20596,'taming_sari',99,119,262688,628,0,0,3,0,0,0);
@@ -9802,11 +9803,15 @@ INSERT INTO `item_equipment` VALUES (20651,'tizona',99,119,32768,419,0,1,3,0,0,0
 INSERT INTO `item_equipment` VALUES (20652,'tizona',99,119,32768,568,0,1,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (20653,'almace',99,119,32848,466,0,1,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (20654,'almace',99,119,32848,572,0,1,3,0,0,0);
+INSERT INTO `item_equipment` VALUES (20655,'archdukes_sword',99,119,32849,0,0,0,3,0,0,0);  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (20663,'ice_brand',99,119,32848,0,0,0,3,0,0,0);        -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (20664,'flametongue',99,119,32849,0,0,0,3,0,0,0);      -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (20665,'kamlanauts_sword',1,0,4194303,807,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (20666,'blizzard_brand',1,0,4194303,782,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (20667,'blizzard_brand_+1',1,0,4194303,782,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (20668,'firetongue',1,0,4194303,783,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (20669,'firetongue_+1',1,0,4194303,783,0,0,3,0,0,0);
+INSERT INTO `item_equipment` VALUES (20670,'macana',1,0,4194303,0,0,0,3,0,0,0);  -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (20672,'ice_brand',99,119,32848,782,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (20673,'flametongue',99,119,32849,783,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (20674,'aern_sword',1,0,4194303,825,0,0,3,0,0,0);
@@ -9824,6 +9829,7 @@ INSERT INTO `item_equipment` VALUES (20687,'burtgang',99,119,64,560,0,1,3,0,0,0)
 INSERT INTO `item_equipment` VALUES (20688,'tizona',99,119,32768,568,0,1,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (20689,'almace',99,119,32848,572,0,1,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (20690,'reikiko',99,119,2097345,771,0,0,3,0,0,0);
+INSERT INTO `item_equipment` VALUES (20691,'kyukoto',1,0,4194303,0,0,0,3,0,0,0);  -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (20694,'fermion_sword',1,0,4194303,756,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (20695,'sequence',99,119,32848,761,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (20696,'combuster',99,119,2097345,278,0,0,3,0,0,0);
@@ -10055,6 +10061,7 @@ INSERT INTO `item_equipment` VALUES (20927,'ryunohige',99,119,8192,423,0,1,1,0,0
 INSERT INTO `item_equipment` VALUES (20928,'ryunohige',99,119,8192,566,0,1,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (20929,'rhongomiant',99,119,8192,512,0,1,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (20930,'rhongomiant',99,119,8192,577,0,1,1,0,0,0);
+INSERT INTO `item_equipment` VALUES (20931,'celestial_spear',1,0,4194303,0,0,0,1,0,0,0);  -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (20932,'habile_mazrak',99,119,8192,388,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (20933,'hotengeki',1,0,4194303,859,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (20935,'trishula',99,119,8192,766,0,0,1,0,0,0);
@@ -10143,6 +10150,7 @@ INSERT INTO `item_equipment` VALUES (21019,'masamune',99,119,2048,514,0,1,1,0,0,
 INSERT INTO `item_equipment` VALUES (21020,'masamune',99,119,2048,579,0,1,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21021,'umaru',99,119,2048,602,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21022,'shishio',99,119,2048,151,0,0,1,0,0,0);
+INSERT INTO `item_equipment` VALUES (21024,'ohakari',1,0,4194303,0,0,0,1,0,0,0);  -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (21025,'dojikiri_yasutsuna',99,119,2048,768,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21026,'himetsuruichimonji',99,119,2048,612,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21027,'ichigohitofuri',99,119,2048,440,0,0,1,0,0,0);
@@ -10616,6 +10624,7 @@ INSERT INTO `item_equipment` VALUES (21516,'ajja_knuckles',99,119,397747,135,0,0
 INSERT INTO `item_equipment` VALUES (21517,'eletta_knuckles',99,119,397747,134,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21518,'kaja_knuckles',99,119,397747,479,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21519,'karambit',99,119,397747,478,0,0,1,0,0,0);
+INSERT INTO `item_equipment` VALUES (21520,'ethereal_fists',1,0,4194303,0,0,0,1,0,0,0);  -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (21521,'melee_fists',99,119,2,121,0,0,1,0,0,4);
 INSERT INTO `item_equipment` VALUES (21522,'hes._fists',99,119,2,121,0,0,1,0,0,4);
 INSERT INTO `item_equipment` VALUES (21523,'sagitta',99,119,2,480,0,0,1,0,0,5);
@@ -10631,6 +10640,12 @@ INSERT INTO `item_equipment` VALUES (21532,'varga_purnikawa',99,119,131074,475,0
 INSERT INTO `item_equipment` VALUES (21533,'varga_purnikawa',99,119,131074,475,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21534,'varga_purnikawa',99,119,131074,475,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21535,'varga_purnikawa',99,119,131074,474,0,0,1,0,0,0);
+INSERT INTO `item_equipment` VALUES (21536,'dazbogs_knuckles',1,0,4194303,0,0,0,1,0,0,0);  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (21537,'lizard_fangs',1,0,4194303,0,0,0,1,0,0,0);      -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (21538,'lizard_fangs_+1',1,0,4194303,0,0,0,1,0,0,0);   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (21539,'dathaba_claws',99,119,135555,0,0,0,1,0,0,0);   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (21540,'dragon_fangs',99,119,131074,0,0,0,1,0,0,0);    -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (21541,'premium_hearts',99,119,131074,0,0,0,1,0,0,0);  -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (21554,'arasy_knife',99,119,474849,157,0,0,3,0,0,1);
 INSERT INTO `item_equipment` VALUES (21555,'arasy_knife_+1',99,119,474849,157,0,0,3,0,0,1);
 INSERT INTO `item_equipment` VALUES (21556,'beryllium_kris',99,119,1589256,346,0,0,3,0,0,2);
@@ -10648,6 +10663,8 @@ INSERT INTO `item_equipment` VALUES (21567,'gletis_knife',99,119,333360,513,0,0,
 INSERT INTO `item_equipment` VALUES (21568,'acrontica',99,119,262176,615,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (21569,'chocobo_knife',99,119,263728,784,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (21570,'air_knife',99,119,262176,785,0,0,3,0,0,0);
+INSERT INTO `item_equipment` VALUES (21571,'ethereal_dagger',1,0,4194303,0,0,0,3,0,0,0);  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (21572,'esoteric_athame',1,0,4194303,0,0,0,3,0,0,0);  -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (21573,'assassins_knife',99,119,32,157,0,0,3,0,0,4);
 INSERT INTO `item_equipment` VALUES (21574,'plun._knife',99,119,32,157,0,0,3,0,0,4);
 INSERT INTO `item_equipment` VALUES (21575,'gandring',99,119,32,814,0,0,3,0,0,5);
@@ -10666,6 +10683,11 @@ INSERT INTO `item_equipment` VALUES (21587,'mpu_gandring',99,119,262704,544,0,0,
 INSERT INTO `item_equipment` VALUES (21588,'mpu_gandring',99,119,262704,544,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (21589,'mpu_gandring',99,119,262704,544,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (21590,'mpu_gandring',99,119,262704,544,0,0,3,0,0,0);
+INSERT INTO `item_equipment` VALUES (21591,'dathaba_knife',99,119,474849,0,0,0,3,0,0,0);     -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (21592,'chocobo_knife',99,119,263728,0,0,0,3,0,0,0);     -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (21593,'air_knife',99,119,262176,0,0,0,3,0,0,0);         -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (21602,'onion_sword_iii',99,119,4194303,0,0,0,3,0,0,0);  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (21603,'save_the_queen_iii',99,119,64,0,0,0,3,0,0,0);    -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (21604,'arasy_sword',99,119,32848,278,0,0,3,0,0,1);
 INSERT INTO `item_equipment` VALUES (21605,'arasy_sword_+1',99,119,32848,278,0,0,3,0,0,1);
 INSERT INTO `item_equipment` VALUES (21606,'enriching_sword',99,119,16,250,0,0,3,0,0,2);
@@ -10685,6 +10707,7 @@ INSERT INTO `item_equipment` VALUES (21620,'kaja_sword',99,119,2209777,837,0,0,3
 INSERT INTO `item_equipment` VALUES (21621,'naegling',99,119,2209777,848,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (21622,'voluspa_sword',99,119,2195665,275,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (21623,'twinned_blade',1,0,4194303,873,0,0,3,0,0,0);
+INSERT INTO `item_equipment` VALUES (21624,'ethereal_sword',1,0,4194303,0,0,0,3,0,0,0);  -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (21625,'duelists_sword',99,119,16,278,0,0,3,0,0,4);
 INSERT INTO `item_equipment` VALUES (21626,'vitiation_sword',99,119,16,278,0,0,3,0,0,4);
 INSERT INTO `item_equipment` VALUES (21627,'crocea_mors',99,119,16,819,0,0,3,0,0,5);
@@ -10705,6 +10728,8 @@ INSERT INTO `item_equipment` VALUES (21643,'caliburnus',99,119,32848,545,0,0,3,0
 INSERT INTO `item_equipment` VALUES (21644,'caliburnus',99,119,32848,545,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (21645,'caliburnus',99,119,32848,545,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (21646,'caliburnus',99,119,32848,545,0,0,3,0,0,0);
+INSERT INTO `item_equipment` VALUES (21647,'dathaba_hanger',99,119,34977,0,0,0,3,0,0,0);   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (21648,'dathaba_sword',99,119,2097345,0,0,0,1,0,0,0);  -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (21649,'helheim',99,119,2097345,546,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (21650,'prime_blade',99,119,2097345,65,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (21651,'helheim',99,119,2097345,546,0,0,3,0,0,0);
@@ -10722,6 +10747,7 @@ INSERT INTO `item_equipment` VALUES (21662,'raetic_algol',99,119,2097345,386,0,0
 INSERT INTO `item_equipment` VALUES (21663,'raetic_algol_+1',99,119,2097345,386,0,0,1,0,0,3);
 INSERT INTO `item_equipment` VALUES (21664,'zantetsuken_x',99,119,2097344,809,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21665,'voluspa_blade',99,119,2097216,74,0,0,1,0,0,0);
+INSERT INTO `item_equipment` VALUES (21666,'ethereal_great_sword',1,0,4194303,0,0,0,1,0,0,0);  -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (21667,'futhark_claymore',99,119,2097152,64,0,0,1,0,0,4);
 INSERT INTO `item_equipment` VALUES (21668,'peord_claymore',99,119,2097152,64,0,0,1,0,0,4);
 INSERT INTO `item_equipment` VALUES (21669,'morgelai',99,119,2097152,810,0,0,1,0,0,5);
@@ -10732,6 +10758,7 @@ INSERT INTO `item_equipment` VALUES (21673,'kaja_claymore',99,119,2097345,838,0,
 INSERT INTO `item_equipment` VALUES (21674,'nandaka',99,119,2097345,849,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21675,'agwus_claymore',99,119,2097345,881,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21676,'brave_blade_iii',99,119,2097344,792,0,0,1,0,0,0);
+INSERT INTO `item_equipment` VALUES (21677,'brave_blade_iii',99,119,2097344,0,0,0,1,0,0,0);  -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (21680,'goujian',1,0,4194303,868,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21681,'ophidian_sword',1,0,4194303,863,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21682,'lament',1,0,4194303,808,0,0,1,0,0,0);
@@ -10764,6 +10791,7 @@ INSERT INTO `item_equipment` VALUES (21709,'beryllium_pick_+1',99,119,2097537,87
 INSERT INTO `item_equipment` VALUES (21710,'raetic_axe',99,119,2639753,85,0,0,3,0,0,3);
 INSERT INTO `item_equipment` VALUES (21711,'raetic_axe_+1',99,119,2639753,85,0,0,3,0,0,3);
 INSERT INTO `item_equipment` VALUES (21712,'voluspa_axe',99,119,2097537,87,0,0,3,0,0,0);
+INSERT INTO `item_equipment` VALUES (21713,'ethereal_axe',1,0,4194303,0,0,0,3,0,0,0);  -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (21715,'monster_axe',99,119,256,81,0,0,3,0,0,4);
 INSERT INTO `item_equipment` VALUES (21716,'ankusa_axe',99,119,256,81,0,0,3,0,0,4);
 INSERT INTO `item_equipment` VALUES (21717,'pangu',99,119,256,811,0,0,3,0,0,5);
@@ -10780,6 +10808,8 @@ INSERT INTO `item_equipment` VALUES (21727,'spalirisos',99,119,256,547,0,0,3,0,0
 INSERT INTO `item_equipment` VALUES (21728,'spalirisos',99,119,256,547,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (21729,'spalirisos',99,119,256,547,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (21730,'spalirisos',99,119,256,547,0,0,3,0,0,0);
+INSERT INTO `item_equipment` VALUES (21731,'dathaba_axe',99,119,2098561,0,0,0,3,0,0,0);  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (21732,'demonic_axe',99,119,256,0,0,0,3,0,0,0);      -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (21741,'demonic_axe',1,0,4194303,793,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (21742,'aern_axe',1,0,4194303,827,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (21743,'aern_axe_ii',1,0,4194303,893,0,0,3,0,0,0);
@@ -10799,6 +10829,7 @@ INSERT INTO `item_equipment` VALUES (21756,'bravura',99,119,1,548,0,1,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21757,'conqueror',99,119,1,555,0,1,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21758,'ukonvasara',99,119,1,575,0,1,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21759,'autarchs_axe',1,0,4194303,864,0,0,1,0,0,0);
+INSERT INTO `item_equipment` VALUES (21760,'dispatchers_axe',1,0,4194303,0,0,0,1,0,0,0);  -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (21761,'zadha_chopper',1,0,4194303,99,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21762,'arasy_axe',99,119,2097281,92,0,0,1,0,0,1);
 INSERT INTO `item_equipment` VALUES (21763,'arasy_axe_+1',99,119,2097281,92,0,0,1,0,0,1);
@@ -10809,6 +10840,7 @@ INSERT INTO `item_equipment` VALUES (21767,'raetic_chopper',99,119,2638473,335,0
 INSERT INTO `item_equipment` VALUES (21768,'raetic_chopper_+1',99,119,2638473,335,0,0,1,0,0,3);
 INSERT INTO `item_equipment` VALUES (21769,'voluspa_chopper',99,119,2097281,363,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21770,'helgoland',1,0,4194303,869,0,0,1,0,0,0);
+INSERT INTO `item_equipment` VALUES (21771,'ethereal_great_axe',1,0,4194303,0,0,0,1,0,0,0);  -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (21772,'war._chopper',99,119,1,92,0,0,1,0,0,4);
 INSERT INTO `item_equipment` VALUES (21773,'agoge_chopper',99,119,1,92,0,0,1,0,0,4);
 INSERT INTO `item_equipment` VALUES (21774,'labraunda',99,119,1,812,0,0,1,0,0,5);
@@ -10825,6 +10857,8 @@ INSERT INTO `item_equipment` VALUES (21784,'laphria',99,119,1,548,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21785,'laphria',99,119,1,548,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21786,'poison_axe',1,0,4194303,794,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21787,'poison_axe_+1',1,0,4194303,794,0,0,1,0,0,0);
+INSERT INTO `item_equipment` VALUES (21788,'dathaba_voulge',99,119,2097281,0,0,0,1,0,0,0);  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (21789,'drastic_axe',99,119,1,0,0,0,1,0,0,0);           -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (21804,'obschine',99,119,128,393,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21805,'pixquizpan',99,119,393,366,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21806,'pixquizpan_+1',99,119,393,366,0,0,1,0,0,0);
@@ -10857,6 +10891,10 @@ INSERT INTO `item_equipment` VALUES (21834,'foenaria',99,119,128,550,0,0,1,0,0,0
 INSERT INTO `item_equipment` VALUES (21835,'foenaria',99,119,128,550,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21836,'foenaria',99,119,128,550,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21837,'foenaria',99,119,128,550,0,0,1,0,0,0);
+INSERT INTO `item_equipment` VALUES (21838,'ethereal_scythe',1,0,4194303,0,0,0,1,0,0,0);  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (21840,'mavens_scythe',1,0,4194303,0,0,0,1,0,0,0);    -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (21841,'dathaba_sickle',99,119,393,0,0,0,1,0,0,0);    -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (21842,'final_sickle',99,119,128,0,0,0,1,0,0,0);      -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (21854,'reienkyo',99,119,8192,391,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21855,'lembing',99,119,8192,214,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21856,'geirrothr',99,119,8192,405,0,0,1,0,0,0);
@@ -10876,6 +10914,7 @@ INSERT INTO `item_equipment` VALUES (21869,'exalted_spear',99,119,10305,206,0,0,
 INSERT INTO `item_equipment` VALUES (21870,'exalted_spear_+1',99,119,10305,206,0,0,1,0,0,2);
 INSERT INTO `item_equipment` VALUES (21871,'raetic_halberd',99,119,551497,337,0,0,1,0,0,3);
 INSERT INTO `item_equipment` VALUES (21872,'raetic_halberd_+1',99,119,551497,337,0,0,1,0,0,3);
+INSERT INTO `item_equipment` VALUES (21873,'ethereal_spear',1,0,4194303,0,0,0,1,0,0,0);  -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (21876,'wyrm_lance',99,119,8192,370,0,0,1,0,0,4);
 INSERT INTO `item_equipment` VALUES (21877,'pteroslaver_lance',99,119,8192,370,0,0,1,0,0,4);
 INSERT INTO `item_equipment` VALUES (21878,'aram',99,119,8192,817,0,0,1,0,0,5);
@@ -10892,6 +10931,8 @@ INSERT INTO `item_equipment` VALUES (21888,'gae_buide',99,119,8192,549,0,0,1,0,0
 INSERT INTO `item_equipment` VALUES (21889,'gae_buide',99,119,8192,549,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21890,'gae_buide',99,119,8192,549,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21891,'gae_buide',99,119,8192,549,0,0,1,0,0,0);
+INSERT INTO `item_equipment` VALUES (21892,'dathaba_spear',99,119,10305,0,0,0,1,0,0,0);  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (21893,'hebos_spear',99,119,8192,0,0,0,1,0,0,0);     -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (21904,'kanaria',99,119,4096,371,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (21905,'taka',99,119,4096,605,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (21906,'kikoku',99,119,4096,551,0,1,3,0,0,0);
@@ -10899,6 +10940,7 @@ INSERT INTO `item_equipment` VALUES (21907,'nagi',99,119,4096,565,0,1,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (21908,'kannagi',99,119,4096,578,0,1,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (21909,'yoshikiri',99,119,4096,400,0,0,3,0,0,1);
 INSERT INTO `item_equipment` VALUES (21910,'yoshikiri_+1',99,119,4096,400,0,0,3,0,0,1);
+INSERT INTO `item_equipment` VALUES (21911,'ethereal_katana',1,0,4194303,0,0,0,3,0,0,0);  -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (21912,'voluspa_katana',99,119,4096,313,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (21915,'koga_shin.',99,119,4096,313,0,0,3,0,0,4);
 INSERT INTO `item_equipment` VALUES (21916,'mochi._shin.',99,119,4096,313,0,0,3,0,0,4);
@@ -10918,11 +10960,19 @@ INSERT INTO `item_equipment` VALUES (21929,'dokoku',99,119,4096,551,0,0,3,0,0,0)
 INSERT INTO `item_equipment` VALUES (21930,'dokoku',99,119,4096,551,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (21931,'dokoku',99,119,4096,551,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (21932,'dokoku',99,119,4096,551,0,0,3,0,0,0);
+INSERT INTO `item_equipment` VALUES (21933,'yagyu_shortblade',1,0,4194303,0,0,0,3,0,0,0);         -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (21934,'yagyu_shortblade_+1',1,0,4194303,0,0,0,3,0,0,0);      -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (21935,'dathaba_blade',99,119,4096,0,0,0,3,0,0,0);            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (21936,'yagyu_darkblade',99,119,4096,0,0,0,3,0,0,0);          -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (21950,'bud_rod',1,0,4194303,0,0,0,3,0,0,0);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (21952,'zanmato_+2',99,119,2048,0,0,0,1,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (21953,'mutsu-no-kami_yoshiyuki',99,119,2048,0,0,0,1,0,0,0);  -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (21954,'amanomurakumo',99,119,2048,552,0,1,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21955,'kogarasumaru',99,119,2048,564,0,1,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21956,'masamune',99,119,2048,579,0,1,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21960,'ashijiro_no_tachi',99,119,2048,154,0,0,1,0,0,1);
 INSERT INTO `item_equipment` VALUES (21961,'ashi._no_tachi_+1',99,119,2048,154,0,0,1,0,0,1);
+INSERT INTO `item_equipment` VALUES (21962,'ethereal_tachi',1,0,4194303,0,0,0,1,0,0,0);  -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (21963,'beryllium_tachi',99,119,6144,154,0,0,1,0,0,2);
 INSERT INTO `item_equipment` VALUES (21964,'beryllium_tachi_+1',99,119,6144,154,0,0,1,0,0,2);
 INSERT INTO `item_equipment` VALUES (21965,'zanmato',1,0,4194303,788,0,0,1,0,0,0);
@@ -10947,13 +10997,20 @@ INSERT INTO `item_equipment` VALUES (21983,'kusanagi',99,119,2048,514,0,0,1,0,0,
 INSERT INTO `item_equipment` VALUES (21984,'kusanagi',99,119,2048,514,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21985,'kusanagi',99,119,2048,514,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21986,'kusanagi',99,119,2048,514,0,0,1,0,0,0);
+INSERT INTO `item_equipment` VALUES (21990,'dathaba_tachi',99,119,6144,0,0,0,1,0,0,0);    -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (21991,'wizards_rod',99,119,1572888,0,0,0,3,0,0,0);   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (21992,'dathaba_wand',99,119,1622044,0,0,0,3,0,0,0);  -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (21993,'erudites_staff',1,0,4194303,25373,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (21994,'erudites_staff_+1',1,0,4194303,25373,0,0,1,0,0,0);
+INSERT INTO `item_equipment` VALUES (21995,'mavens_staff',1,0,4194303,0,0,0,1,0,0,0);      -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (21996,'magicians_rod',1,0,4194303,0,0,0,3,0,0,0);     -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (21997,'magicians_rod_+1',1,0,4194303,0,0,0,3,0,0,0);  -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (21998,'lorg_mor',99,119,1048580,553,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (21999,'prime_maul',99,119,1048580,112,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (22000,'lorg_mor',99,119,1048580,553,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (22001,'lorg_mor',99,119,1048580,553,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (22002,'lorg_mor',99,119,1048580,553,0,0,3,0,0,0);
+INSERT INTO `item_equipment` VALUES (22003,'arthros_scepter',1,0,4194303,0,0,0,3,0,0,0);  -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (22004,'soulflayers_wand',1,0,4194303,823,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (22005,'burrowers_wand',1,0,4194303,823,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (22006,'voluspa_hammer',99,119,1048580,112,0,0,3,0,0,0);
@@ -10995,6 +11052,7 @@ INSERT INTO `item_equipment` VALUES (22049,'citrullus_mallet',1,0,4194303,865,0,
 INSERT INTO `item_equipment` VALUES (22050,'chac-chacs',1,0,4194303,723,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (22051,'lycopodium_mallet',1,0,4194303,540,0,0,3,0,0,0);
 INSERT INTO `item_equipment` VALUES (22052,'summer_uchiwa',1,0,4194303,798,0,0,3,0,0,0);
+INSERT INTO `item_equipment` VALUES (22053,'ethereal_club',1,0,4194303,0,0,0,3,0,0,0);  -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (22054,'grioavolr',99,119,1589788,601,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (22055,'oranyan',99,119,1589788,306,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (22056,'gozuki_mezuki',99,119,4194303,361,0,0,1,0,0,0);
@@ -11029,6 +11087,7 @@ INSERT INTO `item_equipment` VALUES (22086,'xoanon',99,119,1590047,846,0,0,1,0,0
 INSERT INTO `item_equipment` VALUES (22087,'malignance_pole',99,119,1597518,441,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (22088,'voluspa_pole',99,119,1589262,298,0,0,1,0,0,0);
 INSERT INTO `item_equipment` VALUES (22089,'sophistry',1,0,4194303,871,0,0,1,0,0,0);
+INSERT INTO `item_equipment` VALUES (22090,'ethereal_staff',1,0,4194303,0,0,0,1,0,0,0);  -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (22091,'sorcerers_staff',99,119,8,326,0,0,1,0,0,4);
 INSERT INTO `item_equipment` VALUES (22092,'archmages_staff',99,119,8,326,0,0,1,0,0,4);
 INSERT INTO `item_equipment` VALUES (22093,'kaumodaki',99,119,8,820,0,0,1,0,0,5);
@@ -11084,6 +11143,7 @@ INSERT INTO `item_equipment` VALUES (22142,'armageddon',99,119,66560,109,0,1,4,0
 INSERT INTO `item_equipment` VALUES (22143,'fomalhaut',99,119,66560,134,0,0,4,0,0,0);
 INSERT INTO `item_equipment` VALUES (22144,'voluspa_gun',99,119,66560,59,0,0,4,0,0,0);
 INSERT INTO `item_equipment` VALUES (22145,'artemiss_bow_+2',99,119,1024,138,0,0,4,0,0,0); -- TODO: capture model from retail (using Artemis's Bow model)
+INSERT INTO `item_equipment` VALUES (22146,'ethereal_bow',1,0,4194303,0,0,0,4,0,0,0);       -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (22147,'scouts_crossbow',99,119,1024,52,0,0,4,0,0,4);
 INSERT INTO `item_equipment` VALUES (22148,'arke_crossbow',99,119,1024,52,0,0,4,0,0,4);
 INSERT INTO `item_equipment` VALUES (22149,'sharanga',99,119,1024,142,0,0,4,0,0,5);
@@ -11102,6 +11162,13 @@ INSERT INTO `item_equipment` VALUES (22161,'earp',99,0,0,0,0,0,32,0,0,0);      -
 INSERT INTO `item_equipment` VALUES (22162,'earp',99,0,0,0,0,0,32,0,0,0);      -- TODO: Not implemented
 INSERT INTO `item_equipment` VALUES (22163,'pinaka',99,0,0,0,0,0,32,0,0,0);    -- TODO: Not implemented
 INSERT INTO `item_equipment` VALUES (22164,'earp',99,0,0,0,0,0,32,0,0,0);      -- TODO: Not implemented
+INSERT INTO `item_equipment` VALUES (22165,'ethereal_gun',1,0,4194303,0,0,0,4,0,0,0);      -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (22166,'dathaba_bow',99,119,7665,0,0,0,4,0,0,0);       -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (22167,'dathaba_crossbow',99,119,1185,0,0,0,4,0,0,0);  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (22168,'pandits_staff',99,119,16388,0,0,0,1,0,0,0);    -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (22169,'artemiss_bow_+2',99,119,1024,0,0,0,4,0,0,0);   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (22170,'exeter',99,119,66560,0,0,0,4,0,0,0);           -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (22194,'dathaba_staff',99,119,8262,0,0,0,1,0,0,0);     -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (22195,'flanged_grip',99,0,4194303,0,0,0,2,0,0,0);
 INSERT INTO `item_equipment` VALUES (22196,'alber_strap',99,0,4194303,0,0,0,2,0,0,0);
 INSERT INTO `item_equipment` VALUES (22197,'niobid_strap',99,0,4194303,0,0,0,2,0,0,0);
@@ -11185,6 +11252,7 @@ INSERT INTO `item_equipment` VALUES (22306,'loughnashade',99,0,0,0,0,0,32,0,0,0)
 INSERT INTO `item_equipment` VALUES (22307,'loughnashade',99,0,0,0,0,0,32,0,0,0);      -- TODO: Not implemented
 INSERT INTO `item_equipment` VALUES (22308,'bayeux_bullet',99,0,0,0,0,0,32,0,0,0);     -- TODO: Not implemented
 INSERT INTO `item_equipment` VALUES (22309,'bayeux_arrow',99,0,0,0,0,0,32,0,0,0);      -- TODO: Not implemented
+INSERT INTO `item_equipment` VALUES (22310,'hoxne_ampulla',99,0,4194303,0,0,0,8,0,0,0);  -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (23040,'pummelers_mask_+2',99,119,1,64,0,0,16,0,0,0);
 INSERT INTO `item_equipment` VALUES (23041,'anch._crown_+2',99,119,2,66,0,0,16,0,0,0);
 INSERT INTO `item_equipment` VALUES (23042,'theophany_cap_+2',99,119,4,68,0,0,16,0,0,0);
@@ -11967,6 +12035,16 @@ INSERT INTO `item_equipment` VALUES (23818,'jadeite_cuirie',99,0,0,0,0,0,32,0,0,
 INSERT INTO `item_equipment` VALUES (23819,'jadeite_gloves',99,0,0,0,0,0,32,0,0,0);     -- TODO: Not implemented
 INSERT INTO `item_equipment` VALUES (23820,'jadeite_chausses',99,0,0,0,0,0,32,0,0,0);   -- TODO: Not implemented
 INSERT INTO `item_equipment` VALUES (23821,'jadeite_jambeaux',99,0,0,0,0,0,32,0,0,0);   -- TODO: Not implemented
+INSERT INTO `item_equipment` VALUES (23822,'diamond_somen',1,0,4194303,0,0,0,16,0,0,0);       -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23823,'diamond_haramaki',1,0,4194303,0,0,0,32,0,0,0);    -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23824,'diamond_kote',1,0,4194303,0,0,0,64,0,0,0);        -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23825,'diamond_hizayoroi',1,0,4194303,0,0,0,128,0,0,0);  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23826,'diamond_sune-ate',1,0,4194303,0,0,0,256,0,0,0);   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23827,'emerald_tiara',1,0,4194303,0,0,0,16,0,0,0);       -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23828,'emerald_jubbah',1,0,4194303,0,0,0,32,0,0,0);      -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23829,'emerald_dastanas',1,0,4194303,0,0,0,64,0,0,0);    -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23830,'emerald_shalwar',1,0,4194303,0,0,0,128,0,0,0);    -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23831,'emerald_crackows',1,0,4194303,0,0,0,256,0,0,0);   -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (23832,'ruby_coronal',99,0,0,0,0,0,32,0,0,0);       -- TODO: Not implemented
 INSERT INTO `item_equipment` VALUES (23833,'ruby_robe',99,0,0,0,0,0,32,0,0,0);          -- TODO: Not implemented
 INSERT INTO `item_equipment` VALUES (23834,'ruby_cuffs',99,0,0,0,0,0,32,0,0,0);         -- TODO: Not implemented
@@ -11996,6 +12074,415 @@ INSERT INTO `item_equipment` VALUES (23857,'arrogance_platemail',1,0,4194303,868
 INSERT INTO `item_equipment` VALUES (23858,'arrogance_gauntlets',1,0,4194303,12778,0,0,64,0,0,0);
 INSERT INTO `item_equipment` VALUES (23859,'arrogance_brais',1,0,4194303,16874,0,0,128,0,0,0);
 INSERT INTO `item_equipment` VALUES (23860,'arrogance_sabatons',1,0,4194303,20970,0,0,256,0,0,0);
+INSERT INTO `item_equipment` VALUES (23861,'suit_of_adamantite_armor',99,119,4194303,0,0,0,32,0,0,0);      -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23862,'boudoxs_masque',1,0,4194303,0,0,0,16,0,0,0);                   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23863,'boudoxs_suit',1,0,4194303,0,0,0,32,0,0,0);                     -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23864,'magh_bihus_masque',1,0,4194303,0,0,0,16,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23865,'magh_bihus_suit',1,0,4194303,0,0,0,32,0,0,0);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23866,'yule_talisman',1,0,4194303,0,0,0,32,0,0,0);                    -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23870,'eyre_cap',1,0,4194303,0,0,0,16,0,0,0);                         -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23871,'hebenus_gilet',1,0,4194303,0,0,0,32,0,0,0);                    -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23872,'hebenus_boxers',1,0,4194303,0,0,0,128,0,0,0);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23873,'hebenus_top',1,0,4194303,0,0,0,32,0,0,0);                      -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23874,'hebenus_shorts',1,0,4194303,0,0,0,128,0,0,0);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23893,'dhalmel_trousers',1,0,4194303,0,0,0,128,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23894,'prishes_boots',1,0,4194303,0,0,0,256,0,0,0);                   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23895,'pummelers_mask_+4',99,119,1,0,0,0,16,0,0,0);                   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23896,'anchorites_crown_+4',99,119,2,0,0,0,16,0,0,0);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23897,'theophany_cap_+4',99,119,4,0,0,0,16,0,0,0);                    -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23898,'spaekonas_petasos_+4',99,119,8,0,0,0,16,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23899,'atrophy_chapeau_+4',99,119,16,0,0,0,16,0,0,0);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23900,'pillagers_bonnet_+4',99,119,32,0,0,0,16,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23901,'reverence_coronet_+4',99,119,64,0,0,0,16,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23902,'ignominy_burgeonet_+4',99,119,128,0,0,0,16,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23903,'totemic_helm_+4',99,119,256,0,0,0,16,0,0,0);                   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23904,'brioso_roundlet_+4',99,119,512,0,0,0,16,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23905,'orion_beret_+4',99,119,1024,0,0,0,16,0,0,0);                   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23906,'wakido_kabuto_+4',99,119,2048,0,0,0,16,0,0,0);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23907,'hachiya_hatsuburi_+4',99,119,4096,0,0,0,16,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23908,'vishap_armet_+4',99,119,8192,0,0,0,16,0,0,0);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23909,'convokers_horn_+4',99,119,16384,0,0,0,16,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23910,'assimilators_keffiyeh_+4',99,119,32768,0,0,0,16,0,0,0);        -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23911,'laksamana_tricorne_+4',99,119,65536,0,0,0,16,0,0,0);           -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23912,'foire_taj_+4',99,119,131072,0,0,0,16,0,0,0);                   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23913,'maxixi_tiara_+4',99,119,262144,0,0,0,16,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23914,'maxixi_tiara_+4',99,119,262144,0,0,0,16,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23915,'academics_mortarboard_+4',99,119,524288,0,0,0,16,0,0,0);       -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23916,'geomancy_galero_+4',99,119,1048576,0,0,0,16,0,0,0);            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23917,'runeist_bandeau_+4',99,119,2097152,0,0,0,16,0,0,0);            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23918,'agoge_mask_+4',99,119,1,0,0,0,16,0,0,0);                       -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23919,'hesychasts_crown_+4',99,119,2,0,0,0,16,0,0,0);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23920,'piety_cap_+4',99,119,4,0,0,0,16,0,0,0);                        -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23921,'archmages_petasos_+4',99,119,8,0,0,0,16,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23922,'vitiation_chapeau_+4',99,119,16,0,0,0,16,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23923,'plunderers_bonnet_+4',99,119,32,0,0,0,16,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23924,'caballarius_coronet_+4',99,119,64,0,0,0,16,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23925,'fallens_burgeonet_+4',99,119,128,0,0,0,16,0,0,0);              -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23926,'ankusa_helm_+4',99,119,256,0,0,0,16,0,0,0);                    -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23927,'bihu_roundlet_+4',99,119,512,0,0,0,16,0,0,0);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23928,'arcadian_beret_+4',99,119,1024,0,0,0,16,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23929,'sakonji_kabuto_+4',99,119,2048,0,0,0,16,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23930,'mochizuki_hatsuburi_+4',99,119,4096,0,0,0,16,0,0,0);           -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23931,'pteroslaver_armet_+4',99,119,8192,0,0,0,16,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23932,'glyphic_horn_+4',99,119,16384,0,0,0,16,0,0,0);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23933,'luhlaza_keffiyeh_+4',99,119,32768,0,0,0,16,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23934,'lanun_tricorne_+4',99,119,65536,0,0,0,16,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23935,'pitre_taj_+4',99,119,131072,0,0,0,16,0,0,0);                   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23936,'horos_tiara_+4',99,119,262144,0,0,0,16,0,0,0);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23937,'pedagogy_mortarboard_+4',99,119,524288,0,0,0,16,0,0,0);        -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23938,'bagua_galero_+4',99,119,1048576,0,0,0,16,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23939,'futhark_bandeau_+4',99,119,2097152,0,0,0,16,0,0,0);            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23940,'pummelers_lorica_+4',99,119,1,0,0,0,32,0,0,0);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23941,'anchorites_cyclas_+4',99,119,2,0,0,0,32,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23942,'theophany_bliaut_+4',99,119,4,0,0,0,32,0,0,0);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23943,'spaekonas_coat_+4',99,119,8,0,0,0,32,0,0,0);                   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23944,'atrophy_tabard_+4',99,119,16,0,0,0,32,0,0,0);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23945,'pillagers_vest_+4',99,119,32,0,0,0,32,0,0,0);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23946,'reverence_surcoat_+4',99,119,64,0,0,0,32,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23947,'ignominy_cuirass_+4',99,119,128,0,0,0,32,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23948,'totemic_jackcoat_+4',99,119,256,0,0,0,32,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23949,'brioso_justaucorps_+4',99,119,512,0,0,0,32,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23950,'orion_jerkin_+4',99,119,1024,0,0,0,32,0,0,0);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23951,'wakido_domaru_+4',99,119,2048,0,0,0,32,0,0,0);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23952,'hachiya_chainmail_+4',99,119,4096,0,0,0,32,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23953,'vishap_mail_+4',99,119,8192,0,0,0,32,0,0,0);                   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23954,'convokers_doublet_+4',99,119,16384,0,0,0,32,0,0,0);            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23955,'assimilators_jubbah_+4',99,119,32768,0,0,0,32,0,0,0);          -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23956,'laksamana_frac_+4',99,119,65536,0,0,0,32,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23957,'foire_tobe_+4',99,119,131072,0,0,0,32,0,0,0);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23958,'maxixi_casaque_+4',99,119,262144,0,0,0,32,0,0,0);              -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23959,'maxixi_casaque_+4',99,119,262144,0,0,0,32,0,0,0);              -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23960,'academics_gown_+4',99,119,524288,0,0,0,32,0,0,0);              -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23961,'geomancy_tunic_+4',99,119,1048576,0,0,0,32,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23962,'runeist_coat_+4',99,119,2097152,0,0,0,32,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23963,'agoge_lorica_+4',99,119,1,0,0,0,32,0,0,0);                     -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23964,'hesychasts_cyclas_+4',99,119,2,0,0,0,32,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23965,'piety_bliaut_+4',99,119,4,0,0,0,32,0,0,0);                     -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23966,'archmages_coat_+4',99,119,8,0,0,0,32,0,0,0);                   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23967,'vitiation_tabard_+4',99,119,16,0,0,0,32,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23968,'plunderers_vest_+4',99,119,32,0,0,0,32,0,0,0);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23969,'caballarius_surcoat_+4',99,119,64,0,0,0,32,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23970,'fallens_cuirass_+4',99,119,128,0,0,0,32,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23971,'ankusa_jackcoat_+4',99,119,256,0,0,0,32,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23972,'bihu_justaucorps_+4',99,119,512,0,0,0,32,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23973,'arcadian_jerkin_+4',99,119,1024,0,0,0,32,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23974,'sakonji_domaru_+4',99,119,2048,0,0,0,32,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23975,'mochizuki_chainmail_+4',99,119,4096,0,0,0,32,0,0,0);           -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23976,'pteroslaver_mail_+4',99,119,8192,0,0,0,32,0,0,0);              -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23977,'glyphic_doublet_+4',99,119,16384,0,0,0,32,0,0,0);              -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23978,'luhlaza_jubbah_+4',99,119,32768,0,0,0,32,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23979,'lanun_frac_+4',99,119,65536,0,0,0,32,0,0,0);                   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23980,'pitre_tobe_+4',99,119,131072,0,0,0,32,0,0,0);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23981,'horos_casaque_+4',99,119,262144,0,0,0,32,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23982,'pedagogy_gown_+4',99,119,524288,0,0,0,32,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23983,'bagua_tunic_+4',99,119,1048576,0,0,0,32,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23984,'futhark_coat_+4',99,119,2097152,0,0,0,32,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23985,'pummelers_mufflers_+4',99,119,1,0,0,0,64,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23986,'anchorites_gloves_+4',99,119,2,0,0,0,64,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23987,'theophany_mitts_+4',99,119,4,0,0,0,64,0,0,0);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23988,'spaekonas_gloves',99,119,8,0,0,0,64,0,0,0);                    -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23989,'atrophy_gloves_+4',99,119,16,0,0,0,64,0,0,0);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23990,'pillagers_armlets_+4',99,119,32,0,0,0,64,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23991,'reverence_gauntlets_+4',99,119,64,0,0,0,64,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23992,'ignominy_finger_gauntlets_+4',99,119,128,0,0,0,64,0,0,0);      -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23993,'totemic_gloves_+4',99,119,256,0,0,0,64,0,0,0);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23994,'brioso_cuffs_+4',99,119,512,0,0,0,64,0,0,0);                   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23995,'orion_bracers_+4',99,119,1024,0,0,0,64,0,0,0);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23996,'wakido_kote_+4',99,119,2048,0,0,0,64,0,0,0);                   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23997,'hachiya_tekko_+4',99,119,4096,0,0,0,64,0,0,0);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23998,'vishap_finger_gauntlets_+4',99,119,8192,0,0,0,64,0,0,0);       -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (23999,'convokers_bracers_+4',99,119,16384,0,0,0,64,0,0,0);            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24000,'assimilators_bazubands_+4',99,119,32768,0,0,0,64,0,0,0);       -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24001,'laksamanas_gants_+4',99,119,65536,0,0,0,64,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24002,'foire_dastanas_+4',99,119,131072,0,0,0,64,0,0,0);              -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24003,'maxixi_bangles_+4',99,119,262144,0,0,0,64,0,0,0);              -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24004,'maxixi_bangles_+4',99,119,262144,0,0,0,64,0,0,0);              -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24005,'academics_bracers_+4',99,119,524288,0,0,0,64,0,0,0);           -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24006,'geomancy_mitaines_+4',99,119,1048576,0,0,0,64,0,0,0);          -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24007,'runeist_mitons_+4',99,119,2097152,0,0,0,64,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24008,'agoge_mufflers_+4',99,119,1,0,0,0,64,0,0,0);                   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24009,'hesychasts_gloves_+4',99,119,2,0,0,0,64,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24010,'piety_mitts_+4',99,119,4,0,0,0,64,0,0,0);                      -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24011,'archmages_gloves_+4',99,119,8,0,0,0,64,0,0,0);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24012,'vitiation_gloves_+4',99,119,16,0,0,0,64,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24013,'plunderers_armlets_+4',99,119,32,0,0,0,64,0,0,0);              -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24014,'caballarius_gauntlets_+4',99,119,64,0,0,0,64,0,0,0);           -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24015,'fallens_finger_gauntlets_+4',99,119,128,0,0,0,64,0,0,0);       -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24016,'ankusa_gloves_+4',99,119,256,0,0,0,64,0,0,0);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24017,'bihu_cuffs_+4',99,119,512,0,0,0,64,0,0,0);                     -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24018,'arcadian_bracers_+4',99,119,1024,0,0,0,64,0,0,0);              -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24019,'sakonji_kote_+4',99,119,2048,0,0,0,64,0,0,0);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24020,'mochizuki_tekko_+4',99,119,4096,0,0,0,64,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24021,'pteroslaver_finger_gauntlets_+4',99,119,8192,0,0,0,64,0,0,0);  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24022,'glyphic_bracers_+4',99,119,16384,0,0,0,64,0,0,0);              -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24023,'luhlaza_bazubands_+4',99,119,32768,0,0,0,64,0,0,0);            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24024,'lanun_gants_+4',99,119,65536,0,0,0,64,0,0,0);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24025,'pitre_dastanas_+4',99,119,131072,0,0,0,64,0,0,0);              -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24026,'horos_bangles_+4',99,119,262144,0,0,0,64,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24027,'pedagogy_bracers_+4',99,119,524288,0,0,0,64,0,0,0);            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24028,'bagua_mitaines_+4',99,119,1048576,0,0,0,64,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24029,'futhark_mitons_+4',99,119,2097152,0,0,0,64,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24030,'pummelers_cuisses_+4',99,119,1,0,0,0,128,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24031,'anchorites_hose_+4',99,119,2,0,0,0,128,0,0,0);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24032,'theophany_pantaloons_+4',99,119,4,0,0,0,128,0,0,0);            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24033,'spaekonas_tonban_+4',99,119,8,0,0,0,128,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24034,'atrophy_tights_+4',99,119,16,0,0,0,128,0,0,0);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24035,'pillagers_culottes_+4',99,119,32,0,0,0,128,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24036,'reverence_breeches_+4',99,119,64,0,0,0,128,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24037,'ignominy_flanchard_+4',99,119,128,0,0,0,128,0,0,0);            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24038,'totemic_trousers_+4',99,119,256,0,0,0,128,0,0,0);              -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24039,'brioso_cannions_+4',99,119,512,0,0,0,128,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24040,'orion_braccae_+4',99,119,1024,0,0,0,128,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24041,'wakido_haidate_+4',99,119,2048,0,0,0,128,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24042,'hachiya_hakama_+4',99,119,4096,0,0,0,128,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24043,'vishap_brais_+4',99,119,8192,0,0,0,128,0,0,0);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24044,'convokers_spats_+4',99,119,16384,0,0,0,128,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24045,'assimilators_shalwar_+4',99,119,32768,0,0,0,128,0,0,0);        -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24046,'laksamanas_trews_+4',99,119,65536,0,0,0,128,0,0,0);            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24047,'foire_churidars_+4',99,119,131072,0,0,0,128,0,0,0);            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24048,'maxixi_tights_+4',99,119,262144,0,0,0,128,0,0,0);              -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24049,'maxixi_tights_+4',99,119,262144,0,0,0,128,0,0,0);              -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24050,'academics_pants_+4',99,119,524288,0,0,0,128,0,0,0);            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24051,'geomancy_pants_+4',99,119,1048576,0,0,0,128,0,0,0);            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24052,'runeist_trousers_+4',99,119,2097152,0,0,0,128,0,0,0);          -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24053,'agoge_cuisses_+4',99,119,1,0,0,0,128,0,0,0);                   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24054,'hesychasts_hose_+4',99,119,2,0,0,0,128,0,0,0);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24055,'piety_pantaloons_+4',99,119,4,0,0,0,128,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24056,'archmages_tonban_+4',99,119,8,0,0,0,128,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24057,'vitiation_tights_+4',99,119,16,0,0,0,128,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24058,'plunderers_culottes_+4',99,119,32,0,0,0,128,0,0,0);            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24059,'caballarius_breeches_+4',99,119,64,0,0,0,128,0,0,0);           -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24060,'fallens_flanchard_+4',99,119,128,0,0,0,128,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24061,'ankusa_trousers_+4',99,119,256,0,0,0,128,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24062,'bihu_cannions_+4',99,119,512,0,0,0,128,0,0,0);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24063,'arcadian_braccae_+4',99,119,1024,0,0,0,128,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24064,'sakonji_haidate_+4',99,119,2048,0,0,0,128,0,0,0);              -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24065,'mochizuki_hakama_+4',99,119,4096,0,0,0,128,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24066,'pteroslaver_brais_+4',99,119,8192,0,0,0,128,0,0,0);            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24067,'glyphic_spats_+4',99,119,16384,0,0,0,128,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24068,'luhlaza_shalwar_+4',99,119,32768,0,0,0,128,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24069,'lanun_trews_+4',99,119,65536,0,0,0,128,0,0,0);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24070,'pitre_churidars_+4',99,119,131072,0,0,0,128,0,0,0);            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24071,'horos_tights_+4',99,119,262144,0,0,0,128,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24072,'pedagogy_pants_+4',99,119,524288,0,0,0,128,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24073,'bagua_pants_+4',99,119,1048576,0,0,0,128,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24074,'futhark_trousers_+4',99,119,2097152,0,0,0,128,0,0,0);          -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24075,'pummelers_calligae_+4',99,119,1,0,0,0,256,0,0,0);              -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24076,'anchorites_gaiters_+4',99,119,2,0,0,0,256,0,0,0);              -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24077,'theophany_duckbills_+4',99,119,4,0,0,0,256,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24078,'spaekonas_sabots_+4',99,119,8,0,0,0,256,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24079,'atrophy_boots_+4',99,119,16,0,0,0,256,0,0,0);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24080,'pillagers_poulaines_+4',99,119,32,0,0,0,256,0,0,0);            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24081,'reverence_leggings_+4',99,119,64,0,0,0,256,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24082,'ignominy_sollerets_+4',99,119,128,0,0,0,256,0,0,0);            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24083,'totemic_gaiters_+4',99,119,256,0,0,0,256,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24084,'brioso_slippers_+4',99,119,512,0,0,0,256,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24085,'orion_socks_+4',99,119,1024,0,0,0,256,0,0,0);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24086,'wakido_sune-ate_+4',99,119,2048,0,0,0,256,0,0,0);              -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24087,'hachiya_kyahan_+4',99,119,4096,0,0,0,256,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24088,'vishap_greaves_+4',99,119,8192,0,0,0,256,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24089,'convokers_pigaches_+4',99,119,16384,0,0,0,256,0,0,0);          -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24090,'assimilators_charuqs_+4',99,119,32768,0,0,0,256,0,0,0);        -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24091,'laksamana_bottes_+4',99,119,65536,0,0,0,256,0,0,0);            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24092,'foire_babouches_+4',99,119,131072,0,0,0,256,0,0,0);            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24093,'maxixi_toe_shoes_+4',99,119,262144,0,0,0,256,0,0,0);           -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24094,'maxixi_toe_shoes_+4',99,119,262144,0,0,0,256,0,0,0);           -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24095,'academics_loafers_+4',99,119,524288,0,0,0,256,0,0,0);          -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24096,'geomancy_sandals_+4',99,119,1048576,0,0,0,256,0,0,0);          -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24097,'runeist_boots_+4',99,119,2097152,0,0,0,256,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24098,'agoge_calligae_+4',99,119,1,0,0,0,256,0,0,0);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24099,'hesychasts_gaiters_+4',99,119,2,0,0,0,256,0,0,0);              -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24100,'piety_duckbills_+4',99,119,4,0,0,0,256,0,0,0);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24101,'archmages_sabots_+4',99,119,8,0,0,0,256,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24102,'vitiation_boots_+4',99,119,16,0,0,0,256,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24103,'plunderers_poulaines_+4',99,119,32,0,0,0,256,0,0,0);           -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24104,'caballarius_leggings_+4',99,119,64,0,0,0,256,0,0,0);           -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24105,'fallens_sollerets_+4',99,119,128,0,0,0,256,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24106,'ankusa_gaiters_+4',99,119,256,0,0,0,256,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24107,'bihu_slippers_+4',99,119,512,0,0,0,256,0,0,0);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24108,'arcadian_socks_+4',99,119,1024,0,0,0,256,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24109,'sakonji_sune-ate_+4',99,119,2048,0,0,0,256,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24110,'mochizuki_kyahan_+4',99,119,4096,0,0,0,256,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24111,'pteroslaver_greaves_+4',99,119,8192,0,0,0,256,0,0,0);          -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24112,'glyphic_pigaches_+4',99,119,16384,0,0,0,256,0,0,0);            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24113,'luhlaza_charuqs_+4',99,119,32768,0,0,0,256,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24114,'lanun_bottes_+4',99,119,65536,0,0,0,256,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24115,'pitre_babouches_+4',99,119,131072,0,0,0,256,0,0,0);            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24116,'horos_toe_shoes_+4',99,119,262144,0,0,0,256,0,0,0);            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24117,'pedagogy_loafers_+4',99,119,524288,0,0,0,256,0,0,0);           -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24118,'bagua_sandals_+4',99,119,1048576,0,0,0,256,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24119,'futhark_boots_+4',99,119,2097152,0,0,0,256,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24120,'hope_masque',99,119,4609,0,0,0,16,0,0,4);                      -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24121,'perfection_masque',99,119,4609,0,0,0,16,0,0,4);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24122,'revelation_masque',99,119,4609,0,0,0,16,0,0,5);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24123,'hope_platemail',99,119,4609,0,0,0,32,0,0,4);                   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24124,'perfection_platemail',99,119,4609,0,0,0,32,0,0,4);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24125,'revelation_platemail',99,119,4609,0,0,0,32,0,0,5);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24126,'hope_gauntlets',99,119,4609,0,0,0,64,0,0,4);                   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24127,'perfection_gauntlets',99,119,4609,0,0,0,64,0,0,4);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24128,'revelation_gauntlets',99,119,4609,0,0,0,64,0,0,5);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24129,'hope_brais',99,119,4609,0,0,0,128,0,0,4);                      -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24130,'perfection_brais',99,119,4609,0,0,0,128,0,0,4);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24131,'revelation_brais',99,119,4609,0,0,0,128,0,0,5);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24132,'hope_sabatons',99,119,4609,0,0,0,256,0,0,4);                   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24133,'perfection_sabatons',99,119,4609,0,0,0,256,0,0,4);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24134,'revelation_sabatons',99,119,4609,0,0,0,256,0,0,5);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24135,'trust_crown',99,119,2130132,0,0,0,16,0,0,4);                   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24136,'prestige_crown',99,119,2130132,0,0,0,16,0,0,4);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24137,'sworn_crown',99,119,2130132,0,0,0,16,0,0,5);                   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24138,'trust_platemail',99,119,2130132,0,0,0,32,0,0,4);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24139,'prestige_platemail',99,119,2130132,0,0,0,32,0,0,4);            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24140,'sworn_platemail',99,119,2130132,0,0,0,32,0,0,5);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24141,'trust_gauntlets',99,119,2130132,0,0,0,64,0,0,4);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24142,'prestige_gauntlets',99,119,2130132,0,0,0,64,0,0,4);            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24143,'sworn_gauntlets',99,119,2130132,0,0,0,64,0,0,5);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24144,'trust_brais',99,119,2130132,0,0,0,128,0,0,4);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24145,'prestige_brais',99,119,2130132,0,0,0,128,0,0,4);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24146,'sworn_brais',99,119,2130132,0,0,0,128,0,0,5);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24147,'trust_sabatons',99,119,2130132,0,0,0,256,0,0,4);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24148,'prestige_sabatons',99,119,2130132,0,0,0,256,0,0,4);            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24149,'sworn_sabatons',99,119,2130132,0,0,0,256,0,0,5);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24150,'bravery_petasos',99,119,1589256,0,0,0,16,0,0,4);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24151,'intrepid_petasos',99,119,1589256,0,0,0,16,0,0,4);              -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24152,'indomitable_petasos',99,119,1589256,0,0,0,16,0,0,5);           -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24153,'bravery_coat',99,119,1589256,0,0,0,32,0,0,4);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24154,'intrepid_coat',99,119,1589256,0,0,0,32,0,0,4);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24155,'indomitable_coat',99,119,1589256,0,0,0,32,0,0,5);              -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24156,'bravery_gloves',99,119,1589256,0,0,0,64,0,0,4);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24157,'intrepid_gloves',99,119,1589256,0,0,0,64,0,0,4);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24158,'indomitable_gloves',99,119,1589256,0,0,0,64,0,0,5);            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24159,'bravery_tonban',99,119,1589256,0,0,0,128,0,0,4);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24160,'intrepid_tonban',99,119,1589256,0,0,0,128,0,0,4);              -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24161,'indomitable_tonban',99,119,1589256,0,0,0,128,0,0,5);           -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24162,'bravery_sabots',99,119,1589256,0,0,0,256,0,0,4);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24163,'intrepid_sabots',99,119,1589256,0,0,0,256,0,0,4);              -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24164,'indomitable_sabots',99,119,1589256,0,0,0,256,0,0,5);           -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24165,'justice_crown',99,119,393506,0,0,0,16,0,0,4);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24166,'magnificent_crown',99,119,393506,0,0,0,16,0,0,4);              -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24167,'duty_crown',99,119,393506,0,0,0,16,0,0,5);                     -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24168,'justice_cyclas',99,119,393506,0,0,0,32,0,0,4);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24169,'magnificent_cyclas',99,119,393506,0,0,0,32,0,0,4);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24170,'duty_cyclas',99,119,393506,0,0,0,32,0,0,5);                    -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24171,'justice_gauntlets',99,119,393506,0,0,0,64,0,0,4);              -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24172,'magnificent_gauntlets',99,119,393506,0,0,0,64,0,0,4);          -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24173,'duty_gauntlets',99,119,393506,0,0,0,64,0,0,5);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24174,'justice_flanchard',99,119,393506,0,0,0,128,0,0,4);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24175,'magnificent_flanchard',99,119,393506,0,0,0,128,0,0,4);         -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24176,'duty_flanchard',99,119,393506,0,0,0,128,0,0,5);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24177,'justice_sollerets',99,119,393506,0,0,0,256,0,0,4);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24178,'magnificent_sollerets',99,119,393506,0,0,0,256,0,0,4);         -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24179,'duty_sollerets',99,119,393506,0,0,0,256,0,0,5);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24180,'mercy_somen',99,119,76800,0,0,0,16,0,0,4);                     -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24181,'grace_somen',99,119,76800,0,0,0,16,0,0,4);                     -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24182,'clemency_somen',99,119,76800,0,0,0,16,0,0,5);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24183,'mercy_haramaki',99,119,76800,0,0,0,32,0,0,4);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24184,'grace_haramaki',99,119,76800,0,0,0,32,0,0,4);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24185,'clemency_haramaki',99,119,76800,0,0,0,32,0,0,5);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24186,'mercy_kote',99,119,76800,0,0,0,64,0,0,4);                      -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24187,'grace_kote',99,119,76800,0,0,0,64,0,0,4);                      -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24188,'clemency_kote',99,119,76800,0,0,0,64,0,0,5);                   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24189,'mercy_haidate',99,119,76800,0,0,0,128,0,0,4);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24190,'grace_haidate',99,119,76800,0,0,0,128,0,0,4);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24191,'clemency_haidate',99,119,76800,0,0,0,128,0,0,5);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24192,'mercy_sune-ate',99,119,76800,0,0,0,256,0,0,4);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24193,'grace_sune-ate',99,119,76800,0,0,0,256,0,0,4);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24194,'clemency_sune-ate',99,119,76800,0,0,0,256,0,0,5);              -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24195,'apathy_masque',99,0,0,0,0,0,16,0,0,4);                         -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24196,'defeat_masque',99,0,0,0,0,0,16,0,0,4);                         -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24197,'ignorance_masque',99,0,0,0,0,0,16,0,0,5);                      -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24198,'apathy_cuirass',99,0,0,0,0,0,32,0,0,4);                        -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24199,'defeat_cuirass',99,0,0,0,0,0,32,0,0,4);                        -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24200,'ignorance_cuirass',99,0,0,0,0,0,32,0,0,5);                     -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24201,'apathy_gauntlets',99,0,0,0,0,0,64,0,0,4);                      -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24202,'defeat_gauntlets',99,0,0,0,0,0,64,0,0,4);                      -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24203,'ignorance_gauntlets',99,0,0,0,0,0,64,0,0,5);                   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24204,'apathy_cuisses',99,0,0,0,0,0,128,0,0,4);                       -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24205,'defeat_cuisses',99,0,0,0,0,0,128,0,0,4);                       -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24206,'ignorance_cuisses',99,0,0,0,0,0,128,0,0,5);                    -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24207,'apathy_shoes',99,0,0,0,0,0,256,0,0,4);                         -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24208,'defeat_shoes',99,0,0,0,0,0,256,0,0,4);                         -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24209,'ignorance_shoes',99,0,0,0,0,0,256,0,0,5);                      -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24210,'arrogance_masque',99,0,0,0,0,0,16,0,0,4);                      -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24211,'bravado_masque',99,0,0,0,0,0,16,0,0,4);                        -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24212,'irreverence_masque',99,0,0,0,0,0,16,0,0,5);                    -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24213,'arrogance_jacket',99,0,0,0,0,0,32,0,0,4);                      -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24214,'bravado_jacket',99,0,0,0,0,0,32,0,0,4);                        -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24215,'irreverence_jacket',99,0,0,0,0,0,32,0,0,5);                    -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24216,'arrogance_wristbands',99,0,0,0,0,0,64,0,0,4);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24217,'bravado_wristbands',99,0,0,0,0,0,64,0,0,4);                    -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24218,'irreverence_wristbands',99,0,0,0,0,0,64,0,0,5);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24219,'arrogance_trousers',99,0,0,0,0,0,128,0,0,4);                   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24220,'bravado_trousers',99,0,0,0,0,0,128,0,0,4);                     -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24221,'irreverence_trousers',99,0,0,0,0,0,128,0,0,5);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24222,'arrogance_shoes',99,0,0,0,0,0,256,0,0,4);                      -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24223,'bravado_shoes',99,0,0,0,0,0,256,0,0,4);                        -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24224,'irreverence_shoes',99,0,0,0,0,0,256,0,0,5);                    -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24225,'cowardice_crown',99,0,0,0,0,0,16,0,0,4);                       -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24226,'nothingness_crown',99,0,0,0,0,0,16,0,0,4);                     -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24227,'despair_crown',99,0,0,0,0,0,16,0,0,5);                         -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24228,'cowardice_coat',99,0,0,0,0,0,32,0,0,4);                        -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24229,'nothingness_coat',99,0,0,0,0,0,32,0,0,4);                      -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24230,'despair_coat',99,0,0,0,0,0,32,0,0,5);                          -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24231,'cowardice_cuffs',99,0,0,0,0,0,64,0,0,4);                       -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24232,'nothingness_cuffs',99,0,0,0,0,0,64,0,0,4);                     -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24233,'despair_cuffs',99,0,0,0,0,0,64,0,0,5);                         -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24234,'cowardice_waist-robe',99,0,0,0,0,0,128,0,0,4);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24235,'nothingness_waist-robe',99,0,0,0,0,0,128,0,0,4);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24236,'despair_waist-robe',99,0,0,0,0,0,128,0,0,5);                   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24237,'cowardice_shoes',99,0,0,0,0,0,256,0,0,4);                      -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24238,'nothingness_shoes',99,0,0,0,0,0,256,0,0,4);                    -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24239,'despair_shoes',99,0,0,0,0,0,256,0,0,5);                        -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24240,'envy_circlet',99,0,0,0,0,0,16,0,0,4);                          -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24241,'jealousy_circlet',99,0,0,0,0,0,16,0,0,4);                      -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24242,'resentment_circlet',99,0,0,0,0,0,16,0,0,5);                    -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24243,'envy_cloak',99,0,0,0,0,0,32,0,0,4);                            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24244,'jealousy_cloak',99,0,0,0,0,0,32,0,0,4);                        -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24245,'resentment_cloak',99,0,0,0,0,0,32,0,0,5);                      -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24246,'envy_gloves',99,0,0,0,0,0,64,0,0,4);                           -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24247,'jealousy_gloves',99,0,0,0,0,0,64,0,0,4);                       -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24248,'resentment_gloves',99,0,0,0,0,0,64,0,0,5);                     -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24249,'envy_breeches',99,0,0,0,0,0,128,0,0,4);                        -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24250,'jealousy_breeches',99,0,0,0,0,0,128,0,0,4);                    -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24251,'resentment_breeches',99,0,0,0,0,0,128,0,0,5);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24252,'envy_leggings',99,0,0,0,0,0,256,0,0,4);                        -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24253,'jealousy_leggings',99,0,0,0,0,0,256,0,0,4);                    -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24254,'resentment_leggings',99,0,0,0,0,0,256,0,0,5);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24255,'rage_mask',99,0,0,0,0,0,16,0,0,4);                             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24256,'hatred_mask',99,0,0,0,0,0,16,0,0,4);                           -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24257,'wrath_mask',99,0,0,0,0,0,16,0,0,5);                            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24258,'rage_armor',99,0,0,0,0,0,32,0,0,4);                            -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24259,'hatred_armor',99,0,0,0,0,0,32,0,0,4);                          -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24260,'wrath_armor',99,0,0,0,0,0,32,0,0,5);                           -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24261,'rage_gauntlets',99,0,0,0,0,0,64,0,0,4);                        -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24262,'hatred_gauntlets',99,0,0,0,0,0,64,0,0,4);                      -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24263,'wrath_gauntlets',99,0,0,0,0,0,64,0,0,5);                       -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24264,'rage_thigh_guards',99,0,0,0,0,0,128,0,0,4);                    -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24265,'hatred_thigh_guards',99,0,0,0,0,0,128,0,0,4);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24266,'wrath_thigh_guards',99,0,0,0,0,0,128,0,0,5);                   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24267,'rage_leggings',99,0,0,0,0,0,256,0,0,4);                        -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24268,'hatred_leggings',99,0,0,0,0,0,256,0,0,4);                      -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24269,'wrath_leggings',99,0,0,0,0,0,256,0,0,5);                       -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24270,'null_masque',99,119,4194303,0,0,0,16,0,0,0);                   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24271,'prishes_boots_+1',1,0,4194303,0,0,0,256,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24272,'suzaku_cap',1,0,4194303,0,0,0,16,0,0,0);                       -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24273,'sobu_houou_kabuto',1,0,4194303,0,0,0,16,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24274,'amin_turban',99,119,4194303,0,0,0,16,0,0,0);                   -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24275,'ischkur_turban',99,119,4194303,0,0,0,16,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24283,'csm_gloves_+1',99,119,4194303,0,0,0,64,0,0,0);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24284,'csf_gloves_+1',99,119,4194303,0,0,0,64,0,0,0);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24285,'mg_gauntlets_+1',99,119,4194303,0,0,0,64,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24286,'mg_gloves_+1',99,119,4194303,0,0,0,64,0,0,0);                  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24287,'wn_mittens_+1',99,119,4194303,0,0,0,64,0,0,0);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24288,'sv_gauntlets_+1',99,119,4194303,0,0,0,64,0,0,0);               -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24289,'el_bracers_+1',99,119,4194303,0,0,0,64,0,0,0);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24297,'csm_boots_+1',99,119,4194303,0,0,0,256,0,0,0);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24298,'csf_boots_+1',99,119,4194303,0,0,0,256,0,0,0);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24299,'mgm_ledelsens_+1',99,119,4194303,0,0,0,256,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24300,'mgf_ledelsens_+1',99,119,4194303,0,0,0,256,0,0,0);             -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24301,'wn_clomps_+1',99,119,4194303,0,0,0,256,0,0,0);                 -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24302,'sv_gaiters_+1',99,119,4194303,0,0,0,256,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24303,'el_sandals_+1',99,119,4194303,0,0,0,256,0,0,0);                -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (24304,'azimuth_turban',99,119,4194303,0,0,0,16,0,0,0);                -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (25414,'elite_royal_collar',99,0,4194303,0,0,0,512,0,0,0);
 INSERT INTO `item_equipment` VALUES (25415,'rep._plat._medal',99,0,4194303,0,0,0,512,0,0,0);
 INSERT INTO `item_equipment` VALUES (25416,'sibyl_scarf',99,0,4194303,0,0,0,512,0,0,0);
@@ -12407,6 +12894,7 @@ INSERT INTO `item_equipment` VALUES (25843,'merlinic_shalwar',99,119,1589272,415
 INSERT INTO `item_equipment` VALUES (25844,'chironic_hose',99,119,524820,416,0,0,128,0,0,0);
 INSERT INTO `item_equipment` VALUES (25849,'dashing_subligar',99,119,2472947,423,0,0,128,0,0,0);
 INSERT INTO `item_equipment` VALUES (25850,'pretty_pink_subligar',1,0,4194303,453,0,0,128,0,0,0);
+INSERT INTO `item_equipment` VALUES (25851,'ashen_subligar',1,0,4194303,0,0,0,128,0,0,0);  -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (25852,'darraigners_brais',99,119,66592,350,0,0,128,0,0,0);
 INSERT INTO `item_equipment` VALUES (25853,'querkening_brais',99,119,1589788,223,0,0,128,0,0,0);
 INSERT INTO `item_equipment` VALUES (25854,'arjuna_breeches',99,119,6593,328,0,0,128,0,0,0);
@@ -12546,6 +13034,7 @@ INSERT INTO `item_equipment` VALUES (25994,'turms_mittens',99,119,2359328,148,0,
 INSERT INTO `item_equipment` VALUES (25995,'turms_mittens_+1',99,119,2359328,148,0,0,64,0,0,3);
 INSERT INTO `item_equipment` VALUES (25996,'raetic_bangles',99,119,4179646,0,0,0,64,0,0,3);
 INSERT INTO `item_equipment` VALUES (25997,'raetic_bangles_+1',99,119,4179646,0,0,0,64,0,0,3);
+INSERT INTO `item_equipment` VALUES (25998,'anguine_dastanas',99,119,2141649,0,0,0,64,0,0,0);  -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (26000,'consumm._torque',99,0,4194303,0,0,0,512,0,0,0);
 INSERT INTO `item_equipment` VALUES (26001,'loricate_torque',99,0,4194303,0,0,0,512,0,0,0);
 INSERT INTO `item_equipment` VALUES (26002,'loricate_torque_+1',99,0,4194303,0,0,0,512,0,0,0);
@@ -12586,6 +13075,8 @@ INSERT INTO `item_equipment` VALUES (26038,'regal_necklace',99,0,65536,0,0,0,512
 INSERT INTO `item_equipment` VALUES (26039,'sacro_gorget',99,0,2097216,0,0,0,512,0,0,0);
 INSERT INTO `item_equipment` VALUES (26040,'yngvi_choker',99,0,4194303,0,0,0,512,0,0,0);
 INSERT INTO `item_equipment` VALUES (26041,'sroda_necklace',99,0,20,0,0,0,512,0,0,0);
+INSERT INTO `item_equipment` VALUES (26042,'null_loop',99,0,4194303,0,0,0,512,0,0,0);     -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (26043,'hoxne_torque',99,0,4194303,0,0,0,512,0,0,0);  -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (26078,'kyrenes_earring',99,0,4194303,0,0,0,6144,0,0,0);
 INSERT INTO `item_equipment` VALUES (26079,'hypaspist_earring',99,0,4194303,0,0,0,6144,0,0,0);
 INSERT INTO `item_equipment` VALUES (26080,'mache_earring',99,0,4194303,0,0,0,6144,0,0,0);
@@ -12627,6 +13118,8 @@ INSERT INTO `item_equipment` VALUES (26115,'balder_earring_+1',99,0,4194303,0,0,
 INSERT INTO `item_equipment` VALUES (26116,'schere_earring',99,0,133251,0,0,0,6144,0,0,0);
 INSERT INTO `item_equipment` VALUES (26117,'crep._earring',99,119,4194303,0,0,0,6144,0,0,0);
 INSERT INTO `item_equipment` VALUES (26118,'sroda_earring',99,119,4194303,0,0,0,6144,0,0,0);
+INSERT INTO `item_equipment` VALUES (26119,'alabaster_earring',99,0,4194303,0,0,0,6144,0,0,0);  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (26120,'hoxne_earring',99,0,4194303,0,0,0,6144,0,0,0);      -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (26160,'evanescence_ring',99,0,4194303,0,0,0,24576,0,0,0);
 INSERT INTO `item_equipment` VALUES (26161,'shukuyu_ring',99,0,4194303,0,0,0,24576,0,0,0);
 INSERT INTO `item_equipment` VALUES (26162,'rahab_ring',99,0,4194303,0,0,0,24576,0,0,0);
@@ -12699,6 +13192,11 @@ INSERT INTO `item_equipment` VALUES (26228,'ragelises_ring',99,0,4194303,0,0,0,2
 INSERT INTO `item_equipment` VALUES (26229,'lehkos_ring',99,0,4194303,0,0,0,24576,0,0,0);
 INSERT INTO `item_equipment` VALUES (26230,'fickblixs_ring',99,0,4194303,0,0,0,24576,0,0,0);
 INSERT INTO `item_equipment` VALUES (26231,'ephramads_ring',99,0,4194303,0,0,0,24576,0,0,0);
+INSERT INTO `item_equipment` VALUES (26232,'lacertilian_ring',99,0,4194303,0,0,0,24576,0,0,0);  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (26233,'jotnar_ring',99,0,4194303,0,0,0,24576,0,0,0);       -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (26234,'murky_ring',99,0,4194303,0,0,0,24576,0,0,0);        -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (26235,'arrapago_ring',99,0,4194303,0,0,0,24576,0,0,0);     -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (26236,'hoxne_ring',99,0,4194303,0,0,0,24576,0,0,0);        -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (26240,'tantalic_cape',99,0,4194303,0,0,0,32768,0,0,0);
 INSERT INTO `item_equipment` VALUES (26241,'scintillating_cape',99,0,16384,0,0,0,32768,0,0,0);
 INSERT INTO `item_equipment` VALUES (26242,'phalangite_mantle',99,0,2473971,0,0,0,32768,0,0,0);
@@ -12733,6 +13231,9 @@ INSERT INTO `item_equipment` VALUES (26270,'sacro_mantle',99,0,397602,0,0,0,3276
 INSERT INTO `item_equipment` VALUES (26271,'hi-elixir_tank',1,0,4194303,0,0,0,32768,0,0,0);
 INSERT INTO `item_equipment` VALUES (26272,'super_reraiser_tank',1,0,4194303,0,0,0,32768,0,0,0);
 INSERT INTO `item_equipment` VALUES (26273,'tengu_shawl',1,0,4194303,0,0,0,32768,0,0,0);
+INSERT INTO `item_equipment` VALUES (26274,'null_shawl',99,0,4194303,0,0,0,32768,0,0,0);        -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (26275,'alabaster_mantle',99,0,4194303,0,0,0,32768,0,0,0);  -- TODO: Not implemented, verify model
+INSERT INTO `item_equipment` VALUES (26276,'murky_mantle',99,0,4194303,0,0,0,32768,0,0,0);      -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (26320,'kobo_obi',99,0,1622556,0,0,0,1024,0,0,0);
 INSERT INTO `item_equipment` VALUES (26321,'reiki_yotai',99,0,2472947,0,0,0,1024,0,0,0);
 INSERT INTO `item_equipment` VALUES (26322,'kerygma_belt',99,0,8641,0,0,0,1024,0,0,0);
@@ -12780,6 +13281,7 @@ INSERT INTO `item_equipment` VALUES (26363,'obstin._sash',99,0,524820,0,0,0,1024
 INSERT INTO `item_equipment` VALUES (26364,'sroda_belt',99,0,2097216,0,0,0,1024,0,0,0);
 INSERT INTO `item_equipment` VALUES (26365,'cornelias_belt',99,0,4194303,0,0,0,1024,0,0,0);
 INSERT INTO `item_equipment` VALUES (26366,'plat._mog._belt',99,0,4194303,0,0,0,1024,0,0,0);
+INSERT INTO `item_equipment` VALUES (26367,'null_belt',99,0,4194303,0,0,0,1024,0,0,0);       -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (26400,'culminus',99,119,1622556,657,1,0,2,0,0,0);
 INSERT INTO `item_equipment` VALUES (26401,'forfend',99,119,2385,45,1,0,2,0,0,0);
 INSERT INTO `item_equipment` VALUES (26402,'forfend_+1',99,119,2385,45,1,0,2,0,0,0);
@@ -12791,6 +13293,7 @@ INSERT INTO `item_equipment` VALUES (26411,'diamond_buckler_+1',99,0,0,0,0,0,32,
 INSERT INTO `item_equipment` VALUES (26412,'kamalanauts_shield',1,0,4194303,668,1,0,2,0,0,0);
 INSERT INTO `item_equipment` VALUES (26413,'voluspa_shield',99,119,193,30,3,0,2,0,0,0);
 INSERT INTO `item_equipment` VALUES (26414,'twinned_shield',1,0,4194303,672,2,0,2,0,0,0);
+INSERT INTO `item_equipment` VALUES (26417,'archdukes_shield',99,119,2421,0,2,0,2,0,0,0);  -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (26419,'ammurapi_shield',99,119,1589788,42,1,0,2,0,0,0);
 INSERT INTO `item_equipment` VALUES (26420,'adapa_shield',99,119,385,29,3,0,2,0,0,0);
 INSERT INTO `item_equipment` VALUES (26421,'nusku_shield',99,119,66560,46,2,0,2,0,0,0);
@@ -12877,6 +13380,7 @@ INSERT INTO `item_equipment` VALUES (26518,'jody_shirt',1,0,4194303,587,0,0,32,0
 INSERT INTO `item_equipment` VALUES (26519,'mandragora_shirt',99,0,0,0,0,0,32,0,0,0); -- TODO: Not implemented
 INSERT INTO `item_equipment` VALUES (26520,'akitu_shirt',1,0,4194303,582,0,0,32,0,0,0);
 INSERT INTO `item_equipment` VALUES (26521,'ilm_weskit',1,0,4194303,8635,0,0,32,0,0,0);
+INSERT INTO `item_equipment` VALUES (26522,'tajawwul',1,0,4194303,0,0,0,32,0,0,0);     -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (26523,'delegates_garb',1,0,4194303,441,0,0,32,0,0,0);
 INSERT INTO `item_equipment` VALUES (26524,'gil_nabber_shirt',1,0,4194303,585,0,0,32,0,0,0);
 INSERT INTO `item_equipment` VALUES (26525,'oshosi_vest',99,119,66560,109,0,0,32,0,0,3);
