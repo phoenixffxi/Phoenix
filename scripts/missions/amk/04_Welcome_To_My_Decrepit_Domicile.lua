@@ -1,6 +1,7 @@
 -----------------------------------
 -- Welcome! To My Decrepit Domicile
 -- A Moogle Kupo d'Etat M4
+-----------------------------------
 -- !addmission 10 3
 -- Inconspicuous Door : !pos -15 1.300 68 244
 -- Note: KI aquisition is handled in helm.lua

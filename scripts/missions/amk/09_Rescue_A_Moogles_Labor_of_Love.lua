@@ -1,6 +1,7 @@
 -----------------------------------
 -- Rescue! A Moogle's Labor of Love
 -- A Moogle Kupo d'Etat M9
+-----------------------------------
 -- !addmission 10 8
 -- Geologist cutscene args : csid, progress, has QC map: 1 or 0, markerset: 1-10
 -- Goblin Geologist        : !pos -737 -6 -550 208

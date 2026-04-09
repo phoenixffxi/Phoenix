@@ -1,6 +1,7 @@
 -----------------------------------
 -- Relief! A Triumphant Return
 -- A Moogle Kupo d'Etat M11
+-----------------------------------
 -- !addmission 10 10
 -- Inconspicuous Door : !pos -15 1.300 68 244
 -----------------------------------

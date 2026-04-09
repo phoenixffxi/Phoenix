@@ -1,6 +1,7 @@
 -----------------------------------
 -- Drenched! It Began with a Raindrop
 -- A Moogle Kupo d'Etat M2
+-----------------------------------
 -- !addmission 10 1
 -- ORCISH_PLATE_ARMOR : !additem 2757
 -- QUADAV_BACKSCALE   : !additem 2758

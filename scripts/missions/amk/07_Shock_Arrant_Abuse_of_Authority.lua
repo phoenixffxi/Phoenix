@@ -1,6 +1,7 @@
 -----------------------------------
 -- Shock! Arrant Abuse of Authority
 -- A Moogle Kupo d'Etat M7
+-----------------------------------
 -- !addmission 10 6
 -- Inconspicuous Door : !pos -15 1.300 68 244
 -- Note: KI aquisition is handled in chocobo_digging.lua
