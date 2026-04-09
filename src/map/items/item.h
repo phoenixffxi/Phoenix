@@ -78,7 +78,7 @@ public:
 
     uint16 getID() const;
     uint16 getSubID() const;
-    uint16 getFlag() const;
+    uint32 getFlag() const;
     uint8  getAppraisalID() const;
     uint8  getAHCat() const;
     uint32 getReserve() const;
@@ -97,7 +97,7 @@ public:
     void setID(uint16);
     void setSubID(uint16);
     void setSubType(uint8);
-    void setFlag(uint16);
+    void setFlag(uint32);
     void setAppraisalID(uint8 appraisailID);
     void setAHCat(uint8);
     void setReserve(uint32);
@@ -159,7 +159,7 @@ private:
     uint32 m_BasePrice;
     uint32 m_CharPrice; // The cost of the subject in Bazaar
     uint8  m_ahCat;     // auction category
-    uint16 m_flag;
+    uint32 m_flag;
 
     uint8 m_slotID;     // Cell of the object in the storage
     uint8 m_locationID; // storage number

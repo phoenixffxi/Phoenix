@@ -101,14 +101,14 @@ void LoadDailyItems()
 
     uint16 itemid = 0;
     uint16 aH     = 0;
-    uint16 flags  = 0;
+    uint32 flags  = 0;
     if (rset && rset->rowsCount())
     {
         while (rset->next())
         {
             itemid = rset->get<uint16>("itemid");
             aH     = rset->get<uint16>("aH");
-            flags  = rset->get<uint16>("flags");
+            flags  = rset->get<uint32>("flags");
 
             specialDialItems.emplace_back(itemid);
             switch (aH)

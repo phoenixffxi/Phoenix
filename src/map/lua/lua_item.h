@@ -43,7 +43,7 @@ public:
     uint16 getID();    // get the item's id
     uint16 getSubID(); // get the item's subid
 
-    uint16 getFlag();  // get the item flag
+    uint32 getFlag();  // get the item flag
     uint8  getAHCat(); // get the ah category
 
     uint32 getQuantity(); // get the quantity of item

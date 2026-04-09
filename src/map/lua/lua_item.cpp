@@ -53,7 +53,7 @@ uint16 CLuaItem::getSubID()
     return m_PLuaItem->getSubID();
 }
 
-uint16 CLuaItem::getFlag()
+uint32 CLuaItem::getFlag()
 {
     return m_PLuaItem->getFlag();
 }

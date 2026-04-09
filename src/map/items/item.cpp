@@ -89,12 +89,12 @@ uint16 CItem::getSubID() const
  *                                                                       *
  ************************************************************************/
 
-void CItem::setFlag(uint16 flag)
+void CItem::setFlag(uint32 flag)
 {
     m_flag = flag;
 }
 
-uint16 CItem::getFlag() const
+uint32 CItem::getFlag() const
 {
     return m_flag;
 }

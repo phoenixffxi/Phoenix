@@ -23,7 +23,7 @@ CREATE TABLE `item_basic` (
   `sortname` tinytext NOT NULL,
   `type` tinyint(1) unsigned NOT NULL DEFAULT @GENERAL_TYPE,
   `stackSize` tinyint(2) unsigned NOT NULL DEFAULT 1,
-  `flags` smallint(5) unsigned NOT NULL DEFAULT 0,
+  `flags` int(10) unsigned NOT NULL DEFAULT 0,
   `aH` tinyint(2) unsigned NOT NULL DEFAULT 99,
   `BaseSell` int(10) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`itemid`)
