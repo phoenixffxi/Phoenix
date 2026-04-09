@@ -144,9 +144,9 @@ void dboxutils::AddItemsToBeSent(CCharEntity* PChar, GP_CLI_COMMAND_PBX_BOXNO Bo
         const auto [recvCharid, recvAccid] = charutils::getCharIdAndAccountIdFromName(receiverName);
         if (recvCharid && recvAccid)
         {
-            if (PItem->getFlag() & ITEM_FLAG_NODELIVERY)
+            if (PItem->hasFlag(ItemFlag::NoDelivery))
             {
-                if (!(PItem->getFlag() & ITEM_FLAG_MAIL2ACCOUNT))
+                if (!PItem->hasFlag(ItemFlag::CanSendAccount))
                 {
                     return;
                 }

@@ -86,7 +86,7 @@ uint16 SelectItem(CCharEntity* player, uint8 dial)
     uint16 selection = xirand::GetRandomElement(dialItems.get());
 
     // Check if Rare item is already owned and substitute with Goblin trash item.
-    if ((itemutils::GetItem(selection)->getFlag() & ITEM_FLAG_RARE) > 0 && charutils::HasItem(player, selection))
+    if (itemutils::GetItem(selection)->hasFlag(ItemFlag::Rare) && charutils::HasItem(player, selection))
     {
         dialItems = gobbieJunk;
         selection = xirand::GetRandomElement(dialItems.get());
@@ -101,14 +101,14 @@ void LoadDailyItems()
 
     uint16 itemid = 0;
     uint16 aH     = 0;
-    uint16 flags  = 0;
+    auto   flags  = ItemFlag::None;
     if (rset && rset->rowsCount())
     {
         while (rset->next())
         {
             itemid = rset->get<uint16>("itemid");
             aH     = rset->get<uint16>("aH");
-            flags  = rset->get<uint16>("flags");
+            flags  = rset->get<ItemFlag>("flags");
 
             specialDialItems.emplace_back(itemid);
             switch (aH)
@@ -149,7 +149,7 @@ void LoadDailyItems()
                 case 36: // Cards
                 case 49: // Ninja Tools
                 {
-                    if ((flags & ITEM_FLAG_CANUSE) > 0) // only usable (pouch, case, quiver, etc)
+                    if ((flags & ItemFlag::CanUse) != ItemFlag::None) // only usable (pouch, case, quiver, etc)
                     {
                         sundries1DialItems.emplace_back(itemid);
                     }

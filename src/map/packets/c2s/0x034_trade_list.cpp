@@ -96,7 +96,7 @@ void GP_CLI_COMMAND_TRADE_LIST::process(MapSession* PSession, CCharEntity* PChar
     // Validate that the item exists in sufficient quantity, is not reserved, and is not an EX item.
     if (!PItem ||
         PItem->getID() != ItemNo ||
-        PItem->getFlag() & ITEM_FLAG_EX ||
+        PItem->hasFlag(ItemFlag::Exclusive) ||
         ItemNum + PItem->getReserve() > PItem->getQuantity() ||
         PItem->isSubType(ITEM_LOCKED))
     {

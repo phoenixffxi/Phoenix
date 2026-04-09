@@ -50,7 +50,7 @@ GP_SERV_COMMAND_GUILD_SELLLIST::GP_SERV_COMMAND_GUILD_SELLLIST(CCharEntity* PCha
             return;
         }
 
-        if (PItem->getFlag() & ITEM_FLAG_NOSALE)
+        if (PItem->hasFlag(ItemFlag::NoSale))
         {
             // Skip items that cannot be sold to NPCs
             continue;

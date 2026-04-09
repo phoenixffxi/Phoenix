@@ -25,6 +25,8 @@
 #include "common/cbasetypes.h"
 #include "common/mmo.h"
 
+#include "map/enums/item_flag.h"
+
 // The main type of item m_type
 enum ITEM_TYPE
 {
@@ -49,27 +51,6 @@ enum ITEM_SUBTYPE
     ITEM_UNLOCKED  = 0xFE,
 };
 
-// Flags of objects
-enum ITEM_FLAG
-{
-    ITEM_FLAG_WALLHANGING  = 0x0001,
-    ITEM_FLAG_01           = 0x0002,
-    ITEM_FLAG_MYSTERY_BOX  = 0x0004, // Can be gained from Gobbie Mystery Box
-    ITEM_FLAG_MOG_GARDEN   = 0x0008, // Can use in Mog Garden
-    ITEM_FLAG_MAIL2ACCOUNT = 0x0010, // CanSendPOL Polutils Value
-    ITEM_FLAG_INSCRIBABLE  = 0x0020,
-    ITEM_FLAG_NOAUCTION    = 0x0040,
-    ITEM_FLAG_SCROLL       = 0x0080,
-    ITEM_FLAG_LINKSHELL    = 0x0100, // Linkshell Polutils Value
-    ITEM_FLAG_CANUSE       = 0x0200,
-    ITEM_FLAG_CANTRADENPC  = 0x0400,
-    ITEM_FLAG_CANEQUIP     = 0x0800,
-    ITEM_FLAG_NOSALE       = 0x1000,
-    ITEM_FLAG_NODELIVERY   = 0x2000,
-    ITEM_FLAG_EX           = 0x4000, // NoTradePC Polutils Value
-    ITEM_FLAG_RARE         = 0x8000,
-};
-
 class CItem
 {
 public:
@@ -78,7 +59,8 @@ public:
 
     uint16 getID() const;
     uint16 getSubID() const;
-    uint16 getFlag() const;
+    auto   getFlag() const -> ItemFlag;
+    auto   hasFlag(ItemFlag flag) const -> bool;
     uint8  getAppraisalID() const;
     uint8  getAHCat() const;
     uint32 getReserve() const;
@@ -97,7 +79,7 @@ public:
     void setID(uint16);
     void setSubID(uint16);
     void setSubType(uint8);
-    void setFlag(uint16);
+    void setFlag(ItemFlag);
     void setAppraisalID(uint8 appraisailID);
     void setAHCat(uint8);
     void setReserve(uint32);
@@ -149,17 +131,17 @@ protected:
     void setType(uint8);
 
 private:
-    uint16 m_id;
-    uint16 m_subid;
-    uint8  m_type;
-    uint8  m_subtype;
-    uint32 m_quantity; // Current number of items
-    uint32 m_reserve;
-    uint32 m_stackSize; // The maximum number of items
-    uint32 m_BasePrice;
-    uint32 m_CharPrice; // The cost of the subject in Bazaar
-    uint8  m_ahCat;     // auction category
-    uint16 m_flag;
+    uint16   m_id;
+    uint16   m_subid;
+    uint8    m_type;
+    uint8    m_subtype;
+    uint32   m_quantity; // Current number of items
+    uint32   m_reserve;
+    uint32   m_stackSize; // The maximum number of items
+    uint32   m_BasePrice;
+    uint32   m_CharPrice; // The cost of the subject in Bazaar
+    uint8    m_ahCat;     // auction category
+    ItemFlag m_flag;
 
     uint8 m_slotID;     // Cell of the object in the storage
     uint8 m_locationID; // storage number

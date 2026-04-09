@@ -43,7 +43,7 @@ CItem::CItem(uint16 id)
 , m_BasePrice(0)
 , m_CharPrice(0)
 , m_ahCat(0)
-, m_flag(0)
+, m_flag(ItemFlag::None)
 , m_slotID(-1)
 , m_locationID(-1)
 , m_sent(false)
@@ -91,14 +91,19 @@ uint16 CItem::getSubID() const
  *                                                                       *
  ************************************************************************/
 
-void CItem::setFlag(uint16 flag)
+void CItem::setFlag(const ItemFlag flag)
 {
     m_flag = flag;
 }
 
-uint16 CItem::getFlag() const
+auto CItem::getFlag() const -> ItemFlag
 {
     return m_flag;
+}
+
+auto CItem::hasFlag(const ItemFlag flag) const -> bool
+{
+    return (m_flag & flag) != ItemFlag::None;
 }
 
 /************************************************************************
@@ -235,9 +240,9 @@ uint32 CItem::getBasePrice() const
  *                                                                       *
  ************************************************************************/
 
-void CItem::setCharPrice(uint32 CharPrice)
+void CItem::setCharPrice(const uint32 CharPrice)
 {
-    if (!(m_flag & ITEM_FLAG_EX))
+    if (!this->hasFlag(ItemFlag::Exclusive))
     {
         m_CharPrice = CharPrice;
     }

@@ -114,11 +114,6 @@ void GP_CLI_COMMAND_MYROOM_LAYOUT::process(MapSession* PSession, CCharEntity* PC
     {
         auto tempV = v;
 
-        if (PItem->getFlag() & ITEM_FLAG_WALLHANGING)
-        {
-            tempV = (x >= 2 ? 3 : 1);
-        }
-
         bool wasInstalled = PItem->isInstalled();
         PItem->setInstalled(true);
         PItem->setOn2ndFloor(MyroomFloorFlg);
