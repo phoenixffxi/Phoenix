@@ -21,12 +21,19 @@ entity.phList =
 entity.onMobInitialize = function(mob)
     -- "May despawn if left alone"
     mob:setMobMod(xi.mobMod.IDLE_DESPAWN, 180)
-    -- TODO any other immunities?
     mob:addImmunity(xi.immunity.DARK_SLEEP)
     mob:addImmunity(xi.immunity.LIGHT_SLEEP)
+    mob:setMobMod(xi.mobMod.ALWAYS_AGGRO, 1)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
+entity.onMobSpawn = function(mob)
+    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 150)
+    xi.mix.jobSpecial.config(mob, {
+        specials =
+        {
+            { id = xi.mobSkill.HUNDRED_FISTS_1 },
+        },
+    })
 end
 
 return entity

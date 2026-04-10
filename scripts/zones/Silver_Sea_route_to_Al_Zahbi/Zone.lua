@@ -1,6 +1,8 @@
 -----------------------------------
 -- Zone: Silver_Sea_route_to_Al_Zahbi
 -----------------------------------
+local ID = zones[xi.zone.SILVER_SEA_ROUTE_TO_AL_ZAHBI]
+-----------------------------------
 ---@type TZone
 local zoneObject = {}
 
@@ -9,6 +11,29 @@ end
 
 zoneObject.onZoneIn = function(player, prevZone)
     local cs = -1
+
+    -- Early return: Apkallu doesn't exist.
+    local almightyapkallu = GetMobByID(ID.mob.ALMIGHTY_APKALLU)
+    if not almightyapkallu then
+        return cs
+    end
+
+    -- Early return: Apkallu can't pop yet.
+    local currentTime = GetSystemTime()
+    if currentTime < almightyapkallu:getLocalVar('zoneWindow') then
+        return cs
+    end
+
+    -- Block multiple spawn chance rolls per boat ride.
+    almightyapkallu:setLocalVar('zoneWindow', GetSystemTime() + 20)
+
+    -- Check if Apkallu pops this boat ride.
+    if
+        currentTime > almightyapkallu:getLocalVar('respawn') and
+        math.random(1, 100) <= 20
+    then
+        almightyapkallu:setRespawnTime(math.random(120, 180)) -- 2 to 3 minutes
+    end
 
     return cs
 end

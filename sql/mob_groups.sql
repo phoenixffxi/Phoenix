@@ -2537,8 +2537,8 @@ INSERT INTO `mob_groups` VALUES (59,7114,45,'Ephemeral_Limule',300,0,783,5000,99
 INSERT INTO `mob_groups` VALUES (1,3102,46,'Passage_Crab',0,128,555,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (2,1838,46,'Gugru_Jagil',0,128,279,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (3,445,46,'Blanched_Kraken',0,128,290,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (4,1839,46,'Gugru_Orobon',0,128,969,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (5,2906,46,'Northern_Piranu',0,128,3306,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (4,1839,46,'Gugru_Orobon',0,128,969,5500,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (5,2906,46,'Northern_Piranu',0,128,3306,14000,0,0,NULL);
 
 INSERT INTO `mob_groups` VALUES (6,1837,46,'Gugru_Crab',300,0,1248,0,0,0,NULL); -- TODO: get respawn timer from retail
 INSERT INTO `mob_groups` VALUES (7,2935,46,'Ocean_Jagil',300,0,279,0,0,0,NULL); -- TODO: get respawn timer from retail
@@ -2555,8 +2555,8 @@ INSERT INTO `mob_groups` VALUES (11,4309,46,'Water_Elemental',300,4,2629,0,0,0,N
 INSERT INTO `mob_groups` VALUES (1,3102,47,'Passage_Crab',0,128,555,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (2,1838,47,'Gugru_Jagil',0,128,279,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (3,445,47,'Blanched_Kraken',0,128,290,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (4,1839,47,'Gugru_Orobon',0,128,969,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (5,3708,47,'Southern_Piranu',0,128,3307,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (4,1839,47,'Gugru_Orobon',0,128,969,5500,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (5,3708,47,'Southern_Piranu',0,128,3307,14000,0,0,NULL);
 
 INSERT INTO `mob_groups` VALUES (6,1837,47,'Gugru_Crab',300,0,1248,0,0,0,NULL); -- TODO: get respawn timer from retail
 INSERT INTO `mob_groups` VALUES (7,2935,47,'Ocean_Jagil',300,0,279,0,0,0,NULL); -- TODO: get respawn timer from retail
@@ -3188,7 +3188,7 @@ INSERT INTO `mob_groups` VALUES (2,3805,58,'Submarine_Nipper',0,128,555,0,0,0,NU
 INSERT INTO `mob_groups` VALUES (3,3885,58,'Thalassic_Pugil',0,128,279,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (4,23,58,'Abyssal_Pugil',0,128,975,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (5,359,58,'Bathybic_Kulshedra',0,128,0,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (6,3059,58,'Orobon_fished',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (6,3059,58,'Orobon_fished',0,128,0,7000,0,0,NULL);
 
 INSERT INTO `mob_groups` VALUES (7,197,58,'Apkallu',0,128,145,0,0,0,NULL); -- TODO: get respawn timer from retail
 INSERT INTO `mob_groups` VALUES (8,6360,58,'Bigclaw',300,0,272,0,0,0,NULL); -- TODO: get respawn timer from retail
@@ -3198,7 +3198,7 @@ INSERT INTO `mob_groups` VALUES (11,4112,58,'Utukku',300,1,2091,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (12,2065,58,'Imp',300,1,1002,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (13,71,58,'Air_Elemental',300,4,38,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (14,3912,58,'Thunder_Elemental',300,4,2410,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (15,3207,58,'Proteus',0,128,2025,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (15,3207,58,'Proteus',0,128,2025,12000,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Silver_Sea_route_to_Al_Zahbi (Zone 59)
@@ -3210,7 +3210,7 @@ INSERT INTO `mob_groups` VALUES (2,3805,59,'Submarine_Nipper',0,128,555,0,0,0,NU
 INSERT INTO `mob_groups` VALUES (3,3885,59,'Thalassic_Pugil',0,128,279,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (4,23,59,'Abyssal_Pugil',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (5,359,59,'Bathybic_Kulshedra',0,128,0,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (6,3059,59,'Orobon_fished',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (6,3059,59,'Orobon_fished',0,128,0,7000,0,0,NULL);
 
 INSERT INTO `mob_groups` VALUES (7,197,59,'Apkallu',0,128,145,0,0,0,NULL); -- TODO: get respawn timer from retail
 INSERT INTO `mob_groups` VALUES (8,6360,59,'Bigclaw',300,0,272,0,0,0,NULL); -- TODO: get respawn timer from retail
@@ -3220,7 +3220,7 @@ INSERT INTO `mob_groups` VALUES (11,4112,59,'Utukku',300,1,2091,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (12,2065,59,'Imp',300,1,1002,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (13,71,59,'Air_Elemental',300,4,38,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (14,3912,59,'Thunder_Elemental',300,4,2410,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (15,94,59,'Almighty_Apkallu',0,128,52,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (15,94,59,'Almighty_Apkallu',0,128,52,14500,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- The_Ashu_Talif (Zone 60)
@@ -14255,7 +14255,7 @@ INSERT INTO `mob_groups` VALUES (8,3523,220,'Sea_Monk',300,0,2188,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (9,3127,220,'Phantom',300,1,1993,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (10,3912,220,'Thunder_Elemental',300,4,2410,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (11,4309,220,'Water_Elemental',300,4,2629,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (12,3522,220,'Sea_Horror',0,128,2186,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (12,3522,220,'Sea_Horror',0,128,2186,7000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (13,1213,220,'Enagakure',0,128,0,2400,2400,0,NULL);
 
 -- ------------------------------------------------------------
@@ -14276,7 +14276,7 @@ INSERT INTO `mob_groups` VALUES (8,3523,221,'Sea_Monk',300,0,2188,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (9,3127,221,'Phantom',300,1,1993,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (10,3912,221,'Thunder_Elemental',300,4,2410,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (11,4309,221,'Water_Elemental',300,4,2629,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (12,3522,221,'Sea_Horror',0,128,2186,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (12,3522,221,'Sea_Horror',0,128,2186,7000,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Provenance (Zone 222)
@@ -14310,7 +14310,7 @@ INSERT INTO `mob_groups` VALUES (9,3127,227,'Phantom',300,1,1993,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (10,5878,227,'Crossbones_blm',0,128,537,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (11,844,227,'Crossbones_war',0,128,537,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (12,3605,227,'Ship_Wight',0,128,769,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (13,428,227,'Blackbeard',0,128,282,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (13,428,227,'Blackbeard',0,128,282,9200,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (14,1213,227,'Enagakure',0,128,0,2400,2400,0,NULL);
 
 -- ------------------------------------------------------------
@@ -14332,7 +14332,7 @@ INSERT INTO `mob_groups` VALUES (9,3127,228,'Phantom',300,1,1993,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (10,5878,228,'Crossbones_blm',0,128,537,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (11,844,228,'Crossbones_war',0,128,537,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (12,3605,228,'Ship_Wight',0,128,769,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (13,3626,228,'Silverhook',0,128,2249,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (13,3626,228,'Silverhook',0,128,2249,9400,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Abyssea-Uleguerand (Zone 253)
