@@ -964,8 +964,8 @@
  963    Sleet Blast alt
  964    Sleet Blast
  965    Geotic Breath
- 966    Ochre Blast alt
- 967    Ochre Blast
+ 966    Ocher Blast alt
+ 967    Ocher Blast
  968    Sable Breath
  969    Snowball
  970    Snow Cloud

@@ -3,74 +3,69 @@
 -- Mob: Ziryu
 -- Notes: in Ouryu Cometh
 -----------------------------------
-local ID = zones[xi.zone.RIVERNE_SITE_A01]
------------------------------------
 ---@type TMobEntity
 local entity = {}
 
-local ziryuOne =
+local spawnPoints =
 {
-    { 46.836, 76.828, -758.276 },
-    { 26.248, 76.607, -750.256 },
-    { 42.179, 76.290, -752.683 },
-    { 26.127, 76.550, -767.194 },
-    { 35.687, 76.152, -757.707 },
-    { 48.250, 76.524, -766.964 },
-    { 50.825, 76.781, -756.612 },
-    { 38.753, 76.809, -771.376 },
+    { x = -7.673, y = 76.109, z = -753.720 },
+    { x = -5.680, y = 76.098, z = -753.375 },
+    { x = -5.063, y = 76.632, z = -769.115 },
+    { x = -4.365, y = 76.112, z = -750.562 },
+    { x = -2.091, y = 76.000, z = -718.037 },
+    { x = -0.636, y = 76.000, z = -763.672 },
+    { x = 0.744,  y = 76.462, z = -712.730 },
+    { x = 0.834,  y = 76.032, z = -721.327 },
+    { x = 3.663,  y = 76.234, z = -710.823 },
+    { x = 5.228,  y = 76.399, z = -767.280 },
+    { x = 5.263,  y = 76.308, z = -757.192 },
+    { x = 9.013,  y = 76.413, z = -722.767 },
+    { x = 9.715,  y = 76.785, z = -744.856 },
+    { x = 10.129, y = 65.914, z = -736.797 },
+    { x = 10.238, y = 76.550, z = -724.555 },
+    { x = 22.027, y = 76.512, z = -730.651 },
+    { x = 26.127, y = 76.550, z = -767.194 },
+    { x = 26.248, y = 76.607, z = -750.256 },
+    { x = 35.687, y = 76.152, z = -757.707 },
+    { x = 36.108, y = 76.590, z = -710.141 },
+    { x = 38.753, y = 76.809, z = -771.376 },
+    { x = 42.179, y = 76.290, z = -752.683 },
+    { x = 46.836, y = 76.828, z = -758.276 },
+    { x = 48.250, y = 76.524, z = -766.964 },
+    { x = 49.704, y = 76.034, z = -722.611 },
+    { x = 50.825, y = 76.781, z = -756.612 },
 }
 
-local ziryuTwo =
-{
-    { -5.680, 76.098, -753.375 },
-    { -7.673, 76.109, -753.720 },
-    { -5.063, 76.632, -769.115 },
-    {  5.228, 76.399, -767.280 },
-    {  5.263, 76.308, -757.192 },
-    { -4.365, 76.112, -750.562 },
-    { -0.636, 76.000, -763.672 },
-}
-
-local ziryuThree =
-{
-    {  0.744, 76.462, -712.730 },
-    {  3.663, 76.234, -710.823 },
-    {  0.834, 76.032, -721.327 },
-    {  9.013, 76.413, -722.767 },
-    { -2.091, 76.000, -718.037 },
-    { 10.238, 76.550, -724.555 },
-}
-
-local ziryuFour =
-{
-    { 10.129, 65.914, -736.797 },
-    {  9.715, 76.785, -744.856 },
-    { 22.027, 76.512, -730.651 },
-    { 36.108, 76.590, -710.141 },
-    { 49.704, 76.034, -722.611 },
-}
+entity.onMobInitialize = function(mob)
+    local spawnPoint = spawnPoints[math.random(1, #spawnPoints)]
+    mob:setSpawn(spawnPoint.x, spawnPoint.y, spawnPoint.z)
+end
 
 entity.onMobSpawn = function(mob)
     mob:setMobMod(xi.mobMod.CHARMABLE, 1)
     mob:setMobMod(xi.mobMod.SOUND_RANGE, 30)
+    mob:setMobMod(xi.mobMod.ROAM_DISTANCE, 500)
+    mob:setMobMod(xi.mobMod.ROAM_RATE, 10)
+    mob:setRoamFlags(xi.roamFlag.WORM)
+end
+
+entity.onMobSpellChoose = function(mob, target, spellId)
+    local spellList =
+    {
+        [1] = { xi.magic.spell.STONE_IV,    target, false, xi.action.type.DAMAGE_TARGET,        nil,                 0, 100 },
+        [2] = { xi.magic.spell.STONEGA_III, target, false, xi.action.type.DAMAGE_TARGET,        nil,                 0, 100 },
+        [3] = { xi.magic.spell.QUAKE,       target, false, xi.action.type.DAMAGE_TARGET,        nil,                 0, 100 },
+        [4] = { xi.magic.spell.RASP,        target, false, xi.action.type.ENFEEBLING_TARGET,    xi.effect.RASP,      0, 100 },
+        [5] = { xi.magic.spell.BIND,        target, false, xi.action.type.ENFEEBLING_TARGET,    xi.effect.BIND,      0, 100 },
+        [6] = { xi.magic.spell.STONESKIN,   mob,    false, xi.action.type.ENHANCING_FORCE_SELF, xi.effect.STONESKIN, 0, 100 },
+    }
+
+    return xi.combat.behavior.chooseAction(mob, target, nil, spellList)
 end
 
 entity.onMobDespawn = function(mob)
-    mob:setRespawnTime(120)
-    local randspawn1 = ziryuOne[math.random((1), (8))]
-    local randspawn2 = ziryuTwo[math.random((1), (7))]
-    local randspawn3 = ziryuThree[math.random((1), (6))]
-    local randspawn4 = ziryuFour[math.random((1), (5))]
-
-    if mob:getID() == ID.mob.ZIRYU[1] then
-        mob:setSpawn(randspawn1[1], randspawn1[2], randspawn1[3])
-    elseif mob:getID() == ID.mob.ZIRYU[2] then
-        mob:setSpawn(randspawn2[1], randspawn2[2], randspawn2[3])
-    elseif mob:getID() == ID.mob.ZIRYU[3] then
-        mob:setSpawn(randspawn3[1], randspawn3[2], randspawn3[3])
-    elseif mob:getID() == ID.mob.ZIRYU[4] then
-        mob:setSpawn(randspawn4[1], randspawn4[2], randspawn4[3])
-    end
+    local spawnPoint = spawnPoints[math.random(1, #spawnPoints)]
+    mob:setSpawn(spawnPoint.x, spawnPoint.y, spawnPoint.z)
 end
 
 return entity

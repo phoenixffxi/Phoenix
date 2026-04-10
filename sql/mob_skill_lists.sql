@@ -1918,7 +1918,7 @@ INSERT INTO `mob_skill_lists` VALUES ('OrcCaster',423,766);
 INSERT INTO `mob_skill_lists` VALUES ('Geush_Urvan',424,495); -- Snort
 INSERT INTO `mob_skill_lists` VALUES ('Geush_Urvan',424,496); -- Rabid Dance
 INSERT INTO `mob_skill_lists` VALUES ('Geush_Urvan',424,497); -- Lowing
--- 425 to 435: free
+INSERT INTO `mob_skill_lists` VALUES ('OuryuCometh',425,1405); -- Ouryu Flying Attack
 INSERT INTO `mob_skill_lists` VALUES ('Bloodlapper',436,2162);
 INSERT INTO `mob_skill_lists` VALUES ('Ghillie_Dhu',437,685);
 INSERT INTO `mob_skill_lists` VALUES ('Highlander_Lizard',438,371);

@@ -657,6 +657,16 @@ xi.mobSkill =
     RANGED_ATTACK_TENZEN_2        = 1400, -- Tenzen Bow Low
     SOUL_ACCRETION                = 1401,
 
+    OCHER_BLAST_ATTACK_2          = 1405,
+    TYPHOON_WING_2                = 1406,
+    SPIKE_FLAIL_7                 = 1407,
+    GEOTIC_BREATH_2               = 1408,
+    TOUCHDOWN_7                   = 1409,
+    OCHER_BLAST_2                 = 1410,
+    BAI_WING_2                    = 1411,
+    ABSOLUTE_TERROR_7             = 1412,
+    HORRID_ROAR_7                 = 1413,
+
     MARIONETTE_DICE_2             = 1415,
     MARIONETTE_DICE_3             = 1416,
     MARIONETTE_DICE_4             = 1417,

@@ -1,5 +1,5 @@
 -----------------------------------
--- Ochre Blast
+-- Ocher Blast
 -- Family: Wyrms
 -- Description: Deals Earth damage to enemies in area of effect.
 -- Notes: Used only by Ouryu and Cuelebre while flying.

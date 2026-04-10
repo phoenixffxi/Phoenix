@@ -1,5 +1,5 @@
 -----------------------------------
--- Ochre Blast Alt
+-- Ocher Blast Alt
 -- Family: Wyrms
 -- Description: Deals Earth damage to a single target
 -- Notes: Used by Ouryu in place of regular attacks
