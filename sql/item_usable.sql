@@ -2910,26 +2910,18 @@ INSERT INTO `item_usable` VALUES (18945,'jet_sickle',1,3,0,0,100,30,600,0);
 INSERT INTO `item_usable` VALUES (19181,'moogles_largesse',1,12,0,0,9,10,259200,0);
 INSERT INTO `item_usable` VALUES (19204,'fiendtrapper',20,0,0,0,12,10,30,0);
 INSERT INTO `item_usable` VALUES (19246,'moggiebag',1,3,0,0,8,10,259200,0);
-INSERT INTO `item_usable` VALUES (21074,'kupo_rod',1,3,55,0,1,30,72000,0);
-INSERT INTO `item_usable` VALUES (21760,'dispatchers_axe',1,1,0,0,1,30,3600,0);     -- TODO: verify animation
-INSERT INTO `item_usable` VALUES (21997,'magicians_rod_+1',1,3,0,0,1,30,1800,0);    -- TODO: verify animation
-INSERT INTO `item_usable` VALUES (22003,'arthros_scepter',1,1,0,0,1,30,3600,0);     -- TODO: verify animation
-INSERT INTO `item_usable` VALUES (22168,'pandits_staff',1,1,0,0,1,10,72000,0);      -- TODO: verify animation
-INSERT INTO `item_usable` VALUES (22310,'hoxne_ampulla',1,1,0,0,1,5,60,0);          -- TODO: verify animation
-INSERT INTO `item_usable` VALUES (23870,'eyre_cap',1,2,0,0,1,10,3600,0);            -- TODO: verify animation
-INSERT INTO `item_usable` VALUES (23871,'hebenus_gilet',1,2,0,0,1,30,86400,0);      -- TODO: verify animation
-INSERT INTO `item_usable` VALUES (23873,'hebenus_top',1,2,0,0,1,30,86400,0);        -- TODO: verify animation
-INSERT INTO `item_usable` VALUES (24271,'prishes_boots_+1',1,1,0,0,1,5,216000,0);   -- TODO: verify animation
-INSERT INTO `item_usable` VALUES (24273,'sobu_houou_kabuto',1,3,0,0,1,30,72000,0);  -- TODO: verify animation
-INSERT INTO `item_usable` VALUES (26235,'arrapago_ring',1,8,0,0,10,30,3600,0);      -- TODO: verify animation
 -- INSERT INTO `item_usable` VALUES (20533,'worm_feelers_+1',1,1,55,0,1,30,86400,0); -- item's lua still needs made
 -- INSERT INTO `item_usable` VALUES (20568,'wind_knife_+1',4,1,0,0,1,30,600,0); -- untested
 INSERT INTO `item_usable` VALUES (20953,'escritorio',1,1,55,0,1,30,86400,0); -- Dispenses: Cone Calamary
+INSERT INTO `item_usable` VALUES (21074,'kupo_rod',1,3,55,0,1,30,72000,0);
 INSERT INTO `item_usable` VALUES (21266,'gastraphetes',1,1,55,0,1,10,3600,0);
 INSERT INTO `item_usable` VALUES (21267,'annihilator',1,1,55,0,1,10,3600,0);
 INSERT INTO `item_usable` VALUES (21268,'death_penalty',1,1,55,0,1,10,3600,0);
 INSERT INTO `item_usable` VALUES (21269,'armageddon',1,1,55,0,1,10,3600,0);
+INSERT INTO `item_usable` VALUES (21760,'dispatchers_axe',1,1,0,0,1,30,3600,0);     -- TODO: verify animation
 INSERT INTO `item_usable` VALUES (21868,'sha_wujings_la._+1',1,55,0,0,1,30,72000,0); -- Dispenses: Distilled Water x 12
+INSERT INTO `item_usable` VALUES (21997,'magicians_rod_+1',1,3,0,0,1,30,1800,0);    -- TODO: verify animation
+INSERT INTO `item_usable` VALUES (22003,'arthros_scepter',1,1,0,0,1,30,3600,0);     -- TODO: verify animation
 -- INSERT INTO `item_usable` VALUES (22018,'seika_uchiwa_+1',1,1,55,0,1,30,300,0);  -- Enchantment: Cool Breeze
 -- INSERT INTO `item_usable` VALUES (22020,'jingly_rod_+1',1,1,55,0,1,30,3600,0);   -- Costume: lamb or Chacharoon
 INSERT INTO `item_usable` VALUES (22115,'yoichinoyumi',1,1,55,0,1,10,3600,0);
@@ -2943,15 +2935,23 @@ INSERT INTO `item_usable` VALUES (22140,'annihilator',1,1,55,0,1,10,3600,0);
 INSERT INTO `item_usable` VALUES (22141,'death_penalty',1,1,55,0,1,10,3600,0);
 INSERT INTO `item_usable` VALUES (22142,'armageddon',1,1,55,0,1,10,3600,0);
 INSERT INTO `item_usable` VALUES (22143,'fomalhaut',1,1,55,0,1,10,3600,0);
+INSERT INTO `item_usable` VALUES (22168,'pandits_staff',1,1,0,0,1,10,72000,0);      -- TODO: verify animation
 -- INSERT INTO `item_usable` VALUES (22288,'mandragora_pouch',1,2,55,0,1,10,216000,0);  -- Enchantment: Tiny Allowance (Enchantment gives a random small amount of gil (<2,000))
+INSERT INTO `item_usable` VALUES (22310,'hoxne_ampulla',1,1,0,0,1,5,60,0);          -- TODO: verify animation
+INSERT INTO `item_usable` VALUES (23870,'eyre_cap',1,2,0,0,1,10,3600,0);            -- TODO: verify animation
+INSERT INTO `item_usable` VALUES (23871,'hebenus_gilet',1,2,0,0,1,30,86400,0);      -- TODO: verify animation
+INSERT INTO `item_usable` VALUES (23873,'hebenus_top',1,2,0,0,1,30,86400,0);        -- TODO: verify animation
+INSERT INTO `item_usable` VALUES (24271,'prishes_boots_+1',1,1,0,0,1,5,216000,0);   -- TODO: verify animation
+INSERT INTO `item_usable` VALUES (24273,'sobu_houou_kabuto',1,3,0,0,1,30,72000,0);  -- TODO: verify animation
 INSERT INTO `item_usable` VALUES (25585,'black_chocobo_cap',1,8,79,0,1,30,72000,0);
 INSERT INTO `item_usable` VALUES (25658,'wyrmking_masque_+1',1,1,55,0,1,30,72000,0);
-INSERT INTO `item_usable` VALUES (25757,'wyrmking_suit_+1',1,8,79,0,1,30,3600,0);
 INSERT INTO `item_usable` VALUES (25679,'white_rarab_cap_+1',1,8,33,0,1,30,72000,0);
+INSERT INTO `item_usable` VALUES (25757,'wyrmking_suit_+1',1,8,79,0,1,30,3600,0);
 INSERT INTO `item_usable` VALUES (25774,'fancy_gilet',1,2,55,0,1,30,86400,0); -- Dispense: persikos snow cone
 INSERT INTO `item_usable` VALUES (25775,'fancy_top',1,2,55,0,1,30,86400,0); -- Dispense: persikos snow cone
 INSERT INTO `item_usable` VALUES (26164,'caliber_ring',1,3,76,0,3,5,900,0);
 INSERT INTO `item_usable` VALUES (26165,'facility_ring',1,3,76,0,3,5,900,0);
+INSERT INTO `item_usable` VALUES (26235,'arrapago_ring',1,8,0,0,10,30,3600,0); -- TODO: verify animation
 INSERT INTO `item_usable` VALUES (26271,'hi-elixir_tank',1,2,55,0,3,30,60,0);
 INSERT INTO `item_usable` VALUES (26272,'super_reraiser_tank',1,2,55,0,5,30,60,0);
 INSERT INTO `item_usable` VALUES (26517,'shadow_lord_shirt',1,8,79,0,1,30,72000,0);
