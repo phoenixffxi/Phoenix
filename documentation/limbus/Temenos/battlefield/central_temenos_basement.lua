@@ -124,12 +124,12 @@ content.loot =
     {
         {
             quantity = 7,
-            { item = xi.item.ANCIENT_BEASTCOIN, weight = 1000 },
+            { itemId = xi.item.ANCIENT_BEASTCOIN, weight = 1000 },
         },
 
         {
-            { item = xi.item.NONE,       weight = xi.loot.weight.VERY_HIGH },
-            { item = xi.item.METAL_CHIP, weight = xi.loot.weight.NORMAL    },
+            { itemId = xi.item.NONE,       weight = xi.loot.weight.VERY_HIGH },
+            { itemId = xi.item.METAL_CHIP, weight = xi.loot.weight.NORMAL    },
         },
     }
 }
