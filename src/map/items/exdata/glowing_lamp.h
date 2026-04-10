@@ -32,8 +32,8 @@ struct GlowingLamp
     uint8_t  Flags : 3;
     uint8_t  padding00 : 5;
     uint8_t  padding01[5];
-    uint32_t StartTime;
     uint32_t EndTime;
+    uint32_t StartTime;
     uint8_t  padding02[8];
 
     void toTable(sol::table& table) const;

@@ -331,7 +331,7 @@ auto isRightRecipe(CCharEntity* PChar) -> bool
 
         // Check if recipe result is rare and player already owns a copy.
         const CItem* PItem = itemutils::GetItemPointer(recipe.Result);
-        if (PItem && PItem->getFlag() & ITEM_FLAG_RARE && charutils::HasItem(PChar, recipe.Result))
+        if (PItem && PItem->hasFlag(ItemFlag::Rare) && charutils::HasItem(PChar, recipe.Result))
         {
             PChar->pushPacket<GP_SERV_COMMAND_COMBINE_ANS>(PChar, SynthesisResult::CancelRareItem);
             return false;
@@ -858,7 +858,7 @@ void handleSynthSuccess(CCharEntity* PChar)
 
     if (PItem != nullptr)
     {
-        if ((PItem->getFlag() & ITEM_FLAG_INSCRIBABLE) && (PChar->CraftContainer->getItemID(0) > 0x1080))
+        if (PItem->hasFlag(ItemFlag::Inscribable) && (PChar->CraftContainer->getItemID(0) > 0x1080))
         {
             PItem->setSignature(PChar->name);
 

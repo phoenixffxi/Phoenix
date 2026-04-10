@@ -1,8 +1,17 @@
 set(ITEM_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/appraisable.h
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/assault_log.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/assault_log.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/augment_bundle.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/augment_bundle.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/augment_mezzotint.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/augment_mezzotint.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/augment_standard.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/augment_standard.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/augment_trial.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/augment_trial.h
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/base.h
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/betting_slip.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/betting_slip.h
@@ -26,6 +35,8 @@ set(ITEM_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/furniture.h
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/glowing_lamp.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/glowing_lamp.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/linkshell.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/linkshell.h
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/honeymoon_ticket.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/honeymoon_ticket.h
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/legion_pass.cpp
@@ -40,12 +51,17 @@ set(ITEM_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/perpetual_hourglass.h
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/race_certificate.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/race_certificate.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/serialized.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/serialized.h
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/soul_plate.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/soul_plate.h
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/soul_reflector.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/soul_reflector.h
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/tabula.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/tabula.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/timer_info.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/timer_info.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/exdata/worn_item.h
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/weapon_unlock.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/weapon_unlock.h
     ${CMAKE_CURRENT_SOURCE_DIR}/item_currency.cpp

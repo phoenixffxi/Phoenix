@@ -224,7 +224,7 @@ CCharStatusPacket::CCharStatusPacket(CCharEntity* PChar)
 
     if (linkshell && linkshell->isType(ITEM_LINKSHELL))
     {
-        lscolor_t LSColor = linkshell->GetLSColor();
+        Exdata::lscolor_t LSColor = linkshell->GetLSColor();
 
         // This seems wrong, but displays correctly?
         packet->r = (LSColor.R << 4) + 15;

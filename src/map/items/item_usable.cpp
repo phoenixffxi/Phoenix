@@ -21,9 +21,9 @@
 
 #include "item_usable.h"
 
-#include "common/utils.h"
 #include "common/vana_time.h"
 #include "enums/action/animation.h"
+#include "exdata/timer_info.h"
 
 CItemUsable::CItemUsable(uint16 id)
 : CItem(id)
@@ -66,8 +66,8 @@ timer::duration CItemUsable::getReuseDelay() const
 
 void CItemUsable::setLastUseTime(timer::time_point LastUseTime)
 {
-    m_LastUseTime              = LastUseTime;
-    ref<uint32>(m_extra, 0x04) = earth_time::vanadiel_timestamp(timer::to_utc(LastUseTime));
+    m_LastUseTime                                    = LastUseTime;
+    this->exdata<Exdata::ItemTimerInfo>().TimeValue1 = earth_time::vanadiel_timestamp(timer::to_utc(LastUseTime));
 }
 
 timer::time_point CItemUsable::getLastUseTime()
@@ -82,12 +82,12 @@ timer::time_point CItemUsable::getNextUseTime()
 
 void CItemUsable::setCurrentCharges(uint8 CurrCharges)
 {
-    ref<uint8>(m_extra, 0x01) = std::clamp<uint8>(CurrCharges, 0, m_MaxCharges);
+    this->exdata<Exdata::ItemTimerInfo>().RemainingCharges = std::clamp<uint8>(CurrCharges, 0, m_MaxCharges);
 }
 
 uint8 CItemUsable::getCurrentCharges()
 {
-    return ref<uint8>(m_extra, 0x01);
+    return this->exdata<Exdata::ItemTimerInfo>().RemainingCharges;
 }
 
 void CItemUsable::setMaxCharges(uint8 MaxCharges)

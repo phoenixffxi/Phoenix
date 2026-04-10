@@ -30,6 +30,7 @@
 #include <common/xirand.h>
 
 #include "login_errors.h"
+#include "login_packets.h"
 #include "nlohmann/json.hpp"
 #include "session.h"
 
@@ -97,7 +98,7 @@ uint16 generateFeatureBitmask();
 
 int32 saveCharacter(uint32 accid, uint32 charid, char_mini* createchar);
 
-int32 createCharacter(session_t& session, uint8* buf);
+int32 createCharacter(session_t& session, uint8* buf, lpkt_chr_info_sub2& charInfo);
 
 std::string getHashFromPacket(const std::string& ip_str, uint8* data);
 

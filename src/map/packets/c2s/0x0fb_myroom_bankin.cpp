@@ -23,6 +23,7 @@
 
 #include "entities/charentity.h"
 #include "enums/item_lockflg.h"
+#include "items/exdata/mannequin.h"
 #include "items/item_furnishing.h"
 #include "lua/luautils.h"
 #include "packets/char_status.h"
@@ -71,17 +72,19 @@ void GP_CLI_COMMAND_MYROOM_BANKIN::process(MapSession* PSession, CCharEntity* PC
             if (PItem->isMannequin())
             {
                 PChar->pushPacket<GP_SERV_COMMAND_ITEM_SUBCONTAINER>(static_cast<CONTAINER_ID>(MyroomCategory), MyroomItemIndex, 0, 0, 0, 0, 0, 0, 0, 0);
-                for (uint8 i = 0; i < 8; ++i)
+                auto&    mannequin = PItem->exdata<Exdata::Mannequin>();
+                uint8_t* slots[]   = { &mannequin.EquipMain, &mannequin.EquipSub, &mannequin.EquipRanged, &mannequin.EquipHead, &mannequin.EquipBody, &mannequin.EquipHands, &mannequin.EquipLegs, &mannequin.EquipFeet };
+                for (auto* slot : slots)
                 {
-                    if (PItem->m_extra[10 + i] > 0)
+                    if (*slot > 0)
                     {
-                        auto* PEquippedItem = PChar->getStorage(LOC_STORAGE)->GetItem(i);
-                        if (PEquippedItem == nullptr)
+                        auto* PEquippedItem = PChar->getStorage(LOC_STORAGE)->GetItem(*slot);
+                        if (PEquippedItem != nullptr)
                         {
-                            continue;
+                            PChar->pushPacket<GP_SERV_COMMAND_ITEM_LIST>(PEquippedItem, ItemLockFlg::Normal);
                         }
-                        PChar->pushPacket<GP_SERV_COMMAND_ITEM_LIST>(PEquippedItem, ItemLockFlg::Normal);
-                        PItem->m_extra[10 + i] = 0;
+
+                        *slot = 0;
                     }
                 }
             }

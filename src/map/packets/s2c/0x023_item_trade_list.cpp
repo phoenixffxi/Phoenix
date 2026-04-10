@@ -53,7 +53,7 @@ GP_SERV_COMMAND_ITEM_TRADE_LIST::GP_SERV_COMMAND_ITEM_TRADE_LIST(CItem* PItem, c
         std::memcpy(&packet.Attr[6], &lscolor, 2);
         packet.Attr[8] = static_cast<CItemLinkshell*>(PItem)->GetLSType();
 
-        std::memcpy(&packet.Attr[9], PItem->getSignature().c_str(), std::min<size_t>(PItem->getSignature().size(), 15));
+        std::memcpy(&packet.Attr[9], static_cast<CItemLinkshell*>(PItem)->exdata<Exdata::Linkshell>().Name, sizeof(Exdata::Linkshell::Name));
     }
     else
     {

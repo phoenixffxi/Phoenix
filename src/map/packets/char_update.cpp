@@ -319,7 +319,7 @@ void CCharUpdatePacket::updateWith(CCharEntity* PChar, ENTITYUPDATE type, uint8 
 
         if (linkshell && linkshell->isType(ITEM_LINKSHELL))
         {
-            const lscolor_t LSColor = linkshell->GetLSColor();
+            const Exdata::lscolor_t LSColor = linkshell->GetLSColor();
 
             // This seems wrong, but displays correctly?
             packet->Flags2.r = (LSColor.R << 4) + 15;

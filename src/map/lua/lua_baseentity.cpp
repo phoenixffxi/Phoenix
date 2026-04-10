@@ -24,6 +24,8 @@
 #include "lua_battlefield.h"
 #include "lua_instance.h"
 #include "lua_item.h"
+
+#include "items/exdata/worn_item.h"
 #include "lua_spell.h"
 #include "lua_statuseffect.h"
 #include "lua_trade_container.h"
@@ -4168,8 +4170,7 @@ auto CLuaBaseEntity::addItem(sol::variadic_args va) const -> CItem*
     player:addItem({ id = itemID, quantity  = quantity               }) -- add quantity of itemID
     player:addItem({ id = itemID, silent    = true                   }) -- silently add 1 of itemID
     player:addItem({ id = itemID, signature = "Char"                 }) -- add 1 signed of itemID
-    player:addItem({ id = itemID, augments  = { [4] = 5, [10] = 10 } }) -- add 1 of itemID with augment id 4 and 10, with values of 5 and 10, respectively
-    player:addItem({ id = itemID, exdata    = { [10] = 10 }          }) -- add 1 item of itemID, with the exdata at index 10 (0-indexed!) set to 10
+    player:addItem({ id = itemID, exdata    = { ... }                }) -- add 1 of itemID with typed exdata (falls back to raw byte indices)
     */
 
     if (va.get_type(0) == sol::type::table)
@@ -4214,28 +4215,6 @@ auto CLuaBaseEntity::addItem(sol::variadic_args va) const -> CItem*
                 if (appraisalObj.get_type() == sol::type::number)
                 {
                     PItem->setAppraisalID(appraisalObj.as<uint8>());
-                }
-
-                if (PItem->isType(ITEM_EQUIPMENT))
-                {
-                    uint16 trial = table.get_or("trial", 0);
-                    if (trial != 0)
-                    {
-                        ((CItemEquipment*)PItem)->setTrialNumber(trial);
-                    }
-
-                    sol::object augmentsObj = table["augments"];
-                    if (augmentsObj.is<sol::table>())
-                    {
-                        auto augmentsTable = augmentsObj.as<sol::table>();
-                        for (const auto& entryPair : augmentsTable)
-                        {
-                            auto   pair   = entryPair.second.as<sol::table>();
-                            uint16 augid  = pair[0];
-                            uint8  augval = pair[1];
-                            ((CItemEquipment*)PItem)->PushAugment(augid, augval);
-                        }
-                    }
                 }
 
                 sol::object exdataObj = table["exdata"];
@@ -4302,16 +4281,6 @@ auto CLuaBaseEntity::addItem(sol::variadic_args va) const -> CItem*
             }
         }
 
-        uint16 augment0    = va.get_type(2) == sol::type::number ? va.get<uint16>(2) : 0;
-        uint8  augment0val = va.get_type(3) == sol::type::number ? va.get<uint8>(3) : 0;
-        uint16 augment1    = va.get_type(4) == sol::type::number ? va.get<uint16>(4) : 0;
-        uint8  augment1val = va.get_type(5) == sol::type::number ? va.get<uint8>(5) : 0;
-        uint16 augment2    = va.get_type(6) == sol::type::number ? va.get<uint16>(6) : 0;
-        uint8  augment2val = va.get_type(7) == sol::type::number ? va.get<uint8>(7) : 0;
-        uint16 augment3    = va.get_type(8) == sol::type::number ? va.get<uint16>(8) : 0;
-        uint8  augment3val = va.get_type(9) == sol::type::number ? va.get<uint8>(9) : 0;
-        uint16 trialNumber = va.get_type(10) == sol::type::number ? va.get<uint16>(10) : 0;
-
         while (PChar->getStorage(LOC_INVENTORY)->GetFreeSlotsCount() != 0 && quantity > 0)
         {
             if (CItem* PItem = itemutils::GetItem(itemID))
@@ -4319,29 +4288,6 @@ auto CLuaBaseEntity::addItem(sol::variadic_args va) const -> CItem*
                 PItem->setQuantity(quantity);
                 quantity -= PItem->getStackSize();
 
-                if (PItem->isType(ITEM_EQUIPMENT))
-                {
-                    if (augment0 != 0)
-                    {
-                        ((CItemEquipment*)PItem)->setAugment(0, augment0, augment0val);
-                    }
-                    if (augment1 != 0)
-                    {
-                        ((CItemEquipment*)PItem)->setAugment(1, augment1, augment1val);
-                    }
-                    if (augment2 != 0)
-                    {
-                        ((CItemEquipment*)PItem)->setAugment(2, augment2, augment2val);
-                    }
-                    if (augment3 != 0)
-                    {
-                        ((CItemEquipment*)PItem)->setAugment(3, augment3, augment3val);
-                    }
-                    if (trialNumber != 0)
-                    {
-                        ((CItemEquipment*)PItem)->setTrialNumber(trialNumber);
-                    }
-                }
                 SlotID = charutils::AddItem(PChar, LOC_INVENTORY, PItem, silence);
 
                 // Paranoid check
@@ -4536,18 +4482,16 @@ bool CLuaBaseEntity::addUsedItem(uint16 itemID)
  *  Notes   : Used mainly for Testimonies and BCNM orbs
  ************************************************************************/
 
-uint8 CLuaBaseEntity::getWornUses(uint16 itemID)
+auto CLuaBaseEntity::getWornUses(const uint16 itemID) const -> uint8
 {
-    auto* PChar  = static_cast<CCharEntity*>(m_PBaseEntity);
-    uint8 slotID = PChar->getStorage(LOC_INVENTORY)->SearchItem(itemID);
-
+    const auto* PChar  = static_cast<CCharEntity*>(m_PBaseEntity);
+    const uint8 slotID = PChar->getStorage(LOC_INVENTORY)->SearchItem(itemID);
     if (slotID != ERROR_SLOTID)
     {
         CItem* PItem = PChar->getStorage(LOC_INVENTORY)->GetItem(slotID);
-
         if (PItem != nullptr)
         {
-            return PItem->m_extra[0];
+            return PItem->exdata<Exdata::WornItem>().UseCount;
         }
     }
 
@@ -4561,35 +4505,23 @@ uint8 CLuaBaseEntity::getWornUses(uint16 itemID)
  *  Notes   : Prevent Orbs and Testimonies from being used again
  ************************************************************************/
 
-uint8 CLuaBaseEntity::incrementItemWear(uint16 itemID)
+auto CLuaBaseEntity::incrementItemWear(const uint16 itemID) const -> uint8
 {
-    auto* PChar  = static_cast<CCharEntity*>(m_PBaseEntity);
-    uint8 slotID = PChar->getStorage(LOC_INVENTORY)->SearchItem(itemID);
-
+    const auto* PChar  = static_cast<CCharEntity*>(m_PBaseEntity);
+    const uint8 slotID = PChar->getStorage(LOC_INVENTORY)->SearchItem(itemID);
     if (slotID != ERROR_SLOTID)
     {
         CItem* PItem = PChar->getStorage(LOC_INVENTORY)->GetItem(slotID);
-
         if (PItem == nullptr)
         {
             return 0;
         }
 
-        if (PItem->m_extra[0] == UINT8_MAX)
-        {
-            return PItem->m_extra[0];
-        }
+        auto& useCount = PItem->exdata<Exdata::WornItem>().UseCount;
+        useCount       = std::min<uint8>(useCount + 1, UINT8_MAX);
+        PItem->setDirty(true);
 
-        ++PItem->m_extra[0];
-
-        const char* Query = "UPDATE char_inventory "
-                            "SET extra = ? "
-                            "WHERE charid = ? AND location = ? AND slot = ? "
-                            "LIMIT 1";
-
-        db::preparedStmt(Query, PItem->m_extra, PChar->id, PItem->getLocationID(), PItem->getSlotID());
-
-        return PItem->m_extra[0];
+        return useCount;
     }
 
     return 0;
@@ -4914,11 +4846,7 @@ bool CLuaBaseEntity::addLinkpearl(const std::string& lsname, bool equip)
         if (rset && rset->rowsCount() && rset->next())
         {
             // build linkpearl
-            char EncodedString[LinkshellStringLength];
-
-            std::memset(&EncodedString, 0, sizeof(EncodedString));
-            EncodeStringLinkshell(lsname, EncodedString);
-            ((CItem*)PItemLinkPearl)->setSignature(EncodedString);
+            PItemLinkPearl->setSignature(lsname);
             PItemLinkPearl->SetLSID(rset->get<uint32>("linkshellid"));
             PItemLinkPearl->SetLSColor(rset->get<uint16>("color"));
             PItemLinkPearl->SetLSType(lstype);

@@ -30,6 +30,10 @@ Discussions are similar to forum posts. Please open a new discussion post in the
 
 *If you are encountering an issue, please open an issue and not a discussion!* It's much easier for us to track and you're more likely to get resolution through an issue.
 
+### AI Agents and their use
+
+If you're a human using AI agents or an AI agent you should go read `./documentation/ai_agents/README.md`.
+
 ## LICENSE
 
 LandSandBoat is licensed under [GNU GPL v3](https://github.com/LandSandBoat/server/blob/base/LICENSE)

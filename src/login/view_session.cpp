@@ -21,6 +21,8 @@
 
 #include "view_session.h"
 
+#include "data_session.h"
+
 #include <common/lua.h>
 #include <common/settings.h>
 #include <common/utils.h>
@@ -96,6 +98,9 @@ void view_session::read_func()
                 return;
             }
 
+            lpkt_deletechr deleteCharPacket = {};
+            std::memcpy(&deleteCharPacket, buffer_.data(), sizeof(lpkt_deletechr));
+
             std::memset(buffer_.data(), 0, 0x20);
             buffer_.data()[0] = 0x20; // size
 
@@ -113,7 +118,7 @@ void view_session::read_func()
 
             do_write(0x20);
 
-            uint32 charID = ref<uint32>(buffer_.data(), 0x20);
+            uint32 charID = deleteCharPacket.ffxi_id;
 
             ShowInfo(fmt::format("attempt to delete char:<{}> from ip:<{}>",
                                  charID,
@@ -129,9 +134,14 @@ void view_session::read_func()
 
             if (accountID != session.accountID)
             {
-                ShowError(fmt::format("Account ID {} tried to delete character not in their account. (Note: there is a known issue that the client does not send the whole ID for characters above ID 65535 and this may not be their fault.)", session.accountID));
+                ShowError(fmt::format("Account ID {} tried to delete character not in their account.", session.accountID));
                 socket_.lowest_layer().close();
                 return;
+            }
+
+            if (auto data = dynamic_cast<data_session*>(session.data_session.get()))
+            {
+                data->deleteCharFromCharInfo(charID);
             }
 
             // Perform character deletion.
@@ -142,15 +152,24 @@ void view_session::read_func()
                              session.accountID,
                              charID,
                              session.accountID);
+
+            // Increment key after delete
+            session.incrementKeyValue += 4;
         }
         break;
         case 0x21: // 33: Registering character name onto the lobby server
         {
+            lpkt_chr_info_sub2 charInfo = {};
             // creating new char
-            if (loginHelpers::createCharacter(session, buffer_.data()) == -1)
+            if (loginHelpers::createCharacter(session, buffer_.data(), charInfo) == -1)
             {
                 socket_.lowest_layer().close();
                 return;
+            }
+
+            if (auto data = dynamic_cast<data_session*>(session.data_session.get()))
+            {
+                data->addCharIntoCharInfo(charInfo);
             }
 
             session.justCreatedNewChar = true;

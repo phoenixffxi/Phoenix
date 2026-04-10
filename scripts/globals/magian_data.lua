@@ -10469,7 +10469,7 @@ xi.magian.trials =
         previousTrial = 0,
         requiredItem  =
         {
-            itemId = xi.item.ORISON_BLIAUD,
+            itemId = xi.item.ORISON_BLIAUT,
         },
 
         textOffset  = 1051,
@@ -10478,7 +10478,7 @@ xi.magian.trials =
 
         rewardItem =
         {
-            itemId = xi.item.ORISON_BLIAUD_P1,
+            itemId = xi.item.ORISON_BLIAUT_P1,
         },
     },
 
@@ -11189,7 +11189,7 @@ xi.magian.trials =
         previousTrial = 4338,
         requiredItem  =
         {
-            itemId = xi.item.ORISON_BLIAUD_P1,
+            itemId = xi.item.ORISON_BLIAUT_P1,
         },
 
         textOffset  = 1052,
@@ -11198,7 +11198,7 @@ xi.magian.trials =
 
         rewardItem =
         {
-            itemId = xi.item.ORISON_BLIAUD_P2,
+            itemId = xi.item.ORISON_BLIAUT_P2,
         },
     },
 

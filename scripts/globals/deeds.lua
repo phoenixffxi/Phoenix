@@ -710,7 +710,7 @@ local voucherData =
         [13] = { xi.item.VISHAP_FINGER_GAUNTLETS_P2 },
         [14] = { xi.item.CONVOKERS_BRACERS_P2       },
         [15] = { xi.item.ASSIMILATORS_BAZUBANDS_P2  },
-        [16] = { xi.item.LASKAMANAS_GANTS_P2        },
+        [16] = { xi.item.LAKSAMANAS_GANTS_P2        },
         [17] = { xi.item.FOIRE_DASTANAS_P2          },
         [18] =
         {
@@ -755,7 +755,7 @@ local voucherData =
 
         [19] = { xi.item.ACADEMICS_PANTS_P2   },
         [20] = { xi.item.GEOMANCY_PANTS_P2    },
-        [21] = { xi.item.RUNIESTS_TROUSERS_P2 },
+        [21] = { xi.item.RUNEIST_TROUSERS_P2 },
     },
 
     [10] = -- Deed Voucher +2: Feet
@@ -942,7 +942,7 @@ local voucherData =
             xi.item.LANUN_TRICORNE,
             xi.item.LANUN_FRAC,
             xi.item.LANUN_GANTS,
-            xi.item.LANUN_CULOTTES,
+            xi.item.LANUN_TREWS,
             xi.item.LANUN_BOTTES,
         },
 
@@ -1088,7 +1088,7 @@ local voucherData =
         [13] = { xi.item.PTEROSLAVER_BRAIS_P1    },
         [14] = { xi.item.GLYPHIC_SPATS_P1        },
         [15] = { xi.item.LUHLAZA_SHALWAR_P1      },
-        [16] = { xi.item.LANUN_CULOTTES_P1       },
+        [16] = { xi.item.LANUN_TREWS_P1          },
         [17] = { xi.item.PITRE_CHURIDARS_P1      },
         [18] = { xi.item.HOROS_TIGHTS_P1         },
         [19] = { xi.item.PEDAGOGY_PANTS_P1       },

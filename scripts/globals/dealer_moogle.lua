@@ -291,7 +291,7 @@ local itemListTable =
     {
         { xi.item.RAVAGERS_MASK_P2,      xi.item.RAVAGERS_LORICA_P2,   xi.item.RAVAGERS_MUFFLERS_P2,     xi.item.RAVAGERS_CUISSES_P2,  xi.item.RAVAGERS_CALLIGAE_P2   },
         { xi.item.TANTRA_CROWN_P2,       xi.item.TANTRA_CYCLAS_P2,     xi.item.TANTRA_GLOVES_P2,         xi.item.TANTRA_HOSE_P2,       xi.item.TANTRA_GAITERS_P2      },
-        { xi.item.ORISON_CAP_P2,         xi.item.ORISON_BLIAUD_P2,     xi.item.ORISON_MITTS_P2,          xi.item.ORISON_PANTALOONS_P2, xi.item.ORISON_DUCKBILLS_P2    },
+        { xi.item.ORISON_CAP_P2,         xi.item.ORISON_BLIAUT_P2,     xi.item.ORISON_MITTS_P2,          xi.item.ORISON_PANTALOONS_P2, xi.item.ORISON_DUCKBILLS_P2    },
         { xi.item.GOETIA_PETASOS_P2,     xi.item.GOETIA_COAT_P2,       xi.item.GOETIA_GLOVES_P2,         xi.item.GOETIA_CHAUSSES_P2,   xi.item.GOETIA_SABOTS_P2       },
         { xi.item.ESTOQUEURS_CHAPPEL_P2, xi.item.ESTOQUEURS_SAYON_P2,  xi.item.ESTOQUEURS_GANTHEROTS_P2, xi.item.ESTOQUEURS_FUSEAU_P2, xi.item.ESTOQUEURS_HOUSEAUX_P2 },
         { xi.item.RAIDERS_BONNET_P2,     xi.item.RAIDERS_VEST_P2,      xi.item.RAIDERS_ARMLETS_P2,       xi.item.RAIDERS_CULOTTES_P2,  xi.item.RAIDERS_POULAINES_P2   },
@@ -1999,7 +1999,7 @@ local itemListTable =
             xi.item.STINGER_BULLET_POUCH,
         },
     },
-    -- Kupon AW-UWII: Unity Wanted Battles 119 - 128 (MOG_KUPON_AW_UWII = 9180)
+    -- Kupon AW-UWII: Unity Wanted Battles 119 - 128 (KUPON_AW_UWII = 9180)
     [41] =
     {
             -- HAND-TO-HAND WEAPONS,

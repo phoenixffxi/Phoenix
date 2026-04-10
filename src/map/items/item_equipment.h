@@ -22,8 +22,6 @@
 #ifndef _CITEMEQUIPMENT_H
 #define _CITEMEQUIPMENT_H
 
-#include "common/utils.h"
-
 #include <vector>
 
 #include "item_usable.h"

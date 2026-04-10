@@ -25,6 +25,32 @@
 #include "common/ipc.h"
 #include "common/utils.h"
 
+void data_session::deleteCharFromCharInfo(uint32_t ffxi_id)
+{
+    for (auto& charInfo : characterInfoResponse.character_info)
+    {
+        if (ffxi_id == charInfo.ffxi_id)
+        {
+            charInfo.status            = 0x01; // Available
+            charInfo.character_name[0] = 0x20; // space to display empty character slot, NULL displays a hume in a slot.
+            charInfo.character_name[1] = 0x00; // Null terminator so the client thinks the name is actually emptied. Otherwise it will display the deleted character.
+        }
+    }
+}
+
+void data_session::addCharIntoCharInfo(const lpkt_chr_info_sub2& charInfo)
+{
+    // Find the first empty slot and fill it in. The client expects this.
+    for (auto& existingCharInfo : characterInfoResponse.character_info)
+    {
+        if (existingCharInfo.character_name[0] == 0x20) // empty - name is a space
+        {
+            existingCharInfo = charInfo;
+            break;
+        }
+    }
+}
+
 void data_session::read_func()
 {
     auto sessionHash = loginHelpers::getHashFromPacket(ipAddress, buffer_.data());
@@ -96,114 +122,137 @@ void data_session::read_func()
                     return;
                 }
 
-                lpkt_chr_info2 characterInfoResponse = {};
-                characterInfoResponse.terminator     = loginPackets::getTerminator();
-                characterInfoResponse.command        = 0x20;
-                loginPackets::clearIdentifier(characterInfoResponse);
                 // server's name that shows in lobby menu
                 const auto serverName = settings::get<std::string>("main.SERVER_NAME");
 
                 char uList[500] = {};
 
-                int i = 0;
+                uint32_t i = 0;
 
-                // Extract all the necessary information about each character from the database and load up the struct.
-                while (rset1->next())
+                // Generate on first time read from db
+                if (!generatedCharInfo)
                 {
-                    char strCharName[16] = {}; // 15 characters + null terminator
-                    std::memset(strCharName, 0, sizeof(strCharName));
+                    characterInfoResponse            = {};
+                    characterInfoResponse.terminator = loginPackets::getTerminator();
+                    characterInfoResponse.command    = 0x20;
+                    loginPackets::clearIdentifier(characterInfoResponse);
 
-                    std::string dbCharName = rset1->get<std::string>("charname");
-                    std::memcpy(strCharName, dbCharName.c_str(), dbCharName.length());
-
-                    int32 gmlevel = rset1->get<int32>("gmlevel");
-                    if (maintMode == 0 || gmlevel > 0)
+                    // Extract all the necessary information about each character from the database and load up the struct.
+                    while (rset1->next())
                     {
-                        uint8 worldId = 0; // Use when multiple worlds are supported.
+                        char strCharName[16] = {}; // 15 characters + null terminator
+                        std::memset(strCharName, 0, sizeof(strCharName));
 
-                        uint32 charId    = rset1->get<uint32>("charid");
-                        uint32 contentId = charId; // Reusing the character ID as the content ID (which is also the name of character folder within the USER directory) at the moment
+                        std::string dbCharName = rset1->get<std::string>("charname");
+                        std::memcpy(strCharName, dbCharName.c_str(), dbCharName.length());
 
-                        // The character ID is made up of two parts totalling 24 bits:
-                        uint16 charIdMain  = charId & 0xFFFF;
-                        uint8  charIdExtra = (charId >> 16) & 0xFF;
+                        int32 gmlevel = rset1->get<int32>("gmlevel");
+                        if (maintMode == 0 || gmlevel > 0)
+                        {
+                            uint8 worldId = 0; // Use when multiple worlds are supported.
 
-                        auto& characterInfo = characterInfoResponse.character_info[i];
+                            uint32 charId    = rset1->get<uint32>("charid");
+                            uint32 contentId = charId; // Reusing the character ID as the content ID (which is also the name of character folder within the USER directory) at the moment
 
-                        characterInfo.ffxi_id           = contentId;
-                        characterInfo.ffxi_id_world     = charIdMain;
-                        characterInfo.worldid           = worldId;
-                        characterInfo.status            = 1; // 0 = Invalid/Hidden, 1 = Available, 2 = Disabled (unpaid)
-                        characterInfo.race_change       = 0; // 0 = no race change service, 1 = race change service (gold star icon) (NOT YET SUPPORTED!)
-                        characterInfo.renamef           = 0; // 0 = no rename required, 1 = rename required (NOT YET SUPPORTED!)
-                        characterInfo.ffxi_id_world_tbl = charIdExtra;
+                            // The character ID is made up of two parts totalling 24 bits:
+                            uint16 charIdMain  = charId & 0xFFFF;
+                            uint8  charIdExtra = (charId >> 16) & 0xFF;
 
-                        std::memcpy(characterInfo.character_name, &strCharName, 16);
-                        std::memcpy(characterInfo.world_name, serverName.c_str(), std::clamp<size_t>(serverName.length(), 0, 15));
+                            auto& characterInfo = characterInfoResponse.character_info[i];
 
-                        uint16 zone = rset1->get<uint16>("pos_zone");
+                            characterInfo.ffxi_id           = contentId;
+                            characterInfo.ffxi_id_world     = charIdMain;
+                            characterInfo.worldid           = worldId;
+                            characterInfo.status            = 1; // 0 = Invalid/Hidden, 1 = Available, 2 = Disabled (unpaid)
+                            characterInfo.race_change       = 0; // 0 = no race change service, 1 = race change service (gold star icon) (NOT YET SUPPORTED!)
+                            characterInfo.renamef           = 0; // 0 = no rename required, 1 = rename required (NOT YET SUPPORTED!)
+                            characterInfo.ffxi_id_world_tbl = charIdExtra;
 
-                        uint8 MainJob    = rset1->get<uint8>("mjob");
-                        uint8 lvlMainJob = rset1->get<uint8>(13 + MainJob);
+                            std::memcpy(characterInfo.character_name, &strCharName, 16);
+                            std::memcpy(characterInfo.world_name, serverName.c_str(), std::clamp<size_t>(serverName.length(), 0, 15));
 
-                        characterInfo.character_info.mon_no     = rset1->get<uint16>("race");
-                        characterInfo.character_info.mjob_no    = MainJob;
-                        characterInfo.character_info.mjob_level = lvlMainJob;
-                        characterInfo.character_info.sjob_no    = rset1->get<uint16>("sjob");
-                        characterInfo.character_info.face_no    = rset1->get<uint16>("face"); // may not be calculated correctly?
-                        characterInfo.character_info.town_no    = rset1->get<uint8>("nation");
-                        characterInfo.character_info.zone_no    = static_cast<uint8>(zone);
-                        characterInfo.character_info.zone_no2   = static_cast<uint8>((zone >> 8) & 1);
-                        characterInfo.character_info.hair_no    = rset1->get<uint8>("face"); // may not be calculated correctly?
-                        characterInfo.character_info.size       = rset1->get<uint8>("size");
+                            uint16 zone = rset1->get<uint16>("pos_zone");
 
-                        // TODO: add check for DisplayHeadOffFlg
-                        characterInfo.character_info.GrapIDTbl[0] = rset1->get<uint16>("face"); // may not be calculated correctly?
-                        characterInfo.character_info.GrapIDTbl[1] = rset1->get<uint16>("head");
-                        characterInfo.character_info.GrapIDTbl[2] = rset1->get<uint16>("body");
-                        characterInfo.character_info.GrapIDTbl[3] = rset1->get<uint16>("hands");
-                        characterInfo.character_info.GrapIDTbl[4] = rset1->get<uint16>("legs");
-                        characterInfo.character_info.GrapIDTbl[5] = rset1->get<uint16>("feet");
-                        characterInfo.character_info.GrapIDTbl[6] = rset1->get<uint16>("main");
-                        characterInfo.character_info.GrapIDTbl[7] = rset1->get<uint16>("sub");
+                            uint8 MainJob    = rset1->get<uint8>("mjob");
+                            uint8 lvlMainJob = rset1->get<uint8>(13 + MainJob);
 
+                            characterInfo.character_info.mon_no     = rset1->get<uint16>("race");
+                            characterInfo.character_info.mjob_no    = MainJob;
+                            characterInfo.character_info.mjob_level = lvlMainJob;
+                            characterInfo.character_info.sjob_no    = rset1->get<uint16>("sjob");
+                            characterInfo.character_info.face_no    = rset1->get<uint16>("face"); // may not be calculated correctly?
+                            characterInfo.character_info.town_no    = rset1->get<uint8>("nation");
+                            characterInfo.character_info.zone_no    = static_cast<uint8>(zone);
+                            characterInfo.character_info.zone_no2   = static_cast<uint8>((zone >> 8) & 1);
+                            characterInfo.character_info.hair_no    = rset1->get<uint8>("face"); // may not be calculated correctly?
+                            characterInfo.character_info.size       = rset1->get<uint8>("size");
+
+                            // TODO: add check for DisplayHeadOffFlg
+                            characterInfo.character_info.GrapIDTbl[0] = rset1->get<uint16>("face"); // may not be calculated correctly?
+                            characterInfo.character_info.GrapIDTbl[1] = rset1->get<uint16>("head");
+                            characterInfo.character_info.GrapIDTbl[2] = rset1->get<uint16>("body");
+                            characterInfo.character_info.GrapIDTbl[3] = rset1->get<uint16>("hands");
+                            characterInfo.character_info.GrapIDTbl[4] = rset1->get<uint16>("legs");
+                            characterInfo.character_info.GrapIDTbl[5] = rset1->get<uint16>("feet");
+                            characterInfo.character_info.GrapIDTbl[6] = rset1->get<uint16>("main");
+                            characterInfo.character_info.GrapIDTbl[7] = rset1->get<uint16>("sub");
+
+                            // uList is sent through data socket (to xiloader)
+                            uint32 uListOffset = 16 * (i + 1);
+
+                            ref<uint32>(uList, uListOffset)     = contentId;
+                            ref<uint16>(uList, uListOffset + 4) = charIdMain;
+                            ref<uint8>(uList, uListOffset + 6)  = worldId;     // Ignored in xiloader?
+                            ref<uint8>(uList, uListOffset + 7)  = charIdExtra; // Ignored in xiloader?
+
+                            ++i;
+                            characterInfoResponse.characters++;
+                        }
+                    }
+
+                    generatedCharInfo = true;
+
+                    const auto allowCharacterCreation = settings::get<uint8>("login.CHARACTER_CREATION");
+                    if (allowCharacterCreation)
+                    {
+                        // make extra char slots available if no characters are occupying the slots and their max content IDs supports it
+                        while (characterInfoResponse.characters < numContentIds)
+                        {
+                            characterInfoResponse.character_info[characterInfoResponse.characters].status            = 0x01; // Available
+                            characterInfoResponse.character_info[characterInfoResponse.characters].character_name[0] = 0x20; // space to display empty character slot, NULL displays a hume in a slot.
+                            characterInfoResponse.characters++;
+                        }
+                    }
+
+                    // the filtering above removes any non-GM characters so
+                    // at this point we need to make sure stop players with empty lists
+                    // from logging in or creating new characters
+                    if (maintMode > 0 && i == 0)
+                    {
+                        if (auto viewSession = session.view_session.get())
+                        {
+                            loginHelpers::generateErrorMessage(viewSession->buffer_.data(), loginErrors::errorCode::COULD_NOT_CONNECT_TO_LOBBY_SERVER);
+                            viewSession->do_write(0x24);
+                        }
+                        ShowWarning(fmt::format("char:({}) attmpted login during maintenance mode (0xA2). Sending error to client.", session.accountID));
+                        return;
+                    }
+                }
+                else
+                {
+                    loginPackets::clearIdentifier(characterInfoResponse);
+
+                    for (i = 0; i < characterInfoResponse.characters; i++)
+                    {
+                        auto characterInfo = characterInfoResponse.character_info[i];
                         // uList is sent through data socket (to xiloader)
                         uint32 uListOffset = 16 * (i + 1);
 
-                        ref<uint32>(uList, uListOffset)     = contentId;
-                        ref<uint16>(uList, uListOffset + 4) = charIdMain;
-                        ref<uint8>(uList, uListOffset + 6)  = worldId;     // Ignored in xiloader?
-                        ref<uint8>(uList, uListOffset + 7)  = charIdExtra; // Ignored in xiloader?
-
-                        ++i;
-                        characterInfoResponse.characters++;
+                        ref<uint32>(uList, uListOffset)     = characterInfo.ffxi_id;           // contentId
+                        ref<uint16>(uList, uListOffset + 4) = characterInfo.ffxi_id_world;     // charIdMain
+                        ref<uint8>(uList, uListOffset + 6)  = characterInfo.worldid;           // Ignored in xiloader?
+                        ref<uint8>(uList, uListOffset + 7)  = characterInfo.ffxi_id_world_tbl; // charIdExtra // Ignored in xiloader?
                     }
-                }
-
-                const auto allowCharacterCreation = settings::get<uint8>("login.CHARACTER_CREATION");
-                if (allowCharacterCreation)
-                {
-                    // make extra char slots available if no characters are occupying the slots and their max content IDs supports it
-                    while (characterInfoResponse.characters < numContentIds)
-                    {
-                        characterInfoResponse.character_info[characterInfoResponse.characters].status            = 0x01; // Available
-                        characterInfoResponse.character_info[characterInfoResponse.characters].character_name[0] = 0x20; // space to display empty character slot, NULL displays a hume in a slot.
-                        characterInfoResponse.characters++;
-                    }
-                }
-
-                // the filtering above removes any non-GM characters so
-                // at this point we need to make sure stop players with empty lists
-                // from logging in or creating new characters
-                if (maintMode > 0 && i == 0)
-                {
-                    if (auto viewSession = session.view_session.get())
-                    {
-                        loginHelpers::generateErrorMessage(viewSession->buffer_.data(), loginErrors::errorCode::COULD_NOT_CONNECT_TO_LOBBY_SERVER);
-                        viewSession->do_write(0x24);
-                    }
-                    ShowWarning(fmt::format("char:({}) attmpted login during maintenance mode (0xA2). Sending error to client.", session.accountID));
-                    return;
                 }
 
                 if (auto dataSession = session.data_session.get())

@@ -70,7 +70,7 @@ void auctionutils::SellingItems(CCharEntity* PChar, GP_AUC_PARAM_ASKCOMMIT param
         return;
     }
 
-    if (PItem->getID() == param.ItemNo && !PItem->isSubType(ITEM_LOCKED) && !(PItem->getFlag() & ITEM_FLAG_NOAUCTION))
+    if (PItem->getID() == param.ItemNo && !PItem->isSubType(ITEM_LOCKED) && !PItem->hasFlag(ItemFlag::NoAuction))
     {
         if (isPartiallyUsed(PItem))
         {
@@ -143,7 +143,7 @@ void auctionutils::ProofOfPurchase(CCharEntity* PChar, GP_AUC_PARAM_LOT param)
 
     CItem* PItem = PChar->getStorage(LOC_INVENTORY)->GetItem(param.ItemWorkIndex);
 
-    if (PItem && !(PItem->isSubType(ITEM_LOCKED)) && PItem->getReserve() == 0 && !(PItem->getFlag() & ITEM_FLAG_NOAUCTION) && PItem->getQuantity() >= param.ItemStacks)
+    if (PItem && !(PItem->isSubType(ITEM_LOCKED)) && PItem->getReserve() == 0 && !PItem->hasFlag(ItemFlag::NoAuction) && PItem->getQuantity() >= param.ItemStacks)
     {
         if (isPartiallyUsed(PItem))
         {
@@ -237,7 +237,7 @@ auto auctionutils::PurchasingItems(CCharEntity* PChar, GP_AUC_PARAM_BID param) -
 
         if (PItem != nullptr)
         {
-            if (PItem->getFlag() & ITEM_FLAG_RARE)
+            if (PItem->hasFlag(ItemFlag::Rare))
             {
                 for (uint8 LocID = 0; LocID < CONTAINER_ID::MAX_CONTAINER_ID; ++LocID)
                 {

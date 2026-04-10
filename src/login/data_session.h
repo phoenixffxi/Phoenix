@@ -43,6 +43,9 @@ public:
         DebugSockets("data_session from IP %s", ipAddress);
     }
 
+    void deleteCharFromCharInfo(uint32_t charid);
+    void addCharIntoCharInfo(const lpkt_chr_info_sub2& charInfo);
+
 protected:
     void read_func() override;
 
@@ -55,4 +58,6 @@ protected:
 
 private:
     ZMQDealerWrapper& zmqDealerWrapper_;
+    lpkt_chr_info2    characterInfoResponse = {}; // Store this for char deletion/creation client behavior. We need to skip slots instead of "flatten" them.
+    bool              generatedCharInfo     = false;
 };

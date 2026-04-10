@@ -213,7 +213,7 @@ int32 saveCharacter(uint32 accid, uint32 charid, char_mini* createchar)
     return 0;
 }
 
-int32 createCharacter(session_t& session, uint8* buf)
+int32 createCharacter(session_t& session, uint8* buf, lpkt_chr_info_sub2& charInfo)
 {
     char_mini createchar{};
 
@@ -303,6 +303,23 @@ int32 createCharacter(session_t& session, uint8* buf)
     {
         return -1;
     }
+
+    // The client expects to fill some data in on character creation. We never _see_ the character, so we don't need to set Race/Face/Model etc.
+    // We are making an assumption on what it wants - so for now just copy what is probably required (name, charid and some other stuff related to IDs.)
+    std::memcpy(&charInfo.character_name, charName.c_str(), std::min(charName.size(), sizeof(charInfo.character_name)));
+
+    uint8  worldId     = 0;      // Use when multiple worlds are supported.
+    uint32 contentId   = charID; // Reusing the character ID as the content ID (which is also the name of character folder within the USER directory) at the moment
+    uint16 charIdMain  = charID & 0xFFFF;
+    uint8  charIdExtra = (charID >> 16) & 0xFF;
+
+    charInfo.ffxi_id           = contentId;
+    charInfo.ffxi_id_world     = charIdMain;
+    charInfo.worldid           = worldId;
+    charInfo.status            = 1; // 0 = Invalid/Hidden, 1 = Available, 2 = Disabled (unpaid)
+    charInfo.race_change       = 0; // 0 = no race change service, 1 = race change service (gold star icon) (NOT YET SUPPORTED!)
+    charInfo.renamef           = 0; // 0 = no rename required, 1 = rename required (NOT YET SUPPORTED!)
+    charInfo.ffxi_id_world_tbl = charIdExtra;
 
     ShowDebug(fmt::format("char <{}> successfully saved", charName));
     return 0;

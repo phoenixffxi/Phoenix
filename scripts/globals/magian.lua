@@ -309,16 +309,25 @@ end
 -----------------------------------
 
 local function giveMagianItem(player, itemData, inscribeTrialId)
-    local itemParameters = { itemData.itemId, 1, 0, 0, 0, 0, 0, 0, 0, 0, inscribeTrialId and inscribeTrialId or 0 }
+    local exdata =
+    {
+        augmentKind    = xi.augment.kind.HAS_AUGMENTS,
+        augmentSubKind = xi.augment.subKind.STANDARD,
+    }
 
     if itemData.itemAugments then
-        for augIndex, augData in pairs(itemData.itemAugments) do
-            itemParameters[augIndex * 2 + 1] = augData[1]
-            itemParameters[augIndex * 2 + 2] = augData[2]
+        exdata.augments = {}
+        for _, augData in pairs(itemData.itemAugments) do
+            table.insert(exdata.augments, { id = augData[1], value = augData[2] })
         end
     end
 
-    player:addItem(unpack(itemParameters))
+    if inscribeTrialId and inscribeTrialId ~= 0 then
+        exdata.augmentSubKind = exdata.augmentSubKind + xi.augment.subKind.TRIAL
+        exdata.trial = { id = inscribeTrialId, completed = false }
+    end
+
+    player:addItem({ id = itemData.itemId, exdata = exdata })
 end
 
 xi.magian.giveRequiredItem = function(player, trialId, inscribeTrialId)

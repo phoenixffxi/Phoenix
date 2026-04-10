@@ -1,6 +1,7 @@
 -----------------------------------
 -- Curses! A Horrifically Harrowing Hex
 -- A Moogle Kupo d'Etat M5
+-----------------------------------
 -- !addmission 10 4
 -- Shantotto : !pos 122 -2 112 239
 -----------------------------------

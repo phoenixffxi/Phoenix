@@ -462,8 +462,8 @@ xi.abjurations =
     xi.item.RYUO_DOMARU_P1,
 
     xi.item.AREAN_ABJURATION_HANDS,
-    xi.item.VEXED_KOTE,
-    xi.item.JINXED_KOTE,
+    xi.item.VEXED_TEKKO,
+    xi.item.JINXED_TEKKO,
     xi.item.RYUO_TEKKO,
     xi.item.RYUO_TEKKO_P1,
 

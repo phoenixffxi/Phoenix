@@ -1,6 +1,7 @@
 -----------------------------------
 -- A Challenge! You Could Be a Winner
 -- A Moogle Kupo d'Etat M13
+-----------------------------------
 -- !addmission 10 12
 -----------------------------------
 -- Puzzle 1 - Beaucedine

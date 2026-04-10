@@ -1,6 +1,7 @@
 -----------------------------------
 -- An Errand! The Professor's Price
 -- A Moogle Kupo d'Etat M6
+-----------------------------------
 -- !addmission 10 5
 -- qm1 : !pos 420 -10 745 194
 -- ORB_OF_SWORDS  : !addkeyitem 1139

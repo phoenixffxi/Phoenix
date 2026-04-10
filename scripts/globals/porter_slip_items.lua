@@ -953,7 +953,7 @@ local slipItems =
         xi.item.TANTRA_NECKLACE,
         xi.item.TANTRA_TATHLUM,
         xi.item.ORISON_CAP,
-        xi.item.ORISON_BLIAUD,
+        xi.item.ORISON_BLIAUT,
         xi.item.ORISON_MITTS,
         xi.item.ORISON_PANTALOONS,
         xi.item.ORISON_DUCKBILLS,
@@ -1113,7 +1113,7 @@ local slipItems =
         xi.item.TANTRA_HOSE_P1,
         xi.item.TANTRA_GAITERS_P1,
         xi.item.ORISON_CAP_P1,
-        xi.item.ORISON_BLIAUD_P1,
+        xi.item.ORISON_BLIAUT_P1,
         xi.item.ORISON_MITTS_P1,
         xi.item.ORISON_PANTALOONS_P1,
         xi.item.ORISON_DUCKBILLS_P1,
@@ -1217,7 +1217,7 @@ local slipItems =
         xi.item.TANTRA_HOSE_P2,
         xi.item.TANTRA_GAITERS_P2,
         xi.item.ORISON_CAP_P2,
-        xi.item.ORISON_BLIAUD_P2,
+        xi.item.ORISON_BLIAUT_P2,
         xi.item.ORISON_MITTS_P2,
         xi.item.ORISON_PANTALOONS_P2,
         xi.item.ORISON_DUCKBILLS_P2,
@@ -1808,7 +1808,7 @@ local slipItems =
         xi.item.NEITS_CUFFS,
         xi.item.NEITS_SLOPS,
         xi.item.NEITS_PIGACHES,
-        xi.item.PAIR_OF_VOLUSPA_KNUCKLES,
+        xi.item.VOLUSPA_KNUCKLES,
         xi.item.VOLUSPA_KNIFE,
         xi.item.VOLUSPA_SWORD,
         xi.item.VOLUSPA_BLADE,
@@ -2154,7 +2154,7 @@ local slipItems =
         xi.item.LANUN_TRICORNE,
         xi.item.LANUN_FRAC,
         xi.item.LANUN_GANTS,
-        xi.item.LANUN_CULOTTES,
+        xi.item.LANUN_TREWS,
         xi.item.LANUN_BOTTES,
         xi.item.PITRE_TAJ,
         xi.item.PITRE_TOBE,
@@ -2268,7 +2268,7 @@ local slipItems =
         xi.item.LANUN_TRICORNE_P1,
         xi.item.LANUN_FRAC_P1,
         xi.item.LANUN_GANTS_P1,
-        xi.item.LANUN_CULOTTES_P1,
+        xi.item.LANUN_TREWS_P1,
         xi.item.LANUN_BOTTES_P1,
         xi.item.PITRE_TAJ_P1,
         xi.item.PITRE_TOBE_P1,
@@ -2506,7 +2506,7 @@ local slipItems =
         xi.item.BHIKKU_HOSE,
         xi.item.BHIKKU_GAITERS,
         xi.item.EBERS_CAP,
-        xi.item.EBERS_BLIAUD,
+        xi.item.EBERS_BLIAUT,
         xi.item.EBERS_MITTS,
         xi.item.EBERS_PANTALOONS,
         xi.item.EBERS_DUCKBILLS,
@@ -2548,7 +2548,7 @@ local slipItems =
         xi.item.AMINI_GAPETTE,
         xi.item.AMINI_CABAN,
         xi.item.AMINI_GLOVELETTES,
-        xi.item.AMINI_BRAGUE,
+        xi.item.AMINI_BRAGUES,
         xi.item.AMINI_BOTTILLONS,
         xi.item.KASUGA_KABUTO,
         xi.item.KASUGA_DOMARU,
@@ -2580,7 +2580,7 @@ local slipItems =
         xi.item.CHASSEURS_GANTS,
         xi.item.CHASSEURS_CULOTTES,
         xi.item.CHASSEURS_BOTTES,
-        xi.item.KARAGOZ_CAPELLO,
+        xi.item.KARAGOZ_CAPPELLO,
         xi.item.KARAGOZ_FARSETTO,
         xi.item.KARAGOZ_GUANTI,
         xi.item.KARAGOZ_PANTALONI,
@@ -2589,7 +2589,7 @@ local slipItems =
         xi.item.MACULELE_CASAQUE,
         xi.item.MACULELE_BANGLES,
         xi.item.MACULELE_TIGHTS,
-        xi.item.MACULELE_TOE_SHOSE,
+        xi.item.MACULELE_TOE_SHOES,
         xi.item.ARBATEL_BONNET,
         xi.item.ARBATEL_GOWN,
         xi.item.ARBATEL_BRACERS,
@@ -2620,7 +2620,7 @@ local slipItems =
         xi.item.BHIKKU_HOSE_P1,
         xi.item.BHIKKU_GAITERS_P1,
         xi.item.EBERS_CAP_P1,
-        xi.item.EBERS_BLIAUD_P1,
+        xi.item.EBERS_BLIAUT_P1,
         xi.item.EBERS_MITTS_P1,
         xi.item.EBERS_PANTALOONS_P1,
         xi.item.EBERS_DUCKBILLS_P1,
@@ -2662,7 +2662,7 @@ local slipItems =
         xi.item.AMINI_GAPETTE_P1,
         xi.item.AMINI_CABAN_P1,
         xi.item.AMINI_GLOVELETTES_P1,
-        xi.item.AMINI_BRAGUE_P1,
+        xi.item.AMINI_BRAGUES_P1,
         xi.item.AMINI_BOTTILLONS_P1,
         xi.item.KASUGA_KABUTO_P1,
         xi.item.KASUGA_DOMARU_P1,
@@ -2694,7 +2694,7 @@ local slipItems =
         xi.item.CHASSEURS_GANTS_P1,
         xi.item.CHASSEURS_CULOTTES_P1,
         xi.item.CHASSEURS_BOTTES_P1,
-        xi.item.KARAGOZ_CAPELLO_P1,
+        xi.item.KARAGOZ_CAPPELLO_P1,
         xi.item.KARAGOZ_FARSETTO_P1,
         xi.item.KARAGOZ_GUANTI_P1,
         xi.item.KARAGOZ_PANTALONI_P1,
@@ -3136,7 +3136,7 @@ local slipItems =
         xi.item.ASSIMILATORS_CHARUQS_P2,
         xi.item.LAKSAMANAS_TRICORNE_P2,
         xi.item.LAKSAMANAS_FRAC_P2,
-        xi.item.LASKAMANAS_GANTS_P2,
+        xi.item.LAKSAMANAS_GANTS_P2,
         xi.item.LAKSAMANAS_TREWS_P2,
         xi.item.LAKSAMANAS_BOTTES_P2,
         xi.item.FOIRE_TAJ_P2,
@@ -3167,7 +3167,7 @@ local slipItems =
         xi.item.RUNEIST_BANDEAU_P2,
         xi.item.RUNEIST_COAT_P2,
         xi.item.RUNEIST_MITONS_P2,
-        xi.item.RUNIESTS_TROUSERS_P2,
+        xi.item.RUNEIST_TROUSERS_P2,
         xi.item.RUNEIST_BOTTES_P2,
     },
 
@@ -3255,7 +3255,7 @@ local slipItems =
         xi.item.ASSIMILATORS_CHARUQS_P3,
         xi.item.LAKSAMANAS_TRICORNE_P3,
         xi.item.LAKSAMANAS_FRAC_P3,
-        xi.item.LASKAMANAS_GANTS_P3,
+        xi.item.LAKSAMANAS_GANTS_P3,
         xi.item.LAKSAMANAS_TREWS_P3,
         xi.item.LAKSAMANAS_BOTTES_P3,
         xi.item.FOIRE_TAJ_P3,
@@ -3520,7 +3520,7 @@ local slipItems =
 
     [xi.item.MOOGLE_STORAGE_SLIP_28] =
     {
-        xi.item.PAIR_OF_TOKKO_KNUCKLES,
+        xi.item.TOKKO_KNUCKLES,
         xi.item.TOKKO_KNIFE,
         xi.item.TOKKO_SWORD,
         xi.item.TOKKO_CLAYMORE,
@@ -3534,7 +3534,7 @@ local slipItems =
         xi.item.TOKKO_STAFF,
         xi.item.TOKKO_BOW,
         xi.item.TOKKO_GRIP,
-        xi.item.PAIR_OF_AJJA_KNUCKLES,
+        xi.item.AJJA_KNUCKLES,
         xi.item.AJJA_KNIFE,
         xi.item.AJJA_SWORD,
         xi.item.AJJA_CLAYMORE,
@@ -3548,7 +3548,7 @@ local slipItems =
         xi.item.AJJA_STAFF,
         xi.item.AJJA_BOW,
         xi.item.AJJA_GRIP,
-        xi.item.PAIR_OF_ELETTA_KNUCKLES,
+        xi.item.ELETTA_KNUCKLES,
         xi.item.ELETTA_KNIFE,
         xi.item.ELETTA_SWORD,
         xi.item.ELETTA_CLAYMORE,
@@ -3562,7 +3562,7 @@ local slipItems =
         xi.item.ELETTA_STAFF,
         xi.item.ELETTA_BOW,
         xi.item.ELETTA_GRIP,
-        xi.item.PAIR_OF_KAJA_KNUCKLES,
+        xi.item.KAJA_KNUCKLES,
         xi.item.KAJA_KNIFE,
         xi.item.KAJA_SWORD,
         xi.item.KAJA_CLAYMORE,
@@ -3591,6 +3591,31 @@ local slipItems =
         xi.item.ULLR,
         xi.item.KHONSU,
         xi.item.SOPHISTRY,
+    },
+
+    [xi.item.MOOGLE_STORAGE_SLIP_29] =
+    {
+        -- TODO: 119 Empyrean +2
+    },
+
+    [xi.item.MOOGLE_STORAGE_SLIP_30] =
+    {
+        -- TODO: 119 Empyrean +3
+    },
+
+    [xi.item.MOOGLE_STORAGE_SLIP_31] =
+    {
+        -- TODO: Scenario Reward IV
+    },
+
+    [xi.item.MOOGLE_STORAGE_SLIP_32] =
+    {
+        -- TODO: 119 AF +4
+    },
+
+    [xi.item.MOOGLE_STORAGE_SLIP_33] =
+    {
+        -- TODO: 119 Relic +4
     },
 }
 

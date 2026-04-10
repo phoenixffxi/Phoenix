@@ -24,6 +24,7 @@
 #include "common/vana_time.h"
 #include "entities/charentity.h"
 #include "enums/packet_c2s.h"
+#include "items/exdata/augment_standard.h"
 #include "items/item_equipment.h"
 #include "items/item_usable.h"
 
@@ -77,7 +78,8 @@ GP_SERV_COMMAND_EQUIP_INSPECT::EQUIPMENT::EQUIPMENT(CCharEntity* PChar, CCharEnt
                 std::memcpy(&item.Data[8], &aug3, sizeof(uint16));
             }
 
-            std::memcpy(&item.Data[12], PItem->getSignature().c_str(), std::clamp<size_t>(PItem->getSignature().size(), 0, 12));
+            // All equipment exdata types have Signature at offset 0x0C; struct choice is irrelevant.
+            std::memcpy(&item.Data[12], PItem->exdata<Exdata::AugmentStandard>().Signature, sizeof(Exdata::AugmentStandard::Signature));
 
             count++;
 

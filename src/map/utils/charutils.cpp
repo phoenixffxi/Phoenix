@@ -1077,11 +1077,9 @@ void LoadInventory(CCharEntity* PChar)
                     {
                         static_cast<CItemLinkshell*>(PItem)->SetLSType((LSTYPE)(PItem->getID() - 0x200));
                     }
-                    char EncodedString[LinkshellStringLength] = {};
-                    EncodeStringLinkshell(rset->get<std::string>("signature").c_str(), EncodedString);
-                    PItem->setSignature(EncodedString);
+                    PItem->setSignature(rset->get<std::string>("signature"));
                 }
-                else if (PItem->getFlag() & (ITEM_FLAG_INSCRIBABLE))
+                else if (PItem->hasFlag(ItemFlag::Inscribable))
                 {
                     PItem->setSignature(rset->get<std::string>("signature"));
                 }
@@ -1706,7 +1704,7 @@ uint8 AddItem(CCharEntity* PChar, uint8 LocationID, CItem* PItem, bool silence)
         return 0;
     }
 
-    if (PItem->getFlag() & ITEM_FLAG_RARE)
+    if (PItem->hasFlag(ItemFlag::Rare))
     {
         if (HasItem(PChar, PItem->getID()))
         {
@@ -1734,17 +1732,7 @@ uint8 AddItem(CCharEntity* PChar, uint8 LocationID, CItem* PItem, bool silence)
                             "VALUES(?, ?, ?, ?, ?, ?, ?) "
                             "LIMIT 1";
 
-        char signature[DecodeStringLength];
-        if (PItem->isType(ITEM_LINKSHELL))
-        {
-            DecodeStringLinkshell(PItem->getSignature().c_str(), signature);
-        }
-        else
-        {
-            DecodeStringSignature(PItem->getSignature().c_str(), signature);
-        }
-
-        if (!db::preparedStmt(Query, PChar->id, LocationID, SlotID, PItem->getID(), PItem->getQuantity(), signature, PItem->m_extra))
+        if (!db::preparedStmt(Query, PChar->id, LocationID, SlotID, PItem->getID(), PItem->getQuantity(), PItem->getSignature(), PItem->m_extra))
         {
             ShowError("AddItem: Cannot insert item to database");
             PChar->getStorage(LocationID)->InsertItem(nullptr, SlotID);
@@ -2025,7 +2013,7 @@ bool CanTrade(CCharEntity* PChar, CCharEntity* PTarget)
     {
         CItem* PItem = PChar->UContainer->GetItem(slotid);
 
-        if (PItem != nullptr && PItem->getFlag() & ITEM_FLAG_RARE)
+        if (PItem != nullptr && PItem->hasFlag(ItemFlag::Rare))
         {
             if (HasItem(PTarget, PItem->getID()))
             {

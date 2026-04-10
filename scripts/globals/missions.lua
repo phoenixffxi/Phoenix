@@ -18,6 +18,7 @@ xi.mission.log_id =
     ASA         = 11,
     SOA         = 12,
     ROV         = 13,
+    TVR         = 14, -- TODO: Find the right ID for this
 }
 
 xi.mission.area =
@@ -36,6 +37,7 @@ xi.mission.area =
     [xi.mission.log_id.ASA]         = 'asa',
     [xi.mission.log_id.SOA]         = 'soa',
     [xi.mission.log_id.ROV]         = 'rov',
+    [xi.mission.log_id.TVR]         = 'tvr',
 }
 
 xi.mission.status =
@@ -56,7 +58,7 @@ xi.mission.status =
 xi.mission.id =
 {
     -----------------------------------
-    --  All Nations
+    -- All Nations
     -----------------------------------
     ['nation'] =
     {
@@ -68,7 +70,7 @@ xi.mission.id =
     },
 
     -----------------------------------
-    --  San d'Oria - Interaction Framework (0)
+    -- San d'Oria - Interaction Framework (0)
     -----------------------------------
     [xi.mission.area[xi.mission.log_id.SANDORIA]] =
     {
@@ -100,7 +102,7 @@ xi.mission.id =
     },
 
     -----------------------------------
-    --  Bastok - Interaction Framework (1)
+    -- Bastok - Interaction Framework (1)
     -----------------------------------
     [xi.mission.area[xi.mission.log_id.BASTOK]] =
     {
@@ -132,7 +134,7 @@ xi.mission.id =
     },
 
     -----------------------------------
-    --  Windurst - Interaction Framework (2)
+    -- Windurst - Interaction Framework (2)
     -----------------------------------
     [xi.mission.area[xi.mission.log_id.WINDURST]] =
     {
@@ -164,7 +166,7 @@ xi.mission.id =
     },
 
     -----------------------------------
-    --  Zilart Missions (3)
+    -- Zilart Missions (3)
     -----------------------------------
     [xi.mission.area[xi.mission.log_id.ZILART]] =
     {
@@ -190,7 +192,7 @@ xi.mission.id =
     },
 
     -----------------------------------
-    --  Promathia Missions (6)
+    -- Promathia Missions (6)
     -----------------------------------
     [xi.mission.area[xi.mission.log_id.COP]] =
     {
@@ -261,7 +263,7 @@ xi.mission.id =
     },
 
     -----------------------------------
-    --  Aht Urhgan Missions (4)
+    -- Aht Urhgan Missions (4)
     -----------------------------------
     [xi.mission.area[xi.mission.log_id.TOAU]] =
     {
@@ -316,7 +318,7 @@ xi.mission.id =
     },
 
     -----------------------------------
-    --  Wings of the Goddess (5)
+    -- Wings of the Goddess (5)
     -----------------------------------
     [xi.mission.area[xi.mission.log_id.WOTG]] =
     {
@@ -377,7 +379,7 @@ xi.mission.id =
     },
 
     -----------------------------------
-    --  A Crystalline Prophecy (9)
+    -- A Crystalline Prophecy (9)
     -----------------------------------
     [xi.mission.area[xi.mission.log_id.ACP]] =
     {
@@ -396,7 +398,7 @@ xi.mission.id =
     },
 
     -----------------------------------
-    --  A Moogle Kupo d'Etat (10)
+    -- A Moogle Kupo d'Etat (10)
     -----------------------------------
     [xi.mission.area[xi.mission.log_id.AMK]] =
     {
@@ -418,7 +420,7 @@ xi.mission.id =
     },
 
     -----------------------------------
-    --  A Shantotto Ascension (11)
+    -- A Shantotto Ascension (11)
     -----------------------------------
     [xi.mission.area[xi.mission.log_id.ASA]] =
     {
@@ -440,7 +442,7 @@ xi.mission.id =
     },
 
     -----------------------------------
-    --  Seekers of Adoulin (12)
+    -- Seekers of Adoulin (12)
     -----------------------------------
     [xi.mission.area[xi.mission.log_id.SOA]] =
     {
@@ -558,7 +560,7 @@ xi.mission.id =
     },
 
     -----------------------------------
-    --  Rhapsodies of Vana Diel (13)
+    -- Rhapsodies of Vana Diel (13)
     -----------------------------------
     [xi.mission.area[xi.mission.log_id.ROV]] =
     {
@@ -660,6 +662,76 @@ xi.mission.id =
         THE_ORBS_RADIANCE               = 224,
         A_RHAPSODY_FOR_THE_AGES         = 226,
     },
+
+    -----------------------------------
+    -- The Voracious Resurgence (14)
+    --
+    -- TODO: These are completely guessed, they need to be figured out from the client,
+    --     : also with their special relationship with the ROV missions.
+    -----------------------------------
+    [xi.mission.area[xi.mission.log_id.TVR]] =
+    {
+        -- Part 1
+        THE_VORACIOUS_RESURGENCE        = 0,
+        THE_GLOOM_PHANTOMS_APPROACH     = 1,
+        THE_BRYGID_CUP                  = 2,
+        THE_DESTINY_DESTROYERS          = 3,
+        -- Part 2
+        KUPIPIS_DILEMMA                 = 4,
+        THE_CARDIANS_DUTY               = 5,
+        ZHUU_BUXUS_GAMBIT               = 6,
+        STAR_ONION_FORTUNE              = 7,
+        THE_DOLL_WHISPERER              = 8,
+        -- Part 3
+        DANCING_PRINCE                  = 9,
+        CLAIDIES_CONCERN                = 10,
+        CURILLA_UNLEASHED               = 11,
+        RUN_EXCENMILLE_RUN              = 12,
+        OF_KNIGHTS_AND_ORCS             = 13,
+        -- Part 4
+        BEST_SERVED_COLD                = 14,
+        CORNELIAS_CALL_TO_ACTION        = 15,
+        NAJA_THE_AMBITIOUS              = 16,
+        RAUBAHN_THE_BLUE                = 17,
+        -- Part 5
+        GHATSADS_QUANDARY               = 18,
+        THE_REVELATION                  = 19,
+        TATEEYAS_WORRIES                = 20,
+        THE_SEAGULL_PHRATRIE            = 21,
+        THE_SEA_SAGE                    = 22,
+        -- Part 6
+        SKY_MOON_INCANTRIX              = 23,
+        NIIS_LAST_STAND                 = 24,
+        DANCE_OF_THE_TENGU              = 25,
+        -- Part 7
+        RAEBRIMMS_REBIRTH               = 26,
+        URAN_MAFRAN_OF_THE_MAELSTROM    = 27,
+        KORU_MORUS_HYPOTHESIS           = 28,
+        ALTENNIA_BURNS_BRIGHT           = 29,
+        -- Part 8
+        MAAT_ON_THE_RAMPAGE             = 30,
+        NOT_JUST_A_PRETTY_FACE          = 31,
+        DELKFUTT_THE_GREAT              = 32,
+        -- Part 9
+        OSHASHAS_VIOLATION              = 33,
+        PHANTASMIC_HEROES               = 34,
+        SKOKKR_UNDRBORNS_TEMPTATION     = 35,
+        THE_PRIME_WEAPONS               = 36,
+        -- Part 10
+        TO_MOVALPOLOS                   = 37,
+        MAGH_BIHU_ON_THE_PROWL          = 38,
+        DAZBOGS_101                     = 39,
+        KIPDRIX_THE_FAITHFUL            = 40,
+        DUKE_ALLOCESS_DECISION          = 41,
+        ODINS_EYE                       = 42,
+        -- Part 11
+        MOGLESSE_OBLIGE                 = 43,
+        THE_VORACIOUS_BEAST             = 44,
+        YOUR_DECISION                   = 45,
+        -- Epilogue
+        EPILOGUE                        = 46,
+    },
+
     [xi.mission.area[xi.mission.log_id.CAMPAIGN]] = {},
 }
 
