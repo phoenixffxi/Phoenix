@@ -20,7 +20,7 @@ CREATE TABLE `item_usable` (
   `itemid` smallint(5) unsigned NOT NULL,
   `name` text NOT NULL,
   `validTargets` smallint(3) unsigned NOT NULL DEFAULT '0',
-  `activation` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `activation` float unsigned NOT NULL DEFAULT '0',
   `animation` smallint(4) unsigned NOT NULL DEFAULT '0',
   `animationTime` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `maxCharges` tinyint(3) unsigned NOT NULL DEFAULT '0',
