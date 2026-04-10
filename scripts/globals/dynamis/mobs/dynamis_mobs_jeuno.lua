@@ -11,7 +11,6 @@ xi.dynamis.spawnTable = xi.dynamis.spawnTable or { }
 xi.dynamis.spawnTable[zoneID] =
 {
     -- ID = { # to spawn, eye color, force spawn mobs }
-    -- MP = green HP = blue
     [17547265] = { 2, false }, -- (001-G/R) | WAR, MNK
     [17547268] = { 2, false }, -- (002-G/R(30)) | RDM, BRD
     [17547346] = { 3, true  }, -- (003-G/R) | PLD, DRK, Wyrmwix Snakespecs
@@ -423,7 +422,7 @@ xi.dynamis.spawnCheck[zoneID] =
         -- Spawns 98-100 when 73 is killed
         requiredVars    = { '[DYNA]73Killed' },
         spawn           = { xi.jeuno.mobs.GOBLIN_REPLICA_98, xi.jeuno.mobs.GOBLIN_STATUE_99, xi.jeuno.mobs.GOBLIN_REPLICA_100 },
-        spawnedVar      = '[DYNA]Wave2Spawned',
+        spawnedVar      = '[DYNA]Wave6Spawned',
     },
     {
         -- Spawns 101-112 when 98,99 and 100 all are killed

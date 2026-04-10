@@ -49,7 +49,7 @@ xi.dynamis.entryNpcOnTrade = function(player, npc, trade)
 
     -- Vars again for readability
     local lockout = xi.dynamis.isPlayerLockedOut(player)
-    -- TODO remove these possibly later
+
     local varZoneCooldown  = string.format('[DYNA]ZoneCooldown_%s', dynaZoneID)
     local varCleanupScript = string.format('[DYNA]CleanupScript_%s', zoneId)
     local varExpiration    = string.format('[DYNA]ExpirationTime_%s', dynaZoneID)
@@ -66,24 +66,14 @@ xi.dynamis.entryNpcOnTrade = function(player, npc, trade)
     -- Player stuff
     local playerEntered = player:getCharVar(entryInfo.enteredVar) or 0
 
-    -- Reduce the logic because we were checking level again and everything inside xi.dynamis.checkEntryRequirements already
-    -- TODO CHECK IF MESSEGING ALL WORKS AS INTENDED
-    if player:getLocalVar(entryInfo.enteredVar) == 0 then
-        if not xi.dynamis.checkEntryRequirements(player, zoneId) then
-            releaseTrade(player)
-            xi.dynamis.debugPrint('Entry requirements not met')
-            return
-        end
-    end
-
-    if playerEntered == nil then
-        playerEntered = 0
+    -- Check for entry requirements before trading
+    if not xi.dynamis.checkEntryRequirements(player, zoneId) then
+        releaseTrade(player)
+        xi.dynamis.debugPrint('Entry requirements not met')
+        return
     end
 
     -- Timeless hourglass trade (start new Dynamis instance)
-    -- I have a feeling we are missing a first cutscene check here
-    -- Need to test that still
-    -- TODO
     if npcUtil.tradeHasExactly(trade, { dynamisTimelessHourglass }) then
         xi.dynamis.debugPrint('Timeless hourglass trade detected')
 
@@ -275,6 +265,7 @@ xi.dynamis.entryNpcOnEventUpdate = function(player, csid, option, npc)
         if dynaZoneID == xi.zone.DYNAMIS_TAVNAZIA then
             expirationTime = xi.dynamis.settings.TAVNAZIA_TIME_LIMIT
         end
+
         xi.dynamis.debugPrint('Using expiration time of: ' .. tostring(expirationTime) .. ' seconds for this instance.')
         local startTime = GetSystemTime()
         local endTime   = startTime + expirationTime

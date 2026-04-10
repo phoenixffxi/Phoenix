@@ -125,7 +125,10 @@ local firstEyes  = { '[DYNA]VE9Killed', '[DYNA]VE15Killed' }
 local secondEyes = { '[DYNA]VE67Killed', '[DYNA]VE75Killed' }
 
 local function checkAndSpawnQm(zone, qmNpc, spawnVarName, eyeVars)
-    if zone:getLocalVar(spawnVarName) == 1 or qmNpc:getStatus() == xi.status.NORMAL then
+    if
+        zone:getLocalVar(spawnVarName) == 1 or
+        qmNpc:getStatus() == xi.status.NORMAL
+    then
         return
     end
 

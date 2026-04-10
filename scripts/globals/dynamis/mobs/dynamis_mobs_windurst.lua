@@ -403,12 +403,6 @@ xi.dynamis.spawnCheck[zoneID] =
         spawn           = { 17543344, 17543347 },
         spawnedVar      = '[DYNA]Wave8Spawned',
     },
-    {
-        -- Spawn mobs when the Mega Boss is killed
-        requiredVars    = { '[DYNA]MegaBossKilled' },
-        spawn           = xi.dynamis.wave[zoneID][2],
-        spawnedVar      = '[DYNA]Wave9Spawned',
-    },
 }
 
 --Specific Statues

@@ -78,7 +78,7 @@ xi.dynamis.applyEntryRestrictions = function(player, dynaZoneID)
     -- Skip restrictions for GMs
     if xi.dynamis.isGM(player) then
         xi.dynamis.debugPrint('Player is a GM, skipping entry restrictions.')
-        -- return
+        return
     end
 
     -- Remove status effects that aren't preserved

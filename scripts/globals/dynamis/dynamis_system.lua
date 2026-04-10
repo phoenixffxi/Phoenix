@@ -130,7 +130,6 @@ xi.dynamis.dynamisTick = function(zone)
     local varZoneCooldown  = string.format('[DYNA]ZoneCooldown_%s', zoneId)
     local varCleanup       = string.format('[DYNA]CleanupScript_%s', zoneId)
 
-
     -- Now that we can see what vars we have lets get everything we need
     -- Start time and expiration
     local zoneStartTime     = GetServerVariable(varStartTime)
@@ -302,8 +301,8 @@ xi.dynamis.addMinutesToDynamis = function(zone, minutes)
     -- Now that we can see what vars we have lets get everything we need
     -- Expiration times
     local zoneExpiration    = GetServerVariable(varExpiration)
-    local zoneTimeRemaining = xi.dynamis.getDynaTimeRemaining(zoneExpiration)
     local newZoneExpiration = zoneExpiration + (60 * minutes) -- Add more time to increase previous expiration point.
+    local zoneTimeRemaining = xi.dynamis.getDynaTimeRemaining(newZoneExpiration)
 
     -- Update Time Remaining
     SetServerVariable(varExpiration, newZoneExpiration)
@@ -360,12 +359,12 @@ xi.dynamis.getDynaTimeRemaining = function(zoneExpiration)
     end
 end
 
--- Cleanup Done
 xi.dynamis.cleanupDynamis = function(zone)
-    xi.dynamis.debugPrint('----------Cleaning up Dynamis zone: ' .. tostring(zone:getID()))
     local zoneId = zone:getID()
-    print('Cleaning up Dynamis zone: ' .. tostring(zoneId))
     local parentZone = GetZone(xi.dynamis.dynaIDLookup[zoneId].entryZone)
+
+    xi.dynamis.debugPrint('----------Cleaning up Dynamis zone: ' .. tostring(zone:getID()))
+    xi.dynamis.debugPrint('Cleaning up Dynamis zone: ' .. tostring(zoneId))
 
     if parentZone == nil then
         xi.dynamis.debugPrint('Parent Zone is nil | xi.dynamis.cleanupDynamis')
@@ -378,8 +377,14 @@ xi.dynamis.cleanupDynamis = function(zone)
     SetServerVariable(string.format('[DYNA]ExpirationTime_%s', zoneId), 0)
     SetServerVariable(string.format('[DYNA]OriginalRegistrant_%s', zoneId), 0)
 
-    parentZone:setLocalVar(string.format('[DYNA]CleanupScript_%s', zoneId), 1)
+    -- Reset local vars
     zone:resetLocalVars()
+    parentZone:setLocalVar(string.format('[DYNA]CleanupScript_%s', zoneId), 1)
+
+    -- Reset associated player vars
+    local instanceId = GetServerVariable(string.format('[DYNA]InstanceID_%s', zoneId))
+    xi.dynamis.clearParticipants(instanceId) -- Clear participants for this instance
+
     xi.dynamis.ejectAllPlayers(zone) -- Remove Players (This is precautionary but not necessary.)
     xi.dynamis.despawnAll(zone) -- Despawns all mobs / npcs in zone
 end
@@ -416,13 +421,11 @@ end
 -----------------------------------
 --  Dynamis Player Functions    --
 -----------------------------------
--- Cleanup Done
 xi.dynamis.registerDynamis = function(player, startTime, endTime)
     local zoneId      = player:getZoneID()
     local dynaInfo    = xi.dynamis.entryInfoEra[zoneId]
     local dynaZone    = GetZone(dynaInfo.dynaZone)
     local parentZone  = GetZone(zoneId)
-    local currentTime = startTime or GetSystemTime()
     -- Validate zones exist
     if not dynaZone then
         xi.dynamis.debugPrint('dynaZone is nil | xi.dynamis.registerDynamis')
@@ -435,8 +438,7 @@ xi.dynamis.registerDynamis = function(player, startTime, endTime)
     end
 
     -- Always register first
-    -- luacheck: ignore 113
-    local instanceID   = RegisterDynamisInstance(zoneId, player:getID())
+    local instanceID = xi.dynamis.registerDynamisInstance(dynaInfo.dynaZone, player:getID(), player:getName())
 
     xi.dynamis.debugPrint(string.format('------------xi.dynamis.registerDynamis------------'))
     xi.dynamis.debugPrint('StartTime: ' .. tostring(startTime) .. '| EndTime: ' .. tostring(endTime))
@@ -469,17 +471,16 @@ end
 xi.dynamis.registerPlayer = function(player)
     local zoneId     = player:getZoneID()
     local dynaInfo   = xi.dynamis.entryInfoEra[zoneId]
-    local instanceID = GetServerVariable(string.format('[DYNA]InstanceID_%s', dynaInfo.dynaZone))
+    local instanceId = GetServerVariable(string.format('[DYNA]InstanceID_%s', dynaInfo.dynaZone))
 
     xi.dynamis.debugPrint(string.format('------------xi.dynamis.registerPlayer------------'))
-    xi.dynamis.debugPrint('zoneId: ' .. tostring(zoneId) .. ' | dynaZone: ' .. tostring(dynaInfo.dynaZone) .. ' | instanceID from server var: ' .. tostring(instanceID))
+    xi.dynamis.debugPrint('zoneId: ' .. tostring(zoneId) .. ' | dynaZone: ' .. tostring(dynaInfo.dynaZone) .. ' | instanceID from server var: ' .. tostring(instanceId))
 
     -- Mark player as registered in this dynamis session
-    player:setCharVar(string.format('[DYNA]SessionRegistered_%s', (dynaInfo.dynaZone)), 1)
+    xi.dynamis.addParticipant(instanceId, player:getID(), player:getName())
 
+    -- Set lockout
     xi.dynamis.recordLockout(player)
-
-    AddDynamisParticipant(instanceID, player:getID())
 end
 
 -- TODO Cleanup
@@ -529,17 +530,13 @@ xi.dynamis.ejectAllPlayers = function(zone)
 end
 
 -- Reset all player-related dynamis charvars
+-- GM Command Only
 xi.dynamis.resetPlayerVars = function(playerEntity, dynaZone)
-    -- Entry and reservation vars
-    playerEntity:setCharVar('DynaReservationStart', 0)
-
-    -- Lockout
+    -- Reset player lockout
     playerEntity:setCharVar('[DYNA]lockout', 0)
 
-    -- Zone-specific registration vars
-    if dynaZone and dynaZone ~= nil then
-        playerEntity:setCharVar(string.format('[DYNA]SessionRegistered_%s', dynaZone), 0)
-    end
+    -- Remove player from participants list for this instance
+    xi.dynamis.removeParticipant(playerEntity:getID())
 end
 
 -- Dynamis NPC triggers
@@ -558,7 +555,6 @@ end
 -----------------------------------
 -- Dynamis Player/Zone Functions --
 -----------------------------------
--- TODO Cleanup -- currently being used
 xi.dynamis.zoneOnZoneInEra = function(player, prevZone)
     local zoneId         = player:getZoneID()
     local zoneExpiration = GetServerVariable(string.format('[DYNA]ExpirationTime_%s', zoneId))
@@ -575,7 +571,6 @@ xi.dynamis.zoneOnZoneInEra = function(player, prevZone)
     then
         player:setPos(unpack(info.entryPos))
     end
-
 
     local expirationTime = xi.dynamis.getDynaTimeRemaining(zoneExpiration)
     xi.dynamis.debugPrint(string.format('expirationTime calculation: %s | zoneExpiration: %s | currentTime: %s', tostring(expirationTime), tostring(zoneExpiration), tostring(GetSystemTime())))
