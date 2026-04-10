@@ -3592,6 +3592,31 @@ local slipItems =
         xi.item.KHONSU,
         xi.item.SOPHISTRY,
     },
+
+    [xi.item.MOOGLE_STORAGE_SLIP_29] =
+    {
+        -- TODO: 119 Empyrean +2
+    },
+
+    [xi.item.MOOGLE_STORAGE_SLIP_30] =
+    {
+        -- TODO: 119 Empyrean +3
+    },
+
+    [xi.item.MOOGLE_STORAGE_SLIP_31] =
+    {
+        -- TODO: Scenario Reward IV
+    },
+
+    [xi.item.MOOGLE_STORAGE_SLIP_32] =
+    {
+        -- TODO: 119 AF +4
+    },
+
+    [xi.item.MOOGLE_STORAGE_SLIP_33] =
+    {
+        -- TODO: 119 Relic +4
+    },
 }
 
 return slipItems

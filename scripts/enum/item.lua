@@ -12201,5 +12201,10 @@ xi.item =
     MOOGLE_STORAGE_SLIP_26              = 29337,
     MOOGLE_STORAGE_SLIP_27              = 29338,
     MOOGLE_STORAGE_SLIP_28              = 29339,
+    MOOGLE_STORAGE_SLIP_29              = 29340,
+    MOOGLE_STORAGE_SLIP_30              = 29341,
+    MOOGLE_STORAGE_SLIP_31              = 29342,
+    MOOGLE_STORAGE_SLIP_32              = 29343,
+    MOOGLE_STORAGE_SLIP_33              = 29344,
     GIL                                 = 65535,
 }
