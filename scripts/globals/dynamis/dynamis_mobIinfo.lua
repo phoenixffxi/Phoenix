@@ -415,8 +415,10 @@ xi.dynamis.onBossDeath = function(mob, player, optParams)
     local pos    = mob:getPos()
     local winQM  = GetNPCByID(xi.dynamis.dynaInfoEra[zoneId].winQM)
 
-    winQM:setPos(pos.x, pos.y, pos.z, pos.rot)
-    winQM:setStatus(xi.status.NORMAL)
+    if winQM then
+        winQM:setPos(pos.x, pos.y, pos.z, pos.rot)
+        winQM:setStatus(xi.status.NORMAL)
+    end
 
     -- Award Title
     local zone = mob:getZone()
@@ -462,8 +464,8 @@ xi.dynamis.spawnNextMobsOnce = function(statue, statueId, count, target, checkFo
             mobToSpawn:setLocalVar('spawnedFromMaster', 1) -- nightmare mob check to prevent multiple spawns from the master mob
 
             -- Sets the "pet" model sizes to one below its master
+            local mainSize = statue:getModelSize()
             if string.find(mobToSpawn:getName(), 'Nightmare') then
-                local mainSize = statue:getModelSize()
                 if mainSize > 1 then
                     mobToSpawn:setModelSize(mainSize - 1)
                 else
@@ -472,6 +474,8 @@ xi.dynamis.spawnNextMobsOnce = function(statue, statueId, count, target, checkFo
             elseif string.find(mobToSpawn:getName(), 'Hydra') then
                 -- Size 3 does not work for Hydra, max size is 2
                 mobToSpawn:setModelSize(2)
+            else
+                mobToSpawn:setModelSize(mainSize)
             end
 
             spawnedCount = spawnedCount + 1

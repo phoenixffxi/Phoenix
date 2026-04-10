@@ -66,10 +66,12 @@ xi.dynamis.onTriggerAreaEnterTav = function(player, triggerArea)
         if spawns.worm.positions[spawnIdx].triggerId == triggerID then
             zone:setLocalVar('wormSpawned', 1)
             local worm = GetMobByID(xi.tav.mobs.NIGHTMARE_WORM)
-            local pos  = spawns.worm.positions[spawnIdx]
-            worm:setSpawn(pos.x, spawns.worm.yMin + 1, pos.z)  -- rough Y estimate
-            worm:spawn()
-            worm:updateEnmity(player)
+            if worm then
+                local pos  = spawns.worm.positions[spawnIdx]
+                worm:setSpawn(pos.x, spawns.worm.yMin + 1, pos.z)  -- rough Y estimate
+                worm:spawn()
+                worm:updateEnmity(player)
+            end
         end
     end
 
@@ -79,10 +81,12 @@ xi.dynamis.onTriggerAreaEnterTav = function(player, triggerArea)
         if spawns.antlion.positions[spawnIdx].triggerId == triggerID then
             zone:setLocalVar('antlionSpawned', 1)
             local antlion = GetMobByID(xi.tav.mobs.NIGHTMARE_ANTLION)
-            local pos     = spawns.antlion.positions[spawnIdx]
-            antlion:setSpawn(pos.x, spawns.antlion.yMin + 1, pos.z)  -- rough Y estimate
-            antlion:spawn()
-            antlion:updateEnmity(player)
+            if antlion then
+                local pos     = spawns.antlion.positions[spawnIdx]
+                antlion:setSpawn(pos.x, spawns.antlion.yMin + 1, pos.z)  -- rough Y estimate
+                antlion:spawn()
+                antlion:updateEnmity(player)
+            end
         end
     end
 end

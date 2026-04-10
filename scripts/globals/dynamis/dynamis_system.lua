@@ -56,6 +56,25 @@ end
 -----------------------------------
 -- onZoneTick Dynamis Functions  --
 -----------------------------------
+-- Track active Dynamis zones with their eventsQueues
+local dynaTimeVars = {}
+-- Process queued events (warnings) for a Dynamis zone
+local function onDynamisZoneTick(zone)
+    local zoneId = zone:getID()
+    if not dynaTimeVars[zoneId] or not dynaTimeVars[zoneId].eventsQueue then
+        return
+    end
+
+    local currentTime = GetSystemTime()
+    for timestamp, event in pairs(dynaTimeVars[zoneId].eventsQueue) do
+        if currentTime >= timestamp then
+            debugTickPrint(string.format('Executing Dynamis event at %d for zone %d', timestamp, zoneId))
+            event()
+            dynaTimeVars[zoneId].eventsQueue[timestamp] = nil
+        end
+    end
+end
+
 local function handleNoPlayers(playersInZone, cleanupScript, zoneCooldownEnter, zone, parentZone)
     local zoneId = zone:getID()
     local currentTime = GetSystemTime()
@@ -124,9 +143,6 @@ xi.dynamis.dynamisTick = function(zone)
     -- Could change it back to what it is with zone:getLocalVar calls but this is easier to read for my eyes
     local varStartTime     = string.format('[DYNA]StartTime_%s', zoneId)
     local varExpiration    = string.format('[DYNA]ExpirationTime_%s', zoneId)
-    local varWarn10        = string.format('[DYNA]Given10MinuteWarning_%s', zoneId)
-    local varWarn3         = string.format('[DYNA]Given3MinuteWarning_%s', zoneId)
-    local varWarn1         = string.format('[DYNA]Given1MinuteWarning_%s', zoneId)
     local varZoneCooldown  = string.format('[DYNA]ZoneCooldown_%s', zoneId)
     local varCleanup       = string.format('[DYNA]CleanupScript_%s', zoneId)
 
@@ -140,11 +156,6 @@ xi.dynamis.dynamisTick = function(zone)
 
     local zoneTimeRemaining = xi.dynamis.getDynaTimeRemaining(zoneExpiration)
     debugTickPrint('Zone Time Remaining: ' .. zoneTimeRemaining)
-
-    -- Warning vars
-    local zoneWarn10 = zone:getLocalVar(varWarn10)
-    local zoneWarn3  = zone:getLocalVar(varWarn3)
-    local zoneWarn1  = zone:getLocalVar(varWarn1)
 
     -- Player counts and timers
     local playersInZone = zone:getPlayers()
@@ -188,28 +199,8 @@ xi.dynamis.dynamisTick = function(zone)
         end
     end
 
-    -- 10, 3 and 1 minute warnings
-    if cleanupScript == 0 then
-        if
-            zoneWarn1 == 0 and
-            zoneTimeRemaining < 80
-        then
-            xi.dynamis.dynamisTimeWarning(zone, zoneExpiration)
-            zone:setLocalVar(varWarn1, 1) -- Don't give another warning
-        elseif
-            zoneWarn3 == 0 and
-            zoneTimeRemaining < 200
-        then
-            xi.dynamis.dynamisTimeWarning(zone, zoneExpiration)
-            zone:setLocalVar(varWarn3, 1) -- Don't give another warning
-        elseif
-            zoneWarn10 == 0 and
-            zoneTimeRemaining < 620
-        then
-            xi.dynamis.dynamisTimeWarning(zone, zoneExpiration)
-            zone:setLocalVar(varWarn10, 1) -- Don't give another warning
-        end
-    end
+    -- Process queued events (warnings, etc)
+    onDynamisZoneTick(zone)
 
     -- Time has finally expired - goodbye players o7
     if zoneTimeRemaining <= 1 then
@@ -294,15 +285,11 @@ end
 xi.dynamis.addMinutesToDynamis = function(zone, minutes)
     local zoneId          = zone:getID()
     local varExpiration   = string.format('[DYNA]ExpirationTime_%s', zoneId)
-    local varWarn10       = string.format('[DYNA]Given10MinuteWarning_%s', zoneId)
-    local varWarn3        = string.format('[DYNA]Given3MinuteWarning_%s', zoneId)
-    local varWarn1        = string.format('[DYNA]Given1MinuteWarning_%s', zoneId)
 
     -- Now that we can see what vars we have lets get everything we need
     -- Expiration times
     local zoneExpiration    = GetServerVariable(varExpiration)
     local newZoneExpiration = zoneExpiration + (60 * minutes) -- Add more time to increase previous expiration point.
-    local zoneTimeRemaining = xi.dynamis.getDynaTimeRemaining(newZoneExpiration)
 
     -- Update Time Remaining
     SetServerVariable(varExpiration, newZoneExpiration)
@@ -316,17 +303,24 @@ xi.dynamis.addMinutesToDynamis = function(zone, minutes)
         xi.dynamis.updatePlayerHourglass(player)
     end
 
-    -- Handle Time Limit Warnings in case the message was already given to players
-    if zoneTimeRemaining > 620 then -- Checks if time remaining > 11 minutes.
-        zone:setLocalVar(varWarn10, 0) -- Resets var if time remaining greater than threshold.
-    end
+    -- Recalculate and re-queue warning events with new expiration time
+    if dynaTimeVars[zoneId] then
+        -- Clear old event queue
+        dynaTimeVars[zoneId].eventsQueue =
+        {
+            [newZoneExpiration - 620] = function()  -- 10 minute warning
+                xi.dynamis.dynamisTimeWarning(zone, newZoneExpiration)
+            end,
 
-    if zoneTimeRemaining > 200 then -- Checks if time remaining > 4 minutes.
-        zone:setLocalVar(varWarn3, 0) -- Resets var if time remaining greater than threshold.
-    end
+            [newZoneExpiration - 200] = function()  -- 3 minute warning
+                xi.dynamis.dynamisTimeWarning(zone, newZoneExpiration)
+            end,
 
-    if zoneTimeRemaining > 80 then -- Checks if time remaining > 2 minutes.
-        zone:setLocalVar(varWarn1, 0) -- Resets var if time remaining greater than threshold.
+            [newZoneExpiration - 80] = function()   -- 1 minute warning
+                xi.dynamis.dynamisTimeWarning(zone, newZoneExpiration)
+            end,
+        }
+        debugTickPrint(string.format('Recalculated warnings for zone %d with new expiration: %d', zoneId, newZoneExpiration))
     end
 end
 
@@ -384,6 +378,9 @@ xi.dynamis.cleanupDynamis = function(zone)
     -- Reset associated player vars
     local instanceId = GetServerVariable(string.format('[DYNA]InstanceID_%s', zoneId))
     xi.dynamis.clearParticipants(instanceId) -- Clear participants for this instance
+
+    -- Clean up dynaTimeVars for this zone
+    dynaTimeVars[zoneId] = nil
 
     xi.dynamis.ejectAllPlayers(zone) -- Remove Players (This is precautionary but not necessary.)
     xi.dynamis.despawnAll(zone) -- Despawns all mobs / npcs in zone
@@ -456,6 +453,23 @@ xi.dynamis.registerDynamis = function(player, startTime, endTime)
 
     -- Need cleanup script to 0
     parentZone:setLocalVar(varCleanupScript, 0)
+
+    -- Initialize dynaTimeVars for this zone with eventsQueue
+    dynaTimeVars[dynazoneID] = {
+        eventsQueue = {
+            [endTime - 620] = function()  -- 10 minute warning
+                xi.dynamis.dynamisTimeWarning(dynaZone, endTime)
+            end,
+
+            [endTime - 200] = function()  -- 3 minute warning
+                xi.dynamis.dynamisTimeWarning(dynaZone, endTime)
+            end,
+
+            [endTime - 80] = function()   -- 1 minute warning
+                xi.dynamis.dynamisTimeWarning(dynaZone, endTime)
+            end,
+        }
+    }
 
     -- Start the zone baby
     xi.dynamis.onNewDynamis(player, 0) -- 0 for normal, 1 for debug gm only

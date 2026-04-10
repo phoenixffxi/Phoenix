@@ -31,20 +31,17 @@ local function error(player, msg)
 end
 
 commandObj.onTrigger = function(player, zoneName)
-    local dynaZoneID = 0
+    local dynaZoneID = 0 --[[@as integer]]
+    zoneName = string.upper(zoneName)
 
     -- Determine zone ID from parameter or use current zone
     if zoneName and zoneName ~= nil and zoneName ~= '' then
-        dynaZoneID = tonumber(zoneName)
-        if not dynaZoneID then
-            -- Try to get zone from lookup table
-            zoneName = string.upper(zoneName)
-            if dynaZones[zoneName] then
-                dynaZoneID = dynaZones[zoneName]
-            else
-                error(player, string.format('Zone \'%s\' not found!', zoneName))
-                return
-            end
+        -- Try to get zone from lookup table
+        if dynaZones[zoneName] then
+            dynaZoneID = dynaZones[zoneName]
+        else
+            error(player, string.format('Zone \'%s\' not found!', zoneName))
+            return
         end
     else
         player:printToPlayer('No zone specified, please specify a zone name or ID.')

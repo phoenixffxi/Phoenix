@@ -20,7 +20,7 @@ xi.dynamis.flyCheck = function(zone)
     -- If they any are still alive early return
     for _, flyId in ipairs(nightmareFlies) do
         local fly = GetMobByID(flyId)
-        if not fly:isDead() then
+        if fly and not fly:isDead() then
             return
         end
     end

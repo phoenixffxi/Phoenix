@@ -32,19 +32,15 @@ end
 
 commandObj.onTrigger = function(player, zoneName, enedinID)
     local dynaZoneID = 0
-
+    zoneName = string.upper(zoneName)
     -- Determine zone ID from parameter or use current zone
     if zoneName and zoneName ~= nil and zoneName ~= '' then
-        dynaZoneID = tonumber(zoneName)
-        if not dynaZoneID then
-            -- Try to get zone from lookup table
-            zoneName = string.upper(zoneName)
-            if dynaZones[zoneName] then
-                dynaZoneID = dynaZones[zoneName]
-            else
-                error(player, string.format('Zone \'%s\' not found!', zoneName))
-                return
-            end
+        -- Try to get zone from lookup table
+        if dynaZones[zoneName] then
+            dynaZoneID = dynaZones[zoneName]
+        else
+            error(player, string.format('Zone \'%s\' not found!', zoneName))
+            return
         end
     else
         dynaZoneID = player:getZoneID()

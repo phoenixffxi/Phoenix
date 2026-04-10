@@ -155,15 +155,18 @@ end
 xi.dynamis.updatePlayerHourglassForAll = function(zone)
     local zoneId        = zone:getID()
     local parentZone    = GetZone(xi.dynamis.dynaIDLookup[zoneId].entryZone)
-    local playersInZone = parentZone:getPlayers()
 
+    if not parentZone then
+        return
+    end
+
+    local playersInZone = parentZone:getPlayers()
     for _, player in pairs(playersInZone) do
         xi.dynamis.updatePlayerHourglass(player)
     end
 end
 
 xi.dynamis.hasHourglass = function(player, expectedStartTime, expectedZoneId, zoneExpiration)
-    xi.dynamis.debugPrint(string.format('------------xi.dynamis.hasHourglass------------'))
     local zoneId = player:getZoneID()
 
     if validatePlayerHourglass(player, expectedStartTime, expectedZoneId) then
