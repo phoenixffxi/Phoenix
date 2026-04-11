@@ -1,4 +1,4 @@
-/*
+﻿/*
 ===========================================================================
 
   Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -467,8 +467,9 @@ uint32 CBattleEntity::GetWeaponDelay(bool tp)
         float hasteMultiplier     = 1.0f;
         float delayModMultiplier  = 1.0f + getMod(Mod::DELAYP) / 100.0f;
 
-        // H2H
-        if (weapon->isHandToHand())
+        // H2H (Mobs do not benefit from Martial Arts)
+        // TODO: Do Trusts benefit from Martial Arts?
+        if (weapon->isHandToHand() && objtype != TYPE_MOB)
         {
             martialArts = getMod(Mod::MARTIAL_ARTS) * 1000 / 60; // TODO: Job points?
         }
