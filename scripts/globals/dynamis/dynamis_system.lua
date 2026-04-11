@@ -28,32 +28,6 @@ local function debugTickPrint(message)
 end
 
 -----------------------------------
---   Global Dynamis Variables    --
------------------------------------
--- Come back when I do tav
--- local function getDynamisTavWinParam(player)
---     local zmComplete = player:getCurrentMission(xi.mission.log_id.ZILART) >= xi.mission.id.zilart.AWAKENING
---     local copComplete = player:getCurrentMission(xi.mission.log_id.COP) >= xi.mission.id.cop.DAWN
---     local anComplete = player:hasCompletedQuest(xi.quest.log_id.JEUNO, xi.quest.id.jeuno.APOCALYPSE_NIGH)
-
---     if anComplete then
---         -- AN requires ZM and CoP
---         return 3
---     elseif zmComplete then
---         if copComplete then
---             -- ZM and CoP
---             return 2
---         end
-
---         -- ZM only
---         return 1
---     end
-
---     -- Not ZM complete
---     return 0
--- end
-
------------------------------------
 -- onZoneTick Dynamis Functions  --
 -----------------------------------
 -- Track active Dynamis zones with their eventsQueues
@@ -280,8 +254,6 @@ end
 -----------------------------------
 --    Dynamis Zone Functions    --
 -----------------------------------
--- Cleanup Done
--- Re-wrote the function to be used for everything not just GMs
 xi.dynamis.addMinutesToDynamis = function(zone, minutes)
     local zoneId          = zone:getID()
     local varExpiration   = string.format('[DYNA]ExpirationTime_%s', zoneId)
@@ -324,7 +296,6 @@ xi.dynamis.addMinutesToDynamis = function(zone, minutes)
     end
 end
 
--- Cleanup Done
 xi.dynamis.addTimeToDynamis = function(zone, mob)
     local zoneId = zone:getID()
     local mobID  = mob:getID()
@@ -342,7 +313,6 @@ xi.dynamis.addTimeToDynamis = function(zone, mob)
     end
 end
 
--- Cleanup Done
 xi.dynamis.getDynaTimeRemaining = function(zoneExpiration)
     local timeRemaining = (zoneExpiration - GetSystemTime()) -- Returns difference.
     -- xi.dynamis.debugPrint('Dynamis Time Remaining Check | Expiration: ' .. tostring(zoneExpiration) .. ' | CurrentTime: ' .. tostring(GetSystemTime()) .. ' | Result: ' .. tostring(timeRemaining))
@@ -413,6 +383,39 @@ xi.dynamis.dynamisTimeWarning = function(zone, zoneExpiration)
             player:messageSpecial(ID.text.DYNAMIS_TIME_UPDATE_2, timeRemaining, 1) -- Send [3/10] minutes warning.
         end
     end
+end
+
+xi.dynamis.zoneOnZoneInEra = function(player, prevZone)
+    local zoneId         = player:getZoneID()
+    local zoneExpiration = GetServerVariable(string.format('[DYNA]ExpirationTime_%s', zoneId))
+    local info           = xi.dynamis.dynaInfoEra[zoneId]
+    local ID             = zones[zoneId]
+
+    xi.dynamis.debugPrint(string.format('------------xi.dynamis.zoneOnZoneInEra------------'))
+    -- usually happens when zoning in with !zone command
+    -- If player is in void, move player to entry.
+    if
+        player:getXPos() == 0 and
+        player:getYPos() == 0 and
+        player:getZPos() == 0
+    then
+        player:setPos(unpack(info.entryPos))
+    end
+
+    local expirationTime = xi.dynamis.getDynaTimeRemaining(zoneExpiration)
+    xi.dynamis.debugPrint(string.format('expirationTime calculation: %s | zoneExpiration: %s | currentTime: %s', tostring(expirationTime), tostring(zoneExpiration), tostring(GetSystemTime())))
+    -- Send message letting player know how long they have.
+    player:timer(5000, function(playerArg)
+        playerArg:messageSpecial(ID.text.DYNAMIS_TIME_UPDATE_2, math.floor(utils.clamp(expirationTime, 0, expirationTime) / 60), 1)
+    end)
+
+    -- Update hourglass if player has one - will only update endTime if it was extended (zoneExpiration > current endTime)
+    xi.dynamis.debugPrint(string.format('Updating hourglass for player'))
+    xi.dynamis.updatePlayerHourglass(player)
+
+    -- Check for dreamland SJ restriction and apply if necessary
+    xi.dynamis.applyEntryRestrictions(player, zoneId)
+    return -1
 end
 
 -----------------------------------
@@ -497,52 +500,6 @@ xi.dynamis.registerPlayer = function(player)
     xi.dynamis.recordLockout(player)
 end
 
--- TODO Cleanup
-xi.dynamis.ejectPlayer = function(player, forceEject)
-    xi.dynamis.debugPrint('Ejecting player: ' .. tostring(player:getName()) .. ' | forceEject: ' .. tostring(forceEject))
-    local zoneId = player:getZoneID()
-    if forceEject == nil then
-        forceEject = false
-    end
-
-    if player:getCurrentRegion() == xi.region.DYNAMIS then
-        if player:getLocalVar('Received_Eject_Warning') ~= 1 then
-            player:delStatusEffectSilent(xi.effect.BATTLEFIELD)
-            if not forceEject then
-                player:timer(2000, function(playerArg)
-                    playerArg:messageSpecial(xi.dynamis.getZoneMessageID('NO_LONGER_HAVE_CLEARANCE', zoneId), 0, 30) -- Wait 1 second, send no clearance message.
-                end)
-
-                player:setLocalVar('Received_Eject_Warning', 1)
-                player:timer(30000, function(playerArgTwo)
-                    playerArgTwo:setCharVar(string.format('[DYNA]EjectPlayer_%s', zoneId), -1) -- Reset player's eject timer.
-                    playerArgTwo:disengage() -- Force disengage.
-                    playerArgTwo:timer(2000, function(playerArgThree)
-                        playerArgThree:startCutscene(100) -- Wait 2 seconds then play exit CS.
-                    end)
-                end)
-            else
-                player:timer(2000, function(playerArgFour)
-                    playerArgFour:messageSpecial(xi.dynamis.getZoneMessageID('NO_LONGER_HAVE_CLEARANCE', zoneId), 0, 0)
-                    playerArgFour:setCharVar(string.format('[DYNA]EjectPlayer_%s', zoneId), -1) -- Reset player's eject timer.
-                    playerArgFour:disengage() -- Force disengage.
-                    playerArgFour:timer(4000, function(playerArgFive)
-                        playerArgFive:startCutscene(100) -- Wait 2 seconds then play exit CS.
-                    end)
-                end) -- Wait 1 second, send no clearance message.
-            end
-        end
-    end
-end
-
-xi.dynamis.ejectAllPlayers = function(zone)
-    print('Ejecting all players from Dynamis zone: ' .. tostring(zone:getID()))
-    local playersInZone = zone:getPlayers()
-    for _, player in pairs(playersInZone) do
-        xi.dynamis.ejectPlayer(player) -- Runs the ejectPlayer function per player.
-    end
-end
-
 -- Reset all player-related dynamis charvars
 -- GM Command Only
 xi.dynamis.resetPlayerVars = function(playerEntity, dynaZone)
@@ -564,42 +521,6 @@ xi.dynamis.sjQMOnTrigger = function(npc)
     end
 
     zone:setLocalVar('SJUnlocked', 1)
-end
-
------------------------------------
--- Dynamis Player/Zone Functions --
------------------------------------
-xi.dynamis.zoneOnZoneInEra = function(player, prevZone)
-    local zoneId         = player:getZoneID()
-    local zoneExpiration = GetServerVariable(string.format('[DYNA]ExpirationTime_%s', zoneId))
-    local info           = xi.dynamis.dynaInfoEra[zoneId]
-    local ID             = zones[zoneId]
-
-    xi.dynamis.debugPrint(string.format('------------xi.dynamis.zoneOnZoneInEra------------'))
-    -- usually happens when zoning in with !zone command
-    -- If player is in void, move player to entry.
-    if
-        player:getXPos() == 0 and
-        player:getYPos() == 0 and
-        player:getZPos() == 0
-    then
-        player:setPos(unpack(info.entryPos))
-    end
-
-    local expirationTime = xi.dynamis.getDynaTimeRemaining(zoneExpiration)
-    xi.dynamis.debugPrint(string.format('expirationTime calculation: %s | zoneExpiration: %s | currentTime: %s', tostring(expirationTime), tostring(zoneExpiration), tostring(GetSystemTime())))
-    -- Send message letting player know how long they have.
-    player:timer(5000, function(playerArg)
-        playerArg:messageSpecial(ID.text.DYNAMIS_TIME_UPDATE_2, math.floor(utils.clamp(expirationTime, 0, expirationTime) / 60), 1)
-    end)
-
-    -- Update hourglass if player has one - will only update endTime if it was extended (zoneExpiration > current endTime)
-    xi.dynamis.debugPrint(string.format('Updating hourglass for player'))
-    xi.dynamis.updatePlayerHourglass(player)
-
-    -- Check for dreamland SJ restriction and apply if necessary
-    xi.dynamis.applyEntryRestrictions(player, zoneId)
-    return -1
 end
 
 -----------------------------------

@@ -3,7 +3,6 @@
 -----------------------------------
 -- Standard NPC interaction functions for dynamis entry zones
 -- These are called from zone NPC scripts
-
 xi = xi or {}
 xi.dynamis = xi.dynamis or {}
 
@@ -172,8 +171,25 @@ xi.dynamis.entryNpcOnTrade = function(player, npc, trade)
     end
 end
 
+local function tavWinCutscene(player)
+    -- Tavnazia Win CS are unique depending on how far you are in the story
+    if player:hasCompletedQuest(xi.quest.log_id.JEUNO, xi.quest.id.jeuno.APOCALYPSE_NIGH) then
+        return 3  -- AN (includes ZM and CoP)
+    end
+
+    local zmComplete = player:getCurrentMission(xi.mission.log_id.ZILART) >= xi.mission.id.zilart.AWAKENING
+    local copComplete = player:getCurrentMission(xi.mission.log_id.COP) >= xi.mission.id.cop.DAWN
+
+    if zmComplete and copComplete then
+        return 2  -- ZM and CoP
+    elseif zmComplete then
+        return 1  -- ZM only
+    end
+
+    return 0  -- Nothing complete
+end
+
 -- This function is on every NPC that handles Dynamis entry.
--- Cleanup Done
 xi.dynamis.entryNpcOnTriggerEra = function(player, npc)
     local zoneId     = player:getZoneID()
     local entryInfo  = xi.dynamis.entryInfoEra[zoneId]
@@ -213,7 +229,7 @@ xi.dynamis.entryNpcOnTriggerEra = function(player, npc)
         player:getCharVar(entryInfo.hasSeenWinCSVar) == 0
     then
         if zoneId == xi.zone.DYNAMIS_TAVNAZIA then
-            -- player:startEvent(entryInfo.csWin, 0, getDynamisTavWinParam(player))
+            player:startEvent(entryInfo.csWin, 0, tavWinCutscene(player))
         else
             player:startEvent(entryInfo.csWin)
         end
@@ -229,7 +245,6 @@ xi.dynamis.entryNpcOnTriggerEra = function(player, npc)
     player:messageSpecial(defaultMsg) -- default message for everything else
 end
 
--- Cleanup Done
 xi.dynamis.entryNpcOnEventUpdate = function(player, csid, option, npc)
     local zoneId    = player:getZoneID()
     local entryInfo = xi.dynamis.entryInfoEra[zoneId]
@@ -288,7 +303,6 @@ xi.dynamis.entryNpcOnEventUpdate = function(player, csid, option, npc)
     player:messageSpecial(xi.dynamis.getZoneMessageID('UNABLE_TO_CONNECT', zoneId))
 end
 
--- Cleanup Done
 xi.dynamis.entryNpcOnEventFinishEra = function(player, csid, option)
     local zoneId    = player:getZoneID()
     local entryInfo = xi.dynamis.entryInfoEra[zoneId]

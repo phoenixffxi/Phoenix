@@ -253,6 +253,22 @@ xi.dynamis.onMobSpawn = function(mob, mobType)
     elseif mobType == 'Nightmare' then
         mob:setModelSize(3)
     end
+
+    -- If Kindred set auto attack
+    if
+        mob:getFamily() == 169 and
+        (mob:getMainJob() == xi.job.RNG or mob:getMainJob() == xi.job.NIN)
+    then
+        mob:setMobMod(xi.mobMod.SPECIAL_SKILL, 560) -- Hecatomb Wave
+    end
+
+    -- If Quadav set auto attack
+    if
+        mob:getFamily() == 337 and
+        (mob:getMainJob() == xi.job.RNG or mob:getMainJob() == xi.job.NIN)
+    then
+        mob:setMobMod(xi.mobMod.SPECIAL_SKILL, 1075) -- Ore Toss
+    end
 end
 
 xi.dynamis.onMobRoam = function(mob)
