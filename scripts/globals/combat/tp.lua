@@ -7,10 +7,14 @@ xi.combat.tp = xi.combat.tp or {}
 -- "Local" functions only used here.
 -----------------------------------
 
+-- USED IN CORE (If you add/remove function params, they must be mirrored in core)
 -- https://www.bg-wiki.com/ffxi/Tactical_Points
 -- Gainee is the target who is going to gain the TP.
 -- For instance, if a player attacks a mob, the mob uses the mob formula when gaining TP from the returned hit.
 -- This appears to be a measure to not buff mobs when players were buffed with the new TP gain formula.
+--- @params gainee CBaseEntity
+--- @params delay integer
+--- @return integer
 xi.combat.tp.calculateTPReturn = function(gainee, delay)
     local tpReturn = 0
 
@@ -152,7 +156,13 @@ xi.combat.tp.getSingleRangedHitTPReturn = function(actor)
     return math.floor(xi.combat.tp.calculateTPReturn(actor, delay) * storeTPModifier)
 end
 
+-- This function calculates how much TP a target(The defender) will gain upon being hit by a physical attack.
 -- TODO: does Ikishoten factor into this as a bonus to baseTPGain if it procs on the hit? Needs verification.
+--- @params actor CBaseEntity
+--- @params target CBaseEntity
+--- @params totalDamage integer
+--- @params delay integer
+--- @return integer
 xi.combat.tp.calculateTPGainOnPhysicalDamage = function(actor, target, totalDamage, delay)
     if not actor or not target then
         return 0
@@ -168,7 +178,7 @@ xi.combat.tp.calculateTPGainOnPhysicalDamage = function(actor, target, totalDama
 
     -- TODO: does dAGI penalty work against/for Trusts/Pets? Nothing is documented for this. Currently assuming mob only.
     local attackOutput       = xi.combat.tp.getModifiedDelayAndCanZanshin(actor, delay)
-    local baseTPGain         = xi.combat.tp.calculateTPReturn(target, attackOutput.modifiedDelay)
+    local baseTPGain         = xi.combat.tp.calculateTPReturn(actor, attackOutput.modifiedDelay)
     local dAGI               = actor:getStat(xi.mod.AGI) - target:getStat(xi.mod.AGI)
     local inhibitTPModifier  = (100 - target:getMod(xi.mod.INHIBIT_TP)) / 100                    -- no known cap: https://www.bg-wiki.com/ffxi/Monster_TP_gain#Inhibit_TP
     local dAGIModifier       = utils.clamp(200 - (dAGI + 30) / 200, 0.5, 1)                      -- 50% reduction at +70 dAGI: https://www.bg-wiki.com/ffxi/Monster_TP_gain
