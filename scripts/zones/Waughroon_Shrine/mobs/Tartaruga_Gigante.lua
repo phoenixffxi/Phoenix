@@ -43,6 +43,8 @@ local intoShell = function(mob)
     mob:setMod(xi.mod.REGEN, 400)
     mob:setMod(xi.mod.UDMGRANGE, -9500)
     mob:setMod(xi.mod.UDMGPHYS, -9500)
+    mob:setMod(xi.mod.UDMGBREATH, -7500)
+
     mob:setMobMod(xi.mobMod.NO_MOVE, 1)
     mob:setMobMod(xi.mobMod.NO_STANDBACK, 0)
     mob:setBehavior(bit.bor(mob:getBehavior(), xi.behavior.NO_TURN))
@@ -58,9 +60,19 @@ local outOfShell = function(mob)
     mob:setMod(xi.mod.REGEN, 0)
     mob:setMod(xi.mod.UDMGRANGE, 0)
     mob:setMod(xi.mod.UDMGPHYS, 0)
+    mob:setMod(xi.mod.UDMGBREATH, 0)
     mob:setMobMod(xi.mobMod.NO_MOVE, 0)
     mob:setMobMod(xi.mobMod.NO_STANDBACK, 1)
     mob:setBehavior(bit.band(mob:getBehavior(), bit.bnot(xi.behavior.NO_TURN)))
+end
+
+entity.onMobInitialize = function(mob)
+    mob:addImmunity(xi.immunity.PETRIFY)
+    mob:addImmunity(xi.immunity.STUN)
+    mob:addImmunity(xi.immunity.SLOW)
+    mob:addImmunity(xi.immunity.ELEGY)
+    mob:addImmunity(xi.immunity.DARK_SLEEP)
+    mob:addImmunity(xi.immunity.LIGHT_SLEEP)
 end
 
 entity.onMobSpawn = function(mob)
@@ -71,9 +83,11 @@ entity.onMobSpawn = function(mob)
     mob:setBehavior(bit.bor(mob:getBehavior(), xi.behavior.NO_TURN))
     mob:setMobMod(xi.mobMod.SIGHT_RANGE, 13)
     mob:setMod(xi.mod.REGEN, 0)
-    mob:setMod(xi.mod.DOUBLE_ATTACK, 20)
+    mob:setMod(xi.mod.DOUBLE_ATTACK, 30)
     mob:setMod(xi.mod.DMGMAGIC, -3000)
     mob:setMod(xi.mod.CURSERES, 100)
+    mob:setMod(xi.mod.POWER_MULTIPLIER_SPELL, 75)
+    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 200)
 
     setDmgToChange(mob)
     mob:setAnimationSub(2)
@@ -101,7 +115,30 @@ entity.onMobFight = function(mob, target)
     end
 end
 
-entity.onMobDeath = function(mob, player, optParams)
+entity.onMobMobskillChoose = function(mob, target, skillId)
+    local skillList =
+    {
+        xi.mobSkill.TORTOISE_SONG_1,
+        xi.mobSkill.HEAD_BUTT_TURTLE_1,
+        xi.mobSkill.TORTOISE_STOMP_1,
+        xi.mobSkill.HARDEN_SHELL_1,
+        xi.mobSkill.EARTH_BREATH_1,
+        xi.mobSkill.AQUA_BREATH_1,
+    }
+
+    return skillList[math.random(1, #skillList)]
+end
+
+entity.onMobSpellChoose = function(mob, target, spellId)
+    local spellList =
+    {
+        [1] = { xi.magic.spell.FLOOD,      target, false, xi.action.type.DAMAGE_TARGET,     nil,               0, 100 },
+        [2] = { xi.magic.spell.WATERGA_IV, target, false, xi.action.type.DAMAGE_TARGET,     nil,               0, 100 },
+        [3] = { xi.magic.spell.SILENCEGA,  target, false, xi.action.type.ENFEEBLING_TARGET, xi.effect.SILENCE, 0, 100 },
+        [4] = { xi.magic.spell.SLOWGA,     target, false, xi.action.type.ENFEEBLING_TARGET, xi.effect.SLOW,    8, 100 },
+    }
+
+    return xi.combat.behavior.chooseAction(mob, target, nil, spellList)
 end
 
 entity.onMobDespawn = function(mob)

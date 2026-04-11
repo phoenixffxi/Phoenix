@@ -1150,11 +1150,7 @@ INSERT INTO `mob_spell_lists` VALUES ('Orcish_Onager',71,362,1,255); -- bindga (
 
 -- Free (76)
 
--- Tartaruga_Gigante (77)
-INSERT INTO `mob_spell_lists` VALUES ('Tartaruga_Gigante',77,202,1,255); -- waterga_iv (1~255)
-INSERT INTO `mob_spell_lists` VALUES ('Tartaruga_Gigante',77,214,1,255); -- flood (1~255)
-INSERT INTO `mob_spell_lists` VALUES ('Tartaruga_Gigante',77,357,1,255); -- slowga (1~255)
-INSERT INTO `mob_spell_lists` VALUES ('Tartaruga_Gigante',77,359,1,255); -- silencega (1~255)
+-- Free (77)
 
 -- Tiamat (78)
 INSERT INTO `mob_spell_lists` VALUES ('Tiamat',78,176,1,255); -- firaga_iii (1~255)
