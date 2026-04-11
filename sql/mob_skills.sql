@@ -192,9 +192,9 @@ INSERT INTO `mob_skills` VALUES (136,159,'blade_ku',0,0.0,7.0,2000,0,4,0,0,0,9,0
 -- INSERT INTO `mob_skills` VALUES (157,??,'tachi_shoha'
 -- INSERT INTO `mob_skills` VALUES (158,??,'tachi_suikawari'
 -- INSERT INTO `mob_skills` VALUES (159,??,'tachi_mumei'
--- INSERT INTO `mob_skills` VALUES (160,??,'shining_strike'
--- INSERT INTO `mob_skills` VALUES (161,??,'seraph_strike'
--- INSERT INTO `mob_skills` VALUES (162,??,'brainshaker'
+INSERT INTO `mob_skills` VALUES (160,76,'shining_strike',0,0.0,7.0,2000,0,4,0,0,0,8,0,0);
+INSERT INTO `mob_skills` VALUES (161,77,'seraph_strike',0,0.0,7.0,2000,0,4,0,0,0,8,0,0);
+INSERT INTO `mob_skills` VALUES (162,78,'brainshaker',0,0.0,7.0,2000,0,4,0,0,0,7,5,0);
 -- INSERT INTO `mob_skills` VALUES (163,??,'starlight'
 -- INSERT INTO `mob_skills` VALUES (164,??,'moonlight'
 INSERT INTO `mob_skills` VALUES (165,81,'skullbreaker',0,0.0,7.0,2000,0,4,0,0,0,7,5,0);
