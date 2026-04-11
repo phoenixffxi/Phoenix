@@ -17,6 +17,8 @@ entity.onMobInitialize = function(mob)
 end
 
 entity.onMobSpawn = function(mob)
+    mob:setAutoAttackEnabled(true)
+
     mob:addListener('EFFECT_LOSE', 'HUNDRED_FISTS_EFFECT_LOSE', function(mobArg, effect)
         if effect:getEffectType() == xi.effect.HUNDRED_FISTS then
             mobArg:messageText(mobArg, ID.text.CATCH_HIS_BREATH, false)

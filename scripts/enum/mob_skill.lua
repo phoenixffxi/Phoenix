@@ -42,6 +42,13 @@ xi.mobSkill =
     WHEELING_THRUST               =  119,
     IMPULSE_DRIVE                 =  120,
 
+    SHINING_STRIKE_1              =  160,
+    SERAPH_STRIKE_1               =  161,
+    BRAINSHAKER_1                 =  162,
+
+    SKULLBREAKER_1               =   165,
+    TRUE_STRIKE_1                =   166,
+
     RANDGRITH_1                   =  170,
 
     NETHERSPIKES_1                =  241,

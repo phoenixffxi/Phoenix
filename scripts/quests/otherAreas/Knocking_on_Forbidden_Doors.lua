@@ -110,7 +110,10 @@ quest.sections =
                         return quest:progressEvent(556, { [1] = xi.ki.MIRE_INCENSE })
 
                     -- Second time clicking on ???
-                    elseif progressVar == 3 then
+                    elseif
+                        progressVar == 3 and
+                        not GetMobByID(misareauxID.mob.ALSHA):isSpawned()
+                    then
                         return quest:progressEvent(557, { [1] = xi.ki.MIRE_INCENSE })
 
                     -- Clicking on the ??? after killing NM
@@ -123,8 +126,15 @@ quest.sections =
             ['Alsha'] =
             {
                 onMobDeath = function(mob, player, optParams)
-                    if quest:getVar(player, 'Prog') == 3 then
-                        quest:setVar(player, 'Prog', 4)
+                    -- Needs backend cpp changes to allow Alsha defeating herself to not allow credit.
+                    if optParams.isKiller then
+                        local alliance = player:getAlliance()
+
+                        for _, member in ipairs(alliance) do
+                            if member:getCharVar('Quest[4][78]Prog') == 3 then
+                                quest:setVar(player, 'Prog', 4)
+                            end
+                        end
                     end
                 end,
             },
@@ -146,6 +156,7 @@ quest.sections =
 
                 [558] = function(player, csid, option, npc)
                     quest:setVar(player, 'Prog', 5)
+                    player:delKeyItem(xi.ki.MIRE_INCENSE)
                     npcUtil.giveKeyItem(player, xi.ki.BETTER_HUMES_AND_MANNEQUINS)
                 end,
             },
