@@ -175,8 +175,10 @@ uint8 CTreasurePool::addItem(uint16 ItemID, CBaseEntity* PEntity)
         return m_count; // no change
     }
 
-    // Check if everyone in the treasure pool already has this tiem
-    if (PNewItem->hasFlag(ItemFlag::Rare))
+    // Check if everyone in the treasure pool already has this item
+    // Some items do not honor this check and will be added to the party pool regardless
+    const bool skipRareCheck = m_TreasurePoolType != TreasurePoolType::Solo && PNewItem->hasFlag(ItemFlag::NoRareCheck);
+    if (PNewItem->hasFlag(ItemFlag::Rare) && !skipRareCheck)
     {
         bool doesNotHaveRareItem = false;
 

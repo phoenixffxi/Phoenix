@@ -116,9 +116,9 @@ void GP_CLI_COMMAND_ITEM_DUMP::process(MapSession* PSession, CCharEntity* PChar)
         }
     }
 
-    // Linkshells (other than Linkpearls and Pearlsacks) cannot be stored in the Recycle Bin.
     // Retail accurate: Any item dropped from a container other than inventory skips the recycle bin.
-    if (!settings::get<bool>("map.ENABLE_ITEM_RECYCLE_BIN") || PItem->getID() == ITEMID::LINKSHELL || Category != CONTAINER_ID::LOC_INVENTORY)
+    // Items with the NoRecycle flag bypass the recycle bin entirely (e.g. linkshells).
+    if (!settings::get<bool>("map.ENABLE_ITEM_RECYCLE_BIN") || Category != CONTAINER_ID::LOC_INVENTORY || PItem->hasFlag(ItemFlag::NoRecycle))
     {
         charutils::DropItem(PChar, Category, ItemIndex, ItemNum, PItem->getID());
         return;
