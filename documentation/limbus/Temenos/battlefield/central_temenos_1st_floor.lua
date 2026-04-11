@@ -84,38 +84,38 @@ content.loot =
     {
         {
             quantity = 6,
-            { item = xi.item.ANCIENT_BEASTCOIN, weight = xi.loot.weight.NORMAL },
+            { itemId = xi.item.ANCIENT_BEASTCOIN, weight = xi.loot.weight.NORMAL },
         },
 
         {
-            { item = xi.item.SQUARE_OF_BENEDICT_SILK, weight = xi.loot.weight.NORMAL },
-            { item = xi.item.SQUARE_OF_DIABOLIC_SILK, weight = xi.loot.weight.NORMAL },
-            { item = xi.item.SPOOL_OF_CHAMELEON_YARN, weight = xi.loot.weight.NORMAL },
-            { item = xi.item.PANTIN_WIRE,             weight = xi.loot.weight.NORMAL },
+            { itemId = xi.item.SQUARE_OF_BENEDICT_SILK, weight = xi.loot.weight.NORMAL },
+            { itemId = xi.item.SQUARE_OF_DIABOLIC_SILK, weight = xi.loot.weight.NORMAL },
+            { itemId = xi.item.SPOOL_OF_CHAMELEON_YARN, weight = xi.loot.weight.NORMAL },
+            { itemId = xi.item.PANTIN_WIRE,             weight = xi.loot.weight.NORMAL },
         },
 
         {
-            { item = xi.item.SPOOL_OF_RUBY_SILK_THREAD, weight = xi.loot.weight.NORMAL },
-            { item = xi.item.SQUARE_OF_SUPPLE_SKIN,     weight = xi.loot.weight.NORMAL },
-            { item = xi.item.SPOOL_OF_GLITTERING_YARN,  weight = xi.loot.weight.NORMAL },
-            { item = xi.item.SQUARE_OF_BRILLIANTINE,    weight = xi.loot.weight.NORMAL },
+            { itemId = xi.item.SPOOL_OF_RUBY_SILK_THREAD, weight = xi.loot.weight.NORMAL },
+            { itemId = xi.item.SQUARE_OF_SUPPLE_SKIN,     weight = xi.loot.weight.NORMAL },
+            { itemId = xi.item.SPOOL_OF_GLITTERING_YARN,  weight = xi.loot.weight.NORMAL },
+            { itemId = xi.item.SQUARE_OF_BRILLIANTINE,    weight = xi.loot.weight.NORMAL },
         },
 
         {
-            { item = xi.item.NONE,                     weight = xi.loot.weight.VERY_HIGH },
-            { item = xi.item.SQUARE_OF_ECARLATE_CLOTH, weight = xi.loot.weight.LOW       },
-            { item = xi.item.CHUNK_OF_SNOWY_CERMET,    weight = xi.loot.weight.LOW       },
-            { item = xi.item.SQUARE_OF_SMALT_LEATHER,  weight = xi.loot.weight.LOW       },
-            { item = xi.item.SQUARE_OF_FILET_LACE,     weight = xi.loot.weight.LOW       },
+            { itemId = xi.item.NONE,                     weight = xi.loot.weight.VERY_HIGH },
+            { itemId = xi.item.SQUARE_OF_ECARLATE_CLOTH, weight = xi.loot.weight.LOW       },
+            { itemId = xi.item.CHUNK_OF_SNOWY_CERMET,    weight = xi.loot.weight.LOW       },
+            { itemId = xi.item.SQUARE_OF_SMALT_LEATHER,  weight = xi.loot.weight.LOW       },
+            { itemId = xi.item.SQUARE_OF_FILET_LACE,     weight = xi.loot.weight.LOW       },
         },
 
         {
-            { item = xi.item.ORCHID_CHIP, weight = xi.loot.weight.NORMAL },
+            { itemId = xi.item.ORCHID_CHIP, weight = xi.loot.weight.NORMAL },
         },
 
         {
-            { item = xi.item.NONE,       weight = xi.loot.weight.VERY_HIGH },
-            { item = xi.item.METAL_CHIP, weight = xi.loot.weight.VERY_LOW  },
+            { itemId = xi.item.NONE,       weight = xi.loot.weight.VERY_HIGH },
+            { itemId = xi.item.METAL_CHIP, weight = xi.loot.weight.VERY_LOW  },
         },
     }
 }

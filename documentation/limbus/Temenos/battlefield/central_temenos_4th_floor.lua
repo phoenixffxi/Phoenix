@@ -156,37 +156,37 @@ content.loot =
     {
         {
             quantity = 5,
-            { item = xi.item.ANCIENT_BEASTCOIN, weight = xi.loot.weight.NORMAL },
+            { itemId = xi.item.ANCIENT_BEASTCOIN,          weight = 10000 },
         },
 
         {
             quantity = 2,
-            { item = xi.item.NONE,              weight = xi.loot.weight.NORMAL },
-            { item = xi.item.ANCIENT_BEASTCOIN, weight = xi.loot.weight.NORMAL },
+            { itemId = xi.item.NONE,                       weight =  5000 },
+            { itemId = xi.item.ANCIENT_BEASTCOIN,          weight =  5000 },
         },
 
         {
             quantity = 2,
-            { item = xi.item.SQUARE_OF_ECARLATE_CLOTH,  weight = xi.loot.weight.NORMAL },
-            { item = xi.item.UTOPIAN_GOLD_THREAD,       weight = xi.loot.weight.NORMAL },
-            { item = xi.item.SQUARE_OF_BENEDICT_SILK,   weight = xi.loot.weight.NORMAL },
-            { item = xi.item.SQUARE_OF_DIABOLIC_SILK,   weight = xi.loot.weight.NORMAL },
-            { item = xi.item.SPOOL_OF_RUBY_SILK_THREAD, weight = xi.loot.weight.NORMAL },
-            { item = xi.item.SQUARE_OF_SUPPLE_SKIN,     weight = xi.loot.weight.NORMAL },
-            { item = xi.item.CHUNK_OF_SNOWY_CERMET,     weight = xi.loot.weight.NORMAL },
-            { item = xi.item.DARK_ORICHALCUM_INGOT,     weight = xi.loot.weight.NORMAL },
-            { item = xi.item.SQUARE_OF_SMALT_LEATHER,   weight = xi.loot.weight.NORMAL },
-            { item = xi.item.SPOOL_OF_COILED_YARN,      weight = xi.loot.weight.NORMAL },
-            { item = xi.item.SPOOL_OF_CHAMELEON_YARN,   weight = xi.loot.weight.NORMAL },
-            { item = xi.item.SPOOL_OF_SCARLET_ODOSHI,   weight = xi.loot.weight.NORMAL },
-            { item = xi.item.PLAITED_CORD,              weight = xi.loot.weight.NORMAL },
-            { item = xi.item.SHEET_OF_COBALT_MYTHRIL,   weight = xi.loot.weight.NORMAL },
-            { item = xi.item.SPOOL_OF_GLITTERING_YARN,  weight = xi.loot.weight.NORMAL },
-            { item = xi.item.SPOOL_OF_LUMINIAN_THREAD,  weight = xi.loot.weight.NORMAL },
-            { item = xi.item.SPOOL_OF_SILKWORM_THREAD,  weight = xi.loot.weight.NORMAL },
-            { item = xi.item.PANTIN_WIRE,               weight = xi.loot.weight.NORMAL },
-            { item = xi.item.SQUARE_OF_FILET_LACE,      weight = xi.loot.weight.NORMAL },
-            { item = xi.item.SQUARE_OF_BRILLIANTINE,    weight = xi.loot.weight.NORMAL },
+            { itemId = xi.item.SQUARE_OF_ECARLATE_CLOTH,   weight =   500 }, -- WAR
+            { itemId = xi.item.UTOPIAN_GOLD_THREAD,        weight =   500 }, -- MNK
+            { itemId = xi.item.SQUARE_OF_BENEDICT_SILK,    weight =   500 }, -- WHM
+            { itemId = xi.item.SQUARE_OF_DIABOLIC_SILK,    weight =   500 }, -- BLM
+            { itemId = xi.item.SPOOL_OF_RUBY_SILK_THREAD,  weight =   500 }, -- RDM
+            { itemId = xi.item.SQUARE_OF_SUPPLE_SKIN,      weight =   500 }, -- THF
+            { itemId = xi.item.CHUNK_OF_SNOWY_CERMET,      weight =   500 }, -- PLD
+            { itemId = xi.item.DARK_ORICHALCUM_INGOT,      weight =   500 }, -- DRK
+            { itemId = xi.item.SQUARE_OF_SMALT_LEATHER,    weight =   500 }, -- BST
+            { itemId = xi.item.SPOOL_OF_COILED_YARN,       weight =   500 }, -- BRD
+            { itemId = xi.item.SPOOL_OF_CHAMELEON_YARN,    weight =   500 }, -- RNG
+            { itemId = xi.item.SPOOL_OF_SCARLET_ODOSHI,    weight =   500 }, -- SAM
+            { itemId = xi.item.PLAITED_CORD,               weight =   500 }, -- NIN
+            { itemId = xi.item.SHEET_OF_COBALT_MYTHRIL,    weight =   500 }, -- DRG
+            { itemId = xi.item.SPOOL_OF_GLITTERING_YARN,   weight =   500 }, -- SMN
+            { itemId = xi.item.SPOOL_OF_LUMINIAN_THREAD,   weight =   500 }, -- BLU
+            { itemId = xi.item.SPOOL_OF_SILKWORM_THREAD,   weight =   500 }, -- COR
+            { itemId = xi.item.PANTIN_WIRE,                weight =   500 }, -- PUP
+            --{ itemId = xi.item.SQUARE_OF_FILET_LACE,     weight =   500 }, -- DNC
+            --{ itemId = xi.item.SQUARE_OF_BRILLIANTINE,   weight =   500 }, -- SCH
         },
     },
 
@@ -194,20 +194,20 @@ content.loot =
     {
         {
             quantity = 7,
-            { item = xi.item.ANCIENT_BEASTCOIN, weight = xi.loot.weight.NORMAL },
+            { itemId = xi.item.ANCIENT_BEASTCOIN,          weight = 10000 },
         },
 
         {
             quantity = 2,
-            { item = xi.item.PIECE_OF_ULTIMAS_CEREBRUM, weight = xi.loot.weight.NORMAL },
-            { item = xi.item.SEGMENT_OF_ULTIMAS_CLAW,   weight = xi.loot.weight.LOW    },
-            { item = xi.item.SEGMENT_OF_ULTIMAS_LEG,    weight = xi.loot.weight.LOW    },
-            { item = xi.item.SEGMENT_OF_ULTIMAS_TAIL,   weight = xi.loot.weight.LOW    },
+            { itemId = xi.item.PIECE_OF_ULTIMAS_CEREBRUM,  weight =  3250 }, -- Nashira Turban (Head)
+            { itemId = xi.item.SEGMENT_OF_ULTIMAS_CLAW,    weight =  2250 }, -- Nashira Gages (Hands)
+            { itemId = xi.item.SEGMENT_OF_ULTIMAS_LEG,     weight =  2250 }, -- Nashira Seraweels (Legs)
+            { itemId = xi.item.SEGMENT_OF_ULTIMAS_TAIL,    weight =  2250 }, -- Nashira Crackows (Feet)
         },
 
         {
-            { item = xi.item.NONE,                   weight = xi.loot.weight.EXTREMELY_HIGH },
-            { item = xi.item.PIECE_OF_ULTIMAS_HEART, weight = xi.loot.weight.NORMAL         },
+            { itemId = xi.item.NONE,                       weight =  7500 },
+            { itemId = xi.item.PIECE_OF_ULTIMAS_HEART,     weight =  2500 }, -- Nashira Manteel (Body)
         },
     },
 }
