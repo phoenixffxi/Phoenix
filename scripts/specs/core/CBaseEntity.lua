@@ -3663,7 +3663,6 @@ end
 function CBaseEntity:getModelSize()
 end
 
----@nodiscard
 ---@param newSize number
 ---@return nil
 function CBaseEntity:setModelSize(newSize)
@@ -3674,7 +3673,6 @@ end
 function CBaseEntity:getHitboxSize()
 end
 
----@nodiscard
 ---@param newSize number
 ---@return nil
 function CBaseEntity:setHitboxSize(newSize)
