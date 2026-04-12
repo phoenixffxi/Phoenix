@@ -300,7 +300,7 @@ void LoadItemList()
                                  "w.skill,w.subskill,w.ilvl_skill,w.ilvl_parry,"
                                  "w.ilvl_macc,w.delay,w.dmg,w.dmgType,"
                                  "w.hit,w.unlock_points,"
-                                 "f.storage,f.moghancement,f.element,f.aura,"
+                                 "f.storage,f.moghancement,f.element,f.aura,f.placement AS furn_placement,f.size_x,f.size_y,f.height AS furn_height,"
                                  "p.slot AS pup_slot,p.element AS pup_element "
                                  "FROM item_basic AS b "
                                  "LEFT JOIN item_usable AS u USING (itemId) "
@@ -416,10 +416,14 @@ void LoadItemList()
 
             if (PItem->isType(ITEM_FURNISHING))
             {
-                static_cast<CItemFurnishing*>(PItem)->setStorage(rset->get<uint8>("storage"));
-                static_cast<CItemFurnishing*>(PItem)->setMoghancement(rset->get<uint16>("moghancement"));
-                static_cast<CItemFurnishing*>(PItem)->setElement(rset->get<uint8>("element"));
-                static_cast<CItemFurnishing*>(PItem)->setAura(rset->get<uint8>("aura"));
+                auto* PFurnishing = static_cast<CItemFurnishing*>(PItem);
+                PFurnishing->setStorage(rset->get<uint8>("storage"));
+                PFurnishing->setMoghancement(rset->get<uint16>("moghancement"));
+                PFurnishing->setElement(rset->get<uint8>("element"));
+                PFurnishing->setAura(rset->get<uint8>("aura"));
+                PFurnishing->setSize(rset->get<uint8>("size_x"), rset->get<uint8>("size_y"));
+                PFurnishing->setHeight(rset->get<uint16>("furn_height"));
+                PFurnishing->setPlacement(rset->get<FurnishingPlacement>("furn_placement"));
             }
 
             g_pItemList[PItem->getID()] = PItem;
