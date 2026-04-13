@@ -24,6 +24,7 @@ zones[xi.zone.SILVER_SEA_ROUTE_TO_NASHMAU] =
     },
     mob =
     {
+        PROTEUS = GetFirstID('Proteus'),
     },
     npc =
     {

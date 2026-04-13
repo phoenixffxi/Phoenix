@@ -1,6 +1,8 @@
 -----------------------------------
 -- Zone: Silver_Sea_route_to_Nashmau
 -----------------------------------
+local ID = zones[xi.zone.SILVER_SEA_ROUTE_TO_NASHMAU]
+-----------------------------------
 ---@type TZone
 local zoneObject = {}
 
@@ -9,6 +11,29 @@ end
 
 zoneObject.onZoneIn = function(player, prevZone)
     local cs = -1
+
+    -- Early return: Proteus doesn't exist.
+    local proteus = GetMobByID(ID.mob.PROTEUS)
+    if not proteus then
+        return cs
+    end
+
+    -- Early return: Proteus can't pop yet.
+    local currentTime = GetSystemTime()
+    if currentTime < proteus:getLocalVar('zoneWindow') then
+        return cs
+    end
+
+    -- Block multiple spawn chance rolls per boat ride.
+    proteus:setLocalVar('zoneWindow', GetSystemTime() + 20)
+
+    -- Check if Proteus pops this boat ride.
+    if
+        currentTime > proteus:getLocalVar('respawn') and
+        math.random(1, 100) <= 10
+    then
+        proteus:setRespawnTime(math.random(120, 180)) -- 2 to 3 minutes
+    end
 
     return cs
 end

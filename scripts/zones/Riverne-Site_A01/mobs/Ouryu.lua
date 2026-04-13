@@ -4,75 +4,86 @@
 -- Notes: in Ouryu Cometh (Cloud Evoker)
 -- !pos 184 0 344 30
 -----------------------------------
+local ID = zones[xi.zone.RIVERNE_SITE_A01]
+-----------------------------------
 mixins = { require('scripts/mixins/job_special') }
 -----------------------------------
 ---@type TMobEntity
 local entity = {}
 
-local offsets = { 1, 2, 3, 4 }
-local hpToNextPhase = 6000
-local initialPhaseDuration = 120
-local subsequentPhaseDuration = 120
--- TODO: eventually use animationsub 4, 5, 6 below (as indicated by capture)
--- once touchdown mobskill and mistmelt support
-local initialGroundPhaseAnimationSub = 0
-local allFlightPhaseAnimationSub = 1
-local subsequentGroundPhaseAnimationSub = 2
+-----------------------------------
+-- The adds spawn based off this priority list - when it is time to spawn a add, we will try to spawn the highest priority based off what is alive.
+-----------------------------------
+local addTable =
+{
+    [1] = ID.mob.OURYU - 2, -- Water Elemental
+    [2] = ID.mob.OURYU + 1, -- Ziryu
+    [3] = ID.mob.OURYU + 2, -- Ziryu
+    [4] = ID.mob.OURYU - 1, -- Earth Elemental
+    [5] = ID.mob.OURYU + 3, -- Ziryu
+    [6] = ID.mob.OURYU + 4, -- Ziryu
+}
 
-local function setNextPhaseTriggers(mob, phaseDuration)
-    local battleTime = 0
-    if mob:isEngaged() then
-        battleTime = mob:getBattleTime()
-    end
+-----------------------------------
+-- Idle (Wings Down)          (AnimationSub(0))
+-- Airborne                   (AnimationSub(1))
+-- Grounded (Wings Up)        (AnimationSub(2))
+-----------------------------------
 
-    mob:setLocalVar('nextPhaseTime', battleTime + phaseDuration)
-    mob:setLocalVar('nextPhaseHP', math.max(mob:getHP() - hpToNextPhase, 0))
-end
-
-local function fly(mob)
-    mob:setAnimationSub(allFlightPhaseAnimationSub)
+-----------------------------------
+-- Enter/Exit Flight Functions
+-----------------------------------
+local function enterFlight(mob)
+    mob:setMobSkillAttack(425)
     mob:addStatusEffect(xi.effect.ALL_MISS, { power = 1, origin = mob, icon = 0 })
-    mob:setMobSkillAttack(731)
-    setNextPhaseTriggers(mob, subsequentPhaseDuration)
+    mob:setBehavior(bit.band(mob:getBehavior(), bit.bnot(xi.behavior.NO_TURN)))
+    mob:setAnimationSub(1)
 end
 
-local function landWithoutTouchdown(mob)
-    -- if flying
-    if mob:getAnimationSub() == allFlightPhaseAnimationSub then
-        -- need to still show the touchdown animation (as per capture)
+local function exitFlight(mob)
+    mob:setMobSkillAttack(0)
+    mob:useMobAbility(xi.mobSkill.TOUCHDOWN_1)
+    mob:delStatusEffect(xi.effect.ALL_MISS)
+    mob:setBehavior(bit.bor(mob:getBehavior(), xi.behavior.NO_TURN))
+    mob:setAnimationSub(2)
+end
+
+-----------------------------------
+-- Mistmelt Function
+-----------------------------------
+local function executeMistmelt(mob)
+    if mob:getAnimationSub() == 1 then
+        local currentTime = GetSystemTime()
+        mob:setLocalVar('phaseChangeTime', currentTime + 120)
+        mob:setLocalVar('phaseChangeHP', mob:getHP() - 6000)
         mob:injectActionPacket(mob:getID(), 11, 974, 0, 0x18, 0, 0, 0)
+        mob:setAnimationSub(2)
+        mob:delStatusEffect(xi.effect.ALL_MISS)
+        mob:setMobSkillAttack(0)
     end
 
-    mob:setAnimationSub(subsequentGroundPhaseAnimationSub)
-    mob:delStatusEffect(xi.effect.ALL_MISS)
-    mob:setMobSkillAttack(0)
-    setNextPhaseTriggers(mob, subsequentPhaseDuration)
-    -- always set this no matter how ouryu lands to avoid any issues
     mob:setLocalVar('mistmeltUsed', 0)
 end
 
 entity.onMobInitialize = function(mob)
     mob:addImmunity(xi.immunity.SLOW)
+    mob:addImmunity(xi.immunity.ELEGY)
     mob:addImmunity(xi.immunity.TERROR)
     mob:addImmunity(xi.immunity.STUN)
     mob:addImmunity(xi.immunity.PLAGUE)
-    mob:addImmunity(xi.immunity.ELEGY)
     mob:addImmunity(xi.immunity.PETRIFY)
 end
 
 entity.onMobSpawn = function(mob)
-    -- resetting so it doesn't respawn in flight mode
     mob:setMobSkillAttack(0)
-    mob:setSpellList(548)
-    mob:setAnimationSub(initialGroundPhaseAnimationSub)
-    mob:delStatusEffect(xi.effect.ALL_MISS)
+    mob:setAnimationSub(0)
 
     -- Level 90 + 2 + 53 = 145 Base Weapon Damage
     mob:setMod(xi.mod.UDMGRANGE, -5000)
     mob:setMod(xi.mod.UDMGMAGIC, -5000)
     mob:setMod(xi.mod.UDMGBREATH, -5000)
-    mob:setMod(xi.mod.UFASTCAST, 90)
-    mob:setMod(xi.mod.DOUBLE_ATTACK, 10)
+    mob:setMod(xi.mod.UFASTCAST, 80)
+    mob:setMod(xi.mod.DOUBLE_ATTACK, 15)
     mob:setMod(xi.mod.REFRESH, 200)
     mob:setMobMod(xi.mobMod.WEAPON_BONUS, 53)
     mob:setMobMod(xi.mobMod.DETECTION, bit.bor(xi.detects.SIGHT, xi.detects.HEARING))
@@ -82,43 +93,28 @@ entity.onMobSpawn = function(mob)
     mob:setMobMod(xi.mobMod.ADD_EFFECT, 1)
     mob:setMobMod(xi.mobMod.NO_STANDBACK, 1)
 
-    -- can use invincible on ground or air
+    mob:setLocalVar('phaseChangeHP', mob:getHP() - 6000)
+
+    -----------------------------------
+    -- May use Invincible every 10 minutes starting at 85% HP
+    -----------------------------------
     xi.mix.jobSpecial.config(mob, {
         specials =
         {
-            { id = xi.mobSkill.INVINCIBLE_1, hpp = math.random(50, 85) },
+            { id = xi.mobSkill.INVINCIBLE_1, hpp = 85, cooldown = 600 },
         },
     })
-
-    -- set on spawn as the first damage can occur already before onMobEngage
-    setNextPhaseTriggers(mob, initialPhaseDuration)
 end
 
 entity.onMobEngage = function(mob)
-    -- spawn ziryu and elementals only on mob engage (not at start of BCNM)
-    local mobId = mob:getID()
-    for i, offset in ipairs(offsets) do
-        local pet = GetMobByID(mobId + offset)
-        if pet and not pet:isSpawned() then
-            pet:spawn()
-        end
-    end
-
-    -- track if already engaged once so can set the the correct phase duration if roams
-    if mob:getLocalVar('alreadyEngagedOnce') == 0 then
-        mob:setLocalVar('alreadyEngagedOnce', 1)
-    end
-end
-
-entity.onMobRoam = function(mob)
-    -- if already engaged once then keep setting phase triggers
-    -- since damage can occur even before onMobEngage
-    if mob:getLocalVar('alreadyEngagedOnce') == 1 then
-        setNextPhaseTriggers(mob, subsequentPhaseDuration)
-    end
+    local currentTime = GetSystemTime()
+    mob:setLocalVar('phaseChangeTime', currentTime + 120)
+    mob:setLocalVar('addSpawnTime', currentTime + math.random(20, 30))
 end
 
 entity.onMobFight = function(mob, target)
+    local currentTime = GetSystemTime()
+
     local drawInTable =
     {
         conditions =
@@ -129,68 +125,92 @@ entity.onMobFight = function(mob, target)
     }
     utils.drawIn(target, drawInTable)
 
-    -- valid conditions for a change
     if
-        not xi.combat.behavior.isEntityBusy(mob) and
-        mob:canUseAbilities()
+        mob:getAnimationSub() == 1 and
+        mob:hasStatusEffect(xi.effect.SLEEP_I)
     then
-        local nextPhaseTime = mob:getLocalVar('nextPhaseTime')
-        local nextPhaseHP = mob:getLocalVar('nextPhaseHP')
-        local mistmeltUsed = mob:getLocalVar('mistmeltUsed')
-
-        if
-            mob:getBattleTime() > nextPhaseTime or
-            mob:getHP() < nextPhaseHP
-        then
-            -- subanimation 0 is the initial on ground animation, so check if should fly
-            if mob:getAnimationSub() == initialGroundPhaseAnimationSub then
-                fly(mob)
-            -- subanimation 1 is flying animation, so check if should land
-            elseif mob:getAnimationSub() == allFlightPhaseAnimationSub then
-                -- use touchdown mobskill
-                -- touchdown script changes the animation sub, miss status, and mob skill attack
-                mob:useMobAbility(1302)
-            -- subanimation 2 is on ground animation, so check if should fly
-            elseif mob:getAnimationSub() == subsequentGroundPhaseAnimationSub then
-                fly(mob)
-            end
-        -- mistmelt also works on this ouryu
-        elseif
-            mistmeltUsed == 1 and
-            mob:getAnimationSub() == allFlightPhaseAnimationSub
-        then
-            landWithoutTouchdown(mob)
-        end
-    end
-
-    -- Wakeup from sleep immediately if flying
-    if mob:getAnimationSub() == allFlightPhaseAnimationSub then
         mob:wakeUp()
     end
-end
 
-entity.onMobWeaponSkill = function(mob, target, skill, action)
-    -- only reset change vars if actually perform touchdown mobskill
-    if skill:getID() == 1302 then
-        setNextPhaseTriggers(mob, subsequentPhaseDuration)
-        -- always set this no matter how ouryu lands to avoid any issues
-        mob:setLocalVar('mistmeltUsed', 0)
+    if xi.combat.behavior.isEntityBusy(mob) then
+        return
     end
-end
 
-entity.onMobDespawn = function(mob)
-    -- if ouryu despawns then also then despawn all ziryu
-    local mobId = mob:getID()
-    for i, offset in ipairs(offsets) do
-        local pet = GetMobByID(mobId + offset)
-        if pet and pet:isAlive() then
-            DespawnMob(mobId + offset)
+    if mob:getLocalVar('mistmeltUsed') == 1 then
+        executeMistmelt(mob)
+        return
+    end
+
+    if
+        currentTime >= mob:getLocalVar('phaseChangeTime') or
+        mob:getHP() <= mob:getLocalVar('phaseChangeHP')
+    then
+        mob:setLocalVar('phaseChangeTime', currentTime + 120)
+        mob:setLocalVar('phaseChangeHP', mob:getHP() - 6000)
+        if mob:getAnimationSub() == 1 then
+            exitFlight(mob)
+        else
+            enterFlight(mob)
         end
     end
+
+    if currentTime >= mob:getLocalVar('addSpawnTime') then
+        mob:setLocalVar('addSpawnTime', currentTime + math.random(60, 90))
+        for i = 1, #addTable do
+            local addId = addTable[i]
+            local addToSpawn = GetMobByID(addId)
+            if addToSpawn and addToSpawn:isDead() then
+                addToSpawn:spawn()
+                break
+            end
+        end
+    end
+end
+
+entity.onMobMobskillChoose = function(mob, target, skillId)
+    if skillId == xi.mobSkill.OCHER_BLAST_ATTACK_2 then
+        return 0
+    end
+
+    local skillList = {}
+
+    -- Mid-flight.
+    if mob:getAnimationSub() == 1 then
+        table.insert(skillList, xi.mobSkill.OCHER_BLAST_2)
+        table.insert(skillList, xi.mobSkill.BAI_WING_2)
+
+    -- Ground.
+    else
+        table.insert(skillList, xi.mobSkill.TYPHOON_WING_2)
+        table.insert(skillList, xi.mobSkill.SPIKE_FLAIL_7)
+        table.insert(skillList, xi.mobSkill.GEOTIC_BREATH_2)
+        table.insert(skillList, xi.mobSkill.ABSOLUTE_TERROR_7)
+        table.insert(skillList, xi.mobSkill.HORRID_ROAR_7)
+    end
+
+    return skillList[math.random(1, #skillList)]
+end
+
+entity.onMobSpellChoose = function(mob, target, spellId)
+    local spellList =
+    {
+        [1] = { xi.magic.spell.STONEGA_III, target, false, xi.action.type.DAMAGE_TARGET,        nil,                     0, 100 },
+        [2] = { xi.magic.spell.BREAK,       target, false, xi.action.type.ENFEEBLING_TARGET,    xi.effect.PETRIFICATION, 0, 100 },
+        [3] = { xi.magic.spell.BREAKGA,     target, false, xi.action.type.ENFEEBLING_TARGET,    xi.effect.PETRIFICATION, 0, 100 },
+        [4] = { xi.magic.spell.STONESKIN,   mob,    false, xi.action.type.ENHANCING_FORCE_SELF, xi.effect.STONESKIN,     0, 100 },
+    }
+
+    return xi.combat.behavior.chooseAction(mob, target, nil, spellList)
 end
 
 entity.onMobDisengage = function(mob)
-    landWithoutTouchdown(mob)
+    if mob:getAnimationSub() == 1 then
+        mob:injectActionPacket(mob:getID(), 11, 974, 0, 0x18, 0, 0, 0)
+        mob:delStatusEffect(xi.effect.ALL_MISS)
+        mob:setBehavior(bit.bor(mob:getBehavior(), xi.behavior.NO_TURN))
+    end
+
+    mob:setAnimationSub(0)
 end
 
 entity.onAdditionalEffect = function(mob, target, damage)

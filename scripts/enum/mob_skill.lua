@@ -42,6 +42,13 @@ xi.mobSkill =
     WHEELING_THRUST               =  119,
     IMPULSE_DRIVE                 =  120,
 
+    SHINING_STRIKE_1              =  160,
+    SERAPH_STRIKE_1               =  161,
+    BRAINSHAKER_1                 =  162,
+
+    SKULLBREAKER_1               =   165,
+    TRUE_STRIKE_1                =   166,
+
     RANDGRITH_1                   =  170,
 
     NETHERSPIKES_1                =  241,
@@ -366,6 +373,12 @@ xi.mobSkill =
     FISSION                       =  755,
 
     GREAT_WHIRLWIND_1             =  803,
+    TORTOISE_SONG_1               =  804,
+    HEAD_BUTT_TURTLE_1            =  805,
+    TORTOISE_STOMP_1              =  806,
+    HARDEN_SHELL_1                =  807,
+    EARTH_BREATH_1                =  808,
+    AQUA_BREATH_1                 =  809,
 
     DISPELLING_WIND               =  813,
     DEADLY_DRIVE                  =  814,
@@ -657,6 +670,16 @@ xi.mobSkill =
     RANGED_ATTACK_TENZEN_2        = 1400, -- Tenzen Bow Low
     SOUL_ACCRETION                = 1401,
 
+    OCHER_BLAST_ATTACK_2          = 1405,
+    TYPHOON_WING_2                = 1406,
+    SPIKE_FLAIL_7                 = 1407,
+    GEOTIC_BREATH_2               = 1408,
+    TOUCHDOWN_7                   = 1409,
+    OCHER_BLAST_2                 = 1410,
+    BAI_WING_2                    = 1411,
+    ABSOLUTE_TERROR_7             = 1412,
+    HORRID_ROAR_7                 = 1413,
+
     MARIONETTE_DICE_2             = 1415,
     MARIONETTE_DICE_3             = 1416,
     MARIONETTE_DICE_4             = 1417,
@@ -723,6 +746,18 @@ xi.mobSkill =
     DISSIPATION                   = 1524,
 
     CITADEL_BUSTER                = 1540,
+
+    TRAMPLE_BAHAMUT               = 1542,
+    TEMPEST_WING                  = 1543,
+    TOUCHDOWN_BAHAMUT             = 1544,
+    SWEEPING_FLAIL                = 1545,
+    PRODIGIOUS_SPIKE              = 1546,
+    IMPULSION                     = 1547,
+    ABSOLUTE_TERROR_BAHAMUT       = 1548,
+    HORRIBLE_ROAR_BAHAMUT         = 1549,
+
+    MEGAFLARE                     = 1551,
+    GIGAFLARE                     = 1552,
 
     CAMISADO_2                    = 1554,
 
@@ -944,6 +979,14 @@ xi.mobSkill =
 
     -- AZURE_LORE                    = 3481,
     BOLSTER                       = 3482,
+
+    DAYBREAK_TRUST                = 3652, -- August Trust
+    TARTARIC_SIGIL_TRUST          = 3653, -- August Trust
+    NULL_FIELD_TRUST              = 3654, -- August Trust
+    ALABASTER_BURST_TRUST         = 3655, -- August Trust
+    NOBLE_FRENZY_TRUST            = 3656, -- August Trust
+    FULMINOUS_FURY_TRUST          = 3657, -- August Trust
+    NO_QUARTER_TRUST              = 3658, -- August Trust
 
     CROSS_REAVER_3                = 3706, -- Ark Angel HM Trust
 

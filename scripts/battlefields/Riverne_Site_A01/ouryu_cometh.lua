@@ -32,7 +32,7 @@ local function healCharacter(player)
     end
 end
 
--- players on healed on entry to the battlefield
+-- Players are healed when entering the battlefield
 function content:battlefieldEntry(player, battlefield)
     healCharacter(player)
 end
@@ -41,17 +41,11 @@ content.groups =
 {
     {
         mobs           = { 'Ouryu' },
-        superlinkGroup = 1,
     },
 
     {
-        mobs           = { 'Ziryu' },
-        superlinkGroup = 1,
-        spawned        = false,
-    },
-
-    {
-        mobs    = { 'Water_Elemental', 'Earth_Elemental' },
+        mobs    = { 'Water_Elemental', 'Earth_Elemental', 'Ziryu' },
+        spawned = false,
     }
 }
 

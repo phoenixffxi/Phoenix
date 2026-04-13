@@ -143,11 +143,12 @@ m:addOverride('xi.actions.weaponskills.spirits_within.onUseWeaponSkill', functio
     local calcParams =
     {
         wsID = wsID,
-        criticalHit = false,
-        tpHitsLanded = 0,
+        criticalHit     = false,
+        hitsLanded      = 1,
+        tpHitsLanded    = 0,
         extraHitsLanded = 0,
         shadowsAbsorbed = 0,
-        bonusTP = 0
+        bonusTP         = 0
     }
 
     local playerHP = player:getHP()
@@ -157,7 +158,7 @@ m:addOverride('xi.actions.weaponskills.spirits_within.onUseWeaponSkill', functio
     dmg = math.floor(playerHP * ftp)
 
     local damage = dmg
-    damage = math.floor(damage * xi.spells.damage.calculateDamageAdjustment(target, false, false, false, true))
+    damage = math.floor(damage * xi.combat.damage.calculateDamageAdjustment(target, false, false, false, true))
     damage = math.floor(damage * xi.spells.damage.calculateAbsorption(target, xi.element.NONE, false))
     damage = math.floor(damage * xi.spells.damage.calculateNullification(target, xi.element.NONE, false, true))
     damage = math.floor(target:handleSevereDamage(damage, false))
@@ -270,6 +271,7 @@ m:addOverride('xi.actions.weaponskills.atonement.onUseWeaponSkill', function(pla
     {
         wsID            = wsID,
         criticalHit     = false,
+        hitsLanded      = 1,
         tpHitsLanded    = 0,
         extraHitsLanded = 0,
         shadowsAbsorbed = 0,
@@ -294,7 +296,7 @@ m:addOverride('xi.actions.weaponskills.atonement.onUseWeaponSkill', function(pla
 
     -- This is here to account for damage adjustments needed because it is breath damage.
     damage = dmg
-    damage = math.floor(damage * xi.spells.damage.calculateDamageAdjustment(target, false, false, false, true))
+    damage = math.floor(damage * xi.combat.damage.calculateDamageAdjustment(target, false, false, false, true))
     damage = math.floor(damage * xi.spells.damage.calculateAbsorption(target, xi.element.NONE, false))
     damage = math.floor(damage * xi.spells.damage.calculateNullification(target, xi.element.NONE, false, true))
     damage = math.floor(target:handleSevereDamage(damage, false))

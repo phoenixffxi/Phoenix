@@ -1,34 +1,31 @@
 -----------------------------------
--- Ochre Blast
--- Family: Wyrms
--- Description: Deals Earth damage to enemies in area of effect.
--- Notes: Used only by Ouryu and Cuelebre while flying.
+-- Null Field
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
 
 mobskillObject.onMobSkillCheck = function(target, mob, skill)
-    if mob:getAnimationSub() ~= 1 then
-        return 1
-    end
-
     return 0
 end
 
 mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
-    params.baseDamage     = mob:getMainLvl() + 2
-    params.fTP            = { 3.500, 3.875, 4.250 }
-    params.element        = xi.element.EARTH
+    params.baseDamage     = mob:getMainLvl() * 4.3
+    params.fTP            = { 1, 1, 1 }
+    params.element        = xi.element.FIRE
     params.attackType     = xi.attackType.MAGICAL
-    params.damageType     = xi.damageType.EARTH
+    params.damageType     = xi.damageType.FIRE
     params.shadowBehavior = xi.mobskills.shadowBehavior.WIPE_SHADOWS
 
     local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 
     if xi.mobskills.processDamage(mob, target, skill, action, info) then
         target:takeDamage(info.damage, mob, info.attackType, info.damageType)
+    end
+
+    if info.damage > 0 then
+        mob:addTP(134)
     end
 
     return info.damage
