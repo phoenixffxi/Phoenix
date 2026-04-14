@@ -59,7 +59,10 @@ zoneObject.onEventUpdate = function(player, csid, option, npc)
 end
 
 zoneObject.onEventFinish = function(player, csid, option, npc)
-    if csid == 4 then
+    if
+        csid == 4 or
+        csid == 5
+    then
         player:setCharVar('unbridledPassion', 4)
     elseif csid == 13 then
         player:setCharVar('Dynamis_Status', utils.mask.setBit(player:getCharVar('Dynamis_Status'), 0, true))
