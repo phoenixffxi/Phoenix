@@ -817,7 +817,7 @@ INSERT INTO `mob_groups` VALUES (3,2947,22,'Offspring',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (4,3699,22,'Solicitor',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (5,6651,22,'Wanderer',960,0,2192,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (6,6652,22,'Weeper',960,0,2636,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (7,2048,22,'Idle_Wanderer',960,0,1350,0,0,0,'ABYSSEA');
+INSERT INTO `mob_groups` VALUES (7,2048,22,'Apex_Idle_Drifter',960,0,0,260000,0,0,'ABYSSEA'); -- TODO: Confirm MP/drop table
 INSERT INTO `mob_groups` VALUES (8,6649,22,'Thinker',960,0,2399,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (9,6644,22,'Gorger',960,0,1208,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (10,6643,22,'Craver',960,0,527,0,0,0,NULL);
@@ -847,8 +847,8 @@ INSERT INTO `mob_groups` VALUES (31,4274,22,'Wailer',0,128,2600,8000,0,0,NULL);
 -- 34 free
 -- 35 free
 INSERT INTO `mob_groups` VALUES (36,3212,22,'Provoker',0,128,2028,9600,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (37,4527,22,'Livid_Seether',960,0,1350,0,0,0,'ABYSSEA');
-INSERT INTO `mob_groups` VALUES (38,298,22,'Woeful_Weeper',960,0,1350,0,0,0,'ABYSSEA');
+INSERT INTO `mob_groups` VALUES (37,298,22,'Apex_Woeful_Lamenter',960,0,0,260000,0,0,'ABYSSEA'); -- TODO: Confirm MP/drop table
+INSERT INTO `mob_groups` VALUES (38,4527,22,'Apex_Livid_Rager',960,0,0,260000,0,0,'ABYSSEA'); -- TODO: Confirm MP/drop table
 INSERT INTO `mob_groups` VALUES (39,7290,22,'Wanderer',960,0,2192,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (40,7291,22,'Weeper',960,0,2636,0,0,0,NULL);
 
