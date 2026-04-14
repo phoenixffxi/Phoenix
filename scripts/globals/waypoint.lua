@@ -133,6 +133,21 @@ end
 
 local tableIndexToWaypoint = buildTeleportLookup()
 
+local groupStartIndex =
+{
+    [1]  = 0,   -- Western Adoulin
+    [2]  = 20,  -- Eastern Adoulin
+    [3]  = 40,  -- Ceizak Battlegrounds
+    [4]  = 30,  -- Yahse Hunting Grounds
+    [5]  = 50,  -- Foret de Hennetiel
+    [6]  = 60,  -- Morimar Basalt Fields
+    [7]  = 70,  -- Yorcia Weald
+    [8]  = 80,  -- Marjami Ravine
+    [9]  = 90,  -- Kamihr Drifts
+    [10] = 100, -- Lower Jeuno
+    [11] = 300, -- Enigmatic Devices
+}
+
 local runeKeyItems =
 {
     xi.ki.SAN_DORIA_WARP_RUNE,
@@ -326,25 +341,151 @@ end
 -- destinationGroup     = bit.band(bit.rshift(option, 7), 0xF)
 -- destinationOffset    = bit.band(bit.rshift(option, 11), 0xF)
 
+local function isFieldWaypoint(groupId)
+    return groupId ~= nil and groupId >= 3 and groupId <= 9
+end
+
+local function isAdoulinCity(groupId)
+    return groupId == 1 or groupId == 2
+end
+
+local function getWaypointTravelCost(sourceIndex, destIndex)
+    local dest = waypointInfo[destIndex]
+    if dest == nil then
+        return 0
+    end
+
+    if destIndex >= 300 then
+        return 150 -- Enigmatic Devices
+    end
+
+    if destIndex >= 200 then
+        return 100 -- Warp Runes
+    end
+
+    local source = waypointInfo[sourceIndex]
+    if source == nil then
+        return 0
+    end
+
+    local sourceZone = source[4][5]
+    local destZone   = dest[4][5]
+    local sameZone   = sourceZone == destZone or (isAdoulinCity(source[2]) and isAdoulinCity(dest[2]))
+
+    if isFieldWaypoint(dest[2]) then
+        return sameZone and 2 or 50 -- Field: 2 intra-zone, 50 cross-zone
+    else
+        return sameZone and 1 or 15 -- City: 1 intra-zone, 15 cross-zone
+    end
+end
+
 xi.waypoint.onEventUpdate = function(player, csid, option, npc)
     local ID = zones[player:getZoneID()]
-    local travelCost = bit.rshift(option, 21)
 
-    if player:getCurrency('kinetic_unit') >= travelCost then
-        player:updateEvent(0, 0, 0, 0, 0, 0, 0, 1)
-        player:delCurrency('kinetic_unit', travelCost)
-        player:messageSpecial(ID.text.EXPENDED_KINETIC_UNITS, travelCost)
-    else
-        player:messageSpecial(ID.text.INSUFFICIENT_UNITS)
+    local destGroup  = bit.band(bit.rshift(option, 7), 0xF)
+    local destOffset = bit.band(bit.rshift(option, 11), 0xF)
+    local start      = groupStartIndex[destGroup]
+    local destIndex  = start and start + destOffset or nil
+    local waypoint   = destIndex and waypointInfo[destIndex]
+
+    if waypoint == nil then
+        return
     end
+
+    -- Validate destination is unlocked
+    if waypoint[5] ~= nil then
+        if not player:hasTeleport(xi.teleport.type.WAYPOINT, waypoint[5]) then
+            return
+        end
+    elseif destIndex >= 200 and destIndex <= 210 then
+        local runeIndex = destIndex - 199
+        if
+            runeKeyItems[runeIndex] and
+            not player:hasKeyItem(runeKeyItems[runeIndex])
+        then
+            return
+        end
+    end
+
+    local sourceIndex    = getWaypointIndex(npc)
+    local source         = waypointInfo[sourceIndex]
+    local sourceGroup    = source and source[2]
+    local destWaypointGrp = waypoint[2]
+
+    -- Field destinations only reachable from Adoulin city waypoints
+    if isFieldWaypoint(destWaypointGrp) and not isAdoulinCity(sourceGroup) then
+        return
+    end
+
+    -- Lower Jeuno can only reach Adoulin cities
+    if sourceGroup == 10 and not isAdoulinCity(destWaypointGrp) then
+        return
+    end
+
+    local travelCost = getWaypointTravelCost(sourceIndex, destIndex)
+
+    if player:getCurrency('kinetic_unit') < travelCost then
+        player:messageSpecial(ID.text.INSUFFICIENT_UNITS)
+        return
+    end
+
+    player:delCurrency('kinetic_unit', travelCost)
+    player:setLocalVar('waypointPaid', 1)
+    player:messageSpecial(ID.text.EXPENDED_KINETIC_UNITS, travelCost)
+    player:updateEvent(0, 0, 0, 0, 0, 0, 0, 1)
 end
 
 xi.waypoint.onEventFinish = function(player, csid, option, npc)
     if option > 0 and option <= 303 then
+        local waypoint = waypointInfo[option]
+        if waypoint == nil then
+            return
+        end
+
+        -- Validate destination is unlocked
+        if waypoint[5] ~= nil then
+            if not player:hasTeleport(xi.teleport.type.WAYPOINT, waypoint[5]) then
+                return
+            end
+        elseif option >= 200 and option <= 210 then
+            local runeIndex = option - 199
+            if
+                runeKeyItems[runeIndex] and
+                not player:hasKeyItem(runeKeyItems[runeIndex])
+            then
+                return
+            end
+        end
+
+        -- Validate route
+        local sourceIndex = getWaypointIndex(npc)
+        local source      = waypointInfo[sourceIndex]
+        local sourceGroup = source and source[2]
+        local destGroup   = waypoint[2]
+
+        if isFieldWaypoint(destGroup) and not isAdoulinCity(sourceGroup) then
+            return
+        end
+
+        if sourceGroup == 10 and not isAdoulinCity(destGroup) then
+            return
+        end
+
+        if player:getLocalVar('waypointPaid') == 0 then
+            local travelCost = getWaypointTravelCost(sourceIndex, option)
+            if player:getCurrency('kinetic_unit') < travelCost then
+                return
+            end
+
+            player:delCurrency('kinetic_unit', travelCost)
+        end
+
+        player:setLocalVar('waypointPaid', 0)
+
         if player:getCurrentMission(xi.mission.log_id.SOA) == xi.mission.id.soa.ONWARD_TO_ADOULIN then
             player:setPos(169.638, 0.491, -27.128, 207, xi.zone.CEIZAK_BATTLEGROUNDS)
         else
-            player:setPos(unpack(waypointInfo[option][4]))
+            player:setPos(unpack(waypoint[4]))
         end
     elseif option == 1000 then
         -- Decline Confirmation (Default Off)
