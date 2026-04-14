@@ -19,13 +19,21 @@ entity.onTrigger = function(player, npc)
 end
 
 entity.onEventFinish = function(player, csid, option, npc)
+    if csid ~= 140 or xi.besieged.getAstralCandescence() == 0 then
+        return
+    end
+
     if
-        csid == 140 and
         option == 1 and
+        player:getCurrency('imperial_standing') >= 200 and
         npcUtil.giveKeyItem(player, xi.ki.RUNIC_PORTAL_USE_PERMIT)
     then
         player:delCurrency('imperial_standing', 200)
-    elseif csid == 140 and option == 2 then
+    elseif
+        option == 2 and
+        player:hasKeyItem(xi.ki.CAPTAIN_WILDCAT_BADGE) and
+        not player:hasKeyItem(xi.ki.RUNIC_PORTAL_USE_PERMIT)
+    then
         npcUtil.giveKeyItem(player, xi.ki.RUNIC_PORTAL_USE_PERMIT)
     end
 end

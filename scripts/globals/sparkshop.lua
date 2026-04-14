@@ -659,7 +659,13 @@ function xi.sparkshop.onEventUpdate(player, csid, option, npc)
     -- 2. Grant Currency based on Vouchers spent (Category == 20)
     -- 3. Grant Provision Items based on Vouchers spent (Category == 30)
     if category <= 10 or category == 12 then
-        local item = optionToItem[category][selection]
+        local itemCategory = optionToItem[category]
+        local item         = itemCategory and itemCategory[selection]
+
+        if not item then
+            return
+        end
+
         local cost = item.cost * qty
 
         -- makes sure player has room for three stacks of tomes
@@ -670,13 +676,11 @@ function xi.sparkshop.onEventUpdate(player, csid, option, npc)
         end
 
         -- handles eminent ammo
-        if item.id == 21302 or item.id == 21316 or item.id == 21331 then
-            qty = 99
-            cost = 5000
-
-        elseif item.id == 21355 then
-            qty = 99
-            cost = 7000
+        local emminentAmmoCosts = { [21302] = 5000, [21316] = 5000, [21331] = 5000, [21355] = 7000 }
+        local ammoCost = emminentAmmoCosts[item.id]
+        if ammoCost then
+            qty  = 99
+            cost = ammoCost
         end
 
         -- verifies and finishes transaction
@@ -697,8 +701,12 @@ function xi.sparkshop.onEventUpdate(player, csid, option, npc)
 
         player:updateEvent(sparks, 0, 0, 0, 0, remainingLimit)
     elseif category == 20 then
-        local copperVouchersStored = player:getCurrency('aman_vouchers')
         local currency = optionToItem[category][selection]
+        if currency == nil then
+            return
+        end
+
+        local copperVouchersStored = player:getCurrency('aman_vouchers')
 
         if copperVouchersStored >= qty then
             player:delCurrency('aman_vouchers', qty)
@@ -723,7 +731,18 @@ function xi.sparkshop.onEventUpdate(player, csid, option, npc)
 
         player:updateEvent(sparks, player:getCurrency('aman_vouchers'))
     elseif category == 30 then
+        local validProvisions =
+        {
+            [xi.item.PLUTON]           = true,
+            [xi.item.BEITETSU]         = true,
+            [xi.item.RIFTBORN_BOULDER] = true,
+        }
+
         local copperVouchersStored = player:getCurrency('aman_vouchers')
+
+        if not validProvisions[selection] then
+            return
+        end
 
         if copperVouchersStored >= qty then
             if player:addItem({ id = selection, quantity = 2 * qty, silent = true }) then

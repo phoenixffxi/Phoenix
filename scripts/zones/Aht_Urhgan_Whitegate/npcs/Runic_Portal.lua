@@ -80,8 +80,38 @@ entity.onEventFinish = function(player, csid, option, npc)
         [1006] = xi.teleport.id.NYZUL_SP,
     }
 
+    local runicPortals = player:getTeleport(xi.teleport.type.RUNIC_PORTAL)
+    local portalBits =
+    {
+        [1] = 0x02, -- Azouph
+        [2] = 0x04, -- Dvucca
+        [3] = 0x08, -- Mamool
+        [4] = 0x10, -- Halvung
+        [5] = 0x20, -- Ilrusi
+        [6] = 0x40, -- Nyzul
+    }
+
     if csid == 101 and option > 100 and option < 1007 then
+        -- Map option back to portal index for bitmask check
+        local portalIndex
         if option >= 101 and option <= 106 then
+            portalIndex = option - 100
+        elseif option >= 1001 and option <= 1006 then
+            portalIndex = option - 1000
+        end
+
+        if
+            portalIndex == nil or
+            bit.band(runicPortals, portalBits[portalIndex]) == 0
+        then
+            return
+        end
+
+        if option >= 101 and option <= 106 then
+            if not player:hasKeyItem(xi.ki.RUNIC_PORTAL_USE_PERMIT) then
+                return
+            end
+
             player:delKeyItem(xi.ki.RUNIC_PORTAL_USE_PERMIT)
             xi.teleport.to(player, portalPick[option])
         elseif option >= 1001 and option <= 1006 then
@@ -92,7 +122,15 @@ entity.onEventFinish = function(player, csid, option, npc)
                 player:messageSpecial(ID.text.SUFFICIENT_IMPERIAL_STANDING)
             end
         end
-    elseif csid == 101 and option >= 1 and option <= 6 then -- Captains dont lose permit
+    elseif csid == 101 and option >= 1 and option <= 6 then
+        if not player:hasKeyItem(xi.ki.CAPTAIN_WILDCAT_BADGE) then
+            return
+        end
+
+        if bit.band(runicPortals, portalBits[option]) == 0 then
+            return
+        end
+
         xi.teleport.to(player, portalPick[option])
     elseif csid >= 120 and csid <= 125 and option == 1 then
         xi.teleport.to(player, portalPick[csid])
