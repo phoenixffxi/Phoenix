@@ -77,11 +77,14 @@ local function handleNoPlayers(playersInZone, cleanupScript, zoneCooldownEnter, 
     then
         -- 5sec less than 10min to prevent zone idle before cleanup fires
         zone:setLocalVar(varNoPlayerTimer, currentTime + 595)
+
         -- Sync with zone expiration to handle valid hourglass edge cases
         SetServerVariable(varExpiration, currentTime + 595)
+
         -- We need to update all player hourglasses to match the new 10 min expiration
-        -- TODO update the hourglass for the last person to exit zone
+        -- This is NOT era accurate. The dynamis playonline website specifically says the hourglass outside of dynamis does not update
         xi.dynamis.updatePlayerHourglassForAll(zone)
+
     -- Clear timer if players return with sufficient time remaining (10+ minutes)
     elseif
         #playersInZone > 0 and

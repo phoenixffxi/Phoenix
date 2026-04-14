@@ -140,7 +140,7 @@ xi.dynamis.updatePlayerHourglass = function(player)
         zoneId = xi.dynamis.entryInfoEra[zoneId].dynaZone
     end
 
-    -- We could get the exdata from the glass
+    -- Grab the vars from the new updated vars in order to update the glass.
     local zoneStartTime  = GetServerVariable(string.format('[DYNA]StartTime_%s', zoneId))
     local zoneExpiration = GetServerVariable(string.format('[DYNA]ExpirationTime_%s', zoneId))
 
@@ -152,6 +152,7 @@ xi.dynamis.updatePlayerHourglass = function(player)
     updatePlayerHourglassExdata(player, zoneStartTime, zoneId, zoneExpiration)
 end
 
+-- This updates the players hourglass if you are outside dynamis
 xi.dynamis.updatePlayerHourglassForAll = function(zone)
     local zoneId        = zone:getID()
     local parentZone    = GetZone(xi.dynamis.dynaIDLookup[zoneId].entryZone)

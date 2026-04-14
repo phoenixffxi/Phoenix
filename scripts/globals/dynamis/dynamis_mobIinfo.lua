@@ -293,6 +293,7 @@ end
 xi.dynamis.onMobDeath = function(mob, player, optParams)
     local zone   = mob:getZone()
     local zoneId = mob:getZoneID()
+    
     -- Check for time extensions
     xi.dynamis.addTimeToDynamis(zone, mob)
 
