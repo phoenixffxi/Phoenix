@@ -11,7 +11,10 @@ local entity = {}
 local function disturbMob(mob)
     local offset = mob:getID() - ID.mob.HELIODROMOS_OFFSET - 3
     if offset >= 0 and offset <= 2 then
-        SetServerVariable('Heliodromos_ToD', GetSystemTime() + math.random(43200, 54000)) -- 12 to 15 hours
+        local zone = mob:getZone()
+        if zone then
+            zone:setLocalVar('Heliodromos_ToD', GetSystemTime() + math.random(43200, 54000)) -- 12 to 15 hours
+        end
     end
 end
 
@@ -23,37 +26,36 @@ entity.onMobSpawn = function(mob)
     disturbMob(mob)
 end
 
-entity.onMobEngage = function(mob, target)
-    disturbMob(mob)
-end
-
-entity.onMobFight = function(mob, target)
-    disturbMob(mob)
-end
-
 entity.onMobRoam = function(mob)
-    -- no PH has been disturbed for 12-15 hours
-    if GetSystemTime() > GetServerVariable('Heliodromos_ToD') then
-        local noHeliodromosSpawned = true
-        for i = ID.mob.HELIODROMOS_OFFSET, ID.mob.HELIODROMOS_OFFSET + 2 do
-            if GetMobByID(i):isSpawned() then
-                noHeliodromosSpawned = false
-            end
-        end
+    local zone = mob:getZone()
+    if not zone then
+        return
+    end
 
-        if noHeliodromosSpawned then
-            -- despawn placeholders
-            for i = ID.mob.HELIODROMOS_OFFSET - 3, ID.mob.HELIODROMOS_OFFSET - 1 do
-                DisallowRespawn(i, true)
-                DespawnMob(i)
-            end
+    if GetSystemTime() < zone:getLocalVar('Heliodromos_ToD') then
+        return
+    end
 
-            -- spawn heliodromos
-            for i = ID.mob.HELIODROMOS_OFFSET, ID.mob.HELIODROMOS_OFFSET + 2 do
-                SpawnMob(i)
-            end
+    for i = ID.mob.HELIODROMOS_OFFSET, ID.mob.HELIODROMOS_OFFSET + 2 do
+        if GetMobByID(i):isSpawned() then
+            return
         end
     end
+
+    -- Despawn placeholders
+    for i = ID.mob.HELIODROMOS_OFFSET - 3, ID.mob.HELIODROMOS_OFFSET - 1 do
+        DisallowRespawn(i, true)
+        DespawnMob(i)
+    end
+
+    -- Spawn heliodromos
+    for i = ID.mob.HELIODROMOS_OFFSET, ID.mob.HELIODROMOS_OFFSET + 2 do
+        SpawnMob(i)
+    end
+end
+
+entity.onMobEngage = function(mob, target)
+    disturbMob(mob)
 end
 
 entity.onAdditionalEffect = function(mob, target, damage)

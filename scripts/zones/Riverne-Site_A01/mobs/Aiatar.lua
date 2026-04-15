@@ -17,7 +17,11 @@ entity.phList =
 }
 
 entity.onMobInitialize = function(mob)
-    mob:addMobMod(xi.mobMod.ALWAYS_AGGRO, 1)
+    mob:setMobMod(xi.mobMod.ALWAYS_AGGRO, 1)
+end
+
+entity.onMobSpawn = function(mob)
+    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 150)
 end
 
 entity.onMobDeath = function(mob, player, optParams)
