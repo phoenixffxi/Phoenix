@@ -1319,9 +1319,8 @@ void SetupBattlefieldMob(CMobEntity* PMob)
     }
 
     // do not roam around
-    PMob->m_roamFlags |= ROAMFLAG_SCRIPTED;
     PMob->setMobMod(MOBMOD_ROAM_RESET_FACING, 1);
-    PMob->m_maxRoamDistance = 0.5f;
+    PMob->m_maxRoamDistance = 0.0f;
     if ((PMob->m_bcnmID != 864) && (PMob->m_bcnmID != 704) && (PMob->m_bcnmID != 706))
     {
         // bcnmID 864 (desires of emptiness), 704 (darkness named), and 706 (waking dreams) don't superlink
