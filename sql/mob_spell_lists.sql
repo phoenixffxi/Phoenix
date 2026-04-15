@@ -34,7 +34,7 @@ LOCK TABLES `mob_spell_lists` WRITE;
 /*!40000 ALTER TABLE `mob_spell_lists` DISABLE KEYS */;
 
 -- DEFAULT (1) Used for mobs with their cast logic defined in lua.
-INSERT INTO `mob_spell_lists` VALUES ('DEFAULT',1,368,0,255);  -- Foe Requiem (0 ~ 255) -- Placeholder entry.
+INSERT INTO `mob_spell_lists` VALUES ('DEFAULT',1,389,0,255);  -- Knight's Minne (0 ~ 255) -- Placeholder entry. Needs to be a buff.
 
 -- Beastmen_BLM (2)
 INSERT INTO `mob_spell_lists` VALUES ('Beastmen_BLM',2,144,13,22);  -- fire (13~22)
