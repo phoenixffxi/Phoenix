@@ -732,6 +732,7 @@ INSERT INTO `mob_spell_lists` VALUES ('Undead',28,199,19,27);  -- waterga (19~27
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,200,44,47);  -- waterga_ii (44~47)
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,206,50,255); -- freeze (50~255)
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,210,54,255); -- quake (54~255)
+INSERT INTO `mob_spell_lists` VALUES ('Undead',28,216,21,255); -- gravity (21~255)
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,220,3,25);   -- poison (3~25)
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,221,43,64);  -- poison_ii (43~64)
 INSERT INTO `mob_spell_lists` VALUES ('Undead',28,225,24,69);  -- poisonga (24~69)
