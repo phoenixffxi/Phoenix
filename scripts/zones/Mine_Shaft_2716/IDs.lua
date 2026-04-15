@@ -44,6 +44,7 @@ zones[xi.zone.MINE_SHAFT_2716] =
         MOVAMUQ              = GetFirstID('Movamuq'),
         SWIPOSTIK            = GetFirstID('Swipostik'),
         TRIKOTRAK            = GetFirstID('Trikotrak'),
+        TWILOTAK             = GetFirstID('Twilotak'),
     },
     npc =
     {
