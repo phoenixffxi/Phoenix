@@ -5,7 +5,9 @@
 ---@type TMobEntity
 local entity = {}
 
--- TODO: Determine spell list and behavior.  Potentially includes Breakga and Bindga, unless they're TP moves.
+entity.onMobSpawn = function(mob)
+    mob:setMobMod(xi.mobMod.MAGIC_COOL, 70)
+end
 
 entity.onMobEngage = function(mob, target)
     local mobid = mob:getID()
@@ -18,10 +20,15 @@ entity.onMobEngage = function(mob, target)
     end
 end
 
-entity.onMobFight = function(mob, target)
-end
+entity.onMobSpellChoose = function(mob, target, spellId)
+    local spellList =
+    {
+        [1] = { xi.magic.spell.QUAKE,  target, false, xi.action.type.DAMAGE_TARGET,     nil,            0, 100 },
+        [2] = { xi.magic.spell.SLOW,   target, false, xi.action.type.ENFEEBLING_TARGET, xi.effect.SLOW, 4, 100 },
+        [3] = { xi.magic.spell.BINDGA, target, false, xi.action.type.ENFEEBLING_TARGET, xi.effect.BIND, 0, 100 },
+    }
 
-entity.onMobDeath = function(mob, player, optParams)
+    return xi.combat.behavior.chooseAction(mob, target, nil, spellList)
 end
 
 return entity
