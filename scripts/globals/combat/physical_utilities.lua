@@ -746,9 +746,9 @@ xi.combat.physical.calculateRangedPDIF = function(actor, target, weaponType, wsA
 
     if tpIgnoresDefense then
         ignoreDefenseFactor = 1 - tpFactor
-    end
 
-    targetDefense = math.floor(targetDefense * ignoreDefenseFactor)
+        targetDefense = math.max(1, math.floor(targetDefense * ignoreDefenseFactor))
+    end
 
     if targetDefense ~= 0 then
         baseRatio = actorAttack / targetDefense
