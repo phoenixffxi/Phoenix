@@ -122,9 +122,13 @@ quest.sections =
             ['Chocobo'] =
             {
                 onTrade = function(player, npc, trade)
+                    local prog = quest:getVar(player, 'Prog')
                     if npcUtil.tradeHasExactly(trade, xi.item.BUNCH_OF_GYSAHL_GREENS) then
                         return quest:progressEvent(76)
-                    elseif npcUtil.tradeHasExactly(trade, xi.item.CLUMP_OF_GAUSEBIT_WILDGRASS) then
+                    elseif
+                        (prog <= 2 and trade:getItemQty(xi.item.CLUMP_OF_GAUSEBIT_WILDGRASS) > 0) or
+                        npcUtil.tradeHasExactly(trade, xi.item.CLUMP_OF_GAUSEBIT_WILDGRASS)
+                    then
                         if quest:getVar(player, 'Timer') <= GetSystemTime() then
                             return quest:progressEvent(chocoboFeedTrades[quest:getVar(player, 'Prog')])
                         else
