@@ -1024,7 +1024,7 @@ void LoadExpDifficultyCurves(const sol::table& expToDifficultyTable, const uint8
             return a.first > b.first;
         });
 
-    std::pair<uint16, uint8> iep = { incrediblyEasyPreyMinExp, incrediblyEasyPreyLevel };
+    std::pair<uint16, uint8> iep = { incrediblyEasyPreyLevel, incrediblyEasyPreyMinExp };
 
     charutils::SetExpDifficultyCurve(expDifficultyTable, iep);
 }

@@ -4639,10 +4639,10 @@ EMobDifficulty CheckMob(uint8 charlvl, CBattleEntity* PMob)
         }
     }
 
-    auto IEPExp   = IncrediblyEasyPreyCheck.first;
-    auto IEPLevel = IncrediblyEasyPreyCheck.second;
+    auto IEPLevel = IncrediblyEasyPreyCheck.first;
+    auto IEPExp   = IncrediblyEasyPreyCheck.second;
 
-    if (baseExp >= IEPExp && moblvl > IEPLevel)
+    if (baseExp >= IEPExp && moblvl >= IEPLevel)
     {
         return EMobDifficulty::IncrediblyEasyPrey;
     }
