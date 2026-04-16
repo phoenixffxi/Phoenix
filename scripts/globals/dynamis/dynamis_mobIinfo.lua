@@ -12,7 +12,7 @@ xi.dynamis = xi.dynamis or {}
 
 -- Debug control
 xi.mobinfo = xi.mobinfo or {}
-xi.mobinfo.DEBUG = true
+xi.mobinfo.DEBUG = false
 
 local function debugPrint(message)
     if xi.mobinfo.DEBUG then
@@ -207,15 +207,20 @@ xi.dynamis.onStatueDeath = function(mob, player, optParams)
         return
     end
 
-    -- If the statue gets 1 shotted
-    -- Force spawn check for NMs
-    local zoneId   = mob:getZoneID()
-    local statueId = mob:getID()
+    -- Make sure this only runs once FOR all players. Death functions get called for every single player
+    if mob:getLocalVar('statueDeathCheck') == 1 then
+        return
+    end
 
     -- If the statue gets 1 shotted we need to force spawn the statues for aggro conditions
     if mob:getLocalVar('engageCheck') == 0 then
         xi.dynamis.spawnAggroStatues(mob, player)
     end
+
+    -- If the statue gets 1 shotted
+    -- Force spawn check for NMs
+    local zoneId   = mob:getZoneID()
+    local statueId = mob:getID()
 
     -- If the mob is one shotted we need to force spawn the NM mobs
     -- This means it has NOT been engaged yet
@@ -227,12 +232,7 @@ xi.dynamis.onStatueDeath = function(mob, player, optParams)
         end
     end
 
-    -- Make sure this only runs once FOR all players. Death functions get called for every single player
-    if mob:getLocalVar('deathCheck') == 1 then
-        return
-    end
-
-    mob:setLocalVar('deathCheck', 1)
+    mob:setLocalVar('statueDeathCheck', 1)
 
     -- This will check for TEs and NM deaths
     xi.dynamis.onMobDeath(mob, player, optParams)
@@ -291,6 +291,14 @@ xi.dynamis.onMobRoam = function(mob)
 end
 
 xi.dynamis.onMobDeath = function(mob, player, optParams)
+    if not optParams.isKiller then
+        return
+    end
+
+    if mob:getLocalVar('deathCheck') == 1 then
+        return
+    end
+
     local zone   = mob:getZone()
     local zoneId = mob:getZoneID()
     
@@ -328,6 +336,8 @@ xi.dynamis.onMobDeath = function(mob, player, optParams)
             xi.dynamis.checkQmSpawn(mob, zone, zoneId)
         end
     end
+
+    mob:setLocalVar('deathCheck', 1)
 end
 
 -- ---------------------
@@ -464,21 +474,23 @@ xi.dynamis.spawnNextMobsOnce = function(statue, statueId, count, target, checkFo
 
     local statuePos = statue:getPos()
     local randomStunTime = math.random(4000, 8000)
-    local spawnedCount = 0
-    local i = 1
-    while spawnedCount < count do
+
+    for i = 1, count do
         local mobId = statueId + i
         local mobToSpawn = GetMobByID(mobId)
 
-        -- If the mob you are trying to spawn is a pet, skip it and go to next ID
-        if mobToSpawn and mobToSpawn:getMaster() ~= nil then
-            i = i + 1
-        elseif mobToSpawn and not mobToSpawn:isSpawned() then
+        -- If the mob you are trying to spawn is a pet, skip it
+        if mobToSpawn and mobToSpawn:getMaster() == nil and not mobToSpawn:isSpawned() then
             mobToSpawn:setMobMod(xi.mobMod.SUPERLINK, statueId)
             mobToSpawn:setRoamFlags(xi.roamFlag.SCRIPTED)
-            mobToSpawn:setSpawn(statuePos.x + math.random() * 6 - 3, statuePos.y + 1, statuePos.z + math.random() * 6 - 3, statuePos.rot)
+            mobToSpawn:setSpawn(
+                statuePos.x + math.random() * 6 - 3,
+                statuePos.y + 1,
+                statuePos.z + math.random() * 6 - 3,
+                statuePos.rot
+            )
             mobToSpawn:spawn()
-            mobToSpawn:setLocalVar('spawnedFromMaster', 1) -- nightmare mob check to prevent multiple spawns from the master mob
+            mobToSpawn:setLocalVar('spawnedFromMaster', 1)
 
             -- Sets the "pet" model sizes to one below its master
             local mainSize = statue:getModelSize()
@@ -495,30 +507,25 @@ xi.dynamis.spawnNextMobsOnce = function(statue, statueId, count, target, checkFo
                 mobToSpawn:setModelSize(mainSize)
             end
 
-            spawnedCount = spawnedCount + 1
-            i = i + 1
-
-            -- If the statue dies in 1 shot and it has an NM then spawn the mobs regardless but do not update enmity
-            if checkForceSpawn then
-                return
-            end
-
-            mobToSpawn:updateEnmity(target)
-
             mobToSpawn:setAutoAttackEnabled(false)
             mobToSpawn:setMagicCastingEnabled(false)
             mobToSpawn:setMobAbilityEnabled(false)
 
             mobToSpawn:stun(randomStunTime)
+
+            -- If the statue dies in 1 shot and it has an NM then spawn the mobs regardless but do not update enmity
+            if not checkForceSpawn then
+                mobToSpawn:updateEnmity(target)
+            end
+
             mobToSpawn:timer(3000, function(mobArg)
-                mobArg:lookAt(target:getPos())
+                if not checkForceSpawn then
+                    mobArg:lookAt(target:getPos())
+                end
                 mobArg:setAutoAttackEnabled(true)
                 mobArg:setMagicCastingEnabled(true)
                 mobArg:setMobAbilityEnabled(true)
             end)
-
-        else
-            i = i + 1
         end
     end
 end

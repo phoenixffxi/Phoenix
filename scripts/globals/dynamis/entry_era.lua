@@ -15,12 +15,12 @@ end
 -- This includes level requirements, mission progress, and key items
 xi.dynamis.checkEntryRequirements = function(player, entryZoneID)
     local entryInfo = xi.dynamis.entryInfoEra[entryZoneID]
-    xi.dynamis.debugPrint('Checking player charvar ' .. entryInfo.enteredVar .. ' for previous Dynamis entry.')
 
     -- Verify entry configuration exists
     if not entryInfo then
         return false
     end
+    xi.dynamis.debugPrint('Checking player charvar ' .. entryInfo.enteredVar .. ' for previous Dynamis entry.')
 
     -- 1. GMs and players who have previously entered this zone bypass all requirements
     --    This allows GMs to test content and returning players to enter freely

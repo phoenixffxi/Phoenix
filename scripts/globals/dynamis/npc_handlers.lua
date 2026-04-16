@@ -15,9 +15,8 @@ local dynamisPerpetual         = xi.item.PERPETUAL_HOURGLASS
 -- Helper function to clean up trade
 local function releaseTrade(player)
     local tradeContainer = player:getTrade()
-    print('Trade container:', tradeContainer)
     if tradeContainer then
-        print('Cleaning up trade container')
+        xi.dynamis.debugPrint('Cleaning up trade container')
         tradeContainer:clean()
     end
 end
@@ -56,11 +55,11 @@ xi.dynamis.entryNpcOnTrade = function(player, npc, trade)
     
     -- Setup zone cooldown/cleanup tracking variables
     local varZoneCooldown   = string.format('[DYNA]ZoneCooldown_%s', dynaZoneId)
-    local varCleanupScript  = string.format('[DYNA]CleanupScript_%s', zoneId)
+    local varCleanupScript  = string.format('[DYNA]CleanupScript_%s', dynaZoneId)
     local zoneCooldownEnter = zone:getLocalVar(varZoneCooldown)
     local cleanupScript     = zone:getLocalVar(varCleanupScript)
     
-    xi.dynamis.debugPrint('Lockout: ' .. tostring(lockout) .. ' | zoneCooldownEnter: ' .. tostring(GetServerVariable(varZoneCooldown)) .. ' | cleanupScript: ' .. tostring(GetServerVariable(varCleanupScript)) .. ' | timeRemaining: ' .. tostring(dynamisTimeRemaining))
+    xi.dynamis.debugPrint('Lockout: ' .. tostring(lockout) .. ' | zoneCooldownEnter: ' .. tostring(zoneCooldownEnter) .. ' | cleanupScript: ' .. tostring(cleanupScript) .. ' | timeRemaining: ' .. tostring(dynamisTimeRemaining))
 
     local playerEntered = player:getCharVar(entryInfo.enteredVar) or 0
 
@@ -91,9 +90,9 @@ xi.dynamis.entryNpcOnTrade = function(player, npc, trade)
         end
 
         -- 3. Player must not be locked out
-        if lockout ~= 0 then
-            xi.dynamis.debugPrint('Player is locked out, lockout time remaining: ' .. tostring(lockout))
-            player:messageSpecial(zones[zoneId].text.YOU_CANNOT_ENTER_DYNAMIS, lockout, entryInfo.csBit)
+        if lockout > 0 then
+            xi.dynamis.debugPrint('Player is locked out, lockout time remaining (seconds): ' .. tostring(lockout))
+            player:messageSpecial(zones[zoneId].text.YOU_CANNOT_ENTER_DYNAMIS, xi.dynamis.isPlayerLockedOut(player, true), entryInfo.csBit)
             releaseTrade(player)
             return
         end
@@ -108,7 +107,14 @@ xi.dynamis.entryNpcOnTrade = function(player, npc, trade)
         end
 
         -- 5. All checks passed - reset zone cooldown and initiate Dynamis registration
+        if not trade:confirmItem(dynamisTimelessHourglass, 1) then
+            xi.dynamis.debugPrint('Unable to confirm Timeless Hourglass trade')
+            releaseTrade(player)
+            return
+        end
+
         zone:setLocalVar(varZoneCooldown, 0)
+
         player:startEvent(entryInfo.csRegisterGlass, entryInfo.csBit, playerEntered == 1 and 0 or 1, xi.dynamis.settings.RESERVATION_TIMEOUT, xi.dynamis.settings.REENTRY_DAYS, entryInfo.maxCapacity, xi.ki.VIAL_OF_SHROUDED_SAND, dynamisTimelessHourglass, dynamisPerpetual)
         player:confirmTrade()
     -- Player trades a Perpetual Hourglass
@@ -125,42 +131,41 @@ xi.dynamis.entryNpcOnTrade = function(player, npc, trade)
         local glassObj  = trade:getItem()
         local glassData = xi.dynamis.decypherGlass(glassObj)
         xi.dynamis.debugPrint(string.format('GlassData from decypherGlass - startTime: %s, endTime: %s, zoneId: %s', glassData.startTime, glassData.endTime, glassData.zoneId))
-        releaseTrade(player)
 
         -- 2. Verify hourglass validity and check player registration status
         -- Important: Check registration status BEFORE lockout, since lockout can change after registration
-        local glassValid            = xi.dynamis.verifyTradeHourglass(player, zoneId)
-        local varRegisteredPlayers  = string.format('[DYNA]#OfRegisteredPlayers_%s', dynaZoneId)
+        local glassValid = xi.dynamis.verifyTradeHourglass(player, zoneId, glassObj)
         xi.dynamis.debugPrint('Perpetual hourglass validity: ' .. tostring(glassValid))
-        
-        -- If player is already registered, allow entry immediately
+        releaseTrade(player)
+
+        -- 3. If player is already registered, allow entry immediately
         if glassValid == xi.dynamis.hourglassTradeResult.REGISTERED then
             player:startEvent(entryInfo.csDyna, entryInfo.csBit, playerEntered == 1 and 0 or 1, xi.dynamis.settings.RESERVATION_TIMEOUT, xi.dynamis.settings.REENTRY_DAYS, entryInfo.maxCapacity, xi.ki.VIAL_OF_SHROUDED_SAND, dynamisTimelessHourglass, dynamisPerpetual)
             return
         end
 
-        -- 3. Player cannot be locked out (only matters for new registrations)
+        -- 4. Player cannot be locked out (only matters for new registrations)
         xi.dynamis.debugPrint('Checking player lockout')
-        xi.dynamis.debugPrint('Player lockout: ' .. tostring(lockout))
-        if lockout ~= 0 then
-            player:messageSpecial(zones[zoneId].text.YOU_CANNOT_ENTER_DYNAMIS, lockout, entryInfo.csBit)
+        xi.dynamis.debugPrint('Player lockout (seconds): ' .. tostring(lockout))
+        if lockout > 0 then
+            player:messageSpecial(zones[zoneId].text.YOU_CANNOT_ENTER_DYNAMIS, xi.dynamis.isPlayerLockedOut(player, true), entryInfo.csBit)
             return
         end
 
-        -- 4. Process new player registration (if hourglass is NEW/valid)
+        -- 5. Process new player registration (if hourglass is NEW/valid)
         if glassValid == xi.dynamis.hourglassTradeResult.NEW then
-            -- 5. Verify instance has not reached max capacity
+            -- 6. Verify instance has not reached max capacity
             local dynaCapacity = GetServerVariable(string.format('[DYNA]#OfRegisteredPlayers_%s', dynaZoneId))
-            if dynaCapacity < entryInfo.maxCapacity then
-                -- Register player and allow entry
-                xi.dynamis.registerPlayer(player)
-                player:startEvent(entryInfo.csDyna, entryInfo.csBit, playerEntered == 1 and 0 or 1, xi.dynamis.settings.RESERVATION_TIMEOUT, xi.dynamis.settings.REENTRY_DAYS, entryInfo.maxCapacity, xi.ki.VIAL_OF_SHROUDED_SAND, dynamisTimelessHourglass, dynamisPerpetual)
-                SetServerVariable(varRegisteredPlayers, dynaCapacity + 1)
-            else
+
+            if dynaCapacity >= entryInfo.maxCapacity then
                 -- Instance is full
                 player:printToPlayer('The Dynamis instance has reached its maximum capacity of ' .. entryInfo.maxCapacity .. ' registrants.', 29)
+                return
             end
 
+            -- Register player and allow entry
+            xi.dynamis.registerPlayer(player)
+            player:startEvent(entryInfo.csDyna, entryInfo.csBit, playerEntered == 1 and 0 or 1, xi.dynamis.settings.RESERVATION_TIMEOUT, xi.dynamis.settings.REENTRY_DAYS, entryInfo.maxCapacity, xi.ki.VIAL_OF_SHROUDED_SAND, dynamisTimelessHourglass, dynamisPerpetual)
             return
         end
 
@@ -243,8 +248,8 @@ xi.dynamis.entryNpcOnTriggerEra = function(player, npc)
     end
 
     -- Check for player lockout
-    if xi.dynamis.isPlayerLockedOut(player) ~= 0 then
-        player:messageSpecial(zones[zoneId].text.YOU_CANNOT_ENTER_DYNAMIS, xi.dynamis.isPlayerLockedOut(player), entryInfo.csBit)
+    if xi.dynamis.isPlayerLockedOut(player) > 0 then
+        player:messageSpecial(zones[zoneId].text.YOU_CANNOT_ENTER_DYNAMIS, xi.dynamis.isPlayerLockedOut(player, true), entryInfo.csBit)
         return
     end
 
@@ -269,6 +274,14 @@ xi.dynamis.entryNpcOnEventUpdate = function(player, csid, option, npc)
 
     xi.dynamis.debugPrint('--------------xi.dynamis.entryNpcOnEventUpdate--------------')
 
+    local zone       = GetZone(zoneId)
+    local dynaZoneId = entryInfo.dynaZone
+
+    if not zone then
+        xi.dynamis.debugPrint('zone is nil')
+        return
+    end
+
     -- Return if NPC is invalid
     if npc == nil then
         xi.dynamis.debugPrint('npc is nil')
@@ -278,7 +291,6 @@ xi.dynamis.entryNpcOnEventUpdate = function(player, csid, option, npc)
     end
 
     -- Process successful cutscene completion
-    local dynaZoneId           = entryInfo.dynaZone
     local zoneExpiration       = GetServerVariable(string.format('[DYNA]ExpirationTime_%s', dynaZoneId))
     local dynamisTimeRemaining = xi.dynamis.getDynaTimeRemaining(zoneExpiration)
     
@@ -298,9 +310,11 @@ xi.dynamis.entryNpcOnEventUpdate = function(player, csid, option, npc)
         xi.dynamis.debugPrint('RegisterDynamis with startTime: ' .. tostring(startTime) .. ', endTime: ' .. tostring(endTime) .. ' (difference: ' .. tostring(endTime - startTime) .. ' seconds)')
         
         -- Create a perpetual hourglass item encoded with instance data
+        SetServerVariable(string.format('[DYNA]StartTime_%s', dynaZoneId), startTime)
+        SetServerVariable(string.format('[DYNA]ExpirationTime_%s', dynaZoneId), endTime)
         xi.dynamis.makeGlass(player, dynaZoneId, startTime, endTime)
 
-        -- Register the Dynamis instance server-wide
+        -- Register the Dynamis instance server-wide and register player
         xi.dynamis.registerDynamis(player, startTime, endTime)
 
         player:tradeComplete()

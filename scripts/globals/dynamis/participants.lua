@@ -113,30 +113,3 @@ xi.dynamis.getDynaInstance = function(charId)
     xi.dynamis.debugPrint(string.format('charId: %u not found in any instance, returning -1', charId))
     return -1
 end
-
--- Register a new Dynamis instance
-xi.dynamis.registerDynamisInstance = function(zoneId, charId, playerName)
-    xi.dynamis.debugPrint(string.format('------------registerDynamisInstance------------'))
-    xi.dynamis.debugPrint(string.format('Registering new instance for zoneId: %u, registrant charId: %u, name: %s', zoneId, charId, playerName or 'UNKNOWN'))
-
-    -- Since only one instance can run per zone at a time, use zoneId as instanceId
-    local instanceId = zoneId
-    xi.dynamis.debugPrint(string.format('Using zoneId as instanceId: %u', instanceId))
-
-    -- Initialize the instance in the global table
-    if not xi.dynamis.instances[instanceId] then
-        xi.dynamis.instances[instanceId] = {}
-        xi.dynamis.debugPrint(string.format('Created new instance table for instanceId: %u', instanceId))
-    else
-        xi.dynamis.debugPrint(string.format('Instance %u already exists, clearing old participants', instanceId))
-        xi.dynamis.instances[instanceId] = {}
-    end
-
-    -- Add the registering player as the first participant
-    if charId and charId > 0 then
-        xi.dynamis.addParticipant(instanceId, charId, playerName or 'UNKNOWN')
-    end
-
-    xi.dynamis.debugPrint(string.format('Instance %u registered successfully', instanceId))
-    return instanceId
-end

@@ -12,7 +12,7 @@ xi = xi or {}
 xi.dynamis = xi.dynamis or {}
 
 -- Debug control
-xi.dynamis.DEBUG     = true
+xi.dynamis.DEBUG     = false
 xi.dynamis.tickDebug = false
 
 xi.dynamis.debugPrint = function(message)
@@ -440,8 +440,9 @@ xi.dynamis.registerDynamis = function(player, startTime, endTime)
         return
     end
 
-    -- Always register first
-    local instanceID = xi.dynamis.registerDynamisInstance(dynaInfo.dynaZone, player:getID(), player:getName())
+    -- Since only one instance can run per zone at a time, use zoneId as instanceId
+    local instanceId = zoneId
+    xi.dynamis.instances[instanceId] = {} -- Initialize instance in global table
 
     xi.dynamis.debugPrint(string.format('------------xi.dynamis.registerDynamis------------'))
     xi.dynamis.debugPrint('StartTime: ' .. tostring(startTime) .. '| EndTime: ' .. tostring(endTime))
@@ -455,7 +456,10 @@ xi.dynamis.registerDynamis = function(player, startTime, endTime)
 
     -- Set server vars
     SetServerVariable(varOrigRegistrant, player:getID())
-    SetServerVariable(varInstanceID, instanceID)
+    SetServerVariable(varInstanceID, instanceId)
+
+    -- Register the original registrant
+    xi.dynamis.registerPlayer(player)
 
     -- Need cleanup script to 0
     parentZone:setLocalVar(varCleanupScript, 0)
@@ -481,11 +485,11 @@ xi.dynamis.registerDynamis = function(player, startTime, endTime)
     xi.dynamis.onNewDynamis(player, 0) -- 0 for normal, 1 for debug gm only
 
     -- Set zone vars
-    dynaZone:setLocalVar(varInstanceID, instanceID)
+    dynaZone:setLocalVar(varInstanceID, instanceId)
 
     -- Player stuff
     local playerZone = player:getZone()
-    playerZone:setLocalVar(varInstanceID, instanceID)
+    playerZone:setLocalVar(varInstanceID, instanceId)
 end
 
 xi.dynamis.registerPlayer = function(player)
@@ -496,10 +500,20 @@ xi.dynamis.registerPlayer = function(player)
     xi.dynamis.debugPrint(string.format('------------xi.dynamis.registerPlayer------------'))
     xi.dynamis.debugPrint('zoneId: ' .. tostring(zoneId) .. ' | dynaZone: ' .. tostring(dynaInfo.dynaZone) .. ' | instanceID from server var: ' .. tostring(instanceId))
 
-    -- Mark player as registered in this dynamis session
+    -- Check for duplicate players just in case of duplicate packets/calls.
+    local participants = xi.dynamis.getParticipants(instanceId)
+    if participants[player:getID()] then
+        xi.dynamis.debugPrint('Player already registered; skipping duplicate registration')
+        return
+    end
+
+    -- Mark player as registered in this dynamis session.
     xi.dynamis.addParticipant(instanceId, player:getID(), player:getName())
 
-    -- Set lockout
+    local dynaCapacity = GetServerVariable(string.format('[DYNA]#OfRegisteredPlayers_%s', dynaInfo.dynaZone))
+    SetServerVariable(string.format('[DYNA]#OfRegisteredPlayers_%s', dynaInfo.dynaZone), dynaCapacity + 1)
+
+    -- Set lockout.
     xi.dynamis.recordLockout(player)
 end
 

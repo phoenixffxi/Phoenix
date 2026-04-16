@@ -166,6 +166,10 @@ local qmInfo =
 }
 
 xi.dynamis.teOnTrigger = function(player, npc)
+    if npc:getLocalVar('timeExtensionUsed') == 1 then
+        return
+    end
+
     local zone = player:getZone()
 
     -- Change music for all players
@@ -184,6 +188,9 @@ xi.dynamis.teOnTrigger = function(player, npc)
     end
 
     -- Each ??? gives 30 minute extension
-    xi.dynamis.addMinutesToDynamis(zone, 30)
+    -- Make sure it goes invis before applying time
     npc:setStatus(xi.status.DISAPPEAR)
+    xi.dynamis.addMinutesToDynamis(zone, 30)
+
+    npc:setLocalVar('timeExtensionUsed', 1)
 end

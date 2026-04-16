@@ -5,10 +5,6 @@ xi = xi or {}
 xi.dynamis = xi.dynamis or {}
 
 xi.dynamis.makeGlass = function(player, zoneId, startTime, endTime)
-    -- Set the var here so its the same as the glass. Setting it earlier or later will result in 10-15ms delay.
-    SetServerVariable(string.format('[DYNA]StartTime_%s', zoneId), startTime)
-    SetServerVariable(string.format('[DYNA]ExpirationTime_%s', zoneId), endTime)
-
     xi.dynamis.debugPrint(string.format('------------xi.dynamis.makeGlass------------'))
     xi.dynamis.debugPrint(string.format('Making glass for player %s | Start Time %s | End Time %s', player:getName(), startTime, endTime))
 
@@ -34,44 +30,47 @@ xi.dynamis.decypherGlass = function(glassObj)
     local exData = glassObj and glassObj:getExData()
 
     xi.dynamis.debugPrint(string.format('------------xi.dynamis.decypherGlass------------'))
-    xi.dynamis.debugPrint(string.format('Decyphering glass with exData: %s', exData))
-    xi.dynamis.debugPrint(string.format('exData.flags: %s, exData.startTime: %s, exData.endTime: %s, exData.zoneId: %s', exData.flags, exData.startTime, exData.endTime, exData.zoneId))
+    xi.dynamis.debugPrint('Decyphering glass with exData: ' .. tostring(exData))
 
     if
         not exData or
+        not exData.startTime or
+        not exData.endTime or
+        not exData.zoneId or
         exData.endTime <= GetSystemTime() -- If glass is expired
     then
-        return { chamberId = 0, startTime = 0, endTime = 0 }
+        return { startTime = 0, endTime = 0, zoneId = 0 }
     end
 
     return { startTime = exData.startTime, endTime = exData.endTime, zoneId = exData.zoneId }
 end
 
--- Validate hourglass - checks if player has an hourglass with matching startTime and zoneId
-local function validatePlayerHourglass(player, expectedStartTime, expectedZoneId)
-    local perpetualHourglass = xi.item.PERPETUAL_HOURGLASS
-    xi.dynamis.debugPrint(string.format('------------validatePlayerHourglass------------'))
+local function validateHourglass(glassObj, expectedStartTime, expectedZoneId, expectedEndTime)
+    local glassData   = xi.dynamis.decypherGlass(glassObj)
+    local currentTime = GetSystemTime()
 
-    for _, item in ipairs(player:findItems(perpetualHourglass)) do
-        local exdata = item:getExData()
-        xi.dynamis.debugPrint(string.format('Validating hourglass for player %s. Expected startTime: %s, expected zoneId: %s. Found hourglass with startTime: %s, zoneId: %s', player:getName(), expectedStartTime, expectedZoneId, exdata.startTime, exdata.zoneId))
-        -- Verify this is the correct hourglass by checking startTime and zoneId
-        if
-            exdata.startTime == expectedStartTime and
-            exdata.zoneId == expectedZoneId
-        then
-            xi.dynamis.debugPrint('Hourglass validated successfully!')
-            return true
-        else
-            xi.dynamis.debugPrint(string.format('Hourglass mismatch. Expected startTime: %s, got: %s. Expected zoneId: %s, got: %s', expectedStartTime, exdata.startTime, expectedZoneId, exdata.zoneId))
-        end
+    if
+        not glassData or
+        glassData.startTime ~= expectedStartTime or
+        glassData.zoneId ~= expectedZoneId or
+        glassData.endTime <= currentTime
+    then
+        return false
     end
 
-    return false
+    if
+        expectedEndTime and
+        expectedEndTime > 0 and
+        (expectedEndTime <= currentTime or glassData.endTime > expectedEndTime)
+    then
+        return false
+    end
+
+    return true
 end
 
 -- Verify hourglass trade and determine if NEW or REGISTERED
-xi.dynamis.verifyTradeHourglass = function(player, zoneId)
+xi.dynamis.verifyTradeHourglass = function(player, zoneId, glassObj)
     local dynaZone = xi.dynamis.entryInfoEra[zoneId].dynaZone
     -- Check if the zone is valid for Dynamis
     if not dynaZone then
@@ -81,10 +80,11 @@ xi.dynamis.verifyTradeHourglass = function(player, zoneId)
     xi.dynamis.debugPrint(string.format('------------xi.dynamis.verifyTradeHourglass------------'))
 
     local expectedStartTime = GetServerVariable(string.format('[DYNA]StartTime_%s', dynaZone))
-    xi.dynamis.debugPrint(string.format('Verifying hourglass trade for player %s in zone %s. Expected startTime: %s', player:getName(), dynaZone, expectedStartTime))
+    local expectedEndTime   = GetServerVariable(string.format('[DYNA]ExpirationTime_%s', dynaZone))
+    xi.dynamis.debugPrint(string.format('Verifying hourglass trade for player %s in zone %s. Expected startTime: %s, expected endTime: %s', player:getName(), dynaZone, expectedStartTime, expectedEndTime))
 
-    -- Validate hourglass now with updated exdata
-    if not validatePlayerHourglass(player, expectedStartTime, dynaZone) then
+    -- Validate the traded hourglass, not just any hourglass the player owns.
+    if not validateHourglass(glassObj, expectedStartTime, dynaZone, expectedEndTime) then
         return xi.dynamis.hourglassTradeResult.INVALID
     end
 
@@ -111,19 +111,23 @@ local function updatePlayerHourglassExdata(player, expectedStartTime, expectedZo
 
     for _, item in ipairs(player:findItems(perpetualHourglass)) do
         local exdata = item:getExData()
-        xi.dynamis.debugPrint(string.format('Found hourglass with exdata: startTime=%s, endTime=%s, zoneId=%s', exdata.startTime, exdata.endTime, exdata.zoneId))
+        local startTime = exdata and exdata.startTime or 0
+        local zoneId    = exdata and exdata.zoneId or 0
+
+        xi.dynamis.debugPrint(string.format('Found hourglass with exdata: startTime=%s, endTime=%s, zoneId=%s', startTime, exdata and exdata.endTime or 0, zoneId))
 
         -- Verify this is the correct hourglass by checking startTime and zoneId
         if
-            exdata.startTime == expectedStartTime and
-            exdata.zoneId == expectedZoneId
+            exdata and
+            startTime == expectedStartTime and
+            zoneId == expectedZoneId
         then
             xi.dynamis.debugPrint(string.format('Hourglass validated. Updating exdata endTime from %s to %s', exdata.endTime, zoneExpiration))
             exdata.endTime = zoneExpiration
 
             item:setExData(exdata)
         else
-            xi.dynamis.debugPrint(string.format('Hourglass mismatch. Expected startTime: %s, got: %s. Expected zoneId: %s, got: %s', expectedStartTime, exdata.startTime, expectedZoneId, exdata.zoneId))
+            xi.dynamis.debugPrint(string.format('Hourglass mismatch. Expected startTime: %s, got: %s. Expected zoneId: %s, got: %s', expectedStartTime, startTime, expectedZoneId, zoneId))
         end
     end
 end
@@ -170,18 +174,22 @@ end
 xi.dynamis.hasHourglass = function(player, expectedStartTime, expectedZoneId, zoneExpiration)
     local zoneId = player:getZoneID()
 
-    if validatePlayerHourglass(player, expectedStartTime, expectedZoneId) then
-        return true
-    else
-        if xi.dynamis.isGM(player) then
-            player:setCharVar(string.format('[DYNA]EjectPlayer_%s', zoneId), zoneExpiration) -- Player is a GM and can bypass the hourglass requirement.
-        else
-            xi.dynamis.debugPrint(string.format('Ejecting player: %s', player:getName()))
-            xi.dynamis.ejectPlayer(player)
+    for _, item in ipairs(player:findItems(xi.item.PERPETUAL_HOURGLASS)) do
+        if validateHourglass(item, expectedStartTime, expectedZoneId, zoneExpiration) then
+            return true
         end
-
-        return false
     end
+
+    xi.dynamis.debugPrint(string.format('Player %s does not have a matching active hourglass', player:getName()))
+
+    if xi.dynamis.isGM(player) then
+        player:setCharVar(string.format('[DYNA]EjectPlayer_%s', zoneId), zoneExpiration) -- Player is a GM and can bypass the hourglass requirement.
+    else
+        xi.dynamis.debugPrint(string.format('Ejecting player: %s', player:getName()))
+        xi.dynamis.ejectPlayer(player)
+    end
+
+    return false
 end
 
 xi.dynamis.getMatchingGlasses = function(player, zoneId, startTime)
@@ -202,8 +210,6 @@ end
 
 xi.dynamis.isGlassExpired = function(glassObj)
     local glassData = xi.dynamis.decypherGlass(glassObj)
-    xi.dynamis.debugPrint(glassData)
-
     if glassData.endTime > GetSystemTime() then
         return false
     end
@@ -250,6 +256,10 @@ xi.dynamis.onGlassUse = function(player, glassObj)
 
     -- Using the glass consumes it, so we need to make two new ones
     for _ = 1, 2 do
+        if player:getFreeSlotsCount() == 0 then
+            break
+        end
+
         xi.dynamis.makeGlass(player, glassData.zoneId, glassData.startTime, glassData.endTime)
     end
 end

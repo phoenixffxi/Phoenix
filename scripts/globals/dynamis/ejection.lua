@@ -58,7 +58,7 @@ xi.dynamis.ejectPlayer = function(player, forceEject)
 end
 
 xi.dynamis.ejectAllPlayers = function(zone)
-    print('Ejecting all players from Dynamis zone: ' .. tostring(zone:getID()))
+    xi.dynamis.debugPrint('Ejecting all players from Dynamis zone: ' .. tostring(zone:getID()))
     local playersInZone = zone:getPlayers()
     for _, player in pairs(playersInZone) do
         xi.dynamis.ejectPlayer(player) -- Runs the ejectPlayer function per player.
