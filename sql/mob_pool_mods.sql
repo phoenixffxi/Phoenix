@@ -192,15 +192,6 @@ INSERT INTO `mob_pool_mods` VALUES (2271,165,15,0); -- CRITHITRATE: 15
 -- Ladon
 INSERT INTO `mob_pool_mods` VALUES (2314,28,23,1); -- EXP_BONUS: 23
 
--- Maats Avatar
-INSERT INTO `mob_pool_mods` VALUES (2461,61,25,1); -- HP_SCALE: 25
-
--- Maats Pet
-INSERT INTO `mob_pool_mods` VALUES (2462,61,25,1); -- HP_SCALE: 25
-
--- Maats Wyvern
-INSERT INTO `mob_pool_mods` VALUES (2463,61,20,1); -- HP_SCALE: 20
-
 -- Mammet-19 Epsilon
 INSERT INTO `mob_pool_mods` VALUES (2499,240,90,0); -- SLEEPRES: 90
 
