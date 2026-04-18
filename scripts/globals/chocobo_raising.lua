@@ -29,6 +29,7 @@
 -- CHOCOBO_EGG_SOMEWHAT_WARM : !additem 2319
 -----------------------------------
 require('scripts/globals/chocobo_names')
+require('scripts/globals/hobbies/chocobo_raising/condense_events')
 -----------------------------------
 xi = xi or {}
 xi.chocoboRaising = xi.chocoboRaising or {}
@@ -59,16 +60,16 @@ xi.chocoboRaising.daysToAdult4     = 129 -- Retirement
 -- xi.settings.main.CHOCOBO_RAISING_STAT_GROWTH_CAP     = 512,   -- int.
 
 -- Maximum randomness applied to walkEnergyAmount for a given walk
-local walkEnergyRandomness = 5
+xi.chocoboRaising.walkEnergyRandomness = 5
 
 -- The amount of energy taken by: short, medium and long walks (+ a random amount between 0 and walkEnergyRandomness)
-local walkEnergyAmount = { 25, 33, 50 }
+xi.chocoboRaising.walkEnergyAmount = { 25, 33, 50 }
 
 -- Chance for an event to happen while on a walk (checked as chance < math.random(1, 100))
-local walkEventChance = 33
+xi.chocoboRaising.walkEventChance = 33
 
 -- The amount of energy taken by: watch over chocobo
-local watchOverEnergy = 5
+xi.chocoboRaising.watchOverEnergy = 5
 
 -- https://www.bg-wiki.com/ffxi/Category:Chocobo_Raising
 -- Rental chocobos are bred for speed and endurance, so they are automatically at the capped mount speed (+100% of base movement speed) and riding time.
@@ -764,89 +765,6 @@ local ageToStage = function(age)
     return stage.ADULT_4
 end
 
-local compareTables = function(t1, t2)
-    if
-        not t1 or
-        not t2
-    then
-        return false
-    end
-
-    if type(t1) ~= 'table' then
-        return false
-    end
-
-    if type(t2) ~= 'table' then
-        return false
-    end
-
-    if #t1 ~= #t2 then
-        return false
-    end
-
-    for idx, val1 in pairs(t1) do
-        local val2 = t2[idx]
-
-        if val1 ~= val2 then
-            return false
-        end
-    end
-
-    return true
-end
-
--- NOTE: This is playable, but not quite right.
--- Day1-4 should be condensed together, with the
--- hatching CS playing at the end.
--- Currently this outputs:
--- Day1-4: Basic care
--- Day 4: Hatching CS
--- Day 5-onwards: As normal
--- It should output:
--- Day1-4: Basic care, then hatching CS
--- Day5-onwards: As normal
-local condenseEvents = function(player, chocoState, events)
-    local cutEvent = function(t, eStart, eEnd, csList)
-        table.insert(t, { eStart, eEnd, csList })
-    end
-
-    local condensedEvents     = {}
-    local currentStartDay     = nil
-    local currentEndDay       = nil
-    local currentEventCSTable = nil
-
-    -- Each event is a table of cs's
-    debug('Raw Events')
-    for _, entry in pairs(events) do
-        debug('Day', entry[1], ':', entry[2][1])
-        -- Only condense days with the same table contents
-        if compareTables(entry[2], currentEventCSTable) then
-            -- Increase the span
-            currentEndDay = currentEndDay + 1
-        else
-            -- If there is an active span, cut it now
-            if currentEventCSTable then
-                cutEvent(condensedEvents, currentStartDay, currentEndDay, currentEventCSTable)
-            end
-
-            -- Start a new span
-            currentEventCSTable = entry[2]
-            currentStartDay     = entry[1]
-            currentEndDay       = entry[1]
-        end
-    end
-
-    -- Final 'cut'
-    cutEvent(condensedEvents, currentStartDay, currentEndDay, currentEventCSTable)
-
-    debug('Condensed Events & Spans')
-    for _, entry in pairs(condensedEvents) do
-        debug('Days', entry[1], 'to', entry[2], ':', entry[3][1])
-    end
-
-    return condensedEvents
-end
-
 local updateChocoState = function(player, chocoState)
     -- Update age and last_update_age
     chocoState.age             = math.floor((GetSystemTime() - chocoState.created) / xi.chocoboRaising.dayLength) + 1
@@ -1154,7 +1072,7 @@ xi.chocoboRaising.initChocoboData = function(player)
 
     -- Step 3: Condense that table down
     -- Step 4: Assign this report to the cache
-    chocoState.report.events = condenseEvents(player, chocoState, events)
+    chocoState.report.events = xi.chocoboRaising.condenseEvents(events)
 
     return chocoState
 end
@@ -1166,12 +1084,6 @@ xi.chocoboRaising.startCutscene = function(player, npc, trade)
     local tradeCsid     = csidTable[player:getZoneID()][3]
     local rejectionCsid = csidTable[player:getZoneID()][4]
     local chocoState    = xi.chocoboRaising.initChocoboData(player)
-
-    if chocoState == nil then
-        print('ERROR! startCutscene \'chocoState\' is nil!')
-
-        return
-    end
 
     if trade then -- Trade
         if
@@ -1743,7 +1655,7 @@ xi.chocoboRaising.onEventUpdateVCSTrainer = function(player, csid, option, npc)
                 }
 
                 local baseCS       = csidTable[player:getZoneID()][6]
-                local energyAmount =  walkEnergyAmount[1] + math.random(0, walkEnergyRandomness)
+                local energyAmount =  xi.chocoboRaising.walkEnergyAmount[1] + math.random(0, xi.chocoboRaising.walkEnergyRandomness)
                 local energyFlag   = 0
 
                 if chocoState.energy < energyAmount then
@@ -1757,7 +1669,7 @@ xi.chocoboRaising.onEventUpdateVCSTrainer = function(player, csid, option, npc)
                 local output     = { 0, 0, 0, 0, 0, 0, 0, 0 }
 
                 -- Will there be an event?
-                if math.random(1, 100) <= walkEventChance then
+                if math.random(1, 100) <= xi.chocoboRaising.walkEventChance then
                     local possibleEvents = {}
 
                     -- If not holding an item, it's possible to find an item
@@ -1805,7 +1717,7 @@ xi.chocoboRaising.onEventUpdateVCSTrainer = function(player, csid, option, npc)
                 }
 
                 local baseCS       = csidTable[player:getZoneID()][6]
-                local energyAmount =  walkEnergyAmount[2] + math.random(0, walkEnergyRandomness)
+                local energyAmount =  xi.chocoboRaising.walkEnergyAmount[2] + math.random(0, xi.chocoboRaising.walkEnergyRandomness)
                 local energyFlag   = 0
 
                 if chocoState.energy < energyAmount then
@@ -1820,7 +1732,7 @@ xi.chocoboRaising.onEventUpdateVCSTrainer = function(player, csid, option, npc)
                 local output = { 0, 0, 0, 0, 0, 0, 0, 0 }
 
                 -- Will there be an event?
-                if math.random(1, 100) <= walkEventChance then
+                if math.random(1, 100) <= xi.chocoboRaising.walkEventChance then
                     -- TODO: Hard-coded to randomly finding an item
                     output = { unpack(csData[1]) }
                 end
@@ -1857,7 +1769,7 @@ xi.chocoboRaising.onEventUpdateVCSTrainer = function(player, csid, option, npc)
                 }
 
                 local baseCS       = csidTable[player:getZoneID()][6]
-                local energyAmount =  walkEnergyAmount[3] + math.random(0, walkEnergyRandomness)
+                local energyAmount =  xi.chocoboRaising.walkEnergyAmount[3] + math.random(0, xi.chocoboRaising.walkEnergyRandomness)
                 local energyFlag   = 0
 
                 if chocoState.energy < energyAmount then
@@ -1871,7 +1783,7 @@ xi.chocoboRaising.onEventUpdateVCSTrainer = function(player, csid, option, npc)
                 local output     = { 0, 0, 0, 0, 0, 0, 0, 0 }
 
                 -- Will there be an event?
-                if math.random(1, 100) <= walkEventChance then
+                if math.random(1, 100) <= xi.chocoboRaising.walkEventChance then
                     -- TODO: Hard-coded to randomly finding an item
                     output = { unpack(csData[1]) }
                 end
@@ -1910,10 +1822,10 @@ xi.chocoboRaising.onEventUpdateVCSTrainer = function(player, csid, option, npc)
                 else
                     local energyFlag = 0
 
-                    if chocoState.energy < watchOverEnergy then
+                    if chocoState.energy < xi.chocoboRaising.watchOverEnergy then
                         energyFlag = -1
                     else
-                        chocoState.energy = chocoState.energy - watchOverEnergy
+                        chocoState.energy = chocoState.energy - xi.chocoboRaising.watchOverEnergy
                     end
 
                     -- Sandy: 304, 14396, 0, 0, 6, 0, 0, 2
