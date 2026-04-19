@@ -1,7 +1,7 @@
 -----------------------------------
--- Coronach
+-- Slug Shot
 -- Family: Humanoid Marksmanship Weaponskill
--- Description: Annihilator/Ferninand: Temporarily lowers enmity.
+-- Description: Delivers an inaccurate attack that deals quintuple damage. Accuracy varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -13,18 +13,17 @@ end
 mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
-    params.baseDamage      = mob:getWeaponDmg()
-    params.numHits         = 1
-    params.fTP             = { 3.0, 3.0, 3.0 }
-    -- params.dex_wSC         = 0.4 -- TODO: Capture if mobskill weaponskills have wSC.
-    -- params.agi_wSC         = 0.4 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.baseDamage     = mob:getWeaponDmg()
+    params.numHits        = 1
+    params.fTP            = { 5.0, 5.0, 5.0 }
+    -- params.agi_wSC     = 0.3 -- TODO: Capture if mobskill weaponskills have wSC.
     params.skipParry      = true
     params.skipGuard      = true
     params.skipBlock      = true
-    params.accuracyModifier = { 100, 100, 100 }
-    params.attackType      = xi.attackType.RANGED
-    params.damageType      = xi.damageType.PIERCING
-    params.shadowBehavior  = xi.mobskills.shadowBehavior.NUMSHADOWS_1
+    params.accuracyModifier = { -50, -25, 0 }
+    params.attackType     = xi.attackType.PHYSICAL
+    params.damageType     = xi.damageType.PIERCING
+    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_1
 
     local info = xi.mobskills.mobRangedMove(mob, target, skill, action, params)
 

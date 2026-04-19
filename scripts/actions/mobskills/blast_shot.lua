@@ -1,7 +1,7 @@
 -----------------------------------
--- Coronach
+-- Blast Shot
 -- Family: Humanoid Marksmanship Weaponskill
--- Description: Annihilator/Ferninand: Temporarily lowers enmity.
+-- Description: Delivers a melee-distance ranged attack. Accuracy varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -15,13 +15,12 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
 
     params.baseDamage      = mob:getWeaponDmg()
     params.numHits         = 1
-    params.fTP             = { 3.0, 3.0, 3.0 }
-    -- params.dex_wSC         = 0.4 -- TODO: Capture if mobskill weaponskills have wSC.
-    -- params.agi_wSC         = 0.4 -- TODO: Capture if mobskill weaponskills have wSC.
-    params.skipParry      = true
-    params.skipGuard      = true
-    params.skipBlock      = true
-    params.accuracyModifier = { 100, 100, 100 }
+    params.fTP             = { 2.0, 2.0, 2.0 }
+    -- params.agi_wSC         = 0.3 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.skipParry       = true
+    params.skipGuard       = true
+    params.skipBlock       = true
+    params.accuracyModifier = { 0, 30, 60 }
     params.attackType      = xi.attackType.RANGED
     params.damageType      = xi.damageType.PIERCING
     params.shadowBehavior  = xi.mobskills.shadowBehavior.NUMSHADOWS_1
