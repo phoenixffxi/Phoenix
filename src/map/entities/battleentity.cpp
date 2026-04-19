@@ -40,6 +40,7 @@
 #include "ai/states/weaponskill_state.h"
 #include "attack.h"
 #include "attackround.h"
+#include "entities/charentity.h"
 #include "items/item_weapon.h"
 #include "job_points.h"
 #include "lua/luautils.h"
@@ -51,6 +52,7 @@
 #include "status_effect_container.h"
 #include "trustentity.h"
 #include "utils/battleutils.h"
+#include "utils/charutils.h"
 #include "utils/messageutils.h"
 #include "utils/mobutils.h"
 #include "utils/petutils.h"
@@ -940,9 +942,18 @@ int32 CBattleEntity::takeDamage(int32 amount, CBattleEntity* attacker /* = nullp
     // RoE Damage Taken Trigger
     if (this->objtype == TYPE_PC)
     {
+        auto* PChar = static_cast<CCharEntity*>(this);
+
         if (amount > 0)
         {
-            roeutils::event(ROE_EVENT::ROE_DMGTAKEN, static_cast<CCharEntity*>(this), RoeDatagram("dmg", amount));
+            roeutils::event(ROE_EVENT::ROE_DMGTAKEN, PChar, RoeDatagram("dmg", amount));
+
+            // Taking 1~8 damage force fails the current synthesis.
+            // Threshold varies with unknown parameters.
+            if (PChar->isCrafting())
+            {
+                charutils::forceSynthCritFail("CBattleEntity::takeDamage", PChar);
+            }
         }
     }
     else if (attacker && attacker->objtype == TYPE_PC)
