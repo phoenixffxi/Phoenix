@@ -1,7 +1,7 @@
 -----------------------------------
--- Chant du Cygne
+-- Requiescat
 -- Family: Humanoid Sword Weaponskill
--- Description: Delivers a threefold attack. Chance of critical hit varies with TP.
+-- Delivers a fivefold attack, non-elemental damage. Attack power varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -13,15 +13,14 @@ end
 mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
-    params.baseDamage     = mob:getWeaponDmg()
-    params.numHits        = 3
-    params.fTP            = { 1.6328125, 1.6328125, 1.6328125 }
-    -- params.dex_wSC        = 0.8 -- TODO: Capture if mobskill weaponskills have wSC.
-    params.attackType     = xi.attackType.PHYSICAL
-    params.damageType     = xi.damageType.SLASHING
-    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_3
-    params.canCrit        = true
-    params.criticalChance = { 0.15, 0.25, 0.40 }
+    params.baseDamage       = mob:getWeaponDmg()
+    params.numHits          = 5
+    params.fTP              = { 1.0, 1.0, 1.0 }
+    -- params.mnd_wSC       = 0.85 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.attackMultiplier = { 0.8, 0.9, 1.0 }
+    params.attackType       = xi.attackType.PHYSICAL
+    params.damageType       = xi.damageType.SLASHING
+    params.shadowBehavior   = xi.mobskills.shadowBehavior.NUMSHADOWS_5
 
     local info = xi.mobskills.mobPhysicalMove(mob, target, skill, action, params)
 

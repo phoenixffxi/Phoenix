@@ -1,7 +1,7 @@
 -----------------------------------
--- Chant du Cygne
+-- Imperator
 -- Family: Humanoid Sword Weaponskill
--- Description: Delivers a threefold attack. Chance of critical hit varies with TP.
+-- Description: Damage varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -14,14 +14,13 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
     params.baseDamage     = mob:getWeaponDmg()
-    params.numHits        = 3
-    params.fTP            = { 1.6328125, 1.6328125, 1.6328125 }
-    -- params.dex_wSC        = 0.8 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.numHits        = 1
+    params.fTP            = { 3.75, 7.5, 11.75 }
+    -- params.dex_wSC        = 0.7 -- TODO: Capture if mobskill weaponskills have wSC.
+    -- params.mnd_wSC        = 0.7 -- TODO: Capture if mobskill weaponskills have wSC.
     params.attackType     = xi.attackType.PHYSICAL
     params.damageType     = xi.damageType.SLASHING
-    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_3
-    params.canCrit        = true
-    params.criticalChance = { 0.15, 0.25, 0.40 }
+    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_1
 
     local info = xi.mobskills.mobPhysicalMove(mob, target, skill, action, params)
 

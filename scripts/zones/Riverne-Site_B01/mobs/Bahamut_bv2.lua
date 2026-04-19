@@ -2,9 +2,9 @@
 -- Area: Riverne - Site B01 (BCNM)
 -- NM: Bahamut V2
 -- !pos -612.800 1.750 693.190 29
--- Uses a flare ability at 90%, 80%, 70%, 60%, 50%, 40%, 30%, 20%, 10%, and 0% HP.
--- Summons a Wyrm at 80%, 60%, 40%, and 20% HP. The Wyrms are Ouryu, Tiamat, Jormungand, and Vrtra, but they spawn in random order.
+-- Uses a flare ability at 90%, 80%, 70%, 60%, 50%, 40%, 30%, 20%, and 10% HP and repeatedly below 10% until death.
 -- At 10% HP, Bahamut will stop using magic and only use auto-attacks and Teraflare.
+-- Summons a Wyrm at 80%, 60%, 40%, and 20% HP. The Wyrms are Ouryu, Tiamat, Jormungand, and Vrtra, but they spawn in random order.
 -- Combat loop will always prioritze using the next Flare in the sequence over summoning a Wyrm due to early returns. This is retail accurate.
 -----------------------------------
 local ID = zones[xi.zone.RIVERNE_SITE_B01]

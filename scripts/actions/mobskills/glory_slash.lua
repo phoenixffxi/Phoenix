@@ -1,7 +1,7 @@
 -----------------------------------
--- Chant du Cygne
+-- Glory Slash
 -- Family: Humanoid Sword Weaponskill
--- Description: Delivers a threefold attack. Chance of critical hit varies with TP.
+--     Delivers an area attack that deals triple damage. Additional effect: Stun. Damage varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -14,19 +14,19 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
     params.baseDamage     = mob:getWeaponDmg()
-    params.numHits        = 3
-    params.fTP            = { 1.6328125, 1.6328125, 1.6328125 }
-    -- params.dex_wSC        = 0.8 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.numHits        = 1
+    params.fTP            = { 3.0, 3.5, 4.0 }
+    -- params.str_wSC        = 0.3 -- TODO: Capture if mobskill weaponskills have wSC.
     params.attackType     = xi.attackType.PHYSICAL
     params.damageType     = xi.damageType.SLASHING
-    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_3
-    params.canCrit        = true
-    params.criticalChance = { 0.15, 0.25, 0.40 }
+    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_1
 
     local info = xi.mobskills.mobPhysicalMove(mob, target, skill, action, params)
 
     if xi.mobskills.processDamage(mob, target, skill, action, info) then
         target:takeDamage(info.damage, mob, info.attackType, info.damageType)
+
+        xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.STUN, 1, 0, 4)
     end
 
     return info.damage
