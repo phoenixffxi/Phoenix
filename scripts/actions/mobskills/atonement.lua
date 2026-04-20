@@ -1,30 +1,24 @@
 -----------------------------------
--- Spirits Within
+-- Atonement
 -- Family: Humanoid Sword Weaponskill
--- Description: Delivers an unavoidable attack. Damage varies with HP and TP.
+-- Description: Delivers a twofold attack. Damage varies with TP.
+-- NOTE : The player version of this skill is based off of Enmity. TODO : Capture mob version of this skill.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
 
 mobskillObject.onMobSkillCheck = function(target, mob, skill)
-    if mob:getPool() ~= xi.mobPool.THRONE_ROOM_VOLKER then
-        mob:messageBasic(xi.msg.basic.READIES_WS, 0, 39)
-    end
-
     return 0
 end
 
 mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
-    if mob:getPool() == xi.mobPool.THRONE_ROOM_VOLKER then -- Volker@Throne_Room only
-        target:showText(mob, zones[xi.zone.THRONE_ROOM].text.RETURN_TO_THE_DARKNESS)
-    end
-
     local params = {}
 
-    params.percentMultipier = xi.combat.physical.calculateTPfactor(skill:getTP(), { 0.0625, 0.1875, 0.46875 })
-    params.damageCap        = mob:getMaxHP()
-    params.element          = xi.element.NONE
+    params.percentMultipier = 0
+    params.damageCap        = 750
+    params.bonusDamage      = math.floor(mob:getWeaponDmg() * 2 * xi.combat.physical.calculateTPfactor(skill:getTP(), { 1.0, 1.5, 2.0 }))
     params.resistStat       = xi.mod.INT
+    params.element          = xi.element.NONE
     params.attackType       = xi.attackType.BREATH
     params.damageType       = xi.damageType.ELEMENTAL
     params.shadowBehavior   = xi.mobskills.shadowBehavior.IGNORE_SHADOWS
