@@ -266,11 +266,3 @@ __pycache__
 sanity_checks_summary.md
 changed-files.txt
 clang_tidy_summary.md
-
-# Ignore Limbus related files
-scripts/globals/limbus.lua
-scripts/zones/Apollyon/
-scripts/zones/Temenos/
-scripts/zones/Port_Jeuno/Sagheera.lua
-scripts/battlefields/Apollyon/
-scripts/battlefields/Temenos/
