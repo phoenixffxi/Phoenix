@@ -307,6 +307,26 @@ xi.chocoboRaising.carePlans =
     ACTING_IN_A_PLAY         = 12,
 }
 
+xi.chocoboRaising.carePlanStats =
+{
+    STRENGTH    = 1,
+    ENDURANCE   = 2,
+    DISCERNMENT = 3,
+    RECEPTIVITY = 4,
+    AFFECTION   = 5,
+    ENERGY      = 6,
+}
+
+xi.chocoboRaising.carePlanStatNames =
+{
+    [xi.chocoboRaising.carePlanStats.STRENGTH   ] = 'Strength',
+    [xi.chocoboRaising.carePlanStats.ENDURANCE  ] = 'Endurance',
+    [xi.chocoboRaising.carePlanStats.DISCERNMENT] = 'Discernment',
+    [xi.chocoboRaising.carePlanStats.RECEPTIVITY] = 'Receptivity',
+    [xi.chocoboRaising.carePlanStats.AFFECTION  ] = 'Affection',
+    [xi.chocoboRaising.carePlanStats.ENERGY     ] = 'Energy',
+}
+
 -- http://www.playonline.com/pcd/update/ff11us/20060822VOL2B1/table03en.jpg
 -- minor: 1, moderate: 5, major: 10
 -- strength, endurance, discernment, receptivity, affection, energy, payment
@@ -326,44 +346,6 @@ xi.chocoboRaising.carePlanData =
     [xi.chocoboRaising.carePlans.DIGGING_FOR_TREASURE    ] = {  0, -5, 10,  0, -10, -10, 100 },
     [xi.chocoboRaising.carePlans.ACTING_IN_A_PLAY        ] = { -5,  0,  0, 10, -10, -10, 100 },
 }
-
-xi.chocoboRaising.handleStatChange = function(stat, change, max)
-    if change > 0 then
-        change = change * xi.settings.main.CHOCOBO_RAISING_STAT_POS_MULTIPLIER
-    elseif change < 0 then
-        change = change * xi.settings.main.CHOCOBO_RAISING_STAT_NEG_MULTIPLIER
-    end
-
-    -- TODO: Enum for which stat is changing?
-    -- TODO: Handle Green Racing Silks here for energy?
-    -- https://ffxiclopedia.fandom.com/wiki/Green_Race_Silks
-
-    stat = utils.clamp(stat + change, 0, max)
-
-    return stat
-end
-
-xi.chocoboRaising.handleCarePlan = function(player, chocoState, carePlan)
-    -- TODO: Take in a multiplier to account for merged time ranges
-
-    chocoState.strength    = xi.chocoboRaising.handleStatChange(chocoState.strength   , xi.chocoboRaising.carePlanData[carePlan][1], 255)
-    chocoState.endurance   = xi.chocoboRaising.handleStatChange(chocoState.endurance  , xi.chocoboRaising.carePlanData[carePlan][2], 255)
-    chocoState.discernment = xi.chocoboRaising.handleStatChange(chocoState.discernment, xi.chocoboRaising.carePlanData[carePlan][3], 255)
-    chocoState.receptivity = xi.chocoboRaising.handleStatChange(chocoState.receptivity, xi.chocoboRaising.carePlanData[carePlan][4], 255)
-    chocoState.affection   = xi.chocoboRaising.handleStatChange(chocoState.affection  , xi.chocoboRaising.carePlanData[carePlan][5], 255)
-    chocoState.energy      = xi.chocoboRaising.handleStatChange(chocoState.energy     , xi.chocoboRaising.carePlanData[carePlan][6], 100)
-
-    local payment = xi.chocoboRaising.carePlanData[carePlan][7]
-
-    if payment then
-        payment = payment * xi.settings.main.CHOCOBO_RAISING_GIL_MULTIPLIER
-        debug(string.format('Care Plan Payment: %d', payment))
-
-        -- TODO: Handle payment
-    end
-end
-
--- TODO: Make sure stat changes are clamped 0-255!
 
 xi.chocoboRaising.validFoods =
 {

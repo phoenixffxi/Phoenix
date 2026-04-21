@@ -275,7 +275,7 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                     chocoState.stage = xi.chocoboRaising.ageToStage(chocoState.age)
 
                     for _, cs in pairs(eventCSList) do
-                        table.insert(chocoState.csList, cs)
+                        table.insert(chocoState.csList, { cs, eventStartEnd - eventStartStart + 1 })
                     end
 
                     report = bit.lshift(eventStartStart, 0) + bit.lshift(eventStartEnd, 20)
@@ -918,14 +918,14 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                 -- Prepare chocoState.csList
                 for _, currentEvent in pairs (chocoState.report.events) do
                     local eventStartStart = currentEvent[1]
-                    -- local eventStartEnd = currentEvent[2]
-                    local eventCSList = currentEvent[3]
+                    local eventStartEnd   = currentEvent[2]
+                    local eventCSList     = currentEvent[3]
 
                     chocoState.age   = eventStartStart
                     chocoState.stage = xi.chocoboRaising.ageToStage(chocoState.age)
 
                     for _, cs in pairs(eventCSList) do
-                        table.insert(chocoState.csList, cs)
+                        table.insert(chocoState.csList, { cs, eventStartEnd - eventStartStart + 1 })
                     end
                 end
 
