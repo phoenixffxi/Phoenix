@@ -7102,6 +7102,7 @@ xi.item =
     NASATYAS_RING                       = 15852,
     DASRAS_RING                         = 15853,
     GRIFFON_RING                        = 15856,
+    EXCELSIS_RING                       = 15857,
     GYOKUTO_OBI                         = 15860,
     DEDUCTIVE_BROCADE_OBI               = 15861,
     ENTHRALLING_BROCADE_OBI             = 15862,
