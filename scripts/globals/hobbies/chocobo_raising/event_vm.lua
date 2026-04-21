@@ -15,7 +15,7 @@ local vmOpCodes =
     CHECK_REPORT_STATUS        = 208,
     INTRO_MENU_PT_2            = 214,
     INTRO_MENU_PT_3            = 215,
-    UNKNOWN_216                = 216,
+    FORCED_NAMING              = 216,
     BUY_CHOCOBO_WHISTLE        = 221,
     RECEIVE_CHOCOBO_WHISTLE    = 222,
     REGISTER_CHOCOBO_WHISTLE   = 223,
@@ -57,7 +57,7 @@ local vmOpCodeNames =
     [vmOpCodes.CHECK_REPORT_STATUS]        = 'Check report status',
     [vmOpCodes.INTRO_MENU_PT_2]            = 'Intro menu pt 2',
     [vmOpCodes.INTRO_MENU_PT_3]            = 'Intro menu pt 3',
-    [vmOpCodes.UNKNOWN_216]                = 'Unknown 216 (forced renaming?)',
+    [vmOpCodes.FORCED_NAMING]              = 'Forced naming',
     [vmOpCodes.BUY_CHOCOBO_WHISTLE]        = 'Buy chocobo whistle',
     [vmOpCodes.RECEIVE_CHOCOBO_WHISTLE]    = 'Receive chocobo whistle',
     [vmOpCodes.REGISTER_CHOCOBO_WHISTLE]   = 'Register chocobo whistle',
@@ -394,6 +394,14 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                 menuFlags = menuFlags + exit
 
                 player:updateEvent(menuFlags, 0, 0, 0, 0, 0, 0, 0)
+            end,
+
+            [vmOpCodes.FORCED_NAMING] = function()
+                -- NOTE: The renaming is done in event playout, otherwise the CS won't see the
+                --     : new name in time to present it.
+                -- TODO: If you skip the report where the chocobo is force-named, the new name won't
+                --     : be visible until you've closed and reopened the menu.
+                player:updateEvent(0, 0, 0, 0, 0, 0, 0, 0)
             end,
 
             [vmOpCodes.FEED_CHOCOBO] = function()

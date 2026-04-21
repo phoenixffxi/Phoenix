@@ -71,7 +71,7 @@ commandObj.onTrigger = function(player)
         })
 
         table.insert(menu.options, {
-            'Debug #1: d0-d4',
+            'D#1: d0-d4',
             function(playerArg)
                 playerArg:deleteRaisedChocobo()
 
@@ -86,12 +86,13 @@ commandObj.onTrigger = function(player)
                 playerArg:printToPlayer('Setting up debug scenario 1 (4d update)', xi.msg.channel.SYSTEM_3, '')
             end,
         })
+
         table.insert(menu.options, {
-            'Debug #2: d0-d10',
+            'D#2: d0-d10',
             function(playerArg)
                 playerArg:deleteRaisedChocobo()
 
-                local egg = {}
+                local egg      = {}
                 local newChoco = xi.chocoboRaising.newChocobo(playerArg, egg)
                 player:setChocoboRaisingInfo(newChoco)
 
@@ -104,6 +105,40 @@ commandObj.onTrigger = function(player)
                 end
 
                 playerArg:printToPlayer('Setting up debug scenario 2 (10d update) w/ handkerchief', xi.msg.channel.SYSTEM_3, '')
+            end,
+        })
+
+        table.insert(menu.options, {
+            'D#3: d0-d65',
+            function(playerArg)
+                playerArg:deleteRaisedChocobo()
+
+                local egg      = {}
+                local newChoco = xi.chocoboRaising.newChocobo(playerArg, egg)
+                player:setChocoboRaisingInfo(newChoco)
+
+                local info = playerArg:getChocoboRaisingInfo()
+                info['created'] = info['created'] - (epochDay * 65)
+                playerArg:setChocoboRaisingInfo(info)
+
+                playerArg:printToPlayer('Setting up debug scenario 3 (65d update)', xi.msg.channel.SYSTEM_3, '')
+            end,
+        })
+
+        table.insert(menu.options, {
+            'D#4: d0-d130',
+            function(playerArg)
+                playerArg:deleteRaisedChocobo()
+
+                local egg      = {}
+                local newChoco = xi.chocoboRaising.newChocobo(playerArg, egg)
+                player:setChocoboRaisingInfo(newChoco)
+
+                local info = playerArg:getChocoboRaisingInfo()
+                info['created'] = info['created'] - (epochDay * 130)
+                playerArg:setChocoboRaisingInfo(info)
+
+                playerArg:printToPlayer('Setting up debug scenario 4 (130d update)', xi.msg.channel.SYSTEM_3, '')
             end,
         })
 
@@ -131,44 +166,6 @@ commandObj.onTrigger = function(player)
             'Give Egg',
             function(playerArg)
                 npcUtil.giveItem(playerArg, xi.item.CHOCOBO_EGG_SLIGHTLY_WARM)
-            end,
-        })
-
-        table.insert(menu.options, {
-            'Debug #1: d0-d4',
-            function(playerArg)
-                playerArg:deleteRaisedChocobo()
-
-                local egg = {}
-                local newChoco = xi.chocoboRaising.newChocobo(playerArg, egg)
-                player:setChocoboRaisingInfo(newChoco)
-
-                local info = playerArg:getChocoboRaisingInfo()
-                info['created'] = info['created'] - (epochDay * 4)
-                playerArg:setChocoboRaisingInfo(info)
-
-                playerArg:printToPlayer('Setting up debug scenario 1 (4d update)', xi.msg.channel.SYSTEM_3, '')
-            end,
-        })
-
-        table.insert(menu.options, {
-            'Debug #2: d0-d10',
-            function(playerArg)
-                playerArg:deleteRaisedChocobo()
-
-                local egg = {}
-                local newChoco = xi.chocoboRaising.newChocobo(playerArg, egg)
-                player:setChocoboRaisingInfo(newChoco)
-
-                local info = playerArg:getChocoboRaisingInfo()
-                info['created'] = info['created'] - (epochDay * 10)
-                playerArg:setChocoboRaisingInfo(info)
-
-                if playerArg:hasKeyItem(xi.keyItem.WHITE_HANDKERCHIEF) then
-                    playerArg:delKeyItem(xi.keyItem.WHITE_HANDKERCHIEF)
-                end
-
-                playerArg:printToPlayer('Setting up debug scenario 2 (10d update w/ handkerchief)', xi.msg.channel.SYSTEM_3, '')
             end,
         })
     end

@@ -212,7 +212,6 @@ xi.chocoboRaising.onRaisingEventPlayout = function(player, csOffset, chocoState,
         -- Growth CSs
         [xi.chocoboRaising.cutscenes.ADULT_2_TO_ADULT_3] = function()
             -- You waited too long to name your chocobo, trainer is going to do it for you!
-            -- TODO: Is there a CS associated with this?
             if
                 chocoState.first_name == 'Chocobo' and
                 chocoState.last_name == 'Chocobo'
