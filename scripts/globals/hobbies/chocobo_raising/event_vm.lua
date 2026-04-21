@@ -360,17 +360,26 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                 -- Debug options
                 --
 
-                -- Go forward 1 unit (debug) (Unused, see command: !chocoboraising)
-                local goForward1UnitDebug = -bit.lshift(0x01, 26)
-                utils.unused(goForward1UnitDebug)
+                local gmModeToggled = player:getVisibleGMLevel() >= 3
+                if gmModeToggled then
+                    -- Go forward   1 unit (debug) (Unused, see command: !chocoboraising)
+                    local goForward1UnitDebug = -bit.lshift(0x01, 26)
 
-                -- Abilities print (debug) (Unused, see command: !chocoboraising)
-                local abilitiesPrintDebug = -bit.lshift(0x01, 27)
-                utils.unused(abilitiesPrintDebug)
+                    -- Abilities print (debug) (Unused, see command: !chocoboraising)
+                    local abilitiesPrintDebug = -bit.lshift(0x01, 27)
 
-                -- User work print (debug) (Unused, see command: !chocoboraising)
-                local userWorkPrintDebug = -bit.lshift(0x01, 28)
-                utils.unused(userWorkPrintDebug)
+                    -- User work print (debug) (Unused, see command: !chocoboraising)
+                    local userWorkPrintDebug = -bit.lshift(0x01, 28)
+
+                    menuFlags = menuFlags +
+                        goForward1UnitDebug +
+                        abilitiesPrintDebug +
+                        userWorkPrintDebug
+                end
+
+                --
+                -- Danger zone
+                --
 
                 if chocoState.stage >= xi.chocoboRaising.stage.ADULT_1 then
                     local retireYourChocobo = -bit.lshift(0x01, 29) -- Retire your chocobo
@@ -383,23 +392,6 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                 -- Exit is always available
                 local exit = -bit.lshift(0x01, 31)
                 menuFlags = menuFlags + exit
-
-                -- TODO: Do we need these anymore?
-
-                if chocoState.stage >= xi.chocoboRaising.stage.CHICK then
-                    utils.unused()
-                    --menuFlags = menuFlags
-                end
-
-                if chocoState.stage >= xi.chocoboRaising.stage.ADOLESCENT then
-                    utils.unused()
-                    -- menuFlags = menuFlags
-                end
-
-                if chocoState.stage >= xi.chocoboRaising.stage.ADULT_1 then
-                    utils.unused()
-                    -- menuFlags = menuFlags
-                end
 
                 player:updateEvent(menuFlags, 0, 0, 0, 0, 0, 0, 0)
             end,
@@ -471,7 +463,7 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                     local enlargedCrest    = chocoState.discernment >= 128 and 1 or 0
                     local enlargedFeet     = chocoState.strength >= 128 and 1 or 0
                     local moreTailFeathers = chocoState.endurance >= 128 and 1 or 0
-                    
+
                     player:updateEvent(chocoState.color, enlargedCrest, enlargedFeet, moreTailFeathers, chocoState.stage, chocoState.sex, 0, 0)
                 end
             end,
@@ -1115,16 +1107,23 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
             end,
 
             [vmOpCodes.DEBUG_GO_FORWARD_1_UNIT] = function()
-                -- TODO: Split stored age and time of creation so age can be manipulated
+                -- TODO: Split stored age and time of creation so age can be manipulated from here
                 player:updateEvent(0, 0, 0, 0, 0, 0, 0, 0)
             end,
 
             [vmOpCodes.DEBUG_ABILITIES_PRINT] = function()
-                player:updateEvent(1, xi.chocoboRaising.packStats1(chocoState), xi.chocoboRaising.packStats2(chocoState), 0, 0, 0, 0, 0)
+                local packedRawStats =
+                    bit.lshift(chocoState.strength,     0) +
+                    bit.lshift(chocoState.endurance,    8) +
+                    bit.lshift(chocoState.discernment, 16) +
+                    bit.lshift(chocoState.receptivity, 24)
+
+                player:updateEvent(1, packedRawStats, xi.chocoboRaising.packStats2(chocoState), 0, 0, 0, 0, 0)
             end,
 
             [vmOpCodes.DEBUG_USER_WORK_PRINT] = function()
                 -- TODO: Should we be tracking all user interactions with the chocobo?
+                player:updateEvent(0, 0, 0, 0, 0, 0, 0, 0)
             end,
 
             [vmOpCodes.GIVE_UP_CHOCOBO] = function()
