@@ -28,7 +28,7 @@ local compareTables = function(t1, t2)
         return false
     end
 
-    for idx, val1 in pairs(t1) do
+    for idx, val1 in ipairs(t1) do
         local val2 = t2[idx]
 
         if val1 ~= val2 then

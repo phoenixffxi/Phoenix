@@ -173,12 +173,21 @@ xi.chocoboRaising.skillRankBoundaries =
 xi.chocoboRaising.numberToRank = function(skill)
     local rank = xi.chocoboRaising.skillRanks.F_POOR
 
-    -- Since pairs isn't guaranteed to iterate in order, we have
-    -- do check against ranks and see if things are greater than
-    -- our best-found rank
     for idx, boundary in ipairs(xi.chocoboRaising.skillRankBoundaries) do
         if skill >= boundary and xi.chocoboRaising.skillRanks[idx] > rank then
             rank = xi.chocoboRaising.skillRanks[idx]
+        end
+    end
+
+    return rank
+end
+
+xi.chocoboRaising.affectionToAffectionRank = function(affection)
+    local rank = xi.chocoboRaising.affectionRank.DOESNT_CARE
+
+    for idx, boundary in ipairs(xi.chocoboRaising.skillRankBoundaries) do
+        if affection >= boundary and xi.chocoboRaising.skillRanks[idx] > rank then
+            rank = xi.chocoboRaising.affectionRank[idx]
         end
     end
 
@@ -524,13 +533,14 @@ xi.chocoboRaising.walkItems =
 }
 
 xi.chocoboRaising.packStats1 = function(chocoState)
-    return bit.lshift(chocoState.strength,  0) +
-        bit.lshift(chocoState.endurance,    8) +
-        bit.lshift(chocoState.discernment, 16) +
-        bit.lshift(chocoState.receptivity, 24)
+    return bit.lshift(xi.chocoboRaising.numberToRank(chocoState.strength),  0) +
+        bit.lshift(xi.chocoboRaising.numberToRank(chocoState.endurance),    8) +
+        bit.lshift(xi.chocoboRaising.numberToRank(chocoState.discernment), 16) +
+        bit.lshift(xi.chocoboRaising.numberToRank(chocoState.receptivity), 24)
 end
 
 xi.chocoboRaising.packStats2 = function(chocoState)
+    -- TODO: Do these need to be packed into ranks too?
     return bit.lshift(chocoState.affection,  0) +
         bit.lshift(chocoState.energy,        8) +
         bit.lshift(chocoState.satisfaction, 16)

@@ -280,7 +280,7 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                     chocoState.age   = eventStartStart
                     chocoState.stage = xi.chocoboRaising.ageToStage(chocoState.age)
 
-                    for _, cs in pairs(eventCSList) do
+                    for _, cs in ipairs(eventCSList) do
                         table.insert(chocoState.csList, { cs, eventStartEnd - eventStartStart + 1 })
                     end
 
@@ -412,14 +412,14 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                     local itemData     = xi.chocoboRaising.validFoods[itemId]
                     local hungerAmount = itemData[1]
                     local energyAmount = itemData[3]
-                    local glowColor   = itemData[10]
+                    local glowColor    = itemData[10]
 
                     player:messageSpecial(ID.text.CHOCOBO_FEEDING_ITEM, itemId, idx)
 
                     -- TODO: Handle item effects
 
                     if xi.chocoboRaising.hasCondition(chocoState) then
-                        for _, condition in pairs(chocoState.conditions) do
+                        for _, condition in ipairs(chocoState.conditions) do
                             if xi.chocoboRaising.getCondition(chocoState, condition) then
                                 local foodCureTable = xi.chocoboRaising.conditionsHealedByItems[condition]
 
@@ -499,35 +499,106 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
             end,
 
             [vmOpCodes.ASK_ABOUT_CONDITION_CONFIRM] = function()
+                -- TODO: When is this used?
                 -- Block all other information
-                --local blockFlag = bit.lshift(0x01, 31) -- Sorry, but you will have to do this later. I have something new to report.
+                -- local blockFlag = bit.lshift(0x01, 31) -- Sorry, but you will have to do this later. I have something new to report.
+
                 local arg0 = vmOpCodes.ASK_ABOUT_CONDITION_CONFIRM
+
                 local arg1 = xi.chocoboRaising.packStats1(chocoState)
-                local arg2 = bit.lshift(xi.chocoboRaising.affectionRank.PARENT, 0) + bit.lshift(chocoState.hunger, 16)
+
+                local affection = xi.chocoboRaising.affectionToAffectionRank(chocoState.affection)
+                local arg2      = bit.lshift(affection, 0) +
+                    bit.lshift(chocoState.hunger, 16)
+
+                -- TODO: Does this leak the ability information early? Should we block this out?
                 local arg3 = bit.lshift(chocoState.personality, 0) +
                     bit.lshift(chocoState.weather_preference, 4) +
                     bit.lshift(chocoState.ability1, 8) +
                     bit.lshift(chocoState.ability2, 12) +
                     bit.lshift(chocoState.stage, 16)
 
-                -- TODO: Refactor to use the -bit pattern
+                debug(string.format('strength: %i', chocoState.strength))
+                debug(string.format('endurance: %i', chocoState.endurance))
+                debug(string.format('discernment: %i', chocoState.discernment))
+                debug(string.format('receptivity: %i', chocoState.receptivity))
+                debug(string.format('affection: %i', chocoState.affection))
+
+                --
+                -- NOTE: This does NOT use the negative masks of the menus!
+                --
+
                 -- Condition flags (can be combined)
+                local legWounded         = bit.lshift(0x01, 0)
+                local slightlyIll        = bit.lshift(0x01, 1)
+                local stomachAche        = bit.lshift(0x01, 2)
+                local depressed          = bit.lshift(0x01, 3)
+                local excellentCondition = bit.lshift(0x01, 4)
+                local sleepingSoundly    = bit.lshift(0x01, 5)
+                local veryIll            = bit.lshift(0x01, 6)
+                local boredRestless      = bit.lshift(0x01, 7)
+                local hopelesslySpoiled  = bit.lshift(0x01, 8)
+                local ranAway            = bit.lshift(0x01, 9)
+                local inLove             = bit.lshift(0x01, 10)
+                local makingAFuss        = bit.lshift(0x01, 11)
+                local fullOfEnergy       = bit.lshift(0x01, 12)
+                local brightAndFocussed  = bit.lshift(0x01, 13)
+
                 -- No flags: Stable
-                -- local legWounded = bit.lshift(0x01, 0)
-                -- local slightlyIll = bit.lshift(0x01, 1)
-                -- local stomachAche = bit.lshift(0x01, 2)
-                -- local depressed = bit.lshift(0x01, 3)
-                -- local excellentCondition = bit.lshift(0x01, 4)
-                -- local sleepingSoundly = bit.lshift(0x01, 5)
-                -- local veryIll = bit.lshift(0x01, 6)
-                -- local boredRestless = bit.lshift(0x01, 7)
-                -- local hopelesslySpoiled = bit.lshift(0x01, 8)
-                -- local ranAway = bit.lshift(0x01, 9)
-                -- local inLove = bit.lshift(0x01, 10)
-                -- local makingAFuss = bit.lshift(0x01, 11)
-                -- local fullOfEnergy = bit.lshift(0x01, 12)
-                -- local brightAndFocussed = bit.lshift(0x01, 13)
-                local arg4 = 0 -- fullOfEnergy + brightAndFocussed
+                local arg4 = 0x00000000
+
+                if xi.chocoboRaising.getCondition(chocoState, xi.chocoboRaising.conditions.INJURED) then
+                    arg4 = arg4 + legWounded
+                end
+
+                if xi.chocoboRaising.getCondition(chocoState, xi.chocoboRaising.conditions.SICK) then
+                    arg4 = arg4 + slightlyIll
+                end
+
+                if xi.chocoboRaising.getCondition(chocoState, xi.chocoboRaising.conditions.ILL) then
+                    arg4 = arg4 + stomachAche
+                end
+
+                -- TODO: depressed
+                utils.unused(depressed)
+
+                if xi.chocoboRaising.getCondition(chocoState, xi.chocoboRaising.conditions.HIGH_SPIRITS) then
+                    arg4 = arg4 + excellentCondition
+                end
+
+                -- TODO: sleepingSoundly
+                utils.unused(sleepingSoundly)
+
+                if xi.chocoboRaising.getCondition(chocoState, xi.chocoboRaising.conditions.VERY_ILL) then
+                    arg4 = arg4 + veryIll
+                end
+
+                if xi.chocoboRaising.getCondition(chocoState, xi.chocoboRaising.conditions.BORED) then
+                    arg4 = arg4 + boredRestless
+                end
+
+                if xi.chocoboRaising.getCondition(chocoState, xi.chocoboRaising.conditions.SPOILED) then
+                    arg4 = arg4 + hopelesslySpoiled
+                end
+
+                if xi.chocoboRaising.getCondition(chocoState, xi.chocoboRaising.conditions.RUN_AWAY) then
+                    arg4 = arg4 + ranAway
+                end
+
+                if xi.chocoboRaising.getCondition(chocoState, xi.chocoboRaising.conditions.LOVESICK) then
+                    arg4 = arg4 + inLove
+                end
+
+                -- TODO: makingAFuss
+                utils.unused(makingAFuss)
+
+                if xi.chocoboRaising.getCondition(chocoState, xi.chocoboRaising.conditions.FULL_OF_ENERGY_1) or xi.chocoboRaising.getCondition(chocoState, xi.chocoboRaising.conditions.FULL_OF_ENERGY_2) then
+                    arg4 = arg4 + fullOfEnergy
+                end
+
+                if xi.chocoboRaising.getCondition(chocoState, xi.chocoboRaising.conditions.BRIGHT_AND_FOCUSED) then
+                    arg4 = arg4 + brightAndFocussed
+                end
 
                 player:updateEvent(arg0, arg1, arg2, arg3, arg4, 0, 0, 0)
             end,
@@ -535,31 +606,41 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
             [vmOpCodes.CARE_FOR_CHOCOBO_MENU] = function()
                 debug(string.format('  Energy: %i', chocoState.energy))
 
-                -- TODO: Refactor to use the -bit pattern
-                local watchOverChocobo  = 0x01
-                local tellAStory        = 0x02
-                local scoldTheChocobo   = 0x04
-                local competeWithOthers = 0x08
-                local goOnAWalkShort    = 0x10
-                local goOnAWalkRegular  = 0x20
-                local goOnAWalkLong     = 0x40
-                local mask              = 0x7FFFFFFF - watchOverChocobo
+                -- Condition flags (can be combined)
+                local watchOverChocobo  = -bit.lshift(0x01, 0)
+                local tellAStory        = -bit.lshift(0x01, 1)
+                local scoldTheChocobo   = -bit.lshift(0x01, 2)
+                local competeWithOthers = -bit.lshift(0x01, 3)
+                local goOnAWalkShort    = -bit.lshift(0x01, 4)
+                local goOnAWalkRegular  = -bit.lshift(0x01, 5)
+                local goOnAWalkLong     = -bit.lshift(0x01, 6)
+
+                local mask = 0x7FFFFFFF + watchOverChocobo
 
                 if chocoState.stage >= xi.chocoboRaising.stage.CHICK then
-                    mask = mask - scoldTheChocobo - goOnAWalkShort
+                    mask = mask +
+                        scoldTheChocobo +
+                        goOnAWalkShort
                 end
 
                 if chocoState.stage >= xi.chocoboRaising.stage.ADOLESCENT then
-                    mask = mask - tellAStory - goOnAWalkRegular
                     -- TODO: Is this unlocked per-chocobo, or per-player?
+                    local knowsAStory = true
+                    if knowsAStory then
+                        mask = mask + tellAStory
+                    end
+
+                    mask = mask + goOnAWalkRegular
+
                     -- TODO: competeWithOthers: Available at adolescent stage; You must go on a regular walk to unlock this.
-                    if true then
-                        mask = mask - competeWithOthers
+                    local hasGoneOnRegularWalk = true
+                    if hasGoneOnRegularWalk then
+                        mask = mask + competeWithOthers
                     end
                 end
 
                 if chocoState.stage >= xi.chocoboRaising.stage.ADULT_1 then
-                    mask = mask - goOnAWalkLong
+                    mask = mask + goOnAWalkLong
                 end
 
                 player:updateEvent(mask, chocoState.energy, 0, 0, 0, 0, 0, 0)
@@ -816,7 +897,7 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                     -- TODO: Chance to learn skill
                 end
 
-                local storyMask = 0xFFFFFF9C
+                local storyMask = 0xFFFFFFFE -- 0xFFFFFF9C
 
                 -- TODO: This looks very similar to SCOLD_CHOCOBO and COMPETE_WITH_OTHERS, should we move those updates
                 --     : inside onRaisingEventPlayout?
@@ -994,7 +1075,7 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
             end,
 
             [vmOpCodes.SKIP_REPORT] = function()
-                for _, currentEvent in pairs (chocoState.report.events) do
+                for _, currentEvent in ipairs(chocoState.report.events) do
                     local eventStartStart = currentEvent[1]
                     local eventStartEnd   = currentEvent[2]
                     local eventCSList     = currentEvent[3]
@@ -1002,7 +1083,7 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                     chocoState.age   = eventStartStart
                     chocoState.stage = xi.chocoboRaising.ageToStage(chocoState.age)
 
-                    for _, cs in pairs(eventCSList) do
+                    for _, cs in ipairs(eventCSList) do
                         table.insert(chocoState.csList, { cs, eventStartEnd - eventStartStart + 1 })
                     end
                 end

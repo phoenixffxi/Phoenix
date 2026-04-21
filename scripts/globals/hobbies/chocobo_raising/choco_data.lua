@@ -28,8 +28,6 @@ xi.chocoboRaising.initChocoState = function(player)
     debug('chocoState.age = ' .. chocoState.age)
     debug('chocoState.last_update_age = ' .. chocoState.last_update_age)
 
-    chocoState.affectionRank = xi.chocoboRaising.affectionRank.LIKES
-
     -- Add helpers and empty tables to navigate CSs
     chocoState.csList        = {}
     chocoState.foodGiven     = {}

@@ -240,17 +240,17 @@ xi.chocoboRaising.onRaisingEventPlayout = function(player, csOffset, chocoState,
         end,
 
         [xi.chocoboRaising.cutscenes.HANGS_HEAD_IN_SHAME] = function()
-            -- TODO: Take in a multiplier to account for merged time ranges
-            chocoState.affection = xi.chocoboRaising.handleStatChange(chocoState.affection, -10, 255)
-            chocoState.energy    = xi.chocoboRaising.handleStatChange(chocoState.energy, -5, 100)
+            -- TODO: How much energy and affection?
+            chocoState.affection = xi.chocoboRaising.handleStatChange(xi.chocoboRaising.carePlanStats.AFFECTION, chocoState.affection, -10, 255)
+            chocoState.energy    = xi.chocoboRaising.handleStatChange(xi.chocoboRaising.carePlanStats.ENERGY, chocoState.energy, -5, 100)
             xi.chocoboRaising.setCondition(chocoState, xi.chocoboRaising.conditions.SPOILED, false)
         end,
 
         [xi.chocoboRaising.cutscenes.COMPETE_WITH_OTHERS] = function()
-            -- TODO: Take in a multiplier to account for merged time ranges
+            -- TODO: How much energy and affection?
             -- 'Increases affection slightly - confirmed.'
-            chocoState.affection = xi.chocoboRaising.handleStatChange(chocoState.affection, 1, 255)
-            chocoState.energy    = xi.chocoboRaising.handleStatChange(chocoState.energy, -5, 100)
+            chocoState.affection = xi.chocoboRaising.handleStatChange(xi.chocoboRaising.carePlanStats.AFFECTION, chocoState.affection, 1, 255)
+            chocoState.energy    = xi.chocoboRaising.handleStatChange(xi.chocoboRaising.carePlanStats.ENERGY, chocoState.energy, -5, 100)
             xi.chocoboRaising.setCondition(chocoState, xi.chocoboRaising.conditions.BORED, false)
         end,
     }
