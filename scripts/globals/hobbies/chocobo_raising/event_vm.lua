@@ -10,86 +10,86 @@ local debug = utils.getDebugPlayerPrinter(xi.settings.main.DEBUG_CHOCOBO_RAISING
 
 local vmOpCodes =
 {
-    RETIRE_YOUR_CHOCOBO                 = 40,
-    ASK_ABOUT_CONDITION_MENU            = 46,
-    CHECK_REPORT_STATUS                 = 208,
-    INTRO_MENU_PT_2                     = 214,
-    INTRO_MENU_PT_3                     = 215,
-    UNKNOWN_216                         = 216,
-    BUY_CHOCOBO_WHISTLE                 = 221,
-    RECEIVE_CHOCOBO_WHISTLE             = 222,
-    REGISTER_CHOCOBO_WHISTLE            = 223,
-    DEBUG_ABILITIES_PRINT               = 229,
-    DEBUG_USER_WORK_PRINT               = 232,
-    GIVE_UP_CHOCOBO                     = 240,
-    FEED_CHOCOBO                        = 241,
-    CARE_FOR_CHOCOBO_MENU               = 243,
-    PRESENT_CHOCOBO_APPEARANCE          = 244,
-    EVENT_PLAYOUT                       = 246,
-    INTRO_MENU_PT_1                     = 248,
-    SET_CARE_SCHEDULE_MENU              = 250,
-    ASK_ABOUT_CONDITION_CONFIRM         = 251,
-    UNKNOWN_252                         = 252,
-    SET_BASIC_CARE_PLAN_1               = 254,
-    BRIEF_REPORT                        = 256,
-    WHISTLE_GAME_RESULT                 = 344,
-    DEBUG_GO_FORWARD_1_UNIT             = 482,
-    SKIP_REPORT                         = 504,
-    SET_BASIC_CARE_PLAN_2               = 510,
-    UNKNOWN_600                         = 600,
-    SET_BASIC_CARE_PLAN_3               = 766,
-    SET_BASIC_CARE_PLAN_4               = 1022,
-    UNKNOWN_1056                        = 1056,
-    UNKNOWN_1241                        = 1241,
-    GO_ON_A_WALK_SHORT                  = 10994,
-    GO_ON_A_WALK_REGULAR                = 11250,
-    GO_ON_A_WALK_LONG                   = 11506,
-    WATCH_OVER_CHOCOBO_CONFIRM          = 12530,
-    TELL_A_STORY                        = 13042,
-    SCOLD_CHOCOBO                       = 13298,
-    COMPETE_WITH_OTHERS                 = 13554,
+    RETIRE_YOUR_CHOCOBO        = 40,
+    PREPARE_CHOCOBO_MENU       = 46,
+    CHECK_REPORT_STATUS        = 208,
+    INTRO_MENU_PT_2            = 214,
+    INTRO_MENU_PT_3            = 215,
+    UNKNOWN_216                = 216,
+    BUY_CHOCOBO_WHISTLE        = 221,
+    RECEIVE_CHOCOBO_WHISTLE    = 222,
+    REGISTER_CHOCOBO_WHISTLE   = 223,
+    DEBUG_ABILITIES_PRINT      = 229,
+    DEBUG_USER_WORK_PRINT      = 232,
+    GIVE_UP_CHOCOBO            = 240,
+    FEED_CHOCOBO               = 241,
+    CARE_FOR_CHOCOBO_MENU      = 243,
+    PRESENT_CHOCOBO_APPEARANCE = 244,
+    EVENT_PLAYOUT              = 246,
+    INTRO_MENU_PT_1            = 248,
+    SET_CARE_SCHEDULE_MENU     = 250,
+    ASK_ABOUT_CONDITION_MENU   = 251,
+    UNKNOWN_252                = 252,
+    SET_BASIC_CARE_PLAN_1      = 254,
+    BRIEF_REPORT               = 256,
+    WHISTLE_GAME_RESULT        = 344,
+    DEBUG_GO_FORWARD_1_UNIT    = 482,
+    SKIP_REPORT                = 504,
+    SET_BASIC_CARE_PLAN_2      = 510,
+    UNKNOWN_600                = 600,
+    SET_BASIC_CARE_PLAN_3      = 766,
+    SET_BASIC_CARE_PLAN_4      = 1022,
+    UNKNOWN_1056               = 1056,
+    UNKNOWN_1241               = 1241,
+    GO_ON_A_WALK_SHORT         = 10994,
+    GO_ON_A_WALK_REGULAR       = 11250,
+    GO_ON_A_WALK_LONG          = 11506,
+    WATCH_OVER_CHOCOBO_CONFIRM = 12530,
+    TELL_A_STORY               = 13042,
+    SCOLD_CHOCOBO              = 13298,
+    COMPETE_WITH_OTHERS        = 13554,
 }
 
 local vmOpCodeNames =
 {
-    [vmOpCodes.RETIRE_YOUR_CHOCOBO]         = 'Retire your chocobo',
-    [vmOpCodes.ASK_ABOUT_CONDITION_MENU]    = 'Ask about chocobos condition (menu)',
-    [vmOpCodes.CHECK_REPORT_STATUS]         = 'Check report status',
-    [vmOpCodes.INTRO_MENU_PT_2]             = 'Intro menu pt 2',
-    [vmOpCodes.INTRO_MENU_PT_3]             = 'Intro menu pt 3',
-    [vmOpCodes.UNKNOWN_216]                 = 'Unknown 216 (forced renaming?)',
-    [vmOpCodes.BUY_CHOCOBO_WHISTLE]         = 'Buy chocobo whistle',
-    [vmOpCodes.RECEIVE_CHOCOBO_WHISTLE]     = 'Receive chocobo whistle',
-    [vmOpCodes.REGISTER_CHOCOBO_WHISTLE]    = 'Register chocobo whistle',
-    [vmOpCodes.DEBUG_ABILITIES_PRINT]       = 'Debug abilities print',
-    [vmOpCodes.DEBUG_USER_WORK_PRINT]       = 'Debug user work print',
-    [vmOpCodes.GIVE_UP_CHOCOBO]             = 'Give up your chocobo',
-    [vmOpCodes.FEED_CHOCOBO]                = 'Feed chocobo',
-    [vmOpCodes.CARE_FOR_CHOCOBO_MENU]       = 'Care for your chocobo (menu)',
-    [vmOpCodes.PRESENT_CHOCOBO_APPEARANCE]  = 'Present chocobo appearance',
-    [vmOpCodes.EVENT_PLAYOUT]               = 'Event playout',
-    [vmOpCodes.INTRO_MENU_PT_1]             = 'Intro menu pt 1',
-    [vmOpCodes.SET_CARE_SCHEDULE_MENU]      = 'Set care schedule (menu)',
-    [vmOpCodes.ASK_ABOUT_CONDITION_CONFIRM] = 'Ask about chocobos condition (confirm)',
-    [vmOpCodes.UNKNOWN_252]                 = 'Unknown 252',
-    [vmOpCodes.SET_BASIC_CARE_PLAN_1]       = 'Set basic care plan 1',
-    [vmOpCodes.BRIEF_REPORT]                = 'Brief report',
-    [vmOpCodes.WHISTLE_GAME_RESULT]         = 'Chocobo Whistle game result',
-    [vmOpCodes.DEBUG_GO_FORWARD_1_UNIT]     = 'Debug go forward 1 unit',
-    [vmOpCodes.SKIP_REPORT]                 = 'Skip the report',
-    [vmOpCodes.SET_BASIC_CARE_PLAN_2]       = 'Set basic care plan 2',
-    [vmOpCodes.UNKNOWN_600]                 = 'Unknown 600',
-    [vmOpCodes.SET_BASIC_CARE_PLAN_3]       = 'Set basic care plan 3',
-    [vmOpCodes.SET_BASIC_CARE_PLAN_4]       = 'Set basic care plan 4',
-    [vmOpCodes.UNKNOWN_1056]                = 'Unknown 1056',
-    [vmOpCodes.UNKNOWN_1241]                = 'Unknown 1241',
-    [vmOpCodes.GO_ON_A_WALK_SHORT]          = 'Go on a walk (Short) - Leisurely / Brisk',
-    [vmOpCodes.GO_ON_A_WALK_REGULAR]        = 'Go on a walk (Regular) - Leisurely / Brisk',
-    [vmOpCodes.GO_ON_A_WALK_LONG]           = 'Go on a walk (Long) - Leisurely / Brisk',
-    [vmOpCodes.WATCH_OVER_CHOCOBO_CONFIRM]  = 'Watch over your your chocobo (confirm)',
-    [vmOpCodes.TELL_A_STORY]                = 'Tell a story',
-    [vmOpCodes.SCOLD_CHOCOBO]               = 'Scold the chocobo',
-    [vmOpCodes.COMPETE_WITH_OTHERS]         = 'Compete with others',
+    [vmOpCodes.RETIRE_YOUR_CHOCOBO]        = 'Retire your chocobo',
+    [vmOpCodes.PREPARE_CHOCOBO_MENU]       = 'Prepare chocobo menu',
+    [vmOpCodes.CHECK_REPORT_STATUS]        = 'Check report status',
+    [vmOpCodes.INTRO_MENU_PT_2]            = 'Intro menu pt 2',
+    [vmOpCodes.INTRO_MENU_PT_3]            = 'Intro menu pt 3',
+    [vmOpCodes.UNKNOWN_216]                = 'Unknown 216 (forced renaming?)',
+    [vmOpCodes.BUY_CHOCOBO_WHISTLE]        = 'Buy chocobo whistle',
+    [vmOpCodes.RECEIVE_CHOCOBO_WHISTLE]    = 'Receive chocobo whistle',
+    [vmOpCodes.REGISTER_CHOCOBO_WHISTLE]   = 'Register chocobo whistle',
+    [vmOpCodes.DEBUG_ABILITIES_PRINT]      = 'Debug abilities print',
+    [vmOpCodes.DEBUG_USER_WORK_PRINT]      = 'Debug user work print',
+    [vmOpCodes.GIVE_UP_CHOCOBO]            = 'Give up your chocobo',
+    [vmOpCodes.FEED_CHOCOBO]               = 'Feed chocobo',
+    [vmOpCodes.CARE_FOR_CHOCOBO_MENU]      = 'Care for your chocobo (menu)',
+    [vmOpCodes.PRESENT_CHOCOBO_APPEARANCE] = 'Present chocobo appearance',
+    [vmOpCodes.EVENT_PLAYOUT]              = 'Event playout',
+    [vmOpCodes.INTRO_MENU_PT_1]            = 'Intro menu pt 1',
+    [vmOpCodes.SET_CARE_SCHEDULE_MENU]     = 'Set care schedule (menu)',
+    [vmOpCodes.ASK_ABOUT_CONDITION_MENU]   = 'Ask about chocobos condition (menu)',
+    [vmOpCodes.UNKNOWN_252]                = 'Unknown 252',
+    [vmOpCodes.SET_BASIC_CARE_PLAN_1]      = 'Set basic care plan 1',
+    [vmOpCodes.BRIEF_REPORT]               = 'Brief report',
+    [vmOpCodes.WHISTLE_GAME_RESULT]        = 'Chocobo Whistle game result',
+    [vmOpCodes.DEBUG_GO_FORWARD_1_UNIT]    = 'Debug go forward 1 unit',
+    [vmOpCodes.SKIP_REPORT]                = 'Skip the report',
+    [vmOpCodes.SET_BASIC_CARE_PLAN_2]      = 'Set basic care plan 2',
+    [vmOpCodes.UNKNOWN_600]                = 'Unknown 600',
+    [vmOpCodes.SET_BASIC_CARE_PLAN_3]      = 'Set basic care plan 3',
+    [vmOpCodes.SET_BASIC_CARE_PLAN_4]      = 'Set basic care plan 4',
+    [vmOpCodes.UNKNOWN_1056]               = 'Unknown 1056',
+    [vmOpCodes.UNKNOWN_1241]               = 'Unknown 1241',
+    [vmOpCodes.GO_ON_A_WALK_SHORT]         = 'Go on a walk (Short) - Leisurely / Brisk',
+    [vmOpCodes.GO_ON_A_WALK_REGULAR]       = 'Go on a walk (Regular) - Leisurely / Brisk',
+    [vmOpCodes.GO_ON_A_WALK_LONG]          = 'Go on a walk (Long) - Leisurely / Brisk',
+    [vmOpCodes.WATCH_OVER_CHOCOBO_CONFIRM] = 'Watch over your your chocobo (confirm)',
+    [vmOpCodes.TELL_A_STORY]               = 'Tell a story',
+    [vmOpCodes.SCOLD_CHOCOBO]              = 'Scold the chocobo',
+    [vmOpCodes.COMPETE_WITH_OTHERS]        = 'Compete with others',
 }
 
 xi.chocoboRaising.eventVM = function(player, csid, option, npc)
@@ -469,11 +469,12 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
             end,
 
             -- TODO: This is hit directly after the CS for an egg hatching when we return to the main
-            --     : menu, so what does this mean?
-            [vmOpCodes.ASK_ABOUT_CONDITION_MENU] = function()
+            --     : menu, so what does this mean? What does it do?
+            [vmOpCodes.PREPARE_CHOCOBO_MENU] = function()
                 player:updateEvent(0, 0, 0, 0, 0, 0, 0, 0)
             end,
 
+            -- TODO: Is this even getting hit?
             [vmOpCodes.UNKNOWN_600] = function()
                 -- Get KI during another CS (determined randomly)
                 local ki    = xi.ki.DIRTY_HANDKERCHIEF
@@ -483,12 +484,12 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                 player:addKeyItem(ki)
             end,
 
-            [vmOpCodes.ASK_ABOUT_CONDITION_CONFIRM] = function()
+            [vmOpCodes.ASK_ABOUT_CONDITION_MENU] = function()
                 -- TODO: When is this used?
                 -- Block all other information
                 -- local blockFlag = bit.lshift(0x01, 31) -- Sorry, but you will have to do this later. I have something new to report.
 
-                local arg0 = vmOpCodes.ASK_ABOUT_CONDITION_CONFIRM
+                local arg0 = vmOpCodes.ASK_ABOUT_CONDITION_MENU
 
                 local arg1 = xi.chocoboRaising.packStats1(chocoState)
 
@@ -576,7 +577,10 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                 -- TODO: makingAFuss
                 utils.unused(makingAFuss)
 
-                if xi.chocoboRaising.getCondition(chocoState, xi.chocoboRaising.conditions.FULL_OF_ENERGY_1) or xi.chocoboRaising.getCondition(chocoState, xi.chocoboRaising.conditions.FULL_OF_ENERGY_2) then
+                if
+                    xi.chocoboRaising.getCondition(chocoState, xi.chocoboRaising.conditions.FULL_OF_ENERGY_1) or
+                    xi.chocoboRaising.getCondition(chocoState, xi.chocoboRaising.conditions.FULL_OF_ENERGY_2)
+                then
                     arg4 = arg4 + fullOfEnergy
                 end
 

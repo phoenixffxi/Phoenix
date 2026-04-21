@@ -212,13 +212,16 @@ xi.chocoboRaising.onRaisingEventPlayout = function(player, csOffset, chocoState,
         -- Growth CSs
         [xi.chocoboRaising.cutscenes.ADULT_2_TO_ADULT_3] = function()
             -- You waited too long to name your chocobo, trainer is going to do it for you!
+            -- TODO: Is there a CS associated with this?
             if
                 chocoState.first_name == 'Chocobo' and
                 chocoState.last_name == 'Chocobo'
             then
                 -- Pick a name at random: First name only
                 chocoState.first_name = xi.chocoboNames.getRandomName()
-                chocoState.last_name = ''
+                chocoState.last_name  = ''
+
+                debug(string.format('Forcing rename of chocobo to: %s', chocoState.first_name))
             end
         end,
 

@@ -84,6 +84,12 @@ xi.chocoboRaising.initChocoState = function(player)
         table.insert(possibleCarePlanFuture, plan4Type)
     end
 
+    -- NOTE: To aid with tracking and playback, we have to keep a variable to track this quest,
+    --     : rather than the actual KI checks.
+    local whiteHandkerchiefStarted   = false
+    local whiteHandkerchiefCancelled = false
+    local whiteHandkerchiefFinished  = false
+
     for idx = 1, reportLength do
         local possibleCarePlanEvent = possibleCarePlanFuture[idx]
 
@@ -135,14 +141,12 @@ xi.chocoboRaising.initChocoState = function(player)
         -- TODO: Come up with a more modular way to track these
 
         -- Start White Handkerchief quest
-        -- NOTE: To aid with tracking and playback, we have to keep a variable to track this quest,
-        --     : rather than the actual KI checks.
         -- TODO: Extract out the ages and timings for this into settings?
-        local whiteHandkerchiefStarted   = false
-        local whiteHandkerchiefCancelled = false
         if
+            not whiteHandkerchiefStarted and
             not player:hasKeyItem(xi.keyItem.WHITE_HANDKERCHIEF) and
             age == 7
+            -- TODO: And you've not already completed this quest once before
         then
             debug('Starting White Handkerchief quest')
             table.insert(events, { age, { xi.chocoboRaising.cutscenes.CRYING_AT_NIGHT } })
@@ -154,13 +158,15 @@ xi.chocoboRaising.initChocoState = function(player)
         --     : this quest until the next chocobo.
         if
             whiteHandkerchiefStarted and
+            not whiteHandkerchiefCancelled and
             age == 15 and
             reportLength >= 7
         then
             debug('Cancelling White Handkerchief quest')
-            whiteHandkerchiefStarted   = false
-            whiteHandkerchiefCancelled = true
             table.insert(events, { age, { xi.chocoboRaising.cutscenes.HAVENT_SEEN_YOU } })
+            whiteHandkerchiefCancelled = true
+            -- TODO: Mark this on the chocobo permanently, we'll need to know this event happened
+            --     : when we do the chocobo whistle quest
         end
 
         -- End White Handkerchief quest
@@ -170,13 +176,15 @@ xi.chocoboRaising.initChocoState = function(player)
         -- TODO: Need to zone too?
         -- TODO: Does this play out as part of the report, or before it?
         if
+            not whiteHandkerchiefStarted and
+            not whiteHandkerchiefCancelled and
+            not whiteHandkerchiefFinished and
             age >= 8 and -- At least one day has to have passed, so this is the earliest possible age
-            player:hasKeyItem(xi.keyItem.WHITE_HANDKERCHIEF) and
-            not whiteHandkerchiefCancelled
+            player:hasKeyItem(xi.keyItem.WHITE_HANDKERCHIEF)
         then
             debug('Ending White Handkerchief quest')
-            whiteHandkerchiefStarted = false
             table.insert(events, { age, { xi.chocoboRaising.cutscenes.THAT_SHOULD_BE_ENOUGH } })
+            whiteHandkerchiefFinished = true
         end
     end
 
