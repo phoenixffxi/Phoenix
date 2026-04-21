@@ -8,6 +8,7 @@ xi.chocoboRaising = xi.chocoboRaising or {}
 
 local debug = utils.getDebugPlayerPrinter(xi.settings.main.DEBUG_CHOCOBO_RAISING)
 
+-- TODO: There's a lot of logic in here about reporting, should we move this into it's own file?
 xi.chocoboRaising.initChocoState = function(player)
     local chocoState = player:getChocoboRaisingInfo()
     if not chocoState then
@@ -46,9 +47,9 @@ xi.chocoboRaising.initChocoState = function(player)
 
     chocoState.report.day_start = chocoState.last_update_age
     chocoState.report.day_end   = chocoState.age
-    local reportLength          = chocoState.report.day_end - chocoState.report.day_start
 
-    debug('reportLength', reportLength)
+    local reportLength = chocoState.report.day_end - chocoState.report.day_start
+    debug('Report length:', reportLength)
 
     chocoState.last_update_age = chocoState.age
 
@@ -85,14 +86,11 @@ xi.chocoboRaising.initChocoState = function(player)
         table.insert(possibleCarePlanFuture, plan4Type)
     end
 
-    -- TODO: Remove careplan energy from this
-    chocoState.energy = 100
-
     for idx = 1, reportLength do
         local possibleCarePlanEvent = possibleCarePlanFuture[idx]
 
         if possibleCarePlanEvent == nil then -- We went past the end of the care plan
-            possibleCarePlanEvent = 0 -- Default to Basic Care
+            possibleCarePlanEvent = xi.chocoboRaising.carePlans.BASIC_CARE
         end
 
         local age          = chocoState.report.day_start + idx - 1
@@ -132,27 +130,55 @@ xi.chocoboRaising.initChocoState = function(player)
             end
         end
 
+        --
+        -- Quest conditions
+        --
+
+        -- TODO: Come up with a more modular way to track these
+
         -- Start White Handkerchief quest
-        local whiteHandkerchiefStarted = false
+        -- NOTE: To aid with tracking and playback, we have to keep a variable to track this quest,
+        --     : rather than the actual KI checks.
+        -- TODO: Extract out the ages and timings for this into settings?
+        local whiteHandkerchiefStarted   = false
+        local whiteHandkerchiefCancelled = false
         if
-            -- TODO: Should this be a charvar to track this?
-            not player:hasKeyItem(xi.ki.WHITE_HANDKERCHIEF) and
+            not player:hasKeyItem(xi.keyItem.WHITE_HANDKERCHIEF) and
             age == 7
         then
+            debug('Starting White Handkerchief quest')
             table.insert(events, { age, { xi.chocoboRaising.cutscenes.CRYING_AT_NIGHT } })
             whiteHandkerchiefStarted = true
         end
 
         -- Cancel White Handkerchief quest
+        -- NOTE: If we've played all the way out here, it'll then not be possible to complete
+        --     : this quest until the next chocobo.
         if
             whiteHandkerchiefStarted and
             age == 15 and
             reportLength >= 7
         then
+            debug('Cancelling White Handkerchief quest')
+            whiteHandkerchiefStarted   = false
+            whiteHandkerchiefCancelled = true
             table.insert(events, { age, { xi.chocoboRaising.cutscenes.HAVENT_SEEN_YOU } })
         end
 
-        -- TODO: Remove used days from care plan and write back to chocoState + db
+        -- End White Handkerchief quest
+        -- NOTE: It isn't possible to fly through and complete this in one go in retail, so the KI
+        --     : check ensures you have to finish talking to the trainer, pass some time, and then
+        --     : come back
+        -- TODO: Need to zone too?
+        if
+            age >= 8 and -- At least one day has to have passed, so this is the earliest possible age
+            player:hasKeyItem(xi.keyItem.WHITE_HANDKERCHIEF) and
+            not whiteHandkerchiefCancelled
+        then
+            debug('Ending White Handkerchief quest')
+            whiteHandkerchiefStarted = false
+            table.insert(events, { age, { xi.chocoboRaising.cutscenes.THAT_SHOULD_BE_ENOUGH } })
+        end
     end
 
     -- Step 3: Condense that table down

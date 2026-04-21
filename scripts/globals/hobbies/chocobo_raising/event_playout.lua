@@ -1,6 +1,7 @@
 -----------------------------------
 -- Chocobo Raising
 -----------------------------------
+require('scripts/globals/hobbies/chocobo_raising/care_plan')
 require('scripts/globals/hobbies/chocobo_raising/constants')
 -----------------------------------
 xi = xi or {}
@@ -8,6 +9,7 @@ xi.chocoboRaising = xi.chocoboRaising or {}
 
 local debug = utils.getDebugPlayerPrinter(xi.settings.main.DEBUG_CHOCOBO_RAISING)
 
+-- TODO: Split trade and trigger blocks apart
 xi.chocoboRaising.startCutscene = function(player, npc, trade)
     local ID            = zones[player:getZoneID()]
     local reminderCsid  = xi.chocoboRaising.csidTable[player:getZoneID()][1]
@@ -108,7 +110,9 @@ end
 
 xi.chocoboRaising.handleCSUpdate = function(player, chocoState, doEventUpdate)
     -- Generate final CS value from (location offset * 256) + cutscene offset
-    local csOffset       = chocoState.csList[1]
+    local csListEntry    = chocoState.csList[1]
+    local csOffset       = type(csListEntry) == 'table' and csListEntry[1] or csListEntry
+    local elapsedDays    = type(csListEntry) == 'table' and csListEntry[2] or 1
     local locationOffset = xi.chocoboRaising.raisingLocation[player:getZoneID()] * 256
     local csToPlay       = locationOffset + csOffset
 
@@ -132,9 +136,9 @@ xi.chocoboRaising.handleCSUpdate = function(player, chocoState, doEventUpdate)
         chocoState.stage = xi.chocoboRaising.stage.ADULT_4
     end
 
-    chocoState = xi.chocoboRaising.onRaisingEventPlayout(player, csOffset, chocoState)
+    chocoState = xi.chocoboRaising.onRaisingEventPlayout(player, csOffset, chocoState, elapsedDays)
 
-    -- Skip the event updates during 'Skip Report'
+    -- This will skip the event updates during 'Skip Report'
     if doEventUpdate then
         player:updateEventString(chocoState.first_name, chocoState.last_name, chocoState.first_name, chocoState.first_name,
             0, 0, 0, 0, 0, 0, 0, 0)
@@ -144,63 +148,65 @@ xi.chocoboRaising.handleCSUpdate = function(player, chocoState, doEventUpdate)
     return chocoState
 end
 
-xi.chocoboRaising.onRaisingEventPlayout = function(player, csOffset, chocoState)
+xi.chocoboRaising.onRaisingEventPlayout = function(player, csOffset, chocoState, elapsedDays)
+    elapsedDays = elapsedDays or 1
+
     switch (csOffset): caseof
     {
         -- EGG ONWARDS:
         [xi.chocoboRaising.cutscenes.REPORT_BASIC_CARE] = function()
-            xi.chocoboRaising.handleCarePlan(player, chocoState, xi.chocoboRaising.carePlans.BASIC_CARE)
+            xi.chocoboRaising.handleCarePlan(player, chocoState, xi.chocoboRaising.carePlans.BASIC_CARE, elapsedDays)
         end,
 
         -- CHICK ONWARDS:
         [xi.chocoboRaising.cutscenes.REPORT_REST] = function()
-            xi.chocoboRaising.handleCarePlan(player, chocoState, xi.chocoboRaising.carePlans.RESTING)
+            xi.chocoboRaising.handleCarePlan(player, chocoState, xi.chocoboRaising.carePlans.RESTING, elapsedDays)
         end,
 
         [xi.chocoboRaising.cutscenes.REPORT_TAKE_A_WALK] = function()
-            xi.chocoboRaising.handleCarePlan(player, chocoState, xi.chocoboRaising.carePlans.TAKING_A_WALK)
+            xi.chocoboRaising.handleCarePlan(player, chocoState, xi.chocoboRaising.carePlans.TAKING_A_WALK, elapsedDays)
         end,
 
         [xi.chocoboRaising.cutscenes.REPORT_LISTEN_TO_MUSIC] = function()
-            xi.chocoboRaising.handleCarePlan(player, chocoState, xi.chocoboRaising.carePlans.LISTENING_TO_MUSIC)
+            xi.chocoboRaising.handleCarePlan(player, chocoState, xi.chocoboRaising.carePlans.LISTENING_TO_MUSIC, elapsedDays)
         end,
 
         -- ADOLESCENT ONWARDS:
         [xi.chocoboRaising.cutscenes.REPORT_EXERCISE_ALONE] = function()
-            xi.chocoboRaising.handleCarePlan(player, chocoState, xi.chocoboRaising.carePlans.EXERCISING_ALONE)
+            xi.chocoboRaising.handleCarePlan(player, chocoState, xi.chocoboRaising.carePlans.EXERCISING_ALONE, elapsedDays)
         end,
 
         [xi.chocoboRaising.cutscenes.REPORT_EXERCISE_IN_A_GROUP] = function()
-            xi.chocoboRaising.handleCarePlan(player, chocoState, xi.chocoboRaising.carePlans.EXCERCISING_IN_A_GROUP)
+            xi.chocoboRaising.handleCarePlan(player, chocoState, xi.chocoboRaising.carePlans.EXCERCISING_IN_A_GROUP, elapsedDays)
         end,
 
         [xi.chocoboRaising.cutscenes.REPORT_INTERACT_WITH_CHILDREN] = function()
-            xi.chocoboRaising.handleCarePlan(player, chocoState, xi.chocoboRaising.carePlans.PLAYING_WITH_CHILDREN)
+            xi.chocoboRaising.handleCarePlan(player, chocoState, xi.chocoboRaising.carePlans.PLAYING_WITH_CHILDREN, elapsedDays)
         end,
 
         [xi.chocoboRaising.cutscenes.REPORT_INTERACT_WITH_CHOCOBOS] = function()
-            xi.chocoboRaising.handleCarePlan(player, chocoState, xi.chocoboRaising.carePlans.PLAYING_WITH_CHOCOBOS)
+            xi.chocoboRaising.handleCarePlan(player, chocoState, xi.chocoboRaising.carePlans.PLAYING_WITH_CHOCOBOS, elapsedDays)
         end,
 
         [xi.chocoboRaising.cutscenes.REPORT_CARRY_PACKAGES] = function()
-            xi.chocoboRaising.handleCarePlan(player, chocoState, xi.chocoboRaising.carePlans.CARRYING_PACKAGES)
+            xi.chocoboRaising.handleCarePlan(player, chocoState, xi.chocoboRaising.carePlans.CARRYING_PACKAGES, elapsedDays)
         end,
 
         [xi.chocoboRaising.cutscenes.REPORT_EXHIBIT_TO_THE_PUBLIC] = function()
-            xi.chocoboRaising.handleCarePlan(player, chocoState, xi.chocoboRaising.carePlans.EXHIBITING_TO_THE_PUBLIC)
+            xi.chocoboRaising.handleCarePlan(player, chocoState, xi.chocoboRaising.carePlans.EXHIBITING_TO_THE_PUBLIC, elapsedDays)
         end,
 
         -- ADULT ONWARDS:
         [xi.chocoboRaising.cutscenes.REPORT_DELIVER_MESSAGES] = function()
-            xi.chocoboRaising.handleCarePlan(player, chocoState, xi.chocoboRaising.carePlans.DELIVERING_MESSAGES)
+            xi.chocoboRaising.handleCarePlan(player, chocoState, xi.chocoboRaising.carePlans.DELIVERING_MESSAGES, elapsedDays)
         end,
 
         [xi.chocoboRaising.cutscenes.REPORT_DIG_FOR_TREASURE] = function()
-            xi.chocoboRaising.handleCarePlan(player, chocoState, xi.chocoboRaising.carePlans.DIGGING_FOR_TREASURE)
+            xi.chocoboRaising.handleCarePlan(player, chocoState, xi.chocoboRaising.carePlans.DIGGING_FOR_TREASURE, elapsedDays)
         end,
 
         [xi.chocoboRaising.cutscenes.REPORT_ACT_IN_A_PLAY] = function()
-            xi.chocoboRaising.handleCarePlan(player, chocoState, xi.chocoboRaising.carePlans.ACTING_IN_A_PLAY)
+            xi.chocoboRaising.handleCarePlan(player, chocoState, xi.chocoboRaising.carePlans.ACTING_IN_A_PLAY, elapsedDays)
         end,
 
         -- Growth CSs
@@ -218,13 +224,19 @@ xi.chocoboRaising.onRaisingEventPlayout = function(player, csOffset, chocoState)
 
         [xi.chocoboRaising.cutscenes.CRYING_AT_NIGHT] = function()
             -- NOTE: The messaging is handled in the CS
-            player:addKeyItem(xi.ki.WHITE_HANDKERCHIEF)
-            player:setCharVar('[choco]WH_TIME', GetSystemTime() * utils.days(1))
+            debug('Giving KI White Handkerchief')
+            player:addKeyItem(xi.keyItem.WHITE_HANDKERCHIEF)
+        end,
+
+        [xi.chocoboRaising.cutscenes.THAT_SHOULD_BE_ENOUGH] = function()
+            debug('Removing KI White Handkerchief')
+            player:delKeyItem(xi.keyItem.WHITE_HANDKERCHIEF)
+            -- TODO: What is the general marker that this quest is completed?
         end,
 
         [xi.chocoboRaising.cutscenes.HAVENT_SEEN_YOU] = function()
-            player:delKeyItem(xi.ki.WHITE_HANDKERCHIEF)
-            player:setCharVar('[choco]WH_TIME', 0)
+            debug('Removing KI White Handkerchief')
+            player:delKeyItem(xi.keyItem.WHITE_HANDKERCHIEF)
         end,
 
         [xi.chocoboRaising.cutscenes.HANGS_HEAD_IN_SHAME] = function()
