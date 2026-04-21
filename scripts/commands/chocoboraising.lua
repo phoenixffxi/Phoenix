@@ -71,7 +71,23 @@ commandObj.onTrigger = function(player)
         })
 
         table.insert(menu.options, {
-            'Debug #1',
+            'Debug #1: d0-d4',
+            function(playerArg)
+                playerArg:deleteRaisedChocobo()
+
+                local egg = {}
+                local newChoco = xi.chocoboRaising.newChocobo(playerArg, egg)
+                player:setChocoboRaisingInfo(newChoco)
+
+                local info = playerArg:getChocoboRaisingInfo()
+                info['created'] = info['created'] - (epochDay * 4)
+                playerArg:setChocoboRaisingInfo(info)
+
+                playerArg:printToPlayer('Setting up debug scenario 1 (4d update)', xi.msg.channel.SYSTEM_3, '')
+            end,
+        })
+        table.insert(menu.options, {
+            'Debug #2: d0-d10',
             function(playerArg)
                 playerArg:deleteRaisedChocobo()
 
@@ -83,7 +99,7 @@ commandObj.onTrigger = function(player)
                 info['created'] = info['created'] - (epochDay * 10)
                 playerArg:setChocoboRaisingInfo(info)
 
-                playerArg:printToPlayer('Setting up debug scenario 1 (10d update)', xi.msg.channel.SYSTEM_3, '')
+                playerArg:printToPlayer('Setting up debug scenario 2 (10d update)', xi.msg.channel.SYSTEM_3, '')
             end,
         })
 
@@ -136,7 +152,24 @@ commandObj.onTrigger = function(player)
         })
 
         table.insert(menu.options, {
-            'Debug #1',
+            'Debug #1: d0-d4',
+            function(playerArg)
+                playerArg:deleteRaisedChocobo()
+
+                local egg = {}
+                local newChoco = xi.chocoboRaising.newChocobo(playerArg, egg)
+                player:setChocoboRaisingInfo(newChoco)
+
+                local info = playerArg:getChocoboRaisingInfo()
+                info['created'] = info['created'] - (epochDay * 4)
+                playerArg:setChocoboRaisingInfo(info)
+
+                playerArg:printToPlayer('Setting up debug scenario 1 (4d update)', xi.msg.channel.SYSTEM_3, '')
+            end,
+        })
+
+        table.insert(menu.options, {
+            'Debug #2: d0-d10',
             function(playerArg)
                 playerArg:deleteRaisedChocobo()
 
@@ -148,7 +181,7 @@ commandObj.onTrigger = function(player)
                 info['created'] = info['created'] - (epochDay * 10)
                 playerArg:setChocoboRaisingInfo(info)
 
-                playerArg:printToPlayer('Setting up debug scenario 1 (10d update)', xi.msg.channel.SYSTEM_3, '')
+                playerArg:printToPlayer('Setting up debug scenario 2 (10d update)', xi.msg.channel.SYSTEM_3, '')
             end,
         })
     end

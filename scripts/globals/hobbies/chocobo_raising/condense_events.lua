@@ -95,7 +95,12 @@ xi.chocoboRaising.condenseEvents = function(events)
 
     debug('Condensed Events & Spans')
     for _, entry in ipairs(condensedEvents) do
-        debug('Days', entry[1], 'to', entry[2], ':', entry[3][1])
+        local csList = entry[3]
+        if #csList > 1 then
+            debug('Days', entry[1], 'to', entry[2], ':', tostring(csList[1]) .. string.format(' (+%d events)', #csList - 1))
+        else
+            debug('Days', entry[1], 'to', entry[2], ':', csList[1])
+        end
     end
 
     return condensedEvents

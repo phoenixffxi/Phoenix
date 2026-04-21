@@ -8,6 +8,7 @@ xi.chocoboRaising = xi.chocoboRaising or {}
 
 local debug = utils.getDebugPlayerPrinter(xi.settings.main.DEBUG_CHOCOBO_RAISING)
 
+-- TODO: There's a lot of logic in here about reporting, should we move this into it's own file?
 xi.chocoboRaising.initChocoState = function(player)
     local chocoState = player:getChocoboRaisingInfo()
     if not chocoState then

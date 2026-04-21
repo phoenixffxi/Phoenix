@@ -569,7 +569,7 @@ xi.chocoboRaising.getWeatherInZone = function(zoneId)
 end
 
 -- If stage = [1] and age >= [2], play CS: [3] and set stage to [4].
-local ageBoundaries =
+xi.chocoboRaising.ageBoundaries =
 {
     { xi.chocoboRaising.stage.EGG,        xi.chocoboRaising.daysToChick,      xi.chocoboRaising.cutscenes.EGG_HATCHING,          xi.chocoboRaising.stage.CHICK },
     { xi.chocoboRaising.stage.CHICK,      xi.chocoboRaising.daysToAdolescent, xi.chocoboRaising.cutscenes.CHICK_TO_ADOLESCENT,   xi.chocoboRaising.stage.ADOLESCENT },
@@ -580,7 +580,7 @@ local ageBoundaries =
 }
 
 xi.chocoboRaising.ageToStage = function(age)
-    for _, entry in ipairs(ageBoundaries) do
+    for _, entry in ipairs(xi.chocoboRaising.ageBoundaries) do
         if age <= entry[2] then
             return entry[1]
         end

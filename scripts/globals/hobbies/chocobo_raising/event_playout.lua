@@ -8,6 +8,7 @@ xi.chocoboRaising = xi.chocoboRaising or {}
 
 local debug = utils.getDebugPlayerPrinter(xi.settings.main.DEBUG_CHOCOBO_RAISING)
 
+-- TODO: Split trade and trigger blocks apart
 xi.chocoboRaising.startCutscene = function(player, npc, trade)
     local ID            = zones[player:getZoneID()]
     local reminderCsid  = xi.chocoboRaising.csidTable[player:getZoneID()][1]

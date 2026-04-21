@@ -8,6 +8,84 @@ xi.chocoboRaising = xi.chocoboRaising or {}
 
 local debug = utils.getDebugPlayerPrinter(xi.settings.main.DEBUG_CHOCOBO_RAISING)
 
+local vmOpCodes =
+{
+    RETIRE_YOUR_CHOCOBO                 = 40,
+    ASK_ABOUT_CONDITION_MENU            = 46,
+    CHECK_REPORT_STATUS                 = 208,
+    INTRO_MENU_PT_2                     = 214,
+    INTRO_MENU_PT_3                     = 215,
+    BUY_CHOCOBO_WHISTLE                 = 221,
+    RECEIVE_CHOCOBO_WHISTLE             = 222,
+    DEBUG_ABILITIES_PRINT               = 229,
+    DEBUG_USER_WORK_PRINT               = 232,
+    GIVE_UP_CHOCOBO                     = 240,
+    FEED_CHOCOBO                        = 241,
+    CARE_FOR_CHOCOBO_MENU               = 243,
+    PRESENT_CHOCOBO_APPEARANCE          = 244,
+    EVENT_PLAYOUT                       = 246,
+    INTRO_MENU_PT_1                     = 248,
+    SET_CARE_SCHEDULE_MENU              = 250,
+    ASK_ABOUT_CONDITION_CONFIRM         = 251,
+    UNKNOWN_252                         = 252,
+    SET_BASIC_CARE_PLAN_1               = 254,
+    BRIEF_REPORT                        = 256,
+    DEBUG_GO_FORWARD_1_UNIT             = 482,
+    SKIP_REPORT                         = 504,
+    SET_BASIC_CARE_PLAN_2               = 510,
+    UNKNOWN_600                         = 600,
+    SET_BASIC_CARE_PLAN_3               = 766,
+    SET_BASIC_CARE_PLAN_4               = 1022,
+    UNKNOWN_1056                        = 1056,
+    UNKNOWN_1241                        = 1241,
+    GO_ON_A_WALK_SHORT                  = 10994,
+    GO_ON_A_WALK_REGULAR                = 11250,
+    GO_ON_A_WALK_LONG                   = 11506,
+    WATCH_OVER_CHOCOBO_CONFIRM          = 12530,
+    TELL_A_STORY                        = 13042,
+    SCOLD_CHOCOBO                       = 13298,
+    COMPETE_WITH_OTHERS                 = 13554,
+}
+
+local vmOpCodeNames =
+{
+    [vmOpCodes.RETIRE_YOUR_CHOCOBO]         = 'Retire your chocobo',
+    [vmOpCodes.ASK_ABOUT_CONDITION_MENU]    = 'Ask about chocobos condition (menu)',
+    [vmOpCodes.CHECK_REPORT_STATUS]         = 'Check report status',
+    [vmOpCodes.INTRO_MENU_PT_2]             = 'Intro menu pt 2',
+    [vmOpCodes.INTRO_MENU_PT_3]             = 'Intro menu pt 3',
+    [vmOpCodes.BUY_CHOCOBO_WHISTLE]         = 'Buy chocobo whistle',
+    [vmOpCodes.RECEIVE_CHOCOBO_WHISTLE]     = 'Receive chocobo whistle',
+    [vmOpCodes.DEBUG_ABILITIES_PRINT]       = 'Debug abilities print',
+    [vmOpCodes.DEBUG_USER_WORK_PRINT]       = 'Debug user work print',
+    [vmOpCodes.GIVE_UP_CHOCOBO]             = 'Give up your chocobo',
+    [vmOpCodes.FEED_CHOCOBO]                = 'Feed chocobo',
+    [vmOpCodes.CARE_FOR_CHOCOBO_MENU]       = 'Care for your chocobo (menu)',
+    [vmOpCodes.PRESENT_CHOCOBO_APPEARANCE]  = 'Present chocobo appearance',
+    [vmOpCodes.EVENT_PLAYOUT]               = 'Event playout',
+    [vmOpCodes.INTRO_MENU_PT_1]             = 'Intro menu pt 1',
+    [vmOpCodes.SET_CARE_SCHEDULE_MENU]      = 'Set care schedule (menu)',
+    [vmOpCodes.ASK_ABOUT_CONDITION_CONFIRM] = 'Ask about chocobos condition (confirm)',
+    [vmOpCodes.UNKNOWN_252]                 = 'Unknown 252',
+    [vmOpCodes.SET_BASIC_CARE_PLAN_1]       = 'Set basic care plan 1',
+    [vmOpCodes.BRIEF_REPORT]                = 'Brief report',
+    [vmOpCodes.DEBUG_GO_FORWARD_1_UNIT]     = 'Debug go forward 1 unit',
+    [vmOpCodes.SKIP_REPORT]                 = 'Skip the report',
+    [vmOpCodes.SET_BASIC_CARE_PLAN_2]       = 'Set basic care plan 2',
+    [vmOpCodes.UNKNOWN_600]                 = 'Unknown 600',
+    [vmOpCodes.SET_BASIC_CARE_PLAN_3]       = 'Set basic care plan 3',
+    [vmOpCodes.SET_BASIC_CARE_PLAN_4]       = 'Set basic care plan 4',
+    [vmOpCodes.UNKNOWN_1056]                = 'Unknown 1056',
+    [vmOpCodes.UNKNOWN_1241]                = 'Unknown 1241',
+    [vmOpCodes.GO_ON_A_WALK_SHORT]          = 'Go on a walk (Short) - Leisurely / Brisk',
+    [vmOpCodes.GO_ON_A_WALK_REGULAR]        = 'Go on a walk (Regular) - Leisurely / Brisk',
+    [vmOpCodes.GO_ON_A_WALK_LONG]           = 'Go on a walk (Long) - Leisurely / Brisk',
+    [vmOpCodes.WATCH_OVER_CHOCOBO_CONFIRM]  = 'Watch over your your chocobo (confirm)',
+    [vmOpCodes.TELL_A_STORY]                = 'Tell a story',
+    [vmOpCodes.SCOLD_CHOCOBO]               = 'Scold the chocobo',
+    [vmOpCodes.COMPETE_WITH_OTHERS]         = 'Compete with others',
+}
+
 xi.chocoboRaising.eventVM = function(player, csid, option, npc)
     -- TODO: The majority of logic is controlled by the option, which is
     -- sent in by the client. We can't trust this isn't tampered with.
@@ -32,8 +110,15 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
             return
         end
 
-        debug(string.format('CS Update: %i', option))
+        --------------------------------------------------------
+        -- Special cases
+        --
+        --    The VM option will have additional information packed into it and signal
+        --   this is the case by using a flag in the last byte. We'll look for it and
+        --   then handle these special cases, bailing out before we hit the VM proper.
+        --------------------------------------------------------
 
+        --------------------------------------------------------
         -- Setting the name for a chocobo: when the name is
         -- applied from the menu the name offsets (from the menu)
         -- are sent combined inside the option. The bottom byte
@@ -43,7 +128,7 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
         -- 0000 0000 0000 0100 0000 0000 1111 1111
         --      ^----------^^----------^ ^-------^
         --       last_name   first_name   name_change_flag (0xFF)
-
+        --------------------------------------------------------
         if bit.band(0x000000FF, option) == 0xFF then
             local offset1     = bit.band(0x3FF, bit.rshift(option, 8))
             local offset2     = bit.band(0x3FF, bit.rshift(option, 18))
@@ -73,12 +158,22 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                 -- Write to cache
                 xi.chocoboRaising.chocoState[player:getID()] = chocoState
 
-                -- Set synthetic CS option for later CSs
-                option = 0xFF
-                debug(string.format('CS (Synthetic) Update: %i', option))
+                -- If the name is still 'Chocobo Chocobo' then the renaming failed or was
+                -- rejected, play the appropriate response.
+                if chocoState.first_name == 'Chocobo' and chocoState.last_name == 'Chocobo' then
+                    player:updateEvent(1, 1, 1, 1, 1, 1, 1, 1)
+                else
+                    player:updateEvent(0, 0, 0, 0, 0, 0, 0, 0)
+                end
+
+                -- TODO: Write to db?
             end
+
+            -- There's no follow-up CSs here, bail out
+            return
         end
 
+        --------------------------------------------------------
         -- Similar to above, updates to care plan are flagged by setting bits
         -- in the update option. In this case, the mask if 0xFE (1111 1110).
         --
@@ -92,11 +187,14 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
         -- 2: Type of care plan
         -- 3: Slot of care plan
         -- 4: 'Key' for care plan updates (0xFE)
-
+        --------------------------------------------------------
         if bit.band(0x000000FF, option) == 0xFE then
             local carePlanSlot   = bit.band(0xF, bit.rshift(option, 8))
             local carePlanLength = bit.band(0x7, bit.rshift(option, 16))
             local carePlanType   = bit.band(0xF, bit.rshift(option, 19))
+
+            debug(string.format('carePlanSlot: %i, carePlanLength: %i, carePlanType: %i',
+                carePlanSlot, carePlanLength, carePlanType))
 
             -- If zero, make sure to default
             if chocoState.care_plan == 0 then
@@ -120,20 +218,27 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
             local finalCarePlan  = bit.bor(zerodCarePlan, bit.lshift(carePlan, targetSlotOffset))
             chocoState.care_plan = finalCarePlan
 
-            print(string.format('%s updating chocobo care plan: slot: %i type: %i length: %i',
+            debug(string.format('%s updating chocobo care plan: slot: %i type: %i length: %i',
                 player:getName(), carePlanSlot + 1, carePlanType, carePlanLength))
 
             -- Write to cache
             xi.chocoboRaising.chocoState[player:getID()] = chocoState
+
+            -- TODO: Write to db?
+
+            -- There's no follow-up CSs here, bail out
+            return
         end
 
         --------------------------------------------------------
         -- Main body update logic
         --------------------------------------------------------
+        local opCodeName = xi.chocoboRaising.vmOpCodeNames[option] or '?'
+        debug(string.format('ChocoVM Op: %i: %s', option, opCodeName))
+
         switch (option): caseof
         {
-            -- ?
-            [208] = function()
+            [vmOpCodes.CHECK_REPORT_STATUS] = function()
                 local hasReport = 0
                 if #chocoState.report.events > 0 then
                     hasReport = 0xFFFFFFFF
@@ -143,7 +248,7 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
             end,
 
             -- ?
-            [252] = function()
+            [vmOpCodes.UNKNOWN_252] = function()
                 local hasReport = 0
                 if #chocoState.report.events > 0 then
                     hasReport = 0xFFFFFFFF
@@ -154,7 +259,7 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
 
             -- Main menu (248 -> 214 -> 215)
             -- Update (248 -> 246 -> 244)
-            [248] = function()
+            [vmOpCodes.INTRO_MENU_PT_1] = function()
                 local report = 0x00000000
 
                 if #chocoState.report.events > 0 then
@@ -196,11 +301,11 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                 player:updateEvent(248, report, #chocoState.csList, playMultipleCutscenes, chocoState.stage, 0, 0, exitFlag)
             end,
 
-            [214] = function()
+            [vmOpCodes.INTRO_MENU_PT_2] = function()
                 player:updateEvent(0, 0, 0, 0, 0, 0, 0, 0)
             end,
 
-            [215] = function()
+            [vmOpCodes.INTRO_MENU_PT_3] = function()
                 -- Define menu options
                 -- bit.lshift(0x01, 0): Ask about your chocobo's condition
                 local askAboutChocoboCondition = -bit.lshift(0x01, 0)
@@ -278,7 +383,7 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                 player:updateEvent(menuFlags, 0, 0, 0, 0, 0, 0, 0)
             end,
 
-            [241] = function() -- Feed chocobo
+            [vmOpCodes.FEED_CHOCOBO] = function()
                 -- Complete the trade here to prevent any cheesing
                 player:confirmTrade()
 
@@ -325,8 +430,16 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                 xi.chocoboRaising.updateChocoState(player, chocoState)
             end,
 
-            [244] = function() -- Present chocobo appearance
+            [vmOpCodes.PRESENT_CHOCOBO_APPEARANCE] = function()
                 -- TODO: There is more information going on in here
+
+                -- TODO: While the chocobo is an egg, things seem to be laid out differently
+                -- TODO: Check caps
+                if chocoState.stage == xi.chocoboRaising.stage.EGG then
+                    -- From caps:
+                    player:updateEvent(0, 1023, 0, 0, 1, 1, 0, 0)
+                    return
+                end
 
                 -- TODO: These appearance changes are locked in on day 29 if
                 -- they are 'Average' (128) or above. This will need to be
@@ -357,11 +470,13 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                 player:updateEvent(chocoState.color, enlargedCrest, enlargedFeet, moreTailFeathers, chocoState.stage, 1, 0, 0)
             end,
 
-            [46] = function() -- Ask about chocobo's condition (menu)
+            -- TODO: This is hit directly after the CS for an egg hatching when we return to the main
+            --     : menu, so what does this mean?
+            [vmOpCodes.ASK_ABOUT_CONDITION_MENU] = function()
                 player:updateEvent(0, 0, 0, 0, 0, 0, 0, 0)
             end,
 
-            [600] = function()
+            [vmOpCodes.UNKNOWN_600] = function()
                 -- Get KI during another CS (determined randomly)
                 local ki    = xi.ki.DIRTY_HANDKERCHIEF
                 local getKi = 1
@@ -370,10 +485,10 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                 player:addKeyItem(ki)
             end,
 
-            [251] = function() -- Ask about chocobo's condition (confirm)
+            [vmOpCodes.ASK_ABOUT_CONDITION_CONFIRM] = function()
                 -- Block all other information
                 --local blockFlag = bit.lshift(0x01, 31) -- Sorry, but you will have to do this later. I have something new to report.
-                local arg0 = 251
+                local arg0 = vmOpCodes.ASK_ABOUT_CONDITION_CONFIRM
                 local arg1 = xi.chocoboRaising.packStats1(chocoState)
                 local arg2 = bit.lshift(xi.chocoboRaising.affectionRank.PARENT, 0) + bit.lshift(chocoState.hunger, 16)
                 local arg3 = bit.lshift(chocoState.personality, 0) +
@@ -403,7 +518,7 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                 player:updateEvent(arg0, arg1, arg2, arg3, arg4, 0, 0, 0)
             end,
 
-            [243] = function() -- Care for your chocobo (menu)
+            [vmOpCodes.CARE_FOR_CHOCOBO_MENU] = function()
                 local watchOverChocobo  = 0x01
                 local tellAStory        = 0x02
                 local scoldTheChocobo   = 0x04
@@ -433,7 +548,7 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                 player:updateEvent(mask, chocoState.energy, 0, 0, 0, 0, 0, 0)
             end,
 
-            [10994] = function() -- Go on a walk (Short) - Leisurely / Brisk
+            [vmOpCodes.GO_ON_A_WALK_SHORT] = function()
                 table.insert(chocoState.csList, xi.chocoboRaising.cutscenes.TAKE_A_WALK)
 
                 player:updateEventString(chocoState.first_name, chocoState.last_name, chocoState.first_name, chocoState.last_name,
@@ -510,7 +625,7 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                 player:updateEvent(unpack(output))
             end,
 
-            [11250] = function() -- Go on a walk (Regular) - Leisurely / Brisk
+            [vmOpCodes.GO_ON_A_WALK_REGULAR] = function()
                 table.insert(chocoState.csList, xi.chocoboRaising.cutscenes.TAKE_A_WALK)
 
                 player:updateEventString(chocoState.first_name, chocoState.last_name, chocoState.first_name, chocoState.last_name,
@@ -562,7 +677,7 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                 player:updateEvent(unpack(output))
             end,
 
-            [11506] = function() -- Go on a walk (Long) - Leisurely / Brisk
+            [vmOpCodes.GO_ON_A_WALK_LONG] = function()
                 table.insert(chocoState.csList, xi.chocoboRaising.cutscenes.TAKE_A_WALK)
 
                 player:updateEventString(chocoState.first_name, chocoState.last_name, chocoState.first_name, chocoState.last_name,
@@ -613,53 +728,61 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                 player:updateEvent(unpack(output))
             end,
 
-            [12530] = function() -- Watch over your your chocobo (confirm)
-                player:updateEventString(chocoState.first_name, chocoState.last_name, chocoState.first_name, chocoState.last_name,
-                    0, 0, 0, 0, 0, 0, 0)
+            [vmOpCodes.WATCH_OVER_CHOCOBO_CONFIRM] = function()
+            -- TODO: Is this needed? Check caps
+                -- player:updateEventString(chocoState.first_name, chocoState.last_name, chocoState.first_name, chocoState.last_name,
+                --     0, 0, 0, 0, 0, 0, 0)
 
                 local baseCS = xi.chocoboRaising.csidTable[player:getZoneID()][9]
 
+                --
+                -- Handle egg case
+                --
                 if chocoState.stage == xi.chocoboRaising.stage.EGG then
                     -- Your egg does not seem to be in the best condition at the moment...
-                    local badEggFlag = 0 -- bit.lshift(0x01, 31) (1st arg)
+                    local badEggFlag = 0 -- bit.lshift(0x01, 31) -- 1st arg
 
                     player:updateEvent(baseCS, badEggFlag, 0, 0, 0, 0, 0, 0)
+                    return
+                end
+
+                --
+                -- Regular case
+                --
+                local energyFlag = 0
+
+                if chocoState.energy < xi.chocoboRaising.watchOverEnergy then
+                    energyFlag = -1
                 else
-                    local energyFlag = 0
+                    chocoState.energy = chocoState.energy - xi.chocoboRaising.watchOverEnergy
+                end
 
-                    if chocoState.energy < xi.chocoboRaising.watchOverEnergy then
-                        energyFlag = -1
-                    else
-                        chocoState.energy = chocoState.energy - xi.chocoboRaising.watchOverEnergy
-                    end
+                -- Sandy: 304, 14396, 0, 0, 6, 0, 0, 2
+                -- Windurst: 816, 18250, 1, 511, 2, 0, 0, 1
+                local givingItem = 0
+                local givenItem  = 0
 
-                    -- Sandy: 304, 14396, 0, 0, 6, 0, 0, 2
-                    -- Windurst: 816, 18250, 1, 511, 2, 0, 0, 1
-                    local givingItem = 0
-                    local givenItem  = 0
+                if chocoState.held_item > 0 then
+                    givingItem = 1
+                    givenItem  = chocoState.held_item
+                end
 
-                    if chocoState.held_item > 0 then
-                        givingItem = 1
-                        givenItem  = chocoState.held_item
-                    end
+                if
+                    givingItem == 1 and
+                    player:getFreeSlotsCount() == 0
+                then
+                    givingItem = 2
+                end
 
-                    if
-                        givingItem == 1 and
-                        player:getFreeSlotsCount() == 0
-                    then
-                        givingItem = 2
-                    end
+                player:updateEvent(baseCS, energyFlag, givingItem, givenItem, 2, 0, 0, 1)
 
-                    player:updateEvent(baseCS, energyFlag, givingItem, givenItem, 2, 0, 0, 1)
-
-                    if givingItem == 1 then
-                        player:addItem({ id = givenItem, silent = true })
-                        chocoState.held_item = 0
-                    end
+                if givingItem == 1 then
+                    player:addItem({ id = givenItem, silent = true })
+                    chocoState.held_item = 0
                 end
             end,
 
-            [13042] = function() -- Tell a story
+            [vmOpCodes.TELL_A_STORY] = function()
                 -- A chocobo must have a DSC of D (A bit deficient, 64-95) or
                 -- higher to have a chance at learning a skill from a story
                 if chocoState.discernment >= 64 then
@@ -676,7 +799,7 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                 xi.chocoboRaising.updateChocoState(player, chocoState)
             end,
 
-            [13298] = function() -- Scold the chocobo
+            [vmOpCodes.SCOLD_CHOCOBO] = function()
                 chocoState = xi.chocoboRaising.onRaisingEventPlayout(player, xi.chocoboRaising.cutscenes.HANGS_HEAD_IN_SHAME, chocoState)
 
                 player:updateEventString(chocoState.first_name, chocoState.last_name, chocoState.first_name, chocoState.last_name, 0, 0, 0, 0, 0, 0, 0)
@@ -684,7 +807,7 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                 xi.chocoboRaising.updateChocoState(player, chocoState)
             end,
 
-            [13554] = function() -- Compete with others
+            [vmOpCodes.COMPETE_WITH_OTHERS] = function()
                 -- player:updateEventString(chocoState.first_name, chocoState.last_name, chocoState.first_name, chocoState.last_name,
                 --     4163, 67, 0, 0, 0, 0, 0)
                 -- player:updateEvent(820, 18017, 0, 72, 3, 254, 46, 1)
@@ -720,7 +843,7 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                 player:updateEvent(xi.chocoboRaising.getCutsceneWithOffset(player, xi.chocoboRaising.cutscenes.COMPETE_WITH_OTHERS), 0, winner, 0, chocoState.stage, 0, 0, 0)
             end,
 
-            [250] = function() -- Set Basic Care (menu)
+            [vmOpCodes.SET_CARE_SCHEDULE_MENU] = function()
                 local plan1Length = bit.rshift(bit.band(chocoState.care_plan, 0xF0000000), 28)
                 local plan1Type   = bit.rshift(bit.band(chocoState.care_plan, 0x0F000000), 24)
                 local plan2Length = bit.rshift(bit.band(chocoState.care_plan, 0x00F00000), 20)
@@ -737,46 +860,58 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                     bit.lshift(plan4Length,  24) + bit.lshift(plan4Type,  27)
 
                 -- TODO: Set up mask for relevant stage
-                local menuMask = 0 -- 0x7FFFFFFE
+                local menuMask = 0 -- Egg: 0x7FFFFFFE
+
+                -- Default to Egg:
+                -- TODO: Make this a table
+                if chocoState.stage == xi.chocoboRaising.stage.EGG then
+                    -- Just 'Basic Care'
+                    menuMask = 0x7FFFFFFE
+                elseif chocoState.stage == xi.chocoboRaising.stage.CHICK then
+                    menuMask = 0x7FFFFFFE
+                elseif chocoState.stage == xi.chocoboRaising.stage.ADOLESCENT then
+                    menuMask = 0x7FFFFFFE
+                elseif chocoState.stage >= xi.chocoboRaising.stage.ADULT_1 then
+                    menuMask = 0x7FFFFFFE
+                end
 
                 player:updateEvent(250, planInfo, 0, 0, 0, 0, 0, menuMask)
             end,
 
-            [254] = function() -- Set Basic Care plan 1
+            [vmOpCodes.SET_BASIC_CARE_PLAN_1] = function()
                 player:updateEvent(0, 0, 0, 0, 0, 0, 0, 0)
             end,
 
-            [510] = function() -- Set Basic Care plan 2
+            [vmOpCodes.SET_BASIC_CARE_PLAN_2] = function()
                 player:updateEvent(0, 0, 0, 0, 0, 0, 0, 0)
             end,
 
-            [766] = function() -- Set Basic Care plan 3
+            [vmOpCodes.SET_BASIC_CARE_PLAN_3] = function()
                 player:updateEvent(0, 0, 0, 0, 0, 0, 0, 0)
             end,
 
-            [1022] = function() -- Set Basic Care plan 4
+            [vmOpCodes.SET_BASIC_CARE_PLAN_4] = function()
                 player:updateEvent(0, 0, 0, 0, 0, 0, 0, 0)
             end,
 
-            [1056] = function() -- Unknown
-                print('ChocoboRaising: Unknown update: 1056')
+            [vmOpCodes.UNKNOWN_1056] = function()
                 player:updateEvent(0, 0, 0, 0, 0, 0, 0, 0)
             end,
 
-            [1241] = function() -- Called during 'Compete with Others'
+            [vmOpCodes.UNKNOWN_1241] = function() -- Called during 'Compete with Others'
                 -- Appears to always be blank
                 player:updateEvent(0, 0, 0, 0, 0, 0, 0, 0)
             end,
 
-            [246] = function() -- Update CS
+            [vmOpCodes.EVENT_PLAYOUT] = function()
                 chocoState = xi.chocoboRaising.handleCSUpdate(player, chocoState, true)
             end,
 
-            [256] = function() -- Brief report?
-                --
+            [vmOpCodes.BRIEF_REPORT] = function()
+                -- TODO
             end,
 
-            [504] = function() -- Skip report
+            [vmOpCodes.SKIP_REPORT] = function()
                 -- TODO: Set up movement between chocoState.report.events and chocoState.csList to
                 --     : include the length of each playout in days, so it can be used in handleCSUpdate()
                 --     : to multiply values etc.
@@ -796,7 +931,7 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
 
                 chocoState.report.events = {}
 
-                -- NOTE: each cs will be popped off inside of handleCSUpdate
+                -- NOTE: Each cs will be popped off inside of handleCSUpdate
                 while #chocoState.csList > 0 do
                     chocoState = xi.chocoboRaising.handleCSUpdate(player, chocoState, false)
                 end
@@ -804,43 +939,33 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                 xi.chocoboRaising.updateChocoState(player, chocoState)
             end,
 
-            [221] = function() -- Buy your chocobo whistle
-                --
+            [vmOpCodes.BUY_CHOCOBO_WHISTLE] = function()
+                -- TODO
             end,
 
-            [222] = function() -- Recieve your chocobo whistle
-                --
+            [vmOpCodes.RECEIVE_CHOCOBO_WHISTLE] = function()
+                -- TODO
             end,
 
-            [482] = function() -- DEBUG: Go forward 1 unit
+            [vmOpCodes.DEBUG_GO_FORWARD_1_UNIT] = function()
                 -- TODO: Split stored age and time of creation so age can be manipulated
                 player:updateEvent(0, 0, 0, 0, 0, 0, 0, 0)
             end,
 
-            [229] = function() -- DEBUG: Abilities print
+            [vmOpCodes.DEBUG_ABILITIES_PRINT] = function()
                 player:updateEvent(1, xi.chocoboRaising.packStats1(chocoState), xi.chocoboRaising.packStats2(chocoState), 0, 0, 0, 0, 0)
             end,
 
-            [232] = function() -- DEBUG: User work print
+            [vmOpCodes.DEBUG_USER_WORK_PRINT] = function()
                 -- TODO: Should we be tracking all user interactions with the chocobo?
             end,
 
-            [240] = function() -- Give up your chocobo
+            [vmOpCodes.GIVE_UP_CHOCOBO] = function()
                 player:updateEvent(0, 0, 0, 0, 0, 0, 0, 0)
                 player:deleteRaisedChocobo()
             end,
 
-            [255] = function() -- Synthetic update: Change/set chocobo name
-                -- If the name is still 'Chocobo Chocobo' then the renaming failed or was
-                -- rejected, play the appropriate response.
-                if chocoState.first_name == 'Chocobo' and chocoState.last_name == 'Chocobo' then
-                    player:updateEvent(1, 1, 1, 1, 1, 1, 1, 1)
-                else
-                    player:updateEvent(0, 0, 0, 0, 0, 0, 0, 0)
-                end
-            end,
-
-            [40] = function() -- Retire your chocobo
+            [vmOpCodes.RETIRE_YOUR_CHOCOBO] = function()
                 player:updateEvent(0, 0, 0, 0, 0, 0, 0, 0)
                 player:deleteRaisedChocobo()
             end,
