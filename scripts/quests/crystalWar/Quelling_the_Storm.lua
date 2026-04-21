@@ -210,9 +210,9 @@ quest.sections =
                         npcUtil.tradeHasExactly(
                             trade,
                             {
-                            xi.item.GOBLIN_MESS_TIN,
-                            xi.item.GOBLIN_MUSHPOT,
-                            xi.item.PINCH_OF_TWINKLE_POWDER,
+                                xi.item.GOBLIN_MESS_TIN,
+                                xi.item.GOBLIN_MUSHPOT,
+                                xi.item.PINCH_OF_TWINKLE_POWDER,
                             }
                         )
                     then
