@@ -18,6 +18,7 @@ local vmOpCodes =
     UNKNOWN_216                         = 216,
     BUY_CHOCOBO_WHISTLE                 = 221,
     RECEIVE_CHOCOBO_WHISTLE             = 222,
+    REGISTER_CHOCOBO_WHISTLE            = 223,
     DEBUG_ABILITIES_PRINT               = 229,
     DEBUG_USER_WORK_PRINT               = 232,
     GIVE_UP_CHOCOBO                     = 240,
@@ -31,6 +32,7 @@ local vmOpCodes =
     UNKNOWN_252                         = 252,
     SET_BASIC_CARE_PLAN_1               = 254,
     BRIEF_REPORT                        = 256,
+    WHISTLE_GAME_RESULT                 = 344,
     DEBUG_GO_FORWARD_1_UNIT             = 482,
     SKIP_REPORT                         = 504,
     SET_BASIC_CARE_PLAN_2               = 510,
@@ -58,6 +60,7 @@ local vmOpCodeNames =
     [vmOpCodes.UNKNOWN_216]                 = 'Unknown 216 (forced renaming?)',
     [vmOpCodes.BUY_CHOCOBO_WHISTLE]         = 'Buy chocobo whistle',
     [vmOpCodes.RECEIVE_CHOCOBO_WHISTLE]     = 'Receive chocobo whistle',
+    [vmOpCodes.REGISTER_CHOCOBO_WHISTLE]    = 'Register chocobo whistle',
     [vmOpCodes.DEBUG_ABILITIES_PRINT]       = 'Debug abilities print',
     [vmOpCodes.DEBUG_USER_WORK_PRINT]       = 'Debug user work print',
     [vmOpCodes.GIVE_UP_CHOCOBO]             = 'Give up your chocobo',
@@ -71,6 +74,7 @@ local vmOpCodeNames =
     [vmOpCodes.UNKNOWN_252]                 = 'Unknown 252',
     [vmOpCodes.SET_BASIC_CARE_PLAN_1]       = 'Set basic care plan 1',
     [vmOpCodes.BRIEF_REPORT]                = 'Brief report',
+    [vmOpCodes.WHISTLE_GAME_RESULT]         = 'Chocobo Whistle game result',
     [vmOpCodes.DEBUG_GO_FORWARD_1_UNIT]     = 'Debug go forward 1 unit',
     [vmOpCodes.SKIP_REPORT]                 = 'Skip the report',
     [vmOpCodes.SET_BASIC_CARE_PLAN_2]       = 'Set basic care plan 2',
@@ -309,6 +313,8 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
             end,
 
             [vmOpCodes.INTRO_MENU_PT_3] = function()
+                local menuFlags = 0xFFFFFFFF
+
                 -- Define menu options
                 -- bit.lshift(0x01, 0): Ask about your chocobo's condition
                 local askAboutChocoboCondition = -bit.lshift(0x01, 0)
@@ -329,7 +335,12 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                 end
 
                 -- bit.lshift(0x01, 4): Request Documentation
-                -- bit.lshift(0x01, 5): Register to call your chocobo
+
+                if player:getCharVar('HQuest[ChocoboWhistle]Prog') >= 4 then
+                    local registerToCallYourChocobo = -bit.lshift(0x01, 5)
+                    menuFlags = menuFlags + registerToCallYourChocobo
+                end
+
                 -- bit.lshift(0x01, 6): Receive your chocobo whistle
                 -- bit.lshift(0x01, 7): Purchase a chocobo whistle
 
@@ -358,7 +369,7 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                 local exit = -bit.lshift(0x01, 31)
 
                 -- Enable menu options (remove bits from 0xFFFFFFFF)
-                local menuFlags = 0xFFFFFFFF +
+                menuFlags = menuFlags +
                     askAboutChocoboCondition +
                     careForYourChocobo +
                     setUpCareSchedule +
@@ -593,8 +604,15 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                 local csWeather  = xi.chocoboRaising.getWeatherInZone(walkZoneId)
                 local output     = { 0, 0, 0, 0, 0, 0, 0, 0 }
 
-                -- Will there be an event?
-                if math.random(1, 100) <= xi.chocoboRaising.walkEventChance then
+                -- NOTE: We have to enforce the stage, otherwise this CS will freeze the client.
+                --     : The result is client-side, we can't force success.
+                local doWhistleWalkEvent = player:getCharVar('HQuest[ChocoboWhistle]Prog') == 2 and
+                    chocoState.stage >= xi.chocoboRaising.stage.ADULT_1
+
+                if doWhistleWalkEvent then -- Force whistle event
+                    debug('Forcing Chocobo Whistle Walk event')
+                    output = { 0, 14929, 1, 0, 4, 0, 2, 0 }
+                elseif math.random(1, 100) <= xi.chocoboRaising.walkEventChance then -- Will there be a random event?
                     local possibleEvents = {}
 
                     -- If not holding an item, it's possible to find an item
@@ -602,10 +620,11 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                         table.insert(possibleEvents, 1)
                     end
 
+                    -- TODO: This is wrong?
                     -- If you haven't completed the White Handkerchief quest yet
-                    if not player:hasKeyItem(xi.keyItem.WHITE_HANDKERCHIEF) then
-                        table.insert(possibleEvents, 2)
-                    end
+                    -- if not player:hasKeyItem(xi.keyItem.WHITE_HANDKERCHIEF) then
+                    --     table.insert(possibleEvents, 2)
+                    -- end
 
                     -- TODO: Meet other chocobos & raisers
 
@@ -615,8 +634,9 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                     end
                 end
 
+                -- Patch with the base CS and other bits
                 output[1] = baseCS
-                output[2] = energyFlag
+                -- output[2] = energyFlag
                 output[5] = chocoState.stage
                 output[8] = csWeather
 
@@ -950,6 +970,25 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
                 -- TODO
             end,
 
+            [vmOpCodes.WHISTLE_GAME_RESULT] = function()
+                local keyItem = xi.keyItem.HANDKERCHIEF
+
+                -- TODO: Handle this:
+                --     : A successful search does not guarantee you'll find the item. That means the item is not in that area, and you should look in the other two areas.
+
+                -- TODO: If you have a high bond with your chocobo, this gets upgraded to be the
+                --     : DIRTY_HANDKERCHIEF, apparently.
+
+                -- TODO: What are the chances here?
+                if math.random(1, 100) < 25 then -- success
+                    player:updateEvent(keyItem, 0, 0, 0, 0, 1, 0, 0)
+                    player:addKeyItem(keyItem)
+                    player:setCharVar('HQuest[ChocoboWhistle]Prog', 3)
+                else -- failure
+                    player:updateEvent(0, 0, 0, 0, 0, 2, 0, 0)
+                end
+            end,
+
             [vmOpCodes.SKIP_REPORT] = function()
                 -- TODO: Set up movement between chocoState.report.events and chocoState.csList to
                 --     : include the length of each playout in days, so it can be used in handleCSUpdate()
@@ -984,6 +1023,43 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
 
             [vmOpCodes.RECEIVE_CHOCOBO_WHISTLE] = function()
                 -- TODO
+            end,
+
+            [vmOpCodes.REGISTER_CHOCOBO_WHISTLE] = function()
+                debug('Registering field chocobo details')
+                player:updateEvent(0, 0, 0, 0, 0, 0, 0, 0)
+
+                -- TODO: Shamelessly taken from !chocobo and other handlers
+
+                -- Crest type
+                local enlargedCrest = 0
+
+                if chocoState.discernment >= 128 then
+                    enlargedCrest = 1
+                end
+
+                -- Feet type
+                local enlargedFeet = 0
+
+                if chocoState.strength >= 128 then
+                    enlargedFeet = 1
+                end
+
+                -- Tail feathers type
+                local moreTailFeathers = 0
+
+                if chocoState.endurance >= 128 then
+                    moreTailFeathers = 1
+                end
+
+                local traits =
+                {
+                    largeBeak   = enlargedCrest,
+                    fullTail    = moreTailFeathers,
+                    largeTalons = enlargedFeet,
+                }
+
+                player:registerChocobo(chocoState.color, traits)
             end,
 
             [vmOpCodes.DEBUG_GO_FORWARD_1_UNIT] = function()

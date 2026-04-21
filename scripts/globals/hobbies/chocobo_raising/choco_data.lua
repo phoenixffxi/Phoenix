@@ -170,6 +170,7 @@ xi.chocoboRaising.initChocoState = function(player)
         --     : check ensures you have to finish talking to the trainer, pass some time, and then
         --     : come back
         -- TODO: Need to zone too?
+        -- TODO: Does this play out as part of the report, or before it?
         if
             age >= 8 and -- At least one day has to have passed, so this is the earliest possible age
             player:hasKeyItem(xi.keyItem.WHITE_HANDKERCHIEF) and
