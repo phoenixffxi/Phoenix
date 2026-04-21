@@ -90,6 +90,8 @@ xi.chocoboRaising.initChocoState = function(player)
     local whiteHandkerchiefCancelled = false
     local whiteHandkerchiefFinished  = false
 
+    local chocoboWhistleQuestBegan = player:getCharVar('HQuest[ChocoboWhistle]Prog') > 0
+
     for idx = 1, reportLength do
         local possibleCarePlanEvent = possibleCarePlanFuture[idx]
 
@@ -145,8 +147,8 @@ xi.chocoboRaising.initChocoState = function(player)
         if
             not whiteHandkerchiefStarted and
             not player:hasKeyItem(xi.keyItem.WHITE_HANDKERCHIEF) and
-            age == 7
-            -- TODO: And you've not already completed this quest once before
+            age == 7 and
+            not chocoboWhistleQuestBegan
         then
             debug('Starting White Handkerchief quest')
             table.insert(events, { age, { xi.chocoboRaising.cutscenes.CRYING_AT_NIGHT } })
