@@ -8295,6 +8295,7 @@ xi.item =
     PRESTER                             = 18598,
     PESTLE                              = 18599,
     RAM_STAFF                           = 18612,
+    FOURTH_STAFF                        = 18613,
     SAMUDRA                             = 18618,
     NUMEN_STAFF                         = 18624,
     SPHARAI_85                          = 18637,
