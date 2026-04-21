@@ -99,28 +99,11 @@ commandObj.onTrigger = function(player)
                 info['created'] = info['created'] - (epochDay * 10)
                 playerArg:setChocoboRaisingInfo(info)
 
-                playerArg:printToPlayer('Setting up debug scenario 2 (10d update)', xi.msg.channel.SYSTEM_3, '')
-            end,
-        })
-
-        table.insert(menu.options, {
-            'Change sex',
-            function(playerArg)
-                local info = playerArg:getChocoboRaisingInfo()
-                info['sex'] = (info['sex'] + 1) % 2
-                playerArg:setChocoboRaisingInfo(info)
-                playerArg:printToPlayer('Changed sex to ' .. sex[info['sex']], xi.msg.channel.SYSTEM_3, '')
-            end,
-        })
-
-        table.insert(menu.options, {
-            'Dump chocoState',
-            function(playerArg)
-                local info = playerArg:getChocoboRaisingInfo()
-                playerArg:printToPlayer('created ' .. os.date('%Y %m %d %H %M %S', info['created']), xi.msg.channel.SYSTEM_3, '')
-                for k, v in pairs(info) do
-                    playerArg:printToPlayer(string.format('%s %s', k, v), xi.msg.channel.SYSTEM_3, '')
+                if playerArg:hasKeyItem(xi.keyItem.WHITE_HANDKERCHIEF) then
+                    playerArg:delKeyItem(xi.keyItem.WHITE_HANDKERCHIEF)
                 end
+
+                playerArg:printToPlayer('Setting up debug scenario 2 (10d update) w/ handkerchief', xi.msg.channel.SYSTEM_3, '')
             end,
         })
 
@@ -181,7 +164,11 @@ commandObj.onTrigger = function(player)
                 info['created'] = info['created'] - (epochDay * 10)
                 playerArg:setChocoboRaisingInfo(info)
 
-                playerArg:printToPlayer('Setting up debug scenario 2 (10d update)', xi.msg.channel.SYSTEM_3, '')
+                if playerArg:hasKeyItem(xi.keyItem.WHITE_HANDKERCHIEF) then
+                    playerArg:delKeyItem(xi.keyItem.WHITE_HANDKERCHIEF)
+                end
+
+                playerArg:printToPlayer('Setting up debug scenario 2 (10d update w/ handkerchief)', xi.msg.channel.SYSTEM_3, '')
             end,
         })
     end

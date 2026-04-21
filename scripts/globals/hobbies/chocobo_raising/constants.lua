@@ -123,8 +123,8 @@ xi.chocoboRaising.cutscenes =
     HANGS_HEAD_IN_SHAME      = 51, -- Hangs its head in shame
     COMPETE_WITH_OTHERS      = 52,
     HAVENT_SEEN_YOU          = 53, -- Haven't seen you around, chocobo is sleeping (dispose of white handkerchief)
-    -- 54: Accept white handkerchief
-    CRYING_AT_NIGHT = 69, -- White handkerchief
+    THAT_SHOULD_BE_ENOUGH    = 54, -- That should be enough! Hand over the {White Handkerchief} now. (white handkerchief end)
+    CRYING_AT_NIGHT          = 69, -- White handkerchief start
     -- 70: Chocobo full of energy!
     -- 71: Bright and focused
     -- 72: Injury has healed
