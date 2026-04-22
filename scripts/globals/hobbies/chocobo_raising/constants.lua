@@ -49,7 +49,7 @@ xi.chocoboRaising.stage =
     ADULT_1    = 4,
     ADULT_2    = 5,
     ADULT_3    = 6,
-    ADULT_4    = 7, -- Retired?
+    ADULT_4    = 7, -- Retired, will trigger immediate retirement
 }
 
 xi.chocoboRaising.affectionRank =
