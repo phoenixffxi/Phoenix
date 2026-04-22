@@ -1,7 +1,7 @@
 -----------------------------------
--- Evisceration
+-- Ruthless Stroke
 -- Family: Humanoid Dagger Weaponskill
--- Description: Delivers a fivefold attack
+-- Description: Delivers a fourfold attack. Damage varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -14,14 +14,13 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
     params.baseDamage     = mob:getWeaponDmg()
-    params.numHits        = 5
-    params.fTP            = { 1.0, 1.0, 1.0 } -- TODO: Capture fTPs
-    -- params.dex_wSC     = 0.3 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.numHits        = 4
+    params.fTP            = { 5.375, 14.0, 23.0 }
+    -- params.dex_wSC     = 0.25 -- TODO: Capture if mobskill weaponskills have wSC.
+    -- params.agi_wSC     = 0.25 -- TODO: Capture if mobskill weaponskills have wSC.
     params.attackType     = xi.attackType.PHYSICAL
     params.damageType     = xi.damageType.PIERCING
-    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_5
-    params.canCrit        = true
-    params.criticalChance = { 0.10, 0.25, 0.50 }
+    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_4
 
     local info = xi.mobskills.mobPhysicalMove(mob, target, skill, action, params)
 
