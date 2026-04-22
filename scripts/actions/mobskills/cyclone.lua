@@ -1,13 +1,12 @@
 -----------------------------------
--- Aeolian Edge
+-- Cyclone
 -- Family: Humanoid Dagger Weaponskill
--- Description: Delivers an area attack that deals wind elemental damage. Damage varies with TP.
+-- Description: Delivers an area of effect wind elemental attack. Damage varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
 
 mobskillObject.onMobSkillCheck = function(target, mob, skill)
-    -- mob:messageBasic(xi.msg.basic.READIES_WS, 0, 41)
     return 0
 end
 
@@ -15,9 +14,9 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
     params.baseDamage       = mob:getMainLvl() + 2
-    params.fTP              = { 2.75, 3.5, 4.0 }
-    -- params.dex_wSC       = 0.28 -- TODO: Capture if mobskill weaponskills have wSC.
-    -- params.int_wSC       = 0.28 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.fTP              = { 1.0, 2.375, 2.875 }
+    -- params.dex_wSC       = 0.3  -- TODO: Capture if mobskill weaponskills have wSC.
+    -- params.int_wSC       = 0.25 -- TODO: Capture if mobskill weaponskills have wSC.
     params.element          = xi.element.WIND
     params.attackType       = xi.attackType.MAGICAL
     params.damageType       = xi.damageType.WIND

@@ -1,7 +1,7 @@
 -----------------------------------
--- Evisceration
+-- Wasp Sting
 -- Family: Humanoid Dagger Weaponskill
--- Description: Delivers a fivefold attack
+-- Description: Poisons target. Duration of effect varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -14,19 +14,19 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
     params.baseDamage     = mob:getWeaponDmg()
-    params.numHits        = 5
-    params.fTP            = { 1.0, 1.0, 1.0 } -- TODO: Capture fTPs
-    -- params.dex_wSC     = 0.3 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.numHits        = 1
+    params.fTP            = { 1.0, 1.0, 1.0 }
+    -- params.dex_wSC     = 1.0 -- TODO: Capture if mobskill weaponskills have wSC.
     params.attackType     = xi.attackType.PHYSICAL
     params.damageType     = xi.damageType.PIERCING
-    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_5
-    params.canCrit        = true
-    params.criticalChance = { 0.10, 0.25, 0.50 }
+    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_1
 
     local info = xi.mobskills.mobPhysicalMove(mob, target, skill, action, params)
 
     if xi.mobskills.processDamage(mob, target, skill, action, info) then
         target:takeDamage(info.damage, mob, info.attackType, info.damageType)
+
+        xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.POISON, 1, 3, math.floor(75 + 15 * skill:getTP() / 1000))
     end
 
     return info.damage
