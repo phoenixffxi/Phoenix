@@ -157,6 +157,57 @@ local function handleCarePlanUpdate(player, chocoState, option)
     xi.chocoboRaising.chocoState[player:getID()] = chocoState
 end
 
+local walkConfig =
+{
+    [vmOpCodes.GO_ON_A_WALK_SHORT]   = { energyIdx = 1, locationMap = 'shortWalkLocation' },
+    [vmOpCodes.GO_ON_A_WALK_REGULAR] = { energyIdx = 2, locationMap = 'mediumWalkLocation' },
+    [vmOpCodes.GO_ON_A_WALK_LONG]    = { energyIdx = 3, locationMap = 'longWalkLocation' },
+}
+
+local function handleGoOnAWalk(player, chocoState, option)
+    local zoneId = player:getZoneID()
+    local config = walkConfig[option]
+
+    player:updateEventString(chocoState.first_name, chocoState.last_name, chocoState.first_name, chocoState.last_name,
+        0, 0, 0, 0, 0, 0, 0, 0)
+
+    local baseCS       = xi.chocoboRaising.csidTable[zoneId][6]
+    local energyAmount = xi.chocoboRaising.walkEnergyAmount[config.energyIdx] + math.random(0, xi.chocoboRaising.walkEnergyRandomness)
+    local walkZoneId   = xi.chocoboRaising[config.locationMap][xi.chocoboRaising.raisingLocation[zoneId]]
+    local csWeather    = xi.chocoboRaising.getWeatherInZone(walkZoneId)
+
+    -- 1. Energy Check
+    if chocoState.energy < energyAmount then
+        player:updateEvent(baseCS, -1, 0, 0, chocoState.stage, 0, 0, csWeather)
+        return
+    end
+
+    chocoState.energy = chocoState.energy - energyAmount
+
+    -- 2. Quest Events (e.g. Chocobo Whistle)
+    local isWhistleQuestProg = player:getCharVar('HQuest[ChocoboWhistle]Prog') == 2
+    if
+        isWhistleQuestProg and
+        chocoState.stage >= xi.chocoboRaising.stage.ADULT_1
+    then
+        player:updateEvent(baseCS, 14929, 1, 0, 4, 0, 2, csWeather)
+        return
+    end
+
+    if math.random(1, 100) <= xi.chocoboRaising.walkEventChance then
+        -- Event: Find an item
+        if chocoState.held_item == 0 then
+            local itemId         = utils.randomEntry(xi.chocoboRaising.walkItems[walkZoneId])
+            chocoState.held_item = itemId
+            player:updateEvent(baseCS, itemId, 7, 0, chocoState.stage, 0, 0, csWeather)
+            return
+        end
+    end
+
+    -- 4. Default Walk
+    player:updateEvent(baseCS, 0, 0, 0, chocoState.stage, 0, 0, csWeather)
+end
+
 local vmHandlers =
 {
     [vmOpCodes.CHECK_REPORT_STATUS] = function(player, chocoState, option)
@@ -164,6 +215,7 @@ local vmHandlers =
         if #chocoState.report.events > 0 then
             hasReport = 0xFFFFFFFF
         end
+
         player:updateEvent(hasReport, 0, 0, 0, chocoState.stage, 0, 0, 0)
     end,
 
@@ -172,6 +224,7 @@ local vmHandlers =
         if #chocoState.report.events > 0 then
             hasReport = 0xFFFFFFFF
         end
+
         player:updateEvent(hasReport, 1, 1, 1, chocoState.stage, 1, 1, 1)
     end,
 
@@ -391,36 +444,52 @@ local vmHandlers =
         if xi.chocoboRaising.getCondition(chocoState, xi.chocoboRaising.conditions.INJURED) then
             arg4 = arg4 + legWounded
         end
+
         if xi.chocoboRaising.getCondition(chocoState, xi.chocoboRaising.conditions.SICK) then
             arg4 = arg4 + slightlyIll
         end
+
         if xi.chocoboRaising.getCondition(chocoState, xi.chocoboRaising.conditions.ILL) then
             arg4 = arg4 + stomachAche
         end
+
+        utils.unused(depressed)
+
         if xi.chocoboRaising.getCondition(chocoState, xi.chocoboRaising.conditions.HIGH_SPIRITS) then
             arg4 = arg4 + excellentCondition
         end
+
+        utils.unused(sleepingSoundly)
+
         if xi.chocoboRaising.getCondition(chocoState, xi.chocoboRaising.conditions.VERY_ILL) then
             arg4 = arg4 + veryIll
         end
+
         if xi.chocoboRaising.getCondition(chocoState, xi.chocoboRaising.conditions.BORED) then
             arg4 = arg4 + boredRestless
         end
+
         if xi.chocoboRaising.getCondition(chocoState, xi.chocoboRaising.conditions.SPOILED) then
             arg4 = arg4 + hopelesslySpoiled
         end
+
         if xi.chocoboRaising.getCondition(chocoState, xi.chocoboRaising.conditions.RUN_AWAY) then
             arg4 = arg4 + ranAway
         end
+
         if xi.chocoboRaising.getCondition(chocoState, xi.chocoboRaising.conditions.LOVESICK) then
             arg4 = arg4 + inLove
         end
+
+        utils.unused(makingAFuss)
+
         if
             xi.chocoboRaising.getCondition(chocoState, xi.chocoboRaising.conditions.FULL_OF_ENERGY_1) or
             xi.chocoboRaising.getCondition(chocoState, xi.chocoboRaising.conditions.FULL_OF_ENERGY_2)
         then
             arg4 = arg4 + fullOfEnergy
         end
+
         if xi.chocoboRaising.getCondition(chocoState, xi.chocoboRaising.conditions.BRIGHT_AND_FOCUSED) then
             arg4 = arg4 + brightAndFocussed
         end
@@ -448,6 +517,7 @@ local vmHandlers =
             if knowsAStory then
                 mask = mask + tellAStory
             end
+
             mask = mask + goOnAWalkRegular
 
             local hasGoneOnRegularWalk = true
@@ -463,155 +533,9 @@ local vmHandlers =
         player:updateEvent(mask, chocoState.energy, 0, 0, 0, 0, 0, 0)
     end,
 
-    [vmOpCodes.GO_ON_A_WALK_SHORT] = function(player, chocoState, option)
-        table.insert(chocoState.csList, xi.chocoboRaising.cutscenes.TAKE_A_WALK)
-
-        player:updateEventString(chocoState.first_name, chocoState.last_name, chocoState.first_name, chocoState.last_name,
-            0, 0, 0, 0, 0, 0, 0, 0)
-
-        local csData =
-        {
-            [1] = { 0, 0, 7,   0, 0, 0, 0, 0 },
-            [2] = { 0, 0, 3, 256, 0, 3, 0, 0 },
-        }
-
-        local baseCS       = xi.chocoboRaising.csidTable[player:getZoneID()][6]
-        local energyAmount = xi.chocoboRaising.walkEnergyAmount[1] + math.random(0, xi.chocoboRaising.walkEnergyRandomness)
-        local energyFlag   = 0
-
-        if chocoState.energy < energyAmount then
-            energyFlag = -1
-        else
-            chocoState.energy = chocoState.energy - energyAmount
-        end
-
-        local walkZoneId = xi.chocoboRaising.shortWalkLocation[xi.chocoboRaising.raisingLocation[player:getZoneID()]]
-        local csWeather  = xi.chocoboRaising.getWeatherInZone(walkZoneId)
-        local output     = { 0, 0, 0, 0, 0, 0, 0, 0 }
-
-        local doWhistleWalkEvent = player:getCharVar('HQuest[ChocoboWhistle]Prog') == 2 and
-            chocoState.stage >= xi.chocoboRaising.stage.ADULT_1
-
-        if doWhistleWalkEvent then
-            output = { 0, 14929, 1, 0, 4, 0, 2, 0 }
-        elseif math.random(1, 100) <= xi.chocoboRaising.walkEventChance then
-            local possibleEvents = {}
-            if chocoState.held_item == 0 then
-                table.insert(possibleEvents, 1)
-            end
-
-            local randomEvent = utils.randomEntry(possibleEvents)
-            if randomEvent then
-                output = { unpack(csData[randomEvent]) }
-            end
-        end
-
-        output[1] = baseCS
-        output[5] = chocoState.stage
-        output[8] = csWeather
-
-        if output[3] == 7 and energyFlag >= 0 then
-            local itemId         = utils.randomEntry(xi.chocoboRaising.walkItems[walkZoneId])
-            output[2]            = itemId
-            chocoState.held_item = itemId
-        end
-
-        player:updateEvent(unpack(output))
-    end,
-
-    [vmOpCodes.GO_ON_A_WALK_REGULAR] = function(player, chocoState, option)
-        table.insert(chocoState.csList, xi.chocoboRaising.cutscenes.TAKE_A_WALK)
-
-        player:updateEventString(chocoState.first_name, chocoState.last_name, chocoState.first_name, chocoState.last_name,
-            0, 0, 0, 0, 0, 0, 0, 0)
-
-        local csData =
-        {
-            [1] = { 0, 0,  7, 0, 0, 0, 0, 0 },
-        }
-
-        local baseCS       = xi.chocoboRaising.csidTable[player:getZoneID()][6]
-        local energyAmount = xi.chocoboRaising.walkEnergyAmount[2] + math.random(0, xi.chocoboRaising.walkEnergyRandomness)
-        local energyFlag   = 0
-
-        if chocoState.energy < energyAmount then
-            energyFlag = -1
-        else
-            chocoState.energy = chocoState.energy - energyAmount
-        end
-
-        local walkZoneId = xi.chocoboRaising.mediumWalkLocation[xi.chocoboRaising.raisingLocation[player:getZoneID()]]
-        local csWeather  = xi.chocoboRaising.getWeatherInZone(walkZoneId)
-        local output     = { 0, 0, 0, 0, 0, 0, 0, 0 }
-
-        if math.random(1, 100) <= xi.chocoboRaising.walkEventChance then
-            output = { unpack(csData[1]) }
-        end
-
-        output[1] = baseCS
-        output[2] = energyFlag
-        output[5] = chocoState.stage
-        output[8] = csWeather
-
-        if output[3] == 7 and chocoState.held_item > 0 then
-            output[3] = 0
-        end
-
-        if output[3] == 7 and energyFlag >= 0 then
-            local itemId         = utils.randomEntry(xi.chocoboRaising.walkItems[walkZoneId])
-            output[2]            = itemId
-            chocoState.held_item = itemId
-        end
-
-        player:updateEvent(unpack(output))
-    end,
-
-    [vmOpCodes.GO_ON_A_WALK_LONG] = function(player, chocoState, option)
-        table.insert(chocoState.csList, xi.chocoboRaising.cutscenes.TAKE_A_WALK)
-
-        player:updateEventString(chocoState.first_name, chocoState.last_name, chocoState.first_name, chocoState.last_name,
-            0, 0, 0, 0, 0, 0, 0, 0)
-
-        local csData =
-        {
-            [1] = { 0, 0,  7, 0, 0, 0, 0, 0 },
-        }
-
-        local baseCS       = xi.chocoboRaising.csidTable[player:getZoneID()][6]
-        local energyAmount = xi.chocoboRaising.walkEnergyAmount[3] + math.random(0, xi.chocoboRaising.walkEnergyRandomness)
-        local energyFlag   = 0
-
-        if chocoState.energy < energyAmount then
-            energyFlag = -1
-        else
-            chocoState.energy = chocoState.energy - energyAmount
-        end
-
-        local walkZoneId = xi.chocoboRaising.longWalkLocation[xi.chocoboRaising.raisingLocation[player:getZoneID()]]
-        local csWeather  = xi.chocoboRaising.getWeatherInZone(walkZoneId)
-        local output     = { 0, 0, 0, 0, 0, 0, 0, 0 }
-
-        if math.random(1, 100) <= xi.chocoboRaising.walkEventChance then
-            output = { unpack(csData[1]) }
-        end
-
-        output[1] = baseCS
-        output[2] = energyFlag
-        output[5] = chocoState.stage
-        output[8] = csWeather
-
-        if output[3] == 7 and chocoState.held_item > 0 then
-            output[3] = 0
-        end
-
-        if output[3] == 7 and energyFlag >= 0 then
-            local itemId         = utils.randomEntry(xi.chocoboRaising.walkItems[walkZoneId])
-            output[2]            = itemId
-            chocoState.held_item = itemId
-        end
-
-        player:updateEvent(unpack(output))
-    end,
+    [vmOpCodes.GO_ON_A_WALK_SHORT]   = handleGoOnAWalk,
+    [vmOpCodes.GO_ON_A_WALK_REGULAR] = handleGoOnAWalk,
+    [vmOpCodes.GO_ON_A_WALK_LONG]    = handleGoOnAWalk,
 
     [vmOpCodes.WATCH_OVER_CHOCOBO_CONFIRM] = function(player, chocoState, option)
         local baseCS = xi.chocoboRaising.csidTable[player:getZoneID()][9]
@@ -652,14 +576,14 @@ local vmHandlers =
     [vmOpCodes.TELL_A_STORY] = function(player, chocoState, option)
         local storyMask = 0xFFFFFFFE
 
-        chocoState = xi.chocoboRaising.onRaisingEventPlayout(player, xi.chocoboRaising.cutscenes.INTERESTED_IN_YOUR_STORY, chocoState)
+        xi.chocoboRaising.onRaisingEventPlayout(player, xi.chocoboRaising.cutscenes.INTERESTED_IN_YOUR_STORY, chocoState)
 
         player:updateEventString(chocoState.first_name, chocoState.last_name, chocoState.first_name, chocoState.last_name, 0, 0, 0, 0, 0, 0, 0)
         player:updateEvent(xi.chocoboRaising.getCutsceneWithOffset(player, xi.chocoboRaising.cutscenes.INTERESTED_IN_YOUR_STORY), 0, storyMask, 0, chocoState.stage, 0, 0, 3)
     end,
 
     [vmOpCodes.SCOLD_CHOCOBO] = function(player, chocoState, option)
-        chocoState = xi.chocoboRaising.onRaisingEventPlayout(player, xi.chocoboRaising.cutscenes.HANGS_HEAD_IN_SHAME, chocoState)
+        xi.chocoboRaising.onRaisingEventPlayout(player, xi.chocoboRaising.cutscenes.HANGS_HEAD_IN_SHAME, chocoState)
 
         player:updateEventString(chocoState.first_name, chocoState.last_name, chocoState.first_name, chocoState.last_name, 0, 0, 0, 0, 0, 0, 0)
         player:updateEvent(xi.chocoboRaising.getCutsceneWithOffset(player, xi.chocoboRaising.cutscenes.HANGS_HEAD_IN_SHAME), 0, 0, 0, chocoState.stage, 0, 0, 0)
@@ -681,7 +605,7 @@ local vmHandlers =
         debug('Competition Winner: ' .. winnerStr[winner])
         local rivalsName = 'Hero'
 
-        chocoState = xi.chocoboRaising.onRaisingEventPlayout(player, xi.chocoboRaising.cutscenes.COMPETE_WITH_OTHERS, chocoState)
+        xi.chocoboRaising.onRaisingEventPlayout(player, xi.chocoboRaising.cutscenes.COMPETE_WITH_OTHERS, chocoState)
 
         player:updateEventString(chocoState.first_name, rivalsName, '', '', 0, 0, 0, 0, 0, 0, 0)
         player:updateEvent(xi.chocoboRaising.getCutsceneWithOffset(player, xi.chocoboRaising.cutscenes.COMPETE_WITH_OTHERS), 0, winner, 0, chocoState.stage, 0, 0, 0)

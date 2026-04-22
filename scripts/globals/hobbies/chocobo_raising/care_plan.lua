@@ -67,6 +67,7 @@ xi.chocoboRaising.handleCarePlan = function(player, chocoState, carePlan, elapse
         newCarePlan = bit.bor(newCarePlan, bit.lshift(plans[i + 1].length, offset + 4))
         newCarePlan = bit.bor(newCarePlan, bit.lshift(plans[i + 1].type,   offset))
     end
+
     chocoState.care_plan = newCarePlan
 
     -- Apply stat changes

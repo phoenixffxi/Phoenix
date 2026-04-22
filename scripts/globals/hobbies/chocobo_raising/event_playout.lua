@@ -135,7 +135,7 @@ xi.chocoboRaising.handleCSUpdate = function(player, chocoState, doEventUpdate)
 
     local currentAgeOfChocoboDuringCutscene = 0
 
-    chocoState = xi.chocoboRaising.onRaisingEventPlayout(player, csOffset, chocoState, elapsedDays)
+    xi.chocoboRaising.onRaisingEventPlayout(player, csOffset, chocoState, elapsedDays)
 
     -- This will skip the event updates during 'Skip Report'
     if doEventUpdate then
@@ -293,6 +293,4 @@ xi.chocoboRaising.onRaisingEventPlayout = function(player, csOffset, chocoState,
     end
 
     xi.chocoboRaising.updateChocoState(player, chocoState)
-
-    return chocoState
 end

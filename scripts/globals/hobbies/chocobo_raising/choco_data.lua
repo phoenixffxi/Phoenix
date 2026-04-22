@@ -16,7 +16,7 @@ xi.chocoboRaising.newChocobo = function(player, egg)
 
     -- TODO: Use enum
     newChoco.sex = math.ceil(math.random() - 0.5) -- Random 0 or 1
-    
+
     newChoco.created         = GetSystemTime()
     newChoco.age             = 0
     newChoco.last_update_age = 1
@@ -68,15 +68,31 @@ xi.chocoboRaising.updateChocoState = function(player, chocoState)
 end
 
 local function handleQuestEvents(player, events, age, reportLength, questState)
-    if not questState.whiteHandkerchiefStarted and not player:hasKeyItem(xi.keyItem.WHITE_HANDKERCHIEF) and age == 7 and not questState.chocoboWhistleQuestBegan then
+    if
+        not questState.whiteHandkerchiefStarted and
+        not player:hasKeyItem(xi.keyItem.WHITE_HANDKERCHIEF) and
+        age == 7 and
+        not questState.chocoboWhistleQuestBegan
+    then
         debug('Starting White Handkerchief quest')
         table.insert(events, { age, { xi.chocoboRaising.cutscenes.CRYING_AT_NIGHT } })
         questState.whiteHandkerchiefStarted = true
-    elseif questState.whiteHandkerchiefStarted and not questState.whiteHandkerchiefCancelled and age == 15 and reportLength >= 7 then
+    elseif
+        questState.whiteHandkerchiefStarted and
+        not questState.whiteHandkerchiefCancelled and
+        age == 15 and
+        reportLength >= 7
+    then
         debug('Cancelling White Handkerchief quest')
         table.insert(events, { age, { xi.chocoboRaising.cutscenes.HAVENT_SEEN_YOU } })
         questState.whiteHandkerchiefCancelled = true
-    elseif not questState.whiteHandkerchiefStarted and not questState.whiteHandkerchiefCancelled and not questState.whiteHandkerchiefFinished and age >= 8 and player:hasKeyItem(xi.keyItem.WHITE_HANDKERCHIEF) then
+    elseif
+        not questState.whiteHandkerchiefStarted and
+        not questState.whiteHandkerchiefCancelled and
+        not questState.whiteHandkerchiefFinished and
+        age >= 8 and
+        player:hasKeyItem(xi.keyItem.WHITE_HANDKERCHIEF)
+    then
         debug('Ending White Handkerchief quest')
         table.insert(events, { age, { xi.chocoboRaising.cutscenes.THAT_SHOULD_BE_ENOUGH } })
         questState.whiteHandkerchiefFinished = true
