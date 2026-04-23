@@ -94,14 +94,14 @@ INSERT INTO `mob_skills` VALUES (51,109,'freezebite',0,0.0,10.0,2000,0,4,0,0,0,7
 INSERT INTO `mob_skills` VALUES (52,110,'shockwave',1,0.0,10.0,2000,0,4,0,0,0,5,0,0);
 INSERT INTO `mob_skills` VALUES (53,111,'crescent_moon',0,0.0,10.0,2000,0,4,0,0,0,4,0,0);
 INSERT INTO `mob_skills` VALUES (54,112,'sickle_moon',0,0.0,10.0,2000,0,4,0,0,0,4,8,0);
--- INSERT INTO `mob_skills` VALUES (55,??,'spinning_slash'
-INSERT INTO `mob_skills` VALUES (56,114,'ground_strike',0,0.0,10.0,2000,500,4,0,0,0,12,10,0);
--- INSERT INTO `mob_skills` VALUES (57,??,'scourge'
--- INSERT INTO `mob_skills` VALUES (58,??,'herculean_slash'
--- INSERT INTO `mob_skills` VALUES (59,??,'torcleaver'
--- INSERT INTO `mob_skills` VALUES (60,??,'resolution'
+INSERT INTO `mob_skills` VALUES (55,113,'spinning_slash',0,0.0,10.0,2000,0,4,0,0,0,12,0,0);
+INSERT INTO `mob_skills` VALUES (56,114,'ground_strike',0,0.0,10.0,2000,0,4,0,0,0,12,10,0);
+INSERT INTO `mob_skills` VALUES (57,115,'scourge',0,0.0,10.0,2000,0,4,0,0,0,13,11,0);
+INSERT INTO `mob_skills` VALUES (58,116,'herculean_slash',0,0.0,10.0,2000,0,4,0,0,0,7,8,6);
+INSERT INTO `mob_skills` VALUES (59,117,'torcleaver',0,0.0,10.0,2000,0,4,0,0,0,13,10,0);
+INSERT INTO `mob_skills` VALUES (60,118,'resolution',0,0.0,10.0,2000,0,4,0,0,0,12,4,0);
 INSERT INTO `mob_skills` VALUES (61,119,'dimidiation',0,0.0,10.0,2000,0,4,0,0,0,13,12,0);
--- INSERT INTO `mob_skills` VALUES (62,??,'fimbulvetr'
+INSERT INTO `mob_skills` VALUES (62,115,'fimbulvetr',0,0.0,10.0,2000,0,4,0,0,0,10,8,6);
 -- INSERT INTO `mob_skills` VALUES (64,??,'raging_axe'
 -- INSERT INTO `mob_skills` VALUES (65,??,'smash_axe'
 -- INSERT INTO `mob_skills` VALUES (66,??,'gale_axe'

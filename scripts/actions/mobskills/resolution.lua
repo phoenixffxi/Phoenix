@@ -1,7 +1,7 @@
 -----------------------------------
--- Ground Strike
+-- Resolution
 -- Family: Humanoid Great Sword Weaponskill
--- Description: Delivers a single attack. Damage varies with TP.
+-- Description: Delivers a fivefold attack.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -13,15 +13,15 @@ end
 mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
-    params.baseDamage       = mob:getWeaponDmg()
-    params.numHits          = 1
-    params.fTP              = { 1.5, 1.75, 3.0 }
-    -- params.str_wSC       = 0.5 -- TODO: Capture if mobskill weaponskills have wSC.
-    -- params.int_wSC       = 0.5 -- TODO: Capture if mobskill weaponskills have wSC.
-    params.attackType       = xi.attackType.PHYSICAL
-    params.damageType       = xi.damageType.SLASHING
-    params.shadowBehavior   = xi.mobskills.shadowBehavior.NUMSHADOWS_1
-    params.attackMultiplier = { 1.75, 1.75, 1.75 }
+    params.baseDamage        = mob:getWeaponDmg()
+    params.numHits           = 5
+    params.fTP               = { 0.71875, 0.84375, 0.96875 }
+    params.fTPSubsequentHits = { 0.71875, 0.84375, 0.96875 }
+    -- params.str_wSC        = 0.85 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.attackType        = xi.attackType.PHYSICAL
+    params.damageType        = xi.damageType.SLASHING
+    params.shadowBehavior    = xi.mobskills.shadowBehavior.NUMSHADOWS_5
+    params.attackMultiplier  = { 0.85, 0.85, 0.85 }
 
     local info = xi.mobskills.mobPhysicalMove(mob, target, skill, action, params)
 
