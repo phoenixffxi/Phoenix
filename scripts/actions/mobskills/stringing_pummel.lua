@@ -1,7 +1,7 @@
 -----------------------------------
--- Spinning Attack
+-- Stringing Pummel
 -- Family: Humanoid Hand to Hand Weaponskill
--- Description: Delivers a twofold area attack. TODO : Radius varies with TP.
+-- Description: Delivers a sixfold attack. Chance of critical hit varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -14,12 +14,15 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
     params.baseDamage     = mob:getWeaponDmg()
-    params.numHits        = 2
-    params.fTP            = { 1.0, 1.0, 1.0 }
-    --params.str_wSC      = 0.35 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.numHits        = 6
+    params.fTP            = { 0.75, 0.75, 0.75 }
+    --params.str_wSC      = 0.32 -- TODO: Capture if mobskill weaponskills have wSC.
+    --params.vit_wSC      = 0.32 -- TODO: Capture if mobskill weaponskills have wSC.
     params.attackType     = xi.attackType.PHYSICAL
     params.damageType     = xi.damageType.HTH
-    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_2
+    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_6
+    params.canCrit        = true
+    params.criticalChance = { 0.15, 0.30, 0.45 }
 
     local info = xi.mobskills.mobPhysicalMove(mob, target, skill, action, params)
 

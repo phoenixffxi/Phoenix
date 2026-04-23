@@ -1,7 +1,7 @@
 -----------------------------------
--- Spinning Attack
+-- Dragon Blow
 -- Family: Humanoid Hand to Hand Weaponskill
--- Description: Delivers a twofold area attack. TODO : Radius varies with TP.
+-- Description: Delivers a twofold attack. Damage varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -15,8 +15,8 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
 
     params.baseDamage     = mob:getWeaponDmg()
     params.numHits        = 2
-    params.fTP            = { 1.0, 1.0, 1.0 }
-    --params.str_wSC      = 0.35 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.fTP            = { 3.675, 7.0, 10.4375 }
+    --params.dex_wSC      = 0.85  -- TODO: Capture if mobskill weaponskills have wSC.
     params.attackType     = xi.attackType.PHYSICAL
     params.damageType     = xi.damageType.HTH
     params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_2
