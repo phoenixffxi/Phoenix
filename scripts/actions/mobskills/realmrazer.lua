@@ -1,7 +1,7 @@
 -----------------------------------
--- Black Halo
+-- Realmrazer
 -- Family: Humanoid Club Weaponskill
--- Description: Delivers a twofold attack. Damage varies with TP.
+-- Description: Delivers a sevenfold attack. Accuracy varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -13,14 +13,14 @@ end
 mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
-    params.baseDamage     = mob:getWeaponDmg()
-    params.numHits        = 2
-    params.fTP            = { 1.5, 2.5, 3.0 }
-    -- params.str_wSC     = 0.3 -- TODO: Capture if mobskill weaponskills have wSC.
-    -- params.mnd_wSC     = 0.5 -- TODO: Capture if mobskill weaponskills have wSC.
-    params.attackType     = xi.attackType.PHYSICAL
-    params.damageType     = xi.damageType.BLUNT
-    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_2
+    params.baseDamage       = mob:getWeaponDmg()
+    params.numHits          = 7
+    params.fTP              = { 0.88, 0.88, 0.88 }
+    -- params.mnd_wSC       = 0.85 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.accuracyModifier = { 0, 30, 60 } -- TODO: Verify exact number.
+    params.attackType       = xi.attackType.PHYSICAL
+    params.damageType       = xi.damageType.BLUNT
+    params.shadowBehavior   = xi.mobskills.shadowBehavior.NUMSHADOWS_7
 
     local info = xi.mobskills.mobPhysicalMove(mob, target, skill, action, params)
 

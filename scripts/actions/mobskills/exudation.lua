@@ -1,7 +1,7 @@
 -----------------------------------
--- Black Halo
+-- Exudation
 -- Family: Humanoid Club Weaponskill
--- Description: Delivers a twofold attack. Damage varies with TP.
+-- Description: Attack varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -13,14 +13,15 @@ end
 mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
-    params.baseDamage     = mob:getWeaponDmg()
-    params.numHits        = 2
-    params.fTP            = { 1.5, 2.5, 3.0 }
-    -- params.str_wSC     = 0.3 -- TODO: Capture if mobskill weaponskills have wSC.
-    -- params.mnd_wSC     = 0.5 -- TODO: Capture if mobskill weaponskills have wSC.
-    params.attackType     = xi.attackType.PHYSICAL
-    params.damageType     = xi.damageType.BLUNT
-    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_2
+    params.baseDamage       = mob:getWeaponDmg()
+    params.numHits          = 1
+    params.fTP              = { 2.8, 2.8, 2.8 }
+    -- params.int_wSC       = 0.5 -- TODO: Capture if mobskill weaponskills have wSC.
+    -- params.mnd_wSC       = 0.5 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.attackMultiplier = { 1.5, 3.625, 4.75 }
+    params.attackType       = xi.attackType.PHYSICAL
+    params.damageType       = xi.damageType.BLUNT
+    params.shadowBehavior   = xi.mobskills.shadowBehavior.NUMSHADOWS_1
 
     local info = xi.mobskills.mobPhysicalMove(mob, target, skill, action, params)
 
