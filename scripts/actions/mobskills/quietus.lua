@@ -1,7 +1,7 @@
 -----------------------------------
--- Spinning Scythe
+-- Quietus
 -- Family: Humanoid Scythe Weaponskill
--- Description: Delivers an area attack. TODO: Radius varies with TP.
+-- Description: Delivers a triple damage attack that ignores target's defense. Amount ignored varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -15,8 +15,10 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
 
     params.baseDamage     = mob:getWeaponDmg()
     params.numHits        = 1
-    params.fTP            = { 1.0, 1.0, 1.0 }
-    -- params.str_wSC     = 0.3 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.fTP            = { 3.0, 3.0, 3.0 }
+    -- params.str_wSC     = 0.4 -- TODO: Capture if mobskill weaponskills have wSC.
+    -- params.mnd_wSC     = 0.4 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.ignoreDefense  = { 0.1, 0.3, 0.5 }
     params.attackType     = xi.attackType.PHYSICAL
     params.damageType     = xi.damageType.SLASHING
     params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_1

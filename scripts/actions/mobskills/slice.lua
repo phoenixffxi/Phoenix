@@ -1,7 +1,7 @@
 -----------------------------------
--- Spinning Scythe
+-- Slice
 -- Family: Humanoid Scythe Weaponskill
--- Description: Delivers an area attack. TODO: Radius varies with TP.
+-- Description: Damage varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -15,7 +15,7 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
 
     params.baseDamage     = mob:getWeaponDmg()
     params.numHits        = 1
-    params.fTP            = { 1.0, 1.0, 1.0 }
+    params.fTP            = { 1.5, 1.75, 2.0 }
     -- params.str_wSC     = 0.3 -- TODO: Capture if mobskill weaponskills have wSC.
     params.attackType     = xi.attackType.PHYSICAL
     params.damageType     = xi.damageType.SLASHING

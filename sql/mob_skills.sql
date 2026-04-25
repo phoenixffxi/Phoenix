@@ -135,20 +135,21 @@ INSERT INTO `mob_skills` VALUES (91,102,'fell_cleave',2,4.0,7.0,2000,0,4,0,0,0,4
 INSERT INTO `mob_skills` VALUES (92,103,'ukkos_fury',0,0.0,7.0,2000,0,4,0,0,0,13,12,0);
 INSERT INTO `mob_skills` VALUES (93,104,'upheaval',0,0.0,7.0,2000,0,4,0,0,0,11,2,0);
 INSERT INTO `mob_skills` VALUES (94,100,'disaster',0,0.0,7.0,2000,0,4,0,0,0,9,4,1);
--- INSERT INTO `mob_skills` VALUES (96,??,'slice'
--- INSERT INTO `mob_skills` VALUES (97,??,'dark_harvest'
--- INSERT INTO `mob_skills` VALUES (98,??,'shadow_of_death'
--- INSERT INTO `mob_skills` VALUES (99,??,'nightmare_scythe'
--- INSERT INTO `mob_skills` VALUES (100,??,'spinning_scythe'
-INSERT INTO `mob_skills` VALUES (101,66,'vorpal_scythe',0,0.0,7.0,2000,900,4,0,0,0,1,4,0);
-INSERT INTO `mob_skills` VALUES (102,67,'guillotine',0,0.0,7.0,2000,900,4,0,0,0,7,0,0);
-INSERT INTO `mob_skills` VALUES (104,69,'spiral_hell',0,0.0,7.0,2000,900,4,0,0,0,10,4,0);
--- INSERT INTO `mob_skills` VALUES (105,??,'catastrophe'
--- INSERT INTO `mob_skills` VALUES (106,??,'insurgency'
--- INSERT INTO `mob_skills` VALUES (107,??,'infernal_scythe'
--- INSERT INTO `mob_skills` VALUES (108,??,'quietus'
--- INSERT INTO `mob_skills` VALUES (109,??,'entropy'
--- INSERT INTO `mob_skills` VALUES (110,??,'origin'
+INSERT INTO `mob_skills` VALUES (96,61,'slice',0,0.0,7.0,2000,0,4,0,0,0,4,0,0);
+INSERT INTO `mob_skills` VALUES (97,62,'dark_harvest',0,0.0,7.0,2000,0,4,0,0,0,5,0,0);
+INSERT INTO `mob_skills` VALUES (98,63,'shadow_of_death',0,0.0,7.0,2000,0,4,0,0,0,7,5,0);
+INSERT INTO `mob_skills` VALUES (99,64,'nightmare_scythe',0,0.0,7.0,2000,0,4,0,0,0,2,4,0);
+INSERT INTO `mob_skills` VALUES (100,65,'spinning_scythe',2,4.0,7.0,2000,0,4,0,0,0,5,4,0);
+INSERT INTO `mob_skills` VALUES (101,66,'vorpal_scythe',0,0.0,7.0,2000,0,4,0,0,0,1,4,0);
+INSERT INTO `mob_skills` VALUES (102,67,'guillotine',0,0.0,7.0,2000,0,4,0,0,0,7,0,0);
+INSERT INTO `mob_skills` VALUES (103,68,'cross_reaper',0,0.0,7.0,2000,0,4,0,0,0,10,0,0);
+INSERT INTO `mob_skills` VALUES (104,69,'spiral_hell',0,0.0,7.0,2000,0,4,0,0,0,10,4,0);
+INSERT INTO `mob_skills` VALUES (105,70,'catastrophe',0,0.0,7.0,2000,0,4,0,0,0,14,9,0);
+INSERT INTO `mob_skills` VALUES (106,71,'insurgency',0,0.0,7.0,2000,0,4,0,0,0,11,2,0);
+INSERT INTO `mob_skills` VALUES (107,72,'infernal_scythe',0,0.0,7.0,2000,0,4,0,0,0,2,5,0);
+INSERT INTO `mob_skills` VALUES (108,73,'quietus',0,0.0,7.0,2000,0,4,0,0,0,14,10,0);
+INSERT INTO `mob_skills` VALUES (109,74,'entropy',0,0.0,7.0,2000,0,4,0,0,0,9,5,0);
+INSERT INTO `mob_skills` VALUES (110,70,'origin',0,0.0,7.0,2000,0,4,0,0,0,11,7,5);
 -- INSERT INTO `mob_skills` VALUES (112,??,'double_thrust'
 -- INSERT INTO `mob_skills` VALUES (113,??,'thunder_thrust'
 INSERT INTO `mob_skills` VALUES (114,123,'raiden_thrust',0,0.0,7.0,2000,0,4,0,0,0,1,8,0);

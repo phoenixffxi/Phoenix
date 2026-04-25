@@ -1,7 +1,7 @@
 -----------------------------------
--- Spinning Scythe
+-- Entropy
 -- Family: Humanoid Scythe Weaponskill
--- Description: Delivers an area attack. TODO: Radius varies with TP.
+-- Description: Delivers a fourfold attack that converts damage dealt into own MP. Damage varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -14,17 +14,18 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
     params.baseDamage     = mob:getWeaponDmg()
-    params.numHits        = 1
-    params.fTP            = { 1.0, 1.0, 1.0 }
-    -- params.str_wSC     = 0.3 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.numHits        = 4
+    params.fTP            = { 0.75, 1.25, 2.0 }
+    -- params.int_wSC     = 0.85 -- TODO: Capture if mobskill weaponskills have wSC.
     params.attackType     = xi.attackType.PHYSICAL
     params.damageType     = xi.damageType.SLASHING
-    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_1
+    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_4
 
     local info = xi.mobskills.mobPhysicalMove(mob, target, skill, action, params)
 
     if xi.mobskills.processDamage(mob, target, skill, action, info) then
         target:takeDamage(info.damage, mob, info.attackType, info.damageType)
+        mob:addMP(math.floor(info.damage * 0.2))
     end
 
     return info.damage
