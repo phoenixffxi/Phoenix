@@ -73,7 +73,7 @@ INSERT INTO `mob_skills` VALUES (27,42,'mandalic_stab',0,0.0,7.0,2000,0,4,0,0,0,
 INSERT INTO `mob_skills` VALUES (28,43,'mordant_rime',0,0.0,7.0,2000,0,4,0,0,0,12,10,0);
 INSERT INTO `mob_skills` VALUES (29,44,'pyrrhic_kleos',0,0.0,7.0,2000,0,4,0,0,0,10,4,0);
 INSERT INTO `mob_skills` VALUES (30,45,'aeolian_edge',1,8.0,15.0,2000,0,4,0,0,0,4,6,8);
-INSERT INTO `mob_skills` VALUES (31,46,'rudras_storm',0,0.0,7.0,2000,0,4,0,0,0,14,10,0);
+INSERT INTO `mob_skills` VALUES (31,236,'rudras_storm',0,0.0,7.0,2000,0,4,0,0,0,14,10,0);
 INSERT INTO `mob_skills` VALUES (32,1,'fast_blade',0,0.0,7.0,2000,0,4,0,0,0,4,0,0);
 INSERT INTO `mob_skills` VALUES (33,2,'burning_blade',0,0.0,7.0,2000,0,4,0,0,0,3,0,0);
 INSERT INTO `mob_skills` VALUES (34,3,'red_lotus_blade',0,0.0,7.0,2000,0,4,0,0,0,3,6,0);
@@ -105,21 +105,21 @@ INSERT INTO `mob_skills` VALUES (59,117,'torcleaver',0,0.0,10.0,2000,0,4,0,0,0,1
 INSERT INTO `mob_skills` VALUES (60,118,'resolution',0,0.0,10.0,2000,0,4,0,0,0,12,4,0);
 INSERT INTO `mob_skills` VALUES (61,119,'dimidiation',0,0.0,10.0,2000,0,4,0,0,0,13,12,0);
 INSERT INTO `mob_skills` VALUES (62,115,'fimbulvetr',0,0.0,10.0,2000,0,4,0,0,0,10,8,6);
--- INSERT INTO `mob_skills` VALUES (64,??,'raging_axe'
--- INSERT INTO `mob_skills` VALUES (65,??,'smash_axe'
--- INSERT INTO `mob_skills` VALUES (66,??,'gale_axe'
--- INSERT INTO `mob_skills` VALUES (67,??,'avalanche_axe'
--- INSERT INTO `mob_skills` VALUES (68,??,'spinning_axe'
--- INSERT INTO `mob_skills` VALUES (69,??,'rampage'
--- INSERT INTO `mob_skills` VALUES (70,??,'calamity'
--- INSERT INTO `mob_skills` VALUES (71,??,'mistral_axe'
--- INSERT INTO `mob_skills` VALUES (72,??,'decimation'
--- INSERT INTO `mob_skills` VALUES (73,??,'onslaught'
--- INSERT INTO `mob_skills` VALUES (74,??,'primal_rend'
--- INSERT INTO `mob_skills` VALUES (75,??,'bora_axe'
--- INSERT INTO `mob_skills` VALUES (76,??,'cloudsplitter'
--- INSERT INTO `mob_skills` VALUES (77,??,'ruinator'
--- INSERT INTO `mob_skills` VALUES (78,??,'blitz'
+INSERT INTO `mob_skills` VALUES (64,46,'raging_axe',0,0.0,7.0,2000,0,4,0,0,0,6,8,0);
+INSERT INTO `mob_skills` VALUES (65,47,'smash_axe',0,0.0,7.0,2000,0,4,0,0,0,7,5,0);
+INSERT INTO `mob_skills` VALUES (66,48,'gale_axe',0,0.0,7.0,2000,0,4,0,0,0,6,0,0);
+INSERT INTO `mob_skills` VALUES (67,49,'avalanche_axe',0,0.0,7.0,2000,0,4,0,0,0,4,8,0);
+INSERT INTO `mob_skills` VALUES (68,50,'spinning_axe',0,0.0,7.0,2000,0,4,0,0,0,3,4,8);
+INSERT INTO `mob_skills` VALUES (69,51,'rampage',0,0.0,7.0,2000,0,4,0,0,0,4,0,0);
+INSERT INTO `mob_skills` VALUES (70,52,'calamity',0,0.0,7.0,2000,0,4,0,0,0,4,8,0);
+INSERT INTO `mob_skills` VALUES (71,53,'mistral_axe',0,0.0,15.0,2000,0,4,0,0,0,11,0,0);
+INSERT INTO `mob_skills` VALUES (72,54,'decimation',0,0.0,7.0,2000,0,4,0,0,0,11,5,0);
+INSERT INTO `mob_skills` VALUES (73,55,'onslaught',0,0.0,7.0,2000,0,4,0,0,0,14,9,0);
+INSERT INTO `mob_skills` VALUES (74,56,'primal_rend',0,0.0,7.0,2000,0,4,0,0,0,9,5,0);
+INSERT INTO `mob_skills` VALUES (75,57,'bora_axe',0,0.0,15.0,2000,0,4,0,0,0,4,6,0);
+INSERT INTO `mob_skills` VALUES (76,58,'cloudsplitter',0,0.0,7.0,2000,0,4,0,0,0,14,12,0);
+INSERT INTO `mob_skills` VALUES (77,59,'ruinator',0,0.0,7.0,2000,0,4,0,0,0,10,6,0);
+INSERT INTO `mob_skills` VALUES (78,55,'blitz',0,0.0,7.0,2000,0,4,0,0,0,12,8,3);
 INSERT INTO `mob_skills` VALUES (80,91,'shield_break',0,0.0,7.0,2000,0,4,0,0,0,8,0,0);
 INSERT INTO `mob_skills` VALUES (81,92,'iron_tempest',0,0.0,7.0,2000,0,4,0,0,0,4,0,0);
 INSERT INTO `mob_skills` VALUES (82,93,'sturmwind',0,0.0,7.0,2000,0,4,0,0,0,5,4,0);
@@ -254,7 +254,7 @@ INSERT INTO `mob_skills` VALUES (219,229,'numbing_shot',0,0.0,5.0,2000,0,4,0,0,0
 INSERT INTO `mob_skills` VALUES (220,235,'wildfire',0,0.0,15.0,2000,0,4,0,0,0,14,9,0);
 INSERT INTO `mob_skills` VALUES (221,241,'last_stand',0,0.0,15.0,2000,0,4,0,0,0,11,5,0);
 INSERT INTO `mob_skills` VALUES (222,226,'terminus',0,0.0,15.0,2000,0,4,0,0,0,11,7,5);
-INSERT INTO `mob_skills` VALUES (224,1,'exenterator',0,0.0,7.0,2000,0,4,0,0,0,12,4,0);
+INSERT INTO `mob_skills` VALUES (224,238,'exenterator',0,0.0,7.0,2000,0,4,0,0,0,12,4,0);
 INSERT INTO `mob_skills` VALUES (225,233,'chant_du_cygne',0,0.0,7.0,2000,0,4,0,0,0,13,10,0);
 INSERT INTO `mob_skills` VALUES (226,237,'requiescat',0,0.0,7.0,2000,0,4,0,0,0,9,4,0);
 INSERT INTO `mob_skills` VALUES (227,12,'knights_of_rotund',0,0.0,7.0,2000,0,4,0,0,0,11,0,0);

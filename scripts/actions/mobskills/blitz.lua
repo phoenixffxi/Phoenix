@@ -1,7 +1,7 @@
 -----------------------------------
--- Onslaught
+-- Blitz
 -- Family: Humanoid Axe Weaponskill
--- Description: Lowers target's accuracy.
+-- Description: Delivers a fivefold attack. Damage varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -14,19 +14,18 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
     params.baseDamage     = mob:getWeaponDmg()
-    params.numHits        = 1
-    params.fTP            = { 2.75, 2.75, 2.75 }
-    -- params.dex_wSC     = 0.6 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.numHits        = 5
+    params.fTP            = { 1.5, 7.0, 12.5 }
+    -- params.str_wSC     = 0.32 -- TODO: Capture if mobskill weaponskills have wSC.
+    -- params.dex_wSC     = 0.32 -- TODO: Capture if mobskill weaponskills have wSC.
     params.attackType     = xi.attackType.PHYSICAL
     params.damageType     = xi.damageType.SLASHING
-    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_1
+    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_5
 
     local info = xi.mobskills.mobPhysicalMove(mob, target, skill, action, params)
 
     if xi.mobskills.processDamage(mob, target, skill, action, info) then
         target:takeDamage(info.damage, mob, info.attackType, info.damageType)
-
-        xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.ACCURACY_DOWN, 30, 0, 60)
     end
 
     return info.damage
