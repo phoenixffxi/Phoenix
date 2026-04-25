@@ -1,5 +1,5 @@
 -----------------------------------
--- Raiden Thrust
+-- Thunder Thrust
 -- Family: Humanoid Polearm Weaponskill
 -- Description: Deals lightning elemental damage. Damage varies with TP.
 -----------------------------------
@@ -14,9 +14,9 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
     params.baseDamage       = mob:getMainLvl() + 2
-    params.fTP              = { 1.0, 2.0, 3.0 }
-    -- params.str_wSC       = 0.3 -- TODO: Capture if mobskill weaponskills have wSC.
-    -- params.int_wSC       = 0.3 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.fTP              = { 1.5, 2.0, 2.5 }
+    -- params.str_wSC       = 0.2 -- TODO: Capture if mobskill weaponskills have wSC.
+    -- params.int_wSC       = 0.2 -- TODO: Capture if mobskill weaponskills have wSC.
     params.element          = xi.element.THUNDER
     params.attackType       = xi.attackType.MAGICAL
     params.damageType       = xi.damageType.THUNDER

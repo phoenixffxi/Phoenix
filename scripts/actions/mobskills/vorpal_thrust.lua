@@ -1,7 +1,7 @@
 -----------------------------------
--- Skewer
+-- Vorpal Thrust
 -- Family: Humanoid Polearm Weaponskill
--- Description: Delivers a threefold attack. Chance of critical hit varies with TP.
+-- Description: Deals critical damage. Chance of critical hit varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -14,14 +14,15 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
     params.baseDamage     = mob:getWeaponDmg()
-    params.numHits        = 3
+    params.numHits        = 1
     params.fTP            = { 1.0, 1.0, 1.0 }
-    -- params.str_wSC     = 0.35 -- TODO: Capture if mobskill weaponskills have wSC.
+    -- params.str_wSC     = 0.2 -- TODO: Capture if mobskill weaponskills have wSC.
+    -- params.agi_wSC     = 0.2 -- TODO: Capture if mobskill weaponskills have wSC.
     params.attackType     = xi.attackType.PHYSICAL
     params.damageType     = xi.damageType.PIERCING
-    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_3
+    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_1
     params.canCrit        = true
-    params.criticalChance = { 0.1, 0.2, 0.25 }
+    params.criticalChance = { 0.3, 0.6, 0.9 }
 
     local info = xi.mobskills.mobPhysicalMove(mob, target, skill, action, params)
 

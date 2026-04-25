@@ -1,7 +1,7 @@
 -----------------------------------
--- Penta Thrust
+-- Double Thrust
 -- Family: Humanoid Polearm Weaponskill
--- Description: Delivers a fivefold attack. Accuracy varies with TP.
+-- Description: Delivers a two-hit attack. Damage varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -13,15 +13,13 @@ end
 mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
-    params.baseDamage       = mob:getWeaponDmg()
-    params.numHits          = 5
-    params.fTP              = { 1.0, 1.0, 1.0 }
-    -- params.str_wSC       = 0.2 -- TODO: Capture if mobskill weaponskills have wSC.
-    -- params.dex_wSC       = 0.2 -- TODO: Capture if mobskill weaponskills have wSC.
-    params.attackType       = xi.attackType.PHYSICAL
-    params.damageType       = xi.damageType.PIERCING
-    params.shadowBehavior   = xi.mobskills.shadowBehavior.NUMSHADOWS_5
-    params.accuracyModifier = { 0, 30, 60 }
+    params.baseDamage     = mob:getWeaponDmg()
+    params.numHits        = 2
+    params.fTP            = { 1.0, 1.5, 2.0 }
+    -- params.str_wSC     = 0.3 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.attackType     = xi.attackType.PHYSICAL
+    params.damageType     = xi.damageType.PIERCING
+    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_2
 
     local info = xi.mobskills.mobPhysicalMove(mob, target, skill, action, params)
 

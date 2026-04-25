@@ -150,21 +150,21 @@ INSERT INTO `mob_skills` VALUES (107,72,'infernal_scythe',0,0.0,7.0,2000,0,4,0,0
 INSERT INTO `mob_skills` VALUES (108,73,'quietus',0,0.0,7.0,2000,0,4,0,0,0,14,10,0);
 INSERT INTO `mob_skills` VALUES (109,74,'entropy',0,0.0,7.0,2000,0,4,0,0,0,9,5,0);
 INSERT INTO `mob_skills` VALUES (110,70,'origin',0,0.0,7.0,2000,0,4,0,0,0,11,7,5);
--- INSERT INTO `mob_skills` VALUES (112,??,'double_thrust'
--- INSERT INTO `mob_skills` VALUES (113,??,'thunder_thrust'
+INSERT INTO `mob_skills` VALUES (112,121,'double_thrust',0,0.0,7.0,2000,0,4,0,0,0,1,0,0);
+INSERT INTO `mob_skills` VALUES (113,122,'thunder_thrust',0,0.0,7.0,2000,0,4,0,0,0,1,8,0);
 INSERT INTO `mob_skills` VALUES (114,123,'raiden_thrust',0,0.0,7.0,2000,0,4,0,0,0,1,8,0);
--- INSERT INTO `mob_skills` VALUES (115,??,'leg_sweep'
+INSERT INTO `mob_skills` VALUES (115,124,'leg_sweep',0,0.0,7.0,2000,0,4,0,0,0,8,0,0);
 INSERT INTO `mob_skills` VALUES (116,125,'penta_thrust',0,0.0,7.0,2000,0,4,0,0,0,2,0,0);
--- INSERT INTO `mob_skills` VALUES (117,??,'vorpal_thrust'
+INSERT INTO `mob_skills` VALUES (117,126,'vorpal_thrust',0,0.0,7.0,2000,0,4,0,0,0,5,1,0);
 INSERT INTO `mob_skills` VALUES (118,127,'skewer',0,0.0,7.0,2000,0,4,0,0,0,1,8,0);
 INSERT INTO `mob_skills` VALUES (119,128,'wheeling_thrust',0,0.0,7.0,2000,0,4,0,0,0,11,0,0);
 INSERT INTO `mob_skills` VALUES (120,129,'impulse_drive',0,0.0,7.0,2000,0,4,0,0,0,9,7,0);
--- INSERT INTO `mob_skills` VALUES (121,??,'geirskogul'
--- INSERT INTO `mob_skills` VALUES (122,??,'drakesbane'
--- INSERT INTO `mob_skills` VALUES (123,??,'sonic_thrust'
--- INSERT INTO `mob_skills` VALUES (124,??,'camlanns_torment'
--- INSERT INTO `mob_skills` VALUES (125,??,'stardiver'
--- INSERT INTO `mob_skills` VALUES (126,??,'diarmuid'
+INSERT INTO `mob_skills` VALUES (121,130,'geirskogul',0,0.0,7.0,2000,0,4,0,0,0,13,10,0);
+INSERT INTO `mob_skills` VALUES (122,131,'drakesbane',0,0.0,7.0,2000,0,4,0,0,0,11,1,0);
+INSERT INTO `mob_skills` VALUES (123,132,'sonic_thrust',2,10.0,7.0,2000,0,4,0,0,0,1,4,0);
+INSERT INTO `mob_skills` VALUES (124,133,'camlanns_torment',0,0.0,7.0,2000,0,4,0,0,0,13,12,0);
+INSERT INTO `mob_skills` VALUES (125,134,'stardiver',0,0.0,7.0,2000,0,4,0,0,0,9,1,0);
+INSERT INTO `mob_skills` VALUES (126,130,'diarmuid',0,0.0,7.0,2000,0,4,0,0,0,10,4,1);
 -- INSERT INTO `mob_skills` VALUES (128,??,'blade_rin'
 -- INSERT INTO `mob_skills` VALUES (129,??,'blade_retsu'
 -- INSERT INTO `mob_skills` VALUES (130,??,'blade_teki'

@@ -1,7 +1,7 @@
 -----------------------------------
--- Penta Thrust
+-- Leg Sweep
 -- Family: Humanoid Polearm Weaponskill
--- Description: Delivers a fivefold attack. Accuracy varies with TP.
+-- Description: Stuns target.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -13,20 +13,20 @@ end
 mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
-    params.baseDamage       = mob:getWeaponDmg()
-    params.numHits          = 5
-    params.fTP              = { 1.0, 1.0, 1.0 }
-    -- params.str_wSC       = 0.2 -- TODO: Capture if mobskill weaponskills have wSC.
-    -- params.dex_wSC       = 0.2 -- TODO: Capture if mobskill weaponskills have wSC.
-    params.attackType       = xi.attackType.PHYSICAL
-    params.damageType       = xi.damageType.PIERCING
-    params.shadowBehavior   = xi.mobskills.shadowBehavior.NUMSHADOWS_5
-    params.accuracyModifier = { 0, 30, 60 }
+    params.baseDamage     = mob:getWeaponDmg()
+    params.numHits        = 1
+    params.fTP            = { 1.0, 1.0, 1.0 }
+    -- params.str_wSC     = 0.3 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.attackType     = xi.attackType.PHYSICAL
+    params.damageType     = xi.damageType.PIERCING
+    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_1
 
     local info = xi.mobskills.mobPhysicalMove(mob, target, skill, action, params)
 
     if xi.mobskills.processDamage(mob, target, skill, action, info) then
         target:takeDamage(info.damage, mob, info.attackType, info.damageType)
+
+        xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.STUN, 1, 0, 4)
     end
 
     return info.damage
