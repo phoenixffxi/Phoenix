@@ -24,8 +24,15 @@
 
 #include "common/cbasetypes.h"
 #include "common/mmo.h"
+#include "common/types/badge.h"
 
 #include "map/enums/item_flag.h"
+#include "map/enums/item_state.h"
+
+namespace xi::items::detail
+{
+struct ItemAccess;
+} // namespace xi::items::detail
 
 // The main type of item m_type
 enum ITEM_TYPE
@@ -113,6 +120,10 @@ public:
 
     bool isMannequin() const;
 
+    auto state() const -> ItemState;
+    auto setState(ItemState newState, xi::Badge<xi::items::detail::ItemAccess>) -> void;
+    auto isBusy() const -> bool;
+
     static constexpr uint32_t extra_size = 0x18;
     uint8                     m_extra[extra_size]{};
 
@@ -155,6 +166,8 @@ private:
     std::string m_name;
     std::string m_send;
     std::string m_recv;
+
+    ItemState state_{ ItemState::Free };
 };
 
 #endif

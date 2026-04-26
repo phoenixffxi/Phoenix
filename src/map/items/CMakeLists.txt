@@ -88,5 +88,6 @@ set(ITEM_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/item_weapon.h
     ${CMAKE_CURRENT_SOURCE_DIR}/item.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/item.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/item_access.h
     PARENT_SCOPE
 )
