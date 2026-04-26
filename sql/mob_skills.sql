@@ -180,22 +180,22 @@ INSERT INTO `mob_skills` VALUES (139,162,'blade_yu',0,0.0,7.0,2000,0,4,0,0,0,5,4
 INSERT INTO `mob_skills` VALUES (140,163,'blade_hi',0,0.0,7.0,2000,0,4,0,0,0,14,9,0);
 INSERT INTO `mob_skills` VALUES (141,164,'blade_shun',0,0.0,7.0,2000,0,4,0,0,0,11,8,0);
 INSERT INTO `mob_skills` VALUES (142,160,'zesho_meppo',0,0.0,7.0,2000,0,4,0,0,0,11,7,5);
--- INSERT INTO `mob_skills` VALUES (144,??,'tachi_enpi'
--- INSERT INTO `mob_skills` VALUES (145,??,'tachi_hobaku'
--- INSERT INTO `mob_skills` VALUES (146,??,'tachi_goten'
--- INSERT INTO `mob_skills` VALUES (147,??,'tachi_kagero'
--- INSERT INTO `mob_skills` VALUES (148,??,'tachi_jinpu'
--- INSERT INTO `mob_skills` VALUES (149,??,'tachi_koki'
--- INSERT INTO `mob_skills` VALUES (150,??,'tachi_yukikaze'
--- INSERT INTO `mob_skills` VALUES (151,??,'tachi_gekko'
--- INSERT INTO `mob_skills` VALUES (152,??,'tachi_kasha'
--- INSERT INTO `mob_skills` VALUES (153,??,'tachi_kaiten'
--- INSERT INTO `mob_skills` VALUES (154,??,'tachi_rana'
--- INSERT INTO `mob_skills` VALUES (155,??,'tachi_ageha'
--- INSERT INTO `mob_skills` VALUES (156,??,'tachi_fudo'
--- INSERT INTO `mob_skills` VALUES (157,??,'tachi_shoha'
--- INSERT INTO `mob_skills` VALUES (158,??,'tachi_suikawari'
--- INSERT INTO `mob_skills` VALUES (159,??,'tachi_mumei'
+INSERT INTO `mob_skills` VALUES (144,166,'tachi_enpi',0,0.0,7.0,2000,0,4,0,0,0,1,4,0);
+INSERT INTO `mob_skills` VALUES (145,167,'tachi_hobaku',0,0.0,7.0,2000,0,4,0,0,0,7,0,0);
+INSERT INTO `mob_skills` VALUES (146,168,'tachi_goten',0,0.0,7.0,2000,0,4,0,0,0,1,8,0);
+INSERT INTO `mob_skills` VALUES (147,169,'tachi_kagero',0,0.0,7.0,2000,0,4,0,0,0,3,0,0);
+INSERT INTO `mob_skills` VALUES (148,170,'tachi_jinpu',0,0.0,7.0,2000,0,4,0,0,0,4,6,0);
+INSERT INTO `mob_skills` VALUES (149,171,'tachi_koki',0,0.0,7.0,2000,0,4,0,0,0,5,8,0);
+INSERT INTO `mob_skills` VALUES (150,172,'tachi_yukikaze',0,0.0,7.0,2000,0,4,0,0,0,7,6,0);
+INSERT INTO `mob_skills` VALUES (151,173,'tachi_gekko',0,0.0,7.0,2000,0,4,0,0,0,10,5,0);
+INSERT INTO `mob_skills` VALUES (152,174,'tachi_kasha',0,0.0,7.0,2000,0,4,0,0,0,11,2,0);
+INSERT INTO `mob_skills` VALUES (153,175,'tachi_kaiten',0,0.0,7.0,2000,0,4,0,0,0,13,12,0);
+INSERT INTO `mob_skills` VALUES (154,176,'tachi_rana',0,0.0,7.0,2000,0,4,0,0,0,9,7,0);
+INSERT INTO `mob_skills` VALUES (155,177,'tachi_ageha',0,0.0,7.0,2000,0,4,0,0,0,2,4,0);
+INSERT INTO `mob_skills` VALUES (156,178,'tachi_fudo',0,0.0,7.0,2000,0,4,0,0,0,13,10,0);
+INSERT INTO `mob_skills` VALUES (157,179,'tachi_shoha',0,0.0,7.0,2000,0,4,0,0,0,12,2,0);
+INSERT INTO `mob_skills` VALUES (158,175,'tachi_suikawari',0,0.0,7.0,2000,0,4,0,0,0,11,0,0);
+INSERT INTO `mob_skills` VALUES (159,175,'tachi_mumei',0,0.0,7.0,2000,0,4,0,0,0,11,7,5);
 INSERT INTO `mob_skills` VALUES (160,76,'shining_strike',0,0.0,7.0,2000,0,4,0,0,0,8,0,0);
 INSERT INTO `mob_skills` VALUES (161,77,'seraph_strike',0,0.0,7.0,2000,0,4,0,0,0,8,0,0);
 INSERT INTO `mob_skills` VALUES (162,78,'brainshaker',0,0.0,7.0,2000,0,4,0,0,0,7,5,0);

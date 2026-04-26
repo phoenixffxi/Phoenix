@@ -1,7 +1,7 @@
 -----------------------------------
--- Tachi: Yukikaze
+-- Tachi: Ageha
 -- Family: Humanoid Great Katana Weaponskill
--- Description: Blinds target. Damage varies with TP.
+-- Description: Lowers target's defense.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -13,21 +13,20 @@ end
 mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
-    params.baseDamage       = mob:getWeaponDmg()
-    params.numHits          = 1
-    params.fTP              = { 1.5625, 1.88, 2.5 }
-    -- params.str_wSC       = 0.75 -- TODO: Capture if mobskill weaponskills have wSC.
-    params.attackMultiplier = { 1.33, 1.33, 1.33 }
-    params.attackType       = xi.attackType.PHYSICAL
-    params.damageType       = xi.damageType.SLASHING
-    params.shadowBehavior   = xi.mobskills.shadowBehavior.NUMSHADOWS_1
+    params.baseDamage     = mob:getWeaponDmg()
+    params.numHits        = 1
+    params.fTP            = { 2.8, 2.8, 2.8 }
+    -- params.chr_wSC     = 0.5 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.attackType     = xi.attackType.PHYSICAL
+    params.damageType     = xi.damageType.SLASHING
+    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_1
 
     local info = xi.mobskills.mobPhysicalMove(mob, target, skill, action, params)
 
     if xi.mobskills.processDamage(mob, target, skill, action, info) then
         target:takeDamage(info.damage, mob, info.attackType, info.damageType)
 
-        xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.BLINDNESS, 25, 0, 60)
+        xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.DEFENSE_DOWN, 25, 0, math.floor(6 * skill:getTP() / 100))
     end
 
     return info.damage
