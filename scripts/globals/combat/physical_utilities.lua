@@ -323,7 +323,7 @@ xi.combat.physical.calculateRangedStatFactor = function(actor, target)
     end
 
     -- Players and Trusts
-    local weaponRank   = actor:getWeaponDmgRank()
+    local weaponRank   = actor:getRangedDmgRank()
     local statLowerCap = (7 + weaponRank * 2) * -2
     local statUpperCap = (14 + weaponRank * 2) * 2
 
@@ -518,6 +518,37 @@ xi.combat.physical.wRatioCapOthers = function(wRatio, pDifFinalCap)
     return pDifLowerCap, pDifUpperCap
 end
 
+---@param isPC boolean
+---@param wRatio number
+---@return number
+local function getSpikeRatio(isPC, wRatio)
+    if isPC then
+        -- https://www.bg-wiki.com/ffxi/PDIF#Average_Melee_pDIF(qRatio)
+        -- This is also known as "pDIF spike"
+        if wRatio > 0.5 and wRatio < 1.5 then -- 0.5 and 1.5 are 0% chance
+            local sRatio = (0.5 - math.abs(wRatio - 1)) * 1.2
+
+            return utils.clamp(sRatio, 0, 1 / 3) -- 1/3 (one-third), not 0.33
+        end
+    else
+        -- https://www.ffxiah.com/forum/topic/58479/monster-pdif-curves-and-other-info/#3751498
+        -- This is also known as "pDIF spike"
+        local sRatio = 0
+
+        if wRatio > 0.0 and wRatio < 0.75 then
+            sRatio = -5 / 9 + (10 / 9) * wRatio
+        elseif wRatio <= 1.3 then
+            sRatio = 0.3
+        else
+            sRatio = 5 / 3 - (270 / 256) * wRatio
+        end
+
+        return utils.clamp(sRatio, 0, 0.3)
+    end
+
+    return 0
+end
+
 -- WARNING: This function is used in src/utils/battleutils.cpp "GetDamageRatio" function.
 -- If you update this parameters, update them there aswell.
 ---@param actor CBaseEntity
@@ -614,16 +645,10 @@ xi.combat.physical.calculateMeleePDIF = function(actor, target, weaponType, wsAt
     if actor:isPC() then
         pDifFinalCap = (xi.combat.physical.pDifWeaponCapTable[weaponType] + damageLimitPlus) * damageLimitPercent + (isCritical and 1 or 0)
 
-        -- https://www.bg-wiki.com/ffxi/PDIF#Average_Melee_pDIF(qRatio)
-        -- This is also known as "pDIF spike"
-        if wRatio > 0.5 and wRatio < 1.5 then -- 0.5 and 1.5 are 0% chance
-            local sRatio = (0.5 - math.abs(wRatio - 1)) * 1.2
+        local sRatio = getSpikeRatio(true, wRatio)
 
-            sRatio = utils.clamp(sRatio, 0, 1 / 3) -- 1/3 (one-third), not 0.33
-
-            if math.random(1, 10000) / 10000 <= sRatio then
-                return 1.0
-            end
+        if math.random(1, 10000) / 10000 <= sRatio then
+            return 1.0
         end
 
         pDifLowerCap, pDifUpperCap = xi.combat.physical.wRatioCapPC(wRatio, pDifFinalCap)
@@ -635,19 +660,7 @@ xi.combat.physical.calculateMeleePDIF = function(actor, target, weaponType, wsAt
         local critBonus = (applyLevelCorrection and isCritical) and 1 or 0
         pDifFinalCap    = (basePDIF + damageLimitPlus) * damageLimitPercent + critBonus
 
-        -- https://www.ffxiah.com/forum/topic/58479/monster-pdif-curves-and-other-info/#3751498
-        -- This is also known as "pDIF spike"
-        local sRatio = 0
-
-        if wRatio > 0.0 and wRatio < 0.75 then
-            sRatio = -5 / 9 + (10 / 9) * wRatio
-        elseif wRatio <= 1.3 then
-            sRatio = 0.3
-        else
-            sRatio = 5 / 3 - (270 / 256) * wRatio
-        end
-
-        sRatio = utils.clamp(sRatio, 0, 0.3)
+        local sRatio = getSpikeRatio(false, wRatio)
 
         if math.random(1, 10000) / 10000 <= sRatio then
             return 1.0
@@ -658,10 +671,18 @@ xi.combat.physical.calculateMeleePDIF = function(actor, target, weaponType, wsAt
 
     -- Apply level correction to UL/LL
     -- https://www.ffxiah.com/forum/topic/57989/post-2016-level-correction-testing/
-    pDifLowerCap = pDifLowerCap + levelDifFactor
-    pDifUpperCap = pDifUpperCap + levelDifFactor
+    -- Dice roll the 50/50 chance to select two different bounds. Mote has not yet implemented the spike by the time of this post so his ratio is not 50/50 rate.
+    -- His model at the time and implemented spike, so the (0.0, 0.5) bounds also looks different
+    -- https://www.bluegartr.com/threads/108161-pDif-and-damage?p=5007487&viewfull=1#post5007487
+    local upperMax   = math.random(0, 1) == 0 and 0.5 or 0
+    local upperBound = math.max(pDifUpperCap + levelDifFactor, upperMax)
+    local lowerbound = math.max(pDifLowerCap + levelDifFactor, 0)
 
-    pDif = math.random(pDifLowerCap * 1000, pDifUpperCap * 1000) / 1000
+    if upperBound == 0 then
+        return 0
+    end
+
+    pDif = math.random(lowerbound * 1000, upperBound * 1000) / 1000
 
     ----------------------------------------
     -- Step 4: Melee random factor.
@@ -725,9 +746,9 @@ xi.combat.physical.calculateRangedPDIF = function(actor, target, weaponType, wsA
 
     if tpIgnoresDefense then
         ignoreDefenseFactor = 1 - tpFactor
-    end
 
-    targetDefense = math.floor(targetDefense * ignoreDefenseFactor)
+        targetDefense = math.max(1, math.floor(targetDefense * ignoreDefenseFactor))
+    end
 
     if targetDefense ~= 0 then
         baseRatio = actorAttack / targetDefense
@@ -808,6 +829,9 @@ xi.combat.physical.calculateRangedPDIF = function(actor, target, weaponType, wsA
 
     pDif = math.random(pDifLowerCap * 1000, pDifUpperCap * 1000) / 1000
 
+    -- do not go negative, rolls below zero (proportionally) need to be rolled
+    pDif = math.max(pDif, 0)
+
     ----------------------------------------
     -- Step 4: Ranged critical factor. Bypasses caps.
     ----------------------------------------
@@ -848,6 +872,17 @@ xi.combat.physical.criticalRateFromStatDiff = function(actor, target)
     elseif dDex >= 7 then
         statBonus = 0.01
     end
+
+    return statBonus
+end
+
+-- dStat: Ranged critical hit rate bonus from AGI vs AGI difference.
+xi.combat.physical.criticalRateFromAGIDiff = function(actor, target)
+    local statBonus = 0
+
+    local dAgi = math.max(0, actor:getStat(xi.mod.AGI) - target:getStat(xi.mod.AGI))
+    statBonus = math.floor(dAgi / 10)
+    statBonus = statBonus / 100
 
     return statBonus
 end
@@ -927,6 +962,38 @@ xi.combat.physical.calculateSwingCriticalRate = function(actor, target, actorTP,
     local finalCriticalRate     = 0
     local baseCriticalRate      = 0.05
     local statBonus             = xi.combat.physical.criticalRateFromStatDiff(actor, target)
+    local inninBonus            = xi.combat.physical.criticalRateFromInnin(actor, target)
+    local fencerBonus           = xi.combat.physical.criticalRateFromFencer(actor)
+    local buildingFlourishBonus = xi.combat.physical.criticalRateFromFlourish(actor)
+    local weaponSlotBonus       = xi.combat.physical.criticalRateFromWeaponSlot(actor, slot)
+    local modifierBonus         = actor:getMod(xi.mod.CRITHITRATE) / 100
+    local meritBonus            = actor:getMerit(xi.merit.CRIT_HIT_RATE) / 100
+    local targetCriticalEvasion = target:getMod(xi.mod.CRITICAL_HIT_EVASION) / 100
+    local targetMeritPenalty    = target:getMerit(xi.merit.ENEMY_CRIT_RATE) / 100
+    local tpFactor              = 0
+
+    -- For weaponskills.
+    if optCritModTable then
+        tpFactor = xi.combat.physical.calculateTPfactor(actorTP, optCritModTable)
+    end
+
+    -- Add all different bonuses and clamp.
+    finalCriticalRate = baseCriticalRate + statBonus + inninBonus + fencerBonus + buildingFlourishBonus + weaponSlotBonus + modifierBonus + meritBonus - targetCriticalEvasion - targetMeritPenalty + tpFactor
+
+    return utils.clamp(finalCriticalRate, 0.05, 1) -- TODO: Need confirmation of no upper cap.
+end
+
+---@param actor CBaseEntity
+---@param target CBaseEntity
+---@param actorTP number
+---@param slot xi.slot
+---@param optCritModTable table?
+---@return integer
+xi.combat.physical.calculateRangedCriticalRate = function(actor, target, actorTP, slot, optCritModTable)
+    -- See reference at https://www.bg-wiki.com/ffxi/Critical_Hit_Rate
+    local finalCriticalRate     = 0
+    local baseCriticalRate      = 0.05
+    local statBonus             = xi.combat.physical.criticalRateFromAGIDiff(actor, target)
     local inninBonus            = xi.combat.physical.criticalRateFromInnin(actor, target)
     local fencerBonus           = xi.combat.physical.criticalRateFromFencer(actor)
     local buildingFlourishBonus = xi.combat.physical.criticalRateFromFlourish(actor)

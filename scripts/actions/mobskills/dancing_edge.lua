@@ -1,8 +1,7 @@
 -----------------------------------
 -- Dancing Edge
--- Delivers a fivefold attack
--- Type: Physical
--- Range: Melee
+-- Family: Humanoid Dagger Weaponskill
+-- Description: Delivers a fivefold attack. Accuracy varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -12,16 +11,25 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
 end
 
 mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
-    local numhits = 5
-    local ftp     = 1
-    local tp      = skill:getTP()
-    local accmod  = 0.8 + 0.1 * math.floor((tp - 1000) / 1000)
-    local info    = xi.mobskills.mobPhysicalMove(mob, target, skill, numhits, accmod, ftp, xi.mobskills.physicalTpBonus.NO_EFFECT)
-    local dmg     = xi.mobskills.mobFinalAdjustments(info, mob, skill, target, xi.attackType.PHYSICAL, xi.damageType.PIERCING, info.hitslanded)
+    local params = {}
 
-    target:takeDamage(dmg, mob, xi.attackType.PHYSICAL, xi.damageType.PIERCING)
+    params.baseDamage     = mob:getWeaponDmg()
+    params.numHits        = 5
+    params.fTP            = { 1.1875, 1.1875, 1.1875 }
+    -- params.dex_wSC     = 0.3 -- TODO: Capture if mobskill weaponskills have wSC.
+    -- params.chr_wSC     = 0.4 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.attackType     = xi.attackType.PHYSICAL
+    params.damageType     = xi.damageType.PIERCING
+    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_5
+    params.accuracyModifier = { 0, 30, 60 }
 
-    return dmg
+    local info = xi.mobskills.mobPhysicalMove(mob, target, skill, action, params)
+
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
+    end
+
+    return info.damage
 end
 
 return mobskillObject

@@ -148,22 +148,6 @@ std::array<std::array<float, 3>, 8> MobHPScale = { {
     { 22, 3, 0 }, // G
 } };
 
-/************************************************************************
- *                                                                        *
- *  Random Increment based on level                                       *
- *                                                                        *
- ************************************************************************/
-
-std::array<std::array<float, 2>, 6> MobRBI = { {
-    // RI | Scale
-    { 0, 0 },  // 0
-    { 1, 0 },  // 1
-    { 2, 0 },  // 2
-    { 3, 3 },  // 3
-    { 4, 7 },  // 4
-    { 5, 14 }, // 5
-} };
-
 namespace grade
 {
 
@@ -195,11 +179,6 @@ float GetStatScale(uint8 rank, uint8 scale)
 uint8 GetMobHPScale(uint8 rank, uint8 scale)
 {
     return MobHPScale[rank][scale];
-}
-
-uint8 GetMobRBI(uint8 rank, uint8 scale)
-{
-    return MobRBI[rank][scale];
 }
 
 }; // namespace grade

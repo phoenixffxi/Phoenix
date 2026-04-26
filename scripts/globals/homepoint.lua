@@ -157,11 +157,26 @@ local function goToHP(player, choice, index)
     local origin = player:getLocalVar('originIndex')
     local hasKI  = player:hasKeyItem(xi.ki.RHAPSODY_IN_WHITE)
 
+    if homepointData[origin] == nil then
+        return
+    end
+
     if choice == selection.SAME_ZONE then
         -- For zones like Sky and Uleguerand Range, this will force gil deletion
         -- Positioning within same zone handled by client, no need to setPos
         player:delGil(getCost(origin, origin, hasKI))
     elseif choice == selection.TELEPORT then
+        if homepointData[index] == nil then
+            return
+        end
+
+        local hpBit = index % 32
+        local hpSet = math.floor(index / 32)
+
+        if not player:hasTeleport(xi.teleport.type.HOMEPOINT, hpBit, hpSet) then
+            return
+        end
+
         player:delGil(getCost(origin, index, hasKI))
         player:setPos(unpack(homepointData[index].dest))
     end
@@ -203,6 +218,10 @@ xi.homepoint.onEventUpdate = function(player, csid, option, npc)
         if choice >= selection.SET_LAYOUT and choice <= selection.REP_FAVORITE then
             local index = bit.rshift(bit.lshift(option, 8), 24) -- Ret HP #
 
+            if homepointData[index] == nil then
+                return
+            end
+
             if choice == selection.ADD_FAVORITE then
                 local temp = 0
                 for x = 1, 9 do
@@ -222,7 +241,12 @@ xi.homepoint.onEventUpdate = function(player, csid, option, npc)
                     end
                 end
             elseif choice == selection.REP_FAVORITE then
-                favs[bit.rshift(option, 24) + 1] = index
+                local slot = bit.rshift(option, 24) + 1
+                if slot < 1 or slot > 9 then
+                    return
+                end
+
+                favs[slot] = index
             elseif choice == selection.SET_LAYOUT then
                 -- 1 = Sort by content/expansion else sort by region
                 favs[10] = bit.rshift(option, 16) == 1 and 1 or 0

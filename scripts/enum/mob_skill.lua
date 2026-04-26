@@ -36,6 +36,8 @@ xi.mobSkill =
 
     SPIRAL_HELL                   =  104,
 
+    RAIDEN_THRUST_1               =  114,
+
     PENTA_THRUST                  =  116,
 
     SKEWER                        =  118,
@@ -51,6 +53,14 @@ xi.mobSkill =
 
     RANDGRITH_1                   =  170,
 
+    HOT_SHOT_1                    =  208,
+    SPLIT_SHOT_1                  =  209,
+    SNIPER_SHOT_1                 =  210,
+
+    SLUG_SHOT_1                   =  212,
+
+    DETONATOR_1                   =  215,
+
     NETHERSPIKES_1                =  241,
     CARNAL_NIGHTMARE_1            =  242,
     AEGIS_SCHISM_1                =  243,
@@ -58,6 +68,8 @@ xi.mobSkill =
     BARBED_CRESCENT_1             =  245,
 
     FOXFIRE                       =  247,
+
+    VULCAN_SHOT                   =  254,
 
     FOOT_KICK_1                   =  257,
     DUST_CLOUD_1                  =  258,
@@ -115,6 +127,8 @@ xi.mobSkill =
 
     LEAFSTORM                     =  331,
     ENTANGLE                      =  332,
+
+    VULCANIAN_IMPACT_1            =  342, -- COP Bombs
 
     VELOCIOUS_BLADE               =  347, -- Mammet-800
 
@@ -217,9 +231,15 @@ xi.mobSkill =
     SELF_DESTRUCT_BOMB            =  509,
     BERSERK_BOMB                  =  510,
     SELF_DESTRUCT_BOMB_321        =  511,
+    HEAT_WAVE_1                   =  512, -- COP Bombs
 
     SMITE_OF_RAGE                 =  513,
     WHIRL_OF_RAGE                 =  514,
+
+    BERSERK_SNOLL                 =  526, -- Snoll
+    FREEZE_RUSH_1                 =  527, -- Snoll
+    COLD_WAVE_1                   =  528, -- Snoll
+    HYPOTHERMAL_COMBUSTION_1      =  529, -- Snoll
 
     DANSE_MACABRE                 =  533,
     KARTSTRAHL                    =  534,
@@ -264,8 +284,8 @@ xi.mobSkill =
     BOMB_TOSS_1                   =  591,
 
     BERSERK_BOMB_BIG              =  593, -- Big Bomb / Friars Lantern
-    VULCANIAN_IMPACT              =  594, -- Big Bomb / Friars Lantern
-    HEAT_WAVE                     =  595, -- Big Bomb / Friars Lantern
+    VULCANIAN_IMPACT_2            =  594, -- Big Bomb / Friars Lantern
+    HEAT_WAVE_2                   =  595, -- Big Bomb / Friars Lantern
     HELLSTORM                     =  596, -- Big Bomb / Friars Lantern
     SELF_DESTRUCT_BOMB_BIG        =  597, -- Big Bomb / Friars Lantern
 
@@ -452,7 +472,7 @@ xi.mobSkill =
     DOMINION_SLASH_1              =  933, -- Ark Angel EV
     SHIELD_STRIKE                 =  934, -- Ark Angel EV
 
-    ARKANGEL_TT_WARP_OUT          =  936, -- Ark Angel TT Warp Out
+    WARP_OUT_AATT                 =  936, -- Ark Angel TT Warp Out
 
     TACHI_YUKIKAZE                =  946, -- Ark Angel GK
     TACHI_GEKKO                   =  947, -- Ark Angel GK
@@ -468,7 +488,7 @@ xi.mobSkill =
     ABSOLUTE_TERROR_1             =  957,
     HORRID_ROAR_1                 =  958,
 
-    ARKANGEL_TT_WARP_IN           =  962, -- Ark Angel TT Warp In
+    WARP_IN_AATT                  =  962, -- Ark Angel TT Warp In
 
     TRION_RED_LOTUS_BLADE         =  968, -- Trion Red Lotus Blade
     TRION_FLAT_BLADE              =  969, -- Trion Flat Blade
@@ -478,8 +498,8 @@ xi.mobSkill =
     VOLKER_SPIRITS_WITHIN         =  974, -- Volker Spirits Within
     VOLKER_VORPAL_BLADE           =  975, -- Volker Vorpal Blade
 
-    AJIDO_WARP_OUT                =  977, -- Windurst 9-2 Ajido teleport
-    AJIDO_WARP_IN                 =  978, -- Windurst 9-2 Ajido teleport
+    WARP_OUT_AJIDO                =  977, -- Windurst 9-2 Ajido teleport
+    WARP_IN_AJIDO                 =  978, -- Windurst 9-2 Ajido teleport
 
     STELLAR_BURST_1               =  986,
     VORTEX_1                      =  987,
@@ -609,6 +629,33 @@ xi.mobSkill =
     IMPALEMENT                    = 1274,
     EMPTY_THRASH                  = 1275,
     PROMYVION_BRUME_2             = 1276,
+
+    INFERNO_BLAST_ATTACK          = 1278,
+    TEBBAD_WING_1                 = 1279,
+    SPIKE_FLAIL_3                 = 1280,
+    FIERY_BREATH_1                = 1281,
+    TOUCHDOWN_3                   = 1282,
+    INFERNO_BLAST                 = 1283,
+    TEBBAD_WING_2                 = 1284,
+    ABSOLUTE_TERROR_3             = 1285,
+    HORRID_ROAR_3                 = 1286,
+
+    SLEET_BLAST_ATTACK            = 1288,
+    GREGALE_WING_1                = 1289,
+    SPIKE_FLAIL_4                 = 1290,
+    GLACIAL_BREATH_1              = 1291,
+    TOUCHDOWN_4                   = 1292,
+    SLEET_BLAST                   = 1293,
+    GREGALE_WING_2                = 1294,
+    ABSOLUTE_TERROR_4             = 1295,
+    HORRID_ROAR_4                 = 1296,
+
+    CYCLONE_WING_1                = 1309,
+    SPIKE_FLAIL_6                 = 1310,
+    SABLE_BREATH_1                = 1311,
+
+    ABSOLUTE_TERROR_6             = 1315,
+    HORRID_ROAR_6                 = 1316,
 
     GERJIS_GRIP                   = 1322,
 
@@ -755,9 +802,10 @@ xi.mobSkill =
     IMPULSION                     = 1547,
     ABSOLUTE_TERROR_BAHAMUT       = 1548,
     HORRIBLE_ROAR_BAHAMUT         = 1549,
-
+    CALL_OF_THE_WYRMKING          = 1550,
     MEGAFLARE                     = 1551,
     GIGAFLARE                     = 1552,
+    TERAFLARE                     = 1553,
 
     CAMISADO_2                    = 1554,
 
@@ -823,6 +871,9 @@ xi.mobSkill =
     WILD_CARD                     = 1934,
     OVERDRIVE                     = 1935,
 
+    WARP_OUT_GESSHO               = 1938,
+    WARP_IN_GESSHO                = 1939,
+
     RANGED_ATTACK_15              = 1949,
 
     WATER_BOMB                    = 1959,
@@ -835,10 +886,24 @@ xi.mobSkill =
 
     BOREAS_MANTLE                 = 1980, -- Unique entry.
 
+    HANE_FUBUKI                   = 1998,
+    HIDEN_SOKYAKU                 = 1999,
+    SHIKO_NO_MITATE               = 2000,
+    HAPPOBARAI                    = 2001,
+    RINPYOTOSHA                   = 2002,
+
     REWARD                        = 2005,
     AZURE_LORE_RAUBAHN            = 2006,
-    -- WILD_CARD                     = 2007,
+    WILD_CARD_QULTADA             = 2007,
     -- OVERDRIVE                     = 2008,
+    FIRE_SHOT                     = 2009,
+    ICE_SHOT                      = 2010,
+    WIND_SHOT                     = 2011,
+    EARTH_SHOT                    = 2012,
+    THUNDER_SHOT                  = 2013,
+    WATER_SHOT                    = 2014,
+    LIGHT_SHOT                    = 2015,
+    DARK_SHOT                     = 2016,
 
     -- HUNDRED_FISTS                 = 2020,
 
@@ -950,6 +1015,10 @@ xi.mobSkill =
     ARROGANCE_INCARNATE_1         = 3178,
 
     LIGHT_BLADE_2                 = 3214,
+
+    SHIBARAKU_TRUST               = 3257, -- Gessho Trust
+    SHIKO_NO_MITATE_TRUST         = 3258, -- Gessho Trust
+    RINPYOTOSHA_TRUST             = 3260, -- Gessho Trust
 
     -- ELEMENTAL_SFORZO              = 3265,
 

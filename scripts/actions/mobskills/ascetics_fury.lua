@@ -1,7 +1,7 @@
 -----------------------------------
 -- Ascetics Fury
--- Description: Hand To Hand Weapon Skill
--- Type: Physical
+-- Family: Humanoid Hand to Hand Weaponskill
+-- Description: Delivers a twofold attack. Chance of critical hit varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -11,15 +11,27 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
 end
 
 mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
-    local numhits = 1
-    local accmod  = 1
-    local ftp     = 2.6
-    local info    = xi.mobskills.mobPhysicalMove(mob, target, skill, numhits, accmod, ftp, xi.mobskills.physicalTpBonus.CRIT_VARIES, 1.1, 1.3, 1.5)
-    local dmg     = xi.mobskills.mobFinalAdjustments(info, mob, skill, target, xi.attackType.PHYSICAL, xi.damageType.HTH, info.hitslanded)
+    local params = {}
 
-    target:takeDamage(dmg, mob, xi.attackType.PHYSICAL, xi.damageType.HTH)
+    params.baseDamage       = mob:getWeaponDmg()
+    params.numHits          = 2
+    params.fTP              = { 1.0, 1.0, 1.0 }
+    params.attackMultiplier = { 1.5, 1.5, 1.5 }
+    --params.str_wSC        = 0.5 -- TODO: Capture if mobskill weaponskills have wSC.
+    --params.vit_wSC        = 0.5 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.attackType       = xi.attackType.PHYSICAL
+    params.damageType       = xi.damageType.HTH
+    params.shadowBehavior   = xi.mobskills.shadowBehavior.NUMSHADOWS_2
+    params.canCrit          = true
+    params.criticalChance   = { 0.1, 0.2, 0.4 }
 
-    return dmg
+    local info = xi.mobskills.mobPhysicalMove(mob, target, skill, action, params)
+
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
+    end
+
+    return info.damage
 end
 
 return mobskillObject

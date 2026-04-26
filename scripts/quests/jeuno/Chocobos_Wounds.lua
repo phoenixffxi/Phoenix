@@ -12,27 +12,10 @@ local quest = Quest:new(xi.questLog.JEUNO, xi.quest.id.jeuno.CHOCOBOS_WOUNDS)
 
 quest.reward =
 {
-    fame = 30,
+    fame     = 30,
     fameArea = xi.fameArea.JEUNO,
-    keyItem = xi.ki.CHOCOBO_LICENSE,
-    title = xi.title.CHOCOBO_TRAINER,
-}
-
--- The following tables are based on the stage variable for feeding
--- the chocobo.
-local oskerFeedTriggers =
-{
-    103, 51, 52, 59, 46, 55,
-}
-
-local chocoboFeedTriggers =
-{
-    103, 51, 52, 61, 46, 55,
-}
-
-local chocoboFeedTrades =
-{
-    57, 58, 59, 60, 63, 64,
+    keyItem  = xi.ki.CHOCOBO_LICENSE,
+    title    = xi.title.CHOCOBO_TRAINER,
 }
 
 quest.sections =
@@ -57,27 +40,15 @@ quest.sections =
                 end,
             },
 
-            -- TODO: Need to verify these aren't a default action that gets replaced.
-            ['Chocobo'] =
-            {
-                onTrigger = quest:progressEvent(62),
-                onTrade   = quest:progressEvent(62),
-            },
-
-            ['Osker'] = quest:progressEvent(62),
-
             onEventFinish =
             {
                 [71] = function(player, csid, option, npc)
                     if option == 1 then
                         quest:begin(player)
                         quest:setVar(player, 'Prog', 1)
-                        if xi.settings.main.ENABLE_TOAU == 1 then
-                            -- This quest is automatically flagged during this interaction.
-                            player:addQuest(xi.questLog.JEUNO, xi.quest.id.jeuno.CHOCOBO_ON_THE_LOOSE)
-                        end
+
+                    -- Dialogue changes if the player fails to choose the correct option.
                     else
-                        -- Dialogue changes if the player fails to choose the correct option.
                         quest:setVar(player, 'Declined', 1)
                     end
                 end,
@@ -110,9 +81,9 @@ quest.sections =
                     local questProgress = quest:getVar(player, 'Prog')
 
                     if questProgress == 1 then
-                        return quest:progressEvent(65)
+                        return quest:event(65)
                     elseif questProgress == 2 then
-                        return quest:progressEvent(66)
+                        return quest:event(66)
                     else
                         return quest:event(102)
                     end
@@ -122,67 +93,98 @@ quest.sections =
             ['Chocobo'] =
             {
                 onTrade = function(player, npc, trade)
-                    if npcUtil.tradeHasExactly(trade, xi.item.BUNCH_OF_GYSAHL_GREENS) then
-                        return quest:progressEvent(76)
-                    elseif npcUtil.tradeHasExactly(trade, xi.item.CLUMP_OF_GAUSEBIT_WILDGRASS) then
-                        if quest:getVar(player, 'Timer') <= GetSystemTime() then
-                            return quest:progressEvent(chocoboFeedTrades[quest:getVar(player, 'Prog')])
-                        else
-                            return quest:progressEvent(73)
-                        end
+                    if trade:getItemQty(xi.item.BUNCH_OF_GYSAHL_GREENS) > 0 then
+                        return quest:event(76)
+                    end
+
+                    if trade:getItemQty(xi.item.CLUMP_OF_GAUSEBIT_WILDGRASS) == 0 then
+                        return quest:noAction()
+                    end
+
+                    if quest:getVar(player, 'Timer') > GetSystemTime() then
+                        return quest:event(73)
+                    end
+
+                    local eventTable =
+                    {
+                        [1] = 57,
+                        [2] = 58,
+                        [3] = 99,
+                        [4] = 59,
+                        [5] = 60,
+                        [6] = 64,
+                    }
+
+                    local questProgress = quest:getVar(player, 'Prog')
+                    if questProgress <= 2 then
+                        return quest:progressEvent(eventTable[questProgress])
+                    end
+
+                    if npcUtil.tradeHasExactly(trade, xi.item.CLUMP_OF_GAUSEBIT_WILDGRASS) then
+                        return quest:progressEvent(eventTable[questProgress])
                     end
                 end,
 
                 onTrigger = function(player, npc)
-                    return quest:progressEvent(chocoboFeedTriggers[quest:getVar(player, 'Prog')])
+                    if quest:getVar(player, 'Prog') <= 3 then
+                        return quest:event(62)
+                    else
+                        return quest:event(63)
+                    end
                 end,
             },
 
             ['Osker'] =
             {
                 onTrigger = function(player, npc)
-                    return quest:progressEvent(oskerFeedTriggers[quest:getVar(player, 'Prog')])
+                    local eventTable =
+                    {
+                        [1] = 103,
+                        [2] = 51,
+                        [3] = 52,
+                        [4] = 49,
+                        [5] = 46,
+                        [6] = 47,
+                    }
+
+                    return quest:event(eventTable[quest:getVar(player, 'Prog')])
                 end,
             },
 
             onEventFinish =
             {
                 [57] = function(player, csid, option, npc)
-                    quest:setVar(player, 'Timer', GetSystemTime() + 45)
                     quest:setVar(player, 'Prog', 2)
+                    quest:setVar(player, 'Timer', GetSystemTime() + 45)
                 end,
 
                 [58] = function(player, csid, option, npc)
-                    quest:setVar(player, 'Timer', GetSystemTime() + 45)
                     quest:setVar(player, 'Prog', 3)
+                    quest:setVar(player, 'Timer', GetSystemTime() + 45)
                 end,
 
                 [59] = function(player, csid, option, npc)
-                    player:confirmTrade()
+                    quest:setVar(player, 'Prog', 5)
                     quest:setVar(player, 'Timer', GetSystemTime() + 45)
-                    quest:setVar(player, 'Prog', 4)
-
-                    -- TODO: This needs retail verification to confirm no zoning
-                    -- event has occurred
-                    player:startEvent(99)
+                    player:confirmTrade()
                 end,
 
                 [60] = function(player, csid, option, npc)
-                    player:confirmTrade()
-                    quest:setVar(player, 'Timer', GetSystemTime() + 45)
-                    quest:setVar(player, 'Prog', 5)
-                end,
-
-                [63] = function(player, csid, option, npc)
-                    player:confirmTrade()
-                    quest:setVar(player, 'Timer', GetSystemTime() + 45)
                     quest:setVar(player, 'Prog', 6)
+                    quest:setVar(player, 'Timer', GetSystemTime() + 45)
+                    player:confirmTrade()
                 end,
 
                 [64] = function(player, csid, option, npc)
                     if quest:complete(player) then
                         player:confirmTrade()
                     end
+                end,
+
+                [99] = function(player, csid, option, npc)
+                    quest:setVar(player, 'Prog', 4)
+                    quest:setVar(player, 'Timer', GetSystemTime() + 45)
+                    player:confirmTrade()
                 end,
             },
         },
@@ -196,9 +198,9 @@ quest.sections =
 
         [xi.zone.UPPER_JEUNO] =
         {
-            ['Brutus']  = quest:event(22), -- Always used except for importantOnce() for Chocobo on the Loose (10094)
-            ['Chocobo'] = quest:event(55),
-            ['Osker']   = quest:event(55),
+            ['Brutus' ] = quest:event(22), -- Always used except for importantOnce() for Chocobo on the Loose (10094)
+            ['Chocobo'] = quest:event(61),
+            ['Osker'  ] = quest:event(53),
         },
     },
 }

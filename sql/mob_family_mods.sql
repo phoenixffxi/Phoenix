@@ -468,11 +468,12 @@ INSERT INTO `mob_family_mods` VALUES (176,10,8,1);  -- SUBLINK: 8 (Mamool Ja, Sa
 INSERT INTO `mob_family_mods` VALUES (176,68,10,0); -- EVA: 10
 
 -- Manticore
-INSERT INTO `mob_family_mods` VALUES (179,31,30,1);  -- ROAM_DISTANCE: 30
-INSERT INTO `mob_family_mods` VALUES (179,36,60,1);  -- ROAM_COOL: 60
-INSERT INTO `mob_family_mods` VALUES (179,51,4,1);   -- ROAM_TURNS: 4
-INSERT INTO `mob_family_mods` VALUES (179,52,30,1);  -- ROAM_RATE: 30
-INSERT INTO `mob_family_mods` VALUES (179,62,10,0);  -- ATTP: 10
+INSERT INTO `mob_family_mods` VALUES (179,31,30,1); -- ROAM_DISTANCE: 30
+INSERT INTO `mob_family_mods` VALUES (179,36,60,1); -- ROAM_COOL: 60
+INSERT INTO `mob_family_mods` VALUES (179,51,4,1);  -- ROAM_TURNS: 4
+INSERT INTO `mob_family_mods` VALUES (179,52,30,1); -- ROAM_RATE: 30
+INSERT INTO `mob_family_mods` VALUES (179,62,10,0); -- ATTP: 10
+INSERT INTO `mob_family_mods` VALUES (179,3,50,0);  -- HPP: 50
 
 -- Marid
 INSERT INTO `mob_family_mods` VALUES (180,36,30,1); -- ROAM_COOL: 30
@@ -497,11 +498,13 @@ INSERT INTO `mob_family_mods` VALUES (188,52,20,1); -- ROAM_RATE: 20
 
 -- Orc
 INSERT INTO `mob_family_mods` VALUES (189,10,2,1); -- SUBLINK: 2 (Orc, Orc Warmachine)
+INSERT INTO `mob_family_mods` VALUES (189,3,5,0);  -- HPP: 5
 
 -- Orc-Warmachine
 INSERT INTO `mob_family_mods` VALUES (190,10,2,1);  -- SUBLINK: 2 (Orc, Orc Warmachine)
 INSERT INTO `mob_family_mods` VALUES (190,36,50,1); -- ROAM_COOL: 50
 INSERT INTO `mob_family_mods` VALUES (190,52,30,1); -- ROAM_RATE: 30
+INSERT INTO `mob_family_mods` VALUES (190,3,5,0);   -- HPP: 5
 
 -- Wyvern-Pet
 INSERT INTO `mob_family_mods` VALUES (193,3,40,1); -- MP_BASE: 40
@@ -511,6 +514,9 @@ INSERT INTO `mob_family_mods` VALUES (194,3,50,1); -- MP_BASE: 50
 
 -- Qiqirn
 INSERT INTO `mob_family_mods` VALUES (199,10,12,1); -- SUBLINK: 12 (Qiqirn)
+
+-- Quadav
+INSERT INTO `mob_family_mods` VALUES (202,3,-5,0); -- HPP: -5
 
 -- Qutrub
 INSERT INTO `mob_family_mods` VALUES (203,36,50,1);   -- ROAM_COOL: 50

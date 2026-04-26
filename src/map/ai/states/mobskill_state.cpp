@@ -171,8 +171,8 @@ bool CMobSkillState::Update(timer::time_point tick)
 
     if (m_PEntity && m_PEntity->isAlive() && (tick >= GetEntryTime() + m_castTime && !IsCompleted()))
     {
-        // Check for stun/sleep/etc at the moment of skill completion - Cleanup handles the interrupt
-        if (m_PEntity->StatusEffectContainer->HasPreventActionEffect())
+        // Check for stun/sleep/hysteria/etc at the moment of skill completion - Cleanup handles the interrupt
+        if (m_PEntity->StatusEffectContainer->HasPreventActionEffect() || m_PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_HYSTERIA))
         {
             return true;
         }

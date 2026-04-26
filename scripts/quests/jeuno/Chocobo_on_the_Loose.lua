@@ -17,7 +17,29 @@ quest.reward =
 
 quest.sections =
 {
-    -- NOTE: This quest is flagged by Chocobo's Wounds
+    {
+        check = function(player, status, vars)
+            return status == xi.questStatus.QUEST_AVAILABLE and player:getMainLvl() >= 20 and xi.settings.main.ENABLE_TOAU == 1
+        end,
+
+        [xi.zone.UPPER_JEUNO] =
+        {
+            ['Brutus'] =
+            {
+                onTrigger = function(player, npc)
+                    return quest:progressEvent(10093)
+                end,
+            },
+
+            onEventFinish =
+            {
+                [10093] = function(player, csid, option, npc)
+                    quest:begin(player)
+                end,
+            },
+        },
+    },
+
     {
         check = function(player, status, vars)
             return status == xi.questStatus.QUEST_ACCEPTED
@@ -28,7 +50,7 @@ quest.sections =
             ['Chocobo_Tracks'] =
             {
                 onTrigger = function(player, npc)
-                    if quest:getVar(player, 'Prog') == 1 then
+                    if quest:getVar(player, 'Prog') == 0 then
                         return quest:progressEvent(209)
                     end
                 end,
@@ -37,7 +59,7 @@ quest.sections =
             onEventFinish =
             {
                 [209] = function(player, csid, option, npc)
-                    quest:setVar(player, 'Prog', 2)
+                    quest:setVar(player, 'Prog', 1)
                 end,
             },
         },
@@ -49,9 +71,9 @@ quest.sections =
                 onTrigger = function(player, npc)
                     local questProgress = quest:getVar(player, 'Prog')
 
-                    if questProgress == 3 then
+                    if questProgress == 2 then
                         return quest:progressEvent(821)
-                    elseif questProgress == 4 then
+                    elseif questProgress == 3 then
                         return quest:progressEvent(822)
                     end
                 end,
@@ -60,7 +82,7 @@ quest.sections =
             onEventFinish =
             {
                 [821] = function(player, csid, option, npc)
-                    quest:setVar(player, 'Prog', 4)
+                    quest:setVar(player, 'Prog', 3)
                 end,
             },
         },
@@ -73,17 +95,15 @@ quest.sections =
                     local questProgress = quest:getVar(player, 'Prog')
 
                     if questProgress == 0 then
-                        return quest:progressEvent(10093)
+                        return quest:event(10094):oncePerZone()
                     elseif questProgress == 1 then
-                        return quest:progressEvent(10094):oncePerZone()
-                    elseif questProgress == 2 then
                         return quest:progressEvent(10095)
+                    elseif questProgress == 2 then
+                        return quest:event(10099)
                     elseif questProgress == 3 then
-                        return quest:progressEvent(10099)
-                    elseif questProgress == 4 then
                         return quest:progressEvent(10100)
                     elseif
-                        questProgress == 5 and
+                        questProgress == 4 and
                         not quest:getMustZone(player) and
                         quest:getVar(player, 'Timer') <= VanadielUniqueDay()
                     then
@@ -94,18 +114,14 @@ quest.sections =
 
             onEventFinish =
             {
-                [10093] = function(player, csid, option, npc)
-                    quest:setVar(player, 'Prog', 1)
-                end,
-
                 [10095] = function(player, csid, option, npc)
-                    quest:setVar(player, 'Prog', 3)
+                    quest:setVar(player, 'Prog', 2)
                 end,
 
                 [10100] = function(player, csid, option, npc)
-                    quest:setMustZone(player)
-                    quest:setVar(player, 'Prog', 5)
+                    quest:setVar(player, 'Prog', 4)
                     quest:setVar(player, 'Timer', VanadielUniqueDay() + 1)
+                    quest:setMustZone(player)
                 end,
 
                 [10109] = function(player, csid, option, npc)

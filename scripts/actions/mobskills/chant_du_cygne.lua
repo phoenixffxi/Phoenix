@@ -1,9 +1,7 @@
 -----------------------------------
 -- Chant du Cygne
+-- Family: Humanoid Sword Weaponskill
 -- Description: Delivers a threefold attack. Chance of critical hit varies with TP.
--- Type: Physical
--- Element: None
--- Stat Modifier: 80% DEX
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -13,15 +11,25 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
 end
 
 mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
-    local numhits = 3
-    local accmod  = 1
-    local ftp     = 1.6328125
+    local params = {}
 
-    local info = xi.mobskills.mobPhysicalMove(mob, target, skill, numhits, accmod, ftp, xi.mobskills.physicalTpBonus.CRIT_VARIES, 0.15, 0.25, 0.40)
-    local dmg = xi.mobskills.mobFinalAdjustments(info, mob, skill, target, xi.attackType.PHYSICAL, xi.damageType.SLASHING, info.hitslanded)
+    params.baseDamage     = mob:getWeaponDmg()
+    params.numHits        = 3
+    params.fTP            = { 1.6328125, 1.6328125, 1.6328125 }
+    -- params.dex_wSC        = 0.8 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.attackType     = xi.attackType.PHYSICAL
+    params.damageType     = xi.damageType.SLASHING
+    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_3
+    params.canCrit        = true
+    params.criticalChance = { 0.15, 0.25, 0.40 }
 
-    target:takeDamage(dmg, mob, xi.attackType.PHYSICAL, xi.damageType.SLASHING)
-    return dmg
+    local info = xi.mobskills.mobPhysicalMove(mob, target, skill, action, params)
+
+    if xi.mobskills.processDamage(mob, target, skill, action, info) then
+        target:takeDamage(info.damage, mob, info.attackType, info.damageType)
+    end
+
+    return info.damage
 end
 
 return mobskillObject

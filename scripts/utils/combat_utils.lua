@@ -1,29 +1,49 @@
 ---@class utils
 utils = utils or {}
 
--- A mechanic that will occasionaly reduce shadows consumed by 1 when hit by an AOE skill.
+-- A mechanic that will occasionaly reduce shadows consumed when hit by an AOE skill.
 ---@nodiscard
 ---@param actor CBaseEntity
----@param shadowsToRemove integer
+---@param attemptedRemovals integer
 ---@return integer
-function utils.attemptShadowMitigation(actor, shadowsToRemove)
-    -- TODO: Currently unknown what conditions/skills/stats might affect proc rate. Ninjutsu, AGI, EVA skills might come to mind.
-    -- TODO: Does this work with Blink or only Copy Images?
-    -- TODO: Do mobs utilize this mechanic for their shadows?
-    -- Note: This seems to work with NIN subjob as well.
-
-    local procChance = 60
-
-    if
-        (actor:getMainJob() == xi.job.NIN or actor:getSubJob() == xi.job.NIN) and
-        math.random(1, 100) <= procChance
-    then
-        shadowsToRemove = math.max(1, shadowsToRemove - 1)
+function utils.attemptShadowMitigation(actor, attemptedRemovals)
+    if attemptedRemovals <= 0 then
+        return 0
     end
 
-    return shadowsToRemove
+    -- TODO: Does this mechanic work on players who are not NIN main or sub? If so remove NIN requirement.
+    -- See Yagyu Darkblade: https://www.bg-wiki.com/ffxi/Yagyu_Darkblade
+    local isNIN       = actor:getMainJob() == xi.job.NIN or actor:getSubJob() == xi.job.NIN
+    local hasUtsusemi = actor:getMod(xi.mod.UTSUSEMI) > 0
+
+    if
+        not isNIN or
+        not hasUtsusemi -- Only works with Utsusemi
+    then
+        return 0
+    end
+
+    -- TODO: Currently unknown exactly what stats affect procChance and by how much. SE mentions Ninjutsu Skill affects this to some degree.
+    -- Note: 50% was calculated from data with a relatively low Ninjutsu skill (Between 50-110~ skill range vs Lv. 75+ Targets) so this will likely lean on the conservative side (Weighted against players).
+    local procChance = 50
+
+    local mitigated  = 0
+
+    -- Through research, a skill's shadowBehavior acts as a counter for how many shadow mitigation attempts are made(attemptedRemovals).
+    -- Example: An AoE skill that takes 4 shadows will attempt the mitgation step below 4 times. A shadow will only be mitigated if it passes the proc chance check.
+    for i = 1, attemptedRemovals do
+        if math.random(1, 100) <= procChance then
+            mitigated = mitigated + 1
+        end
+    end
+
+    local maxMitigatable = attemptedRemovals - 1
+
+    return math.min(mitigated, maxMitigatable)
 end
 
+-- TODO: Marked for retirement. See: utils.shadowAbsorb() below.
+--       Some abilities and skills still use this but will need to be slightly reworked to use utils.shadowAbsorb().
 -- Calculate shadow consumption/damage absorbtion.
 ---@param actor CBaseEntity
 ---@param damage integer
@@ -102,6 +122,82 @@ function utils.takeShadows(actor, damage, shadowsToRemove)
     end
 
     return damage, shadowsUsed
+end
+
+-- Calculate shadow consumption
+---@param target CBaseEntity
+---@param shadowsToRemove number
+---@return boolean, number
+function utils.shadowAbsorb(target, shadowsToRemove)
+    local utsusemiMod = target:getMod(xi.mod.UTSUSEMI)
+    local blinkMod    = target:getMod(xi.mod.BLINK)
+
+    -- Early return: Target has no shadows.
+    if
+        utsusemiMod == 0 and
+        blinkMod == 0
+    then
+        return false, 0
+    end
+
+    local targetShadows   = 0
+    local shadowsConsumed = 0
+    local absorbHit       = false
+
+    -- Utsusemi takes precedence over blink.
+    if utsusemiMod > 0 then
+        shadowsConsumed = utils.clamp(shadowsToRemove, 0, utsusemiMod) -- How many shadows were consumed (Used for SHADOW_ABSORB messaging later).
+        targetShadows   = utsusemiMod - shadowsConsumed                -- How many shadows left after the attack.
+        absorbHit       = utsusemiMod >= shadowsToRemove               -- Check to see if the target had enough shadows to block the attack.
+
+        local effect = target:getStatusEffect(xi.effect.COPY_IMAGE)
+        if effect then
+            if targetShadows == 0 then
+                target:delStatusEffect(xi.effect.COPY_IMAGE)
+            elseif targetShadows == 1 then
+                effect:setIcon(xi.effect.COPY_IMAGE)
+            elseif targetShadows == 2 then
+                effect:setIcon(xi.effect.COPY_IMAGE_2)
+            elseif targetShadows == 3 then
+                effect:setIcon(xi.effect.COPY_IMAGE_3)
+            else
+                effect:setIcon(xi.effect.COPY_IMAGE_4) -- 4 or more shadows active use the same "4+" icon.
+            end
+        end
+
+        target:setMod(xi.mod.UTSUSEMI, targetShadows)
+
+    -- Blink has a random chance of triggering when no utsusemi is present.
+    elseif blinkMod > 0 then
+        if math.random(1, 100) <= 20 then
+            absorbHit = false
+
+            return absorbHit, 0
+        end
+
+        shadowsConsumed = utils.clamp(shadowsToRemove, 0, blinkMod) -- How many shadows were consumed by the attack (Used for SHADOW_ABSORB messaging later)
+        targetShadows   = blinkMod - shadowsConsumed                -- How many shadows left over after the attack.
+        absorbHit       = blinkMod >= shadowsToRemove               -- Check to see if the target had enough shadows to fully block the attack.
+
+        if targetShadows == 0 then
+            target:delStatusEffect(xi.effect.BLINK)
+        end
+
+        target:setMod(xi.mod.BLINK, targetShadows)
+
+        -- Retail Testing Notes:
+        -- Tested with WHM spell Blink
+        -- 1 hit skills took 1 shadow.
+        -- TODO: When hit by a 2 hit skill, it was observed to consume 2 blink shadows, however the message returned was SKILL_MISS rather than SHADOW_ABSORB.
+        -- Did not block 3+ hit mob skills. (Player Weaponskills untested)
+        -- AOE skills delete Blink.
+
+        -- TODO: Test Zephyr Mantle proc rate.
+        -- TODO: Test player Weapon Skills on mob/players with Blink/Zephyr Mantle.
+        -- Note: JPWiki/FFXIPedia repeatedly mentions that Blink can block multi hit skills, but this was not observed in testing. Needs further testing.
+    end
+
+    return absorbHit, shadowsConsumed
 end
 
 -- Calculates Phalanx damage reduction.

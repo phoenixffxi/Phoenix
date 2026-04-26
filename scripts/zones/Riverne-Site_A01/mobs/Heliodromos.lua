@@ -12,32 +12,47 @@ entity.onMobInitialize = function(mob)
 end
 
 entity.onMobSpawn = function(mob)
+    mob:setMod(xi.mod.TRIPLE_ATTACK, 15)
     mob:setMobMod(xi.mobMod.SUPERLINK, ID.mob.HELIODROMOS_OFFSET)
-    SetServerVariable('Heliodromos_Despawn', 0)
+
+    local zone = mob:getZone()
+    if zone then
+        zone:setLocalVar('Heliodromos_Despawn', 0)
+    end
 end
 
 entity.onMobRoam = function(mob)
-    local heliodromosDespawn = GetServerVariable('Heliodromos_Despawn')
+    local zone = mob:getZone()
+    if not zone then
+        return
+    end
+
+    local heliodromosDespawn = zone:getLocalVar('Heliodromos_Despawn')
+    if heliodromosDespawn == 0 then
+        return
+    end
+
+    if heliodromosDespawn > GetSystemTime() then
+        return
+    end
 
     -- 10 minutes have passed since first heliodromos dies. despawn any remaining heliodromos.
-    if heliodromosDespawn > 0 and heliodromosDespawn <= GetSystemTime() then
-        SetServerVariable('Heliodromos_Despawn', 0)
+    zone:setLocalVar('Heliodromos_Despawn', 0)
 
-        -- despawn heliodromos
-        for i = ID.mob.HELIODROMOS_OFFSET, ID.mob.HELIODROMOS_OFFSET + 2 do
-            if GetMobByID(i):isSpawned() then
-                DespawnMob(i)
-            end
+    -- Despawn heliodromos.
+    for i = ID.mob.HELIODROMOS_OFFSET, ID.mob.HELIODROMOS_OFFSET + 2 do
+        if GetMobByID(i):isSpawned() then
+            DespawnMob(i)
         end
+    end
 
-        -- allow placeholders to respawn
-        for i = ID.mob.HELIODROMOS_OFFSET - 3, ID.mob.HELIODROMOS_OFFSET - 1 do
-            local ph = GetMobByID(i)
+    -- Allow placeholders to respawn.
+    for i = ID.mob.HELIODROMOS_OFFSET - 3, ID.mob.HELIODROMOS_OFFSET - 1 do
+        local ph = GetMobByID(i)
 
-            if ph then
-                DisallowRespawn(i, false)
-                ph:setRespawnTime(GetMobRespawnTime(ph:getID()))
-            end
+        if ph then
+            DisallowRespawn(i, false)
+            ph:setRespawnTime(GetMobRespawnTime(i))
         end
     end
 end
@@ -47,32 +62,40 @@ entity.onAdditionalEffect = function(mob, target, damage)
 end
 
 entity.onMobDeath = function(mob, player, optParams)
-    -- one of the heliodromos was killed. set a 10 minute despawn timer before the others despawn
-    if optParams.isKiller and GetServerVariable('Heliodromos_Despawn') == 0 then
-        SetServerVariable('Heliodromos_Despawn', GetSystemTime() + 600)
+    -- One of the heliodromos was killed. set a 10 minute despawn timer before the others despawn
+    if optParams.isKiller or optParams.noKiller then
+        local zone = mob:getZone()
+        if not zone then
+            return
+        end
+
+        if zone:getLocalVar('Heliodromos_Despawn') == 0 then
+            zone:setLocalVar('Heliodromos_Despawn', GetSystemTime() + 210)
+        end
     end
 end
 
 entity.onMobDespawn = function(mob)
-    local allHeliodromosDead = true
-
     for i = ID.mob.HELIODROMOS_OFFSET, ID.mob.HELIODROMOS_OFFSET + 2 do
         if GetMobByID(i):isAlive() then
-            allHeliodromosDead = false
+            return
         end
     end
 
-    if allHeliodromosDead then
-        SetServerVariable('Heliodromos_ToD', GetSystemTime() + math.random(43200, 54000)) -- 12 to 15 hours
+    local zone = mob:getZone()
+    if not zone then
+        return
+    end
 
-        -- allow placeholders to respawn
-        for i = ID.mob.HELIODROMOS_OFFSET - 3, ID.mob.HELIODROMOS_OFFSET - 1 do
-            local ph = GetMobByID(i)
+    zone:setLocalVar('Heliodromos_ToD', GetSystemTime() + math.random(43200, 54000)) -- 12 to 15 hours
 
-            if ph then
-                DisallowRespawn(i, false)
-                ph:setRespawnTime(GetMobRespawnTime(ph:getID()))
-            end
+    -- Allow placeholders to respawn
+    for i = ID.mob.HELIODROMOS_OFFSET - 3, ID.mob.HELIODROMOS_OFFSET - 1 do
+        local ph = GetMobByID(i)
+
+        if ph then
+            DisallowRespawn(i, false)
+            ph:setRespawnTime(GetMobRespawnTime(ph:getID()))
         end
     end
 end

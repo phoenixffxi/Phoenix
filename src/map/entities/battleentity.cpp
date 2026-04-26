@@ -2825,7 +2825,12 @@ void CBattleEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
 
         result.messageID = msg;
 
-        if (PSkill->hasMissMsg())
+        if (PSkill->getMsg() == MsgBasic::ShadowAbsorb) // Setting of shadow message is handled in mobskills.lua
+        {
+            result.resolution = ActionResolution::Miss;
+            result.param      = damage; // damage is the number of shadows consumed to display in chat log
+        }
+        else if (PSkill->hasMissMsg())
         {
             result.resolution = ActionResolution::Miss;
             result.param      = 0;
@@ -2842,18 +2847,22 @@ void CBattleEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
             result.resolution = ActionResolution::Hit;
         }
 
-        if (result.resolution != ActionResolution::Miss && result.resolution != ActionResolution::Parry)
+        if (first)
         {
-            if (first && PTargetFound->health.hp > 0 && PSkill->getPrimarySkillchain() != 0)
+            bool isNegated = result.resolution == ActionResolution::Miss || result.resolution == ActionResolution::Parry;
+            if (!isNegated)
             {
-                const auto effect = battleutils::GetSkillChainEffect(PTargetFound, PSkill->getPrimarySkillchain(), PSkill->getSecondarySkillchain(), PSkill->getTertiarySkillchain());
-                if (effect != ActionProcSkillChain::None)
+                if (PTargetFound->health.hp > 0 && PSkill->getPrimarySkillchain() != 0)
                 {
-                    result.recordSkillchain(effect, battleutils::TakeSkillchainDamage(this, PTargetFound, result.param, nullptr));
+                    const auto effect = battleutils::GetSkillChainEffect(PTargetFound, PSkill->getPrimarySkillchain(), PSkill->getSecondarySkillchain(), PSkill->getTertiarySkillchain());
+                    if (effect != ActionProcSkillChain::None)
+                    {
+                        result.recordSkillchain(effect, battleutils::TakeSkillchainDamage(this, PTargetFound, result.param, nullptr));
+                    }
                 }
-
-                first = false;
             }
+
+            first = false;
         }
 
         if (PSkill->getValidTargets() & TARGET_ENEMY)
