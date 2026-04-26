@@ -95,6 +95,8 @@ local vmOpCodeNames =
 }
 
 local function handleNamingUpdate(player, chocoState, option)
+    debug('handleNamingUpdate')
+
     local offset1     = bit.band(0x3FF, bit.rshift(option, 8))
     local offset2     = bit.band(0x3FF, bit.rshift(option, 18))
     local fname       = xi.chocoboNames[offset1]
@@ -126,6 +128,8 @@ local function handleNamingUpdate(player, chocoState, option)
 end
 
 local function handleCarePlanUpdate(player, chocoState, option)
+    debug('handleCarePlanUpdate')
+
     local carePlanSlot   = bit.band(0xF, bit.rshift(option, 8))
     local carePlanLength = bit.band(0x7, bit.rshift(option, 16))
     local carePlanType   = bit.band(0xF, bit.rshift(option, 19))
@@ -155,6 +159,59 @@ local function handleCarePlanUpdate(player, chocoState, option)
         player:getName(), carePlanSlot + 1, carePlanType, carePlanLength))
 
     xi.chocoboRaising.chocoState[player:getID()] = chocoState
+end
+
+-- Events 1842, and others, derived from the option mask
+local function handleStoryUpdate(player, chocoState, option)
+    debug('handleStoryUpdate')
+
+    -- TODO: We could shift this index to be nicer, but it doesn't matter?
+    local story = bit.rshift(option, 8)
+
+    -- TODO: Extract into constants?
+    local abilities =
+    {
+        GALLOP          = 0,
+        CANTER          = 1,
+        BURROW          = 2,
+        BORE            = 3,
+        AUTO_REGEN      = 4,
+        TREASURE_FINDER = 5,
+    }
+
+    -- TODO: Extract into constants?
+    local unlocks =
+    {
+        [xi.keyItem.STORY_OF_AN_IMPATIENT_CHOCOBO] = abilities.GALLOP,
+        [xi.keyItem.STORY_OF_A_CURIOUS_CHOCOBO]    = abilities.CANTER,
+        [xi.keyItem.STORY_OF_A_WORRISOME_CHOCOBO]  = abilities.BURROW,
+        [xi.keyItem.STORY_OF_A_YOUTHFUL_CHOCOBO]   = abilities.BORE,
+        [xi.keyItem.STORY_OF_A_HAPPY_CHOCOBO]      = abilities.GALLOP,
+        [xi.keyItem.STORY_OF_A_DILIGENT_CHOCOBO]   = abilities.TREASURE_FINDER,
+    }
+
+    utils.unused(unlocks)
+
+    local stories =
+    {
+        [4] = 'An impatient chocobo (Gallop)',
+        [5] = 'A curious chocobo (Canter)',
+        [6] = 'A worrisome chocobo (Burrow)',
+        [7] = 'A youthful chocobo (Bore)',
+        [8] = 'A happy chocobo (Auto-Regen)',
+        [9] = 'A diligent chocobo (Treasure Finder)',
+    }
+
+    debug(string.format('Story: %s', stories[story]))
+
+    -- TODO: Remove key items?
+    if math.random(1, 100) <= 25 then
+        debug('-> Chocobo learned ability')
+        player:updateEvent(1, 1, 1, 1, 1, 1, 1, 1) -- TODO: What do the caps say?
+    else
+        debug('-> Chocobo did not learn ability')
+        player:updateEvent(0, 0, 0, 0, 0, 0, 0, 0)
+    end
 end
 
 local walkConfig =
@@ -345,6 +402,7 @@ local vmHandlers =
 
     [vmOpCodes.FEED_CHOCOBO] = function(player, chocoState, option)
         player:confirmTrade()
+
         local ID = zones[player:getZoneID()]
 
         for idx, itemId in ipairs(chocoState.foodGiven) do
@@ -369,7 +427,12 @@ local vmHandlers =
                 end
             end
 
-            local reaction = 1
+            -- TODO:
+            -- 0: Nothing
+            -- 1: I hope we can make this animal into a fine chocobo.
+            --
+            -- Other values: Nothing
+            local reaction = 0
 
             chocoState.hunger = utils.clamp(chocoState.hunger + hungerAmount, 0, 255)
             chocoState.energy = utils.clamp(chocoState.energy + energyAmount, 0, 100)
@@ -605,12 +668,47 @@ local vmHandlers =
     end,
 
     [vmOpCodes.TELL_A_STORY] = function(player, chocoState, option)
-        local storyMask = 0xFFFFFFFE
+        local randomChitchat     = -bit.lshift(0x01, 0)
+        local anImpatientChocobo = -bit.lshift(0x01, 1)
+        local aCuriousChocobo    = -bit.lshift(0x01, 2)
+        local aWorrisomeChocobo  = -bit.lshift(0x01, 3)
+        local aYouthfulChocobo   = -bit.lshift(0x01, 4)
+        local aHappyChocobo      = -bit.lshift(0x01, 5)
+        local aDiligentChocobo   = -bit.lshift(0x01, 6)
+
+        -- Random chitchat always available
+        local storyMask = 0x7FFFFFFF + randomChitchat
+
+        if player:hasKeyItem(xi.keyItem.STORY_OF_AN_IMPATIENT_CHOCOBO) then
+            storyMask = storyMask + anImpatientChocobo
+        end
+
+        if player:hasKeyItem(xi.keyItem.STORY_OF_A_CURIOUS_CHOCOBO) then
+            storyMask = storyMask + aCuriousChocobo
+        end
+
+        if player:hasKeyItem(xi.keyItem.STORY_OF_A_WORRISOME_CHOCOBO) then
+            storyMask = storyMask + aWorrisomeChocobo
+        end
+
+        if player:hasKeyItem(xi.keyItem.STORY_OF_A_YOUTHFUL_CHOCOBO) then
+            storyMask = storyMask + aYouthfulChocobo
+        end
+
+        if player:hasKeyItem(xi.keyItem.STORY_OF_A_HAPPY_CHOCOBO) then
+            storyMask = storyMask + aHappyChocobo
+        end
+
+        if player:hasKeyItem(xi.keyItem.STORY_OF_A_DILIGENT_CHOCOBO) then
+            storyMask = storyMask + aDiligentChocobo
+        end
 
         xi.chocoboRaising.onRaisingEventPlayout(player, xi.chocoboRaising.cutscenes.INTERESTED_IN_YOUR_STORY, chocoState)
 
+        local unknown = 3 -- Seen as 1 or 3, does this matter?
+
         player:updateEventString(chocoState.first_name, chocoState.last_name, chocoState.first_name, chocoState.last_name, 0, 0, 0, 0, 0, 0, 0)
-        player:updateEvent(xi.chocoboRaising.getCutsceneWithOffset(player, xi.chocoboRaising.cutscenes.INTERESTED_IN_YOUR_STORY), 0, storyMask, 0, chocoState.stage, 0, 0, 3)
+        player:updateEvent(xi.chocoboRaising.getCutsceneWithOffset(player, xi.chocoboRaising.cutscenes.INTERESTED_IN_YOUR_STORY), 0, storyMask, 0, chocoState.stage, 0, 0, unknown)
     end,
 
     [vmOpCodes.SCOLD_CHOCOBO] = function(player, chocoState, option)
@@ -840,11 +938,18 @@ xi.chocoboRaising.eventVM = function(player, csid, option, npc)
         end
 
         if bit.band(0x000000FF, option) == 0xFF then
-            return handleNamingUpdate(player, chocoState, option)
+            handleNamingUpdate(player, chocoState, option)
+            return
         end
 
         if bit.band(0x000000FF, option) == 0xFE then
-            return handleCarePlanUpdate(player, chocoState, option)
+            handleCarePlanUpdate(player, chocoState, option)
+            return
+        end
+
+        if bit.band(0x000000FF, option) == 0x32 then
+            handleStoryUpdate(player, chocoState, option)
+            return
         end
 
         local opCodeName = vmOpCodeNames[option] or '?'
