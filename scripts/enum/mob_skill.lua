@@ -128,6 +128,8 @@ xi.mobSkill =
     LEAFSTORM                     =  331,
     ENTANGLE                      =  332,
 
+    VULCANIAN_IMPACT_1            =  342, -- COP Bombs
+
     VELOCIOUS_BLADE               =  347, -- Mammet-800
 
     DEATH_SCISSORS                =  353,
@@ -229,9 +231,15 @@ xi.mobSkill =
     SELF_DESTRUCT_BOMB            =  509,
     BERSERK_BOMB                  =  510,
     SELF_DESTRUCT_BOMB_321        =  511,
+    HEAT_WAVE_1                   =  512, -- COP Bombs
 
     SMITE_OF_RAGE                 =  513,
     WHIRL_OF_RAGE                 =  514,
+
+    BERSERK_SNOLL                 =  526, -- Snoll
+    FREEZE_RUSH_1                 =  527, -- Snoll
+    COLD_WAVE_1                   =  528, -- Snoll
+    HYPOTHERMAL_COMBUSTION_1      =  529, -- Snoll
 
     DANSE_MACABRE                 =  533,
     KARTSTRAHL                    =  534,
@@ -276,8 +284,8 @@ xi.mobSkill =
     BOMB_TOSS_1                   =  591,
 
     BERSERK_BOMB_BIG              =  593, -- Big Bomb / Friars Lantern
-    VULCANIAN_IMPACT              =  594, -- Big Bomb / Friars Lantern
-    HEAT_WAVE                     =  595, -- Big Bomb / Friars Lantern
+    VULCANIAN_IMPACT_2            =  594, -- Big Bomb / Friars Lantern
+    HEAT_WAVE_2                   =  595, -- Big Bomb / Friars Lantern
     HELLSTORM                     =  596, -- Big Bomb / Friars Lantern
     SELF_DESTRUCT_BOMB_BIG        =  597, -- Big Bomb / Friars Lantern
 

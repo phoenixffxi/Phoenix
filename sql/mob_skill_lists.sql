@@ -981,10 +981,10 @@ INSERT INTO `mob_skill_lists` VALUES ('Slime',230,433);
 INSERT INTO `mob_skill_lists` VALUES ('Slug',231,2183);
 INSERT INTO `mob_skill_lists` VALUES ('Slug',231,2184);
 INSERT INTO `mob_skill_lists` VALUES ('Slug',231,2185);
-INSERT INTO `mob_skill_lists` VALUES ('Snoll',232,1644);
-INSERT INTO `mob_skill_lists` VALUES ('Snoll',232,1645);
-INSERT INTO `mob_skill_lists` VALUES ('Snoll',232,1646);
-INSERT INTO `mob_skill_lists` VALUES ('Snoll',232,1647);
+INSERT INTO `mob_skill_lists` VALUES ('Snoll',232,526); -- Berserk
+INSERT INTO `mob_skill_lists` VALUES ('Snoll',232,527); -- Freeze Rush
+INSERT INTO `mob_skill_lists` VALUES ('Snoll',232,528); -- Cold Wave
+INSERT INTO `mob_skill_lists` VALUES ('Snoll',232,529); -- Hypothermal Combustion
 INSERT INTO `mob_skill_lists` VALUES ('Soulflayer',233,1963); -- Mind Blast
 INSERT INTO `mob_skill_lists` VALUES ('Soulflayer',233,1964); -- Immortal Mind
 INSERT INTO `mob_skill_lists` VALUES ('Soulflayer',233,1965); -- Immortal Shield
@@ -2283,7 +2283,13 @@ INSERT INTO `mob_skill_lists` VALUES ('Cyranuce_M_Cutauleon',498,816); -- Fang R
 INSERT INTO `mob_skill_lists` VALUES ('Cyranuce_M_Cutauleon',498,817); -- Dread Shriek
 INSERT INTO `mob_skill_lists` VALUES ('Cyranuce_M_Cutauleon',498,818); -- Tail Crush
 INSERT INTO `mob_skill_lists` VALUES ('Cyranuce_M_Cutauleon',498,822); -- Chaos Breath
--- 499 to 699: free
+INSERT INTO `mob_skill_lists` VALUES ('Bomb_COP',499,510); -- Berserk
+INSERT INTO `mob_skill_lists` VALUES ('Bomb_COP',499,342); -- Vulcanian Impact
+INSERT INTO `mob_skill_lists` VALUES ('Bomb_COP',499,512); -- Heat Wave
+INSERT INTO `mob_skill_lists` VALUES ('Bomb_COP',499,509); -- Self-destruct
+-- 500 free
+-- 501 free
+-- 502 free
 INSERT INTO `mob_skill_lists` VALUES ('Mammet',503,347);
 INSERT INTO `mob_skill_lists` VALUES ('Mammet',503,419);
 INSERT INTO `mob_skill_lists` VALUES ('Mammet',503,422);
@@ -2294,6 +2300,7 @@ INSERT INTO `mob_skill_lists` VALUES ('Mammet',503,464);
 INSERT INTO `mob_skill_lists` VALUES ('Mammet',503,471);
 INSERT INTO `mob_skill_lists` VALUES ('Mammet',503,487);
 INSERT INTO `mob_skill_lists` VALUES ('Mammet',503,540);
+-- 504 - 699 free
 INSERT INTO `mob_skill_lists` VALUES ('Demonic_Tiphia',700,334);
 INSERT INTO `mob_skill_lists` VALUES ('Demonic_Tiphia',700,335);
 INSERT INTO `mob_skill_lists` VALUES ('Demonic_Tiphia',700,336);

@@ -93,7 +93,7 @@ INSERT INTO `mob_groups` VALUES (23,3032,2,'Orcish_Serjeant',300,0,283,0,0,0,NUL
 INSERT INTO `mob_groups` VALUES (24,1518,2,'Ghoul_blm',300,1,958,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (25,1517,2,'Ghoul_war',300,1,958,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (26,5135,2,'Marsh_Funguar',300,0,1632,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (27,4345,2,'Will-o-the-Wisp',300,8,569,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (27,7337,2,'Will-o-the-Wisp',300,8,569,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (28,1406,2,'Forest_Tiger',300,0,896,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (29,1409,2,'Fosse_Pugil',300,0,463,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (30,3728,2,'Spider_Wasp',300,0,2305,0,0,0,NULL);
@@ -154,7 +154,7 @@ INSERT INTO `mob_groups` VALUES (7,2128,4,'Jagil',300,0,248,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (8,793,4,'Coralline_Uragnite',300,0,2932,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (9,2286,4,'Kraken',300,0,504,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (10,4240,4,'Viscous_Clot',300,0,2926,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (11,2054,4,'Ignis_Fatuus',300,8,268,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (11,7338,4,'Ignis_Fatuus',300,8,268,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (12,751,4,'Coastal_Opo-opo',300,0,2933,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (13,97,4,'Alraune',300,0,2934,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (14,3980,4,'Toucan',300,0,208,0,0,0,NULL);
@@ -325,7 +325,7 @@ INSERT INTO `mob_groups` VALUES (43,4397,7,'Xolotls_Hound_Warrior',0,128,0,0,0,0
 INSERT INTO `mob_groups` VALUES (44,4398,7,'Xolotls_Sacrifice',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (45,225,7,'Arch_Corse',300,1,162,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (46,3916,7,'Tiamat',0,128,2416,100000,100000,0,NULL);
-INSERT INTO `mob_groups` VALUES (47,412,7,'Bifrons',300,8,268,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (47,7339,7,'Bifrons',300,8,268,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (48,662,7,'Cave_Antlion',300,0,434,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (49,1318,7,'Feeler_Antlion',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (50,1269,7,'Executioner_Antlion',0,128,0,0,0,0,NULL);
