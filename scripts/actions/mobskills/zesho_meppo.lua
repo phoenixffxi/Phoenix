@@ -1,7 +1,7 @@
 -----------------------------------
--- Blade: Metsu
+-- Zesho Meppo
 -- Family: Humanoid Katana Weaponskill
--- Description: Additional effect: Paralysis.
+-- Description: Delivers a fourfold attack. Damage varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -14,19 +14,18 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
     params.baseDamage     = mob:getWeaponDmg()
-    params.numHits        = 1
-    params.fTP            = { 3.0, 3.0, 3.0 }
-    -- params.dex_wSC     = 0.6 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.numHits        = 4
+    params.fTP            = { 4.0, 11.3575, 18.715 }
+    -- params.dex_wSC     = 0.25 -- TODO: Capture if mobskill weaponskills have wSC.
+    -- params.agi_wSC     = 0.25 -- TODO: Capture if mobskill weaponskills have wSC.
     params.attackType     = xi.attackType.PHYSICAL
     params.damageType     = xi.damageType.SLASHING
-    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_1
+    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_4
 
     local info = xi.mobskills.mobPhysicalMove(mob, target, skill, action, params)
 
     if xi.mobskills.processDamage(mob, target, skill, action, info) then
         target:takeDamage(info.damage, mob, info.attackType, info.damageType)
-
-        xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.PARALYSIS, 10, 0, 60)
     end
 
     return info.damage

@@ -165,21 +165,21 @@ INSERT INTO `mob_skills` VALUES (123,132,'sonic_thrust',2,10.0,7.0,2000,0,4,0,0,
 INSERT INTO `mob_skills` VALUES (124,133,'camlanns_torment',0,0.0,7.0,2000,0,4,0,0,0,13,12,0);
 INSERT INTO `mob_skills` VALUES (125,134,'stardiver',0,0.0,7.0,2000,0,4,0,0,0,9,1,0);
 INSERT INTO `mob_skills` VALUES (126,130,'diarmuid',0,0.0,7.0,2000,0,4,0,0,0,10,4,1);
--- INSERT INTO `mob_skills` VALUES (128,??,'blade_rin'
--- INSERT INTO `mob_skills` VALUES (129,??,'blade_retsu'
--- INSERT INTO `mob_skills` VALUES (130,??,'blade_teki'
-INSERT INTO `mob_skills` VALUES (131,154,'blade_to',0,0.0,7.0,2000,0,4,0,0,0,9,0,0);
--- INSERT INTO `mob_skills` VALUES (132,??,'blade_chi'
--- INSERT INTO `mob_skills` VALUES (133,??,'blade_ei'
-INSERT INTO `mob_skills` VALUES (134,157,'blade_jin',0,0.0,7.0,2000,0,4,0,0,0,9,0,0);
--- INSERT INTO `mob_skills` VALUES (135,??,'blade_ten'
-INSERT INTO `mob_skills` VALUES (136,159,'blade_ku',0,0.0,7.0,2000,0,4,0,0,0,9,0,0);
--- INSERT INTO `mob_skills` VALUES (137,??,'blade_metsu'
--- INSERT INTO `mob_skills` VALUES (138,??,'blade_kamu'
--- INSERT INTO `mob_skills` VALUES (139,??,'blade_yu'
--- INSERT INTO `mob_skills` VALUES (140,??,'blade_hi'
--- INSERT INTO `mob_skills` VALUES (141,??,'blade_shun'
--- INSERT INTO `mob_skills` VALUES (142,??,'jijin_kaimetsu'
+INSERT INTO `mob_skills` VALUES (128,151,'blade_rin',0,0.0,7.0,2000,0,4,0,0,0,1,0,0);
+INSERT INTO `mob_skills` VALUES (129,152,'blade_retsu',0,0.0,7.0,2000,0,4,0,0,0,4,0,0);
+INSERT INTO `mob_skills` VALUES (130,153,'blade_teki',0,0.0,7.0,2000,0,4,0,0,0,5,0,0);
+INSERT INTO `mob_skills` VALUES (131,154,'blade_to',0,0.0,7.0,2000,0,4,0,0,0,7,6,0);
+INSERT INTO `mob_skills` VALUES (132,155,'blade_chi',0,0.0,7.0,2000,0,4,0,0,0,1,8,0);
+INSERT INTO `mob_skills` VALUES (133,156,'blade_ei',0,0.0,7.0,2000,0,4,0,0,0,2,0,0);
+INSERT INTO `mob_skills` VALUES (134,157,'blade_jin',0,0.0,7.0,2000,0,4,0,0,0,6,8,0);
+INSERT INTO `mob_skills` VALUES (135,158,'blade_ten',0,0.0,7.0,2000,0,4,0,0,0,9,0,0);
+INSERT INTO `mob_skills` VALUES (136,159,'blade_ku',0,0.0,7.0,2000,0,4,0,0,0,9,1,0);
+INSERT INTO `mob_skills` VALUES (137,160,'blade_metsu',0,0.0,7.0,2000,0,4,0,0,0,14,12,0);
+INSERT INTO `mob_skills` VALUES (138,161,'blade_kamu',0,0.0,7.0,2000,0,4,0,0,0,12,2,0);
+INSERT INTO `mob_skills` VALUES (139,162,'blade_yu',0,0.0,7.0,2000,0,4,0,0,0,5,4,0);
+INSERT INTO `mob_skills` VALUES (140,163,'blade_hi',0,0.0,7.0,2000,0,4,0,0,0,14,9,0);
+INSERT INTO `mob_skills` VALUES (141,164,'blade_shun',0,0.0,7.0,2000,0,4,0,0,0,11,8,0);
+INSERT INTO `mob_skills` VALUES (142,160,'zesho_meppo',0,0.0,7.0,2000,0,4,0,0,0,11,7,5);
 -- INSERT INTO `mob_skills` VALUES (144,??,'tachi_enpi'
 -- INSERT INTO `mob_skills` VALUES (145,??,'tachi_hobaku'
 -- INSERT INTO `mob_skills` VALUES (146,??,'tachi_goten'

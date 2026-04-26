@@ -1,7 +1,7 @@
 -----------------------------------
--- Blade: Metsu
+-- Blade: Shun
 -- Family: Humanoid Katana Weaponskill
--- Description: Additional effect: Paralysis.
+-- Description: Delivers a fivefold attack. Attack power varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -13,20 +13,20 @@ end
 mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
-    params.baseDamage     = mob:getWeaponDmg()
-    params.numHits        = 1
-    params.fTP            = { 3.0, 3.0, 3.0 }
-    -- params.dex_wSC     = 0.6 -- TODO: Capture if mobskill weaponskills have wSC.
-    params.attackType     = xi.attackType.PHYSICAL
-    params.damageType     = xi.damageType.SLASHING
-    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_1
+    params.baseDamage        = mob:getWeaponDmg()
+    params.numHits           = 5
+    params.fTP               = { 0.6875, 0.6875, 0.6875 }
+    params.fTPSubsequentHits = { 0.6875, 0.6875, 0.6875 }
+    -- params.dex_wSC        = 0.85 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.attackType        = xi.attackType.PHYSICAL
+    params.damageType        = xi.damageType.SLASHING
+    params.shadowBehavior    = xi.mobskills.shadowBehavior.NUMSHADOWS_5
+    params.attackMultiplier  = { 1.0, 2.0, 3.0 }
 
     local info = xi.mobskills.mobPhysicalMove(mob, target, skill, action, params)
 
     if xi.mobskills.processDamage(mob, target, skill, action, info) then
         target:takeDamage(info.damage, mob, info.attackType, info.damageType)
-
-        xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.PARALYSIS, 10, 0, 60)
     end
 
     return info.damage

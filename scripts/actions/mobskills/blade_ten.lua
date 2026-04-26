@@ -1,7 +1,7 @@
 -----------------------------------
--- Blade: Metsu
+-- Blade: Ten
 -- Family: Humanoid Katana Weaponskill
--- Description: Additional effect: Paralysis.
+-- Description: Damage varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -15,8 +15,9 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
 
     params.baseDamage     = mob:getWeaponDmg()
     params.numHits        = 1
-    params.fTP            = { 3.0, 3.0, 3.0 }
-    -- params.dex_wSC     = 0.6 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.fTP            = { 2.5, 2.75, 3.0 }
+    -- params.str_wSC     = 0.3 -- TODO: Capture if mobskill weaponskills have wSC.
+    -- params.dex_wSC     = 0.3 -- TODO: Capture if mobskill weaponskills have wSC.
     params.attackType     = xi.attackType.PHYSICAL
     params.damageType     = xi.damageType.SLASHING
     params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_1
@@ -25,8 +26,6 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
 
     if xi.mobskills.processDamage(mob, target, skill, action, info) then
         target:takeDamage(info.damage, mob, info.attackType, info.damageType)
-
-        xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.PARALYSIS, 10, 0, 60)
     end
 
     return info.damage
