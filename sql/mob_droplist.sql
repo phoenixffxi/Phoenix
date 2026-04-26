@@ -1063,10 +1063,11 @@ INSERT INTO `mob_droplist` VALUES (121,0,0,1000,643,@VRARE);     -- Chunk Of Iro
 INSERT INTO `mob_droplist` VALUES (121,2,0,1000,749,0);          -- Mythril Beastcoin (Steal)
 INSERT INTO `mob_droplist` VALUES (121,4,0,1000,643,0);          -- Chunk Of Iron Ore (Despoil)
 
+-- 122 Available
+
 -- ZoneID: 114 - Antican Faber
 INSERT INTO `mob_droplist` VALUES (123,0,0,1000,16995,@COMMON);  -- Piece Of Rotten Meat (Common, 15%)
 INSERT INTO `mob_droplist` VALUES (123,0,0,1000,1121,@UNCOMMON); -- Antican Robe (Uncommon, 10%)
-INSERT INTO `mob_droplist` VALUES (123,0,0,1000,17320,@RARE);    -- Iron Arrow (Rare, 5%)
 INSERT INTO `mob_droplist` VALUES (123,0,0,1000,640,@VRARE);     -- Chunk Of Copper Ore (Very Rare, 1%)
 INSERT INTO `mob_droplist` VALUES (123,2,0,1000,750,0);          -- Silver Beastcoin (Steal)
 INSERT INTO `mob_droplist` VALUES (123,4,0,1000,643,0);          -- Chunk Of Iron Ore (Despoil)
@@ -1074,7 +1075,6 @@ INSERT INTO `mob_droplist` VALUES (123,4,0,1000,643,0);          -- Chunk Of Iro
 -- ZoneID: 114 - Antican Funditor
 INSERT INTO `mob_droplist` VALUES (123,0,0,1000,16995,@COMMON);  -- Piece Of Rotten Meat (Common, 15%)
 INSERT INTO `mob_droplist` VALUES (123,0,0,1000,1121,@UNCOMMON); -- Antican Robe (Uncommon, 10%)
-INSERT INTO `mob_droplist` VALUES (123,0,0,1000,17320,@RARE);    -- Iron Arrow (Rare, 5%)
 INSERT INTO `mob_droplist` VALUES (123,0,0,1000,640,@VRARE);     -- Chunk Of Copper Ore (Very Rare, 1%)
 INSERT INTO `mob_droplist` VALUES (123,2,0,1000,750,0);          -- Silver Beastcoin (Steal)
 INSERT INTO `mob_droplist` VALUES (123,4,0,1000,643,0);          -- Chunk Of Iron Ore (Despoil)
