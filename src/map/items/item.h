@@ -55,6 +55,9 @@ class CItem
 {
 public:
     CItem(uint16 id);
+    CItem(const CItem& other);
+    auto operator=(const CItem&) -> CItem& = delete;
+
     virtual ~CItem();
 
     uint16 getID() const;
@@ -91,17 +94,17 @@ public:
     void setSlotID(uint8 SlotID);
     void setSent(bool sent);
 
-    const std::string& getName();
+    const std::string& getName() const;
     void               setName(const std::string& name);
 
-    const std::string& getSender();
+    const std::string& getSender() const;
     void               setSender(const std::string& sender);
 
-    const std::string& getReceiver();
+    const std::string& getReceiver() const;
     void               setReceiver(const std::string& receiver);
 
-    virtual const std::string getSignature();
-    virtual void              setSignature(const std::string& signature);
+    virtual auto getSignature() const -> const std::string;
+    virtual void setSignature(const std::string& signature);
 
     auto isDirty() const -> bool;
     void setDirty(bool dirty);

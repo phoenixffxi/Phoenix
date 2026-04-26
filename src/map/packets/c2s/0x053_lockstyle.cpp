@@ -89,7 +89,7 @@ void GP_CLI_COMMAND_LOCKSTYLE::process(MapSession* PSession, CCharEntity* PChar)
                     continue;
                 }
 
-                const auto* PItem = dynamic_cast<CItemEquipment*>(itemutils::GetItemPointer(itemId));
+                const auto* PItem = xi::items::lookup<CItemEquipment>(itemId);
                 if (!PItem || !(PItem->isType(ITEM_WEAPON) || PItem->isType(ITEM_EQUIPMENT)))
                 {
                     itemId = 0;
@@ -105,7 +105,7 @@ void GP_CLI_COMMAND_LOCKSTYLE::process(MapSession* PSession, CCharEntity* PChar)
             // Check if we need to remove conflicting slots. Essentially, packet injection shenanigan detector.
             for (int i = 0; i < 10; i++)
             {
-                if (const auto* PItemEquipment = dynamic_cast<CItemEquipment*>(itemutils::GetItemPointer(PChar->styleItems[i])))
+                if (const auto* PItemEquipment = xi::items::lookup<CItemEquipment>(PChar->styleItems[i]))
                 {
                     const auto removeSlotID = PItemEquipment->getRemoveSlotId();
 
