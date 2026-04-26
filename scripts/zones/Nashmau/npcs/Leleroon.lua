@@ -8,18 +8,6 @@
 local entity = {}
 
 entity.onTrade = function(player, npc, trade)
-    if
-        player:getQuestStatus(xi.questLog.AHT_URHGAN, xi.quest.id.ahtUrhgan.NAVIGATING_THE_UNFRIENDLY_SEAS) == xi.questStatus.QUEST_ACCEPTED and
-        player:getCharVar('NavigatingtheUnfriendlySeas') <= 2
-    then
-        if
-            trade:hasItemQty(xi.item.HYDROGAUGE, 1) and
-            trade:getItemCount() == 1
-        then
-            player:startEvent(283)
-            player:setCharVar('NavigatingtheUnfriendlySeas', 2)
-        end
-    end
 end
 
 entity.onTrigger = function(player, npc)
