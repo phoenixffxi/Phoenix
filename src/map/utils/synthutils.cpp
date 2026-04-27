@@ -579,9 +579,16 @@ auto calculateSynthResult(CCharEntity* PChar) -> uint8
         return SYNTHESIS_SUCCESS;
     }
 
+    // Early return: T0 cannot upgrade HQ.
+    if (finalHQTier <= 1)
+    {
+        return SYNTHESIS_HQ;
+    }
+
     // Calculate HQ2 and HQ3 upgrades.
-    uint8 upgradeHQ = 0;
-    for (uint8 tries = 0; tries < 2; ++tries)
+    uint8 allowedUpgrades = (finalHQTier == 2 ? 1 : 2);
+    uint8 upgradeHQ       = 0;
+    for (uint8 tries = 0; tries < allowedUpgrades; ++tries)
     {
         if (xirand::GetRandomNumber(0.0f, 100.f) <= 25.0f) // 25% Chance to upgrade HQ
         {
