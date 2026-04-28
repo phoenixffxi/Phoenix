@@ -1,5 +1,5 @@
 -----------------------------------
--- Black Halo
+-- Dagda
 -- Family: Humanoid Club Weaponskill
 -- Description: Delivers a twofold attack. Damage varies with TP.
 -----------------------------------
@@ -15,9 +15,9 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
 
     params.baseDamage     = mob:getWeaponDmg()
     params.numHits        = 2
-    params.fTP            = { 1.5, 2.5, 3.0 }
-    -- params.str_wSC     = 0.3 -- TODO: Capture if mobskill weaponskills have wSC.
-    -- params.mnd_wSC     = 0.5 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.fTP            = { 1.0, 1.0, 1.0 } -- TODO: Capture fTPs.
+    -- params.str_wSC     = 0.0 -- TODO: Capture if mobskill weaponskills have wSC.
+    -- params.mnd_wSC     = 0.0 -- TODO: Capture if mobskill weaponskills have wSC.
     params.attackType     = xi.attackType.PHYSICAL
     params.damageType     = xi.damageType.BLUNT
     params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_2
