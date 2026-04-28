@@ -13042,40 +13042,23 @@ uint16 CLuaBaseEntity::getBaseWeaponDelay(uint16 slot)
  *  Notes   :
  ************************************************************************/
 
-uint16 CLuaBaseEntity::getBaseDelay()
+auto CLuaBaseEntity::getBaseDelay() -> uint16
 {
-    CCharEntity*   PCharEntity   = dynamic_cast<CCharEntity*>(m_PBaseEntity);
-    CBattleEntity* PBattleEntity = dynamic_cast<CBattleEntity*>(m_PBaseEntity);
-    uint16         baseDelay     = 480; // h2h "unequipped" base delay
+    uint16 baseDelay = 0;
 
-    if (PCharEntity)
+    if (m_PBaseEntity == nullptr)
     {
-        CItemWeapon* PMainWeapon = dynamic_cast<CItemWeapon*>(PCharEntity->getEquip(SLOT_MAIN));
-        CItemWeapon* PSubWeapon  = dynamic_cast<CItemWeapon*>(PCharEntity->getEquip(SLOT_SUB));
-
-        if (PMainWeapon)
-        {
-            if (PMainWeapon->getSkillType() == SKILLTYPE::SKILL_HAND_TO_HAND)
-            {
-                baseDelay = PMainWeapon->getBaseDelay(); // h2h items include 480 base delay
-            }
-            else
-            {
-                baseDelay = PMainWeapon->getBaseDelay();
-                if (PSubWeapon)
-                {
-                    baseDelay += PSubWeapon->getBaseDelay();
-                }
-            }
-        }
+        ShowWarning("CLuaBaseEntity::getBaseDelay() - Entity called is nullptr (%s).");
+        return 0;
     }
-    else if (PBattleEntity)
+
+    if (CCharEntity* PCharEntity = dynamic_cast<CCharEntity*>(m_PBaseEntity))
     {
-        CItemWeapon* PWeapon = dynamic_cast<CItemWeapon*>(PBattleEntity->m_Weapons[SLOT_MAIN]);
-        if (PWeapon)
-        {
-            baseDelay = std::round(PWeapon->getBaseDelay() * 60.0 / 1000.0); // there is some precision loss that results in delays of 319.98 instead of 320, etc, so round to nearest.
-        }
+        baseDelay = battleutils::GetBaseDelay(PCharEntity);
+    }
+    else if (CBattleEntity* PBattleEntity = dynamic_cast<CBattleEntity*>(m_PBaseEntity))
+    {
+        baseDelay = battleutils::GetBaseDelay(PBattleEntity);
     }
 
     return baseDelay;
@@ -13088,42 +13071,26 @@ uint16 CLuaBaseEntity::getBaseDelay()
  *  Notes   :
  ************************************************************************/
 
-uint16 CLuaBaseEntity::getBaseRangedDelay()
+auto CLuaBaseEntity::getBaseRangedDelay() -> uint16
 {
-    CCharEntity*   PCharEntity   = dynamic_cast<CCharEntity*>(m_PBaseEntity);
-    CBattleEntity* PBattleEntity = dynamic_cast<CBattleEntity*>(m_PBaseEntity);
-    uint16         baseDelay     = 0; // return 0 if not able to actually ranged attack
+    uint16 baseRangedDelay = 0;
 
-    if (PCharEntity)
+    if (m_PBaseEntity == nullptr)
     {
-        CItemWeapon* PRangedWeapon = dynamic_cast<CItemWeapon*>(PCharEntity->getEquip(SLOT_RANGED));
-        CItemWeapon* PAmmo         = dynamic_cast<CItemWeapon*>(PCharEntity->getEquip(SLOT_AMMO));
-
-        if (PRangedWeapon && PRangedWeapon->isRanged())
-        {
-            if (PRangedWeapon->isThrowing()) // Throwing, like Chakram/Boomerang in ranged slot
-            {
-                baseDelay = PRangedWeapon->getBaseDelay();
-            }
-            else if (PAmmo) // Bow/gun etc, but only valid if Ammo is equipped.
-            {
-                baseDelay = PRangedWeapon->getBaseDelay() + PAmmo->getBaseDelay();
-            }
-        }
-        else if (PAmmo && PAmmo->isRanged()) // Throwing, Pebble/Shuriken in ammo slot
-        {
-            baseDelay = PAmmo->getBaseDelay();
-        }
-    }
-    else if (PBattleEntity)
-    {
-        baseDelay = 360; // Tested using Fatso Fargann's TP Drainkiss @ 3000 TP after a mob landed a ranged attack.
-                         // TP Drainkiss is unaspected and is not affected by MDB or multipliers like shell.
-                         // Fatso's TP Drainkiss fTPs are 0.625~ @1000TP and 1.0~ @3000TP
-                         // TP Drained at 1.0 fTP was 93 on every normal non NM ranged mob no matter the family.
+        ShowWarning("CLuaBaseEntity::getBaseRangedDelay() - Entity called is nullptr (%s).");
+        return 0;
     }
 
-    return baseDelay;
+    if (CCharEntity* PCharEntity = dynamic_cast<CCharEntity*>(m_PBaseEntity))
+    {
+        baseRangedDelay = battleutils::GetBaseRangedDelay(PCharEntity);
+    }
+    else if (CBattleEntity* PBattleEntity = dynamic_cast<CBattleEntity*>(m_PBaseEntity))
+    {
+        baseRangedDelay = battleutils::GetBaseRangedDelay(PBattleEntity);
+    }
+
+    return baseRangedDelay;
 }
 
 /************************************************************************

@@ -652,8 +652,8 @@ public:
     bool   isDualWielding();
     bool   isUsingH2H();
     uint16 getBaseWeaponDelay(uint16 slot); // get base delay of weapon
-    uint16 getBaseDelay();                  // get base delay of entity, melee only
-    uint16 getBaseRangedDelay();            // get base delay of entity, ranged only
+    auto   getBaseDelay() -> uint16;        // get base delay of entity, melee only
+    auto   getBaseRangedDelay() -> uint16;  // get base delay of entity, ranged only
 
     float checkLiementAbsorb(uint16 damageType); // return 1.0 if did not absorb, return >= -1.0 if did absorb
 
