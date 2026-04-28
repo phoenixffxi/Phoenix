@@ -819,7 +819,7 @@ public:
     auto getActiveManeuverCount() const -> uint8;
     void removeOldestManeuver() const;
     void removeAllManeuvers() const;
-    auto getAttachment(uint8 slotId) const -> CItem*;
+    auto getAttachment(uint8 slotId) const -> const CItem*;
     auto getAttachments() const -> sol::table;
     void setAttachment(uint8 attachmentItemID, uint8 slotID) const;
     void updateAttachments() const;

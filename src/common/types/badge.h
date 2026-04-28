@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2026 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,41 +19,27 @@
 ===========================================================================
 */
 
-#ifndef _CITEMSHOP_H
-#define _CITEMSHOP_H
+#pragma once
 
-#include "common/cbasetypes.h"
+#include "common/macros.h"
 
-#include "item.h"
+// Badge<T>
+//
+// Pass-key.
+// Only T can construct a Badge<T>, so any method that takes one as a parameter is effectively private to T.
+//
+// See: https://awesomekling.github.io/Serenity-C++-patterns-The-Badge/
 
-class CItemShop : public CItem
+namespace xi
 {
-public:
-    CItemShop(uint16);
 
-    CItemShop(const CItemShop& other);
-    virtual ~CItemShop();
-
-    uint32 getMinPrice() const;
-    uint32 getMaxPrice() const;
-
-    bool IsInMenu();
-    bool IsDailyIncrease() const;
-
-    void   setMinPrice(uint32 price);
-    void   setMaxPrice(uint32 price);
-    void   setDailyIncrease(uint16 quantity);
-    uint16 getDailyIncrease() const;
-    void   setInitialQuantity(uint16 quantity);
-    uint16 getInitialQuantity() const;
-    uint16 getSellPrice();
-
+template <typename T>
+class Badge
+{
 private:
-    uint32 m_MinPrice;
-    uint32 m_MaxPrice;
-
-    uint16 m_DailyIncrease;
-    uint16 m_InitialQuantity;
+    friend T;
+    Badge() = default;
+    DISALLOW_COPY_AND_MOVE(Badge);
 };
 
-#endif
+} // namespace xi

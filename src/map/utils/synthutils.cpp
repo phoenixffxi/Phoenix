@@ -330,7 +330,7 @@ auto isRightRecipe(CCharEntity* PChar) -> bool
         }
 
         // Check if recipe result is rare and player already owns a copy.
-        const CItem* PItem = itemutils::GetItemPointer(recipe.Result);
+        const CItem* PItem = xi::items::lookup(recipe.Result);
         if (PItem && PItem->hasFlag(ItemFlag::Rare) && charutils::HasItem(PChar, recipe.Result))
         {
             PChar->pushPacket<GP_SERV_COMMAND_COMBINE_ANS>(PChar, SynthesisResult::CancelRareItem);

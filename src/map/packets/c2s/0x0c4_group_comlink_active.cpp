@@ -54,15 +54,18 @@ const auto createLinkshell = [](CCharEntity* PChar, CItemLinkshell* PItemLinkshe
 
     if (linkshellId != 0)
     {
-        destroy(PItemLinkshell);
-        PItemLinkshell = static_cast<CItemLinkshell*>(itemutils::GetItem(ITEMID::LINKSHELL));
-        if (PItemLinkshell == nullptr)
+        PChar->getStorage(data.Category)->RemoveItem(data.ItemIndex);
+        PItemLinkshell = nullptr;
+
+        auto PItem = xi::items::spawn(ITEMID::LINKSHELL);
+        if (PItem == nullptr)
         {
             return;
         }
 
+        PItemLinkshell = static_cast<CItemLinkshell*>(PItem.get());
         PItemLinkshell->setQuantity(1);
-        PChar->getStorage(data.Category)->InsertItem(PItemLinkshell, data.ItemIndex);
+        PChar->getStorage(data.Category)->InsertItem(std::move(PItem), data.ItemIndex);
         PItemLinkshell->SetLSID(linkshellId);
         PItemLinkshell->SetLSType(LSTYPE_LINKSHELL);
         PItemLinkshell->setSignature(DecodedName);

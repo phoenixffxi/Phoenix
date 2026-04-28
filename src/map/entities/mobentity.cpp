@@ -161,10 +161,10 @@ CMobEntity::CMobEntity()
     PEnmityContainer     = new CEnmityContainer(this);
     SpellContainer       = new CMobSpellContainer(this);
 
-    m_Weapons[SLOT_MAIN]   = new CItemWeapon(0);
-    m_Weapons[SLOT_SUB]    = new CItemWeapon(0);
-    m_Weapons[SLOT_RANGED] = new CItemWeapon(0);
-    m_Weapons[SLOT_AMMO]   = new CItemWeapon(0);
+    m_Weapons[SLOT_MAIN]   = std::make_unique<CItemWeapon>(0).release();
+    m_Weapons[SLOT_SUB]    = std::make_unique<CItemWeapon>(0).release();
+    m_Weapons[SLOT_RANGED] = std::make_unique<CItemWeapon>(0).release();
+    m_Weapons[SLOT_AMMO]   = std::make_unique<CItemWeapon>(0).release();
 
     PAI = std::make_unique<CAIContainer>(this, std::make_unique<CPathFind>(this), std::make_unique<CMobController>(this), std::make_unique<CTargetFind>(this));
 }

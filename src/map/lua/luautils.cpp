@@ -1253,11 +1253,11 @@ void SendEntityVisualPacket(const uint32 npcId, const char* command)
     }
 }
 
-CItem* GetItemByID(uint32 itemId)
+auto GetItemByID(uint32 itemId) -> const CItem*
 {
     TracyZoneScoped;
 
-    return itemutils::GetItemPointer(itemId);
+    return xi::items::lookup(itemId);
 }
 
 CBaseEntity* GetNPCByID(uint32 npcid, const sol::object& instanceObj)
@@ -2562,7 +2562,7 @@ void OnEffectLose(CBattleEntity* PEntity, CStatusEffect* PStatusEffect)
     }
 }
 
-void OnAttachmentEquip(CBattleEntity* PEntity, CItemPuppet* attachment)
+void OnAttachmentEquip(CBattleEntity* PEntity, const CItemPuppet* attachment)
 {
     TracyZoneScoped;
 
@@ -2582,7 +2582,7 @@ void OnAttachmentEquip(CBattleEntity* PEntity, CItemPuppet* attachment)
     }
 }
 
-void OnAttachmentUnequip(CBattleEntity* PEntity, CItemPuppet* attachment)
+void OnAttachmentUnequip(CBattleEntity* PEntity, const CItemPuppet* attachment)
 {
     TracyZoneScoped;
 
@@ -2602,7 +2602,7 @@ void OnAttachmentUnequip(CBattleEntity* PEntity, CItemPuppet* attachment)
     }
 }
 
-void OnManeuverGain(CBattleEntity* PEntity, CItemPuppet* attachment, uint8 maneuvers)
+void OnManeuverGain(CBattleEntity* PEntity, const CItemPuppet* attachment, uint8 maneuvers)
 {
     TracyZoneScoped;
 
@@ -2622,7 +2622,7 @@ void OnManeuverGain(CBattleEntity* PEntity, CItemPuppet* attachment, uint8 maneu
     }
 }
 
-void OnManeuverLose(CBattleEntity* PEntity, CItemPuppet* attachment, uint8 maneuvers)
+void OnManeuverLose(CBattleEntity* PEntity, const CItemPuppet* attachment, uint8 maneuvers)
 {
     TracyZoneScoped;
 
@@ -2642,7 +2642,7 @@ void OnManeuverLose(CBattleEntity* PEntity, CItemPuppet* attachment, uint8 maneu
     }
 }
 
-void OnUpdateAttachment(CBattleEntity* PEntity, CItemPuppet* attachment, uint8 maneuvers)
+void OnUpdateAttachment(CBattleEntity* PEntity, const CItemPuppet* attachment, uint8 maneuvers)
 {
     TracyZoneScoped;
 
@@ -5053,11 +5053,11 @@ std::string GetServerMessage(uint8 language)
  *                                                                       *
  ************************************************************************/
 
-CItem* GetReadOnlyItem(uint32 id)
+auto GetReadOnlyItem(uint32 id) -> const CItem*
 {
     TracyZoneScoped;
 
-    return itemutils::GetItemPointer(id);
+    return xi::items::lookup(id);
 }
 
 CAbility* GetAbility(uint16 id)
@@ -5468,7 +5468,7 @@ SendToDBoxReturnCode SendItemToDeliveryBox(const std::string& playerName, uint16
 
     // Check to confirm that the item legitimately exists
     // exclude gil as gil does not have an item pointer
-    auto* PItem = itemutils::GetItemPointer(itemId);
+    auto* PItem = xi::items::lookup(itemId);
     if (PItem == nullptr && !isGil)
     {
         return SendToDBoxReturnCode::ITEM_NOT_FOUND;
