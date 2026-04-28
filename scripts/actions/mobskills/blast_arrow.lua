@@ -1,7 +1,7 @@
 -----------------------------------
--- Namas Arrow
+-- Blast Arrow
 -- Family: Humanoid Archery Weaponskill
--- Description: Delivers a single-hit attack.
+-- Description: Delivers a melee-distance ranged attack. Accuracy varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -15,13 +15,13 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
 
     params.baseDamage       = mob:getWeaponDmg()
     params.numHits          = 1
-    params.fTP              = { 2.75, 2.75, 2.75 }
-    -- params.str_wSC       = 0.4 -- TODO: Capture if mobskill weaponskills have wSC.
-    -- params.agi_wSC       = 0.4 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.fTP              = { 2.0, 2.0, 2.0 }
+    -- params.str_wSC       = 0.16 -- TODO: Capture if mobskill weaponskills have wSC.
+    -- params.agi_wSC       = 0.25 -- TODO: Capture if mobskill weaponskills have wSC.
     params.skipParry        = true
     params.skipGuard        = true
     params.skipBlock        = true
-    params.accuracyModifier = { 100, 100, 100 }
+    params.accuracyModifier = { 0, 30, 60 }
     params.attackType       = xi.attackType.RANGED
     params.damageType       = xi.damageType.PIERCING
     params.shadowBehavior   = xi.mobskills.shadowBehavior.NUMSHADOWS_1

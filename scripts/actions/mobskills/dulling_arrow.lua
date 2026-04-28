@@ -1,9 +1,7 @@
 -----------------------------------
--- Arching Arrow
+-- Dulling Arrow
 -- Family: Humanoid Archery Weaponskill
--- Description: Delivers a single-hit attack. Chance of critical varies with TP.
--- Darkness/Gravitation skillchain properties.
--- NOTES: Used by Semih Lafihna
+-- Description: Lowers enemy's INT. Chance of critical varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -17,7 +15,7 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
 
     params.baseDamage     = mob:getWeaponDmg()
     params.numHits        = 1
-    params.fTP            = { 3.5, 3.5, 3.5 }
+    params.fTP            = { 1.0, 1.0, 1.0 }
     -- params.str_wSC     = 0.16 -- TODO: Capture if mobskill weaponskills have wSC.
     -- params.agi_wSC     = 0.25 -- TODO: Capture if mobskill weaponskills have wSC.
     params.skipParry      = true
@@ -32,6 +30,8 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
 
     if xi.mobskills.processDamage(mob, target, skill, action, info) then
         target:takeDamage(info.damage, mob, info.attackType, info.damageType)
+
+        xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.INT_DOWN, 10, 0, 120)
     end
 
     return info.damage

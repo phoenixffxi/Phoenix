@@ -1,9 +1,7 @@
 -----------------------------------
--- Arching Arrow
+-- Apex Arrow
 -- Family: Humanoid Archery Weaponskill
--- Description: Delivers a single-hit attack. Chance of critical varies with TP.
--- Darkness/Gravitation skillchain properties.
--- NOTES: Used by Semih Lafihna
+-- Description: Ignores enemy's defense. Amount ignored varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -17,13 +15,12 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
 
     params.baseDamage     = mob:getWeaponDmg()
     params.numHits        = 1
-    params.fTP            = { 3.5, 3.5, 3.5 }
-    -- params.str_wSC     = 0.16 -- TODO: Capture if mobskill weaponskills have wSC.
-    -- params.agi_wSC     = 0.25 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.fTP            = { 3.0, 3.0, 3.0 }
+    -- params.agi_wSC     = 0.85 -- TODO: Capture if mobskill weaponskills have wSC.
     params.skipParry      = true
     params.skipGuard      = true
     params.skipBlock      = true
-    params.criticalChance = { 0.1, 0.3, 0.5 }
+    params.ignoreDefense  = { 0.15, 0.35, 0.5 }
     params.attackType     = xi.attackType.RANGED
     params.damageType     = xi.damageType.PIERCING
     params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_1

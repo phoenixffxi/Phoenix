@@ -1,9 +1,7 @@
 -----------------------------------
--- Arching Arrow
+-- Refulgent Arrow
 -- Family: Humanoid Archery Weaponskill
--- Description: Delivers a single-hit attack. Chance of critical varies with TP.
--- Darkness/Gravitation skillchain properties.
--- NOTES: Used by Semih Lafihna
+-- Description: Delivers a twofold attack. Damage varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -16,17 +14,15 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
     params.baseDamage     = mob:getWeaponDmg()
-    params.numHits        = 1
-    params.fTP            = { 3.5, 3.5, 3.5 }
+    params.numHits        = 2
+    params.fTP            = { 3.0, 4.25, 5.0 }
     -- params.str_wSC     = 0.16 -- TODO: Capture if mobskill weaponskills have wSC.
-    -- params.agi_wSC     = 0.25 -- TODO: Capture if mobskill weaponskills have wSC.
     params.skipParry      = true
     params.skipGuard      = true
     params.skipBlock      = true
-    params.criticalChance = { 0.1, 0.3, 0.5 }
     params.attackType     = xi.attackType.RANGED
     params.damageType     = xi.damageType.PIERCING
-    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_1
+    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_2
 
     local info = xi.mobskills.mobRangedMove(mob, target, skill, action, params)
 

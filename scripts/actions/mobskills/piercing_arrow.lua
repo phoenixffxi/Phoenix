@@ -1,7 +1,7 @@
 -----------------------------------
--- Namas Arrow
+-- Piercing Arrow
 -- Family: Humanoid Archery Weaponskill
--- Description: Delivers a single-hit attack.
+-- Description: Ignores enemy's defense. Amount ignored varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -15,13 +15,14 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
 
     params.baseDamage       = mob:getWeaponDmg()
     params.numHits          = 1
-    params.fTP              = { 2.75, 2.75, 2.75 }
-    -- params.str_wSC       = 0.4 -- TODO: Capture if mobskill weaponskills have wSC.
-    -- params.agi_wSC       = 0.4 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.fTP              = { 1.0, 1.0, 1.0 }
+    -- params.str_wSC       = 0.16 -- TODO: Capture if mobskill weaponskills have wSC.
+    -- params.agi_wSC       = 0.25 -- TODO: Capture if mobskill weaponskills have wSC.
     params.skipParry        = true
     params.skipGuard        = true
     params.skipBlock        = true
-    params.accuracyModifier = { 100, 100, 100 }
+    params.accuracyModifier = { 30, 30, 30 }
+    params.ignoreDefense    = { 0.0, 0.35, 0.5 }
     params.attackType       = xi.attackType.RANGED
     params.damageType       = xi.damageType.PIERCING
     params.shadowBehavior   = xi.mobskills.shadowBehavior.NUMSHADOWS_1

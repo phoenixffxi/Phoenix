@@ -228,18 +228,18 @@ INSERT INTO `mob_skills` VALUES (174,90,'realmrazer',0,0.0,7.0,2000,0,4,0,0,0,11
 -- INSERT INTO `mob_skills` VALUES (189,??,'cataclysm'
 -- INSERT INTO `mob_skills` VALUES (190,??,'myrkr'
 -- INSERT INTO `mob_skills` VALUES (191,??,'shattersoul'
--- INSERT INTO `mob_skills` VALUES (192,??,'flaming_arrow'
--- INSERT INTO `mob_skills` VALUES (193,??,'piercing_arrow'
--- INSERT INTO `mob_skills` VALUES (194,??,'dulling_arrow'
--- INSERT INTO `mob_skills` VALUES (196,??,'sidewinder'
--- INSERT INTO `mob_skills` VALUES (197,??,'blast_arrow'
--- INSERT INTO `mob_skills` VALUES (198,??,'arching_arrow'
--- INSERT INTO `mob_skills` VALUES (199,??,'empyreal_arrow'
--- INSERT INTO `mob_skills` VALUES (200,??,'namas_arrow'
--- INSERT INTO `mob_skills` VALUES (201,??,'refulgent_arrow'
--- INSERT INTO `mob_skills` VALUES (202,??,'jishnus_radiance'
--- INSERT INTO `mob_skills` VALUES (203,??,'apex_arrow'
--- INSERT INTO `mob_skills` VALUES (204,??,'sarv'
+INSERT INTO `mob_skills` VALUES (192,191,'flaming_arrow',0,0.0,15.0,2000,0,4,0,0,0,3,1,0);
+INSERT INTO `mob_skills` VALUES (193,192,'piercing_arrow',0,0.0,15.0,2000,0,4,0,0,0,5,1,0);
+INSERT INTO `mob_skills` VALUES (194,193,'dulling_arrow',0,0.0,15.0,2000,0,4,0,0,0,3,1,0);
+INSERT INTO `mob_skills` VALUES (196,195,'sidewinder',0,0.0,15.0,2000,0,4,0,0,0,5,1,6);
+INSERT INTO `mob_skills` VALUES (197,219,'blast_arrow',0,0.0,5.0,2000,0,4,0,0,0,7,1,0);
+INSERT INTO `mob_skills` VALUES (198,220,'arching_arrow',0,0.0,15.0,2000,0,4,0,0,0,11,0,0);
+INSERT INTO `mob_skills` VALUES (199,221,'empyreal_arrow',0,0.0,15.0,2000,0,4,0,0,0,11,1,0);
+INSERT INTO `mob_skills` VALUES (200,225,'namas_arrow',0,0.0,15.0,2000,0,4,0,0,0,13,10,0);
+INSERT INTO `mob_skills` VALUES (201,232,'refulgent_arrow',0,0.0,15.0,2000,0,4,0,0,0,5,1,0);
+INSERT INTO `mob_skills` VALUES (202,234,'jishnus_radiance',0,0.0,15.0,2000,0,4,0,0,0,13,11,0);
+INSERT INTO `mob_skills` VALUES (203,240,'apex_arrow',0,0.0,15.0,2000,0,4,0,0,0,12,1,0);
+INSERT INTO `mob_skills` VALUES (204,225,'sarv',0,0.0,15.0,2000,0,4,0,0,0,9,4,1);
 INSERT INTO `mob_skills` VALUES (208,196,'hot_shot',0,0.0,15.0,2000,0,4,0,0,0,3,1,0);
 INSERT INTO `mob_skills` VALUES (209,197,'split_shot',0,0.0,15.0,2000,0,4,0,0,0,5,1,0);
 INSERT INTO `mob_skills` VALUES (210,198,'sniper_shot',0,0.0,15.0,2000,0,4,0,0,0,3,1,0);
