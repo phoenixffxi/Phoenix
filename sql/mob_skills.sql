@@ -212,22 +212,22 @@ INSERT INTO `mob_skills` VALUES (172,88,'flash_nova',0,0.0,7.0,2000,0,4,0,0,0,7,
 INSERT INTO `mob_skills` VALUES (173,89,'dagan',0,0.0,7.0,2000,0,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (174,90,'realmrazer',0,0.0,7.0,2000,0,4,0,0,0,11,8,0);
 -- INSERT INTO `mob_skills` VALUES (175,??,'exudation',0,0.0,7.0,2000,0,4,0,0,0,14,12,0); -- TODO: Find animation ID.
--- INSERT INTO `mob_skills` VALUES (176,??,'heavy_swing'
--- INSERT INTO `mob_skills` VALUES (177,??,'rock_crusher'
--- INSERT INTO `mob_skills` VALUES (178,??,'earth_crusher'
--- INSERT INTO `mob_skills` VALUES (179,??,'starburst'
--- INSERT INTO `mob_skills` VALUES (180,??,'sunburst'
--- INSERT INTO `mob_skills` VALUES (181,??,'shell_crusher'
--- INSERT INTO `mob_skills` VALUES (182,??,'full_swing'
--- INSERT INTO `mob_skills` VALUES (183,??,'spirit_taker'
--- INSERT INTO `mob_skills` VALUES (184,??,'retribution'
--- INSERT INTO `mob_skills` VALUES (185,??,'gate_of_tartarus'
--- INSERT INTO `mob_skills` VALUES (186,??,'vidohunir'
--- INSERT INTO `mob_skills` VALUES (187,??,'garland_of_bliss'
--- INSERT INTO `mob_skills` VALUES (188,??,'omniscience'
--- INSERT INTO `mob_skills` VALUES (189,??,'cataclysm'
--- INSERT INTO `mob_skills` VALUES (190,??,'myrkr'
--- INSERT INTO `mob_skills` VALUES (191,??,'shattersoul'
+INSERT INTO `mob_skills` VALUES (176,136,'heavy_swing',0,0.0,7.0,2000,0,4,0,0,0,8,0,0);
+INSERT INTO `mob_skills` VALUES (177,137,'rock_crusher',0,0.0,7.0,2000,0,4,0,0,0,8,0,0);
+INSERT INTO `mob_skills` VALUES (178,138,'earth_crusher',2,10.0,7.0,2000,0,4,0,0,0,6,8,0);
+INSERT INTO `mob_skills` VALUES (179,139,'starburst',0,0.0,7.0,2000,0,4,0,0,0,2,5,0);
+INSERT INTO `mob_skills` VALUES (180,140,'sunburst',0,0.0,7.0,2000,0,4,0,0,0,2,5,0);
+INSERT INTO `mob_skills` VALUES (181,141,'shell_crusher',0,0.0,7.0,2000,0,4,0,0,0,6,0,0);
+INSERT INTO `mob_skills` VALUES (182,142,'full_swing',0,0.0,7.0,2000,0,4,0,0,0,3,8,0);
+INSERT INTO `mob_skills` VALUES (183,143,'spirit_taker',0,0.0,7.0,2000,0,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (184,144,'retribution',0,0.0,7.0,2000,0,4,0,0,0,9,5,0);
+INSERT INTO `mob_skills` VALUES (185,145,'gate_of_tartarus',0,0.0,7.0,2000,0,4,0,0,0,14,10,0);
+INSERT INTO `mob_skills` VALUES (186,146,'vidohunir',0,0.0,7.0,2000,0,4,0,0,0,12,10,0);
+INSERT INTO `mob_skills` VALUES (187,147,'garland_of_bliss',0,0.0,7.0,2000,0,4,0,0,0,11,5,0);
+INSERT INTO `mob_skills` VALUES (188,148,'omniscience',0,0.0,7.0,2000,0,4,0,0,0,9,1,0);
+INSERT INTO `mob_skills` VALUES (189,231,'cataclysm',2,10.0,7.0,2000,0,4,0,0,0,2,5,0);
+INSERT INTO `mob_skills` VALUES (190,150,'myrkr',0,0.0,7.0,2000,0,1,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (191,239,'shattersoul',0,0.0,7.0,2000,0,4,0,0,0,9,7,0);
 INSERT INTO `mob_skills` VALUES (192,191,'flaming_arrow',0,0.0,15.0,2000,0,4,0,0,0,3,1,0);
 INSERT INTO `mob_skills` VALUES (193,192,'piercing_arrow',0,0.0,15.0,2000,0,4,0,0,0,5,1,0);
 INSERT INTO `mob_skills` VALUES (194,193,'dulling_arrow',0,0.0,15.0,2000,0,4,0,0,0,3,1,0);
@@ -265,10 +265,10 @@ INSERT INTO `mob_skills` VALUES (231,25,'maru_kala',0,0.0,7.0,2000,0,4,0,0,0,10,
 INSERT INTO `mob_skills` VALUES (232,41,'ruthless_stroke',0,0.0,7.0,2000,0,4,0,0,0,12,8,3);
 INSERT INTO `mob_skills` VALUES (233,12,'imperator',0,0.0,7.0,2000,0,4,0,0,0,10,6,2);
 INSERT INTO `mob_skills` VALUES (234,86,'dagda',0,0.0,7.0,2000,0,4,0,0,0,9,4,1);
--- INSERT INTO `mob_skills` VALUES (235,??,'oshala'
+INSERT INTO `mob_skills` VALUES (235,145,'oshala',0,0.0,7.0,2000,0,4,0,0,0,11,7,5);
 INSERT INTO `mob_skills` VALUES (238,243,'uriel_blade',1,0.0,10.0,2000,0,4,0,0,0,13,12,4);
 INSERT INTO `mob_skills` VALUES (239,242,'glory_slash',1,0.0,10.0,2000,0,4,0,0,0,13,11,0);
--- INSERT INTO `mob_skills` VALUES (240,??,'tartarus_torpor'
+INSERT INTO `mob_skills` VALUES (240,149,'tartarus_torpor',2,10.0,7.0,2000,0,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (241,249,'netherspikes',4,0.0,10.0,2000,0,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (242,242,'carnal_nightmare',1,0.0,10.0,2000,0,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (243,251,'aegis_schism',0,0.0,7.0,2000,0,4,0,0,0,0,0,0);

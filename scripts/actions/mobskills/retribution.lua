@@ -1,7 +1,7 @@
 -----------------------------------
--- Gate of Tartarus
+-- Retribution
 -- Family: Humanoid Staff Weaponskill
--- Description: Lowers target's attack.
+-- Description: Delivers a single-hit attack. Damage varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -13,20 +13,20 @@ end
 mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
-    params.baseDamage     = mob:getWeaponDmg()
-    params.numHits        = 1
-    params.fTP            = { 3.0, 3.0, 3.0 }
-    -- params.int_wSC     = 0.8 -- TODO: Capture if mobskill weaponskills have wSC.
-    params.attackType     = xi.attackType.PHYSICAL
-    params.damageType     = xi.damageType.BLUNT
-    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_1
+    params.baseDamage       = mob:getWeaponDmg()
+    params.numHits          = 1
+    params.fTP              = { 2.0, 2.5, 3.0 }
+    params.attackMultiplier = { 1.5, 1.5, 1.5 }
+    -- params.str_wSC       = 0.3 -- TODO: Capture if mobskill weaponskills have wSC.
+    -- params.mnd_wSC       = 0.5 -- TODO: Capture if mobskill weaponskills have wSC.
+    params.attackType       = xi.attackType.PHYSICAL
+    params.damageType       = xi.damageType.BLUNT
+    params.shadowBehavior   = xi.mobskills.shadowBehavior.NUMSHADOWS_1
 
     local info = xi.mobskills.mobPhysicalMove(mob, target, skill, action, params)
 
     if xi.mobskills.processDamage(mob, target, skill, action, info) then
         target:takeDamage(info.damage, mob, info.attackType, info.damageType)
-
-        xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.ATTACK_DOWN, 18.75, 0, 120)
     end
 
     return info.damage
