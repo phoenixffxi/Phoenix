@@ -13700,10 +13700,10 @@ INSERT INTO `mob_groups` VALUES (20,1076,206,'Doll_Factory',0,128,0,500,0,0,NULL
 INSERT INTO `mob_groups` VALUES (21,1497,206,'Generic_Doll',0,128,0,2200,2200,0,NULL);
 INSERT INTO `mob_groups` VALUES (22,1519,206,'Ghul-I-Beaban_DRK',0,128,0,2000,2000,0,NULL);
 INSERT INTO `mob_groups` VALUES (23,6069,206,'Ghul-I-Beaban_BLM',0,128,0,2000,2000,0,NULL);
-INSERT INTO `mob_groups` VALUES (24,1342,206,'Fire_Golem',0,128,0,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (25,4310,206,'Water_Golem',0,128,0,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (26,4350,206,'Wind_Golem',0,128,0,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (27,1161,206,'Earth_Golem',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (24,1342,206,'Fire_Golem',0,128,0,2600,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (25,4310,206,'Water_Golem',0,128,0,2600,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (26,4350,206,'Wind_Golem',0,128,0,2600,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (27,1161,206,'Earth_Golem',0,128,0,2600,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (28,2831,206,'Nephiyl_Rampartbreacher',0,128,0,4200,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (29,2828,206,'Nephiyl_Keepcollapser',0,128,0,0,4200,0,NULL);
 INSERT INTO `mob_groups` VALUES (30,2829,206,'Nephiyl_Moatfiller',0,128,0,4400,0,0,NULL);
