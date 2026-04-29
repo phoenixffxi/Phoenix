@@ -1,6 +1,7 @@
 -----------------------------------
 -- Chocobo Raising
 -----------------------------------
+require('scripts/globals/hobbies/chocobo_raising/breeding')
 require('scripts/globals/hobbies/chocobo_raising/constants')
 -----------------------------------
 xi = xi or {}
@@ -14,8 +15,7 @@ xi.chocoboRaising.newChocobo = function(player, egg)
     newChoco.first_name = 'Chocobo'
     newChoco.last_name  = 'Chocobo'
 
-    -- TODO: Use enum
-    newChoco.sex = math.ceil(math.random() - 0.5) -- Random 0 or 1
+    newChoco.sex = xi.chocoboRaising.rollEggGender(egg)
 
     newChoco.created         = GetSystemTime()
     newChoco.age             = 0
@@ -23,11 +23,14 @@ xi.chocoboRaising.newChocobo = function(player, egg)
     newChoco.stage           = xi.chocoboRaising.stage.EGG
     newChoco.location        = xi.chocoboRaising.raisingLocation[player:getZoneID()]
 
-    -- TODO: Use egg exdata to populate these
-    newChoco.dominant_gene  = 0
-    newChoco.recessive_gene = 0
+    local dna = xi.chocoboRaising.rollEggAlleles(egg)
 
-    newChoco.color              = xi.chocoboRaising.color.YELLOW
+    newChoco.allele1 = dna[1]
+    newChoco.allele2 = dna[2]
+    newChoco.allele3 = dna[3]
+
+    newChoco.color = xi.chocoboRaising.allelesToColor(dna)
+
     newChoco.strength           = 0
     newChoco.endurance          = 0
     newChoco.discernment        = 0
@@ -36,7 +39,7 @@ xi.chocoboRaising.newChocobo = function(player, egg)
     newChoco.energy             = 100
     newChoco.satisfaction       = 0
     newChoco.conditions         = 0
-    newChoco.ability1           = 0
+    newChoco.ability1           = xi.chocoboRaising.rollEggInheritedAbility(egg)
     newChoco.ability2           = 0
     newChoco.personality        = 0
     newChoco.weather_preference = 0
