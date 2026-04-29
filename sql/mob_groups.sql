@@ -626,7 +626,7 @@ INSERT INTO `mob_groups` VALUES (41,4480,15,'Ypotryll',300,0,2792,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (42,86,15,'Alkonost',0,128,49,25200,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (43,951,15,'Deep_Eye',300,0,592,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (44,232,15,'Arimaspi',0,128,166,8100,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (45,2395,15,'Lesser_Arimaspi',0,128,1508,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (45,2395,15,'Lesser_Arimaspi',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (46,4236,15,'Viridis_Wyvern',300,0,2582,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (47,330,15,'Balaur',900,0,215,27700,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (48,1171,15,'Eccentric_Eve',0,128,741,50500,0,0,NULL);
