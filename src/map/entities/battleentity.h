@@ -45,28 +45,29 @@ DECLARE_FORMAT_AS_UNDERLYING(DEATH_TYPE);
 
 enum class ECOSYSTEM : uint8
 {
-    ECO_ERROR      = 0,
+    UNCLASSIFIED   = 0,
     AMORPH         = 1,
     AQUAN          = 2,
     ARCANA         = 3,
     ARCHAICMACHINE = 4,
-    AVATAR         = 5,
-    BEAST          = 6,
-    BEASTMAN       = 7, // Resolve conflict with conquest_system.h BEASTMEN definition
-    BIRD           = 8,
-    DEMON          = 9,
-    DRAGON         = 10,
-    ELEMENTAL      = 11,
-    EMPTY          = 12,
-    HUMANOID       = 13,
-    LIZARD         = 14,
-    LUMINIAN       = 15,
-    LUMINION       = 16,
-    PLANTOID       = 17,
-    UNCLASSIFIED   = 18,
-    UNDEAD         = 19,
-    VERMIN         = 20,
-    VORAGEAN       = 21,
+    BEAST          = 5,
+    BEASTMAN       = 6, // Resolve conflict with conquest_system.h BEASTMEN definition
+    BIRD           = 7,
+    DEMON          = 8,
+    DRAGON         = 9,
+    ELEMENTAL      = 10,
+    EMPTY          = 11,
+    HUMANOID       = 12,
+    LIZARD         = 13,
+    LUMINIAN       = 14,
+    LUMINION       = 15,
+    PLANTOID       = 16,
+    SUPREMEBEINGS  = 17,
+    UNDEAD         = 18,
+    VERMIN         = 19,
+    VORAGEAN       = 20,
+    STRUCTURES     = 21,
+    WEAPONS        = 22,
 };
 DECLARE_FORMAT_AS_UNDERLYING(ECOSYSTEM);
 

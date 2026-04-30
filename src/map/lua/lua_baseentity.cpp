@@ -16994,7 +16994,7 @@ void CLuaBaseEntity::setMobLevel(uint8 level, sol::optional<bool> recover)
 /************************************************************************
  *  Function: getEcosystem()
  *  Purpose : Returns integer value of system associated with an Entity
- *  Example : if pet:getEcosystem() ~= xi.ecosystem.AVATAR then -- Not an avatar
+ *  Example : if pet:getEcosystem() ~= xi.ecosystem.ELEMENTAL then -- Not an elemental
  *  Notes   :
  ************************************************************************/
 
