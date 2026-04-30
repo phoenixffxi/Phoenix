@@ -3316,8 +3316,14 @@ void EquipItem(CCharEntity* PChar, uint8 slotID, uint8 equipSlotID, uint8 contai
                 PChar->PLatentEffectContainer->CheckLatentsEquip(equipSlotID);
                 PChar->addPetModifiers(&PItem->petModList);
 
-                // Only call the lua onEquip if its a valid equip - e.g. has passed EquipArmor and other checks above
+                // Only call the lua onEquip if it's a valid equip - e.g. has passed EquipArmor and other checks above
                 luautils::OnItemEquip(PChar, PItem);
+
+                // queue look update on valid equip
+                if (PItem != nullptr && PItem->isType(ITEM_EQUIPMENT))
+                {
+                    PChar->inventorySyncState().queueEquipChange(static_cast<CONTAINER_ID>(containerID), slotID, static_cast<SLOTTYPE>(equipSlotID), PItem, Equipping::Yes);
+                }
             }
         }
     }
@@ -3343,11 +3349,6 @@ void EquipItem(CCharEntity* PChar, uint8 slotID, uint8 equipSlotID, uint8 contai
 
     charutils::BuildingCharSkillsTable(PChar);
     PChar->UpdateHealth();
-
-    if (PItem != nullptr && PItem->isType(ITEM_EQUIPMENT))
-    {
-        PChar->inventorySyncState().queueEquipChange(static_cast<CONTAINER_ID>(containerID), slotID, static_cast<SLOTTYPE>(equipSlotID), PItem, Equipping::Yes);
-    }
 
     PChar->updatemask |= UPDATE_HP;
     PChar->updatemask |= UPDATE_LOOK;
