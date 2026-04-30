@@ -47,6 +47,7 @@
 #include "packets/s2c/0x020_item_attr.h"
 #include "packets/s2c/0x026_item_subcontainer.h"
 #include "packets/s2c/0x02d_battle_message2.h"
+#include "packets/s2c/0x04f_equip_clear.h"
 #include "packets/s2c/0x050_equip_list.h"
 #include "packets/s2c/0x051_grap_list.h"
 #include "packets/s2c/0x055_scenarioitem.h"
@@ -1989,6 +1990,9 @@ uint32 UpdateItem(CCharEntity* PChar, uint8 LocationID, uint8 slotID, int32 quan
             }
         }
         luautils::OnItemDrop(PChar, PItem);
+
+        // Remove soon to be stale PItem pointer from sync state
+        PChar->inventorySyncState().removeEquipChange(PItem);
     }
     return ItemID;
 }
