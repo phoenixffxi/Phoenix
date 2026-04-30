@@ -2531,7 +2531,7 @@ void CCharEntity::OnRaise()
         if (expLost != 0)
         {
             uint16 xpReturned = (uint16)(ceil(expLost * ratioReturned));
-            charutils::AddExperiencePoints(true, this, this, xpReturned);
+            charutils::AddExperiencePoints(true, false, false, this, this, xpReturned);
 
             charutils::SetCharVar(this, "expLost", 0);
         }

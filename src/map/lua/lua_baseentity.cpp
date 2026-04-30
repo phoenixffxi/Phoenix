@@ -9039,7 +9039,7 @@ void CLuaBaseEntity::addExp(uint32 exp)
 
     auto* PChar = static_cast<CCharEntity*>(m_PBaseEntity);
 
-    charutils::AddExperiencePoints(false, PChar, m_PBaseEntity, exp);
+    charutils::AddExperiencePoints(false, false, true, PChar, m_PBaseEntity, exp);
 }
 
 /************************************************************************

@@ -5255,7 +5255,7 @@ void DistributeExperiencePoints(CCharEntity* PChar, CMobEntity* PMob)
 
                     exp = charutils::AddExpBonus(PMember, exp);
 
-                    charutils::AddExperiencePoints(false, PMember, PMob, (uint32)exp, mobCheck, chainactive);
+                    charutils::AddExperiencePoints(false, true, false, PMember, PMob, (uint32)exp, mobCheck, chainactive);
                 }
             }
         });
@@ -5575,7 +5575,7 @@ void DelExperiencePoints(CCharEntity* PChar, float retainPercent, uint16 forcedX
  *                                                                       *
  ************************************************************************/
 
-void AddExperiencePoints(bool expFromRaise, CCharEntity* PChar, CBaseEntity* PMob, uint32 exp, EMobDifficulty mobCheck, bool isexpchain)
+void AddExperiencePoints(bool expFromRaise, bool awardRegionPoints, bool fromScripts, CCharEntity* PChar, CBaseEntity* PMob, uint32 exp, EMobDifficulty mobCheck, bool isexpchain)
 {
     TracyZoneScoped;
 
@@ -5584,7 +5584,8 @@ void AddExperiencePoints(bool expFromRaise, CCharEntity* PChar, CBaseEntity* PMo
         return;
     }
 
-    if (!expFromRaise)
+    // Scripts have their own settings in main.lua settings. This is for exp from combat.
+    if (!expFromRaise && !fromScripts)
     {
         exp = (uint32)(exp * settings::get<float>("map.EXP_RATE"));
     }
@@ -5660,7 +5661,7 @@ void AddExperiencePoints(bool expFromRaise, CCharEntity* PChar, CBaseEntity* PMo
         PChar->jobs.exp[PChar->GetMJob()] += exp;
     }
 
-    if (!expFromRaise)
+    if (!expFromRaise && !fromScripts && awardRegionPoints)
     {
         REGION_TYPE region = PChar->loc.zone->GetRegionID();
 
@@ -5677,6 +5678,8 @@ void AddExperiencePoints(bool expFromRaise, CCharEntity* PChar, CBaseEntity* PMo
             charutils::AddPoints(PChar, "imperial_standing", (int32)(exp * 0.1f));
             PChar->pushPacket<GP_SERV_COMMAND_CONQUEST>(PChar);
         }
+
+        // TODO: WOTG Expansion Sigil
 
         // Cruor Drops in Abyssea zones.
         uint16 Pzone = PChar->getZone();
