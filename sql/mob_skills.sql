@@ -1462,7 +1462,7 @@ INSERT INTO `mob_skills` VALUES (1427,1054,'marionette_dice_14',0,0.0,15.0,2000,
 INSERT INTO `mob_skills` VALUES (1431,803,'shield_bash',0,0.0,7.0,2000,1500,4,4,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1432,1176,'weapon_bash',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1433,1177,'sic',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
--- INSERT INTO `mob_skills` VALUES (1434,1178,'barrage',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1434,23,'barrage',0,0.0,7.0,2000,0,1,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1435,1179,'.',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1436,1180,'meditate',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1437,1181,'jump',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
