@@ -52,13 +52,13 @@ xi.dynamis.entryNpcOnTrade = function(player, npc, trade)
     local varExpiration        = string.format('[DYNA]ExpirationTime_%s', dynaZoneId)
     local zoneExpiration       = GetServerVariable(varExpiration)
     local dynamisTimeRemaining = xi.dynamis.getDynaTimeRemaining(zoneExpiration)
-    
+
     -- Setup zone cooldown/cleanup tracking variables
     local varZoneCooldown   = string.format('[DYNA]ZoneCooldown_%s', dynaZoneId)
     local varCleanupScript  = string.format('[DYNA]CleanupScript_%s', dynaZoneId)
     local zoneCooldownEnter = zone:getLocalVar(varZoneCooldown)
     local cleanupScript     = zone:getLocalVar(varCleanupScript)
-    
+
     xi.dynamis.debugPrint('Lockout: ' .. tostring(lockout) .. ' | zoneCooldownEnter: ' .. tostring(zoneCooldownEnter) .. ' | cleanupScript: ' .. tostring(cleanupScript) .. ' | timeRemaining: ' .. tostring(dynamisTimeRemaining))
 
     local playerEntered = player:getCharVar(entryInfo.enteredVar) or 0
@@ -293,7 +293,7 @@ xi.dynamis.entryNpcOnEventUpdate = function(player, csid, option, npc)
     -- Process successful cutscene completion
     local zoneExpiration       = GetServerVariable(string.format('[DYNA]ExpirationTime_%s', dynaZoneId))
     local dynamisTimeRemaining = xi.dynamis.getDynaTimeRemaining(zoneExpiration)
-    
+
     -- Proceed only if cutscene completed successfully and no instance is running
     if option == 0 and dynamisTimeRemaining <= 0 then
         xi.dynamis.debugPrint('Calling registerDynamis')
@@ -308,7 +308,7 @@ xi.dynamis.entryNpcOnEventUpdate = function(player, csid, option, npc)
         local startTime = GetSystemTime()
         local endTime   = startTime + expirationTime
         xi.dynamis.debugPrint('RegisterDynamis with startTime: ' .. tostring(startTime) .. ', endTime: ' .. tostring(endTime) .. ' (difference: ' .. tostring(endTime - startTime) .. ' seconds)')
-        
+
         -- Create a perpetual hourglass item encoded with instance data
         SetServerVariable(string.format('[DYNA]StartTime_%s', dynaZoneId), startTime)
         SetServerVariable(string.format('[DYNA]ExpirationTime_%s', dynaZoneId), endTime)

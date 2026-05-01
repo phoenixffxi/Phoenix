@@ -20,6 +20,7 @@ xi.dynamis.checkEntryRequirements = function(player, entryZoneID)
     if not entryInfo then
         return false
     end
+
     xi.dynamis.debugPrint('Checking player charvar ' .. entryInfo.enteredVar .. ' for previous Dynamis entry.')
 
     -- 1. GMs and players who have previously entered this zone bypass all requirements
