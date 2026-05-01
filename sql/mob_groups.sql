@@ -13234,7 +13234,7 @@ INSERT INTO `mob_groups` VALUES (20,3903,194,'Three_of_Batons',300,0,2406,0,0,0,
 INSERT INTO `mob_groups` VALUES (21,3906,194,'Three_of_Swords',300,0,2409,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (22,3904,194,'Three_of_Coins',300,0,2407,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (23,1417,194,'Four_of_Cups',300,0,902,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (24,1415,194,'Four_of_Batons',300,0,300,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (24,1415,194,'Four_of_Batons',300,0,900,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (25,1418,194,'Four_of_Swords',300,0,903,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (26,1416,194,'Four_of_Coins',300,0,901,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (27,1352,194,'Five_of_Cups',300,0,838,0,0,0,NULL);
