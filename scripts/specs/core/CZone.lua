@@ -9,6 +9,11 @@ local CZone = {}
 function CZone:getLocalVar(key)
 end
 
+---@nodiscard
+---@return table
+function CZone:getLocalVars()
+end
+
 ---@param key string
 ---@param value integer
 ---@return nil

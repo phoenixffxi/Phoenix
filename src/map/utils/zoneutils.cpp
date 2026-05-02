@@ -31,6 +31,7 @@
 #include "entities/npcentity.h"
 #include "enums/weather.h"
 #include "items/item_weapon.h"
+#include "itemutils.h"
 #include "lua/luautils.h"
 #include "map_networking.h"
 #include "mob_modifier.h"
@@ -468,6 +469,12 @@ auto LoadMOBList(Scheduler& scheduler, const std::vector<uint16>& zoneIds) -> Ta
                                     PMob->m_RespawnTime = std::chrono::seconds(rset->get<uint32>("respawntime"));
                                     PMob->m_SpawnType   = rset->get<SPAWNTYPE>("spawntype");
                                     PMob->m_DropID      = rset->get<uint32>("dropid");
+
+                                    // Check if the drop list is valid
+                                    if (PMob->m_DropID != 0 && itemutils::GetDropList(PMob->m_DropID) == nullptr)
+                                    {
+                                        ShowErrorFmt("LoadMOBList: Drop list {} on mob {} (zone id {}) set but has no entries!", PMob->m_DropID, PMob->name, zoneId);
+                                    }
 
                                     PMob->HPmodifier = rset->get<uint32>("HP");
                                     PMob->MPmodifier = rset->get<uint32>("MP");

@@ -81,12 +81,6 @@ utils.unused(xi.chocoboRaising.hunger)
 --     : stat changes that can be looked up and applied.
 xi.chocoboRaising.cutscenes =
 {
-    -- Each cutscene needs this offset added to them before they can be used,
-    -- depending on the zone
-    SANDORIA_OFFSET = 256,
-    BASTOK_OFFSET   = 512,
-    WINDURST_OFFSET = 768,
-
     -- EGG ONWARDS:
     REPORT_BASIC_CARE = 0,
 
@@ -108,36 +102,67 @@ xi.chocoboRaising.cutscenes =
     REPORT_DIG_FOR_TREASURE = 11,
     REPORT_ACT_IN_A_PLAY    = 12,
 
-    -- OTHER:
+    -- AGEING:
     EGG_HATCHING          = 33,
     CHICK_TO_ADOLESCENT   = 34,
-    ADOLESCENT_TO_ADULT_1 = 35,
+    ADOLESCENT_TO_ADULT_1 = 35, -- (Chocobo Whistle start/reminder?) Your chocobo has finally grown large enough to ride?
     ADULT_1_TO_ADULT_2    = 36,
     ADULT_2_TO_ADULT_3    = 37,
     ADULT_3_TO_ADULT_4    = 38,
 
-    RAN_AWAY = 39,
-    -- 40: Player gives the chocobo x
-    -- 48: Happy to see you
-    INTERESTED_IN_YOUR_STORY = 50,
-    HANGS_HEAD_IN_SHAME      = 51, -- Hangs its head in shame
-    COMPETE_WITH_OTHERS      = 52,
-    HAVENT_SEEN_YOU          = 53, -- Haven't seen you around, chocobo is sleeping (dispose of white handkerchief)
+    -- OTHER:
+    RAN_AWAY_1               = 39, -- I couldn't take care of Chocobo because it ran away...
+    BLANK_1                  = 40, -- TODO: [Returns to menu?]
+    GIVES_ITEM               = 41, -- (Player) gives the chocobo (x).
+    HAPPY_TO_SEE_YOU         = 48, -- Chocobo looks happy to see you.
+    BLANK_2                  = 49, -- TODO: [Returns to menu?]
+    INTERESTED_IN_YOUR_STORY = 50, -- (Story menu) Chocobo seems interested in your story.
+    HANGS_HEAD_IN_SHAME      = 51, -- Chocobo hangs its head in shame.
+    COMPETE_WITH_OTHERS      = 52, -- (Local chocobo race)
+    HAVENT_SEEN_YOU          = 53, -- (White handkerchief cancel) I haven't seen you around lately, so I gave the chick something myself to help it sleep better.
     THAT_SHOULD_BE_ENOUGH    = 54, -- That should be enough! Hand over the {White Handkerchief} now. (white handkerchief end)
-    CRYING_AT_NIGHT          = 69, -- White handkerchief start
-    -- 70: Chocobo full of energy!
-    -- 71: Bright and focused
-    -- 72: Injury has healed
-    CALMED_DOWN = 77,
-    -- 84: Sleeping well thanks to White Handkerchief
+    CHOCOBO_WHISTLE_START    = 55, -- (Chocobo Whistle start/reminder?) Your chocobo has finally grown large enough to ride?
+    BLANK_3                  = 56, -- TODO: [Returns to menu?]
+    BLANK_4                  = 57, -- TODO: [Returns to menu?]
+    IS_INJURED               = 58, -- Chocobo is injured, but I am sure it would heal quickly if we had a {clump of Gausebit wildgrass}.
+    UNDER_THE_WEATHER        = 59, -- Chocobo seems to be a bit under the weather. A {clump of Tokopekko wildgrass} should fix it right up, though.
+    HAS_STOMACHACHE          = 60, -- Chocobo seems to have a stomachache. Are you giving it a proper diet?
+    SEEMS_LONELY             = 61, -- Chocobo seems lonely. You should venture out together sometime.
+    PRETTY_PERKY             = 62, -- Chocobo seems pretty perky lately! It should be responsive to anything you give it now.
+    SLEEPING_SOUNDLY         = 63, -- Chocobo is sleeping soundly right now, so you should not disturb it.
+    IS_VERY_ILL              = 64, -- Chocobo is very ill. We need a {clump of Tokopekko wildgrass} to help it.
+    REALLY_BORED             = 65, -- Chocobo seems bored and restless! You should have it compete against other chocobos sometime.
+    BEHAVING_SPOILED         = 66, -- Chocobo has been behaving quite spoiled as of late.
+    RUN_AWAY_2               = 67, -- I am terribly sorry, but Chocobo has run away. Someone was supposed to be taking care of it... I think it just wanted attention, though... It should come back if we wait a while.
+    BLANK_5                  = 68, -- TODO: [Soft locks the CS?]
+    CRYING_AT_NIGHT          = 69, -- (White handkerchief start) Lately, Chocobo has been crying loud enough at night to wake the dead!
+    FULL_OF_ENERGY           = 70, -- Chocobo is so full of energy today! Now's your chance to get in some rigorous physical training!
+    BRIGHT_AND_FOCUSED       = 71, -- Chocobo seems unusually bright and focused today! Now's your chance to get in some rigorous mental training!
+    INJURY_HAS_HEALED_TRADE  = 72, -- TODO: (can't trigger from Scold menu, only through trades?) Injury has healed
+    INJURY_HAS_HEALED        = 73, -- Chocobo's injury has completely healed
+    ILLNESS_HAS_HEALED       = 74, -- Chocobo's illness has completely healed.
+    STRONGER_STOMACH         = 75, -- Chocobo seems to have a stronger stomach these days.
+    NO_LONGER_LONERY         = 76, -- Chocobo no longer seems lonely.
+    CALMED_DOWN              = 77, -- Chocobo seems to have had its fill and has calmed down.
+    WAKING_UP_EVERY_MORNING  = 78, -- Chocobo has been waking up every morning as of late.
+    FEVER_GONE_DOWN          = 79, -- Chocobo's fever has gone down.
+    SEEMS_HAPPIER            = 80, -- Chocobo seems to have more zest for life nowadays!
+    MORE_RESPONSIVE          = 81, -- Chocobo has become more responsive to commands lately.
+    CHOCOBO_IS_BACK          = 82, -- Chocobo is back, and I am pleased to say it seems to be fine.
+    WAS_IN_LOVE              = 83, -- It seems that Chocobo was in love, but it is feeling better now and its appetite has returned.
+    WHITE_HANDKERCHIEF_END   = 84, -- (White handkerchief end) Thanks to the {white handerchief}, Chocobo has been sleeping soundly at night.
+    BURNED_PHYSICAL_ENERGY   = 85, -- Chocobo has burned through that excess energy and calmed down a little.
+    BURNED_MENTAL_ENERGY     = 86, -- Chocobo has burned through that excess mental energy and calmed down a little.
 }
 
 xi.chocoboRaising.getCutsceneWithOffset = function(player, cutscene)
+    -- Each cutscene needs this offset added to them before they can be used,
+    -- depending on the zone
     local cutsceneOffsets =
     {
-        [xi.zone.SOUTHERN_SAN_DORIA] = xi.chocoboRaising.cutscenes.SANDORIA_OFFSET,
-        [xi.zone.BASTOK_MINES]       = xi.chocoboRaising.cutscenes.BASTOK_OFFSET,
-        [xi.zone.WINDURST_WOODS]     = xi.chocoboRaising.cutscenes.WINDURST_OFFSET,
+        [xi.zone.SOUTHERN_SAN_DORIA] = 256,
+        [xi.zone.BASTOK_MINES]       = 512,
+        [xi.zone.WINDURST_WOODS]     = 768,
     }
 
     return cutscene + cutsceneOffsets[player:getZoneID()]

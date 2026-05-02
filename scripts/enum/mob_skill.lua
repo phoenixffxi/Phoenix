@@ -3,6 +3,15 @@ xi = xi or {}
 ---@enum xi.mobSkill
 xi.mobSkill =
 {
+    COMBO_1                       =    1,
+    SHOULDER_TACKLE_1             =    2,
+    ONE_INCH_PUNCH_1              =    3,
+    BACKHAND_BLOW_1               =    4,
+    RAGING_FISTS_1                =    5,
+    SPINNING_ATTACK_1             =    6,
+    HOWLING_FIST_1                =    7,
+    DRAGON_KICK_1                 =    8,
+
     SHADOWSTITCH                  =   18,
 
     DANCING_EDGE                  =   23,
@@ -295,7 +304,7 @@ xi.mobSkill =
     HYPOTHERMAL_COMBUSTION_2      =  602, -- Snoll Tzar
     COUNTERSTANCE_1               =  603, -- Geush Urvan
 
-    SHOULDER_TACKLE_1             =  606,
+    SHOULDER_TACKLE_2             =  606,
     SLAM_DUNK_1                   =  607,
 
     NETHER_BLAST_1                =  610,
@@ -339,14 +348,17 @@ xi.mobSkill =
     GIGA_SLASH                    =  672,
     DARK_NOVA                     =  673,
 
-    CRYSTAL_RAIN                  =  678,
-    CRYSTAL_WEAPON_FIRE           =  679, -- Zipacna Weapon Start
-
-    CRYSTAL_WEAPON_WATER          =  682, -- Zipacna Weapon End
+    ICE_BREAK_1                   =  676,
+    THUNDER_BREAK_1               =  677,
+    CRYSTAL_RAIN_1                =  678,
+    CRYSTAL_WEAPON_FIRE_1         =  679,
+    CRYSTAL_WEAPON_STONE_1        =  680,
+    CRYSTAL_WEAPON_WATER_1        =  681,
+    CRYSTAL_WEAPON_WIND_1         =  682,
 
     MIGHTY_STRIKES_1              =  688,
-    BENEDICTION_1                 =  689, -- Season's Greetings KSNM 30 (Gilagoge Tlugvi)
-    HUNDRED_FISTS_1               =  690, -- Season's Greetings KSNM 30 (Goga Tlugvi)
+    BENEDICTION_1                 =  689,
+    HUNDRED_FISTS_1               =  690,
     MANAFONT_1                    =  691,
     CHAINSPELL_1                  =  692,
     PERFECT_DODGE_1               =  693,
@@ -874,6 +886,12 @@ xi.mobSkill =
     WARP_OUT_GESSHO               = 1938,
     WARP_IN_GESSHO                = 1939,
 
+    SLAPSTICK                     = 1943,
+    SHIELD_BASH_AUTOMATON         = 1944, -- Used by the trust Mnejing but may also be used by mobs.
+    PROVOKE_AUTOMATON             = 1945, -- Used by the trust Mnejing but may also be used by mobs.
+    FLASHBULB_AUTOMATON           = 1947, -- Used by the trust Mnejing but may also be used by mobs.
+    DISRUPTOR_AUTOMATON           = 2747, -- Used by the trust Mnejing but may also be used by mobs.
+
     RANGED_ATTACK_15              = 1949,
 
     WATER_BOMB                    = 1959,
@@ -886,6 +904,12 @@ xi.mobSkill =
 
     BOREAS_MANTLE                 = 1980, -- Unique entry.
 
+    FIRE_MANEUVER                 = 1992,
+    ICE_MANEUVER                  = 1993,
+    WIND_MANEUVER                 = 1994,
+    EARTH_MANEUVER                = 1995,
+    THUNDER_MANEUVER              = 1996,
+    WATER_MANEUVER                = 1997,
     HANE_FUBUKI                   = 1998,
     HIDEN_SOKYAKU                 = 1999,
     SHIKO_NO_MITATE               = 2000,
@@ -895,7 +919,7 @@ xi.mobSkill =
     REWARD                        = 2005,
     AZURE_LORE_RAUBAHN            = 2006,
     WILD_CARD_QULTADA             = 2007,
-    -- OVERDRIVE                     = 2008,
+    OVERDRIVE_SHAMARHAAN          = 2008,
     FIRE_SHOT                     = 2009,
     ICE_SHOT                      = 2010,
     WIND_SHOT                     = 2011,

@@ -457,7 +457,7 @@ int32 MapNetworking::parse(uint8* buff, size_t* buffsize, MapSession* PSession)
     {
         for (uint8 equipSlotID = 0; equipSlotID < 16; ++equipSlotID)
         {
-            if (PChar->equip[equipSlotID] != 0)
+            if (PChar->getEquip(static_cast<SLOTTYPE>(equipSlotID)))
             {
                 PChar->PLatentEffectContainer->CheckLatentsEquip(equipSlotID);
             }

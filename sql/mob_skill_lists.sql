@@ -3490,7 +3490,9 @@ INSERT INTO `mob_skill_lists` VALUES ('TRUST_Lehko_Habhoka',1037,3233); -- Lunar
 INSERT INTO `mob_skill_lists` VALUES ('TRUST_Nashmeira',1038,3243); -- Imperial Authority
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Zazarg',1039,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Ovjang',1040,0);
--- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Mnejing',1041,0);
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Mnejing',1041,1940); -- Chimera Ripper
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Mnejing',1041,1941); -- String Clipper
+INSERT INTO `mob_skill_lists` VALUES ('TRUST_Mnejing',1041,3245); -- Shield Subverter
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Sakura',1042,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Luzaf',1043,0);
 -- INSERT INTO `mob_skill_lists` VALUES ('TRUST_Najelith',1044,0);

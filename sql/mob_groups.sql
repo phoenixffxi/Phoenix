@@ -626,7 +626,7 @@ INSERT INTO `mob_groups` VALUES (41,4480,15,'Ypotryll',300,0,2792,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (42,86,15,'Alkonost',0,128,49,25200,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (43,951,15,'Deep_Eye',300,0,592,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (44,232,15,'Arimaspi',0,128,166,8100,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (45,2395,15,'Lesser_Arimaspi',0,128,1508,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (45,2395,15,'Lesser_Arimaspi',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (46,4236,15,'Viridis_Wyvern',300,0,2582,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (47,330,15,'Balaur',900,0,215,27700,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (48,1171,15,'Eccentric_Eve',0,128,741,50500,0,0,NULL);
@@ -3411,8 +3411,8 @@ INSERT INTO `mob_groups` VALUES (1,4307,64,'Watch_Wamoura',0,128,0,7200,0,0,NULL
 INSERT INTO `mob_groups` VALUES (2,4058,64,'Two-faced_Flan',0,128,0,13500,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (3,3219,64,'Pudding_Master',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (4,2063,64,'Immortal_Flan',0,128,0,4200,4200,0,NULL);
-INSERT INTO `mob_groups` VALUES (5,3582,64,'Shamarhaan',0,128,0,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (6,4123,64,'Valkeng',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (5,3582,64,'Shamarhaan',0,128,0,1900,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (6,4123,64,'Valkeng',0,128,0,1300,1300,0,NULL);
 INSERT INTO `mob_groups` VALUES (7,2221,64,'Khimaira_13',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (8,2189,64,'Karababa',0,128,0,1000,1000,1,NULL); -- ally
 
@@ -11818,7 +11818,7 @@ INSERT INTO `mob_groups` VALUES (27,1267,166,'Evil_Weapon',720,0,799,0,0,0,NULL)
 INSERT INTO `mob_groups` VALUES (28,4041,166,'Tros',0,128,0,3000,2000,0,NULL);
 INSERT INTO `mob_groups` VALUES (29,2633,166,'Metallic_Slime',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (30,0,166,'Arcus_Blades',0,128,0,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (31,6883,166,'Hyakume',0,32,0,0,0,0,'WOTG');
+INSERT INTO `mob_groups` VALUES (31,6883,166,'Hyakume',0,32,0,2900,2900,0,'WOTG'); -- MP is guessed
 
 -- Curilla Unleashed
 INSERT INTO `mob_groups` VALUES (32,0,166,'Harnessed_Smilodon',0,128,0,0,0,0,NULL);
@@ -13234,7 +13234,7 @@ INSERT INTO `mob_groups` VALUES (20,3903,194,'Three_of_Batons',300,0,2406,0,0,0,
 INSERT INTO `mob_groups` VALUES (21,3906,194,'Three_of_Swords',300,0,2409,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (22,3904,194,'Three_of_Coins',300,0,2407,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (23,1417,194,'Four_of_Cups',300,0,902,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (24,1415,194,'Four_of_Batons',300,0,300,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (24,1415,194,'Four_of_Batons',300,0,900,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (25,1418,194,'Four_of_Swords',300,0,903,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (26,1416,194,'Four_of_Coins',300,0,901,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (27,1352,194,'Five_of_Cups',300,0,838,0,0,0,NULL);
@@ -13700,10 +13700,10 @@ INSERT INTO `mob_groups` VALUES (20,1076,206,'Doll_Factory',0,128,0,500,0,0,NULL
 INSERT INTO `mob_groups` VALUES (21,1497,206,'Generic_Doll',0,128,0,2200,2200,0,NULL);
 INSERT INTO `mob_groups` VALUES (22,1519,206,'Ghul-I-Beaban_DRK',0,128,0,2000,2000,0,NULL);
 INSERT INTO `mob_groups` VALUES (23,6069,206,'Ghul-I-Beaban_BLM',0,128,0,2000,2000,0,NULL);
-INSERT INTO `mob_groups` VALUES (24,1342,206,'Fire_Golem',0,128,0,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (25,4310,206,'Water_Golem',0,128,0,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (26,4350,206,'Wind_Golem',0,128,0,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (27,1161,206,'Earth_Golem',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (24,1342,206,'Fire_Golem',0,128,0,2600,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (25,4310,206,'Water_Golem',0,128,0,2600,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (26,4350,206,'Wind_Golem',0,128,0,2600,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (27,1161,206,'Earth_Golem',0,128,0,2600,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (28,2831,206,'Nephiyl_Rampartbreacher',0,128,0,4200,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (29,2828,206,'Nephiyl_Keepcollapser',0,128,0,0,4200,0,NULL);
 INSERT INTO `mob_groups` VALUES (30,2829,206,'Nephiyl_Moatfiller',0,128,0,4400,0,0,NULL);

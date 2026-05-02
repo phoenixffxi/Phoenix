@@ -185,6 +185,7 @@ local playoutHandlers =
     end,
 
     [xi.chocoboRaising.cutscenes.REPORT_CARRY_PACKAGES] = function(player, chocoState, elapsedDays)
+        -- TODO: Handle dropping packages
         xi.chocoboRaising.handleCarePlan(player, chocoState, xi.chocoboRaising.carePlans.CARRYING_PACKAGES, elapsedDays)
     end,
 

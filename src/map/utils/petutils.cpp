@@ -1267,7 +1267,7 @@ void SpawnMobPet(CBattleEntity* PMaster, uint32 PetID)
         PMaster->StatusEffectContainer->CopyConfrontationEffect(PPet);
 
         // TODO: Lets not do this here.
-        if (PPet->m_EcoSystem == ECOSYSTEM::AVATAR || PPet->m_EcoSystem == ECOSYSTEM::ELEMENTAL)
+        if (PPet->m_EcoSystem == ECOSYSTEM::ELEMENTAL)
         {
             // assuming elemental spawn
             PPet->setModifier(Mod::DMGPHYS, -5000); //-50% PDT

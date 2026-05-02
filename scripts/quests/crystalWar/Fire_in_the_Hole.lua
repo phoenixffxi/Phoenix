@@ -40,7 +40,6 @@ quest.sections =
                 [77] = function(player, csid, option, npc)
                     quest:begin(player)
                     npcUtil.giveKeyItem(player, xi.ki.SILVERMINE_KEY)
-                    quest:setVar(player, 'Prog', 1)
                 end,
             },
         },
@@ -57,7 +56,7 @@ quest.sections =
             {
                 onTrigger = function(player, npc)
                     if
-                        quest:getVar(player, 'Prog') == 1 and
+                        quest:getVar(player, 'Prog') == 0 and
                         player:hasKeyItem(xi.ki.SILVERMINE_KEY)
                     then
                         return quest:progressEvent(5)
@@ -71,13 +70,13 @@ quest.sections =
                     local questProgress = quest:getVar(player, 'Prog')
 
                     if
-                        questProgress >= 1 and
-                        questProgress <= 2 and
+                        questProgress >= 0 and
+                        questProgress <= 1 and
                         player:hasKeyItem(xi.ki.SILVERMINE_KEY)
                     then
                         return quest:progressEvent(7)
                     elseif
-                        questProgress >= 3 and
+                        questProgress >= 2 and
                         not player:hasKeyItem(xi.ki.SILVERMINE_KEY)
                     then
                         return quest:progressEvent(8)
@@ -87,7 +86,7 @@ quest.sections =
 
             onZoneIn = function(player, prevZone)
                 if
-                    quest:getVar(player, 'Prog') == 4 and
+                    quest:getVar(player, 'Prog') == 3 and
                     prevZone == xi.zone.RUHOTZ_SILVERMINES
                 then
                     return 6
@@ -97,17 +96,17 @@ quest.sections =
             onEventFinish =
             {
                 [5] = function(player, csid, option, npc)
-                    quest:setVar(player, 'Prog', 2)
+                    quest:setVar(player, 'Prog', 1)
                 end,
 
                 [6] = function(player, csid, option, npc)
-                    quest:setVar(player, 'Prog', 5)
+                    quest:setVar(player, 'Prog', 4)
                 end,
 
                 [8] = function(player, csid, option, npc)
                     if npc and npc:getName() == 'Solitary_Ant' then
                         npcUtil.giveKeyItem(player, xi.ki.SILVERMINE_KEY)
-                        quest:setVar(player, 'Prog', 2)
+                        quest:setVar(player, 'Prog', 1)
                     end
                 end,
             },
@@ -119,8 +118,8 @@ quest.sections =
             onEventFinish =
             {
                 [10000] = function(player, csid, option, npc)
-                    if quest:getVar(player, 'Prog') == 3 then
-                        quest:setVar(player, 'Prog', 4)
+                    if quest:getVar(player, 'Prog') == 2 then
+                        quest:setVar(player, 'Prog', 3)
                     end
                 end,
             },
@@ -130,7 +129,7 @@ quest.sections =
         {
             onZoneIn = function(player, prevZone)
                 if
-                    quest:getVar(player, 'Prog') == 5 and
+                    quest:getVar(player, 'Prog') == 4 and
                     prevZone == xi.zone.NORTH_GUSTABERG_S
                 then
                     return 62
@@ -142,9 +141,9 @@ quest.sections =
                 onTrigger = function(player, npc)
                     local questProgress = quest:getVar(player, 'Prog')
 
-                    if questProgress == 6 then
+                    if questProgress == 5 then
                         return quest:progressEvent(63)
-                    elseif questProgress == 7 then
+                    elseif questProgress == 6 then
                         return quest:progressEvent(65)
                     end
                 end,
@@ -153,11 +152,11 @@ quest.sections =
             onEventFinish =
             {
                 [62] = function(player, csid, option, npc)
-                    quest:setVar(player, 'Prog', 6)
+                    quest:setVar(player, 'Prog', 5)
                 end,
 
                 [63] = function(player, csid, option, npc)
-                    quest:setVar(player, 'Prog', 7)
+                    quest:setVar(player, 'Prog', 6)
                 end,
 
                 [65] = function(player, csid, option, npc)
