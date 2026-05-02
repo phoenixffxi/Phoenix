@@ -19199,8 +19199,9 @@ auto CLuaBaseEntity::getChocoboRaisingInfo() -> sol::table
                             "stage, "
                             "location, "
                             "color, "
-                            "dominant_gene, "
-                            "recessive_gene, "
+                            "allele1, "
+                            "allele2, "
+                            "allele3, "
                             "strength, "
                             "endurance, "
                             "discernment, "
@@ -19245,8 +19246,9 @@ auto CLuaBaseEntity::getChocoboRaisingInfo() -> sol::table
             table["location"]        = rset->get<uint32>("location");
             table["color"]           = rset->get<uint32>("color");
 
-            table["dominant_gene"]  = rset->get<uint32>("dominant_gene");
-            table["recessive_gene"] = rset->get<uint32>("recessive_gene");
+            table["allele1"]  = rset->get<uint32>("allele1");
+            table["allele2"]  = rset->get<uint32>("allele2");
+            table["allele3"]  = rset->get<uint32>("allele3");
 
             table["strength"]    = rset->get<uint32>("strength");
             table["endurance"]   = rset->get<uint32>("endurance");
@@ -19283,7 +19285,7 @@ bool CLuaBaseEntity::setChocoboRaisingInfo(const sol::table& table)
         return false;
     }
 
-    const char* Query = "REPLACE INTO char_chocobos SET "
+    const char* Query = "INSERT INTO char_chocobos SET "
                         "charid = ?, "
                         "first_name = ?, "
                         "last_name = ?, "
@@ -19293,8 +19295,9 @@ bool CLuaBaseEntity::setChocoboRaisingInfo(const sol::table& table)
                         "stage = ?, "
                         "location = ?, "
                         "color = ?, "
-                        "dominant_gene = ?, "
-                        "recessive_gene = ?, "
+                        "allele1 = ?, "
+                        "allele2 = ?, "
+                        "allele3 = ?, "
                         "strength = ?, "
                         "endurance = ?, "
                         "discernment = ?, "
@@ -19309,7 +19312,34 @@ bool CLuaBaseEntity::setChocoboRaisingInfo(const sol::table& table)
                         "weather_preference = ?, "
                         "hunger = ?, "
                         "care_plan = ?, "
-                        "held_item = ? ";
+                        "held_item = ? "
+                        "ON DUPLICATE KEY UPDATE "
+                        "first_name = VALUES(first_name), "
+                        "last_name = VALUES(last_name), "
+                        "sex = VALUES(sex), "
+                        "created = VALUES(created), "
+                        "last_update_age = VALUES(last_update_age), "
+                        "stage = VALUES(stage), "
+                        "location = VALUES(location), "
+                        "color = VALUES(color), "
+                        "allele1 = VALUES(allele1), "
+                        "allele2 = VALUES(allele2), "
+                        "allele3 = VALUES(allele3), "
+                        "strength = VALUES(strength), "
+                        "endurance = VALUES(endurance), "
+                        "discernment = VALUES(discernment), "
+                        "receptivity = VALUES(receptivity), "
+                        "affection = VALUES(affection), "
+                        "energy = VALUES(energy), "
+                        "satisfaction = VALUES(satisfaction), "
+                        "conditions = VALUES(conditions), "
+                        "ability1 = VALUES(ability1), "
+                        "ability2 = VALUES(ability2), "
+                        "personality = VALUES(personality), "
+                        "weather_preference = VALUES(weather_preference), "
+                        "hunger = VALUES(hunger), "
+                        "care_plan = VALUES(care_plan), "
+                        "held_item = VALUES(held_item);";
 
     const auto rset = db::preparedStmt(Query,
                                        m_PBaseEntity->id,
@@ -19321,8 +19351,9 @@ bool CLuaBaseEntity::setChocoboRaisingInfo(const sol::table& table)
                                        table.get_or<uint32>("stage", 1),
                                        table.get_or<uint32>("location", 0),
                                        table.get_or<uint32>("color", 0),
-                                       table.get_or<uint32>("dominant_gene", 0),
-                                       table.get_or<uint32>("recessive_gene", 0),
+                                       table.get_or<uint32>("allele1", 0),
+                                       table.get_or<uint32>("allele2", 0),
+                                       table.get_or<uint32>("allele3", 0),
                                        table.get_or<uint32>("strength", 0),
                                        table.get_or<uint32>("endurance", 0),
                                        table.get_or<uint32>("discernment", 0),
@@ -19341,7 +19372,7 @@ bool CLuaBaseEntity::setChocoboRaisingInfo(const sol::table& table)
 
     if (!rset)
     {
-        ShowDebug("REPLACE Query failed");
+        ShowDebug("UPSERT Query failed");
         return false;
     }
 
