@@ -184,7 +184,7 @@ local function checkPathDistance(mob, point)
 end
 
 local function isNearPoint(mob, point)
-    return checkPathDistance(mob, point) < 8
+    return checkPathDistance(mob, point) < 5
 end
 
 local function pathThrough(mob, pathIndex, reverse)

@@ -416,10 +416,6 @@ end
 xi.dynamis.onBossSpawn = function(mob)
     xi.dynamis.generalInfo(mob)
     mob:setSpawnAnimation(0)
-
-    if mob:getName() == 'Apocalyptic_Beast' then
-        xi.dynamis.apocBeastSpawn(mob)
-    end
 end
 
 xi.dynamis.onBossEngage = function(mob, target)
@@ -427,9 +423,6 @@ xi.dynamis.onBossEngage = function(mob, target)
 end
 
 xi.dynamis.onBossRoam = function(mob)
-    if mob:getName() == 'Apocalyptic_Beast' then
-        xi.dynamis.apocBeastRoam(mob)
-    end
 end
 
 xi.dynamis.onBossDeath = function(mob, player, optParams)

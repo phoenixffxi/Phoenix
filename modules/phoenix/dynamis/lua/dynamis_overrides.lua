@@ -5,6 +5,8 @@
 --   Module Required Scripts     --
 -----------------------------------
 require('scripts/globals/dynamis')
+require('scripts/globals/dynamis/dynamis_mobIinfo')
+require('scripts/globals/dynamis/zonemechs/buburimu')
 require('modules/module_utils')
 -----------------------------------
 --    Module Affected Scripts    --
@@ -778,6 +780,61 @@ end)
 local function noMobDespawn()
 end
 
+-- Zone and mob specific hooks for special NM behavior
+-- The functions you call must bc xi.dynamis.[functionamme] and the parameters must bc the same as the original functions
+local specialMobHooks =
+{
+    ['Dynamis-Buburimu'] =
+    {
+        -- Example
+        -- Aitvaras =
+        -- {
+        --     onMobSpawn = 'aitvarasSpawn',
+        -- },
+        -- Alklha =
+        -- {
+        --     onMobSpawn = 'alklhaSpawn',
+        -- },
+        Apocalyptic_Beast =
+        {
+            onMobSpawn = 'apocBeastSpawn',
+            onMobRoam  = 'apocBeastRoam',
+        },
+    },
+}
+
+local function runSpecialMobHook(zoneName, mobName, eventName, ...)
+    local zoneHooks = specialMobHooks[zoneName]
+    if not zoneHooks then
+        return
+    end
+
+    local mobHooks = zoneHooks[mobName]
+    if not mobHooks then
+        return
+    end
+
+    local hook = mobHooks[eventName]
+    if not hook then
+        return
+    end
+
+    if type(hook) == 'string' then
+        hook = xi.dynamis[hook]
+    end
+
+    if type(hook) == 'function' then
+        hook(...)
+    end
+end
+
+local function hasSpecialMobHook(zoneName, mobName, eventName)
+    local zoneHooks = specialMobHooks[zoneName]
+    local mobHooks  = zoneHooks and zoneHooks[mobName]
+
+    return mobHooks and mobHooks[eventName] ~= nil
+end
+
 local mobOverrideHandlers =
 {
     [mobType.STATUE] =
@@ -891,9 +948,17 @@ local function registerMobOverrides(zoneName, mobName, overrideMobType)
     end
 
     for _, eventName in ipairs(mobOverrideOrder) do
-        local handler = handlers[eventName]
-        if handler then
-            m:addOverride(mobPath .. '.' .. eventName, handler)
+        local handler    = handlers[eventName]
+        local hasMobHook = hasSpecialMobHook(zoneName, mobName, eventName)
+
+        if handler or hasMobHook then
+            m:addOverride(mobPath .. '.' .. eventName, function(...)
+                if handler then
+                    handler(...)
+                end
+
+                runSpecialMobHook(zoneName, mobName, eventName, ...)
+            end)
         end
     end
 end
