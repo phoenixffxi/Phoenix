@@ -1029,7 +1029,7 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
 
     if (PMob->m_Type & MOBTYPE_NOTORIOUS)
     {
-        SetupNMMob(PMob);
+        PMob->setMobMod(MOBMOD_NO_DESPAWN, 1);
     }
 
     if (zoneType & ZONE_TYPE::INSTANCED)
@@ -1353,33 +1353,6 @@ void SetupEventMob(CMobEntity* PMob)
     PMob->m_maxRoamDistance = 0.5f; // always go back to spawn
 
     PMob->setMobMod(MOBMOD_NO_DESPAWN, 1);
-}
-
-void SetupNMMob(CMobEntity* PMob)
-{
-    JOBTYPE mJob = PMob->GetMJob();
-    uint8   mLvl = PMob->GetMLevel();
-
-    PMob->setMobMod(MOBMOD_NO_DESPAWN, 1);
-
-    // NMs cure earlier
-    PMob->defaultMobMod(MOBMOD_HP_HEAL_CHANCE, 50);
-    PMob->defaultMobMod(MOBMOD_HEAL_CHANCE, 40);
-
-    // give a gil bonus if accurate value was not set
-    if (PMob->getMobMod(MOBMOD_GIL_MAX) == 0)
-    {
-        PMob->defaultMobMod(MOBMOD_GIL_BONUS, 100);
-    }
-
-    if (mLvl >= 25)
-    {
-        if (mJob == JOB_WHM)
-        {
-            // whm nms have stronger regen effect
-            PMob->addModifier(Mod::REGEN, mLvl / 4);
-        }
-    }
 }
 
 void SetupDungeonInstanceMob(CMobEntity* PMob)
