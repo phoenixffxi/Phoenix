@@ -739,7 +739,8 @@ auto CMobController::DoCombatTick(timer::time_point tick) -> Task<void>
 
     if (PTarget)
     {
-        const float currentDistance = distance(PMob->loc.p, PTarget->loc.p);
+        const float currentDistance   = distance(PMob->loc.p, PTarget->loc.p);
+        const float rangedAttackRange = PMob->GetRangedAttackRange();
 
         if (IsSpecialSkillReady(currentDistance) && TrySpecialSkill())
         {
@@ -755,6 +756,20 @@ auto CMobController::DoCombatTick(timer::time_point tick) -> Task<void>
         {
             m_tpThreshold = xirand::GetRandomNumber(1000, 3000);
             co_return;
+        }
+
+        if (IsRangedAttackEnabled() && currentDistance <= rangedAttackRange && m_Tick >= PMob->m_LastRangedAttackTime && PMob->PAI->CanChangeState())
+        {
+            if (PTarget != nullptr)
+            {
+                FaceTarget(PTarget->targid);
+                if (POwner->PAI->Internal_RangedAttack(PTarget->targid))
+                {
+                    TapDeaggroTime();
+                    PMob->m_LastRangedAttackTime = m_Tick;
+                    co_return;
+                }
+            }
         }
     }
 
@@ -788,17 +803,8 @@ void CMobController::Move()
         return;
     }
 
-    const bool  move          = PMob->PAI->PathFind->IsFollowingPath();
-    float       attack_range  = PMob->GetMeleeRange(PTarget);
-    const int16 offsetMod     = PMob->getMobMod(MOBMOD_TARGET_DISTANCE_OFFSET);
-    const float offset        = static_cast<float>(offsetMod) / 10.0f;
-    float       closeDistance = attack_range - (offsetMod == 0 ? 0.4f : offset);
-
-    // No going negative on the final value.
-    if (closeDistance < 0.0f)
-    {
-        closeDistance = 0.0f;
-    }
+    const bool move         = PMob->PAI->PathFind->IsFollowingPath();
+    float      attack_range = PMob->GetMeleeRange(PTarget);
 
     if (PMob->getMobMod(MOBMOD_ATTACK_SKILL_LIST) > 0)
     {
@@ -812,6 +818,22 @@ void CMobController::Move()
                 attack_range = skill->getDistance();
             }
         }
+    }
+
+    if (IsRangedAttackEnabled())
+    {
+        // We need to set the range manually because the skill lists on mobs are not audited fully
+        attack_range = PMob->GetRangedAttackRange();
+    }
+
+    const int16 offsetMod     = PMob->getMobMod(MOBMOD_TARGET_DISTANCE_OFFSET);
+    const float offset        = static_cast<float>(offsetMod) / 10.0f;
+    float       closeDistance = attack_range - (offsetMod == 0 ? 0.4f : offset);
+
+    // No going negative on the final value.
+    if (closeDistance < 0.0f)
+    {
+        closeDistance = 0.0f;
     }
 
     if (PMob->getMobMod(MOBMOD_SHARE_POS) > 0)
@@ -1540,13 +1562,16 @@ auto CMobController::CanMoveForward(const float currentDistance) -> bool
         standbackRange = PMob->getMobMod(MOBMOD_STANDBACK_RANGE);
     }
 
-    if (PMob->m_Behavior & BEHAVIOR_STANDBACK && currentDistance < standbackRange && PMob->CanSeeTarget(PTarget))
+    const bool isClosingToRangedAttackRange = IsRangedAttackEnabled() && currentDistance > PMob->GetRangedAttackRange();
+
+    if (!isClosingToRangedAttackRange && PMob->m_Behavior & BEHAVIOR_STANDBACK && currentDistance < standbackRange && PMob->CanSeeTarget(PTarget))
     {
         return false;
     }
 
     auto standbackThreshold = PMob->getMobMod(MOBMOD_HP_STANDBACK);
-    if (currentDistance < standbackRange &&
+    if (!isClosingToRangedAttackRange &&
+        currentDistance < standbackRange &&
         standbackThreshold > 0 &&
         PMob->getMobMod(MOBMOD_NO_STANDBACK) == 0 &&
         PMob->GetHPP() >= standbackThreshold &&

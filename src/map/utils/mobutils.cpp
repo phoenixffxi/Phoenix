@@ -26,6 +26,7 @@
 #include "common/utils.h"
 
 #include "action/action.h"
+#include "ai/ai_container.h"
 #include "battlefield.h"
 #include "battleutils.h"
 #include "grades.h"
@@ -1064,6 +1065,17 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
     }
 }
 
+void SetupRangedAttack(CMobEntity* PMob)
+{
+    PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 0); // Need to remove the base ranged attack
+    PMob->defaultMobMod(MOBMOD_RANGED_ATTACK_RANGE, 14);
+    PMob->PAI->GetController()->SetRangedAttackEnabled(true);
+
+    // auto* rangedWeapon = static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_RANGED]);
+    // rangedWeapon->setDamage(GetWeaponDamage(PMob, SLOT_RANGED));
+    static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_RANGED])->setBaseDelay(290);
+}
+
 void SetupJob(CMobEntity* PMob)
 {
     JOBTYPE mJob = PMob->GetMJob();
@@ -1166,6 +1178,18 @@ void SetupJob(CMobEntity* PMob)
             {
                 PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1388);
             }
+            else if (PMob->m_Family == 202) // Quadav
+            {
+                PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1123); // Quadav
+            }
+            else if (PMob->m_Family == 169) // Kindred
+            {
+                PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1152); // Hecatomb Wave
+            }
+            else if ((PMob->m_Family == 115) || (PMob->m_Family == 360)) // Fomor Ranged use player ranged attack
+            {
+                SetupRangedAttack(PMob);
+            }
             else
             {
                 // All other rangers
@@ -1182,6 +1206,19 @@ void SetupJob(CMobEntity* PMob)
                 // aern
                 PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1388);
                 PMob->defaultMobMod(MOBMOD_SPECIAL_COOL, 12);
+            }
+            else if (PMob->m_Family == 202) // Quadav
+            {
+                PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1123); // Quadav
+            }
+            else if (PMob->m_Family == 169) // Kindred
+            {
+                PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1152); // Hecatomb Wave
+            }
+            else if ((PMob->m_Family == 115) || (PMob->m_Family == 360)) // Fomor Ranged use player ranged attack
+            {
+                PMob->setMobMod(MOBMOD_DUAL_WIELD, 1);
+                SetupRangedAttack(PMob);
             }
             else if (PMob->m_Family != 335) // exclude NIN Maat
             {

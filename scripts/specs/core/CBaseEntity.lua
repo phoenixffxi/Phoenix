@@ -3827,6 +3827,16 @@ end
 
 ---@param state boolean
 ---@return nil
+function CBaseEntity:setRangedAttackEnabled(state)
+end
+
+---@nodiscard
+---@return boolean
+function CBaseEntity:isRangedAttackEnabled()
+end
+
+---@param state boolean
+---@return nil
 function CBaseEntity:setMagicCastingEnabled(state)
 end
 

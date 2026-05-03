@@ -36,6 +36,7 @@
 #include "ai/states/inactive_state.h"
 #include "ai/states/magic_state.h"
 #include "ai/states/mobskill_state.h"
+#include "ai/states/range_state.h"
 #include "ai/states/weaponskill_state.h"
 #include "attack.h"
 #include "attackround.h"
@@ -544,6 +545,11 @@ uint32 CBattleEntity::GetWeaponDelay(bool tp)
 float CBattleEntity::GetMeleeRange(const CBattleEntity* target) const
 {
     return modelHitboxSize + 2.0f + target->modelHitboxSize;
+}
+
+float CBattleEntity::GetRangedAttackRange()
+{
+    return 25.0f;
 }
 
 int16 CBattleEntity::GetRangedWeaponDelay(bool forTPCalc)
@@ -2933,6 +2939,119 @@ bool CBattleEntity::CanAttack(CBattleEntity* PTarget, std::unique_ptr<CBasicPack
     bool  tooFar             = distanceFromTarget > GetMeleeRange(PTarget);
 
     return !tooFar && autoAttackEnabled;
+}
+
+void CBattleEntity::OnRangedAttack(CRangeState& state, action_t& action)
+{
+    TracyZoneScoped;
+    auto* PTarget = dynamic_cast<CBattleEntity*>(state.GetTarget());
+
+    if (!PTarget)
+    {
+        return;
+    }
+
+    if (battleutils::IsParalyzed(this))
+    {
+        ActionInterrupts::RangedParalyzed(this);
+        return;
+    }
+
+    int32 damage      = 0;
+    int32 totalDamage = 0;
+
+    action.actorId                = id;
+    action.actiontype             = ActionCategory::RangedFinish;
+    action.actionid               = static_cast<uint32_t>(FourCC::RangedFinish);
+    action_target_t& actionTarget = action.addTarget(PTarget->id);
+    action_result_t& actionResult = actionTarget.addResult();
+    actionResult.messageID        = MsgBasic::RangedAttackHit;
+
+    uint8 slot = SLOT_RANGED;
+
+    uint8 shadowsTaken = 0;
+    uint8 hitCount     = 1;
+    uint8 realHits     = 0;
+    bool  hitOccured   = false;
+    bool  wasCritical  = false;
+
+    for (uint8 i = 1; i <= hitCount; ++i)
+    {
+        damage = 0;
+
+        if (xirand::GetRandomNumber(100) < battleutils::GetRangedHitRate(this, PTarget, false, 0) && !state.IsOutOfRange())
+        {
+            if (battleutils::IsAbsorbByShadow(PTarget, this))
+            {
+                shadowsTaken++;
+            }
+            else
+            {
+                bool  isCritical = xirand::GetRandomNumber(100) < battleutils::GetCritHitRate(this, PTarget, true);
+                float pdif       = battleutils::GetRangedDamageRatio(this, PTarget, isCritical, 0);
+
+                if (isCritical)
+                {
+                    wasCritical            = true;
+                    actionResult.messageID = MsgBasic::RangedAttackCrit;
+                }
+
+                hitOccured = true;
+                realHits++;
+                damage = static_cast<int32>((GetRangedWeaponDmg() + battleutils::GetFSTR(this, PTarget, slot)) * pdif);
+            }
+        }
+        else
+        {
+            actionResult.resolution = ActionResolution::Miss;
+            actionResult.messageID  = MsgBasic::RangedAttackMiss;
+            hitCount                = i;
+        }
+
+        totalDamage += damage;
+    }
+
+    if (hitOccured)
+    {
+        if (actionResult.resolution == ActionResolution::Miss)
+        {
+            actionResult.messageID  = MsgBasic::RangedAttackHit;
+            actionResult.resolution = ActionResolution::Hit;
+        }
+
+        int32 finalDamage = battleutils::TakePhysicalDamage(this, PTarget, PHYSICAL_ATTACK_TYPE::RANGED, totalDamage, false, slot, realHits, nullptr, true, true);
+        actionResult.recordDamage(attack_outcome_t{
+            .atkType    = ATTACK_TYPE::PHYSICAL,
+            .damage     = finalDamage,
+            .target     = PTarget,
+            .isCritical = wasCritical,
+        });
+
+        if (shadowsTaken)
+        {
+            actionResult.param = static_cast<int32>(actionResult.param * (1 - static_cast<float>(shadowsTaken) / realHits));
+        }
+
+        if (actionResult.param < 0)
+        {
+            actionResult.param     = -(actionResult.param);
+            actionResult.messageID = MsgBasic::RangedAttackAbsorbs;
+        }
+    }
+    else if (shadowsTaken > 0)
+    {
+        actionResult.messageID  = MsgBasic::ShadowAbsorb;
+        actionResult.resolution = ActionResolution::Miss;
+        actionResult.param      = shadowsTaken;
+    }
+
+    PTarget->LastAttacked = timer::now();
+
+    if (this->allegiance != PTarget->allegiance)
+    {
+        PTarget->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
+        PTarget->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ON_ATTACK);
+    }
 }
 
 void CBattleEntity::OnDisengage(CAttackState& s)
