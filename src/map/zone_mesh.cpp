@@ -34,6 +34,7 @@
 
 namespace
 {
+
 template <typename T>
 auto readAt(const std::span<const uint8> buf, const uint32 offset) -> T
 {
@@ -279,7 +280,7 @@ auto CZoneMesh::load(const std::string& filename) -> bool
         }
     }
 
-    // Step 4. Pre-compute Y bounds per placement
+    // Step 4. Pre-compute Y bounds per placement (used by query culling).
     for (uint32 cellIndex = 0; cellIndex < cellCount; ++cellIndex)
     {
         const auto& cell = cells_[cellIndex];
@@ -291,11 +292,10 @@ auto CZoneMesh::load(const std::string& filename) -> bool
 
             for (size_t v = 0; v < block.vertices.size(); v += 3)
             {
-                const auto  world = transform(place.rotation, place.translation, &block.vertices[v]);
-                const float wy    = world[1];
+                const auto world = transform(place.rotation, place.translation, &block.vertices[v]);
 
-                place.yMin = std::min(place.yMin, wy);
-                place.yMax = std::max(place.yMax, wy);
+                place.yMin = std::min(place.yMin, world[1]);
+                place.yMax = std::max(place.yMax, world[1]);
             }
         }
     }
@@ -316,6 +316,8 @@ auto CZoneMesh::worldToCell(const float x, const float z) const -> std::pair<int
 // Returns the triangle under (x, z) closest above y.
 auto CZoneMesh::query(const float x, const float y, const float z) const -> std::optional<CellHit>
 {
+    TracyZoneScoped;
+
     const auto [cx, cz]    = worldToCell(x, z);
     const std::array point = { x, 0.0f, z };
 
@@ -442,4 +444,39 @@ auto CZoneMesh::getFloorId(const float x, const float y, const float z) const ->
     }
 
     return 0;
+}
+
+auto CZoneMesh::isLoaded() const -> bool
+{
+    return loaded_;
+}
+
+auto CZoneMesh::blocks() const -> const std::vector<MeshBlock>&
+{
+    return blocks_;
+}
+
+auto CZoneMesh::placements() const -> const std::vector<MeshPlacement>&
+{
+    return placements_;
+}
+
+auto CZoneMesh::entries() const -> const std::vector<CellEntry>&
+{
+    return entries_;
+}
+
+auto CZoneMesh::cells() const -> const std::vector<CellSpan>&
+{
+    return cells_;
+}
+
+auto CZoneMesh::gridWidth() const -> uint16
+{
+    return header_.gridWidth;
+}
+
+auto CZoneMesh::gridHeight() const -> uint16
+{
+    return header_.gridHeight;
 }

@@ -79,10 +79,14 @@ public:
     auto query(float x, float y, float z) const -> std::optional<CellHit>;
     auto getTerrainAt(float x, float y, float z) const -> TerrainType;
     auto getFloorId(float x, float y, float z) const -> uint8;
-    auto isLoaded() const -> bool
-    {
-        return loaded_;
-    }
+    auto isLoaded() const -> bool;
+
+    auto blocks() const -> const std::vector<MeshBlock>&;
+    auto placements() const -> const std::vector<MeshPlacement>&;
+    auto entries() const -> const std::vector<CellEntry>&;
+    auto cells() const -> const std::vector<CellSpan>&;
+    auto gridWidth() const -> uint16;
+    auto gridHeight() const -> uint16;
 
 private:
     auto worldToCell(float x, float z) const -> std::pair<int, int>;

@@ -36,6 +36,7 @@
 #include "battlefield_handler.h"
 #include "campaign_handler.h"
 #include "map_config.h"
+#include "navmesh_config.h"
 #include "packets/basic.h"
 #include "spawn_slot.h"
 #include "trigger_area.h"
@@ -682,7 +683,8 @@ public:
 
     timer::time_point m_LoadedAt; // The time the zone was loaded
 
-    void LoadNavMesh();
+    auto LoadNavMesh() -> Task<void>;
+    void RebuildNavMesh(const NavMeshConfig& config = {});
     void LoadZoneMesh();
     void LoadZoneLos();
 

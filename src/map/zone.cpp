@@ -49,6 +49,7 @@ constexpr std::uint16_t WeatherCycle = 2160;
 #include "map_engine.h"
 #include "monstrosity.h"
 #include "navmesh.h"
+#include "navmesh_builder.h"
 #include "party.h"
 #include "recast_container.h"
 #include "spawn_handler.h"
@@ -257,23 +258,23 @@ const QueryByNameResult_t& CZone::queryEntitiesByName(const std::string& pattern
     std::vector<CBaseEntity*> entities;
 
     // TODO: Make work for instances
-    // clang-format off
-    ForEachNpc([&](CNpcEntity* PNpc)
-    {
-        if (matches(PNpc->getName(), pattern))
+    ForEachNpc(
+        [&](CNpcEntity* PNpc)
         {
-            entities.emplace_back(PNpc);
-        }
-    });
+            if (matches(PNpc->getName(), pattern))
+            {
+                entities.emplace_back(PNpc);
+            }
+        });
 
-    ForEachMob([&](CMobEntity* PMob)
-    {
-        if (matches(PMob->getName(), pattern))
+    ForEachMob(
+        [&](CMobEntity* PMob)
         {
-            entities.emplace_back(PMob);
-        }
-     });
-    // clang-format on
+            if (matches(PMob->getName(), pattern))
+            {
+                entities.emplace_back(PMob);
+            }
+        });
 
     m_queryByNameResults[pattern] = std::move(entities);
     return m_queryByNameResults[pattern];
@@ -464,24 +465,59 @@ void CZone::LoadZoneSettings()
     }
 }
 
-void CZone::LoadNavMesh()
+auto CZone::LoadNavMesh() -> Task<void>
 {
-    TracyZoneScoped;
-
     if (m_navMesh == nullptr)
     {
         m_navMesh = std::make_unique<CNavMesh>(static_cast<uint16>(GetID()));
     }
 
-    char file[255];
-    std::memset(file, 0, sizeof(file));
-    snprintf(file, sizeof(file), "navmeshes/%s.nav", getName().c_str());
+    const auto file = fmt::format("navmeshes/{}.nav", getName());
 
-    if (!m_navMesh->load(file))
+    if (!config_.rebuildNavmeshes && m_navMesh->load(file))
     {
-        DebugNavmesh("CZone::LoadNavMesh: Cannot load navmesh file (%s)", file);
-        m_navMesh = nullptr;
+        co_return;
     }
+
+    if (zoneMesh_ && zoneMesh_->isLoaded())
+    {
+        NavMeshBuilder builder(*zoneMesh_);
+
+        auto* navMesh = co_await builder.buildAsync(scheduler_, getName(), static_cast<uint16>(GetID()), NavMeshConfig{});
+        if (navMesh && m_navMesh->installNavMesh(navMesh))
+        {
+            m_navMesh->save(file);
+            co_return;
+        }
+    }
+
+    DebugNavmesh("CZone::LoadNavMesh: No navmesh available for zone (%s)", getName().c_str());
+    m_navMesh = nullptr;
+}
+
+void CZone::RebuildNavMesh(const NavMeshConfig& config)
+{
+    if (!zoneMesh_ || !zoneMesh_->isLoaded())
+    {
+        ShowErrorFmt("CZone::RebuildNavMesh: No zone mesh loaded for ({})", getName());
+        return;
+    }
+
+    const auto  zoneName    = getName();
+    const auto  zoneID      = static_cast<uint16>(GetID());
+    const auto* zoneMeshPtr = zoneMesh_.get();
+
+    scheduler_.postToMainThread(
+        [this, zoneName, zoneID, config, zoneMeshPtr]() -> Task<void>
+        {
+            NavMeshBuilder builder(*zoneMeshPtr);
+
+            auto* newNavMesh = co_await builder.buildAsync(scheduler_, zoneName, zoneID, config);
+            if (m_navMesh && m_navMesh->installNavMesh(newNavMesh))
+            {
+                m_navMesh->save(fmt::format("navmeshes/{}.nav", zoneName));
+            }
+        });
 }
 
 auto CZone::zoneMesh() const -> Maybe<CZoneMesh*>

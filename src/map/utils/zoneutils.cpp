@@ -756,8 +756,6 @@ auto CreateZone(Scheduler& scheduler, MapConfig config, uint16 ZoneID) -> CZone*
 
 auto LoadZones(Scheduler& scheduler, MapConfig config, const std::vector<uint16>& zoneIds) -> Task<void>
 {
-    TracyZoneScoped;
-
     std::vector<uint16> zonesIdsToLoad;
 
     for (const auto zoneId : zoneIds)
@@ -788,18 +786,13 @@ auto LoadZones(Scheduler& scheduler, MapConfig config, const std::vector<uint16>
         g_PZoneList[0] = CreateZone(scheduler, config, 0);
     }
 
+    // Phase 1: Load zone meshes and LOS data (navmesh build depends on zone mesh)
     co_await Scheduler::TaskGroup(
-        zoneIds.size() * 3,
+        zonesIdsToLoad.size() * 2,
         [&](auto& add)
         {
             for (const auto zoneId : zonesIdsToLoad)
             {
-                add(scheduler.spawnOnWorkerThread(
-                    [zoneId]()
-                    {
-                        g_PZoneList[zoneId]->LoadNavMesh();
-                    }));
-
                 add(scheduler.spawnOnWorkerThread(
                     [zoneId]()
                     {
@@ -813,6 +806,13 @@ auto LoadZones(Scheduler& scheduler, MapConfig config, const std::vector<uint16>
                     }));
             }
         });
+
+    // Phase 2: Load/build navmeshes (requires zone mesh; processed serially because
+    // each zone's build is a coroutine that dispatches tile work to workers)
+    for (const auto zoneId : zonesIdsToLoad)
+    {
+        co_await g_PZoneList[zoneId]->LoadNavMesh();
+    }
 
     // IDs attached to xi.zone[name] need to be populated before NPCs and Mobs are loaded
     for (const auto zoneId : zonesIdsToLoad)

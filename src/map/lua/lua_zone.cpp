@@ -209,10 +209,32 @@ uint32 CLuaZone::getUptime()
 
 void CLuaZone::reloadNavmesh()
 {
-    if (m_pLuaZone->m_navMesh)
-    {
-        m_pLuaZone->m_navMesh->reload();
-    }
+    m_pLuaZone->RebuildNavMesh();
+}
+
+void CLuaZone::rebuildNavmesh(const sol::table& table)
+{
+    NavMeshConfig config;
+
+    config.cellSize                     = table.get_or("cellSize", config.cellSize);
+    config.cellHeight                   = table.get_or("cellHeight", config.cellHeight);
+    config.walkableSlopeAngle           = table.get_or("walkableSlopeAngle", config.walkableSlopeAngle);
+    config.agentHeight                  = table.get_or("agentHeight", config.agentHeight);
+    config.agentRadius                  = table.get_or("agentRadius", config.agentRadius);
+    config.agentMaxClimb                = table.get_or("agentMaxClimb", config.agentMaxClimb);
+    config.maxEdgeLen                   = table.get_or("maxEdgeLen", config.maxEdgeLen);
+    config.maxSimplificationError       = table.get_or("maxSimplificationError", config.maxSimplificationError);
+    config.minRegionArea                = table.get_or("minRegionArea", config.minRegionArea);
+    config.mergeRegionArea              = table.get_or("mergeRegionArea", config.mergeRegionArea);
+    config.maxVertsPerPoly              = table.get_or("maxVertsPerPoly", config.maxVertsPerPoly);
+    config.detailSampleDist             = table.get_or("detailSampleDist", config.detailSampleDist);
+    config.detailSampleMaxError         = table.get_or("detailSampleMaxError", config.detailSampleMaxError);
+    config.tileSize                     = table.get_or("tileSize", config.tileSize);
+    config.filterLowHangingObstacles    = table.get_or("filterLowHangingObstacles", config.filterLowHangingObstacles);
+    config.filterLedgeSpans             = table.get_or("filterLedgeSpans", config.filterLedgeSpans);
+    config.filterWalkableLowHeightSpans = table.get_or("filterWalkableLowHeightSpans", config.filterWalkableLowHeightSpans);
+
+    m_pLuaZone->RebuildNavMesh(config);
 }
 
 bool CLuaZone::isNavigablePoint(const sol::table& point)
@@ -386,6 +408,7 @@ void CLuaZone::Register()
     SOL_REGISTER("getWeather", CLuaZone::getWeather);
     SOL_REGISTER("getUptime", CLuaZone::getUptime);
     SOL_REGISTER("reloadNavmesh", CLuaZone::reloadNavmesh);
+    SOL_REGISTER("rebuildNavmesh", CLuaZone::rebuildNavmesh);
     SOL_REGISTER("isNavigablePoint", CLuaZone::isNavigablePoint);
     SOL_REGISTER("getTerrainType", CLuaZone::getTerrainType);
     SOL_REGISTER("getFloorId", CLuaZone::getFloorId);

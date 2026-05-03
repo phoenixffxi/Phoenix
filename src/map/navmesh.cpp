@@ -21,7 +21,6 @@
 
 #include "navmesh.h"
 
-#include <DetourCommon.h>
 #include <DetourNavMesh.h>
 #include <DetourNavMeshQuery.h>
 
@@ -29,7 +28,6 @@
 #include "common/xirand.h"
 
 #include <fstream>
-#include <iostream>
 #include <set>
 #include <vector>
 
@@ -243,16 +241,84 @@ bool CNavMesh::load(const std::string& filename)
     return true;
 }
 
-void CNavMesh::reload()
-{
-    this->unload();
-    this->load(this->m_filename);
-}
-
 void CNavMesh::unload()
 {
     dtFreeNavMesh(m_navMesh);
     m_navMesh = nullptr;
+}
+
+bool CNavMesh::installNavMesh(dtNavMesh* newNavMesh)
+{
+    if (!newNavMesh)
+    {
+        return false;
+    }
+
+    unload();
+
+    m_navMesh = newNavMesh;
+
+    const auto status = m_navMeshQuery.init(m_navMesh, MAX_NAV_POLYS);
+    if (dtStatusFailed(status))
+    {
+        ShowErrorFmt("CNavMesh::installNavMesh: Could not init navMeshQuery ({})", m_zoneID);
+        unload();
+        return false;
+    }
+
+    return true;
+}
+
+bool CNavMesh::save(const std::string& path) const
+{
+    if (!m_navMesh || path.empty())
+    {
+        return false;
+    }
+
+    std::ofstream file(path, std::ios::binary);
+    if (!file.good())
+    {
+        ShowErrorFmt("CNavMesh::save: Could not open file for writing ({})", path);
+        return false;
+    }
+
+    const auto* nav = m_navMesh;
+
+    auto header    = NavMeshSetHeader{};
+    header.magic   = NAVMESHSET_MAGIC;
+    header.version = NAVMESHSET_VERSION;
+    header.params  = *nav->getParams();
+
+    for (auto i = 0; i < nav->getMaxTiles(); ++i)
+    {
+        const auto* tile = nav->getTile(i);
+        if (tile && tile->header && tile->dataSize > 0)
+        {
+            header.numTiles++;
+        }
+    }
+
+    file.write(reinterpret_cast<const char*>(&header), sizeof(header));
+
+    for (auto i = 0; i < nav->getMaxTiles(); ++i)
+    {
+        const auto* tile = nav->getTile(i);
+        if (!tile || !tile->header || tile->dataSize <= 0)
+        {
+            continue;
+        }
+
+        const auto tileHeader = NavMeshTileHeader{
+            .tileRef  = nav->getTileRef(tile),
+            .dataSize = tile->dataSize,
+        };
+
+        file.write(reinterpret_cast<const char*>(&tileHeader), sizeof(tileHeader));
+        file.write(reinterpret_cast<const char*>(tile->data), tile->dataSize);
+    }
+
+    return true;
 }
 
 auto CNavMesh::findPath(const position_t& start, const position_t& end) -> std::vector<pathpoint_t>
@@ -634,6 +700,61 @@ void CNavMesh::snapToValidPosition(position_t& position)
         position.y = snearest[1];
         position.z = snearest[2];
     }
+}
+
+[[nodiscard]] auto CNavMesh::detourStatusString(const uint32 status) -> std::string
+{
+    std::string outStr;
+
+    // High level status.
+    if (status & DT_FAILURE)
+    {
+        outStr += "DT_FAILURE: Operation failed. ";
+    }
+    if (status & DT_SUCCESS)
+    {
+        outStr += "DT_SUCCESS: Operation succeeded. ";
+    }
+    if (status & DT_IN_PROGRESS)
+    {
+        outStr += "DT_IN_PROGRESS: Operation still in progress. ";
+    }
+
+    // Detail information for status.
+    if (status & DT_WRONG_MAGIC)
+    {
+        outStr += "DT_WRONG_MAGIC: Input data is not recognized. ";
+    }
+    if (status & DT_WRONG_VERSION)
+    {
+        outStr += "DT_WRONG_VERSION: Input data is in wrong version. ";
+    }
+    if (status & DT_OUT_OF_MEMORY)
+    {
+        outStr += "DT_OUT_OF_MEMORY: Operation ran out of memory. ";
+    }
+    if (status & DT_INVALID_PARAM)
+    {
+        outStr += "DT_INVALID_PARAM: An input parameter was invalid. ";
+    }
+    if (status & DT_BUFFER_TOO_SMALL)
+    {
+        outStr += "DT_BUFFER_TOO_SMALL: Result buffer for the query was too small to store all results. ";
+    }
+    if (status & DT_OUT_OF_NODES)
+    {
+        outStr += "DT_OUT_OF_NODES: Query ran out of nodes during search. ";
+    }
+    if (status & DT_PARTIAL_RESULT)
+    {
+        outStr += "DT_PARTIAL_RESULT: Query did not reach the end location, returning best guess. ";
+    }
+    if (status & DT_ALREADY_OCCUPIED)
+    {
+        outStr += "DT_ALREADY_OCCUPIED: A tile has already been assigned to the given x, y coordinate. ";
+    }
+
+    return outStr;
 }
 
 bool CNavMesh::onSameFloor(const position_t& start, float* spos, const position_t& end, float* epos, dtQueryFilter& filter)
