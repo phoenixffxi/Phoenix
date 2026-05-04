@@ -1038,7 +1038,12 @@ xi.mobSkill =
 
     ARROGANCE_INCARNATE_1         = 3178,
 
+    ROYAL_BASH_TRUST              = 3193, -- Trion Trust
+    ROYAL_SAVIOR_TRUST            = 3194, -- Trion Trust
+
     LIGHT_BLADE_2                 = 3214,
+
+    VICTORY_BEACON_TRUST          = 3237, -- Rughadjeen Trust
 
     SHIBARAKU_TRUST               = 3257, -- Gessho Trust
     SHIKO_NO_MITATE_TRUST         = 3258, -- Gessho Trust
