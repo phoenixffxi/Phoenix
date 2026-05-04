@@ -670,6 +670,13 @@ local mobNames =
 -- onZoneTick
 -- Special cases for SJ zones (7-9) and Tavnazia (10) for NPCs qm0 and qm1
 local function registerDynamisZoneOverrides(zoneID, zoneName, zoneNumber)
+    m:addOverride(string.format('xi.zones.%s.Zone.onInitialize', zoneName),
+    function(zone)
+        if zoneID == xi.zone.DYNAMIS_TAVNAZIA then
+            xi.dynamis.onZoneInitTav(zone)
+        end
+    end)
+
     m:addOverride(string.format('xi.zones.%s.Zone.onZoneIn', zoneName),
     function(player, prevZone)
         xi.dynamis.zoneOnZoneInEra(player, prevZone)
@@ -714,11 +721,6 @@ local function registerDynamisZoneOverrides(zoneID, zoneName, zoneNumber)
         m:addOverride(string.format('xi.zones.Dynamis-Tavnazia.Zone.onTriggerAreaEnter', zoneName),
         function(player, triggerArea)
             xi.dynamis.onTriggerAreaEnterTav(player, triggerArea)
-        end)
-
-        m:addOverride(string.format('xi.zones.%s.Zone.onInitialize', zoneName),
-        function(zone)
-            xi.dynamis.onZoneInitTav(zone)
         end)
     end
 end

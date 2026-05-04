@@ -201,11 +201,13 @@ end
 -----------------------------------
 --   Dynamis Start Functions    --
 -----------------------------------
-xi.dynamis.onNewDynamis = function(player, mode)
+xi.dynamis.onNewDynamis = function(player, mode, gmZone)
     local playerZoneID = player:getZoneID()
     local zoneId = 0
 
-    if mode == 1 or player:isInDynamis() then
+    if gmZone and mode == 1 then
+        zoneId = gmZone
+    elseif mode == 1 or player:isInDynamis() then
         zoneId = playerZoneID
     else
         zoneId = xi.dynamis.entryInfoEra[playerZoneID].dynaZone
