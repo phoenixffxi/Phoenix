@@ -24,6 +24,7 @@
 #include "lua_battlefield.h"
 #include "lua_instance.h"
 #include "lua_item.h"
+#include "lua_item_puppet.h"
 
 #include "items/exdata/worn_item.h"
 #include "lua_spell.h"
@@ -104,6 +105,7 @@
 #include "items/exdata.h"
 #include "items/item_furnishing.h"
 #include "items/item_linkshell.h"
+#include "items/item_puppet.h"
 
 #include "packets/char_status.h"
 #include "packets/char_sync.h"
@@ -16734,7 +16736,7 @@ auto CLuaBaseEntity::getAttachments() const -> sol::table
 
         if (attachmentItemId != 0)
         {
-            attachmentTable[attachmentSlot] = CLuaItem(xi::items::lookup(0x2100 + attachmentItemId));
+            attachmentTable[attachmentSlot] = CLuaItemPuppet(xi::items::lookup<CItemPuppet>(0x2100 + attachmentItemId));
         }
     }
 
