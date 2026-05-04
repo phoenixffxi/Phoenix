@@ -1842,6 +1842,7 @@ xi.item =
     SQUARE_OF_OIL_SOAKED_CLOTH          = 2704,
     SQUARE_OF_FOULARD                   = 2705,
     KHROMA_NUGGET                       = 2711,
+    JAR_OF_RED_TEXTILE_DYE              = 2712,
     SPRIG_OF_DYERS_WOAD                 = 2713,
     SQUARE_OF_FILET_LACE                = 2714,
     GOLD_STUD                           = 2715,
