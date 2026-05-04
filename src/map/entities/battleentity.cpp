@@ -2295,10 +2295,13 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
     action.recast     = state.GetRecast();
     action.spellgroup = PSpell->getSpellGroup();
 
-    MsgBasic msg = MsgBasic::None;
+    MsgBasic msg                 = MsgBasic::None;
+    MsgBasic initialSpellMessage = PSpell->getMessage();
 
     for (auto* PTarget : PAI->TargetFind->m_targets)
     {
+        PSpell->setMessage(initialSpellMessage);
+
         action_target_t& actionTarget = action.addTarget(PTarget->id);
         action_result_t& actionResult = actionTarget.addResult();
 
