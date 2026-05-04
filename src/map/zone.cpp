@@ -573,11 +573,11 @@ void CZone::LoadZoneMesh()
         meshName = "Ship_bound_for_Mhaura_ID-228";
     }
 
-    // Maquette_Abdhaljs-Legion_A -> Maquette_Abdhaljs-Legion
-    // Maquette_Abdhaljs-Legion_B -> Maquette_Abdhaljs-Legion
+    // Maquette_Abdhaljs-Legion_A -> Maquette_Abdhaljs-LegionA
+    // Maquette_Abdhaljs-Legion_B -> Maquette_Abdhaljs-LegionB
     if (meshName.starts_with("Maquette_Abdhaljs-Legion_"))
     {
-        meshName = "Maquette_Abdhaljs-Legion";
+        meshName.erase(meshName.size() - 2, 1);
     }
 
     const auto file = fmt::format("ximeshes/{}.ximesh", meshName);
