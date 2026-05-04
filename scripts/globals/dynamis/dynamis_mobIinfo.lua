@@ -42,7 +42,7 @@ xi.dynamis.generalInfo = function(mob)
     mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 150)
     mob:setRoamFlags(xi.roamFlag.SCRIPTED)
 
-    mob:setModelSize(2) -- TODO: Fix all the model sizes per zone
+    mob:setModelSize(1) -- TODO: Fix all the model sizes per zone
 
     -- TODO: figure out DRG wyvern calls later
     local job = mob:getMainJob()
@@ -134,7 +134,7 @@ xi.dynamis.spawnAggroStatues = function(mob, target)
     local zoneAggro          = xi.dynamis.aggro[zoneId]
     local nonAggressiveSpawn = zoneAggro.nonAggressive and zoneAggro.nonAggressive[statueId]
     local aggressiveSpawn    = zoneAggro.aggressive and zoneAggro.aggressive[statueId]
-    debugPrint('Statue Aggro Spawns: ' .. (nonAggressiveSpawn or 0) .. ', ' .. (aggressiveSpawn or 0))
+
     if nonAggressiveSpawn then
         for _, mobId in ipairs(nonAggressiveSpawn) do
             local mobToSpawn = GetMobByID(mobId)
