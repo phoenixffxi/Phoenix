@@ -32,6 +32,7 @@
 #include "items/item_linkshell.h"
 #include "items/item_usable.h"
 #include "items/item_weapon.h"
+#include "map/enums/item_state.h"
 #include "utils/itemutils.h"
 
 CLuaItem::CLuaItem(CItem* PItem)
@@ -122,6 +123,11 @@ void CLuaItem::setSubType(uint8 subtype)
 bool CLuaItem::isSubType(uint8 subtype)
 {
     return m_readItem->isSubType(static_cast<ITEM_SUBTYPE>(subtype));
+}
+
+auto CLuaItem::state() const -> ItemState
+{
+    return m_readItem->state();
 }
 
 void CLuaItem::setReservedValue(uint8 reserved)
@@ -493,6 +499,7 @@ void CLuaItem::Register()
     SOL_REGISTER("isType", CLuaItem::isType);
     SOL_REGISTER("setSubType", CLuaItem::setSubType);
     SOL_REGISTER("isSubType", CLuaItem::isSubType);
+    SOL_REGISTER("state", CLuaItem::state);
     SOL_REGISTER("setReservedValue", CLuaItem::setReservedValue);
     SOL_REGISTER("getReservedValue", CLuaItem::getReservedValue);
     SOL_REGISTER("getName", CLuaItem::getName);

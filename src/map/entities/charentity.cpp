@@ -2593,6 +2593,8 @@ auto CCharEntity::OnItemFinish(CItemState& state, action_t& action) -> bool
         actionResult.resolution       = ActionResolution::Hit;
         actionResult.animation        = PItem->getAnimationID();
 
+        // TODO: guard charutils::UpdateItem against InTransaction items so a
+        // Lua delItem inside OnItemUse can't decrement out-of-tx.
         int32 value = luautils::OnItemUse(this, PTargetFound, PItem, action);
 
         actionResult.param = value;
@@ -2646,11 +2648,9 @@ auto CCharEntity::OnItemFinish(CItemState& state, action_t& action) -> bool
         return false;
     }
 
-    // Consumable items
-    PItem->setSubType(ITEM_UNLOCKED);
-    const bool willBeDestroyed = PItem->getQuantity() == 1;
-    charutils::UpdateItem(this, PItem->getLocationID(), PItem->getSlotID(), -1, true);
-    return willBeDestroyed;
+    // Consumable items: signal CItemState::FinishItem to commit the ItemUseTransaction
+    // TODO: Some non-equipment items should not be consumed on use
+    return true;
 }
 
 CBattleEntity* CCharEntity::IsValidTarget(uint16 targid, uint16 validTargetFlags, std::unique_ptr<CBasicPacket>& errMsg)
