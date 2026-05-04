@@ -27651,9 +27651,10 @@ INSERT INTO `item_mods` VALUES (15464,22,7); -- DARK_MEVA: 7
 INSERT INTO `item_mods` VALUES (15464,68,7); -- EVA: 7
 
 -- Toreadors Cape
-INSERT INTO `item_mods` VALUES (15465,1,7);  -- DEF: 7
-INSERT INTO `item_mods` VALUES (15465,27,4); -- ENMITY: 4
-INSERT INTO `item_mods` VALUES (15465,68,9); -- EVA: 9
+INSERT INTO `item_mods` VALUES (15465,1,7);     -- DEF: 7
+INSERT INTO `item_mods` VALUES (15465,27,4);    -- ENMITY: 4
+INSERT INTO `item_mods` VALUES (15465,68,9);    -- EVA: 9
+INSERT INTO `item_mods` VALUES (15465,166,-50); -- CRITICAL_HIT_EVASION: -50
 
 -- Birdman Cape
 INSERT INTO `item_mods` VALUES (15466,1,7);   -- DEF: 7
