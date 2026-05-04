@@ -204,7 +204,7 @@ uint16 doConsumeManaEffect(CCharEntity* m_PChar);
 int32  getOverWhelmDamageBonus(CBattleEntity* PAttacker, CBattleEntity* PDefender, int32 damage);
 
 void  TransferEnmity(CBattleEntity* PHateReceiver, CBattleEntity* PHateGiver, CMobEntity* PMob, uint8 percentToTransfer);
-uint8 getBarrageShotCount(CCharEntity* PChar);
+uint8 getBarrageShotCount(CBattleEntity* PBattleEntity);
 uint8 getStoreTPbonusFromMerit(CBattleEntity* PEntity);
 
 void ClaimMob(CBattleEntity* PDefender, CBattleEntity* PAttacker, bool passing = false);

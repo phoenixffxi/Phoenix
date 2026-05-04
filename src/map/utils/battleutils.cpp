@@ -4296,13 +4296,7 @@ int32 getOverWhelmDamageBonus(CBattleEntity* PAttacker, CBattleEntity* PDefender
     return damage;
 }
 
-/************************************************************************
- *                                                                       *
- *  Calculate/Handle Barrage shot count                                  *
- *                                                                       *
- ************************************************************************/
-
-uint8 getBarrageShotCount(CCharEntity* PChar)
+uint8 getBarrageShotCount(CBattleEntity* PBattleEntity)
 {
     /*
     Ranger level 30, four shots.
@@ -4312,29 +4306,9 @@ uint8 getBarrageShotCount(CCharEntity* PChar)
     Ranger level 99, eight shots.
     */
 
-    // only archery + marksmanship can use barrage
-    CItemWeapon* PItem = (CItemWeapon*)PChar->getEquip(SLOT_RANGED);
-
-    if (PItem && PItem->getSkillType() != 25 && PItem->getSkillType() != 26)
-    {
-        return 0;
-    }
-
-    uint8 lvl       = PChar->jobs.job[JOB_RNG]; // Get Ranger level of char
-    uint8 shotCount = 0;                        // the total number of extra hits
-
-    if (PChar->GetSJob() == JOB_RNG)
-    { // if rng is sub then use the sub level
-        lvl = PChar->GetSLevel();
-    }
-
-    // Hunters bracers+1 will add an extra shot
-    CItemEquipment* PItemHands = PChar->getEquip(SLOT_HANDS);
-
-    if (PItemHands && PItemHands->getID() == 14900)
-    {
-        shotCount++;
-    }
+    // TODO: verify all RNG trusts that use Barrage have RNG main job
+    uint16 lvl       = PBattleEntity->GetMJob() == JOB_RNG ? PBattleEntity->GetMLevel() : PBattleEntity->GetSLevel();
+    uint8  shotCount = 0;
 
     if (lvl < 30)
     {
@@ -4342,33 +4316,48 @@ uint8 getBarrageShotCount(CCharEntity* PChar)
     }
     else if (lvl < 50)
     {
-        shotCount += 3;
+        shotCount = 3;
     }
     else if (lvl < 75)
     {
-        shotCount += 4;
+        shotCount = 4;
     }
     else if (lvl < 90)
     {
-        shotCount += 5;
+        shotCount = 5;
     }
     else if (lvl < 99)
     {
-        shotCount += 6;
+        shotCount = 6;
     }
     else
     {
-        shotCount += 7;
+        shotCount = 7;
     }
 
-    shotCount += PChar->getMod(Mod::BARRAGE_COUNT);
+    shotCount += PBattleEntity->getMod(Mod::BARRAGE_COUNT);
 
-    // make sure we have enough ammo for all these shots
-    CItemWeapon* PAmmo = (CItemWeapon*)PChar->getEquip(SLOT_AMMO);
-
-    if (PAmmo && PAmmo->getQuantity() < shotCount)
+    // only archery + marksmanship can use barrage
+    if (PBattleEntity->objtype == TYPE_PC)
     {
-        shotCount = PAmmo->getQuantity() - 1;
+        if (auto* PChar = dynamic_cast<CCharEntity*>(PBattleEntity); PChar)
+        {
+            CItemWeapon* PItem = dynamic_cast<CItemWeapon*>(PChar->getEquip(SLOT_RANGED));
+
+            if (PItem && PItem->getSkillType() != SKILL_ARCHERY && PItem->getSkillType() != SKILL_MARKSMANSHIP)
+            {
+                return 0;
+            }
+
+            // make sure we have enough ammo for all these shots
+            CItemWeapon* PAmmo = dynamic_cast<CItemWeapon*>(PChar->getEquip(SLOT_AMMO));
+
+            // TODO: Check if this should be here. Recycle can proc and potentially allow more shots to land
+            if (PAmmo && PAmmo->getQuantity() < shotCount + 1u) // This function is additive to the first shot. So one ammo is already consumed before we get here
+            {
+                shotCount = PAmmo->getQuantity() - 1;
+            }
+        }
     }
 
     return shotCount;
