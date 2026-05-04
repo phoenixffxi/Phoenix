@@ -2352,8 +2352,8 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
 
             actionResult.param = damage;
 
-            // Handle EFFECT_NONE - spell failed to apply
-            if (damage == EFFECT_NONE)
+            // spell failed to apply
+            if (!PSpell->tookEffect())
             {
                 actionResult.resolution = ActionResolution::Miss;
                 actionResult.param      = 0;
