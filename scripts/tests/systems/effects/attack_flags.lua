@@ -29,6 +29,7 @@ describe('Status Effect Flags', function()
                 xi.test.world:tickEntity(player)
                 xi.test.world:skipTime(5)
             end
+
             player.assert.no:hasEffect(xi.effect.BOOST)
         end)
 
@@ -115,6 +116,7 @@ describe('Status Effect Flags', function()
                     xi.test.world:tickEntity(player)
                     xi.test.world:skipTime(5)
                 end
+
                 player.assert.no:hasEffect(xi.effect.MAZURKA)
             end)
 
@@ -177,6 +179,7 @@ describe('Status Effect Flags', function()
                     xi.test.world:tickEntity(mob)
                     xi.test.world:skipTime(5)
                 end
+
                 player.assert.no:hasEffect(xi.effect.MAZURKA)
             end)
 

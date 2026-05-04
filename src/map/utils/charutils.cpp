@@ -7995,6 +7995,9 @@ void forceSynthCritFail(const std::string& sourceFunction, CCharEntity* PChar)
     synthutils::doSynthCriticalFail(PChar);
 
     PChar->CraftContainer->Clean(); // Clean to reset m_ItemCount to 0
+    PChar->animation = ANIMATION_NONE;
+    PChar->updatemask |= UPDATE_HP;
+    PChar->pushPacket<CCharStatusPacket>(PChar);
 }
 
 void removeCharFromZone(CCharEntity* PChar)
