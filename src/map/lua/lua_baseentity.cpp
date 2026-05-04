@@ -13547,6 +13547,99 @@ sol::table CLuaBaseEntity::getNotorietyList()
 }
 
 /************************************************************************
+ *  Function: getMasterThreatMob(rangeOverride)
+ *  Purpose : Returns a mob in the master's notoriety list that threatens
+ *            the master's owner, preferring non-master-target mobs first.
+ *  Example : local target = entity:getMasterThreatMob(22)
+ *  Notes   : Intended for trust combat scripts that need efficient target
+ *            selection without Lua-side entity/enmity table iteration.
+ ************************************************************************/
+
+auto CLuaBaseEntity::getMasterThreatMob(const sol::object& rangeOverride) -> CBaseEntity*
+{
+    auto* PBattleEntity = dynamic_cast<CBattleEntity*>(m_PBaseEntity);
+    if (!PBattleEntity)
+    {
+        ShowWarning("Attempting to get master threat target for invalid entity type (%s).", m_PBaseEntity->getName());
+        return nullptr;
+    }
+
+    auto* PMaster = PBattleEntity->PMaster;
+
+    if (!PMaster)
+    {
+        return nullptr;
+    }
+
+    const auto maxDistance = rangeOverride.is<float>() ? rangeOverride.as<float>() : 22.0f;
+    auto*      PMastersTarget{ PMaster->GetEntity(PMaster->GetBattleTargetID()) };
+
+    auto isMasterTopEnmityOnMob = [PMaster](CMobEntity* PMob) -> bool
+    {
+        if (!PMob)
+        {
+            return false;
+        }
+
+        auto* enmityList = PMob->PEnmityContainer->GetEnmityList();
+        if (!enmityList)
+        {
+            return false;
+        }
+
+        CBattleEntity* PTopEntity = nullptr;
+        int32          topHate    = std::numeric_limits<int32>::min();
+
+        for (const auto& [_, enmityObject] : *enmityList)
+        {
+            if (!enmityObject.active || !enmityObject.PEnmityOwner || !enmityObject.PEnmityOwner->isAlive())
+            {
+                continue;
+            }
+
+            const auto totalHate = enmityObject.CE + enmityObject.VE;
+            if (totalHate > topHate)
+            {
+                topHate    = totalHate;
+                PTopEntity = enmityObject.PEnmityOwner;
+            }
+        }
+
+        return PTopEntity && PTopEntity->id == PMaster->id;
+    };
+
+    CMobEntity* threateningTarget = nullptr;
+
+    for (auto* entity : *PMaster->PNotorietyContainer)
+    {
+        auto* PMob = dynamic_cast<CMobEntity*>(entity);
+        if (!PMob || !PMob->isAlive() || distance(PMaster->loc.p, PMob->loc.p) > maxDistance)
+        {
+            continue;
+        }
+
+        auto* PTarget            = PMob->GetEntity(PMob->GetBattleTargetID());
+        bool  isTargetingMaster  = PTarget && PTarget->id == PMaster->id;
+        bool  masterHasTopEnmity = isMasterTopEnmityOnMob(PMob);
+
+        if (isTargetingMaster || masterHasTopEnmity)
+        {
+            if (!PMastersTarget || PMob->id != PMastersTarget->id)
+            {
+                return PMob;
+            }
+
+            if (!threateningTarget)
+            {
+                threateningTarget = PMob;
+            }
+        }
+    }
+
+    return threateningTarget;
+}
+
+/************************************************************************
  *  Function: clearEnmityForEntity(...)
  *  Purpose :
  *  Example : mob:clearEnmityForEntity(player)
@@ -20213,6 +20306,7 @@ void CLuaBaseEntity::Register()
     SOL_REGISTER("hasClaim", CLuaBaseEntity::hasClaim);
     SOL_REGISTER("hasEnmity", CLuaBaseEntity::hasEnmity);
     SOL_REGISTER("getNotorietyList", CLuaBaseEntity::getNotorietyList);
+    SOL_REGISTER("getMasterThreatMob", CLuaBaseEntity::getMasterThreatMob);
     SOL_REGISTER("clearEnmityForEntity", CLuaBaseEntity::clearEnmityForEntity);
 
     // Status Effects
