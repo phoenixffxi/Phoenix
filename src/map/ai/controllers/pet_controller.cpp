@@ -95,28 +95,39 @@ auto CPetController::DoRoamTick(timer::time_point tick) -> Task<void>
 
     if (PPet->objtype == TYPE_PET || (PPet->objtype == TYPE_MOB && PPet->PMaster && PPet->PMaster->objtype == TYPE_PC))
     {
-        CPetEntity* PetEntity = static_cast<CPetEntity*>(PPet);
-        // automaton, wyvern
-        if (PetEntity->getPetType() == PET_TYPE::WYVERN || PetEntity->getPetType() == PET_TYPE::AUTOMATON)
+        bool isBstPet = false;
+
+        CPetEntity* PetEntity = dynamic_cast<CPetEntity*>(PPet);
+        if (PetEntity)
         {
-            if (PetIsHealing())
+            isBstPet = PetEntity->isBstPet();
+            // automaton, wyvern
+            if (PetEntity->getPetType() == PET_TYPE::WYVERN || PetEntity->getPetType() == PET_TYPE::AUTOMATON)
+            {
+                if (PetIsHealing())
+                {
+                    co_return;
+                }
+            }
+            else if (PetEntity->m_PetID == PETID_LIGHTSPIRIT) // Only Light Spirit will cast on roam tick
+            {
+                // this will respect the pet's mob casting cooldown properties via MOBMOD_MAGIC_COOL
+                if (CMobController::IsSpellReady(0) && CMobController::TryCastSpell())
+                {
+                    co_return;
+                }
+            }
+            else if (immobilePets.contains(static_cast<PETID>(PetEntity->m_PetID))) // certain pets do not roam
             {
                 co_return;
             }
         }
-        else if (PetEntity->isBstPet() && PPet->StatusEffectContainer->GetStatusEffect(EFFECT_HEALING))
+        else
         {
-            co_return;
+            isBstPet = true;
         }
-        else if (PetEntity->m_PetID == PETID_LIGHTSPIRIT) // Only Light Spirit will cast on roam tick
-        {
-            // this will respect the pet's mob casting cooldown properties via MOBMOD_MAGIC_COOL
-            if (CMobController::IsSpellReady(0) && CMobController::TryCastSpell())
-            {
-                co_return;
-            }
-        }
-        else if (immobilePets.contains(static_cast<PETID>(PetEntity->m_PetID))) // certain pets do not roam
+
+        if (isBstPet && PPet->StatusEffectContainer->GetStatusEffect(EFFECT_HEALING))
         {
             co_return;
         }
