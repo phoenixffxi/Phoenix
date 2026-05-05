@@ -42,7 +42,7 @@ xi.dynamis.generalInfo = function(mob)
     mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 150)
     mob:setRoamFlags(xi.roamFlag.SCRIPTED)
 
-    mob:setModelSize(1) -- TODO: Fix all the model sizes per zone
+    mob:setModelSize(2) -- TODO: Fix all the model sizes per zone
 
     -- TODO: figure out DRG wyvern calls later
     local job = mob:getMainJob()
@@ -62,16 +62,22 @@ xi.dynamis.statueOnSpawn = function(mob)
     xi.dynamis.generalInfo(mob)
     mob:setSpawnAnimation(0)
 
-    mob:setAnimationSub(0) -- Set statue to closed eye state
+    local mobId  = mob:getID()
+    local zoneId = mob:getZoneID()
+    -- If it paths its eyes should be open
+    if
+        xi.dynamis.paths and
+        xi.dynamis.paths[zoneId] and
+        xi.dynamis.paths[zoneId][mobId]
+    then
+        xi.dynamis.checkEyeColor(mob)
+    else
+        mob:setAnimationSub(0) -- Set statue to closed eye state
+    end
 
     -- Lets check if it has an eye color. If it does we need to set it to not die
     -- Set the eye color before the 1 shot happens
-    local zoneId   = mob:getZoneID()
-    local statueId = mob:getID()
-    -- debugPrint('Statue spawned - ID: ' .. statueId .. ' Zone: ' .. zoneId .. ' isSpawned: ' .. tostring(mob:isSpawned()) .. ' HP: ' .. mob:getHP())
-
-    -- Check if table value exists to prevent nil errors
-    local eyeColor = xi.dynamis.eyeColor[zoneId] and xi.dynamis.eyeColor[zoneId][statueId]
+    local eyeColor = xi.dynamis.eyeColor and xi.dynamis.eyeColor[zoneId] and xi.dynamis.eyeColor[zoneId][mobId]
     if eyeColor and eyeColor ~= xi.dynamis.eye.RED then
         mob:setUnkillable(true)
     end
@@ -81,7 +87,7 @@ end
 
 xi.dynamis.mobOnEngage = function(mob, target)
     debugPrint('Statue engaged, checking for spawns...')
-    debugPrint('Engaged mob ID: ' .. mob:getID() .. ' isSpawned: ' .. tostring(mob:isSpawned()) .. ' Distance to spawn: ' .. mob:checkDistance(mob:getSpawnPos()))
+    debugPrint('Engaged mob ID: ' .. mob:getID() .. ' isSpawned: ' .. tostring(mob:isSpawned()))
 
     -- Stop the spawning if the statue is re-engaged after a wipe
     if mob:getLocalVar('engageCheck') == 1 then
@@ -105,8 +111,10 @@ xi.dynamis.mobOnEngage = function(mob, target)
     end
 
     local count = xi.dynamis.spawnTable[zoneId][mobID][1]
+    debugPrint('Spawn count from mobOnEngage: ' .. count)
     if count > 0 then
         local checkForceSpawn = xi.dynamis.spawnTable[zoneId][mobID][2]
+        debugPrint('Checking force spawn conditions. EngageCheck: ' .. mob:getLocalVar('engageCheck') .. ' CheckForceSpawn: ' .. tostring(checkForceSpawn))
         xi.dynamis.spawnNextMobsOnce(mob, mobID, count, target, checkForceSpawn) -- Spawn the next X amount of IDs from that staue
     end
 end
@@ -116,7 +124,7 @@ xi.dynamis.checkEyeColor = function(mob)
     local mobID  = mob:getID()
 
     -- Check if table values exist to prevent nil errors
-    local eyeColor = xi.dynamis.eyeColor[zoneId] and xi.dynamis.eyeColor[zoneId][mobID]
+    local eyeColor = xi.dynamis.eyeColor and xi.dynamis.eyeColor[zoneId] and xi.dynamis.eyeColor[zoneId][mobID]
     if
         eyeColor == xi.dynamis.eye.BLUE or
         eyeColor == xi.dynamis.eye.GREEN
@@ -159,9 +167,9 @@ end
 xi.dynamis.onStatueFight = function(mob, target)
     -- If its a normal statue don't try to do the restore effect
     local zoneId = mob:getZoneID()
-    local restoreStatue = xi.dynamis.spawnTable[zoneId][mob:getID()]
-    local eye = restoreStatue[2]
-    if eye == xi.dynamis.eye.RED then
+    local restoreStatue = xi.dynamis.eyeColor and xi.dynamis.eyeColor[zoneId] and xi.dynamis.eyeColor[zoneId][mob:getID()]
+    local eye = restoreStatue
+    if eye ~= xi.dynamis.eye.BLUE and eye ~= xi.dynamis.eye.GREEN then
         return
     end
 
@@ -184,6 +192,7 @@ xi.dynamis.onStatueFight = function(mob, target)
         -- Test is dead player triggers this
         if mob:checkDistance(playerObj) < 30 then
             if eye == xi.dynamis.eye.BLUE then
+                print('I am restoring HP')
                 local missingHP = playerObj:getMaxHP() - playerObj:getHP()
                 -- TODO: figure out if this wakes slept players up
                 playerObj:restoreHP(missingHP)
@@ -232,6 +241,7 @@ xi.dynamis.onStatueDeath = function(mob, player, optParams)
     -- If the mob is one shotted we need to force spawn the NM mobs
     -- This means it has NOT been engaged yet
     local checkForceSpawn = xi.dynamis.spawnTable[zoneId][statueId][2]
+    debugPrint('StatueDeath: Checking force spawn conditions. EngageCheck: ' .. mob:getLocalVar('engageCheck') .. ' CheckForceSpawn: ' .. tostring(checkForceSpawn))
     if mob:getLocalVar('engageCheck') == 0 and checkForceSpawn then
         local count    = xi.dynamis.spawnTable[zoneId][statueId][1]
         if count > 0 then
@@ -519,8 +529,8 @@ xi.dynamis.spawnNextMobsOnce = function(statue, statueId, count, target, checkFo
             spawnedCount = spawnedCount + 1
             i = i + 1
 
-            -- If the statue dies in one shot, spawn adds but don't pull them into combat.
-            if not checkForceSpawn and target then
+            -- One-shot force spawns call this without a target, so only normal engage pulls adds in.
+            if target then
                 mobToSpawn:updateEnmity(target)
             end
 
@@ -534,7 +544,7 @@ xi.dynamis.spawnNextMobsOnce = function(statue, statueId, count, target, checkFo
                     return
                 end
 
-                if not checkForceSpawn and target then
+                if target then
                     mobArg:lookAt(target:getPos())
                 end
 
@@ -570,6 +580,7 @@ xi.dynamis.generatePath = function(mob)
     local getID  = mob:getID()
 
     if
+        xi.dynamis.paths and
         xi.dynamis.paths[zoneId] and
         xi.dynamis.paths[zoneId][getID] ~= nil
     then
