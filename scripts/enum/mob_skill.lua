@@ -550,6 +550,12 @@ xi.mobSkill =
 
     FRYPAN_1                      = 1081,
     SMOKEBOMB_1                   = 1082,
+    SMOKEBOMB_2                   = 1083,
+    CRISPY_CANDLE_1               = 1084,
+    CRISPY_CANDLE_2               = 1085,
+    PARALYSIS_SHOWER_1            = 1086,
+    PARALYSIS_SHOWER_2            = 1087,
+    GOBLIN_RUSH_2                 = 1088,
 
     -- EES_?                         = 1091,
 
