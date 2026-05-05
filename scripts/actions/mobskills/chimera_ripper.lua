@@ -1,5 +1,7 @@
 -----------------------------------
 -- Chimera Ripper
+-- Family: Automaton
+-- Description: Delivers a single attack. Damage varies with TP.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -11,12 +13,13 @@ end
 mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
-    params.baseDamage     = mob:getWeaponDmg()
-    params.numHits        = 1
-    params.fTP            = { 6.0, 8.5, 11.0 }
-    params.attackType     = xi.attackType.PHYSICAL
-    params.damageType     = xi.damageType.SLASHING
-    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_1
+    params.baseDamage       = mob:getWeaponDmg()
+    params.numHits          = 1
+    params.fTP              = { 1.5, 2.0, 3.0 }
+    params.accuracyModifier = { 100, 100, 100 }
+    params.attackType       = xi.attackType.PHYSICAL
+    params.damageType       = xi.damageType.SLASHING
+    params.shadowBehavior   = xi.mobskills.shadowBehavior.NUMSHADOWS_1
 
     local info = xi.mobskills.mobPhysicalMove(mob, target, skill, action, params)
 

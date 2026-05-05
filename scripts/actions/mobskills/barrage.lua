@@ -15,21 +15,7 @@ end
 mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     action:setCategory(xi.action.category.JOBABILITY_FINISH)
 
-    local level = mob:getMainLvl()
-    local projectileCount
-    if level >= 90 then
-        projectileCount = 7
-    elseif level >= 75 then
-        projectileCount = 6
-    elseif level >= 60 then
-        projectileCount = 5
-    elseif level >= 30 then
-        projectileCount = 4
-    else
-        projectileCount = 3
-    end
-
-    mob:addStatusEffect(xi.effect.BARRAGE, { power = projectileCount, duration = 60, origin = mob })
+    mob:addStatusEffect(xi.effect.BARRAGE, { duration = 60, origin = mob })
 
     skill:setMsg(xi.msg.basic.USES)
 

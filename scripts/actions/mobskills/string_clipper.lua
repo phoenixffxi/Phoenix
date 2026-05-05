@@ -1,5 +1,7 @@
 -----------------------------------
 -- String Clipper
+-- Family: Automaton
+-- Description: Delivers a twofold attack.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -11,12 +13,13 @@ end
 mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
-    params.baseDamage     = mob:getWeaponDmg()
-    params.numHits        = 2
-    params.fTP            = { 3.5, 3.5, 3.5 }
-    params.attackType     = xi.attackType.PHYSICAL
-    params.damageType     = xi.damageType.SLASHING
-    params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_2
+    params.baseDamage       = mob:getWeaponDmg()
+    params.numHits          = 2
+    params.fTP              = { 2.0, 2.0, 2.0 }
+    params.attackMultiplier = { 1.25, 1.25, 1.25 }
+    params.attackType       = xi.attackType.PHYSICAL
+    params.damageType       = xi.damageType.SLASHING
+    params.shadowBehavior   = xi.mobskills.shadowBehavior.NUMSHADOWS_2
 
     local info = xi.mobskills.mobPhysicalMove(mob, target, skill, action, params)
 
