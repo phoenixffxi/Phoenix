@@ -851,6 +851,8 @@ xi.mobSkill =
 
     FORCEFUL_BLOW                 = 1731, -- Used with Mamool's weapons break.
 
+    FIRESPIT                      = 1733,
+
     LAVA_SPIT                     = 1785,
 
     GATES_OF_HADES                = 1790,
