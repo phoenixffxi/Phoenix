@@ -44,6 +44,7 @@
 #include "map/packets/c2s/0x053_lockstyle.h"
 #include "map/packets/c2s/0x06e_group_solicit_req.h"
 #include "map/packets/c2s/0x074_group_solicit_res.h"
+#include "map/packets/c2s/0x096_combine_ask.h"
 #include "map/spell.h"
 #include "map/status_effect_container.h"
 #include "packets/c2s/0x015_pos.h"
@@ -572,6 +573,60 @@ void CLuaClientEntityPairActions::setLockstyle(const uint8 mode, sol::optional<s
     parent_->packets().sendBasicPacket(*packet);
 }
 
+/************************************************************************
+ *  Function: craft()
+ *  Purpose : Emits packet to start a synthesis with the given crystal +
+ *            ingredient item IDs (looked up in the player's inventory).
+ *  Example : player.actions:craft(xi.item.FIRE_CRYSTAL, { xi.item.SAND, xi.item.SAND })
+ *  Notes   : Tick time forward to complete the synth.
+ ************************************************************************/
+
+void CLuaClientEntityPairActions::craft(const uint16 crystalItemId, const sol::table& ingredients) const
+{
+    const auto crystalSlot = parent_->getItemInvSlot(crystalItemId, 1);
+    if (!crystalSlot.has_value())
+    {
+        TestError("craft: crystal {} not in inventory", crystalItemId);
+        return;
+    }
+
+    const size_t ingredientCount = ingredients.size();
+    if (ingredientCount == 0 || ingredientCount > 8)
+    {
+        TestError("craft: ingredient count must be 1..8 (got {})", ingredientCount);
+        return;
+    }
+
+    const auto packet = parent_->packets().createPacket<GP_CLI_COMMAND_COMBINE_ASK>();
+    auto*      p      = packet->as<GP_CLI_COMMAND_COMBINE_ASK>();
+    p->Crystal        = crystalItemId;
+    p->CrystalIdx     = crystalSlot.value();
+    p->Items          = static_cast<uint8>(ingredientCount);
+
+    uint8 idx = 0;
+    for (const auto& [_key, val] : ingredients)
+    {
+        if (idx >= 8 || !val.is<uint16>())
+        {
+            break;
+        }
+
+        const uint16 ingredientId = val.as<uint16>();
+        const auto   invSlot      = parent_->getItemInvSlot(ingredientId, 1);
+        if (!invSlot.has_value())
+        {
+            TestError("craft: ingredient {} not in inventory", ingredientId);
+            return;
+        }
+
+        p->ItemNo[idx]  = ingredientId;
+        p->TableNo[idx] = invSlot.value();
+        ++idx;
+    }
+
+    parent_->packets().sendBasicPacket(*packet);
+}
+
 void CLuaClientEntityPairActions::Register()
 {
     SOL_USERTYPE("CClientEntityPairActions", CLuaClientEntityPairActions);
@@ -594,4 +649,5 @@ void CLuaClientEntityPairActions::Register()
     SOL_REGISTER("sortContainer", CLuaClientEntityPairActions::sortContainer);
     SOL_REGISTER("dropItem", CLuaClientEntityPairActions::dropItem);
     SOL_REGISTER("setLockstyle", CLuaClientEntityPairActions::setLockstyle);
+    SOL_REGISTER("craft", CLuaClientEntityPairActions::craft);
 }

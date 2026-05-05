@@ -142,3 +142,10 @@ end
 ---@return nil
 function CClientEntityPairActions:setLockstyle(mode, items)
 end
+
+---Start a synthesis. Inventory slots are resolved automatically.
+---@param crystal xi.item Crystal item ID
+---@param ingredients xi.item[] Ingredient item IDs (1..8)
+---@return nil
+function CClientEntityPairActions:craft(crystal, ingredients)
+end
