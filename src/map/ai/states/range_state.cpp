@@ -301,7 +301,12 @@ bool CRangeState::CanUseRangedAttack(CBattleEntity* PTarget, bool isEndOfAttack)
 
 bool CRangeState::HasMoved()
 {
-    return floorf(m_startPos.x * 10 + 0.5f) / 10 != floorf(m_PEntity->loc.p.x * 10 + 0.5f) / 10 ||
-           floorf(m_startPos.y * 10 + 0.5f) / 10 != floorf(m_PEntity->loc.p.y * 10 + 0.5f) / 10 ||
-           floorf(m_startPos.z * 10 + 0.5f) / 10 != floorf(m_PEntity->loc.p.z * 10 + 0.5f) / 10;
+    if (m_PEntity->objtype != TYPE_PC)
+    {
+        return false;
+    }
+
+    float charDistance = distance(m_startPos, m_PEntity->loc.p, true);
+
+    return charDistance > 0.3;
 }

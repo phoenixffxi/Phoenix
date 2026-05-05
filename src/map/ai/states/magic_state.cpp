@@ -603,8 +603,9 @@ bool CMagicState::HasMoved()
         return false;
     }
 
-    return floorf(m_startPos.x * 10 + 0.5f) / 10 != floorf(m_PEntity->loc.p.x * 10 + 0.5f) / 10 ||
-           floorf(m_startPos.z * 10 + 0.5f) / 10 != floorf(m_PEntity->loc.p.z * 10 + 0.5f) / 10;
+    float charDistance = distance(m_startPos, m_PEntity->loc.p, true);
+
+    return charDistance > 0.3;
 }
 
 void CMagicState::TryInterrupt(CBattleEntity* PAttacker)
