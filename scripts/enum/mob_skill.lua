@@ -859,7 +859,10 @@ xi.mobSkill =
 
     VAMPIRIC_ROOT                 = 1793,
 
-    XENOGLOSSIA                   = 1823, -- Unique entry.
+    BOILING_POINT                 = 1822,
+    XENOGLOSSIA                   = 1823,
+    AMORPHIC_SPIKES               = 1824,
+    AMORPHIC_SCYTHE               = 1825,
 
     PYRIC_BLAST                   = 1828,
     PYRIC_BULWARK                 = 1829,
