@@ -46,7 +46,8 @@ public:
     ~CNavMesh();
 
     bool load(const std::string& path);
-    void reload();
+    bool installNavMesh(dtNavMesh* newNavMesh);
+    bool save(const std::string& path) const;
     void unload();
 
     auto findPath(const position_t& start, const position_t& end) -> std::vector<pathpoint_t>;
@@ -69,60 +70,7 @@ public:
     // Like validPosition(), but will also set the given position to the valid position that it finds.
     void snapToValidPosition(position_t& position);
 
-    [[nodiscard]] static auto detourStatusString(const uint32 status) -> std::string
-    {
-        std::string outStr;
-
-        // High level status.
-        if (status & DT_FAILURE)
-        {
-            outStr += "DT_FAILURE: Operation failed. ";
-        }
-        if (status & DT_SUCCESS)
-        {
-            outStr += "DT_SUCCESS: Operation succeeded. ";
-        }
-        if (status & DT_IN_PROGRESS)
-        {
-            outStr += "DT_IN_PROGRESS: Operation still in progress. ";
-        }
-
-        // Detail information for status.
-        if (status & DT_WRONG_MAGIC)
-        {
-            outStr += "DT_WRONG_MAGIC: Input data is not recognized. ";
-        }
-        if (status & DT_WRONG_VERSION)
-        {
-            outStr += "DT_WRONG_VERSION: Input data is in wrong version. ";
-        }
-        if (status & DT_OUT_OF_MEMORY)
-        {
-            outStr += "DT_OUT_OF_MEMORY: Operation ran out of memory. ";
-        }
-        if (status & DT_INVALID_PARAM)
-        {
-            outStr += "DT_INVALID_PARAM: An input parameter was invalid. ";
-        }
-        if (status & DT_BUFFER_TOO_SMALL)
-        {
-            outStr += "DT_BUFFER_TOO_SMALL: Result buffer for the query was too small to store all results. ";
-        }
-        if (status & DT_OUT_OF_NODES)
-        {
-            outStr += "DT_OUT_OF_NODES: Query ran out of nodes during search. ";
-        }
-        if (status & DT_PARTIAL_RESULT)
-        {
-            outStr += "DT_PARTIAL_RESULT: Query did not reach the end location, returning best guess. ";
-        }
-        if (status & DT_ALREADY_OCCUPIED)
-        {
-            outStr += "DT_ALREADY_OCCUPIED: A tile has already been assigned to the given x, y coordinate. ";
-        }
-
-        return outStr;
-    }
+    [[nodiscard]] static auto detourStatusString(const uint32 status) -> std::string;
 
 private:
     bool onSameFloor(const position_t& start, float* spos, const position_t& end, float* epos, dtQueryFilter& filter);

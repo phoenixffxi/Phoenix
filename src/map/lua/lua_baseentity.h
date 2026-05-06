@@ -881,6 +881,8 @@ public:
     auto hasSpellList() const -> bool;
     void setSpellList(uint16 spellListId) const;
     void setAutoAttackEnabled(bool state);   // halts/resumes auto attack of entity
+    void setRangedAttackEnabled(bool state); // halts/resumes ranged auto attack of entity
+    bool isRangedAttackEnabled();            // returns whether ranged auto attack is enabled
     void setMagicCastingEnabled(bool state); // halt/resumes casting magic
     void setMobAbilityEnabled(bool state);   // halt/resumes mob skills
     void setMobSkillAttack(int16 listId);    // enable/disable using mobskills as regular attacks

@@ -612,6 +612,14 @@ float CMobEntity::GetRoamRate()
     return (float)getMobMod(MOBMOD_ROAM_RATE) / 10.0f;
 }
 
+float CMobEntity::GetRangedAttackRange()
+{
+    // Defaulted range is 14 as observed on all retail fomor.
+    // In the case this changes for other ranger/ninja types use mobmod
+    const int16 rangedAttackRange = getMobMod(MOBMOD_RANGED_ATTACK_RANGE);
+    return rangedAttackRange > 0 ? static_cast<float>(rangedAttackRange) : 14.0f;
+}
+
 bool CMobEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags)
 {
     TracyZoneScoped;

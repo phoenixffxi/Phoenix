@@ -136,6 +136,7 @@ end
 --- @field skipParry           boolean
 --- @field skipGuard           boolean
 --- @field skipBlock           boolean
+--- @field terminateOnMiss     boolean
 --- @field primaryMessage      xi.msg.basic
 
 --- Table of default skill params shared by physical/ranged mobskills.
@@ -171,6 +172,7 @@ local function normalizePhysicalSkillParams(skillParams)
         skipParry             = false,
         skipGuard             = false,
         skipBlock             = false,
+        terminateOnMiss       = false,
         primaryMessage        = xi.msg.basic.DAMAGE,
     }
 
@@ -640,6 +642,7 @@ xi.mobskills.mobRangedMove = function(mob, target, skill, action, skillParams)
         local hitAbsorbed       = false
         local attackAnticipated = false
         local attackYaegasumi   = false
+        local attackMissed      = false
 
         ----------------------------------
         -- Handle Utsusemi and Blink
@@ -691,6 +694,7 @@ xi.mobskills.mobRangedMove = function(mob, target, skill, action, skillParams)
             else
                 hitInfo          = defaultHitInfo(hitNumber)
                 hitInfo.missType = 'Evaded / Missed'
+                attackMissed     = true
             end
         end
 
@@ -707,7 +711,8 @@ xi.mobskills.mobRangedMove = function(mob, target, skill, action, skillParams)
         if
             hitAbsorbed or
             attackAnticipated or
-            attackYaegasumi
+            attackYaegasumi or
+            (params.terminateOnMiss and attackMissed)
         then
             break
         end

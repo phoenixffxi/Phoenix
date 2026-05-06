@@ -2945,6 +2945,19 @@ INSERT INTO `item_latents` VALUES (18683,287,2,58,0);    -- DMG+2 in Assault
 INSERT INTO `item_latents` VALUES (18684,24,10,58,0);    -- Ranged Attack +10 in Assault
 INSERT INTO `item_latents` VALUES (18684,287,2,58,0);    -- DMG+2 in Assault
 
+-- Lamiabane
+INSERT INTO `item_latents` VALUES (18693, 28, 2, 23, 54); -- +2 Magic Attack Bonus in Arrapago Reef
+INSERT INTO `item_latents` VALUES (18693, 28, 2, 23, 62); -- +2 Magic Attack Bonus in Halvung
+INSERT INTO `item_latents` VALUES (18693, 28, 2, 23, 65); -- +2 Magic Attack Bonus in Mamook
+
+-- Snakeeye
+INSERT INTO `item_latents` VALUES (18708,8,5,13,3);    -- +5 STR while Poisoned
+INSERT INTO `item_latents` VALUES (18708,404,20,13,3); -- -20 HP/tick while Poisoned
+
+-- Snakeeye +1
+INSERT INTO `item_latents` VALUES (18709,8,6,13,3);    -- +6 STR while Poisoned
+INSERT INTO `item_latents` VALUES (18709,404,20,13,3); -- -20 HP/tick while Poisoned
+
 -- Perdu Bow
 INSERT INTO `item_latents` VALUES (18717,24,10,6,1000);  -- Ranged Attack+10 while TP <100%,changed to value on bg since it is different value than ffxicyclopedia
 INSERT INTO `item_latents` VALUES (18717,26,5,6,1000);   -- Ranged Accuracy+5 while TP <100%

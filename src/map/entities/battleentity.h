@@ -379,16 +379,17 @@ public:
     void  UpdateHealth(); // recalculation of the maximum amount of hp and mp, as well as adjusting their current values
     uint8 UpdateSpeed(bool run = false) override;
 
-    uint32 GetWeaponDelay(bool tp);                          // returns delay of combined weapons
-    float  GetMeleeRange(const CBattleEntity* Target) const; // returns the distance considered to be within melee range of the entity
-    int16  GetRangedWeaponDelay(bool forTPCalc);             // returns delay of ranged weapon + ammo where applicable
-    int16  GetAmmoDelay();                                   // returns delay of ammo (for cooldown between shots)
-    uint16 GetMainWeaponDmg();                               // returns total main hand DMG
-    uint16 GetSubWeaponDmg();                                // returns total sub weapon DMG
-    uint16 GetRangedWeaponDmg();                             // returns total ranged weapon DMG
-    uint16 GetMainWeaponRank();                              // returns total main hand DMG Rank
-    uint16 GetSubWeaponRank();                               // returns total sub weapon DMG Rank
-    uint16 GetRangedWeaponRank();                            // returns total ranged weapon DMG Rank
+    uint32        GetWeaponDelay(bool tp);                          // returns delay of combined weapons
+    float         GetMeleeRange(const CBattleEntity* Target) const; // returns the distance considered to be within melee range of the entity
+    virtual float GetRangedAttackRange();                           // returns the maximum valid distance for a ranged attack
+    int16         GetRangedWeaponDelay(bool forTPCalc);             // returns delay of ranged weapon + ammo where applicable
+    int16         GetAmmoDelay();                                   // returns delay of ammo (for cooldown between shots)
+    uint16        GetMainWeaponDmg();                               // returns total main hand DMG
+    uint16        GetSubWeaponDmg();                                // returns total sub weapon DMG
+    uint16        GetRangedWeaponDmg();                             // returns total ranged weapon DMG
+    uint16        GetMainWeaponRank();                              // returns total main hand DMG Rank
+    uint16        GetSubWeaponRank();                               // returns total sub weapon DMG Rank
+    uint16        GetRangedWeaponRank();                            // returns total ranged weapon DMG Rank
 
     uint16 GetSkill(uint16 SkillID); // the current value of the skill (not the maximum, but limited by the level)
 
@@ -509,9 +510,7 @@ public:
     virtual void OnChangeTarget(CBattleEntity* PTarget);
 
     virtual void OnAbility(CAbilityState&, action_t&);
-    virtual void OnRangedAttack(CRangeState&, action_t&)
-    {
-    }
+    virtual void OnRangedAttack(CRangeState&, action_t&);
     virtual void OnDeathTimer();
     virtual void OnRaise()
     {
@@ -552,7 +551,8 @@ public:
     CBattleEntity*    PMaster; // Owner/owner of the entity (applies to all combat entities)
     EntityID_t        lastAttackerId_{};
     timer::time_point LastAttacked;
-    battlehistory_t   BattleHistory{}; // Stores info related to most recent combat actions taken towards this entity.
+    timer::time_point m_LastRangedAttackTime{}; // Used to track ranged attack delay and prevent attacks that are too close together
+    battlehistory_t   BattleHistory{};          // Stores info related to most recent combat actions taken towards this entity.
 
     std::unique_ptr<CStatusEffectContainer> StatusEffectContainer;
     std::unique_ptr<CRecastContainer>       PRecastContainer;

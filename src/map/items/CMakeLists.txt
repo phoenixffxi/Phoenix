@@ -89,5 +89,9 @@ set(ITEM_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/item.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/item.h
     ${CMAKE_CURRENT_SOURCE_DIR}/item_access.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/transaction.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/transaction.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/transactions/item_use.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/transactions/item_use.h
     PARENT_SCOPE
 )

@@ -499,6 +499,11 @@ INSERT INTO `mob_groups` VALUES (40,1114,11,'Dread_Dealing_Dredodak',0,128,0,0,0
 INSERT INTO `mob_groups` VALUES (41,564,11,'Bugbear_Porterman',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (42,7321,11,'Goblins_Bat',0,128,0,0,0,0,NULL);
 
+-- Followers only respawn when their leader respawns.
+INSERT INTO `mob_groups` VALUES (43,565,11,'Bugbear_Servingman',0,128,377,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (44,2689,11,'Moblin_Coalman',0,128,1706,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (45,2694,11,'Moblin_Gasman',0,128,1706,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (46,2699,11,'Moblin_Pikeman',0,128,1706,0,0,0,NULL);
 -- ------------------------------------------------------------
 -- Newton_Movalpolos (Zone 12)
 -- ------------------------------------------------------------
@@ -541,6 +546,11 @@ INSERT INTO `mob_groups` VALUES (34,562,12,'Bugbear_Matman',0,128,375,11900,0,0,
 INSERT INTO `mob_groups` VALUES (36,6718,12,'Sword_Sorcerer_Solisoq',3600,0,3224,14000,0,0,'WOTG');
 INSERT INTO `mob_groups` VALUES (37,2684,12,'Moblin_Aidman',0,128,1703,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (38,2692,12,'Moblin_Engineman',0,128,1708,0,0,0,NULL);
+
+-- Followers only respawn when their leader respawns.
+INSERT INTO `mob_groups` VALUES (39,2684,12,'Moblin_Aidman',0,128,1703,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (40,2692,12,'Moblin_Engineman',0,128,1708,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (41,2706,12,'Moblin_Topsman',0,128,1717,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Mine_Shaft_2716 (Zone 13)
@@ -3168,7 +3178,7 @@ INSERT INTO `mob_groups` VALUES (5,2426,57,'Llamhigyn_Y_Dwr',0,128,1528,0,0,0,NU
 INSERT INTO `mob_groups` VALUES (6,1534,57,'Giant_Orobon',0,128,969,0,0,0,NULL);
 
 INSERT INTO `mob_groups` VALUES (7,2071,57,'Imp_Bandsman',0,128,0,8000,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (8,139,57,'Angler_Orobon',0,128,0,14000,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (8,139,57,'Angler_Orobon',0,128,0,12800,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (9,4123,57,'Valkeng',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (10,3292,57,'Qultada',0,128,0,1925,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (11,1506,57,'Gessho',0,128,0,0,0,0,NULL);

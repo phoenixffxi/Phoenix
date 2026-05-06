@@ -118,6 +118,9 @@ set(SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/monstrosity.h
     ${CMAKE_CURRENT_SOURCE_DIR}/navmesh.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/navmesh.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/navmesh_builder.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/navmesh_builder.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/navmesh_config.h
     ${CMAKE_CURRENT_SOURCE_DIR}/zone_mesh.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/zone_mesh.h
     ${CMAKE_CURRENT_SOURCE_DIR}/ximesh.h

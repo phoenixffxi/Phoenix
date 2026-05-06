@@ -47,6 +47,7 @@ return {
     ['Pursuivant']         = { event = 773 },
     ['Qahzwin']            = { event = 244 },
     ['Qulsun']             = { event = 272 },
+    ['Ratihb']             = { event = 603 },
     ['Rodin-Comidin']      = { event = 665 },
     ['Rujen-Gorgen']       = { event = 667 },
     ['Sajahb']             = { event = 681 },

@@ -70,7 +70,7 @@ CPetEntity::~CPetEntity()
     TracyZoneScoped;
 }
 
-PET_TYPE CPetEntity::getPetType()
+PET_TYPE CPetEntity::getPetType() const
 {
     return m_PetType;
 }
@@ -85,7 +85,7 @@ void CPetEntity::setSpawnLevel(uint8 level)
     m_spawnLevel = level;
 }
 
-bool CPetEntity::isBstPet()
+bool CPetEntity::isBstPet() const
 {
     return getPetType() == PET_TYPE::JUG_PET || objtype == TYPE_MOB;
 }
