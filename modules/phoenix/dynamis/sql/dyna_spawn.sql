@@ -523,8 +523,14 @@ INSERT INTO `mob_spawn_points` VALUES (17535483,0,'Vanguards_Wyvern','Vanguard\'
 -- Dynamis - Bastok (Zone 186)
 -- ------------------------------
 UPDATE `mob_groups` SET spawntype = 128, respawntime = 0 WHERE zoneid = 186; -- Sets mobs to not spawn
-INSERT INTO `mob_groups` VALUES (100,16,186,'AaNyu_Dismantler',900,0,2907,8000,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (101,16,186,'BeEbo_Tortoisedriver',900,0,2907,8000,0,0,NULL); -- POOLID DOES NOT EXIST MAKEA NEW ONE
+INSERT INTO `mob_groups` VALUES (100,16,186,'AaNyu_Dismantler',0,128,2907,8000,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (101,16,186,'BeEbo_Tortoisedriver',0,128,2907,8000,0,0,NULL); -- POOLID DOES NOT EXIST MAKEA NEW ONE
+
+INSERT INTO `mob_groups` VALUES (102,4143,186,'Effigy_Shield_PLD',0,128,2907,8000,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (103,4164,186,'Effigy_Shield_BRD',0,128,2907,8000,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (104,4153,186,'Effigy_Shield_SAM',0,128,2907,8000,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (105,4158,186,'Effigy_Shield_NIN',0,128,2907,8000,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (106,4196,186,'Effigy_Shield_DRK',0,128,2907,8000,0,0,NULL);
 
 -- Delete new dyna spawn points table
 DELETE FROM `mob_spawn_points` WHERE `mobid` BETWEEN 17539073 AND 17539400;
@@ -751,11 +757,11 @@ INSERT INTO `mob_spawn_points` VALUES (17539286,0,'Vanguards_Avatar','Vanguard\'
 INSERT INTO `mob_spawn_points` VALUES (17539287,0,'Adamantking_Effigy','Adamantking Effigy',20,80,80,63.866,7.000,-32.733,215);
 INSERT INTO `mob_spawn_points` VALUES (17539288,0,'Vanguard_Undertaker','Vanguard Undertaker',18,80,80,1.000,1.000,1.000,1);
 INSERT INTO `mob_spawn_points` VALUES (17539289,0,'Vanguards_Avatar','Vanguard\'s Avatar',19,80,80,1.000,1.000,1.000,1);
-INSERT INTO `mob_spawn_points` VALUES (17539290,0,'Adamantking_Effigy','Adamantking Effigy',20,80,80,73.887,7.003,-34.813,185);
+INSERT INTO `mob_spawn_points` VALUES (17539290,0,'Adamantking_Effigy','Adamantking Effigy',20,80,80,73.887,7.000,-34.813,185);
 INSERT INTO `mob_spawn_points` VALUES (17539291,0,'GuNhi_Noondozer','Gu\'Nhi Noondozer',22,80,80,1.000,1.000,1.000,1);
 INSERT INTO `mob_spawn_points` VALUES (17539292,0,'Vanguards_Avatar','Vanguard\'s Avatar',19,80,80,1.000,1.000,1.000,1);
 INSERT INTO `mob_spawn_points` VALUES (17539293,0,'Vanguard_Constable','Vanguard Constable',11,80,80,1.000,1.000,1.000,1);
-INSERT INTO `mob_spawn_points` VALUES (17539294,0,'Adamantking_Effigy','Adamantking Effigy',20,80,80,90.208,7.003,-2.404,128);
+INSERT INTO `mob_spawn_points` VALUES (17539294,0,'Adamantking_Effigy','Adamantking Effigy',20,80,80,88.800,7.000,-2.400,128);
 INSERT INTO `mob_spawn_points` VALUES (17539295,0,'GiPha_Manameister','Gi\'Pha Manameister',24,80,80,1.000,1.000,1.000,1);
 INSERT INTO `mob_spawn_points` VALUES (17539296,0,'Vanguard_Constable','Vanguard Constable',11,80,80,1.000,1.000,1.000,1);
 INSERT INTO `mob_spawn_points` VALUES (17539297,0,'Adamantking_Effigy','Adamantking Effigy',20,80,80,90.045,7.000,-5.987,133);
@@ -911,17 +917,17 @@ INSERT INTO `mob_spawn_points` VALUES (17539446,0,'Adamantking_Effigy','Adamantk
 INSERT INTO `mob_spawn_points` VALUES (17539447,0,'Vanguard_Constable','Vanguard Constable',11,80,80,1.000,1.000,1.000,1);
 INSERT INTO `mob_spawn_points` VALUES (17539448,0,'Vanguard_Hatamoto','Vanguard Hatamoto',12,80,80,1.000,1.000,1.000,1);
 INSERT INTO `mob_spawn_points` VALUES (17539449,0,'GuDha_Effigy','Gu\'Dha Effigy',1,80,80,-16.102,-1.000,-124.914,192);
-INSERT INTO `mob_spawn_points` VALUES (17539450,0,'Effigy_Shield','Effigy Shield',20,80,80,1.000,1.000,1.000,1);
-INSERT INTO `mob_spawn_points` VALUES (17539451,0,'Effigy_Shield','Effigy Shield',20,80,80,1.000,1.000,1.000,1);
-INSERT INTO `mob_spawn_points` VALUES (17539452,0,'Effigy_Shield','Effigy Shield',20,80,80,1.000,1.000,1.000,1);
-INSERT INTO `mob_spawn_points` VALUES (17539453,0,'Effigy_Shield','Effigy Shield',20,80,80,1.000,1.000,1.000,1);
-INSERT INTO `mob_spawn_points` VALUES (17539454,0,'Effigy_Shield','Effigy Shield',20,80,80,1.000,1.000,1.000,1);
+INSERT INTO `mob_spawn_points` VALUES (17539450,0,'Effigy_Shield','Effigy Shield',102,80,80,1.000,1.000,1.000,1);
+INSERT INTO `mob_spawn_points` VALUES (17539451,0,'Effigy_Shield','Effigy Shield',103,80,80,1.000,1.000,1.000,1);
+INSERT INTO `mob_spawn_points` VALUES (17539452,0,'Effigy_Shield','Effigy Shield',104,80,80,1.000,1.000,1.000,1);
+INSERT INTO `mob_spawn_points` VALUES (17539453,0,'Effigy_Shield','Effigy Shield',105,80,80,1.000,1.000,1.000,1);
+INSERT INTO `mob_spawn_points` VALUES (17539454,0,'Effigy_Shield','Effigy Shield',106,80,80,1.000,1.000,1.000,1);
 INSERT INTO `mob_spawn_points` VALUES (17539455,0,'Adamantking_Effigy','Adamantking Effigy',20,80,80,1.000,1.000,1.000,1);
-INSERT INTO `mob_spawn_points` VALUES (17539456,0,'Effigy_Shield','Effigy Shield',20,80,80,1.000,1.000,1.000,1);
-INSERT INTO `mob_spawn_points` VALUES (17539457,0,'Effigy_Shield','Effigy Shield',20,80,80,1.000,1.000,1.000,1);
-INSERT INTO `mob_spawn_points` VALUES (17539458,0,'Effigy_Shield','Effigy Shield',20,80,80,1.000,1.000,1.000,1);
-INSERT INTO `mob_spawn_points` VALUES (17539459,0,'Effigy_Shield','Effigy Shield',20,80,80,1.000,1.000,1.000,1);
-INSERT INTO `mob_spawn_points` VALUES (17539460,0,'Effigy_Shield','Effigy Shield',20,80,80,1.000,1.000,1.000,1);
+INSERT INTO `mob_spawn_points` VALUES (17539456,0,'Effigy_Shield','Effigy Shield',102,80,80,1.000,1.000,1.000,1);
+INSERT INTO `mob_spawn_points` VALUES (17539457,0,'Effigy_Shield','Effigy Shield',103,80,80,1.000,1.000,1.000,1);
+INSERT INTO `mob_spawn_points` VALUES (17539458,0,'Effigy_Shield','Effigy Shield',104,80,80,1.000,1.000,1.000,1);
+INSERT INTO `mob_spawn_points` VALUES (17539459,0,'Effigy_Shield','Effigy Shield',105,80,80,1.000,1.000,1.000,1);
+INSERT INTO `mob_spawn_points` VALUES (17539460,0,'Effigy_Shield','Effigy Shield',106,80,80,1.000,1.000,1.000,1);
 INSERT INTO `mob_spawn_points` VALUES (17539461,0,'Adamantking_Effigy','Adamantking Effigy',20,80,80,-31.799,-1.000,-122.374,218);
 INSERT INTO `mob_spawn_points` VALUES (17539462,0,'Effigy_Shield','Effigy Shield',20,80,80,1.000,1.000,1.000,1);
 INSERT INTO `mob_spawn_points` VALUES (17539463,0,'Effigy_Shield','Effigy Shield',20,80,80,1.000,1.000,1.000,1);
