@@ -325,12 +325,6 @@ auto CNavMesh::findPath(const position_t& start, const position_t& end) -> std::
 {
     TracyZoneScoped;
 
-    if (!m_navMesh)
-    {
-        DebugNavmesh("CNavMesh::findPath No navmesh loaded (%u)", m_zoneID);
-        return {};
-    }
-
     if (std::isnan(start.x) || std::isnan(start.y) || std::isnan(start.z) ||
         std::isnan(end.x) || std::isnan(end.y) || std::isnan(end.z))
     {
@@ -483,11 +477,6 @@ std::pair<int16, position_t> CNavMesh::findRandomPosition(const position_t& star
 {
     TracyZoneScoped;
 
-    if (!m_navMesh)
-    {
-        return {};
-    }
-
     DebugNavmesh("CNavMesh::findRandomPosition (%f, %f, %f) (%u)", start.x, start.y, start.z, m_zoneID);
 
     dtStatus status = 0;
@@ -544,25 +533,9 @@ std::pair<int16, position_t> CNavMesh::findRandomPosition(const position_t& star
     return std::make_pair(0, position_t{ randomPt[0], randomPt[1], randomPt[2], 0, 0 });
 }
 
-bool CNavMesh::inWater(const position_t& point)
-{
-    if (!m_navMesh)
-    {
-        return false;
-    }
-
-    // TODO:
-    return false;
-}
-
 bool CNavMesh::validPosition(const position_t& position)
 {
     TracyZoneScoped;
-
-    if (!m_navMesh)
-    {
-        return true;
-    }
 
     DebugNavmesh("CNavMesh::validPosition (%f, %f, %f) (%u)", position.x, position.y, position.z, m_zoneID);
 
@@ -591,11 +564,6 @@ bool CNavMesh::findClosestValidPoint(const position_t& position, float* validPoi
 {
     TracyZoneScoped;
 
-    if (!m_navMesh)
-    {
-        return true;
-    }
-
     DebugNavmesh("CNavMesh::findClosestValidPoint (%f, %f, %f) (%u)", position.x, position.y, position.z, m_zoneID);
 
     float spos[3];
@@ -621,11 +589,6 @@ bool CNavMesh::findClosestValidPoint(const position_t& position, float* validPoi
 bool CNavMesh::findFurthestValidPoint(const position_t& startPosition, const position_t& endPosition, float* validEndPoint)
 {
     TracyZoneScoped;
-
-    if (!m_navMesh)
-    {
-        return true;
-    }
 
     DebugNavmesh("CNavMesh::findFurthestValidPoint (%f, %f, %f) -> (%f, %f, %f) (%u)", startPosition.x, startPosition.y, startPosition.z, endPosition.x, endPosition.y, endPosition.z, m_zoneID);
 
@@ -665,11 +628,6 @@ bool CNavMesh::findFurthestValidPoint(const position_t& startPosition, const pos
 void CNavMesh::snapToValidPosition(position_t& position)
 {
     TracyZoneScoped;
-
-    if (!m_navMesh)
-    {
-        return;
-    }
 
     DebugNavmesh("CNavMesh::snapToValidPosition (%f, %f, %f) (%u)", position.x, position.y, position.z, m_zoneID);
 
@@ -761,11 +719,6 @@ bool CNavMesh::onSameFloor(const position_t& start, float* spos, const position_
 {
     TracyZoneScoped;
 
-    if (!m_navMesh)
-    {
-        return true;
-    }
-
     DebugNavmesh("CNavMesh::onSameFloor (%f, %f, %f) -> (%f, %f, %f) (%u)", start.x, start.y, start.z, end.x, end.y, end.z, m_zoneID);
 
     float verticalDistance = abs(start.y - end.y);
@@ -827,11 +780,6 @@ bool CNavMesh::raycast(const position_t& start, const position_t& end)
     TracyZoneScoped;
 
     if (start.x == end.x && start.y == end.y && start.z == end.z)
-    {
-        return true;
-    }
-
-    if (!m_navMesh)
     {
         return true;
     }

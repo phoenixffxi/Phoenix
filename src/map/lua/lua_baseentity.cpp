@@ -70,7 +70,6 @@
 #include "treasure_pool.h"
 #include "weapon_skill.h"
 #include "zone.h"
-#include "zone_mesh.h"
 
 #include "ai/ai_container.h"
 
@@ -2229,6 +2228,31 @@ void CLuaBaseEntity::setCarefulPathing(bool careful)
     {
         m_PBaseEntity->PAI->PathFind->SetCarefulPathing(careful);
     }
+}
+
+/************************************************************************
+ *  Function: canSee(...)
+ *  Purpose :
+ *  Example :
+ ************************************************************************/
+
+bool CLuaBaseEntity::canSee(const CLuaBaseEntity* target)
+{
+    return m_PBaseEntity->CanSeeTarget(target->GetBaseEntity());
+}
+
+/************************************************************************
+ *  Function: inWater(...)
+ *  Purpose :
+ *  Example :
+ ************************************************************************/
+
+bool CLuaBaseEntity::inWater()
+{
+    // NOTE: Same logic as in PathFind::InWater
+    const auto& pos     = m_PBaseEntity->loc.p;
+    const auto  terrain = m_PBaseEntity->loc.zone->xiMesh()->getTerrainAt(pos.x, pos.y, pos.z);
+    return terrain == TerrainType::ShallowWater || terrain == TerrainType::DeepWater;
 }
 
 /************************************************************************
@@ -19716,6 +19740,8 @@ void CLuaBaseEntity::Register()
     SOL_REGISTER("hasFollowTarget", CLuaBaseEntity::hasFollowTarget);
     SOL_REGISTER("unfollow", CLuaBaseEntity::unfollow);
     SOL_REGISTER("setCarefulPathing", CLuaBaseEntity::setCarefulPathing);
+    SOL_REGISTER("canSee", CLuaBaseEntity::canSee);
+    SOL_REGISTER("inWater", CLuaBaseEntity::inWater);
 
     SOL_REGISTER("openDoor", CLuaBaseEntity::openDoor);
     SOL_REGISTER("closeDoor", CLuaBaseEntity::closeDoor);
