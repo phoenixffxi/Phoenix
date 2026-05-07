@@ -203,10 +203,10 @@ auto MapEngine::init() -> Task<void>
     }
 
     co_await zoneutils::Initialize(scheduler_, config_);
+    instanceutils::Initialize(config_);
 
     if (!config_.lazyZones)
     {
-        instanceutils::LoadInstanceList(mapIPP);
         CTransportHandler::getInstance()->InitializeTransport(mapIPP);
     }
 
