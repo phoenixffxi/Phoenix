@@ -18,11 +18,8 @@ commandObj.onTrigger = function(player)
         return
     end
 
-    if player:canSee(target) then
-        player:printToPlayer(string.format('%s CAN see %s', player:getName(), target:getName()))
-    else
-        player:printToPlayer(string.format('%s CANNOT see %s', player:getName(), target:getName()))
-    end
+    local str = player:canSee(target) and 'CAN' or 'CANNOT'
+    player:printToPlayer(string.format('%s %s see %s', player:getName(), str, target:getName()))
 end
 
 return commandObj

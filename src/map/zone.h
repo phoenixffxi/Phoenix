@@ -717,7 +717,6 @@ private:
     std::string    m_zoneName;
     uint16         m_zonePort{};
     uint32         m_zoneIP{};
-    bool           m_useNavMesh;
 
     Weather m_Weather;
     uint32  m_WeatherChangeTime;

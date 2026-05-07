@@ -160,7 +160,7 @@ public:
     // int32 LimitDistance(lua_Stat* L);    // limits the current path distance to given max distance
     void setCarefulPathing(bool careful);
 
-    bool canSee(const CLuaBaseEntity* target);
+    bool canSee(const CLuaBaseEntity* PTarget);
     bool inWater();
 
     void openDoor(const sol::object& seconds);

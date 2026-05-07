@@ -196,7 +196,7 @@ auto MapEngine::init() -> Task<void>
     {
         ShowError("./ximeshes/ directory isn't present or is empty");
     }
-    
+
     if (!std::filesystem::exists("./navmeshes/") || std::filesystem::is_empty("./navmeshes/"))
     {
         ShowWarning("./navmeshes/ directory isn't present or is empty");

@@ -2232,19 +2232,25 @@ void CLuaBaseEntity::setCarefulPathing(bool careful)
 
 /************************************************************************
  *  Function: canSee(...)
- *  Purpose :
- *  Example :
+ *  Purpose : Execute a raycast between ENTITY_HEIGHT and the found at target's feet
+ *  Example : player:canSee(mob)
  ************************************************************************/
 
-bool CLuaBaseEntity::canSee(const CLuaBaseEntity* target)
+bool CLuaBaseEntity::canSee(const CLuaBaseEntity* PTarget)
 {
-    return m_PBaseEntity->CanSeeTarget(target->GetBaseEntity());
+    if (!PTarget)
+    {
+        ShowWarning("Attempting to see invalid entity (from %s).", m_PBaseEntity->getName());
+        return false;
+    }
+
+    return m_PBaseEntity->CanSeeTarget(PTarget->GetBaseEntity());
 }
 
 /************************************************************************
- *  Function: inWater(...)
- *  Purpose :
- *  Example :
+ *  Function: inWater()
+ *  Purpose : Execute an ximesh cell search downwards to check if entity is in water
+ *  Example : if player:inWater() then ...
  ************************************************************************/
 
 bool CLuaBaseEntity::inWater()
