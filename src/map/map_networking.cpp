@@ -51,6 +51,7 @@ MapNetworking::MapNetworking(Scheduler& scheduler, MapStatistics& mapStatistics,
 : scheduler_(scheduler)
 , mapStatistics_(mapStatistics)
 , mapIPP_(config.ipp) // TODO: Refactor to not use this, since we have config_ in here
+, mapSessions_(scheduler)
 , config_(config)
 , PBuff{}
 , PBuffCopy{}
@@ -266,7 +267,6 @@ int32 MapNetworking::recv_parse(uint8* buff, size_t* buffsize, MapSession* PSess
                     // TODO: err msg?
                     return -1;
                 }
-                PSession->scheduler = &scheduler_;
             }
             else
             {

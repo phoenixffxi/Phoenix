@@ -344,7 +344,7 @@ void LoadItemList()
                 static_cast<CItemWeapon*>(PItem)->setILvlParry(rset->get<uint16>("ilvl_parry"));
                 static_cast<CItemWeapon*>(PItem)->setILvlMacc(rset->get<uint16>("ilvl_macc"));
                 static_cast<CItemWeapon*>(PItem)->setBaseDelay(rset->get<uint16>("delay"));
-                static_cast<CItemWeapon*>(PItem)->setDelay((rset->get<uint16>("delay") * 1000) / 60);
+                static_cast<CItemWeapon*>(PItem)->setDelay(rset->get<uint16>("delay"));
                 static_cast<CItemWeapon*>(PItem)->setDamage(rset->get<uint16>("dmg"));
                 static_cast<CItemWeapon*>(PItem)->setDmgType(rset->get<DAMAGE_TYPE>("dmgType"));
                 static_cast<CItemWeapon*>(PItem)->setMaxHit(rset->get<uint8>("hit"));

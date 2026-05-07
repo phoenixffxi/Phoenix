@@ -49,7 +49,7 @@ Transaction::~Transaction()
 {
     if (this->state_ == TransactionState::Open)
     {
-        ShowErrorFmt("Transaction::~Transaction: tx {} still Open — subclass dtor must call rollbackIfOpen()", this->id_);
+        ShowErrorFmt("Transaction::~Transaction: tx {} still Open - subclass dtor must call rollbackIfOpen()", this->id_);
         std::abort();
     }
 }

@@ -1,4 +1,4 @@
-﻿/*
+/*
 ===========================================================================
 
   Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -25,13 +25,13 @@
 #include <DetourNavMeshQuery.h>
 
 #include "common/logging.h"
-#include "common/mmo.h"
+#include "inavmesh.h"
 
 #include <cfloat>
 #include <memory>
 #include <vector>
 
-class CNavMesh
+class CNavMesh final : public INavMesh
 {
 public:
     static void ToFFXIPos(const position_t* pos, float* out);
@@ -42,33 +42,24 @@ public:
     static void ToDetourPos(position_t* out);
 
 public:
-    CNavMesh(uint16 zoneID);
-    ~CNavMesh();
+    explicit CNavMesh(uint16 zoneID);
+    ~CNavMesh() override;
+
+    DISALLOW_COPY_AND_MOVE(CNavMesh);
 
     bool load(const std::string& path);
     bool installNavMesh(dtNavMesh* newNavMesh);
     bool save(const std::string& path) const;
     void unload();
 
-    auto findPath(const position_t& start, const position_t& end) -> std::vector<pathpoint_t>;
-    auto findRandomPosition(const position_t& start, float maxRadius) -> std::pair<int16, position_t>;
-
-    // Returns true if the point is in water (not implemented)
-    bool inWater(const position_t& point);
-
-    // Returns true if no wall was hit
-    //
-    // Recast Detour Docs:
-    // Casts a 'walkability' ray along the surface of the navigation mesh from the start position toward the end position.
-    // Note: This is not a point-to-point in 3D space calculation, it is 2D across the navmesh!
-    bool raycast(const position_t& start, const position_t& end);
-
-    bool validPosition(const position_t& position);
-    bool findClosestValidPoint(const position_t& position, float* validPoint);
-    bool findFurthestValidPoint(const position_t& startPosition, const position_t& endPosition, float* validPoint);
-
-    // Like validPosition(), but will also set the given position to the valid position that it finds.
-    void snapToValidPosition(position_t& position);
+    // INavMesh
+    auto findPath(const position_t& start, const position_t& end) -> std::vector<pathpoint_t> override;
+    auto findRandomPosition(const position_t& start, float maxRadius) -> std::pair<int16, position_t> override;
+    auto raycast(const position_t& start, const position_t& end) -> bool override;
+    auto validPosition(const position_t& position) -> bool override;
+    auto findClosestValidPoint(const position_t& position, float* validPoint) -> bool override;
+    auto findFurthestValidPoint(const position_t& startPosition, const position_t& endPosition, float* validPoint) -> bool override;
+    void snapToValidPosition(position_t& position) override;
 
     [[nodiscard]] static auto detourStatusString(const uint32 status) -> std::string;
 

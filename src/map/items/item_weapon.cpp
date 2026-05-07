@@ -83,7 +83,7 @@ CItemWeapon::~CItemWeapon() = default;
 
 void CItemWeapon::resetDelay()
 {
-    setDelay(getBaseDelay());
+    m_delay = m_baseDelay;
 }
 
 /************************************************************************
@@ -318,15 +318,14 @@ uint16 CItemWeapon::getILvlMacc() const
 
 /************************************************************************
  *                                                                      *
- * Set the weapon delay time. Value in milliseconds.                    *
- * All math operations are performed with integers which is why         *
- * the order of operations is important                                 *
+ * Set the weapon delay time. Value in raw game delay units.            *
+ * Converts to milliseconds: delay * 1000 / 60.                         *
  *                                                                      *
  ************************************************************************/
 
 void CItemWeapon::setDelay(uint16 delay)
 {
-    m_delay = delay;
+    m_delay = uint16(delay * 1000.0f / 60.0f);
 }
 
 /************************************************************************
@@ -344,27 +343,25 @@ uint16 CItemWeapon::getDelay() const
 
 /************************************************************************
  *                                                                      *
- *  Set the un-adjusted delay of the weapon                             *
- *  This is to fix delay adjustments of mobs and is not intended for    *
- *  use outside of zoneutils/mobutils                                   *
+ *  Set the un-adjusted delay of the weapon. Value in raw game units.  *
+ *  Converts to milliseconds: delay * 1000 / 60.                       *
  *                                                                      *
  ************************************************************************/
 
 void CItemWeapon::setBaseDelay(uint16 delay)
 {
-    m_baseDelay = delay;
+    m_baseDelay = uint16(delay * 1000.0f / 60.0f);
 }
 
 /************************************************************************
  *                                                                       *
- * get un-adjusted or adjusted base delay of weapon.                     *
- * Player weapons are unadjusted, "fake" mob/trust weapons are adjusted. *
+ * Get the un-adjusted base delay of the weapon. Value in raw game units.*
  *                                                                       *
  ************************************************************************/
 
 uint16 CItemWeapon::getBaseDelay() const
 {
-    return m_baseDelay;
+    return uint16(m_baseDelay * 60.0f / 1000.0f);
 }
 
 /************************************************************************

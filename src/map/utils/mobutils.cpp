@@ -1073,9 +1073,7 @@ void SetupRangedAttack(CMobEntity* PMob)
     PMob->defaultMobMod(MOBMOD_RANGED_ATTACK_RANGE, 14);
     PMob->PAI->GetController()->SetRangedAttackEnabled(true);
 
-    // auto* rangedWeapon = static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_RANGED]);
-    // rangedWeapon->setDamage(GetWeaponDamage(PMob, SLOT_RANGED));
-    static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_RANGED])->setBaseDelay(290);
+    static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_RANGED])->setBaseDelay(300);
 }
 
 void SetupJob(CMobEntity* PMob)
@@ -1772,8 +1770,8 @@ auto InstantiateAlly(uint32 groupid, uint16 zoneID, CInstance* instance) -> CMob
         static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_MAIN])->setMaxHit(1);
         static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_MAIN])->setSkillType(rset->get<uint8>("cmbSkill"));
         PMob->m_dmgMult = rset->get<uint16>("cmbDmgMult");
-        static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_MAIN])->setDelay((rset->get<uint16>("cmbDelay") * 1000) / 60);
-        static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_MAIN])->setBaseDelay((rset->get<uint16>("cmbDelay") * 1000) / 60);
+        static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_MAIN])->setDelay(rset->get<uint16>("cmbDelay"));
+        static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_MAIN])->setBaseDelay(rset->get<uint16>("cmbDelay"));
 
         PMob->m_Behavior  = rset->get<uint16>("behavior");
         PMob->m_Link      = rset->get<uint8>("links");
@@ -1942,8 +1940,8 @@ auto InstantiateDynamicMob(uint32 groupid, uint16 groupZoneId, uint16 targetZone
         static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_MAIN])->setMaxHit(1);
         static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_MAIN])->setSkillType(rset->get<uint8>("cmbSkill"));
         PMob->m_dmgMult = rset->get<uint16>("cmbDmgMult");
-        static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_MAIN])->setDelay((rset->get<uint16>("cmbDelay") * 1000) / 60);
-        static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_MAIN])->setBaseDelay((rset->get<uint16>("cmbDelay") * 1000) / 60);
+        static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_MAIN])->setDelay(rset->get<uint16>("cmbDelay"));
+        static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_MAIN])->setBaseDelay(rset->get<uint16>("cmbDelay"));
 
         PMob->m_Behavior  = rset->get<uint16>("behavior");
         PMob->m_Link      = rset->get<uint8>("links");

@@ -40,6 +40,7 @@
 #include "ai/states/weaponskill_state.h"
 #include "attack.h"
 #include "attackround.h"
+#include "entities/charentity.h"
 #include "items/item_weapon.h"
 #include "job_points.h"
 #include "lua/luautils.h"
@@ -51,6 +52,8 @@
 #include "status_effect_container.h"
 #include "trustentity.h"
 #include "utils/battleutils.h"
+#include "utils/charutils.h"
+#include "utils/fishingutils.h"
 #include "utils/messageutils.h"
 #include "utils/mobutils.h"
 #include "utils/petutils.h"
@@ -454,7 +457,7 @@ bool CBattleEntity::Rest(float rate)
 uint32 CBattleEntity::GetWeaponDelay(bool tp)
 {
     TracyZoneScoped;
-    uint32 finalDelay = 8000; // 480 (base) * 1000 / 60 (milisecond conversion)
+    uint32 finalDelay = 8000; // 480 (base) * 1000 / 60 (millisecond conversion)
 
     if (auto* weapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_MAIN]))
     {
@@ -940,9 +943,18 @@ int32 CBattleEntity::takeDamage(int32 amount, CBattleEntity* attacker /* = nullp
     // RoE Damage Taken Trigger
     if (this->objtype == TYPE_PC)
     {
+        auto* PChar = static_cast<CCharEntity*>(this);
+
         if (amount > 0)
         {
-            roeutils::event(ROE_EVENT::ROE_DMGTAKEN, static_cast<CCharEntity*>(this), RoeDatagram("dmg", amount));
+            roeutils::event(ROE_EVENT::ROE_DMGTAKEN, PChar, RoeDatagram("dmg", amount));
+
+            // Taking 1~8 damage force fails the current synthesis.
+            // Threshold varies with unknown parameters.
+            if (PChar->isCrafting())
+            {
+                charutils::forceSynthCritFail("CBattleEntity::takeDamage", PChar);
+            }
         }
     }
     else if (attacker && attacker->objtype == TYPE_PC)
@@ -2223,6 +2235,56 @@ void CBattleEntity::Die()
     SetBattleTargetID(0);
 }
 
+void CBattleEntity::processActionEffectFlags(const action_t& action) const
+{
+    bool emittedHostile = false;
+    bool isMainTarget   = true;
+    for (auto& target : action.targets)
+    {
+        auto* PTarget = dynamic_cast<CBattleEntity*>(zoneutils::GetEntity(target.actorId));
+        if (!PTarget && loc.zone)
+        {
+            PTarget = loc.zone->GetCharByID(target.actorId);
+        }
+
+        if (PTarget && this->allegiance != PTarget->allegiance)
+        {
+            emittedHostile = true;
+            if (isMainTarget)
+            {
+                // Main hostile target loses DETECTABLE
+                PTarget->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
+            }
+
+            // Every hostile target loses ON_ATTACK
+            PTarget->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ON_ATTACK);
+
+            // Hostile action cancels fishing on PC targets
+            if (auto* PChar = dynamic_cast<CCharEntity*>(PTarget); PChar && PChar->isFishing())
+            {
+                fishingutils::InterruptFishing(PChar);
+            }
+        }
+
+        isMainTarget = false;
+    }
+
+    if (emittedHostile)
+    {
+        // Hostile emit drops actor's ON_ATTACK
+        this->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ON_ATTACK);
+
+        // ATTACK drops on physical hostile actions: melee/WS confirmed; mobskill/petskill unverified
+        if (action.actiontype == ActionCategory::BasicAttack ||
+            action.actiontype == ActionCategory::SkillFinish ||
+            action.actiontype == ActionCategory::MobSkillFinish ||
+            action.actiontype == ActionCategory::PetSkillFinish)
+        {
+            this->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK);
+        }
+    }
+}
+
 void CBattleEntity::OnDeathTimer()
 {
     TracyZoneScoped;
@@ -2475,13 +2537,7 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
         }
     }
 
-    // TODO: Pixies will probably break here, once they're added.
-    if (this->allegiance != PActionTarget->allegiance)
-    {
-        // Should not be removed by AoE effects that don't target the player or
-        // buffs cast by other players or mobs.
-        PActionTarget->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
-    }
+    this->processActionEffectFlags(action);
 
     StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_MAGIC_END);
 
@@ -2604,6 +2660,7 @@ void CBattleEntity::OnAbility(CAbilityState& state, action_t& action)
 
         PRecastContainer->Add(RECAST_ABILITY, static_cast<Recast>(action.actionid), action.recast);
     }
+    this->processActionEffectFlags(action);
 }
 
 void CBattleEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& action)
@@ -2874,11 +2931,6 @@ void CBattleEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
             first = false;
         }
 
-        if (PSkill->getValidTargets() & TARGET_ENEMY)
-        {
-            PTargetFound->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
-        }
-
         if (PTargetFound->isDead())
         {
             battleutils::ClaimMob(PTargetFound, this);
@@ -2927,6 +2979,8 @@ void CBattleEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
         }
         battleutils::DirtyExp(PTarget, this);
     }
+
+    this->processActionEffectFlags(action);
 }
 
 bool CBattleEntity::CanAttack(CBattleEntity* PTarget, std::unique_ptr<CBasicPacket>& errMsg)
@@ -3082,13 +3136,6 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
 {
     TracyZoneScoped;
     auto* PTarget = static_cast<CBattleEntity*>(state.GetTarget());
-
-    if (PTarget->objtype == TYPE_PC)
-    {
-        // TODO: Should not be removed by AoE effects that don't target the player.
-        PTarget->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
-        PTarget->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ON_ATTACK);
-    }
 
     battleutils::ClaimMob(PTarget, this); // Mobs get claimed whether or not your attack actually is intimidated/paralyzed
     PTarget->LastAttacked = timer::now();
@@ -3436,7 +3483,8 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
     // End of attack loop
     /////////////////////////////////////////////////////////////////////////////////////////////
 
-    this->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK | EFFECTFLAG_DETECTABLE);
+    this->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
+    this->processActionEffectFlags(action);
 
     return true;
 }

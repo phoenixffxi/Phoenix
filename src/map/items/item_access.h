@@ -79,7 +79,7 @@ struct ItemAccess
         // Refuse on either side of the transition.
         if (target == ItemState::InTransaction || item->state() == ItemState::InTransaction)
         {
-            ShowErrorFmt("ItemAccess::mark: illegal tx transition for item {} (current={}, target={}) — use tx commit/rollback path",
+            ShowErrorFmt("ItemAccess::mark: illegal tx transition for item {} (current={}, target={}) - use tx commit/rollback path",
                          item->getID(),
                          magic_enum::enum_name(item->state()),
                          magic_enum::enum_name(target));

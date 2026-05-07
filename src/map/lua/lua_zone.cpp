@@ -26,14 +26,14 @@
 
 #include "entities/charentity.h"
 #include "entities/npcentity.h"
-#include "los/zone_los.h"
 #include "lua_baseentity.h"
-#include "navmesh.h"
+#include "map/navmesh/navmesh.h"
 #include "trigger_area.h"
 #include "utils/mobutils.h"
 #include "zone.h"
 #include "zone_entities.h"
-#include "zone_mesh.h"
+
+#include <map/ximesh/ximesh.h>
 
 CLuaZone::CLuaZone(CZone* PZone)
 : m_pLuaZone(PZone)
@@ -250,14 +250,7 @@ bool CLuaZone::isNavigablePoint(const sol::table& point)
     };
     // clang-format on
 
-    if (m_pLuaZone->m_navMesh)
-    {
-        return m_pLuaZone->m_navMesh->validPosition(position);
-    }
-    else // No navmesh, just nod and smile
-    {
-        return true;
-    }
+    return m_pLuaZone->navMesh()->validPosition(position);
 }
 
 auto CLuaZone::insertDynamicEntity(sol::table table) -> CBaseEntity*
@@ -351,15 +344,10 @@ sol::table CLuaZone::queryEntitiesByName(const std::string& name)
 
 auto CLuaZone::getTerrainType(const sol::table& position) -> TerrainType
 {
-    if (auto mesh = m_pLuaZone->zoneMesh())
-    {
-        return (*mesh)->getTerrainAt(
-            position["x"].get_or<float>(0),
-            position["y"].get_or<float>(0),
-            position["z"].get_or<float>(0));
-    }
-
-    return TerrainType::None;
+    return m_pLuaZone->xiMesh()->getTerrainAt(
+        position["x"].get_or<float>(0),
+        position["y"].get_or<float>(0),
+        position["z"].get_or<float>(0));
 }
 
 /************************************************************************
@@ -370,15 +358,10 @@ auto CLuaZone::getTerrainType(const sol::table& position) -> TerrainType
 
 auto CLuaZone::getFloorId(const sol::table& position) -> uint8
 {
-    if (auto mesh = m_pLuaZone->zoneMesh())
-    {
-        return (*mesh)->getFloorId(
-            position["x"].get_or<float>(0),
-            position["y"].get_or<float>(0),
-            position["z"].get_or<float>(0));
-    }
-
-    return 0;
+    return m_pLuaZone->xiMesh()->getFloorId(
+        position["x"].get_or<float>(0),
+        position["y"].get_or<float>(0),
+        position["z"].get_or<float>(0));
 }
 
 //======================================================//

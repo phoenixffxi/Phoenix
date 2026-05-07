@@ -22,8 +22,16 @@
 #pragma once
 
 #include "common/cbasetypes.h"
+#include "map/enums/terrain_type.h"
+#include "map/ximesh/vector3.h"
 
-// Ximesh binary format -- zlib-compressed zone collision geometry.
+#include <array>
+#include <limits>
+#include <optional>
+#include <vector>
+
+//
+// Binary format structs - packed representations of the on-disk ximesh layout.
 // Reference: https://github.com/InoUno/xi-visualizer/blob/main/src/graphics/ximesh.ts
 //
 // After decompression:
@@ -44,6 +52,7 @@
 // Placement (at placementOffset):
 //   [PlacementFlags]                      u32 bitfield
 //   [float x 12]                          3x3 rotation (col-major) + vec3 translation
+//
 
 #pragma pack(push, 1)
 struct XimeshHeader
@@ -86,3 +95,70 @@ struct PlacementFlags
     uint32 padding2 : 4;
 };
 #pragma pack(pop)
+
+//
+// Intermediate structs - parsed, in-memory representations built from the
+// binary format above.
+//
+
+struct MeshBlock
+{
+    std::vector<float>        vertices;      // x,y,z interleaved (vertexCount * 3)
+    std::vector<uint16>       indices;       // 3 per triangle
+    std::vector<TriangleMeta> metas;         // 1 per triangle
+    bool                      hasBarriers{}; // true if any triangle in this block is a barrier
+};
+
+struct MeshPlacement
+{
+    std::array<float, 9> rotation{}; // 3x3 column-major
+    std::array<float, 3> translation{};
+    uint8                mapId{};
+    bool                 roofed{};
+    float                yMin{ std::numeric_limits<float>::max() };
+    float                yMax{ std::numeric_limits<float>::lowest() };
+};
+
+struct CellEntry
+{
+    uint16 blockIdx;
+    uint16 placementIdx;
+};
+
+struct CellSpan
+{
+    uint32 offset : 24;
+    uint32 count : 8;
+};
+
+// Result of a vertical downcast (query). Answers "what floor is under this XZ position?"
+struct CellHit
+{
+    TerrainType type{ TerrainType::None };
+    uint8       mapId{};
+    bool        roofed{};
+    bool        barrier{};
+    float       y{}; // world-space floor height at the query point
+};
+
+struct YOffsets
+{
+    float start;
+    float end;
+};
+
+struct YRange
+{
+    float min{ std::numeric_limits<float>::max() };
+    float max{ std::numeric_limits<float>::lowest() };
+};
+
+// Result of a directional ray cast (rayIntersect / getPositionInfo). Answers "where did this ray hit geometry?"
+struct RayHitInfo
+{
+    Vector3              intersection{}; // 3D hit point in object space
+    float                distanceSq{};
+    const MeshPlacement* placement{};
+    TerrainType          type{ TerrainType::None };
+    bool                 barrier{};
+};
