@@ -7991,10 +7991,13 @@ void forceSynthCritFail(const std::string& sourceFunction, CCharEntity* PChar)
     // The broken rod can never be lost in a normal failed synth. It will only be lost if the synth is
     // interrupted in some way, such as by being attacked or moving to another area (e.g. ship docking).
 
-    ShowWarning("%s: %s attempting to zone in the middle of a synth, failing their synth!", sourceFunction, PChar->getName());
+    ShowWarning("%s: Force crit-failing %s synthesis!", sourceFunction, PChar->getName());
     synthutils::doSynthCriticalFail(PChar);
 
     PChar->CraftContainer->Clean(); // Clean to reset m_ItemCount to 0
+    PChar->animation = ANIMATION_NONE;
+    PChar->updatemask |= UPDATE_HP;
+    PChar->pushPacket<CCharStatusPacket>(PChar);
 }
 
 void removeCharFromZone(CCharEntity* PChar)

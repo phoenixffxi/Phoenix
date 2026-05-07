@@ -2293,11 +2293,6 @@ int32 TakePhysicalDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, PHY
         ((CMobEntity*)PDefender)->PEnmityContainer->UpdateEnmityFromDamage(PAttacker, 0);
     }
 
-    if (PAttacker->objtype == TYPE_PC && !isRanged && !isCounter)
-    {
-        PAttacker->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK);
-    }
-
     return damage;
 }
 
@@ -2423,11 +2418,6 @@ int32 TakeWeaponskillDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, 
     else if (PDefender->objtype == TYPE_MOB)
     {
         ((CMobEntity*)PDefender)->PEnmityContainer->UpdateEnmityFromDamage(PAttacker, 0);
-    }
-
-    if (!isRanged)
-    {
-        PAttacker->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK);
     }
 
     // Apply TP

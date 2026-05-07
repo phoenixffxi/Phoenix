@@ -1734,6 +1734,7 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
     }
 
     PLatentEffectContainer->CheckLatentsWS(false);
+    this->processActionEffectFlags(action);
 }
 
 void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
@@ -2029,6 +2030,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
         StatusEffectContainer->DelStatusEffect(PAbility->getPostActionEffectCleanup());
 
         charutils::ApplyAbilityRecast(this, PAbility, charge, baseChargeTime, action.recast);
+        this->processActionEffectFlags(action);
     }
     else if (errMsg)
     {
@@ -2392,6 +2394,7 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
         // Camouflage not up, so remove all detectable status effects
         StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
     }
+    this->processActionEffectFlags(action);
 }
 
 bool CCharEntity::IsMobOwner(CBattleEntity* PBattleTarget)

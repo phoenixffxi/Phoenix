@@ -320,6 +320,7 @@ void CTrustEntity::OnRangedAttack(CRangeState& state, action_t& action)
     // battleutils::RemoveAmmo(this, ammoConsumed);
     // only remove detectables
     StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
+    this->processActionEffectFlags(action);
 }
 
 bool CTrustEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags)
@@ -473,4 +474,6 @@ void CTrustEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& act
     {
         ActionInterrupts::WeaponSkillOutOfRange(this, PBattleTarget);
     }
+
+    this->processActionEffectFlags(action);
 }

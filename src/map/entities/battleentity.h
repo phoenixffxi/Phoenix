@@ -511,6 +511,7 @@ public:
 
     virtual void OnAbility(CAbilityState&, action_t&);
     virtual void OnRangedAttack(CRangeState&, action_t&);
+    void         processActionEffectFlags(const action_t& action) const; // Drops status effects whose flags are tied to action emit/receive.
     virtual void OnDeathTimer();
     virtual void OnRaise()
     {
