@@ -540,7 +540,8 @@ INSERT INTO `status_effects` VALUES (477,'sacrosanctity',@FLAG_DEATH | @FLAG_ON_
 INSERT INTO `status_effects` VALUES (478,'palisade',@FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_ON_JOBCHANGE,0,0,0,0,0,0,0,0,NULL);
 INSERT INTO `status_effects` VALUES (479,'scarlet_delirium',@FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_ON_JOBCHANGE | @FLAG_NO_CANCEL,0,0,0,0,0,0,0,0,NULL);
 INSERT INTO `status_effects` VALUES (480,'scarlet_delirium',@FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_ON_JOBCHANGE,0,0,0,0,0,0,0,0,NULL);
-INSERT INTO `status_effects` VALUES (482,'decoy_shot',@FLAG_DEATH | @FLAG_ON_JOBCHANGE,0,0,0,0,0,0,0,0,NULL);
+INSERT INTO `status_effects` VALUES (481,'abdhaljs_seal',@FLAG_NO_CANCEL,0,0,0,0,0,0,0,0,NULL);
+INSERT INTO `status_effects` VALUES (482,'decoy_shot',@FLAG_DEATH | @FLAG_ON_JOBCHANGE,482,0,0,0,0,0,0,0,NULL); -- TODO: flags need review
 INSERT INTO `status_effects` VALUES (483,'hagakure',@FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_ON_JOBCHANGE,0,0,0,0,0,0,0,0,NULL);
 INSERT INTO `status_effects` VALUES (484,'issekigan',@FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_ON_JOBCHANGE,0,0,0,0,0,0,0,0,NULL);
 INSERT INTO `status_effects` VALUES (485,'unbridled_learning',@FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_ON_JOBCHANGE,0,0,0,0,0,0,0,0,NULL);
@@ -553,6 +554,7 @@ INSERT INTO `status_effects` VALUES (491,'inner_strength',@FLAG_DEATH | @FLAG_ON
 INSERT INTO `status_effects` VALUES (492,'asylum',@FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_ON_JOBCHANGE,0,0,0,0,0,0,0,0,NULL);
 INSERT INTO `status_effects` VALUES (493,'subtle_sorcery',@FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_ON_JOBCHANGE,0,0,0,0,0,0,0,0,NULL);
 INSERT INTO `status_effects` VALUES (494,'stymie',@FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_ON_JOBCHANGE,0,0,0,0,0,0,0,0,NULL);
+INSERT INTO `status_effects` VALUES (495,'macro_test',@FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_ON_JOBCHANGE,0,0,0,0,0,0,0,0,NULL);
 INSERT INTO `status_effects` VALUES (496,'intervene',@FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_ON_JOBCHANGE | @FLAG_NO_CANCEL,0,0,0,0,0,0,0,0,NULL);
 INSERT INTO `status_effects` VALUES (497,'soul_enslavement',@FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_ON_JOBCHANGE,0,0,0,0,0,0,0,0,NULL);
 INSERT INTO `status_effects` VALUES (498,'unleash',@FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_ON_JOBCHANGE,0,0,0,0,0,0,0,0,NULL);
@@ -563,6 +565,7 @@ INSERT INTO `status_effects` VALUES (502,'mikage',@FLAG_DEATH | @FLAG_ON_ZONE | 
 INSERT INTO `status_effects` VALUES (503,'fly_high',@FLAG_DEATH | @FLAG_ON_JOBCHANGE,0,0,0,0,0,0,0,0,NULL);
 INSERT INTO `status_effects` VALUES (504,'astral_conduit',@FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_ON_JOBCHANGE,0,0,0,0,0,0,0,0,NULL);
 INSERT INTO `status_effects` VALUES (505,'unbridled_wisdom',@FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_ON_JOBCHANGE,0,0,0,0,0,0,0,0,NULL);
+INSERT INTO `status_effects` VALUES (506,'grace',@FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_ON_JOBCHANGE | @FLAG_NO_CANCEL | @FLAG_HIDE_TIMER,0,0,0,0,0,0,0,0,NULL);
 INSERT INTO `status_effects` VALUES (507,'grand_pas',@FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_ON_JOBCHANGE,0,0,0,0,0,0,0,0,NULL);
 INSERT INTO `status_effects` VALUES (508,'widened_compass',@FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_ON_JOBCHANGE,0,0,0,0,0,0,0,0,NULL);
 INSERT INTO `status_effects` VALUES (509,'odyllic_subterfuge',@FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_ON_JOBCHANGE | @FLAG_NO_CANCEL,0,0,0,0,0,0,0,0,NULL);
@@ -635,6 +638,7 @@ INSERT INTO `status_effects` VALUES (578,'fishy_intuition',@FLAG_DEATH | @FLAG_O
 INSERT INTO `status_effects` VALUES (579,'commitment',@FLAG_NO_CANCEL,0,0,0,0,0,0,0,0,NULL);
 INSERT INTO `status_effects` VALUES (580,'geo_haste',@FLAG_DEATH | @FLAG_NO_CANCEL | @FLAG_HIDE_TIMER,0,0,0,0,0,3,0,0,NULL);
 INSERT INTO `status_effects` VALUES (581,'flurry_ii',@FLAG_DEATH | @FLAG_ON_JOBCHANGE,0,0,0,0,0,0,0,0,NULL);
+INSERT INTO `status_effects` VALUES (582,'contradance',@FLAG_DISPELABLE | @FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_ON_JOBCHANGE,0,0,0,0,0,0,0,0,NULL); -- TODO: flags need review
 INSERT INTO `status_effects` VALUES (583,'apogee',@FLAG_DISPELABLE | @FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_BLOODPACT | @FLAG_NO_CANCEL,0,0,0,0,0,0,0,0,NULL);
 INSERT INTO `status_effects` VALUES (584,'entrust',@FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_ON_JOBCHANGE,0,0,0,0,0,0,0,0,NULL);
 INSERT INTO `status_effects` VALUES (585,'costume',@FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_NO_CANCEL,0,0,0,0,0,0,0,0,204);
@@ -665,11 +669,29 @@ INSERT INTO `status_effects` VALUES (609,'negate_curse',@FLAG_DISPELABLE | @FLAG
 INSERT INTO `status_effects` VALUES (610,'negate_charm',@FLAG_DISPELABLE | @FLAG_DEATH | @FLAG_ON_ZONE,0,0,0,0,0,0,0,0,NULL);
 INSERT INTO `status_effects` VALUES (611,'magic_evasion_boost_ii',@FLAG_DEATH,0,0,0,0,0,0,0,0,NULL);
 INSERT INTO `status_effects` VALUES (612,'colure_active',@FLAG_ON_ZONE | @FLAG_LOGOUT | @FLAG_NO_CANCEL,0,0,3,0,0,0,0,0,NULL);
+INSERT INTO `status_effects` VALUES (613,'mumors_radiance',@FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_ON_JOBCHANGE,0,0,0,0,0,0,0,0,NULL); -- TODO: flags need review
+INSERT INTO `status_effects` VALUES (614,'ullegores_gloom',@FLAG_DEATH | @FLAG_NO_CANCEL | @FLAG_HIDE_TIMER,0,0,0,0,0,0,0,0,NULL); -- TODO: flags need review
+INSERT INTO `status_effects` VALUES (615,'boost_ii',@FLAG_ATTACK | @FLAG_EMPATHY | @FLAG_DEATH | @FLAG_ON_JOBCHANGE,0,0,0,0,0,0,0,0,NULL); -- TODO: flags need review
+INSERT INTO `status_effects` VALUES (616,'artisanal_knowledge',@FLAG_NO_CANCEL,0,0,0,0,0,0,0,0,NULL);
+INSERT INTO `status_effects` VALUES (617,'sacrifice',@FLAG_DISPELABLE | @FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_ON_JOBCHANGE,0,0,0,0,0,0,0,0,NULL); -- TODO: flags need review
+INSERT INTO `status_effects` VALUES (618,'emporoxs_gift',@FLAG_NO_CANCEL,0,0,0,0,0,0,0,0,NULL);
 INSERT INTO `status_effects` VALUES (619,'spirit_bond',@FLAG_DISPELABLE | @FLAG_EMPATHY | @FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_LOGOUT | @FLAG_ON_JOBCHANGE,0,0,0,0,0,0,0,0,NULL);
+INSERT INTO `status_effects` VALUES (620,'awaken',@FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_ON_JOBCHANGE | @FLAG_NO_CANCEL,0,0,0,0,0,0,0,0,NULL); -- TODO: flags need review
 INSERT INTO `status_effects` VALUES (621,'majesty',@FLAG_DISPELABLE | @FLAG_DEATH | @FLAG_ON_ZONE,0,0,0,0,0,0,0,0,NULL);
 INSERT INTO `status_effects` VALUES (622,'guarding_rate_boost',@FLAG_DISPELABLE | @FLAG_EMPATHY | @FLAG_DEATH,0,0,0,0,0,0,0,0,NULL);
 INSERT INTO `status_effects` VALUES (623,'rampart',@FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_LOGOUT | @FLAG_ON_JOBCHANGE,0,0,0,0,0,0,0,0,NULL);
+INSERT INTO `status_effects` VALUES (624,'winds_blessing',@FLAG_DISPELABLE | @FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_ON_JOBCHANGE | @FLAG_NO_CANCEL,0,0,0,0,0,0,0,0,NULL); -- TODO: flags need review
 INSERT INTO `status_effects` VALUES (625,'sirens_favor',@FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_NO_CANCEL | @FLAG_HIDE_TIMER,0,0,0,0,0,0,0,0,NULL);
+INSERT INTO `status_effects` VALUES (626,'negate_sleep',@FLAG_DISPELABLE | @FLAG_DEATH | @FLAG_ON_ZONE,0,0,0,0,0,0,0,0,NULL); -- TODO: flags need review
+INSERT INTO `status_effects` VALUES (627,'mobilization',@FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_ON_JOBCHANGE | @FLAG_ON_ATTACK,0,0,0,0,0,0,0,0,NULL); -- TODO: flags need review
+INSERT INTO `status_effects` VALUES (628,'hover_shot',@FLAG_DISPELABLE | @FLAG_DEATH | @FLAG_ON_ZONE,482,0,0,0,0,0,0,0,NULL); -- TODO: flags need review
+INSERT INTO `status_effects` VALUES (629,'moogle_amplifier',@FLAG_NO_CANCEL,0,0,0,0,0,0,0,0,NULL);
+INSERT INTO `status_effects` VALUES (630,'taint',@FLAG_DEATH | @FLAG_NO_CANCEL,0,0,0,0,0,0,0,0,NULL); -- TODO: flags need review
+INSERT INTO `status_effects` VALUES (631,'haunt',@FLAG_DEATH | @FLAG_NO_CANCEL,0,0,0,0,0,0,0,0,NULL); -- TODO: flags need review
+INSERT INTO `status_effects` VALUES (632,'black_sanctus',@FLAG_DEATH | @FLAG_NO_CANCEL,0,0,0,0,0,0,0,0,NULL); -- TODO: flags need review
+INSERT INTO `status_effects` VALUES (633,'animated',@FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_NO_CANCEL,0,0,0,0,0,0,0,0,NULL); -- TODO: flags need review
+INSERT INTO `status_effects` VALUES (634,'serpents_guile',@FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_NO_CANCEL,0,0,0,0,0,0,0,0,NULL); -- TODO: flags need review
+INSERT INTO `status_effects` VALUES (635,'resolved',@FLAG_ON_ZONE | @FLAG_NO_CANCEL,0,0,0,0,0,0,0,0,NULL); -- TODO: flags need review
 INSERT INTO `status_effects` VALUES (768,'abyssea_str',@FLAG_ON_ZONE,0,0,0,0,0,1,0,0,NULL);
 INSERT INTO `status_effects` VALUES (769,'abyssea_dex',@FLAG_ON_ZONE,0,0,0,0,0,5,0,0,NULL);
 INSERT INTO `status_effects` VALUES (770,'abyssea_vit',@FLAG_ON_ZONE,0,0,0,0,0,4,0,0,NULL);
