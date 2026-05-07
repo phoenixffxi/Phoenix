@@ -786,9 +786,9 @@ auto LoadZones(Scheduler& scheduler, MapConfig config, const std::vector<uint16>
         g_PZoneList[0] = CreateZone(scheduler, config, 0);
     }
 
-    // Phase 1: Load zone meshes and LOS data (navmesh build depends on zone mesh)
+    // Phase 1: Load ximeshes (navmesh build depends on ximesh)
     co_await Scheduler::TaskGroup(
-        zonesIdsToLoad.size() * 2,
+        zonesIdsToLoad.size(),
         [&](auto& add)
         {
             for (const auto zoneId : zonesIdsToLoad)
@@ -796,18 +796,12 @@ auto LoadZones(Scheduler& scheduler, MapConfig config, const std::vector<uint16>
                 add(scheduler.spawnOnWorkerThread(
                     [zoneId]()
                     {
-                        g_PZoneList[zoneId]->LoadZoneMesh();
-                    }));
-
-                add(scheduler.spawnOnWorkerThread(
-                    [zoneId]()
-                    {
-                        g_PZoneList[zoneId]->LoadZoneLos();
+                        g_PZoneList[zoneId]->LoadXiMesh();
                     }));
             }
         });
 
-    // Phase 2: Load/build navmeshes (requires zone mesh; processed serially because
+    // Phase 2: Load/build navmeshes (requires ximesh; processed serially because
     // each zone's build is a coroutine that dispatches tile work to workers)
     for (const auto zoneId : zonesIdsToLoad)
     {

@@ -21,10 +21,10 @@
 
 #include "navmesh_builder.h"
 
-#include "zone_mesh.h"
-
 #include "common/logging.h"
 #include "common/timer.h"
+
+#include <map/ximesh/iximesh.h>
 
 #include <DetourNavMesh.h>
 #include <DetourNavMeshBuilder.h>
@@ -61,15 +61,15 @@ auto transform(const std::array<float, 9>& rot, const std::array<float, 3>& tran
 
 } // namespace
 
-NavMeshBuilder::NavMeshBuilder(const CZoneMesh& zoneMesh)
-: zoneMesh_(&zoneMesh)
-, gridWidth_(zoneMesh.gridWidth())
-, gridHeight_(zoneMesh.gridHeight())
+NavMeshBuilder::NavMeshBuilder(const IXiMesh& xiMesh)
+: xiMesh_(&xiMesh)
+, gridWidth_(xiMesh.gridWidth())
+, gridHeight_(xiMesh.gridHeight())
 {
-    const auto& blocks     = zoneMesh.blocks();
-    const auto& placements = zoneMesh.placements();
-    const auto& entries    = zoneMesh.entries();
-    const auto& cells      = zoneMesh.cells();
+    const auto& blocks     = xiMesh.blocks();
+    const auto& placements = xiMesh.placements();
+    const auto& entries    = xiMesh.entries();
+    const auto& cells      = xiMesh.cells();
     const auto  cellCount  = static_cast<uint32>(gridWidth_) * gridHeight_;
 
     for (uint32 cellIndex = 0; cellIndex < cellCount; ++cellIndex)
@@ -141,9 +141,9 @@ void NavMeshBuilder::gatherTrianglesInAABB(const float* bmin, const float* bmax,
     out.indices.clear();
     out.areas.clear();
 
-    const auto& blocks  = zoneMesh_->blocks();
-    const auto& entries = zoneMesh_->entries();
-    const auto& cells   = zoneMesh_->cells();
+    const auto& blocks  = xiMesh_->blocks();
+    const auto& entries = xiMesh_->entries();
+    const auto& cells   = xiMesh_->cells();
 
     const auto [cxMin, czMin] = worldToCell(bmin[0], bmin[2]);
     const auto [cxMax, czMax] = worldToCell(bmax[0], bmax[2]);
@@ -476,6 +476,12 @@ auto NavMeshBuilder::buildAsync(Scheduler& scheduler, const std::string& zoneNam
     float worldBmin[3];
     float worldBmax[3];
     getWorldBounds(worldBmin, worldBmax);
+
+    // No geometry was gathered (empty or null ximesh) - nothing to build.
+    if (worldBmin[0] > worldBmax[0])
+    {
+        co_return nullptr;
+    }
 
     const float detourBmin[3] = { worldBmin[0], -worldBmax[1], -worldBmax[2] };
     const float detourBmax[3] = { worldBmax[0], -worldBmin[1], -worldBmin[2] };

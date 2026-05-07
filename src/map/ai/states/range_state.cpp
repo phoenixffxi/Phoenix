@@ -273,7 +273,7 @@ bool CRangeState::CanUseRangedAttack(CBattleEntity* PTarget, bool isEndOfAttack)
         return false;
     }
 
-    if (!isEndOfAttack && !m_PEntity->CanSeeTarget(PTarget, false))
+    if (!isEndOfAttack && !m_PEntity->CanSeeTarget(PTarget))
     {
         m_errorMsg = std::make_unique<GP_SERV_COMMAND_BATTLE_MESSAGE>(m_PEntity, PTarget, 0, 0, MsgBasic::CannotPerformAction);
         return false;

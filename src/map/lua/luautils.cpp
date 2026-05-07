@@ -80,11 +80,11 @@
 #include "instance.h"
 #include "ipc_client.h"
 #include "items/item_furnishing.h"
+#include "map/navmesh/navmesh.h"
 #include "map_engine.h"
 #include "mob_modifier.h"
 #include "mobskill.h"
 #include "monstrosity.h"
-#include "navmesh.h"
 #include "packets/s2c/0x039_mapschedulor.h"
 #include "petskill.h"
 #include "roe.h"
@@ -5108,7 +5108,7 @@ sol::table GetFurthestValidPosition(CLuaBaseEntity* fromTarget, float distance, 
     position_t   pos    = nearPosition(entity->loc.p, distance, theta);
 
     float validPos[3];
-    bool  success = entity->loc.zone->m_navMesh->findFurthestValidPoint(entity->loc.p, pos, validPos);
+    bool  success = entity->loc.zone->navMesh()->findFurthestValidPoint(entity->loc.p, pos, validPos);
     if (!success)
     {
         return sol::lua_nil;
