@@ -280,7 +280,7 @@ local jobTable =
             xi.mobSkill.SIDEWINDER_1,
         },
         jobAbility   = { xi.mobSkill.BARRAGE },
-        twoHour      = xi.mobSkill.EES_MAAT,
+        twoHour      = xi.mobSkill.EAGLE_EYE_SHOT_HUMANOID,
         isPetJob     = false,
         logicType    = 1,
     },
@@ -540,7 +540,7 @@ entity.onMobSpawn = function(mob)
         initiatorJob == xi.job.COR
     then
         mob:setRangedAttackEnabled(true)
-        mob:setMobMod(xi.mobMod.RANGED_ATTACK_RANGE, jobInfo.rangedAttack)
+        mob:setMobMod(xi.mobMod.SPECIAL_SKILL, 0)
     end
 
     mob:setMaxHP(jobInfo.hp or mob:getMaxHP())
@@ -643,7 +643,7 @@ entity.onMobFight = function(mob, target)
     switch(logicType): caseof
     {
         -----------------------------------
-        -- Logic Type 1 : WAR, MNK, DRK, PLD, SAM, DRG
+        -- Logic Type 1 : WAR, MNK, DRK, PLD, SAM, DRG, RNG
         -----------------------------------
         [1] = function()
             if diceRoll == 7 then
@@ -761,6 +761,7 @@ entity.onMobWeaponSkill = function(mob, target, skill, action)
     end
 
     if
+        skillUsed ~= xi.mobSkill.RANGED_ATTACK_1 and
         skillUsed ~= xi.mobSkill.MEDITATE and
         skillUsed ~= xi.mobSkill.WILD_CARD and
         not mob:hasStatusEffect(xi.effect.MEIKYO_SHISUI)

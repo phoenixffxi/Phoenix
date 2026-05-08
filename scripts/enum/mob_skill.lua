@@ -233,7 +233,7 @@ xi.mobSkill =
 
     BALEFUL_GAZE_COCKATRICE       =  411,
     RANGED_ATTACK_2               =  412,
-    -- EES_?                         =  413,
+    EAGLE_EYE_SHOT_HUMANOID       =  413,
 
     SCISSION_THRUST               =  419, -- Mammet-800
 
