@@ -38,8 +38,8 @@ public:
     auto getTerrainAt(float x, float y, float z) const -> TerrainType override;
     auto getFloorId(float x, float y, float z) const -> uint8 override;
 
-    auto rayIntersect(const Vector3& start, const Vector3& end, bool transparentBarriers = false) const -> bool override;
-    auto getPositionInfo(const Vector3& position, YOffsets yOffsets, bool transparentBarriers = false) const -> std::optional<RayHitInfo> override;
+    auto rayIntersect(const Vector3& start, const Vector3& end, IgnoreTransparentBarriers ignoreTransparentBarriers = IgnoreTransparentBarriers::Yes) const -> bool override;
+    auto getPositionInfo(const Vector3& position, YOffsets yOffsets, IgnoreTransparentBarriers ignoreTransparentBarriers = IgnoreTransparentBarriers::Yes) const -> std::optional<RayHitInfo> override;
 
     auto blocks() const -> const std::vector<MeshBlock>& override;
     auto placements() const -> const std::vector<MeshPlacement>& override;
@@ -53,11 +53,8 @@ private:
 
     auto worldToCell(float x, float z) const -> std::pair<int, int>;
 
-    template <bool TransparentBarriers>
-    auto rayIntersectCell(const Vector3& start, const Vector3& end, YRange yRange, uint32 cellIdx) const -> bool;
-
-    template <bool TransparentBarriers>
-    auto rayIntersectCellHitInfo(const Vector3& start, const Vector3& end, YRange yRange, uint32 cellIdx, std::optional<RayHitInfo>& closestHit) const -> void;
+    auto rayIntersectCell(const Vector3& start, const Vector3& end, YRange yRange, uint32 cellIdx, IgnoreTransparentBarriers ignoreTransparentBarriers) const -> bool;
+    auto rayIntersectCellHitInfo(const Vector3& start, const Vector3& end, YRange yRange, uint32 cellIdx, IgnoreTransparentBarriers ignoreTransparentBarriers, std::optional<RayHitInfo>& closestHit) const -> void;
 
     XimeshHeader header_{};
 

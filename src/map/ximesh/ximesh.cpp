@@ -21,15 +21,16 @@
 
 #include "ximesh.h"
 
-#include "common/logging.h"
-#include "common/tracy.h"
-#include "common/utils.h"
+#include <common/logging.h>
+#include <common/tracy.h>
+#include <common/utils.h>
 
-#include <DetourCommon.h>
 #include <array>
 #include <fstream>
 #include <span>
 #include <unordered_map>
+
+#include <DetourCommon.h>
 #include <zlib.h>
 
 namespace
@@ -132,60 +133,45 @@ auto vertexAt(const MeshBlock& block, const uint16 vertexIdx) -> Vector3
 }
 
 // Möller–Trumbore ray/triangle intersection.
-template <bool ReturnIntersectionPoint = false>
-auto rayIntersectTriangle(const Vector3& v1, const Vector3& v2, const Vector3& v3, const Vector3& rayOrigin, const Vector3& rayVector)
+auto rayIntersectTriangle(const Vector3& v1, const Vector3& v2, const Vector3& v3, const Vector3& rayOrigin, const Vector3& rayVector) -> std::optional<Vector3>
 {
-    constexpr auto missReturn = []()
-    {
-        if constexpr (ReturnIntersectionPoint)
-        {
-            return std::optional<Vector3>();
-        }
-        else
-        {
-            return false;
-        }
-    }();
-
     constexpr float EPSILON = 0.0000001f;
 
     const auto edge1 = v2 - v1;
     const auto edge2 = v3 - v1;
     const auto h     = rayVector.crossProduct(edge2);
     const auto a     = edge1.dotProduct(h);
+
     if (a > -EPSILON && a < EPSILON)
     {
-        return missReturn;
+        return std::nullopt;
     }
 
     const auto f = 1.0f / a;
     const auto s = rayOrigin - v1;
     const auto u = f * s.dotProduct(h);
+
     if (u < 0.0f || u > 1.0f)
     {
-        return missReturn;
+        return std::nullopt;
     }
 
     const auto q = s.crossProduct(edge1);
     const auto v = f * rayVector.dotProduct(q);
+
     if (v < 0.0f || u + v > 1.0f)
     {
-        return missReturn;
+        return std::nullopt;
     }
 
     const auto t = f * edge2.dotProduct(q);
+
     if (t > EPSILON && t <= 1.0f)
     {
-        if constexpr (ReturnIntersectionPoint)
-        {
-            return std::make_optional(rayOrigin + rayVector * t);
-        }
-        else
-        {
-            return true;
-        }
+        return Vector3(rayOrigin + rayVector * t);
     }
-    return missReturn;
+
+    return std::nullopt;
 }
 
 } // namespace
@@ -581,7 +567,7 @@ auto XiMesh::gridHeight() const -> uint16
     return header_.gridHeight;
 }
 
-auto XiMesh::rayIntersect(const Vector3& start, const Vector3& end, const bool transparentBarriers) const -> bool
+auto XiMesh::rayIntersect(const Vector3& start, const Vector3& end, const IgnoreTransparentBarriers ignoreTransparentBarriers) const -> bool
 {
     TracyZoneScoped;
 
@@ -590,14 +576,6 @@ auto XiMesh::rayIntersect(const Vector3& start, const Vector3& end, const bool t
     auto [col, row] = worldToCell(start.x, start.z);
 
     const auto yRange = YRange{ std::min(start.y, end.y), std::max(start.y, end.y) };
-
-    // Dispatch once on transparentBarriers so the inner cell loop has no branch.
-    const auto checkCell = [&](const uint32 cellIdx) -> bool
-    {
-        if (transparentBarriers)
-            return rayIntersectCell<true>(start, end, yRange, cellIdx);
-        return rayIntersectCell<false>(start, end, yRange, cellIdx);
-    };
 
     auto row1 = std::max<int32>(0, row - cellSearchDiff);
     auto row2 = std::min<int32>(header_.gridHeight - 1, row + cellSearchDiff);
@@ -609,7 +587,9 @@ auto XiMesh::rayIntersect(const Vector3& start, const Vector3& end, const bool t
         const auto rGrid = static_cast<uint32>(r) * header_.gridWidth;
         for (int32 c = col1; c <= col2; ++c)
         {
-            if (checkCell(rGrid + static_cast<uint32>(c)))
+            const auto cellIdx = rGrid + static_cast<uint32>(c);
+
+            if (rayIntersectCell(start, end, yRange, cellIdx, ignoreTransparentBarriers))
             {
                 return true;
             }
@@ -702,19 +682,9 @@ auto XiMesh::rayIntersect(const Vector3& start, const Vector3& end, const bool t
                 const auto rGrid = static_cast<uint32>(r) * header_.gridWidth;
                 for (int32 c = col1; c <= col2; ++c)
                 {
-                    if (transparentBarriers)
+                    if (rayIntersectCell(start, end, yRange, rGrid + static_cast<uint32>(c), ignoreTransparentBarriers))
                     {
-                        if (rayIntersectCell<true>(start, end, yRange, rGrid + static_cast<uint32>(c)))
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        if (rayIntersectCell<false>(start, end, yRange, rGrid + static_cast<uint32>(c)))
-                        {
-                            return true;
-                        }
+                        return true;
                     }
                 }
             }
@@ -724,7 +694,7 @@ auto XiMesh::rayIntersect(const Vector3& start, const Vector3& end, const bool t
     return false;
 }
 
-auto XiMesh::getPositionInfo(const Vector3& position, const YOffsets yOffsets, const bool transparentBarriers) const -> std::optional<RayHitInfo>
+auto XiMesh::getPositionInfo(const Vector3& position, const YOffsets yOffsets, const IgnoreTransparentBarriers ignoreTransparentBarriers) const -> std::optional<RayHitInfo>
 {
     TracyZoneScoped;
 
@@ -749,22 +719,14 @@ auto XiMesh::getPositionInfo(const Vector3& position, const YOffsets yOffsets, c
         const auto rGrid = static_cast<uint32>(r) * header_.gridWidth;
         for (int32 c = col1; c <= col2; ++c)
         {
-            if (transparentBarriers)
-            {
-                rayIntersectCellHitInfo<true>(start, end, yRange, rGrid + static_cast<uint32>(c), closestHit);
-            }
-            else
-            {
-                rayIntersectCellHitInfo<false>(start, end, yRange, rGrid + static_cast<uint32>(c), closestHit);
-            }
+            rayIntersectCellHitInfo(start, end, yRange, rGrid + static_cast<uint32>(c), ignoreTransparentBarriers, closestHit);
         }
     }
 
     return closestHit;
 }
 
-template <bool TransparentBarriers>
-auto XiMesh::rayIntersectCell(const Vector3& start, const Vector3& end, const YRange yRange, const uint32 cellIdx) const -> bool
+auto XiMesh::rayIntersectCell(const Vector3& start, const Vector3& end, const YRange yRange, const uint32 cellIdx, const IgnoreTransparentBarriers ignoreTransparentBarriers) const -> bool
 {
     if (cellIdx >= cells_.size())
     {
@@ -796,12 +758,9 @@ auto XiMesh::rayIntersectCell(const Vector3& start, const Vector3& end, const YR
         const auto& [blockIdx, placementIdx] = entries_[cell.offset + ref];
         const auto& block                    = blocks_[blockIdx];
 
-        if constexpr (TransparentBarriers)
+        if (block.hasBarriers && ignoreTransparentBarriers)
         {
-            if (block.hasBarriers)
-            {
-                continue;
-            }
+            continue;
         }
 
         const auto& place = placements_[placementIdx];
@@ -844,8 +803,7 @@ auto XiMesh::rayIntersectCell(const Vector3& start, const Vector3& end, const YR
     return false;
 }
 
-template <bool TransparentBarriers>
-auto XiMesh::rayIntersectCellHitInfo(const Vector3& start, const Vector3& end, const YRange yRange, const uint32 cellIdx, std::optional<RayHitInfo>& closestHit) const -> void
+auto XiMesh::rayIntersectCellHitInfo(const Vector3& start, const Vector3& end, const YRange yRange, const uint32 cellIdx, const IgnoreTransparentBarriers ignoreTransparentBarriers, std::optional<RayHitInfo>& closestHit) const -> void
 {
     if (cellIdx >= cells_.size())
     {
@@ -877,12 +835,9 @@ auto XiMesh::rayIntersectCellHitInfo(const Vector3& start, const Vector3& end, c
         const auto& [blockIdx, placementIdx] = entries_[cell.offset + ref];
         const auto& block                    = blocks_[blockIdx];
 
-        if constexpr (TransparentBarriers)
+        if (block.hasBarriers && ignoreTransparentBarriers)
         {
-            if (block.hasBarriers)
-            {
-                continue;
-            }
+            continue;
         }
 
         const auto& place = placements_[placementIdx];
@@ -910,11 +865,12 @@ auto XiMesh::rayIntersectCellHitInfo(const Vector3& start, const Vector3& end, c
         const auto triCount = block.metas.size();
         for (size_t triIdx = 0; triIdx < triCount; ++triIdx)
         {
-            const auto base   = triIdx * 3;
-            const auto va     = vertexAt(block, block.indices[base + v1Off]);
-            const auto vb     = vertexAt(block, block.indices[base + 1]);
-            const auto vc     = vertexAt(block, block.indices[base + v3Off]);
-            const auto hitOpt = rayIntersectTriangle<true>(va, vb, vc, oStart, oDiff);
+            const auto base = triIdx * 3;
+            const auto va   = vertexAt(block, block.indices[base + v1Off]);
+            const auto vb   = vertexAt(block, block.indices[base + 1]);
+            const auto vc   = vertexAt(block, block.indices[base + v3Off]);
+
+            const auto hitOpt = rayIntersectTriangle(va, vb, vc, oStart, oDiff);
             if (hitOpt.has_value())
             {
                 const auto intersection = hitOpt.value();

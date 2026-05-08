@@ -27,16 +27,18 @@
 #include <optional>
 #include <vector>
 
+using IgnoreTransparentBarriers = xi::Flag<struct IgnoreTransparentBarriersTag>;
+
 class IXiMesh
 {
 public:
     virtual ~IXiMesh() = default;
 
-    virtual auto query(float x, float y, float z) const -> std::optional<CellHit>                                                                 = 0;
-    virtual auto getTerrainAt(float x, float y, float z) const -> TerrainType                                                                     = 0;
-    virtual auto getFloorId(float x, float y, float z) const -> uint8                                                                             = 0;
-    virtual auto rayIntersect(const Vector3& start, const Vector3& end, bool transparentBarriers = false) const -> bool                           = 0;
-    virtual auto getPositionInfo(const Vector3& position, YOffsets yOffsets, bool transparentBarriers = false) const -> std::optional<RayHitInfo> = 0;
+    virtual auto query(float x, float y, float z) const -> std::optional<CellHit>                                                                                                                     = 0;
+    virtual auto getTerrainAt(float x, float y, float z) const -> TerrainType                                                                                                                         = 0;
+    virtual auto getFloorId(float x, float y, float z) const -> uint8                                                                                                                                 = 0;
+    virtual auto rayIntersect(const Vector3& start, const Vector3& end, IgnoreTransparentBarriers IgnoreTransparentBarriers = IgnoreTransparentBarriers::Yes) const -> bool                           = 0;
+    virtual auto getPositionInfo(const Vector3& position, YOffsets yOffsets, IgnoreTransparentBarriers IgnoreTransparentBarriers = IgnoreTransparentBarriers::Yes) const -> std::optional<RayHitInfo> = 0;
 
     virtual auto blocks() const -> const std::vector<MeshBlock>&         = 0;
     virtual auto placements() const -> const std::vector<MeshPlacement>& = 0;
@@ -64,12 +66,12 @@ public:
         return 0;
     }
 
-    auto rayIntersect(const Vector3&, const Vector3&, bool) const -> bool override
+    auto rayIntersect(const Vector3&, const Vector3&, IgnoreTransparentBarriers) const -> bool override
     {
         return false;
     }
 
-    auto getPositionInfo(const Vector3&, YOffsets, bool) const -> std::optional<RayHitInfo> override
+    auto getPositionInfo(const Vector3&, YOffsets, IgnoreTransparentBarriers) const -> std::optional<RayHitInfo> override
     {
         return std::nullopt;
     }
