@@ -109,6 +109,16 @@ CBattleEntity::~CBattleEntity()
     TracyZoneScoped;
 }
 
+bool CBattleEntity::IsDualWielding()
+{
+    if (objtype == TYPE_MOB)
+    {
+        return static_cast<CMobEntity*>(this)->getMobMod(MOBMOD_DUAL_WIELD) != 0;
+    }
+
+    return m_dualWield;
+}
+
 auto CBattleEntity::isDead() const -> bool
 {
     return (health.hp <= 0 || status == STATUS_TYPE::DISAPPEAR || PAI->IsCurrentState<CDeathState>() || PAI->IsCurrentState<CDespawnState>());

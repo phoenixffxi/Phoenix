@@ -847,17 +847,6 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
         ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->resetDelay();
     }
 
-    PMob->m_dualWield = false;
-
-    // Deprecate MOBMOD_DUAL_WIELD later, replace if check with value from DB
-    if (PMob->getMobMod(MOBMOD_DUAL_WIELD))
-    {
-        PMob->m_dualWield = true;
-        // if mob is going to dualWield then need to have sub slot
-        // assume it is the same damage as the main slot
-        static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_SUB])->setDamage(GetWeaponDamage(PMob, SLOT_MAIN));
-    }
-
     uint16 fSTR = GetBaseToRank(PMob->strRank, mLvl);
     uint16 fDEX = GetBaseToRank(PMob->dexRank, mLvl);
     uint16 fVIT = GetBaseToRank(PMob->vitRank, mLvl);
@@ -1010,6 +999,12 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
     }
 
     SetupJob(PMob);
+
+    // If a mob is going to dual wield, then it needs to have a sub slot.
+    // Assume it is the same damage as the main slot.
+    // Ordering matters. This has to come after SetupJob
+    static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_SUB])->setDamage(PMob->IsDualWielding() ? GetWeaponDamage(PMob, SLOT_MAIN) : 0);
+
     SetupRoaming(PMob);
 
     // All beastmen drop gil

@@ -76,7 +76,7 @@ CAttackRound::CAttackRound(CBattleEntity* attacker, CBattleEntity* defender)
         }
     }
 
-    if (PSub && attacker->m_dualWield)
+    if (PSub && attacker->IsDualWielding())
     {
         CreateAttacks(PSub, LEFTATTACK);
     }
