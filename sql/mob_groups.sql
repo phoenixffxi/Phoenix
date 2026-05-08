@@ -10794,7 +10794,7 @@ INSERT INTO `mob_groups` VALUES (32,1601,146,'Gii_Jaha_the_Raucous',0,128,0,3600
 INSERT INTO `mob_groups` VALUES (33,15,146,'Aa_Nawu_the_Thunderblade',0,128,0,4200,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (34,4474,146,'Yoo_Mihi_the_Haze',0,128,0,4200,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (35,4385,146,'Wyrm',0,128,0,50000,15000,0,NULL);
-INSERT INTO `mob_groups` VALUES (36,1121,146,'Dromiceiomimus',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (36,1121,146,'Dromiceiomimus',0,128,0,3000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (37,2467,146,'Macan_Gadangan',0,128,0,8000,8000,0,NULL);
 INSERT INTO `mob_groups` VALUES (38,1602,146,'Gilagoge_Tlugvi',0,128,0,9600,5000,0,NULL);
 INSERT INTO `mob_groups` VALUES (39,1747,146,'Goga_Tlugvi',0,128,0,8250,0,0,NULL);

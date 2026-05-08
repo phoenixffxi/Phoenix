@@ -214,6 +214,12 @@ xi.mobSkill =
     INFRASONICS_1                 =  372,
     SECRETION_1                   =  373,
 
+    FOUL_BREATH_1                 =  376,
+    FROST_BREATH_1                =  377,
+    THUNDERBOLT_RAPTOR            =  378,
+
+    SCYTHE_TAIL_1                 =  380,
+
     TAIL_ROLL                     =  382,
     TUSK                          =  383,
     SCUTUM                        =  384,
