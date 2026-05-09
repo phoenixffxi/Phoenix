@@ -651,7 +651,7 @@ xi.quest.id =
         THE_WAYWARD_AUTOMATON            = 27, -- +
         OPERATION_TEATIME                = 28, -- +
         PUPPETMASTER_BLUES               = 29, -- + Converted
-        MOMENT_OF_TRUTH                  = 30,
+        MOMENT_OF_TRUTH                  = 30, -- + Converted
         THREE_MEN_AND_A_CLOSET           = 31, -- + Converted
         FIVE_SECONDS_OF_FAME             = 32,
         -- JP ENTRIES OR INVALID
