@@ -2431,13 +2431,32 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
             actionResult.modifier = PSpell->getModifier();
             PSpell->setModifier(ActionModifier::None); // Reset modifier on use
 
-            actionResult.param = damage;
+            // BLU physical spells do set certain bits in the action packet
+            if (PSpell->getSpellGroup() == SPELLGROUP_BLUE && PSpell->getElement() == ELEMENT_NONE && msg == MsgBasic::MagicDamage)
+            {
+                actionResult.recordDamage(attack_outcome_t{
+                    .atkType    = ATTACK_TYPE::PHYSICAL,
+                    .damage     = damage,
+                    .target     = PTarget,
+                    .isCritical = PSpell->isCritical(),
+                });
+                PSpell->setCritical(false);
+            }
+            else
+            {
+                actionResult.param = damage;
+            }
 
             // spell failed to apply
             if (!PSpell->tookEffect())
             {
                 actionResult.resolution = ActionResolution::Miss;
                 actionResult.param      = 0;
+                actionResult.knockback  = Knockback::None;
+            }
+            else if (PSpell->getSpellGroup() == SPELLGROUP_BLUE)
+            {
+                actionResult.knockback = luautils::callGlobal<Knockback>("xi.combat.knockback.calculate", PTarget, this, PSpell, &action);
             }
         }
 
@@ -2843,7 +2862,7 @@ void CBattleEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
         result.resolution = ActionResolution::Hit;
         result.animation  = PSkill->getAnimationID();
         result.messageID  = PSkill->getMsg();
-        result.knockback  = luautils::callGlobal<Knockback>("xi.mobskills.calculateKnockback", PTargetFound, this, PSkill, &action);
+        result.knockback  = luautils::callGlobal<Knockback>("xi.combat.knockback.calculate", PTargetFound, this, PSkill, &action);
 
         // reset the skill's message back to default
         PSkill->setMsg(defaultMessage);
