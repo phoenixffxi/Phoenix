@@ -48,6 +48,12 @@ public:
     void formAlliance(CLuaBaseEntity* player) const;
     void acceptPartyInvite() const;
     void tradeNpc(const sol::object& npcQuery, const sol::table& items, sol::optional<sol::table> expectedEvent) const;
+    void tradeRequest(CLuaBaseEntity* target) const;
+    void tradeAccept() const;
+    void tradeOffer(uint8 tradeIndex, uint8 invSlot, uint16 itemId, uint32 quantity) const;
+    void tradeClearSlot(uint8 tradeIndex) const;
+    void tradeMake() const;
+    void tradeCancel() const;
     void acceptRaise() const;
     void engage(CLuaBaseEntity* mob) const;
     void skillchain(CLuaBaseEntity* target, sol::variadic_args weaponskillIds) const;
