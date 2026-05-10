@@ -265,9 +265,10 @@ xi.mobSkill =
     METALLIC_BODY_1               =  448,
 
     GRAVITY_WHEEL                 =  457, -- Mammet-800
-
+    INK_JET_1                     =  458,
+    HARD_MEMBRANE_1               =  459,
     CROSS_ATTACK_1                =  460,
-
+    REGENERATION_1                =  461,
     MAELSTROM_1                   =  462,
 
     PSYCHOMANCY                   =  464, -- Mammet-800
@@ -785,6 +786,7 @@ xi.mobSkill =
     GERJIS_GRIP                   = 1322,
 
     -- EES_?                         = 1327,
+    INK_JET_ATTACK                = 1328,
 
     HOOF_VOLLEY                   = 1330,
     COUNTERSTANCE_3               = 1331, -- The Waughroon Kid
