@@ -63,12 +63,21 @@ entity.spawnPoints =
     { x = -271.910, y = -19.543, z =  63.326 }
 }
 
+entity.onMobInitialize = function(mob)
+    mob:setMobMod(xi.mobMod.GIL_MIN, 30000)
+    mob:setMobMod(xi.mobMod.GIL_MAX, 30000)
+    mob:setMobMod(xi.mobMod.MUG_GIL, 1000)
+    mob:addImmunity(xi.immunity.LIGHT_SLEEP)
+end
+
 entity.onMobSpawn = function(mob)
     mob:setLocalVar('[rage]timer', 1800) -- 30 minutes
     mob:setMobMod(xi.mobMod.NO_MOVE, 0)
     mob:setMobMod(xi.mobMod.WEAPON_BONUS, 37) -- 109 total weapon damage
     mob:setMod(xi.mod.EVA, 301)
     mob:setMod(xi.mod.ATT, 211)
+    mob:setMod(xi.mod.DARK_SLEEP_RES_RANK, 11)
+    mob:setMod(xi.mod.STUN_RES_RANK, 10)
 
     -- Despawn the ???
     GetNPCByID(ID.npc.BEHEMOTH_QM):setStatus(xi.status.DISAPPEAR)
