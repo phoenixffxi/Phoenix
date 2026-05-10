@@ -882,7 +882,8 @@ auto LoadChar(Scheduler& scheduler, MapConfig config, const uint32 charId) -> st
     // LoadFromCharUnlocksSQL
     fmtQuery = "SELECT outpost_sandy, outpost_bastok, outpost_windy, runic_portal, maw, "
                "campaign_sandy, campaign_bastok, campaign_windy, homepoints, survivals, "
-               "abyssea_conflux, waypoints, eschan_portals, claimed_deeds, unique_event "
+               "abyssea_conflux, waypoints, eschan_portals, claimed_deeds, unique_event, "
+               "maze_vouchers, maze_runes "
                "FROM char_unlocks "
                "WHERE charid = ?";
 
@@ -905,6 +906,8 @@ auto LoadChar(Scheduler& scheduler, MapConfig config, const uint32 charId) -> st
         db::extractFromBlob(rset, "eschan_portals", PChar->teleport.eschanPortal);
         db::extractFromBlob(rset, "claimed_deeds", PChar->m_claimedDeeds);
         db::extractFromBlob(rset, "unique_event", PChar->m_uniqueEvents);
+        db::extractFromBlob(rset, "maze_vouchers", PChar->maze().vouchers);
+        db::extractFromBlob(rset, "maze_runes", PChar->maze().runes);
     }
 
     // TODO: Remove raw new's

@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-  Copyright (c) 2025 LandSandBoat Dev Teams
+  Copyright (c) 2026 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,23 +19,16 @@
 ===========================================================================
 */
 
-#pragma once
+#include "0x0ad_dungeon.h"
 
-#include "base.h"
+#include "entities/charentity.h"
 
-class CCharEntity;
-
-// https://github.com/atom0s/XiPackets/tree/main/world/server/0x00AD
-// This packet is sent by the server to populate the clients Moblin Maze Mongers information. (Vouchers and Runes)
-class GP_SERV_COMMAND_DUNGEON final : public GP_SERV_PACKET<PacketS2C::GP_SERV_COMMAND_DUNGEON, GP_SERV_COMMAND_DUNGEON>
+GP_SERV_COMMAND_DUNGEON::GP_SERV_COMMAND_DUNGEON(CCharEntity* PChar)
 {
-public:
-    struct PacketData
-    {
-        uint8_t Vouchers[8];  // PS2: (New; did not exist.)
-        uint8_t Runes[64];    // PS2: (New; did not exist.)
-        uint8_t unused00[56]; // PS2: (New; did not exist.)
-    };
+    auto& packet = this->data();
 
-    GP_SERV_COMMAND_DUNGEON(CCharEntity* PChar);
-};
+    auto& maze = PChar->maze();
+
+    std::memcpy(&packet.Vouchers, &maze.vouchers, sizeof(packet.Vouchers));
+    std::memcpy(&packet.Runes, &maze.runes, sizeof(packet.Runes));
+}
