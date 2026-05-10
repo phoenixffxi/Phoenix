@@ -20,5 +20,7 @@ CREATE TABLE `char_unlocks` (
   `eschan_portals` blob DEFAULT NULL,
   `claimed_deeds` blob DEFAULT NULL,
   `unique_event` blob DEFAULT NULL,
+  `maze_vouchers` blob DEFAULT NULL,
+  `maze_runes` blob DEFAULT NULL,
   PRIMARY KEY (`charid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
