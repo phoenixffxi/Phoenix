@@ -8,16 +8,7 @@
 local mobskillObject = {}
 
 mobskillObject.onMobSkillCheck = function(target, mob, skill)
-    -- TODO: This logic should probably be in mob script.
-    local mobhp = mob:getHPP()
-
-    if mobhp <= 10 then -- Set up Gigaflare for being called by the script again.
-        mob:setLocalVar('GigaFlare', 0)
-        mob:setMobAbilityEnabled(false) -- Disable mobskills/spells until Gigaflare is used successfully (don't want to delay it/queue Megaflare)
-        mob:setMagicCastingEnabled(false)
-    end
-
-    return 1
+    return 0
 end
 
 mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
@@ -43,16 +34,6 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
 
     if xi.mobskills.processDamage(mob, target, skill, action, info) then
         target:takeDamage(info.damage, mob, info.attackType, info.damageType)
-    end
-
-    -- TODO: This logic can probably be in the mob script.
-    mob:setLocalVar('GigaFlare', 1) -- When set to 1 the script won't call it.
-    mob:setLocalVar('tauntShown', 0)
-    mob:setMobAbilityEnabled(true) -- Enable the spells/other mobskills again
-    mob:setMagicCastingEnabled(true)
-
-    if bit.band(mob:getBehavior(), xi.behavior.NO_TURN) == 0 then -- re-enable noturn
-        mob:setBehavior(bit.bor(mob:getBehavior(), xi.behavior.NO_TURN))
     end
 
     return info.damage

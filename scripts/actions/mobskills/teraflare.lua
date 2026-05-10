@@ -15,14 +15,22 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
     params.baseDamage      = mob:getMainLvl()
-    params.fTP             = { 20, 20, 20 }
+    params.fTP             = { 19, 19, 19 }
     params.element         = xi.element.FIRE
-    params.dStatMultiplier = 1.5
     params.attackType      = xi.attackType.MAGICAL
     params.damageType      = xi.damageType.FIRE
     params.shadowBehavior  = xi.mobskills.shadowBehavior.WIPE_SHADOWS
+    params.dStatMultiplier = 1.5
 
     local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
+
+    -- Targets that are not the primary target take 300 less damage.
+    if
+        target:getID() ~= skill:getPrimaryTargetID() and
+        info.damage > 0 -- Damage was not nullified or absorbed.
+    then
+        info.damage = math.max(0, info.damage - 300)
+    end
 
     if xi.mobskills.processDamage(mob, target, skill, action, info) then
         target:takeDamage(info.damage, mob, info.attackType, info.damageType)
