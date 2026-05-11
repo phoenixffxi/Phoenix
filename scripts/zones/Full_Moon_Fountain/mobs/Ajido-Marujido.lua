@@ -92,6 +92,8 @@ end
 entity.onMobSpawn = function(mob)
     xi.mix.helperNpc.config(mob, helperConfig)
     mob:setMagicCastingEnabled(false)
+    mob:setMobMod(xi.mobMod.TELEPORT_START, xi.mobSkill.WARP_OUT_AJIDO)
+    mob:setMobMod(xi.mobMod.TELEPORT_END, xi.mobSkill.WARP_IN_AJIDO)
 end
 
 entity.onMobEngage = function(mob, target)

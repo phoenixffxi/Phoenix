@@ -1,11 +1,12 @@
 -----------------------------------
 -- Mob family IDs
--- NOT USED YET
+-- Currently named "superFamily"
+-- Name will be changing to "family" in re-naming PR
 -----------------------------------
 xi = xi or {}
 
----@enum xi.mobFamily
-xi.mobFamily =
+---@enum xi.mobSuperFamily
+xi.mobSuperFamily =
 {
     ACUEX               = 1,
     BOTULI              = 2,
@@ -213,4 +214,5 @@ xi.mobFamily =
     OMEGA               = 204,
     STATUE              = 205,
     ULTIMA              = 206,
+    UNCLASSIFIED        = 207,
 }
