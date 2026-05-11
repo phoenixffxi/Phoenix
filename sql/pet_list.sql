@@ -106,7 +106,7 @@ INSERT INTO `pet_list` VALUES (72,'StormwakerFrame',5127,1,99,0,0,3);
 -- INSERT INTO `pet_list` VALUES (73, 'AdventuringFellow', 0, 1, 99, 0, 0);
 -- 74 is Chocobo in the enum..
 INSERT INTO `pet_list` VALUES (75,'Luopan',6040,1,99,0,0,0);
-INSERT INTO `pet_list` VALUES (76,'Siren',7047,1,99,0,0,2);
+INSERT INTO `pet_list` VALUES (76,'Siren',7047,1,99,0,3,2);
 INSERT INTO `pet_list` VALUES (77,'SweetCaroline',7500,99,119,7200,0,3);
 INSERT INTO `pet_list` VALUES (78,'AmiableRoche',7501,99,110,7200,0,2);      -- nat max 110, merit max 110
 INSERT INTO `pet_list` VALUES (79,'HeadbreakerKen',7502,99,115,7200,0,2);    -- nat max 115, merit max 115
