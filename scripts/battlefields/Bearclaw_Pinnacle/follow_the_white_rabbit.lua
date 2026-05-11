@@ -98,14 +98,15 @@ content.groups =
 content.loot =
 {
     {
-        { itemId = xi.item.SQUARE_OF_GALATEIA,     weight = 3750 },
-        { itemId = xi.item.SQUARE_OF_KEJUSU_SATIN, weight = 2500 },
-        { itemId = xi.item.POT_OF_VIRIDIAN_URUSHI, weight = 3750 },
+        { itemId = xi.item.NONE,                   weight = 9500 },
+        { itemId = xi.item.CLOUD_EVOKER,           weight =  500 },
     },
 
     {
-        { itemId = xi.item.NONE,                   weight = 9500 },
-        { itemId = xi.item.CLOUD_EVOKER,           weight =  500 },
+        { itemId = xi.item.NONE,                   weight = 2500 },
+        { itemId = xi.item.SQUARE_OF_GALATEIA,     weight = 2500 },
+        { itemId = xi.item.SQUARE_OF_KEJUSU_SATIN, weight = 2500 },
+        { itemId = xi.item.POT_OF_VIRIDIAN_URUSHI, weight = 2500 },
     },
 
     {
