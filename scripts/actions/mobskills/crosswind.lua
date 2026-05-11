@@ -8,7 +8,7 @@ local mobskillObject = {}
 
 mobskillObject.onMobSkillCheck = function(target, mob, skill)
     if
-        mob:getFamily() == 91 and -- Pandemonium Warden TODO: Set skill lists
+        mob:getFamily() == xi.mobSpecies.WARDEN and -- Pandemonium Warden TODO: Set skill lists
         mob:getModelId() ~= 1746
     then
         return 1

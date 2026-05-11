@@ -1157,11 +1157,11 @@ void SetupJob(CMobEntity* PMob)
             }
             break;
         case JOB_RNG:
-            if (PMob->m_Family == 126) // Gigas
+            if (PMob->m_SuperFamily == 57) // Gigas
             {
                 PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 658); // Catapult only used while at range
             }
-            else if (PMob->m_Family == 246) // Trolls
+            else if (PMob->m_SuperFamily == 72) // Trolls
             {
                 PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1747); // Zarraqa only used while at range
                 PMob->defaultMobMod(MOBMOD_STANDBACK_COOL, 0);
@@ -1169,19 +1169,19 @@ void SetupJob(CMobEntity* PMob)
                 PMob->defaultMobMod(MOBMOD_HP_STANDBACK, 70);
                 break;
             }
-            else if (PMob->m_Family == 3) // Aern
+            else if (PMob->m_SuperFamily == 131) // Aern
             {
                 PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1388);
             }
-            else if (PMob->m_Family == 202) // Quadav
+            else if (PMob->m_SuperFamily == 67) // Quadav
             {
                 PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1123); // Quadav
             }
-            else if (PMob->m_Family == 169) // Kindred
+            else if (PMob->m_SuperFamily == 88) // Demon
             {
                 PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1152); // Hecatomb Wave
             }
-            else if ((PMob->m_Family == 115) || (PMob->m_Family == 360)) // Fomor Ranged use player ranged attack
+            else if (PMob->m_SuperFamily == 172) // Fomor Ranged use player ranged attack
             {
                 SetupRangedAttack(PMob);
             }
@@ -1196,26 +1196,25 @@ void SetupJob(CMobEntity* PMob)
             PMob->defaultMobMod(MOBMOD_HP_STANDBACK, 70);
             break;
         case JOB_NIN:
-            if (PMob->m_Family == 3)
+            if (PMob->m_SuperFamily == 131) // Aern
             {
-                // aern
                 PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1388);
                 PMob->defaultMobMod(MOBMOD_SPECIAL_COOL, 12);
             }
-            else if (PMob->m_Family == 202) // Quadav
+            else if (PMob->m_SuperFamily == 67) // Quadav
             {
                 PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1123); // Quadav
             }
-            else if (PMob->m_Family == 169) // Kindred
+            else if (PMob->m_SuperFamily == 88) // Demon
             {
                 PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 1152); // Hecatomb Wave
             }
-            else if ((PMob->m_Family == 115) || (PMob->m_Family == 360)) // Fomor Ranged use player ranged attack
+            else if (PMob->m_SuperFamily == 172) // Fomor Ranged use player ranged attack
             {
                 PMob->setMobMod(MOBMOD_DUAL_WIELD, 1);
                 SetupRangedAttack(PMob);
             }
-            else if (PMob->m_Family != 335) // exclude NIN Maat
+            else if (PMob->m_SuperFamily != 119) // exclude NIN Maat
             {
                 PMob->defaultMobMod(MOBMOD_SPECIAL_SKILL, 272);
                 PMob->defaultMobMod(MOBMOD_SPECIAL_COOL, 12);
@@ -1282,25 +1281,25 @@ void SetupPetSkills(CMobEntity* PMob)
     // can't set this from the database
     switch (PMob->m_Family)
     {
-        case 383: // ifrit
+        case 248: // ifrit
             skillListId = 715;
             break;
-        case 388: // titan
+        case 255: // titan
             skillListId = 716;
             break;
-        case 384: // levi
+        case 249: // levi
             skillListId = 717;
             break;
-        case 382: // garuda
+        case 247: // garuda
             skillListId = 718;
             break;
-        case 387: // shiva
+        case 253: // shiva
             skillListId = 719;
             break;
-        case 386: // ramuh
+        case 252: // ramuh
             skillListId = 720;
             break;
-        case 379: // carbuncle
+        case 243: // carbuncle
             skillListId = 721;
             break;
     }
