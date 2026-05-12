@@ -447,6 +447,7 @@ INSERT INTO `mob_spell_lists` VALUES ('Elemental_Air',12,158,83,255); -- aero_v 
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Air',12,184,23,47);  -- aeroga (23~47)
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Air',12,185,48,66);  -- aeroga_ii (48~66)
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Air',12,186,67,255); -- aeroga_iii (67~255)
+INSERT INTO `mob_spell_lists` VALUES ('Elemental_Air',12,208,52,255); -- tornado (52~255)
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Air',12,216,21,255); -- gravity (21~255)
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Air',12,237,20,50);  -- choke (20~50)
 
@@ -463,6 +464,7 @@ INSERT INTO `mob_spell_lists` VALUES ('Elemental_Earth',13,163,77,255); -- stone
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Earth',13,189,15,39);  -- stonega (15~39)
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Earth',13,190,40,62);  -- stonega_ii (40~62)
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Earth',13,191,63,255); -- stonega_iii (63~255)
+INSERT INTO `mob_spell_lists` VALUES ('Elemental_Earth',13,210,54,255); -- quake (54~255)
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Earth',13,238,18,50);  -- rasp (18~50)
 
 -- Elemental_Ice (14)
@@ -476,6 +478,7 @@ INSERT INTO `mob_spell_lists` VALUES ('Elemental_Ice',14,153,89,255); -- blizzar
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Ice',14,179,32,56);  -- blizzaga (32~56)
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Ice',14,180,57,70);  -- blizzaga_ii (57~70)
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Ice',14,181,71,255); -- blizzaga_iii (71~255)
+INSERT INTO `mob_spell_lists` VALUES ('Elemental_Ice',14,206,50,255); -- freeze (50~255)
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Ice',14,236,22,50);  -- frost (22~50)
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Ice',14,250,20,255); -- ice_spikes (20~255)
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Ice',14,258,7,255);  -- bind (7~255)
@@ -491,6 +494,7 @@ INSERT INTO `mob_spell_lists` VALUES ('Elemental_Water',15,173,80,255); -- water
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Water',15,199,19,43);  -- waterga (19~43)
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Water',15,200,44,64);  -- waterga_ii (44~64)
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Water',15,201,65,255); -- waterga_iii (65~255)
+INSERT INTO `mob_spell_lists` VALUES ('Elemental_Water',15,214,58,255); -- flood (58~255)
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Water',15,220,3,42);   -- poison (3~42)
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Water',15,221,43,255); -- poison_ii (43~255)
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Water',15,225,24,59);  -- poisonga (24~59)
@@ -506,6 +510,7 @@ INSERT INTO `mob_spell_lists` VALUES ('Elemental_Thunder',16,168,92,255); -- thu
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Thunder',16,194,36,60);  -- thundaga (36~60)
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Thunder',16,195,61,72);  -- thundaga_ii (61~72)
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Thunder',16,196,73,255); -- thundaga_iii (73~255)
+INSERT INTO `mob_spell_lists` VALUES ('Elemental_Thunder',16,212,56,255); -- burst (56~255)
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Thunder',16,239,16,50);  -- shock (16~50)
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Thunder',16,251,30,255); -- shock_spikes (30~255)
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Thunder',16,252,37,255); -- stun (37~255)
@@ -520,6 +525,7 @@ INSERT INTO `mob_spell_lists` VALUES ('Elemental_Fire',17,148,86,255); -- fire_v
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Fire',17,174,28,52);  -- firaga (28~52)
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Fire',17,175,53,68);  -- firaga_ii (53~68)
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Fire',17,176,69,255); -- firaga_iii (69~255)
+INSERT INTO `mob_spell_lists` VALUES ('Elemental_Fire',17,204,60,255); -- flare (60~255)
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Fire',17,235,24,50);  -- burn (24~50)
 INSERT INTO `mob_spell_lists` VALUES ('Elemental_Fire',17,249,10,255); -- blaze_spikes (10~255)
 
