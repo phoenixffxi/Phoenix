@@ -471,6 +471,66 @@ end
 -- ---------------------
 -- Spawn mechanics
 -- ---------------------
+local function calculateLineSpawnPosition(statuePos, lineSpawnConfig, spawnedCount, addSpawnPos)
+    local lineSpawnOffset = lineSpawnConfig and lineSpawnConfig[spawnedCount + 1]
+    local lineSpawnDistance = lineSpawnConfig and lineSpawnConfig.behind and lineSpawnConfig.behind[spawnedCount + 1]
+    local lineSpawnSideDistance = lineSpawnConfig and lineSpawnConfig.side and lineSpawnConfig.side[spawnedCount + 1]
+
+    local spawnX = statuePos.x
+    local spawnY = statuePos.y
+    local spawnZ = statuePos.z
+    local shouldSetSpawn = true
+
+    if lineSpawnDistance then
+        local rotationRadians = (statuePos.rot / 256) * 2 * math.pi
+        local behindXOffset = math.cos(2 * math.pi - rotationRadians) * -lineSpawnDistance
+        local behindZOffset = math.sin(2 * math.pi - rotationRadians) * -lineSpawnDistance
+
+        spawnX = spawnX + behindXOffset
+        spawnZ = spawnZ + behindZOffset
+    elseif lineSpawnSideDistance then
+        local rotationRadians = (statuePos.rot / 256) * 2 * math.pi
+        local sideXOffset = math.sin(2 * math.pi - rotationRadians) * lineSpawnSideDistance
+        local sideZOffset = math.cos(2 * math.pi - rotationRadians) * lineSpawnSideDistance
+
+        spawnX = spawnX + sideXOffset
+        spawnZ = spawnZ + sideZOffset
+    elseif lineSpawnOffset then
+        spawnX = spawnX + lineSpawnOffset[1]
+        spawnY = spawnY + lineSpawnOffset[2]
+        spawnZ = spawnZ + lineSpawnOffset[3]
+    elseif
+        addSpawnPos and
+        addSpawnPos.x == 1.000 and
+        addSpawnPos.y == 1.000 and
+        addSpawnPos.z == 1.000
+    then
+        spawnX = spawnX + math.random() * 6 - 3
+        spawnY = spawnY + 1
+        spawnZ = spawnZ + math.random() * 6 - 3
+    else
+        shouldSetSpawn = false
+    end
+
+    return spawnX, spawnY, spawnZ, shouldSetSpawn
+end
+
+local function setPetModelSize(mobToSpawn, mainSize)
+    -- TODO: MODEL SIZES FOR ALL THE ZONES RIP ME
+    if string.find(mobToSpawn:getName(), 'Nightmare') then
+        if mainSize > 1 then
+            mobToSpawn:setModelSize(mainSize - 1)
+        else
+            mobToSpawn:setModelSize(1)
+        end
+    elseif string.find(mobToSpawn:getName(), 'Hydra') then
+        -- Size 3 does not work for Hydra, max size is 2
+        mobToSpawn:setModelSize(2)
+    else
+        mobToSpawn:setModelSize(mainSize)
+    end
+end
+
 xi.dynamis.spawnNextMobsOnce = function(statue, statueId, count, target, checkForceSpawn)
     debugPrint('Spawning next mobs once...')
     if
@@ -484,6 +544,10 @@ xi.dynamis.spawnNextMobsOnce = function(statue, statueId, count, target, checkFo
 
     local statuePos = statue:getPos()
     local randomStunTime = math.random(4000, 8000)
+    local zoneId = statue:getZoneID()
+    local lineSpawnConfig = xi.dynamis.lineSpawns and
+        xi.dynamis.lineSpawns[zoneId] and
+        xi.dynamis.lineSpawns[zoneId][statueId]
     local spawnedCount = 0
     local i = 1
 
@@ -502,29 +566,18 @@ xi.dynamis.spawnNextMobsOnce = function(statue, statueId, count, target, checkFo
             ---@cast mobToSpawn CBaseEntity
             mobToSpawn:setMobMod(xi.mobMod.SUPERLINK, statueId)
             mobToSpawn:setRoamFlags(xi.roamFlag.SCRIPTED)
-            mobToSpawn:setSpawn(
-                statuePos.x + math.random() * 6 - 3,
-                statuePos.y + 1,
-                statuePos.z + math.random() * 6 - 3,
-                statuePos.rot
-            )
+            local spawnX, spawnY, spawnZ, shouldSetSpawn = calculateLineSpawnPosition(statuePos, lineSpawnConfig, spawnedCount, mobToSpawn:getSpawnPos())
+
+            if shouldSetSpawn then
+                mobToSpawn:setSpawn(spawnX, spawnY, spawnZ, statuePos.rot)
+            end
+
             mobToSpawn:spawn()
             mobToSpawn:setLocalVar('spawnedFromMaster', 1)
 
             -- Sets the "pet" model sizes to one below its master
             local mainSize = statue:getModelSize()
-            if string.find(mobToSpawn:getName(), 'Nightmare') then
-                if mainSize > 1 then
-                    mobToSpawn:setModelSize(mainSize - 1)
-                else
-                    mobToSpawn:setModelSize(1)
-                end
-            elseif string.find(mobToSpawn:getName(), 'Hydra') then
-                -- Size 3 does not work for Hydra, max size is 2
-                mobToSpawn:setModelSize(2)
-            else
-                mobToSpawn:setModelSize(mainSize)
-            end
+            setPetModelSize(mobToSpawn, mainSize)
 
             spawnedCount = spawnedCount + 1
             i = i + 1
