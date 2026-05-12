@@ -47,6 +47,8 @@ content.groups =
             },
         },
 
+        superlink = true,
+
         allDeath = function(battlefield, mob)
             battlefield:setStatus(xi.battlefield.status.WON)
         end,

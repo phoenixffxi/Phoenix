@@ -378,8 +378,8 @@ void CZoneEntities::FindPartyForMob(CBaseEntity* PEntity)
             }
 
             // Determine if these mobs should be in the same party.
-            // Force-link mobs with SUPERLINK only group with mobs sharing the same
-            // SUPERLINK value (used by BCNMs/Dynamis to link all mobs in an instance).
+            // Check SUPERLINK first in cases that forceLink is enables with SUPERLINK. (Like BCNMs/Dynamis)
+            // If no SUPERLINK then check if forceLink is enabled and the mob should force link.
             // Otherwise, mobs link by family or sublink as normal.
             bool  match     = false;
             int16 superlink = PMob->getMobMod(MOBMOD_SUPERLINK);
@@ -389,9 +389,7 @@ void CZoneEntities::FindPartyForMob(CBaseEntity* PEntity)
             }
             else if (forceLink)
             {
-                match = PCurrentMob->ShouldForceLink() &&
-                        ((PCurrentMob->m_Link && PCurrentMob->m_SuperFamily == PMob->m_SuperFamily) ||
-                         (sublink && sublink == PCurrentMob->getMobMod(MOBMOD_SUBLINK)));
+                match = PCurrentMob->ShouldForceLink();
             }
             else
             {
