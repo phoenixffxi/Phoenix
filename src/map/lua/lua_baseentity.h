@@ -236,6 +236,11 @@ public:
     auto   getTeleportMenu(uint8 type) -> sol::table;
     void   setHomePoint();
 
+    void learnMazeVoucher(uint8 voucherId);
+    auto hasMazeVoucher(uint8 voucherId) -> bool;
+    void learnMazeRune(uint16 runeId);
+    auto hasMazeRune(uint16 runeId) -> bool;
+
     void resetPlayer(const char* charName);
 
     void gotoEntity(uint32 targetID, const sol::object& option);

@@ -807,6 +807,11 @@ auto CCharEntity::gmCallContainer() -> GMCallContainer&
     return gmCallContainer_;
 }
 
+auto CCharEntity::maze() -> maze_t&
+{
+    return maze_;
+}
+
 int8 CCharEntity::getShieldSize()
 {
     CItemEquipment* PItem = getEquip(SLOT_SUB);

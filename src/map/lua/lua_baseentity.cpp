@@ -3925,6 +3925,82 @@ void CLuaBaseEntity::setHomePoint()
 }
 
 /************************************************************************
+ *  Function: learnMazeVoucher(uint8)
+ *  Purpose : Marks a Moblin Maze Mongers voucher as learned, persists it,
+ *            and refreshes the client's voucher/rune list.
+ *  Example : player:learnMazeVoucher(xi.maze.voucher.SANITIZATION_TEAM_ALPHA)
+ ************************************************************************/
+
+void CLuaBaseEntity::learnMazeVoucher(uint8 voucherId)
+{
+    auto* PChar = dynamic_cast<CCharEntity*>(m_PBaseEntity);
+    if (!PChar)
+    {
+        ShowWarningFmt("CLuaBaseEntity::learnMazeVoucher called on non-PC entity ({}).", m_PBaseEntity->getName());
+        return;
+    }
+
+    PChar->maze().learnVoucher(voucherId);
+    charutils::SaveMazeUnlocks(PChar);
+}
+
+/************************************************************************
+ *  Function: hasMazeVoucher(uint8)
+ *  Purpose : Returns true if the player has learned the given voucher.
+ *  Example : player:hasMazeVoucher(xi.maze.voucher.SANITIZATION_TEAM_ALPHA)
+ ************************************************************************/
+
+auto CLuaBaseEntity::hasMazeVoucher(uint8 voucherId) -> bool
+{
+    auto* PChar = dynamic_cast<CCharEntity*>(m_PBaseEntity);
+    if (!PChar)
+    {
+        ShowWarningFmt("CLuaBaseEntity::hasMazeVoucher called on non-PC entity ({}).", m_PBaseEntity->getName());
+        return false;
+    }
+
+    return PChar->maze().hasVoucher(voucherId);
+}
+
+/************************************************************************
+ *  Function: learnMazeRune(uint8)
+ *  Purpose : Marks a Moblin Maze Mongers rune as learned, persists it,
+ *            and refreshes the client's voucher/rune list.
+ *  Example : player:learnMazeRune(xi.maze.rune.GUIDANCE_CONTRACT)
+ ************************************************************************/
+
+void CLuaBaseEntity::learnMazeRune(uint16 runeId)
+{
+    auto* PChar = dynamic_cast<CCharEntity*>(m_PBaseEntity);
+    if (!PChar)
+    {
+        ShowWarningFmt("CLuaBaseEntity::learnMazeRune called on non-PC entity ({}).", m_PBaseEntity->getName());
+        return;
+    }
+
+    PChar->maze().learnRune(runeId);
+    charutils::SaveMazeUnlocks(PChar);
+}
+
+/************************************************************************
+ *  Function: hasMazeRune(uint16)
+ *  Purpose : Returns true if the player has learned the given rune.
+ *  Example : player:hasMazeRune(xi.maze.rune.GUIDANCE_CONTRACT)
+ ************************************************************************/
+
+auto CLuaBaseEntity::hasMazeRune(uint16 runeId) -> bool
+{
+    auto* PChar = dynamic_cast<CCharEntity*>(m_PBaseEntity);
+    if (!PChar)
+    {
+        ShowWarningFmt("CLuaBaseEntity::hasMazeRune called on non-PC entity ({}).", m_PBaseEntity->getName());
+        return false;
+    }
+
+    return PChar->maze().hasRune(runeId);
+}
+
+/************************************************************************
  *  Function: resetPlayer()
  *  Purpose : Delete player's account session and send them to Lower Jeuno
  *  Example : player:resetPlayer()
@@ -19808,6 +19884,10 @@ void CLuaBaseEntity::Register()
     SOL_REGISTER("setTeleportMenu", CLuaBaseEntity::setTeleportMenu);
     SOL_REGISTER("getTeleportMenu", CLuaBaseEntity::getTeleportMenu);
     SOL_REGISTER("setHomePoint", CLuaBaseEntity::setHomePoint);
+    SOL_REGISTER("learnMazeVoucher", CLuaBaseEntity::learnMazeVoucher);
+    SOL_REGISTER("hasMazeVoucher", CLuaBaseEntity::hasMazeVoucher);
+    SOL_REGISTER("learnMazeRune", CLuaBaseEntity::learnMazeRune);
+    SOL_REGISTER("hasMazeRune", CLuaBaseEntity::hasMazeRune);
     SOL_REGISTER("resetPlayer", CLuaBaseEntity::resetPlayer);
 
     SOL_REGISTER("gotoEntity", CLuaBaseEntity::gotoEntity);

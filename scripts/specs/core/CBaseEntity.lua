@@ -908,6 +908,28 @@ end
 function CBaseEntity:setHomePoint()
 end
 
+---@param voucherId integer
+---@return nil
+function CBaseEntity:learnMazeVoucher(voucherId)
+end
+
+---@nodiscard
+---@param voucherId integer
+---@return boolean
+function CBaseEntity:hasMazeVoucher(voucherId)
+end
+
+---@param runeId integer
+---@return nil
+function CBaseEntity:learnMazeRune(runeId)
+end
+
+---@nodiscard
+---@param runeId integer
+---@return boolean
+function CBaseEntity:hasMazeRune(runeId)
+end
+
 ---@param charName string
 ---@return nil
 function CBaseEntity:resetPlayer(charName)

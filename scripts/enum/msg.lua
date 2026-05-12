@@ -329,6 +329,7 @@ xi.msg.basic =
     STATUS_INCREASED                = 562, -- The status parameters of <target> have increased.
     FOV_OBTAINS_GIL                 = 565, -- <target> obtains <gil>.
     FOV_OBTAINS_TABS                = 566, -- <target> obtains <number> tab.<br>(Total: <number>)
+    MMM_STOWED_AWAY                 = 567, -- <target> stowed away a <item> in his tattered Maze Monger pouch.
     STATUS_PREVENTS                 = 569, -- Your current status prevents you from using that ability.
     MAGIC_REMOVE_EFFECT_2           = 571, -- <number> of <target>'s status ailments disappear!
     MAGIC_ABSORB_AILMENT            = 572, -- <caster> casts <spell>. <caster> absorbs <number> of <target>'s status ailments.
