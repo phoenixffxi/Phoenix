@@ -196,11 +196,11 @@ xi.dynamis.spawnTable[zoneID] =
 xi.dynamis.eyeColor = xi.dynamis.eyeColor or {}
 xi.dynamis.eyeColor[zoneID] =
 {
-    [17330460] = { 0, xi.dynamis.eye.BLUE     }, -- (052-Y(HP)) |
-    [17330302] = { 0, xi.dynamis.eye.GREEN    }, -- (073-Y(MP)) |
-    [17330351] = { 0, xi.dynamis.eye.GREEN    }, -- (077-O(MP)) |
-    [17330671] = { 0, xi.dynamis.eye.BLUE     }, -- (112-Q(HP)) |
-    [17330579] = { 0, xi.dynamis.eye.BLUE     }, -- (142-Q(HP)) |
+    [17330460] = xi.dynamis.eye.BLUE , -- (052-Y(HP))
+    [17330302] = xi.dynamis.eye.GREEN, -- (073-Y(MP))
+    [17330351] = xi.dynamis.eye.GREEN, -- (077-O(MP))
+    [17330671] = xi.dynamis.eye.BLUE , -- (112-Q(HP))
+    [17330579] = xi.dynamis.eye.BLUE , -- (142-Q(HP))
 }
 
 -- Wave spawn table for large waves
