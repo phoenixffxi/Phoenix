@@ -9,7 +9,7 @@ local mobskillObject = {}
 
 mobskillObject.onMobSkillCheck = function(target, mob, skill)
     if
-        mob:getFamily() == 122 and -- TODO: Set proper skill lists for Ghrah.
+        mob:getSuperFamily() == xi.mobSuperFamily.GHRAH and -- TODO: Set proper skill lists for Ghrah.
         mob:getAnimationSub() ~= 2
     then
         return 1

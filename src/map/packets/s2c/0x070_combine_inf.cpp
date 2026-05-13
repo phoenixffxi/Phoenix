@@ -23,9 +23,10 @@
 
 #include "entities/charentity.h"
 #include "enums/synthesis_result.h"
-#include "trade_container.h"
+#include "items/craft_state.h"
+#include "items/transactions/synth.h"
 
-GP_SERV_COMMAND_COMBINE_INF::GP_SERV_COMMAND_COMBINE_INF(const CCharEntity* PChar, const SynthesisResult result, const uint16 itemId, const uint8 quantity)
+GP_SERV_COMMAND_COMBINE_INF::GP_SERV_COMMAND_COMBINE_INF(const CCharEntity* PChar, const SynthesisResult result, const CCraftState::Result item)
 {
     auto& packet = this->data();
 
@@ -34,21 +35,21 @@ GP_SERV_COMMAND_COMBINE_INF::GP_SERV_COMMAND_COMBINE_INF(const CCharEntity* PCha
     packet.UniqueNo = PChar->id;
     packet.ActIndex = PChar->targid;
 
-    if (itemId != 0)
+    if (item.itemId != 0)
     {
-        packet.Count  = quantity;
-        packet.ItemNo = itemId;
+        packet.Count  = item.qty;
+        packet.ItemNo = item.itemId;
     }
 
-    if (result == SynthesisResult::Failed)
+    if (result == SynthesisResult::Failed && PChar->activeTransaction<SynthTransaction>())
     {
-        uint8 count = 0;
-        for (uint8 slotID = 1; slotID <= 8; ++slotID)
+        const auto& craftState = PChar->craftState();
+        uint8       count      = 0;
+        for (uint8 idx = 0; idx < SynthMaxIngredients; ++idx)
         {
-            if (PChar->CraftContainer->getQuantity(slotID) == 0)
+            if (craftState.isBroken(idx))
             {
-                const uint16 failedItemID = PChar->CraftContainer->getItemID(slotID);
-                packet.BreakNo[count]     = failedItemID;
+                packet.BreakNo[count] = craftState.ingredientItemId(idx);
                 count++;
             }
         }

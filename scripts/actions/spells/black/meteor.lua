@@ -26,13 +26,13 @@ spellObject.onSpellCast = function(caster, target, spell)
     local damage = 0
     if caster:isPC() then
         damage = ((100 + caster:getMod(xi.mod.MATT)) / (100 + target:getMod(xi.mod.MDEF))) * (caster:getStat(xi.mod.INT) + caster:getSkillLevel(xi.skill.ELEMENTAL_MAGIC) / 6) * 3.5
-    elseif caster:getFamily() == 51 then -- Behemoth family
+    elseif caster:getSuperFamily() == xi.mobSuperFamily.BEHEMOTH then -- Behemoth family
         -- Not entirely accurate until mobspell skills are reworked. #7222
         -- TODO: + dINT *2 until dINT +13. When dINT is negative, dINT / 2 until unknown floor.
         -- TODO: Account for all mitigation sources.
         -- TODO: Account for rage.
         damage = caster:getMainLvl() * 15.5
-    elseif caster:getFamily() == 134 then -- Promathia family
+    elseif caster:getFamily() == xi.mobSpecies.PROMATHIA then -- Promathia family
         damage = caster:getMainLvl() * 7
     else
         damage = ((100 + caster:getMod(xi.mod.MATT)) / (100 + target:getMod(xi.mod.MDEF))) * (caster:getStat(xi.mod.INT) + (caster:getMaxSkillLevel(caster:getMainLvl(), xi.job.BLM, xi.skill.ELEMENTAL_MAGIC)) / 6) * 9.4

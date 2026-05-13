@@ -20,6 +20,7 @@ zones[xi.zone.MAMOOK] =
         LOGGING_IS_POSSIBLE_HERE      = 7550, -- Logging is possible here if you have <item>.
         PARTY_MEMBERS_HAVE_FALLEN     = 7907, -- All party members have fallen in battle. Now leaving the battlefield.
         THE_PARTY_WILL_BE_REMOVED     = 7914, -- If all party members' HP are still zero after # minute[/s], the party will be removed from the battlefield.
+        NOTHING_OUT_OF_ORDINARY       = 8031, -- Nothing out of the ordinary happens.
         IMPENDING_BATTLE              = 8075, -- You feel the rush of impending battle!
         PECULIAR_SENSATION            = 8133, -- % is overcome by a peculiar sensation.
         NUMEROUS_STRANDS              = 8680, -- Numerous strands of hair are scattered all over...

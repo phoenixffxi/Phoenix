@@ -33,14 +33,14 @@ end
 -- [mobskillId] = { petFamily1, petFamily2, ... }
 local petAstralFlowAbility =
 {
-    [xi.mobSkill.HOWLING_MOON_2]  = { 36, 381 }, -- Fenrir (Howling Moon)
-    [xi.mobSkill.INFERNO_1]       = { 38, 383 }, -- Ifrit (Inferno)
-    [xi.mobSkill.EARTHEN_FURY_1]  = { 45, 388 }, -- Titan (Earthen Fury)
-    [xi.mobSkill.TIDAL_WAVE_1]    = { 40, 384 }, -- Leviathan (Tidal Wave)
-    [xi.mobSkill.AERIAL_BLAST_1]  = { 37, 382 }, -- Garuda (Aerial Blast)
-    [xi.mobSkill.DIAMOND_DUST_1]  = { 44, 387 }, -- Shiva (Diamond Dust)
-    [xi.mobSkill.JUDGMENT_BOLT_1] = { 43, 386 }, -- Ramuh (Judgment Bolt)
-    [xi.mobSkill.SEARING_LIGHT_1] = { 34, 379 }, -- Carbuncle (Searing Light)
+    [xi.mobSkill.HOWLING_MOON_2]  = { 246, 381 }, -- Fenrir (Howling Moon)
+    [xi.mobSkill.INFERNO_1]       = { 248, 383 }, -- Ifrit (Inferno)
+    [xi.mobSkill.EARTHEN_FURY_1]  = { 255, 388 }, -- Titan (Earthen Fury)
+    [xi.mobSkill.TIDAL_WAVE_1]    = { 249, 384 }, -- Leviathan (Tidal Wave)
+    [xi.mobSkill.AERIAL_BLAST_1]  = { 247, 382 }, -- Garuda (Aerial Blast)
+    [xi.mobSkill.DIAMOND_DUST_1]  = { 253, 387 }, -- Shiva (Diamond Dust)
+    [xi.mobSkill.JUDGMENT_BOLT_1] = { 252, 386 }, -- Ramuh (Judgment Bolt)
+    [xi.mobSkill.SEARING_LIGHT_1] = { 243, 379 }, -- Carbuncle (Searing Light)
 }
 
 mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)

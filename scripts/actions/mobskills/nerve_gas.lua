@@ -8,7 +8,7 @@ local mobskillObject = {}
 
 mobskillObject.onMobSkillCheck = function(target, mob, skill)
     -- TODO: Use conditions vary by mob. Maybe move to mob script if possible?
-    if mob:getFamily() == 313 then -- Tinnin can use at will
+    if mob:getPool() == xi.mobPool.TINNIN then -- Tinnin can use at will
         return 0
     else
         if mob:getAnimationSub() == 0 then -- 3 Heads

@@ -92,6 +92,7 @@ set(PACKET_S2C_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/0x047_translate.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x048_link_concierge.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x049_itemsearch.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x049_itemsearch.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x04b_pbx_result.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x04b_pbx_result.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x04c_auc.h
@@ -201,6 +202,7 @@ set(PACKET_S2C_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/0x0ac_command_data.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x0ac_command_data.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x0ad_dungeon.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x0ad_dungeon.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x0ae_mount_data.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x0ae_mount_data.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x0b4_config.h

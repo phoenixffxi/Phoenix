@@ -24,9 +24,9 @@
 #include "entities/charentity.h"
 #include "enums/msg_std.h"
 #include "items.h"
+#include "items/transactions/synth.h"
 #include "packets/s2c/0x022_item_trade_res.h"
 #include "packets/s2c/0x029_battle_message.h"
-#include "trade_container.h"
 #include "universal_container.h"
 #include "utils/jailutils.h"
 #include "utils/synthutils.h"
@@ -126,8 +126,6 @@ void GP_CLI_COMMAND_COMBINE_ASK::process(MapSession* PSession, CCharEntity* PCha
     }
     // End temporary additions
 
-    PChar->CraftContainer->Clean();
-
     const auto* PItem = PChar->getStorage(LOC_INVENTORY)->GetItem(this->CrystalIdx);
     if (!PItem ||
         this->Crystal != PItem->getID() ||
@@ -139,22 +137,22 @@ void GP_CLI_COMMAND_COMBINE_ASK::process(MapSession* PSession, CCharEntity* PCha
         return;
     }
 
-    if (PItem->isSubType(ITEM_LOCKED) || PItem->getReserve() > 0)
+    if (PItem->isBusy() || PItem->isSubType(ITEM_LOCKED))
     {
-        ShowWarningFmt("GP_CLI_COMMAND_COMBINE_ASK: {} trying to use invalid crystal (locked/reserved)", PChar->getName());
+        ShowWarningFmt("GP_CLI_COMMAND_COMBINE_ASK: {} trying to use unavailable crystal", PChar->getName());
         PChar->pushPacket<GP_SERV_COMMAND_BATTLE_MESSAGE>(PChar, PChar, 0, 0, MsgBasic::CannotUseInArea);
         return;
     }
 
-    uint16 itemId    = this->Crystal;
-    uint8  invSlotId = this->CrystalIdx;
-    PChar->CraftContainer->setItem(0, itemId, invSlotId, 0);
+    SynthOffer offer{
+        .crystal = { this->Crystal, this->CrystalIdx },
+    };
 
     std::vector<uint8> slotQty(MAX_CONTAINER_SIZE);
     for (int32 slotId = 0; slotId < this->Items; ++slotId)
     {
-        itemId    = this->ItemNo[slotId];
-        invSlotId = this->TableNo[slotId];
+        const uint16 itemId    = this->ItemNo[slotId];
+        const uint8  invSlotId = this->TableNo[slotId];
 
         slotQty[invSlotId]++;
 
@@ -165,15 +163,15 @@ void GP_CLI_COMMAND_COMBINE_ASK::process(MapSession* PSession, CCharEntity* PCha
             continue;
         }
 
-        if (PSlotItem->isSubType(ITEM_LOCKED) ||
-            slotQty[invSlotId] > (PSlotItem->getQuantity() - PSlotItem->getReserve()))
+        if (PSlotItem->isBusy() || PSlotItem->isSubType(ITEM_LOCKED) ||
+            slotQty[invSlotId] > PSlotItem->getQuantity())
         {
-            ShowWarningFmt("GP_CLI_COMMAND_COMBINE_ASK: {} trying to use invalid ingredient (locked/reserved)", PChar->getName());
+            ShowWarningFmt("GP_CLI_COMMAND_COMBINE_ASK: {} trying to use unavailable ingredient", PChar->getName());
             continue;
         }
 
-        PChar->CraftContainer->setItem(slotId + 1, itemId, invSlotId, 1);
+        offer.ingredients[slotId] = { itemId, invSlotId };
     }
 
-    synthutils::startSynth(PChar);
+    synthutils::startSynth(PChar, offer);
 }

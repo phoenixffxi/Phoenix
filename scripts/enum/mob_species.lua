@@ -1,6 +1,6 @@
 -----------------------------------
 -- Mob species IDs
--- NOT USED YET
+-- Currently named "family"
 -----------------------------------
 xi = xi or {}
 
@@ -489,4 +489,6 @@ xi.mobSpecies =
     QUADAV_STATUE          = 480,
     YAGUDO_STATUE          = 481,
     ULTIMA                 = 482,
+    MAMMET                 = 483,
+    UNCLASSIFIED           = 484,
 }

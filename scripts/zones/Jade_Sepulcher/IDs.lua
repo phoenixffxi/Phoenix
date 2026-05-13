@@ -43,8 +43,9 @@ zones[xi.zone.JADE_SEPULCHER] =
     },
     mob =
     {
-        LANCELORD_GAHEEL_JA = GetFirstID('Lancelord_Gaheel_Ja'),
-        RAUBAHN             = GetFirstID('Raubahn'),
+        LANCELORD_GAHEEL_JA  = GetFirstID('Lancelord_Gaheel_Ja'),
+        RAUBAHN              = GetFirstID('Raubahn'),
+        SHADOWHAND_KAJEEL_JA = GetFirstID('Shadowhand_Kajeel_Ja'),
     },
     npc =
     {

@@ -25,6 +25,8 @@
 
 #include "base.h"
 
+#include "items/craft_state.h"
+
 enum class SynthesisResult : uint8_t;
 class CCharEntity;
 
@@ -47,5 +49,5 @@ public:
         uint8_t         padding01[2]; // PS2: (New; did not exist.)
     };
 
-    GP_SERV_COMMAND_COMBINE_INF(const CCharEntity* PChar, SynthesisResult result, uint16 itemId = 0, uint8 quantity = 0);
+    GP_SERV_COMMAND_COMBINE_INF(const CCharEntity* PChar, SynthesisResult result, CCraftState::Result item = {});
 };

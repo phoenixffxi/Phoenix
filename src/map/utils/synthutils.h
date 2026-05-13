@@ -30,6 +30,7 @@
  ************************************************************************/
 
 class CCharEntity;
+struct SynthOffer;
 
 namespace synthutils
 {
@@ -56,7 +57,7 @@ enum SYNTHESIS_RESULT
 };
 
 void LoadSynthRecipes();
-void startSynth(CCharEntity* PChar);
+void startSynth(CCharEntity* PChar, const SynthOffer& offer);
 void sendSynthDone(CCharEntity* PChar);
 void doSynthCriticalFail(CCharEntity* PChar);
 

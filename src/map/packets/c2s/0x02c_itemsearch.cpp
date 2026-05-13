@@ -22,10 +22,11 @@
 #include "0x02c_itemsearch.h"
 
 #include "entities/charentity.h"
+#include "packets/s2c/0x049_itemsearch.h"
+#include "utils/itemutils.h"
 
 auto GP_CLI_COMMAND_ITEMSEARCH::validate(MapSession* PSession, const CCharEntity* PChar) const -> PacketValidationResult
 {
-    // Not implemented.
     return PacketValidator(PChar)
         .blockedBy({ BlockedState::InEvent })
         .oneOf<GP_CLI_COMMAND_ITEMSEARCH_LANGUAGE>(this->Language);
@@ -33,7 +34,12 @@ auto GP_CLI_COMMAND_ITEMSEARCH::validate(MapSession* PSession, const CCharEntity
 
 void GP_CLI_COMMAND_ITEMSEARCH::process(MapSession* PSession, CCharEntity* PChar) const
 {
-    ShowDebugFmt("GP_CLI_COMMAND_ITEMSEARCH: Not implemented. Language: {}, Name: {}",
-                 this->Language,
-                 asStringFromUntrustedSource(this->Name, sizeof(this->Name)));
+    auto inputName = asStringFromUntrustedSource(this->Name, sizeof(this->Name));
+
+    // Same-language lookup against the translate map.
+    const auto fromTo = static_cast<GP_CLI_COMMAND_TRANSLATE_INDEX>(this->Language);
+    const auto result = itemutils::TranslateItemName(fromTo, fromTo, inputName);
+    const auto itemId = result.has_value() ? result->first : static_cast<uint16>(0);
+
+    PChar->pushPacket<GP_SERV_COMMAND_ITEMSEARCH>(itemId, inputName);
 }

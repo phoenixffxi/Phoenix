@@ -379,6 +379,7 @@ public:
     void  UpdateHealth(); // recalculation of the maximum amount of hp and mp, as well as adjusting their current values
     uint8 UpdateSpeed(bool run = false) override;
 
+    bool          IsDualWielding();
     uint32        GetWeaponDelay(bool tp);                          // returns delay of combined weapons
     float         GetMeleeRange(const CBattleEntity* Target) const; // returns the distance considered to be within melee range of the entity
     virtual float GetRangedAttackRange();                           // returns the maximum valid distance for a ranged attack

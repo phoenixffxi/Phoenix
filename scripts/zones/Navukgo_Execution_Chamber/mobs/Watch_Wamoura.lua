@@ -7,6 +7,7 @@ local entity = {}
 
 local function curl(mob)
     mob:setBaseSpeed(20)
+    mob:setDelay(800)
     mob:setMod(xi.mod.DMG, -9500)
     mob:addStatusEffect(xi.effect.BLAZE_SPIKES, { power = 100, origin = mob })
     mob:setAnimationSub(5)
@@ -17,15 +18,18 @@ local function stretch(mob)
     mob:setBaseSpeed(100)
     mob:delMod(xi.mod.DMG, -9500)
     mob:delStatusEffect(xi.effect.BLAZE_SPIKES)
+    mob:setDelay(170)
     mob:setAnimationSub(4)
     mob:setLocalVar('curlThreshold', math.max(0, mob:getHPP() - 20))
 end
 
 entity.onMobSpawn = function(mob)
     mob:setMobMod(xi.mobMod.DETECTION, bit.bor(xi.detects.SIGHT, xi.detects.HEARING))
+    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 200)
     mob:setMod(xi.mod.REGAIN, 150)
     mob:addImmunity(xi.immunity.DARK_SLEEP)
     mob:addImmunity(xi.immunity.LIGHT_SLEEP)
+    mob:addImmunity(xi.immunity.TERROR)
     curl(mob)
 end
 

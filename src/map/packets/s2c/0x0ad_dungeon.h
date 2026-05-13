@@ -23,6 +23,8 @@
 
 #include "base.h"
 
+class CCharEntity;
+
 // https://github.com/atom0s/XiPackets/tree/main/world/server/0x00AD
 // This packet is sent by the server to populate the clients Moblin Maze Mongers information. (Vouchers and Runes)
 class GP_SERV_COMMAND_DUNGEON final : public GP_SERV_PACKET<PacketS2C::GP_SERV_COMMAND_DUNGEON, GP_SERV_COMMAND_DUNGEON>
@@ -35,6 +37,5 @@ public:
         uint8_t unused00[56]; // PS2: (New; did not exist.)
     };
 
-    // TODO: Unimplemented
-    GP_SERV_COMMAND_DUNGEON() = default;
+    GP_SERV_COMMAND_DUNGEON(CCharEntity* PChar);
 };

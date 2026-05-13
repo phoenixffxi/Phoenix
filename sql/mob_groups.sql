@@ -9476,7 +9476,7 @@ INSERT INTO `mob_groups` VALUES (5,980,127,'Demonic_Weapon',300,0,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (6,2442,127,'Lost_Soul_blm',300,1,1541,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (7,2585,127,'Master_Coeurl',900,0,1640,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (8,407,127,'Bhuta',300,1,264,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (9,387,127,'Behemoth',0,128,251,60000,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (9,387,127,'Behemoth',0,128,251,65000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (10,2255,127,'King_Behemoth',0,128,1450,75000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (11,3135,127,'Picklix_Longindex',0,128,0,9400,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (12,2767,127,'Moxnix_Nightgoggle',0,128,0,8700,0,0,NULL);
@@ -10663,7 +10663,7 @@ INSERT INTO `mob_groups` VALUES (12,4838,144,'Maat_rdm',0,128,0,2300,1000,0,NULL
 INSERT INTO `mob_groups` VALUES (13,4839,144,'Maat_thf',0,128,2917,2300,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (14,4932,144,'Maat_bst',0,128,0,2300,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (15,2462,144,'Maats_Pet',0,128,0,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (16,1910,144,'Heavy_Metal_Crab',0,128,0,25,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (16,1910,144,'Heavy_Metal_Crab',0,128,0,30,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (17,2635,144,'Metal_Crab',0,128,0,15,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (18,2468,144,'Macha',0,128,0,1400,1400,0,NULL);
 INSERT INTO `mob_groups` VALUES (19,2820,144,'Neman',0,128,0,1000,0,0,NULL);
@@ -10794,7 +10794,7 @@ INSERT INTO `mob_groups` VALUES (32,1601,146,'Gii_Jaha_the_Raucous',0,128,0,3600
 INSERT INTO `mob_groups` VALUES (33,15,146,'Aa_Nawu_the_Thunderblade',0,128,0,4200,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (34,4474,146,'Yoo_Mihi_the_Haze',0,128,0,4200,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (35,4385,146,'Wyrm',0,128,0,50000,15000,0,NULL);
-INSERT INTO `mob_groups` VALUES (36,1121,146,'Dromiceiomimus',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (36,1121,146,'Dromiceiomimus',0,128,0,3000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (37,2467,146,'Macan_Gadangan',0,128,0,8000,8000,0,NULL);
 INSERT INTO `mob_groups` VALUES (38,1602,146,'Gilagoge_Tlugvi',0,128,0,9600,5000,0,NULL);
 INSERT INTO `mob_groups` VALUES (39,1747,146,'Goga_Tlugvi',0,128,0,8250,0,0,NULL);

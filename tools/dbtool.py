@@ -368,7 +368,7 @@ def write_configs():
 
 
 def fetch_module_files():
-    with open(from_server_path("modules/init.txt"), "r") as file:
+    with open(from_server_path("modules/init.txt"), "r", encoding="utf-8") as file:
         for line in file.readlines():
             if not line.startswith("#") and line.strip() and not line in ["\n", "\r\n"]:
                 line = from_server_path("modules/" + line.strip())

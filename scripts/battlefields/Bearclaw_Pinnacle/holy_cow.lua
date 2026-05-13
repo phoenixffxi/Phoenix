@@ -25,25 +25,25 @@ content:addEssentialMobs({ 'Apis' })
 content.loot =
 {
     {
-        { itemId = xi.item.NONE, weight = xi.loot.weight.VERY_LOW },
-        { itemId = xi.item.SQUARE_OF_ELTORO_LEATHER, weight = xi.loot.weight.NORMAL },
-        { itemId = xi.item.PIECE_OF_CASSIA_LUMBER, weight = xi.loot.weight.NORMAL },
-        { itemId = xi.item.DRAGON_BONE, weight = xi.loot.weight.NORMAL },
+        { itemId = xi.item.NONE,                     weight = 9500 },
+        { itemId = xi.item.CLOUD_EVOKER,             weight =  500 },
     },
 
     {
-        { itemId = xi.item.NONE, weight = xi.loot.weight.EXTREMELY_HIGH },
-        { itemId = xi.item.CLOUD_EVOKER, weight = xi.loot.weight.LOW },
+        { itemId = xi.item.NONE,                     weight = 2500 },
+        { itemId = xi.item.PIECE_OF_CASSIA_LUMBER,   weight = 2500 },
+        { itemId = xi.item.SQUARE_OF_ELTORO_LEATHER, weight = 2500 },
+        { itemId = xi.item.DRAGON_BONE,              weight = 2500 },
     },
 
     {
         quantity = 2,
-        { itemId = xi.item.NONE, weight = xi.loot.weight.HIGH },
-        { itemId = xi.item.GIGANT_MANTLE, weight = xi.loot.weight.LOW },
-        { itemId = xi.item.PSILOS_MANTLE, weight = xi.loot.weight.LOW },
-        { itemId = xi.item.MARTIAL_BOW, weight = xi.loot.weight.LOW },
-        { itemId = xi.item.MARTIAL_KNUCKLES, weight = xi.loot.weight.LOW },
-        { itemId = xi.item.SCROLL_OF_RAISE_III, weight = xi.loot.weight.HIGH },
+        { itemId = xi.item.NONE,                     weight = 5500 },
+        { itemId = xi.item.GIGANT_MANTLE,            weight =  700 },
+        { itemId = xi.item.PSILOS_MANTLE,            weight =  800 },
+        { itemId = xi.item.MARTIAL_BOW,              weight =  800 },
+        { itemId = xi.item.MARTIAL_KNUCKLES,         weight =  800 },
+        { itemId = xi.item.SCROLL_OF_RAISE_III,      weight = 1400 },
     },
 }
 

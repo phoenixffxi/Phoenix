@@ -89,9 +89,13 @@ set(ITEM_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/item.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/item.h
     ${CMAKE_CURRENT_SOURCE_DIR}/item_access.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/craft_state.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/craft_state.h
     ${CMAKE_CURRENT_SOURCE_DIR}/transaction.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/transaction.h
     ${CMAKE_CURRENT_SOURCE_DIR}/transactions/item_use.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/transactions/item_use.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/transactions/synth.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/transactions/synth.h
     PARENT_SCOPE
 )

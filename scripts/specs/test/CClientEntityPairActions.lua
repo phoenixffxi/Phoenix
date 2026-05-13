@@ -20,6 +20,12 @@ end
 function CClientEntityPairActions:useSpell(target, spellId)
 end
 
+---Populate the player's BLU spell page from a list of spell IDs
+---@param spellIds xi.magic.spell[] List of BLU spell IDs to set
+---@return nil
+function CClientEntityPairActions:setBlueSpells(spellIds)
+end
+
 ---Use a weaponskill on a target
 ---@param target CBaseEntity Target entity
 ---@param wsId xi.weaponskill Weaponskill ID
@@ -88,6 +94,42 @@ end
 ---@param expectedEvent? ExpectedEvent Expected event configuration
 ---@return nil
 function CClientEntityPairActions:tradeNpc(npcQuery, items, expectedEvent)
+end
+
+---Request a trade with another player.
+---@param target CBaseEntity Trade target
+---@return nil
+function CClientEntityPairActions:tradeRequest(target)
+end
+
+---Accept the incoming trade request.
+---@return nil
+function CClientEntityPairActions:tradeAccept()
+end
+
+---Place an item in a trade slot.
+---@param tradeIndex integer Trade slot, 0..8
+---@param invSlot integer Inventory slot of the source item
+---@param itemId xi.item Item ID
+---@param quantity integer Amount
+---@return nil
+function CClientEntityPairActions:tradeOffer(tradeIndex, invSlot, itemId, quantity)
+end
+
+---Clear a trade slot.
+---@param tradeIndex integer Trade slot, 0..8
+---@return nil
+function CClientEntityPairActions:tradeClearSlot(tradeIndex)
+end
+
+---Lock in this side's offer. Trade goes through once both sides lock.
+---@return nil
+function CClientEntityPairActions:tradeMake()
+end
+
+---Cancel the trade.
+---@return nil
+function CClientEntityPairActions:tradeCancel()
 end
 
 ---Accept raise prompt

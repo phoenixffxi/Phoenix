@@ -24,3 +24,41 @@ xi.mmm.calculateCCPoints = function(player)
 
     return ccPoints
 end
+
+xi.mmm.onVoucherCheck = function(target, item)
+    local voucherId = item:getID() - xi.item.MAZE_VOUCHER_01 + 1
+
+    if target:hasMazeVoucher(voucherId) then
+        return xi.msg.basic.ITEM_UNABLE_TO_USE
+    end
+
+    return 0
+end
+
+xi.mmm.onVoucherUse = function(target, item, action)
+    local voucherId = item:getID() - xi.item.MAZE_VOUCHER_01 + 1
+
+    target:learnMazeVoucher(voucherId)
+    action:messageID(target:getID(), xi.msg.basic.MMM_STOWED_AWAY)
+
+    return item:getID()
+end
+
+xi.mmm.onRuneCheck = function(target, item)
+    local runeId = item:getID() - xi.item.MAZE_RUNE_001 + 1
+
+    if target:hasMazeRune(runeId) then
+        return xi.msg.basic.ITEM_UNABLE_TO_USE
+    end
+
+    return 0
+end
+
+xi.mmm.onRuneUse = function(target, item, action)
+    local runeId = item:getID() - xi.item.MAZE_RUNE_001 + 1
+
+    target:learnMazeRune(runeId)
+    action:messageID(target:getID(), xi.msg.basic.MMM_STOWED_AWAY)
+
+    return item:getID()
+end

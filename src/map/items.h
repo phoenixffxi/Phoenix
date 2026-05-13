@@ -147,5 +147,6 @@ enum ITEMID : uint16
     MAZE_TABULA_M03                = 28674,
     MAZE_TABULA_R01                = 28704,
     MAZE_TABULA_R03                = 28706,
+    MANGLED_MESS                   = 29695,
     GIL                            = 65535,
 };

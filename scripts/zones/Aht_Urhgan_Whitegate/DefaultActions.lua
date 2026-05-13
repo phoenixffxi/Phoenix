@@ -35,7 +35,7 @@ return {
     ['Maudaal']            = { event = 240 },
     ['Mhasbaf']            = { event = 542 },
     ['Milazahn']           = { event = 594 },
-    ['Mishhar']            = { event = 562 },
+    ['Mishhar']            = { event = 590 },
     ['Musdahl']            = { event = 242 },
     ['Mushayra']           = { event = 519 },
     ['Nadee_Periyaha']     = { event =  90 },

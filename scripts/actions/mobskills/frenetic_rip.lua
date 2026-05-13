@@ -7,7 +7,10 @@
 local mobskillObject = {}
 
 mobskillObject.onMobSkillCheck = function(target, mob, skill)
-    if mob:getAnimationSub() == 4 and mob:getFamily() == 165 then -- Imps - with horn
+    if
+        mob:getAnimationSub() == 4 and
+        mob:getFamily() == xi.mobSpecies.HORNED_IMP
+    then
         return 1
     else
         return 0

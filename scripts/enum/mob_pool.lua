@@ -41,6 +41,7 @@ xi.mobPool =
     SHIKAREE_X             = 3598, -- Shikaree X (Head Wind/TWT/ROS)
     SHIKAREE_Y             = 3600, -- Shikaree Y (Head Wind/TWT/ROS)
     SHIKAREE_Z             = 3601, -- Shikaree Z (Head Wind/TWT/ROS)
+    TINNIN                 = 3922, -- Tinnin
     QUBIA_ARENA_TRION      = 4006, -- Qu'Bia Arena Trion
     THRONE_ROOM_VOLKER     = 4249, -- Throne Room BC, Volker
     WREAKER                = 4382, -- Wreaker (CoP 1-3 Spire Battle)

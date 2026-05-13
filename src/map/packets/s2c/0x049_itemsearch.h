@@ -36,6 +36,5 @@ public:
         uint8_t  ItemName[64]; // PS2: ItemName
     };
 
-    // TODO: Unimplemented
-    GP_SERV_COMMAND_ITEMSEARCH() = default;
+    GP_SERV_COMMAND_ITEMSEARCH(uint16 itemId, const std::string& name);
 };

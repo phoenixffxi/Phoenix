@@ -218,6 +218,7 @@ void SaveCampaignAllegiance(const CCharEntity* PChar);          // save the char
 void SaveCharMoghancement(const CCharEntity* PChar);            // save the character's current moghancement
 void SaveCharSkills(const CCharEntity* PChar, uint8 skillID);   // save the character's skills
 void SaveTeleport(CCharEntity* PChar, TELEPORT_TYPE type);      // save the character's teleports (homepoints, outposts, maws, etc)
+void SaveMazeUnlocks(CCharEntity* PChar);                       // save the character's learned Moblin Maze Mongers vouchers and runes
 void SaveDeathTime(CCharEntity* PChar);                         // save when this character last died
 void SavePlayTime(CCharEntity* PChar);                          // save this character's total play time
 void SaveLastLogout(const CCharEntity* PChar);                  // save the last logout time of this character

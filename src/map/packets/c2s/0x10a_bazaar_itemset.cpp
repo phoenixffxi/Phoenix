@@ -47,9 +47,9 @@ void GP_CLI_COMMAND_BAZAAR_ITEMSET::process(MapSession* PSession, CCharEntity* P
         return;
     }
 
-    if (PItem->getReserve() > 0)
+    if (PItem->getReserve() > 0 || PItem->isBusy())
     {
-        ShowError("Player %s trying to bazaar a RESERVED item! [Item: %i | Slot ID: %i] ", PChar->getName(), PItem->getID(), this->ItemIndex);
+        ShowError("Player %s trying to bazaar a busy/reserved item! [Item: %i | Slot ID: %i] ", PChar->getName(), PItem->getID(), this->ItemIndex);
         return;
     }
 

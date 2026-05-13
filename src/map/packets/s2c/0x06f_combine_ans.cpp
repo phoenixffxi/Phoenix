@@ -22,19 +22,27 @@
 #include "0x06f_combine_ans.h"
 
 #include "entities/charentity.h"
-#include "trade_container.h"
+#include "items/craft_state.h"
+#include "items/transactions/synth.h"
 
-GP_SERV_COMMAND_COMBINE_ANS::GP_SERV_COMMAND_COMBINE_ANS(const CCharEntity* PChar, const SynthesisResult result, const uint16 itemId, const uint8 quantity)
+GP_SERV_COMMAND_COMBINE_ANS::GP_SERV_COMMAND_COMBINE_ANS(const CCharEntity* PChar, const SynthesisResult result, const CCraftState::Result item)
 {
     auto& packet = this->data();
 
     packet.Result = result;
 
-    if (itemId != 0)
+    if (item.itemId != 0)
     {
-        packet.Count  = quantity;
-        packet.ItemNo = itemId;
+        packet.Count  = item.qty;
+        packet.ItemNo = item.itemId;
     }
+
+    if (!PChar->activeTransaction<SynthTransaction>())
+    {
+        return;
+    }
+
+    const auto& craftState = PChar->craftState();
 
     for (uint8 i = 0; i < 4; i++)
     {
@@ -46,24 +54,23 @@ GP_SERV_COMMAND_COMBINE_ANS::GP_SERV_COMMAND_COMBINE_ANS(const CCharEntity* PCha
                 continue;
             }
 
-            if (PChar->CraftContainer->getQuantity(skillID - 40) > skillValue)
+            const uint8 required = craftState.skillRequired(skillID - SKILL_WOODWORKING);
+            if (required > skillValue)
             {
-                skillValue       = PChar->CraftContainer->getQuantity(skillID - 40);
+                skillValue       = required;
                 packet.UpKind[i] = skillID;
             }
         }
     }
 
-    packet.CrystalNo = PChar->CraftContainer->getItemID(0);
+    packet.CrystalNo = craftState.crystalItemId();
 
-    for (uint8 slotID = 1; slotID <= 8; ++slotID) // recipe materials
+    for (uint8 idx = 0; idx < SynthMaxIngredients; ++idx)
     {
-        const uint16 slotItemID       = PChar->CraftContainer->getItemID(slotID);
-        packet.MaterialNo[slotID - 1] = slotItemID;
-
-        if (PChar->CraftContainer->getQuantity(slotID) == 0)
+        packet.MaterialNo[idx] = craftState.ingredientItemId(idx);
+        if (craftState.isBroken(idx))
         {
-            packet.BreakNo[slotID - 1] = slotItemID;
+            packet.BreakNo[idx] = craftState.ingredientItemId(idx);
         }
     }
 }

@@ -28,19 +28,6 @@
 #define CONTAINER_SIZE       17
 #define TRADE_CONTAINER_SIZE 8
 
-/************************************************************************
- *                                                                       *
- *                                                                       *
- *                                                                       *
- ************************************************************************/
-
-enum CRAFT_TYPE
-{
-    CRAFT_SYNTHESIS         = 0,
-    CRAFT_DESYNTHESIS       = 1,
-    CRAFT_SYNTHESIS_NO_LOSS = 2,
-};
-
 class CItem;
 
 class CTradeContainer
@@ -49,7 +36,6 @@ public:
     CTradeContainer();
 
     uint8  getType() const;
-    uint8  getCraftType() const;
     uint8  getItemsCount() const;
     uint8  getSlotCount();     // Number of occupied cells
     uint32 getTotalQuantity(); // Total number of items (gil counts as 1)
@@ -65,7 +51,6 @@ public:
     uint8  getExSize() const;
 
     void setType(uint8 type);
-    void setCraftType(uint8 craftType);
     void setItemsCount(uint8 count);
     void setItem(uint8 slotID, CItem* item);
     void setGuildID(uint8 slotID, uint8 guildID);
@@ -83,7 +68,6 @@ public:
 
 private:
     uint8 m_type{};       // Container type (crystal type, store nation, etc.)
-    uint8 m_craftType{};  // The craft synthesis type (CRAFT_TYPE)
     uint8 m_ItemsCount{}; // The number of items in the container (set by yourself)
     uint8 m_exSize{};     // Can be used as a custom delineation point inside a container
 

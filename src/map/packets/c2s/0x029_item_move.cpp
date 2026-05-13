@@ -111,8 +111,7 @@ const auto isValidMovement = [](const CCharEntity* PChar, const CONTAINER_ID fro
 {
     const CItem* PItem = PChar->getStorage(from)->GetItem(itemIndex);
 
-    // Always disallowed to move locked items or Gil.
-    if (!PItem || PItem->isSubType(ITEM_LOCKED) || PItem->getID() == ITEMID::GIL)
+    if (!PItem || PItem->isSubType(ITEM_LOCKED) || PItem->isBusy() || PItem->getID() == ITEMID::GIL)
     {
         return false;
     }
@@ -193,6 +192,7 @@ void GP_CLI_COMMAND_ITEM_MOVE::process(MapSession* PSession, CCharEntity* PChar)
 
             if (!PItem2 || PItem2->getID() != PItem->getID() ||
                 PItem2->isSubType(ITEM_LOCKED) ||
+                PItem2->isBusy() ||
                 PItem2->getReserve() > 0)
             {
                 ShowWarning("GP_CLI_COMMAND_ITEM_MOVE: Trying to unite items with invalid item %i at location %u slot %u",
