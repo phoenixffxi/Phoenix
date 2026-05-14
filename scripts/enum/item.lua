@@ -7316,6 +7316,7 @@ xi.item =
     CROCODILE_COLLAR                    = 16294,
     VARIUS_TORQUE                       = 16295,
     FOCUS_COLLAR                        = 16301,
+    SANCTUS_ROSARY                      = 16305,
     SCHOLARS_PANTS                      = 16311,
     IRON_RAM_BREECHES                   = 16312,
     FOURTH_DIVISION_CUISSES             = 16313,
