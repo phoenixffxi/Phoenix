@@ -43,28 +43,27 @@ content.groups =
 {
     {
         mobs = { 'Bahamut_bv2' },
-
-        superlink = true,
+        superlinkGroup = 1,
         allDeath = utils.bind(content.handleAllMonstersDefeated, content),
     },
     {
         mobs = { 'Ouryu_bv2' },
-        superlink = true,
+        superlinkGroup = 1,
         spawned = false,
     },
     {
         mobs = { 'Tiamat_bv2' },
-        superlink = true,
+        superlinkGroup = 1,
         spawned = false,
     },
     {
         mobs = { 'Jormungand_bv2' },
-        superlink = true,
+        superlinkGroup = 1,
         spawned = false,
     },
     {
         mobs = { 'Vrtra_bv2' },
-        superlink = true,
+        superlinkGroup = 1,
         spawned = false,
     },
     {
@@ -84,17 +83,17 @@ content.groups =
     },
     {
         mobs = { 'Pey' },
-        superlink = true,
+        superlinkGroup = 1,
         spawned = false,
     },
     {
         mobs = { 'Iruci' },
-        superlink = true,
+        superlinkGroup = 1,
         spawned = false,
     },
     {
         mobs = { 'Airi' },
-        superlink = true,
+        superlinkGroup = 1,
         spawned = false,
     },
 }

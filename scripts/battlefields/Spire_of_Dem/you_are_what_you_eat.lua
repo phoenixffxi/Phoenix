@@ -24,11 +24,13 @@ content.groups =
 {
     {
         mobs      = { 'Ingester' },
+        superlinkGroup = 1,
         allDeath  = utils.bind(content.handleAllMonstersDefeated, content),
     },
 
     {
         mobs      = { 'Neoingester', 'Neogorger', 'Neosatiator', 'Wanderer_enm' },
+        superlinkGroup = 1,
         spawned  = false,
     },
 }

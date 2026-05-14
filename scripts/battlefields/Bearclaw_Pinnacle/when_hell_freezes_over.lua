@@ -94,6 +94,7 @@ content.groups =
                 bearclawID.mob.SNOW_DEVIL + 21,
             },
         },
+        superlink = true,
         spawned = false,
 
         allDeath = function(battlefield, mob)

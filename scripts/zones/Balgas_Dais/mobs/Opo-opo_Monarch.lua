@@ -10,7 +10,6 @@ entity.onMobInitialize = function(mob)
     mob:addImmunity(xi.immunity.LIGHT_SLEEP)
     mob:addImmunity(xi.immunity.DARK_SLEEP)
     mob:setMobMod(xi.mobMod.MAGIC_COOL, 60)
-    mob:setMobMod(xi.mobMod.SUPERLINK, 1)
 end
 
 entity.onMobFight = function(mob, target)

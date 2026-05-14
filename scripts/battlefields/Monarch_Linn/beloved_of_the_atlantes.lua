@@ -23,11 +23,13 @@ content.groups =
 {
     {
         mobs      = { 'Watch_Hippogryph' },
+        superlinkGroup = 1,
         allDeath  = utils.bind(content.handleAllMonstersDefeated, content),
     },
 
     {
         mobs      = { 'Guard_Hippogryph' },
+        superlinkGroup = 1,
         spawned  = false,
     },
 }

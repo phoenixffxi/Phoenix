@@ -33,6 +33,8 @@ content.groups =
             { qubiaID.mob.DOLL_FACTORY + 7  },
             { qubiaID.mob.DOLL_FACTORY + 14 },
         },
+
+        superlinkGroup = 1,
     },
 
     {
@@ -70,6 +72,7 @@ content.groups =
             end
         end,
 
+        superlinkGroup = 1,
         spawned = false,
     },
 }

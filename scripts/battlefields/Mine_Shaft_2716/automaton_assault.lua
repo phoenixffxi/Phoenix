@@ -85,6 +85,7 @@ local function buildAutomatonGroup(battlefield, initiatorRace)
 
     return {
         mobIds   = mobIds,
+        superlink = true,
         allDeath = utils.bind(content.handleAllMonstersDefeated, content),
     }
 end

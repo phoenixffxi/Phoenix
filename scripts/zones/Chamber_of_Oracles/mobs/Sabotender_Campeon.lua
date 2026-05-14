@@ -53,7 +53,6 @@ entity.onMobInitialize = function(mob)
     mob:addImmunity(xi.immunity.BIND)
     mob:addImmunity(xi.immunity.PETRIFY)
     mob:setMagicCastingEnabled(false) -- Only casts upon returning from a run!
-    mob:setMobMod(xi.mobMod.SUPERLINK, 1)
 end
 
 entity.onMobSpawn = function(mob)

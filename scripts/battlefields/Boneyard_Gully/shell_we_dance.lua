@@ -48,6 +48,7 @@ content.groups =
 
         },
 
+        superlinkGroup = 1,
         allDeath = utils.bind(content.handleAllMonstersDefeated, content),
     },
 
@@ -82,6 +83,7 @@ content.groups =
             },
         },
 
+        superlinkGroup = 1,
         spawned = false,
     },
 }
