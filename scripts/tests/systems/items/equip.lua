@@ -87,6 +87,17 @@ describe('Equipment', function()
         assert(player:getEquippedItem(xi.slot.MAIN) == nil)
     end)
 
+    it('equipped ammo stack decrements on use', function()
+        player:addItem(xi.item.FIRE_ARROW, 50)
+        player:equipItem(xi.item.FIRE_ARROW, nil, xi.slot.AMMO)
+
+        player:delItem(xi.item.FIRE_ARROW, 1)
+
+        local ammo = player:getEquippedItem(xi.slot.AMMO)
+        assert(ammo)
+        assert(ammo:getQuantity() == 49)
+    end)
+
     it('all visible armor slots accept their piece', function()
         local pieces =
         {

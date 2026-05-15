@@ -1933,7 +1933,10 @@ uint32 UpdateItem(CCharEntity* PChar, uint8 LocationID, uint8 slotID, int32 quan
         }
     }
 
-    if (PItem->isBusy() && !force)
+    // Equipped ammo decrements its stack on consumption without leaving the slot.
+    const bool isEquippedAmmo = PItem->state() == ItemState::Equipped &&
+                                PChar->getEquip(SLOT_AMMO) == PItem;
+    if (PItem->isBusy() && !isEquippedAmmo && !force)
     {
         ShowWarningFmt("UpdateItem: refusing to mutate busy item {} in state {} (loc={}, slot={}, char={})",
                        ItemID,
