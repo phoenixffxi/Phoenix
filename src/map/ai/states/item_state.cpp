@@ -119,7 +119,7 @@ CItemState::CItemState(CCharEntity* PEntity, const uint16 targid, const uint8 lo
     m_PEntity->UContainer->SetType(UCONTAINER_USEITEM);
     m_PEntity->UContainer->SetItem(0, m_PItem);
 
-    tx_             = ItemUseTransaction::start(m_PEntity, m_PItem);
+    tx_             = m_PEntity->addTransaction(ItemUseTransaction::start(m_PEntity, m_PItem));
     m_startPos      = m_PEntity->loc.p;
     m_castTime      = m_PItem->getActivationTime();
     m_animationTime = m_PItem->getAnimationTime();
@@ -241,13 +241,9 @@ void CItemState::Cleanup(timer::time_point tick)
 {
     m_PEntity->UContainer->Clean();
 
-    // Clear InTransaction before the ITEM_LIST packet below.
-    if (m_interrupted || !IsCompleted())
+    if (tx_ && tx_->isOpen())
     {
-        if (tx_)
-        {
-            tx_->rollback();
-        }
+        tx_->rollback();
     }
 
     if (m_PItem && (m_interrupted || !IsCompleted()) && !m_PItem->isType(ITEM_EQUIPMENT))

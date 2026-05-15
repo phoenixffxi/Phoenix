@@ -23,8 +23,6 @@
 
 #include "state.h"
 
-#include <memory>
-
 class CBattleEntity;
 class CCharEntity;
 class CItemUsable;
@@ -62,14 +60,14 @@ public:
 protected:
     bool HasMoved() const;
 
-    CCharEntity*                        m_PEntity;
-    CItemUsable*                        m_PItem;
-    uint8                               m_location;
-    uint8                               m_slot;
-    timer::duration                     m_castTime{};
-    timer::duration                     m_animationTime{};
-    position_t                          m_startPos;
-    bool                                m_interrupted{ false };
-    bool                                m_interruptable{ true };
-    std::unique_ptr<ItemUseTransaction> tx_;
+    CCharEntity*        m_PEntity;
+    CItemUsable*        m_PItem;
+    uint8               m_location;
+    uint8               m_slot;
+    timer::duration     m_castTime{};
+    timer::duration     m_animationTime{};
+    position_t          m_startPos;
+    bool                m_interrupted{ false };
+    bool                m_interruptable{ true };
+    ItemUseTransaction* tx_{ nullptr };
 };
