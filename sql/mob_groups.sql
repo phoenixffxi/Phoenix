@@ -3696,6 +3696,9 @@ INSERT INTO `mob_groups` VALUES (9,705,72,'Cheese_Hoarder_Gigiroon',0,128,460,15
 INSERT INTO `mob_groups` VALUES (10,243,72,'Armed_Gears',0,128,168,32000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (11,4594,72,'Wulgaru',0,128,2829,32000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (12,6757,72,'Vidmapire',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (13,7577,72,'Apex_Archaic_Cog',960,0,0,305000,0,0,'ROV');
+INSERT INTO `mob_groups` VALUES (14,7578,72,'Apex_Archaic_Cogs',960,0,0,305000,0,0,'ROV');
+INSERT INTO `mob_groups` VALUES (15,7579,72,'Panaiveriyamman',0,128,0,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Zhayolm_Remnants (Zone 73)
