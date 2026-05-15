@@ -251,6 +251,7 @@ void SynthTransaction::releaseAllClaims()
         {
             exitTx(item);
             item->setSubType(ITEM_UNLOCKED);
+            this->player_->pushPacket<GP_SERV_COMMAND_ITEM_LIST>(item, ItemLockFlg::Normal);
         }
 
         this->slots_[i].item = nullptr;
