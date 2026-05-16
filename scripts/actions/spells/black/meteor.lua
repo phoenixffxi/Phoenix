@@ -32,7 +32,7 @@ spellObject.onSpellCast = function(caster, target, spell)
         -- TODO: Account for all mitigation sources.
         -- TODO: Account for rage.
         damage = caster:getMainLvl() * 15.5
-    elseif caster:getFamily() == xi.mobSpecies.PROMATHIA then -- Promathia family
+    elseif caster:getSpecies() == xi.mobSpecies.PROMATHIA then -- Promathia family
         damage = caster:getMainLvl() * 7
     else
         damage = ((100 + caster:getMod(xi.mod.MATT)) / (100 + target:getMod(xi.mod.MDEF))) * (caster:getStat(xi.mod.INT) + (caster:getMaxSkillLevel(caster:getMainLvl(), xi.job.BLM, xi.skill.ELEMENTAL_MAGIC)) / 6) * 9.4

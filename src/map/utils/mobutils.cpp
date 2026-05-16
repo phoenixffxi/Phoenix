@@ -46,7 +46,7 @@
 namespace mobutils
 {
 
-ModsMap_t mobFamilyModsList;
+ModsMap_t mobSpeciesModsList;
 ModsMap_t mobPoolModsList;
 ModsMap_t mobSpawnModsList;
 
@@ -1058,7 +1058,7 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
 
     if (PMob->getMobMod(MOBMOD_DETECTION) == 0)
     {
-        ShowError("mobutils::CalculateMobStats Mob (%s, %d, %d) has no detection methods!", PMob->getName(), PMob->id, PMob->m_Family);
+        ShowError("mobutils::CalculateMobStats Mob (%s, %d, %d) has no detection methods!", PMob->getName(), PMob->id, PMob->m_Species);
     }
 }
 
@@ -1277,9 +1277,9 @@ void SetupRoaming(CMobEntity* PMob)
 void SetupPetSkills(CMobEntity* PMob)
 {
     int16 skillListId = 0;
-    // same mob can spawn as different families
+    // same mob can spawn as different species
     // can't set this from the database
-    switch (PMob->m_Family)
+    switch (PMob->m_Species)
     {
         case 248: // ifrit
             skillListId = 715;
@@ -1476,33 +1476,33 @@ void InitializeMob(CMobEntity* PMob)
 }
 
 /*
-Loads up mob mods from mob_pool_mods and mob_family_mods table. This will allow you to change
+Loads up mob mods from mob_pool_mods and mob_species_mods table. This will allow you to change
 a mobs regen rate, magic defense, triple attack rate from a table instead of hardcoding it.
 
 Usage:
 
-    Evil weapons have a magic defense boost. So pop that into mob_family_mods table.
+    Evil weapons have a magic defense boost. So pop that into mob_species_mods table.
     Goblin Diggers have a vermin killer trait, so find its poolid and put it in mod_pool_mods table.
 */
 void LoadSqlModifiers()
 {
     // load family mods
-    auto rset = db::preparedStmt("SELECT familyid, modid, value, is_mob_mod "
-                                 "FROM mob_family_mods");
+    auto rset = db::preparedStmt("SELECT speciesid, modid, value, is_mob_mod "
+                                 "FROM mob_species_mods");
     FOR_DB_MULTIPLE_RESULTS(rset)
     {
-        ModsList_t* familyMods = GetMobFamilyMods(rset->get<uint16>("familyid"), true);
+        ModsList_t* speciesMods = GetMobSpeciesMods(rset->get<uint16>("speciesid"), true);
 
         auto* mod = new CModifier(rset->get<Mod>("modid"));
         mod->setModAmount(rset->get<int16>("value"));
 
         if (rset->get<bool>("is_mob_mod"))
         {
-            familyMods->mobMods.emplace_back(mod);
+            speciesMods->mobMods.emplace_back(mod);
         }
         else
         {
-            familyMods->mods.emplace_back(mod);
+            speciesMods->mods.emplace_back(mod);
         }
     }
 
@@ -1551,24 +1551,24 @@ void Cleanup()
     }
     mobSpawnModsList.clear();
 
-    for (auto mobFamilyMods : mobFamilyModsList)
+    for (auto mobSpeciesMods : mobSpeciesModsList)
     {
-        if (mobFamilyMods.second)
+        if (mobSpeciesMods.second)
         {
-            for (auto mobMods : mobFamilyMods.second->mobMods)
+            for (auto mobMods : mobSpeciesMods.second->mobMods)
             {
                 destroy(mobMods);
             }
 
-            for (auto mods : mobFamilyMods.second->mods)
+            for (auto mods : mobSpeciesMods.second->mods)
             {
                 destroy(mods);
             }
 
-            destroy(mobFamilyMods.second);
+            destroy(mobSpeciesMods.second);
         }
     }
-    mobFamilyModsList.clear();
+    mobSpeciesModsList.clear();
 
     for (auto mobPoolMods : mobPoolModsList)
     {
@@ -1589,20 +1589,20 @@ void Cleanup()
     mobPoolModsList.clear();
 }
 
-ModsList_t* GetMobFamilyMods(uint16 familyId, bool create)
+ModsList_t* GetMobSpeciesMods(uint16 speciesId, bool create)
 {
-    if (mobFamilyModsList[familyId])
+    if (mobSpeciesModsList[speciesId])
     {
-        return mobFamilyModsList[familyId];
+        return mobSpeciesModsList[speciesId];
     }
 
     if (create)
     {
         // create new one
         ModsList_t* mods = new ModsList_t;
-        mods->id         = familyId;
+        mods->id         = speciesId;
 
-        mobFamilyModsList[familyId] = mods;
+        mobSpeciesModsList[speciesId] = mods;
 
         return mods;
     }
@@ -1654,18 +1654,18 @@ ModsList_t* GetMobSpawnMods(uint32 mobId, bool create)
 
 void AddSqlModifiers(CMobEntity* PMob)
 {
-    // find my families mods
-    ModsList_t* PFamilyMods = GetMobFamilyMods(PMob->m_Family);
+    // find my species mods
+    ModsList_t* PSpeciesMods = GetMobSpeciesMods(PMob->m_Species);
 
-    if (PFamilyMods != nullptr)
+    if (PSpeciesMods != nullptr)
     {
         // add them
-        for (auto& mod : PFamilyMods->mods)
+        for (auto& mod : PSpeciesMods->mods)
         {
             PMob->addModifier(mod->getModID(), mod->getModAmount());
         }
         // TODO: don't store mobmods in a CModifier
-        for (auto& mobMod : PFamilyMods->mobMods)
+        for (auto& mobMod : PSpeciesMods->mobMods)
         {
             PMob->setMobMod(static_cast<uint16>(mobMod->getModID()), mobMod->getModAmount());
         }
@@ -1724,7 +1724,7 @@ auto InstantiateAlly(uint32 groupid, uint16 zoneID, CInstance* instance) -> CMob
                                        "fire_res_rank, ice_res_rank, wind_res_rank, earth_res_rank, lightning_res_rank, water_res_rank, light_res_rank, dark_res_rank, "
                                        "paralyze_res_rank, bind_res_rank, silence_res_rank, slow_res_rank, poison_res_rank, light_sleep_res_rank, dark_sleep_res_rank, blind_res_rank, "
                                        "Element, "
-                                       "mob_pools.familyid, name_prefix, entityFlags, animationsub, "
+                                       "mob_pools.speciesid, name_prefix, entityFlags, animationsub, "
                                        "(mob_family_system.HP / 100) AS hp_scale, (mob_family_system.MP / 100) AS mp_scale, hasSpellScript, spellList, "
                                        "mob_groups.poolid, allegiance, namevis, aggro, "
                                        "mob_pools.skill_list_id, mob_pools.true_detection, mob_family_system.detects, "
@@ -1732,7 +1732,7 @@ auto InstantiateAlly(uint32 groupid, uint16 zoneID, CInstance* instance) -> CMob
                                        "FROM mob_groups INNER JOIN mob_spawn_points ON mob_groups.groupid = mob_spawn_points.groupid "
                                        "INNER JOIN mob_pools ON mob_groups.poolid = mob_pools.poolid "
                                        "INNER JOIN mob_resistances ON mob_pools.resist_id = mob_resistances.resist_id "
-                                       "INNER JOIN mob_family_system ON mob_pools.familyid = mob_family_system.familyID "
+                                       "INNER JOIN mob_family_system ON mob_pools.speciesid = mob_family_system.speciesID "
                                        "WHERE mob_groups.groupid = ? AND mob_groups.zoneid = ?",
                                        groupid,
                                        zoneID);
@@ -1824,7 +1824,7 @@ auto InstantiateAlly(uint32 groupid, uint16 zoneID, CInstance* instance) -> CMob
         PMob->setModifier(Mod::BLIND_RES_RANK, rset->get<int8>("blind_res_rank"));
 
         PMob->m_Element     = rset->get<uint8>("Element");
-        PMob->m_Family      = rset->get<uint16>("familyid");
+        PMob->m_Species     = rset->get<uint16>("speciesid");
         PMob->m_name_prefix = rset->get<uint8>("name_prefix");
         PMob->m_flags       = rset->get<uint32>("entityFlags");
 
@@ -1901,14 +1901,14 @@ auto InstantiateDynamicMob(uint32 groupid, uint16 groupZoneId, uint16 targetZone
                                        "water_sdt, light_sdt, dark_sdt, fire_res_rank, "
                                        "ice_res_rank, wind_res_rank, earth_res_rank, lightning_res_rank, "
                                        "water_res_rank, light_res_rank, dark_res_rank, Element, "
-                                       "mob_pools.familyid, name_prefix, entityFlags, animationsub, "
+                                       "mob_pools.speciesid, name_prefix, entityFlags, animationsub, "
                                        "(mob_family_system.HP / 100) AS hp_scale, (mob_family_system.MP / 100) AS mp_scale, hasSpellScript, spellList, "
                                        "mob_groups.poolid, allegiance, namevis, aggro, "
                                        "mob_pools.modelSize, mob_pools.modelHitboxSize, "
                                        "mob_pools.skill_list_id, mob_pools.true_detection, mob_family_system.detects "
                                        "FROM mob_groups INNER JOIN mob_pools ON mob_groups.poolid = mob_pools.poolid "
                                        "INNER JOIN mob_resistances ON mob_pools.resist_id = mob_resistances.resist_id "
-                                       "INNER JOIN mob_family_system ON mob_pools.familyid = mob_family_system.familyID "
+                                       "INNER JOIN mob_family_system ON mob_pools.speciesid = mob_family_system.speciesID "
                                        "WHERE mob_groups.groupid = ? AND mob_groups.zoneid = ?",
                                        groupid,
                                        groupZoneId);
@@ -1985,7 +1985,7 @@ auto InstantiateDynamicMob(uint32 groupid, uint16 groupZoneId, uint16 targetZone
         PMob->setModifier(Mod::DARK_RES_RANK, rset->get<int8>("dark_res_rank"));
 
         PMob->m_Element     = rset->get<uint8>("Element");
-        PMob->m_Family      = rset->get<uint16>("familyid");
+        PMob->m_Species     = rset->get<uint16>("speciesid");
         PMob->m_name_prefix = rset->get<uint8>("name_prefix");
         PMob->m_flags       = rset->get<uint32>("entityFlags");
 

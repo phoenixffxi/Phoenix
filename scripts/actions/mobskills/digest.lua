@@ -10,10 +10,10 @@ local mobskillObject = {}
 mobskillObject.onMobSkillCheck = function(target, mob, skill)
     -- TODO: Move to mobskill script?
     if
-        mob:getFamily() == xi.mobSpecies.BOIL or -- Boil
-        mob:getFamily() == xi.mobSpecies.CLOT or -- Clot
-        mob:getFamily() == xi.mobSpecies.SCUM or -- Scum
-        mob:getFamily() == xi.mobSpecies.SLIME   -- Slime
+        mob:getSpecies() == xi.mobSpecies.BOIL or -- Boil
+        mob:getSpecies() == xi.mobSpecies.CLOT or -- Clot
+        mob:getSpecies() == xi.mobSpecies.SCUM or -- Scum
+        mob:getSpecies() == xi.mobSpecies.SLIME   -- Slime
     then -- Slime family
         if mob:checkDistance(target) < 3 then -- Don't use it if he is on his target.
             return 1

@@ -1,5 +1,5 @@
 -----------------------------------
--- func: getmobspecies <optional MobID>
+-- func: getspecies <optional MobID>
 -- desc: Prints the mob's species ID.
 -----------------------------------
 ---@type TCommand
@@ -13,7 +13,7 @@ commandObj.cmdprops =
 
 local function error(player, msg)
     player:printToPlayer(msg)
-    player:printToPlayer('!getmobspecies (mob ID)')
+    player:printToPlayer('!getspecies (mob ID)')
 end
 
 local function getSpeciesName(id)
@@ -42,7 +42,7 @@ commandObj.onTrigger = function(player, mobId)
         end
     end
 
-    local speciesId = targ:getFamily()
+    local speciesId = targ:getSpecies()
     player:printToPlayer(string.format('%s %i mob species is %i (%s).', targ:getName(), targ:getID(), speciesId, getSpeciesName(speciesId)))
 end
 

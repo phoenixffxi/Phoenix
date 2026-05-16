@@ -73,7 +73,7 @@ void LoadPetList()
                        "maxLevel, "
                        "time, "
                        "ecosystemID, "
-                       "mob_pools.familyid, "
+                       "mob_pools.speciesid, "
                        "mob_pools.mJob, "
                        "mob_pools.sJob, "
                        "pet_list.element, "
@@ -99,7 +99,7 @@ void LoadPetList()
                        "cmbDelay, name_prefix, mob_pools.skill_list_id, damageType, "
                        "mob_pools.modelSize, mob_pools.modelHitboxSize "
                        "FROM pet_list, mob_pools, mob_resistances, mob_family_system "
-                       "WHERE pet_list.poolid = mob_pools.poolid AND mob_resistances.resist_id = mob_pools.resist_id AND mob_pools.familyid = mob_family_system.familyID";
+                       "WHERE pet_list.poolid = mob_pools.poolid AND mob_resistances.resist_id = mob_pools.resist_id AND mob_pools.speciesid = mob_family_system.speciesID";
 
     const auto rset = db::preparedStmt(query);
     FOR_DB_MULTIPLE_RESULTS(rset)
@@ -116,7 +116,7 @@ void LoadPetList()
         Pet->modelSize       = rset->getOrDefault<uint8>("modelSize", 0);
         Pet->modelHitboxSize = std::max<float>(0.0f, rset->getOrDefault<float>("modelHitboxSize", 0) / 10.f);
         Pet->EcoSystem       = rset->get<ECOSYSTEM>("ecosystemID");
-        Pet->m_Family        = rset->get<uint16>("familyid");
+        Pet->m_Species       = rset->get<uint16>("speciesid");
         Pet->mJob            = rset->get<uint8>("mJob");
         Pet->sJob            = rset->get<uint8>("sJob");
         Pet->m_Element       = rset->get<uint8>("element");
@@ -1258,7 +1258,7 @@ void SpawnMobPet(CBattleEntity* PMaster, uint32 PetID)
         PPet->name = petData->name;
         PPet->SetMJob(petData->mJob);
         PPet->m_EcoSystem = petData->EcoSystem;
-        PPet->m_Family    = petData->m_Family;
+        PPet->m_Species   = petData->m_Species;
         PPet->m_Element   = petData->m_Element;
         PPet->HPscale     = petData->HPscale;
         PPet->MPscale     = petData->MPscale;
@@ -1835,7 +1835,7 @@ void LoadPet(CBattleEntity* PMaster, uint32 PetID, bool spawningFromZone)
     }
 
     PPet->m_name_prefix  = PPetData->name_prefix;
-    PPet->m_Family       = PPetData->m_Family;
+    PPet->m_Species      = PPetData->m_Species;
     PPet->m_MobSkillList = PPetData->m_MobSkillList;
     PPet->SetMJob(PPetData->mJob);
     PPet->m_Element = PPetData->m_Element;

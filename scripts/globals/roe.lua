@@ -26,8 +26,8 @@ local checks =
         return (params.mob and player:checkKillCredit(params.mob)) and true or false
     end,
 
-    mobFamily = function(self, player, params) -- Mob family in set
-        return (params.mob and self.reqs.mobFamily[params.mob:getFamily()]) and true or false
+    mobSpecies = function(self, player, params) -- Mob species in set
+        return (params.mob and self.reqs.mobSpecies[params.mob:getSpecies()]) and true or false
     end,
 
     mobSuperFamily = function(self, player, params) -- Mob super family in set

@@ -58,13 +58,13 @@ local astralFlowPets = function()
             -- Picking annoying abilities for now...
             pet:timer(1500, function(petArg)
                 if
-                    petArg:getFamily() == xi.mobSpecies.XZOMIT or -- xzomit
-                    petArg:getFamily() == xi.mobSpecies.XZOMIT_CHILD    -- xzomit child
+                    petArg:getSpecies() == xi.mobSpecies.XZOMIT or -- xzomit
+                    petArg:getSpecies() == xi.mobSpecies.XZOMIT_CHILD    -- xzomit child
                 then
                     petArg:useMobAbility(xi.mobskill.MANTLE_PIERCE)
-                elseif petArg:getFamily() == xi.mobSpecies.HPEMDE then -- hpemde
+                elseif petArg:getSpecies() == xi.mobSpecies.HPEMDE then -- hpemde
                     petArg:useMobAbility(xi.mobskill.SINUATE_RUSH)
-                elseif petArg:getFamily() == xi.mobSpecies.PHUABO then -- Phuabo
+                elseif petArg:getSpecies() == xi.mobSpecies.PHUABO then -- Phuabo
                     petArg:useMobAbility(xi.mobskill.AERIAL_COLLISION)
                 end
             end)

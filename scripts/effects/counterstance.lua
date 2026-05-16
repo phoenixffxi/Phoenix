@@ -6,7 +6,7 @@
 local effectObject = {}
 
 effectObject.onEffectGain = function(target, effect)
-    if target:isMob() and target:getFamily() == xi.mobSpecies.BUGBEAR then -- Bugbear Family
+    if target:isMob() and target:getSpecies() == xi.mobSpecies.BUGBEAR then -- Bugbear Family
         effect:addMod(xi.mod.ATTP, 15)
     end
 

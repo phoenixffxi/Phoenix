@@ -17,7 +17,7 @@ DROP TABLE IF EXISTS `mob_family_system`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `mob_family_system` (
-  `familyID` smallint(4) unsigned NOT NULL,
+  `speciesID` smallint(4) unsigned NOT NULL,
   `family` tinytext,
   `superFamilyID` smallint(4) unsigned NOT NULL DEFAULT 0,
   `superFamily` tinytext,
@@ -40,7 +40,7 @@ CREATE TABLE `mob_family_system` (
   `Element` float NOT NULL DEFAULT 0,
   `detects` smallint(5) NOT NULL DEFAULT 0,
   `charmable` tinyint(2) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`familyID`)
+  PRIMARY KEY (`speciesID`)
 ) ENGINE=Aria TRANSACTIONAL=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci AVG_ROW_LENGTH=128;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

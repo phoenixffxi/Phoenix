@@ -1291,7 +1291,7 @@ bool CLatentEffectContainer::ProcessLatentEffect(CLatentEffect& latentEffect, bo
                 CMobEntity* PMob = dynamic_cast<CMobEntity*>(PTarget);
                 if (PMob)
                 {
-                    expression = PMob->m_Family == latentEffect.GetConditionsValue();
+                    expression = PMob->m_Species == latentEffect.GetConditionsValue();
                 }
             }
             break;

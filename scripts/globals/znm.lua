@@ -168,7 +168,7 @@ xi.znm.soultrapper.onItemCheck = function(target, item, param, caster)
     -- can not be used on non mobs or Structure type mobs
     if
         not target:isMob() or
-        (target:getFamily() >= 370 and target:getFamily() <= 379) -- All structures
+        (target:getSpecies() >= 370 and target:getSpecies() <= 379) -- All structures
     then
         return xi.msg.basic.ITEM_CANNOT_USE_TARGET
     end
@@ -273,13 +273,13 @@ xi.znm.soultrapper.getZeniValue = function(target, player)
     zeni = zeni * 1 + math.abs(hpp - 100) / 6
 
     if
-        target:getFamily() == xi.mobSpecies.EUVHI and
+        target:getSpecies() == xi.mobSpecies.EUVHI and
         target:getZoneID() == 33
     then -- Dahak and Aw'euvhi
         zeni = zeni + xi.znm.SOULPLATE_UNIQUE_AMOUNT
     elseif
-        target:getFamily() == xi.mobSpecies.CHIGOE or
-        target:getFamily() == xi.mobSpecies.DJIGGA
+        target:getSpecies() == xi.mobSpecies.CHIGOE or
+        target:getSpecies() == xi.mobSpecies.DJIGGA
     then -- chigoe penalty
         zeni = zeni - xi.znm.SOULPLATE_UNIQUE_AMOUNT
     -- Generic NM/Rarity Component
