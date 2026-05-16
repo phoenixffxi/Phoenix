@@ -17126,23 +17126,23 @@ uint8 CLuaBaseEntity::getEcosystem()
 }
 
 /************************************************************************
- *  Function: getSuperFamily()
- *  Purpose : Returns the integer value of the associated Mob SuperFamily
- *  Example : if mob:getSuperFamily() == 123 then
+ *  Function: getFamily()
+ *  Purpose : Returns the integer value of the associated Mob Family
+ *  Example : if mob:getFamily() == 123 then
  *  Notes   : To Do: Enumerate Mob Families in global script
  ************************************************************************/
 
-uint16 CLuaBaseEntity::getSuperFamily()
+uint16 CLuaBaseEntity::getFamily()
 {
     auto* entity = dynamic_cast<CMobEntity*>(m_PBaseEntity);
 
     if (!entity)
     {
-        ShowWarning("CLuaBaseEntity::getSuperFamily() -  m_pBaseEntity is not a Mob.");
+        ShowWarning("CLuaBaseEntity::getFamily() -  m_pBaseEntity is not a Mob.");
         return 0;
     }
 
-    return entity->m_SuperFamily;
+    return entity->m_Family;
 }
 
 /************************************************************************
@@ -20497,7 +20497,7 @@ void CLuaBaseEntity::Register()
     // Mob Entity-Specific
     SOL_REGISTER("setMobLevel", CLuaBaseEntity::setMobLevel);
     SOL_REGISTER("getEcosystem", CLuaBaseEntity::getEcosystem);
-    SOL_REGISTER("getSuperFamily", CLuaBaseEntity::getSuperFamily);
+    SOL_REGISTER("getFamily", CLuaBaseEntity::getFamily);
     SOL_REGISTER("getSpecies", CLuaBaseEntity::getSpecies);
     SOL_REGISTER("isMobType", CLuaBaseEntity::isMobType);
     SOL_REGISTER("isUndead", CLuaBaseEntity::isUndead);

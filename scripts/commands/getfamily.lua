@@ -1,6 +1,6 @@
 -----------------------------------
--- func: getmobfamily <optional MobID>
--- desc: Prints the mob's super family ID.
+-- func: getfamily <optional MobID>
+-- desc: Prints the mob's family ID.
 -----------------------------------
 ---@type TCommand
 local commandObj = {}
@@ -13,11 +13,11 @@ commandObj.cmdprops =
 
 local function error(player, msg)
     player:printToPlayer(msg)
-    player:printToPlayer('!getmobfamily (mob ID)')
+    player:printToPlayer('!getfamily (mob ID)')
 end
 
-local function getSuperFamilyName(id)
-    for name, value in pairs(xi.mobSuperFamily) do
+local function getFamilyName(id)
+    for name, value in pairs(xi.mobFamily) do
         if value == id then
             return name
         end
@@ -42,8 +42,8 @@ commandObj.onTrigger = function(player, mobId)
         end
     end
 
-    local familyId = targ:getSuperFamily()
-    player:printToPlayer(string.format('%s %i mob family is %i (%s).', targ:getName(), targ:getID(), familyId, getSuperFamilyName(familyId)))
+    local familyId = targ:getFamily()
+    player:printToPlayer(string.format('%s %i mob family is %i (%s).', targ:getName(), targ:getID(), familyId, getFamilyName(familyId)))
 end
 
 return commandObj
