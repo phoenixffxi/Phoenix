@@ -180,7 +180,7 @@ bool  CanUseWeaponskill(CCharEntity* PChar, CWeaponSkill* PSkill);
 int16 CalculateBaseTP(CBattleEntity* PEntity, int32 delay);
 auto  GetBaseDelay(CBattleEntity* PEntity) -> uint16;       // get base delay of entity, melee only
 auto  GetBaseRangedDelay(CBattleEntity* PEntity) -> uint16; // get base delay of entity, ranged only
-auto  CalculateTPFromDamageDealt(CBattleEntity* PAttacker, bool isZanshin) -> int32;
+auto  CalculateTPFromDamageDealt(CBattleEntity* PAttacker, const bool& isZanshin, const SLOTTYPE& slot) -> int32;
 auto  CalculateTPFromDamageTaken(CBattleEntity* PAttacker, CBattleEntity* PDefender, int32 damage, uint16 delay) -> int32;
 void  GenerateCureEnmity(CBattleEntity* PSource, CBattleEntity* PTarget, int32 amount, int32 fixedCE = 0, int32 fixedVE = 0);
 void  GenerateInRangeEnmity(CBattleEntity* PSource, int32 CE, int32 VE);
