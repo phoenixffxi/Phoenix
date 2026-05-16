@@ -64,7 +64,7 @@ auto action_result_t::recordDamage(const attack_outcome_t& outcome) -> action_re
             if (const auto* PTarget = outcome.target)
             {
                 // Calculate damage percentage
-                const uint8_t damageHPP  = PTarget->GetMaxHP() > 0 ? static_cast<uint8_t>((outcome.damage * 100) / PTarget->GetMaxHP()) : 0;
+                const int32_t damageHPP  = PTarget->GetMaxHP() > 0 ? (outcome.damage * 100) / PTarget->GetMaxHP() : 0;
                 auto          distortion = HitDistortion::None;
 
                 // Values below need to be refined
