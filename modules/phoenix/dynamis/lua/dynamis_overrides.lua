@@ -949,6 +949,10 @@ local mobOverrideHandlers =
             xi.dynamis.onMobRoam(mob)
         end,
 
+        onMobDisengage = function(mob)
+            xi.dynamis.onMobDisengage(mob)
+        end,
+
         onMobFight = function(mob, target)
             xi.dynamis.onStatueFight(mob, target)
         end,
@@ -975,6 +979,10 @@ local mobOverrideHandlers =
             xi.dynamis.onBossEngage(mob, target)
         end,
 
+        onMobDisengage = function(mob)
+            xi.dynamis.onMobDisengage(mob)
+        end,
+
         onMobRoam = function(mob)
             xi.dynamis.onMobRoam(mob)
             xi.dynamis.onBossRoam(mob)
@@ -997,6 +1005,10 @@ local mobOverrideHandlers =
             xi.dynamis.onMobRoam(mob)
         end,
 
+        onMobDisengage = function(mob)
+            xi.dynamis.onMobDisengage(mob)
+        end,
+
         onMobDeath = function(mob, player, optParams)
             xi.dynamis.onMobDeath(mob, player, optParams)
         end,
@@ -1012,6 +1024,10 @@ local mobOverrideHandlers =
 
         onMobEngage = function(mob, target)
             xi.dynamis.mobOnEngage(mob, target)
+        end,
+
+        onMobDisengage = function(mob)
+            xi.dynamis.onMobDisengage(mob)
         end,
 
         onMobRoam = function(mob)
@@ -1031,6 +1047,7 @@ local mobOverrideOrder =
     'onMobInitialize',
     'onMobSpawn',
     'onMobEngage',
+    'onMobDisengage',
     'onMobRoam',
     'onMobFight',
     'onMobDeath',
