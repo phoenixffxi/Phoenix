@@ -59,8 +59,8 @@ xi.dynamis.spawnTable[zoneID] =
     [17543313] = { 1, false }, -- (44-Y/A) | BLM
     [17543315] = { 4, false }, -- (45-Y/M) | PLD, PLD, MNK, MNK
     [17543337] = { 1, true  }, -- (46-Y/A) | Wuu Qoho the Razorclaw
-    [17543327] = { 2, false }, -- (47-Y/A) | WAR, DRG
-    [17543334] = { 2, false }, -- (48-Y/A) | SAM, WAR
+    [17543334] = { 2, false }, -- (47-Y/A) | SAM, WAR
+    [17543327] = { 2, false }, -- (48-Y/A) | WAR, DRG
     [17543331] = { 0, false }, -- (49-Y/A) |
     [17543332] = { 0, false }, -- (50-Y/A) |
     [17543339] = { 0, false }, -- (51-Y/M) |
@@ -269,7 +269,6 @@ xi.dynamis.wave[zoneID] =
         17543445, -- (066-Y/M)  Avatar Icon
         17543425, -- (069-Y/A)  Avatar Icon
         17543430, -- (072-Y/M)  Manifest Icon
-        17543435, -- (073-Y/A)  Avatar Icon
         17543437, -- (074-Y/M)  Manifest Icon
         17543460, -- (077-Y/M)  Manifest Icon
         17543479, -- (080-Y/M)  Manifest Icon
@@ -328,7 +327,6 @@ xi.windurst.mobs =
     AVATAR_ICON_31 = 17543277,
     AVATAR_ICON_41 = 17543320,
     AVATAR_ICON_58 = 17543515,
-    MANIFEST_ICON_57 = 17543355,
     MANIFEST_ICON_66 = 17543445,
     MANIFEST_ICON_101 = 17543402,
     -- Boss
@@ -350,7 +348,6 @@ xi.dynamis.deathVarByMob[zoneID] =
     [xi.windurst.mobs.XOO_KAZA_THE_SOLEMN]      = '[DYNA]XooKilled',
     [xi.windurst.mobs.HAA_PEVI_THE_STENTORIAN]  = '[DYNA]HaaKilled',
     [xi.windurst.mobs.MANIFEST_ICON_101]        = '[DYNA]101Killed',
-    [xi.windurst.mobs.MANIFEST_ICON_57]         = '[DYNA]57Killed',
 }
 
 xi.dynamis.spawnCheck = xi.dynamis.spawnCheck or {}
@@ -398,12 +395,6 @@ xi.dynamis.spawnCheck[zoneID] =
         spawn           = { 17543395, 17543399 },
         spawnedVar      = '[DYNA]Wave7Spawned',
     },
-    {
-        -- Spawns 54/55 when 57 dies
-        requiredVars    = { '[DYNA]57Killed' },
-        spawn           = { 17543344, 17543347 },
-        spawnedVar      = '[DYNA]Wave8Spawned',
-    },
 }
 
 --Specific Statues
@@ -424,6 +415,7 @@ xi.dynamis.aggro[zoneID] =
         [17543437] = { 17543442, 17543444 }, -- 74 spawns 75, 76
         [17543460] = { 17543454, 17543457 }, -- 77 spawns 78, 79
         [17543499] = { 17543470, 17543474 }, -- 117spawns 119, 120
+        [17543340] = { 17543344, 17543347 }, -- 53 spawns 54, 55
     },
     aggressive =
     {
@@ -437,30 +429,45 @@ xi.dynamis.aggro[zoneID] =
         [17543425] = { 17543428, 17543429 }, -- 69 spawns 70, 71
         [17543505] = { 17543499, 17543502 }, -- 116 spawns 117, 118
         [17543526] = { 17543535, 17543531, 17543540, 17543541 }, -- 121 spawns 122, 123, 124, 125
+        [17543366] = { 17543373, 17543379 }, -- 93 spawns 94, 95
     },
+}
+
+xi.dynamis.lineSpawns = xi.dynamis.lineSpawns or { }
+xi.dynamis.lineSpawns[zoneID] =
+{
+    -- Statue ID = { behind = { first mob distance, second mob distance } }, { side = { left distance, right distance } }, or { { xOffset, yOffset, zOffset }, ... }
+    [17543564] = { behind = { 3, 6, 9 } }, -- (130) Mobs spawn in a line behind the statue
+    [17543569] = { behind = { 3, 6, 9 } }, -- (131) Mobs spawn in a line behind the statue
+    [17543573] = { behind = { 3, 6, 9 } }, -- (132) Mobs spawn in a line behind the statue
+    [17543247] = { behind = { 4, 8, -4, -8 } }, -- (27) Mobs spawn front and back
 }
 
 -- Pathing table
 xi.dynamis.paths = xi.dynamis.paths or { }
 xi.dynamis.paths[zoneID] =
 {
-    [17543187] = { { -96,  -2, -123 }, { -60,  -2, -113 }                     }, -- Entrance Bridge W
-    [17543198] = { { -48,  -2, -104 }, { -29,  -2,  -70 }                     }, -- Entrance Bridge E
-    [17543215] = { {  0,  -9,  -20  }, { -0,  -4,  -51  }                     }, -- AH W Ramp
-    [17543224] = { { 38,  -2,  -60  }, { 38,  -2,  -67  }                     }, -- AH #1
-    [17543227] = { { 46,  -1,  -70  }, { 46,  -2,  -59  }                     }, -- AH #2
-    [17543230] = { { 54,  -2,  -60  }, { 54,  -2,  -67  }                     }, -- AH #3
-    [17543333] = { { 99,  -8,  179  }, { 102, -8, 176   }, { 108, -11,  171 } }, -- E House Ramp
-    [17543435] = { { -84,  -9,  111 }, { -85,  -6,  121 }                     }, -- Island to HT
-    [17543516] = { { -88,  -2,   48 }, { -88,  -5,   82 }                     }, -- SW Bridge #1
-    [17543517] = { { -88,  -2,   48 }, { -88,  -5,   82 }                     }, -- SW Bridge #2
-    [17543520] = { { -88,  -2,   48 }, { -88,  -5,   82 }                     }, -- SW Bridge #3
-    [17543409] = { { -57, -13,  226 }, { -61, -13,  209 }                     }, -- NW Bridge S
-    [17543406] = { { -52, -13,  234 }, { -36, -13,  244 }                     }, -- NW Bridge N
-    [17543364] = { { 48,  -8,  213  }, { 48,  -8,  216  }                     }, -- Bridge to HotH #4
-    [17543358] = { { 54,  -8,  220  }, { 51,  -8,  220  }                     }, -- Bridge to HotH #1
-    [17543362] = { { 48,  -8,  226  }, { 48,  -8,  223  }                     }, -- Bridge to HotH #3
-    [17543360] = { { 42,  -8,  219  }, { 45,  -8,  219  }                     }, -- Bridge to HotH #2
+    [17543187] = { {  -96,  -2, -123 }, {  -60,  -2, -113 }                     }, -- Entrance Bridge W
+    [17543198] = { {  -48,  -2, -104 }, {  -29,  -2,  -70 }                     }, -- Entrance Bridge E
+    [17543215] = { {    0,  -9,  -20 }, {   -0,  -4,  -51 }                     }, -- AH W Ramp
+    [17543224] = { {   38,  -2,  -60 }, {   38,  -2,  -67 }                     }, -- AH #1
+    [17543227] = { {   46,  -1,  -70 }, {   46,  -2,  -59 }                     }, -- AH #2
+    [17543230] = { {   54,  -2,  -60 }, {   54,  -2,  -67 }                     }, -- AH #3
+    [17543333] = { {   99,  -8,  179 }, {  102,  -8,  176 }, { 108, -11,  171 } }, -- E House Ramp
+    [17543435] = { {  -84,  -9,  111 }, {  -85,  -6,  121 }                     }, -- Island to HT
+    [17543516] = { {  -88,  -2,   48 }, {  -88,  -5,   82 }                     }, -- SW Bridge #1
+    [17543517] = { {  -88,  -2,   48 }, {  -88,  -5,   82 }                     }, -- SW Bridge #2
+    [17543520] = { {  -88,  -2,   48 }, {  -88,  -5,   82 }                     }, -- SW Bridge #3
+    [17543409] = { {  -57, -13,  226 }, {  -61, -13,  209 }                     }, -- NW Bridge S
+    [17543406] = { {  -52, -13,  234 }, {  -36, -13,  244 }                     }, -- NW Bridge N
+    [17543364] = { {   48,  -8,  213 }, {   48,  -8,  216 }                     }, -- Bridge to HotH #4
+    [17543358] = { {   54,  -8,  220 }, {   51,  -8,  220 }                     }, -- Bridge to HotH #1
+    [17543362] = { {   48,  -8,  226 }, {   48,  -8,  223 }                     }, -- Bridge to HotH #3
+    [17543360] = { {   42,  -8,  219 }, {   45,  -8,  219 }                     }, -- Bridge to HotH #2
+    [17543247] = { { -7.5, -53,   40 }, { -7.5, -53,   40 }                     }, -- Top of AH
+    [17543564] = { {  -25, -2.5, -62 }, {  -34, -2.5, -62 }                     },
+    [17543569] = { {  -42, -2.5, -94 }, {  -35, -2.5, -94 }                     },
+    [17543573] = { { -53, -2.5, -111 }, { -44, -2.5, -111 }                     },
 }
 
 xi.dynamis.timeExtension = xi.dynamis.timeExtension or { }

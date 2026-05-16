@@ -378,14 +378,16 @@ xi.dynamis.spawnCheck[zoneID] =
 {
     {
         -- Spawn the 3 statues if WYRMGNASHER_BJAKDEK dies
+        -- 32, 143, 144
         requiredVars    = { '[DYNA]WyrmgnasherKilled' },
-        spawn           = { 17535059, 17534994, 17534990 },
+        spawn           = { 17535063, 17534994, 17534990 },
         spawnedVar      = '[DYNA]WyrmgnasherWaveSpawned',
     },
     {
         -- Spawn the 32 statues if REAPERTONGUE_GADGQUOK dies
+        -- 36, 141, 142
         requiredVars    = { '[DYNA]ReapertongueKilled' },
-        spawn           = { 17534986, 17534982 },
+        spawn           = { 17534986, 17534982, 17535059 },
         spawnedVar      = '[DYNA]ReapertongueWaveSpawned',
     },
     {
@@ -404,7 +406,7 @@ xi.dynamis.spawnCheck[zoneID] =
         -- Spawn mobs when the Mega Boss is killed
         requiredVars    = { '[DYNA]MegaBossKilled' },
         spawn           = xi.dynamis.wave[zoneID][2],
-        spawnedVar      = '[DYNA]Wave2Spawned',
+        spawnedVar      = '[DYNA]BossWaveSpawned',
     },
 }
 

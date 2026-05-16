@@ -158,7 +158,11 @@ xi.dynamis.spawnAggroStatues = function(mob, target)
             debugPrint('Aggressive Spawn Mob ID: ' .. mobId)
             if mobToSpawn and not mobToSpawn:isSpawned() then
                 mobToSpawn:spawn()
-                mobToSpawn:updateEnmity(target)
+                mobToSpawn:timer(500, function(mobArg)
+                    if mobArg and target then
+                        mobArg:updateEnmity(target)
+                    end
+                end)
             end
         end
     end
@@ -288,6 +292,17 @@ xi.dynamis.onMobSpawn = function(mob, mobType)
     end
 end
 
+xi.dynamis.onMobDisengage = function(mob)
+    local spawnPos = mob:getSpawnPos()
+    mob:timer(3000, function(mobArg)
+        -- Check if mob is far from spawn position
+        if mobArg:checkDistance(spawnPos) > 5 then
+        -- Return to original spawn position
+            mobArg:pathThrough({ spawnPos }, xi.path.flag.COORDS)
+        end
+    end)
+end
+
 xi.dynamis.onMobRoam = function(mob)
     if mob:getLocalVar('currentPath') == 1 then
         return
@@ -298,12 +313,6 @@ xi.dynamis.onMobRoam = function(mob)
     if mob:checkDistance(spawnPos) < 1 then
         mob:setRotation(spawnPos.rot)
         return
-    end
-
-    -- Check if mob is far from spawn position
-    if mob:checkDistance(spawnPos) > 5 then
-        -- Return to original spawn position
-        mob:pathThrough({ spawnPos }, xi.path.flag.COORDS)
     end
 end
 
