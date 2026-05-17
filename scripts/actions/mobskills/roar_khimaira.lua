@@ -1,9 +1,6 @@
 -----------------------------------
--- Fossilizing Breath
--- Description: Petrifies targets within a fan-shaped area.
--- Type: Breath
--- Ignores Shadows
--- Range: 15.0 yalms
+-- Khimaira Roar (Emote)
+-- Description: Khimaira roars at the sky.
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}
@@ -13,9 +10,9 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
 end
 
 mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
-    skill:setMsg(xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.PETRIFICATION, 1, 0, 60))
+    skill:setMsg(xi.msg.basic.NONE)
 
-    return xi.effect.PETRIFICATION
+    return 0
 end
 
 return mobskillObject
