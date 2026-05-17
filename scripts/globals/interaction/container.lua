@@ -74,6 +74,13 @@ end
 ---@param eventid integer
 ---@param ... integer|table
 ---@return TEvent
+function Container:progressOptionalCutscene(eventid, ...)
+    return Event:new(eventid, ...):optionalCutscene():progress()
+end
+
+---@param eventid integer
+---@param ... integer|table
+---@return TEvent
 function Container:replaceEvent(eventid, ...)
     return Event:new(eventid, ...):replaceDefault()
 end
