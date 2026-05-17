@@ -245,16 +245,268 @@ local function setNextPath(mob)
     end
 end
 
-xi.dynamis.apocBeastSpawn = function(mob)
+-- Clears all 2hr status effects before applying the next one, then restores auto-attack/abilities
+-- Must be called before useMobAbility, otherwise effects stack (e.g. Chainspell + Manafont spamming -ga 3s)
+local function apocRemoveAdditionalEffects(mob)
+    local statusEffects =
+    {
+        xi.effect.MIGHTY_STRIKES,
+        xi.effect.HUNDRED_FISTS,
+        xi.effect.MANAFONT,
+        xi.effect.CHAINSPELL,
+        xi.effect.PERFECT_DODGE,
+        xi.effect.INVINCIBLE,
+        xi.effect.BLOOD_WEAPON,
+        xi.effect.SOUL_VOICE,
+        xi.effect.MEIKYO_SHISUI,
+        xi.effect.ASTRAL_FLOW,
+    }
+
+    for _, effect in pairs(statusEffects) do
+        if mob:hasStatusEffect(effect) then
+            mob:delStatusEffect(effect)
+        end
+    end
+
+    mob:setAutoAttackEnabled(true)
+    mob:setMobAbilityEnabled(mob:getLocalVar('abilitiesEnabled') == 1)
+    mob:clearActionQueue()
+end
+
+local apocAbilities = -- Setup 2hr Lockouts
+{
+    { '[DYNA]BloodspillerKilled' , xi.mobSkill.MIGHTY_STRIKES_1 }, -- WAR
+    { '[DYNA]HamfistKilled'      , xi.mobSkill.HUNDRED_FISTS_1  }, -- MNK
+    { '[DYNA]FleshfeasterKilled' , xi.mobSkill.BENEDICTION_1    }, -- WHM
+    { '[DYNA]FlamecallerKilled'  , xi.mobSkill.MANAFONT_1       }, -- BLM
+    { '[DYNA]GosspixKilled'      , xi.mobSkill.CHAINSPELL_1     }, -- RDM
+    { '[DYNA]BodysnatcherKilled' , xi.mobSkill.PERFECT_DODGE_1  }, -- THF
+    { '[DYNA]IroncladKilled'     , xi.mobSkill.INVINCIBLE_1     }, -- PLD
+    { '[DYNA]ShamblixKilled'     , xi.mobSkill.BLOOD_WEAPON_1   }, -- DRK
+    { '[DYNA]WoodnixKilled'      , xi.mobSkill.CHARM            }, -- BST
+    { '[DYNA]MelomanicKilled'    , xi.mobSkill.SOUL_VOICE_1     }, -- BRD
+    { '[DYNA]LynceanKilled'      , xi.mobSkill.EES_GOBLIN       }, -- RNG
+    { '[DYNA]LevinbladeKilled'   , xi.mobSkill.MEIKYO_SHISUI_1  }, -- SAM
+    { '[DYNA]FleetfootKilled'    , xi.mobSkill.MIJIN_GAKURE_1   }, -- NIN
+    { '[DYNA]ElvaanstickerKilled', xi.mobSkill.CALL_WYVERN_1    }, -- DRG
+    { '[DYNA]BibliophageKilled'  , xi.mobSkill.ASTRAL_FLOW_1    }, -- SMN
+}
+
+local apocWeaponskillLockouts =
+{
+    { xi.bubu.mobs.STIHI,        '[DYNA]StihiKilled',       642 }, -- Flame Breath
+    { xi.bubu.mobs.VISHAP,       '[DYNA]VishapKilled',      643 }, -- Poison Breath
+    { xi.bubu.mobs.JURIK,        '[DYNA]JurikKilled',       644 }, -- Wind Breath
+    { xi.bubu.mobs.BARONG,       '[DYNA]BarongKilled',      645 }, -- Body Slam
+    { xi.bubu.mobs.TARASCA,      '[DYNA]TarascaKilled',     646 }, -- Heavy Stomp
+    { xi.bubu.mobs.ALKHLA,       '[DYNA]AlkhlaKilled',      647 }, -- Chaos Blade
+    { xi.bubu.mobs.BASILIC,      '[DYNA]BasilicKilled',     648 }, -- Petro Eyes
+    { xi.bubu.mobs.AITVARAS,     '[DYNA]AitvarasKilled',    649 }, -- Voidsong
+    { xi.bubu.mobs.KOSCHEI,      '[DYNA]KoscheiKilled',     650 }, -- Thornsong
+    { xi.bubu.mobs.STOLLEN_WURM, '[DYNA]StollenWurmKilled', 651 }, -- Lodesong
+}
+
+-- Returns the subset of apocAbilities whose lockout NM has not been killed yet
+local function getAvailable2hrs(mob)
+    local list = {}
+    for _, entry in ipairs(apocAbilities) do
+        if mob:getZone():getLocalVar(entry[1]) ~= 1 then
+            table.insert(list, entry[2])
+        end
+    end
+
+    return list
+end
+
+xi.dynamis.onApocSpawn = function(mob)
+    xi.dynamis.generalInfo(mob)
+
     mob:addImmunity(xi.immunity.GRAVITY)
+    mob:addImmunity(xi.immunity.TERROR)
+    mob:addImmunity(xi.immunity.SILENCE)
+    mob:addImmunity(xi.immunity.LIGHT_SLEEP)
+    mob:addImmunity(xi.immunity.DARK_SLEEP)
+
+    mob:setMod(xi.mod.DARK_RES_RANK, 11)
+    mob:setMod(xi.mod.BIND_RES_RANK, 9)
+
+    mob:setMod(xi.mod.REGAIN, 50)  -- 'minor level of regain'
+    mob:setMod(xi.mod.REFRESH, 250)
+    mob:setMod(xi.mod.MACC, 200)
+    mob:setMod(xi.mod.MATT, 50)
+    mob:setMod(xi.mod.FASTCAST, 50)
+
+    mob:setMobMod(xi.mobMod.MAGIC_COOL, 15)
+    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 200)
+
+    mob:setBaseSpeed(78)
+    mob:setDelay(150)
+
+    mob:setBehavior(bit.bor(mob:getBehavior(), xi.behavior.NO_TURN))
+
+    -- Start pathing
     local pickPath = math.random(1, 2)
     mob:pathThrough(paths[pickPath], xi.path.flag.COORDS)
     mob:setPos(-227, -21, 99) -- Just in case
     mob:setLocalVar('currentPath', 1) -- Skip regular roam code
 end
 
-xi.dynamis.apocBeastRoam = function(mob)
+xi.dynamis.onApocEngage = function(mob, target)
+    mob:setLocalVar('next2hrTime', GetSystemTime() + 5) -- First 2hr fires 5 seconds after engage
+    mob:setLocalVar('2hrIndex', 0)
+
+    -- If all dragon NMs have been defeated, weapon skills are disabled for this fight
+    local defeatedDragons = 0
+    for _, entry in ipairs(apocWeaponskillLockouts) do
+        if mob:getZone():getLocalVar(entry[2]) == 1 then
+            defeatedDragons = defeatedDragons + 1
+        end
+    end
+
+    local abilitiesEnabled = defeatedDragons < #apocWeaponskillLockouts
+    mob:setLocalVar('abilitiesEnabled', abilitiesEnabled and 1 or 0)
+    if not abilitiesEnabled then
+        mob:setMobAbilityEnabled(false)
+    end
+end
+
+xi.dynamis.onApocFight = function(mob, target)
+    -- Cycle through 2hr abilities in order, skipping any locked out by NM kills
+    if mob:getLocalVar('next2hrTime') <= GetSystemTime() then
+        local available2hrs = getAvailable2hrs(mob)
+        if #available2hrs > 0 then
+            local index = mob:getLocalVar('2hrIndex') % #available2hrs + 1
+            apocRemoveAdditionalEffects(mob)
+            mob:useMobAbility(available2hrs[index])
+            mob:setLocalVar('2hrIndex', index)
+            mob:setLocalVar('next2hrTime', GetSystemTime() + math.random(30, 45))
+        end
+    end
+
+    -- Magic is only enabled during 2hr effects (Manafont, Chainspell, Soul Voice)
+    local magicActive =
+        mob:hasStatusEffect(xi.effect.MANAFONT) or
+        mob:hasStatusEffect(xi.effect.CHAINSPELL) or
+        mob:hasStatusEffect(xi.effect.SOUL_VOICE)
+
+    mob:setMagicCastingEnabled(magicActive)
+end
+
+-- Picks the spell list based on two hour effect
+xi.dynamis.onApocSpellChoose = function(mob, target, spellId)
+    local apocSpellList =
+    {
+        -- Manafont
+        {
+            [1] = { xi.magic.spell.FIRAGA_III,   target, false, xi.action.type.DAMAGE_TARGET, nil, 0, 100 },
+            [2] = { xi.magic.spell.BLIZZAGA_III, target, false, xi.action.type.DAMAGE_TARGET, nil, 0, 100 },
+            [3] = { xi.magic.spell.AEROGA_III,   target, false, xi.action.type.DAMAGE_TARGET, nil, 0, 100 },
+            [4] = { xi.magic.spell.STONEGA_III,  target, false, xi.action.type.DAMAGE_TARGET, nil, 0, 100 },
+            [5] = { xi.magic.spell.THUNDAGA_III, target, false, xi.action.type.DAMAGE_TARGET, nil, 0, 100 },
+            [6] = { xi.magic.spell.WATERGA_III,  target, false, xi.action.type.DAMAGE_TARGET, nil, 0, 100 },
+        },
+        -- Chainspell
+        {
+            [1] = { xi.magic.spell.BLINDGA,    target, false, xi.action.type.ENFEEBLING_TARGET, xi.effect.BLINDNESS,     0, 100 },
+            [2] = { xi.magic.spell.PARALYGA,   target, false, xi.action.type.ENFEEBLING_TARGET, xi.effect.PARALYSIS,     0, 100 },
+            [3] = { xi.magic.spell.BINDGA,     target, false, xi.action.type.ENFEEBLING_TARGET, xi.effect.BIND,          0, 100 },
+            [4] = { xi.magic.spell.BREAKGA,    target, false, xi.action.type.ENFEEBLING_TARGET, xi.effect.PETRIFICATION, 0, 100 },
+            [5] = { xi.magic.spell.SLEEPGA_II, target, false, xi.action.type.ENFEEBLING_TARGET, xi.effect.SLEEP_I,       0, 100 },
+            [6] = { xi.magic.spell.DEATH,      target, false, xi.action.type.DAMAGE_TARGET,     nil,                     0, 100 },
+        },
+        -- Soul Voice
+        {
+            { xi.magic.spell.HORDE_LULLABY,     target, false, xi.action.type.ENFEEBLING_TARGET,    xi.effect.SLEEP_I,  0, 100 },
+            { xi.magic.spell.MAGIC_FINALE,      target, false, xi.action.type.NONE,                 nil,                0,  50 },
+            { xi.magic.spell.VALOR_MINUET_IV,   mob,    false, xi.action.type.ENHANCING_FORCE_SELF, xi.effect.MINUET,   0, 100 },
+            { xi.magic.spell.VICTORY_MARCH,     mob,    false, xi.action.type.ENHANCING_FORCE_SELF, xi.effect.MARCH,    0, 100 },
+            { xi.magic.spell.BLADE_MADRIGAL,    target, false, xi.action.type.ENHANCING_TARGET,     xi.effect.MADRIGAL, 0,  50 },
+            -- xi.magic.spell.MASSACRE_ELEGY
+        },
+    }
+
+    local spellList = { }
+    if mob:hasStatusEffect(xi.effect.MANAFONT) then
+        spellList = apocSpellList[1]
+    elseif mob:hasStatusEffect(xi.effect.CHAINSPELL) then
+        spellList = apocSpellList[2]
+    elseif mob:hasStatusEffect(xi.effect.SOUL_VOICE) then
+        spellList = apocSpellList[3]
+    else
+        return nil -- No 2hr active
+    end
+
+    return spellList[math.random(1, #spellList)]
+end
+
+xi.dynamis.onApocMobskillChoose = function(mob, target, skillId)
+    local available = {}
+    for _, abilities in ipairs(apocWeaponskillLockouts) do
+        if mob:getZone():getLocalVar(abilities[2]) ~= 1 then
+            table.insert(available, abilities[3])
+        end
+    end
+
+    if #available == 0 then
+        return nil
+    end
+
+    return available[math.random(1, #available)]
+end
+
+xi.dynamis.onApocRoam = function(mob)
     if not mob:isFollowingPath() then
         setNextPath(mob)
+    end
+end
+
+-- -----------------
+-- Dragon NMs
+-- -----------------
+xi.dynamis.onSpawnBubuDragon = function(mob)
+    xi.dynamis.generalInfo(mob)
+
+    local mobId = mob:getID()
+    for _, entry in ipairs(apocWeaponskillLockouts) do
+        if entry[1] == mobId then
+            -- Setting special skill
+            -- Dragons do auto attack. Cooldown is guessed
+            mob:setMobMod(xi.mobMod.SPECIAL_SKILL, entry[3])
+            mob:setMobMod(xi.mobMod.SPECIAL_COOL, 15)
+            break
+        end
+    end
+
+    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 150)
+
+    mob:addImmunity(xi.immunity.GRAVITY)
+    mob:addImmunity(xi.immunity.TERROR)
+    mob:addImmunity(xi.immunity.LIGHT_SLEEP)
+    mob:addImmunity(xi.immunity.DARK_SLEEP)
+    mob:addImmunity(xi.immunity.SILENCE)
+
+    mob:setBaseSpeed(60) -- 34% movement speed
+
+    mob:setBehavior(bit.bor(mob:getBehavior(), xi.behavior.NO_TURN))
+
+    -- Values are approximated based on era accounts
+    if mob:getID() == 16941256 then -- Aitvaras
+        mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 200)
+        mob:setMod(xi.mod.ATT, 550)
+        mob:setMod(xi.mod.UDMGMAGIC, -4000) -- Capture shows reduced magic damage (estimated)
+    end
+end
+
+xi.dynamis.onFightDragon = function(mob, target)
+    if mob:getZone():getLocalVar('[DYNA]MegaBossKilled') == 1 then
+        mob:setMobMod(xi.mobMod.NO_DROPS, 1)
+        DespawnMob(mob:getID())
+    end
+end
+
+xi.dynamis.onRoamDragon = function(mob)
+    if mob:getZone():getLocalVar('[DYNA]MegaBossKilled') == 1 then
+        mob:setMobMod(xi.mobMod.NO_DROPS, 1)
+        DespawnMob(mob:getID())
     end
 end

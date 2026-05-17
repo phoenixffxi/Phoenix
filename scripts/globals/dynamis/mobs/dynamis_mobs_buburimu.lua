@@ -354,13 +354,66 @@ xi.bubu.mobs =
 {
     -- Boss
     APOCALYPTIC_BEAST = 16941259,
+    ALKHLA            = 16941254,
+    STIHI             = 16941249,
+    BASILIC           = 16941255,
+    JURIK             = 16941251,
+    BARONG            = 16941252,
+    TARASCA           = 16941253,
+    STOLLEN_WURM      = 16941258,
+    KOSCHEI           = 16941257,
+    AITVARAS          = 16941256,
+    VISHAP            = 16941250,
+    -- NMs
+    BLOODSPILLER  = 16941143,
+    HAMFIST       = 16941112,
+    FLESHFEASTER  = 16941159,
+    FLAMECALLER   = 16941127,
+    GOSSPIX       = 16941072,
+    BODYSNATCHER  = 16941183,
+    IRONCLAD      = 16941170,
+    SHAMBLIX      = 16941058,
+    WOODNIX       = 16941080,
+    MELOMANIC     = 16941245,
+    LYNCEAN       = 16941102,
+    LEVINBLADE    = 16941196,
+    FLEETFOOT     = 16941237,
+    ELVAANSTICKER = 16941137,
+    BIBLIOPHAGE   = 16941207,
 }
 
 -- Vars for death wave actions
 xi.dynamis.deathVarByMob = xi.dynamis.deathVarByMob or {}
 xi.dynamis.deathVarByMob[zoneID] =
 {
+    -- Dragons
     [xi.bubu.mobs.APOCALYPTIC_BEAST] = '[DYNA]MegaBossKilled',
+    [xi.bubu.mobs.STIHI            ] = '[DYNA]StihiKilled',
+    [xi.bubu.mobs.VISHAP           ] = '[DYNA]VishapKilled',
+    [xi.bubu.mobs.JURIK            ] = '[DYNA]JurikKilled',
+    [xi.bubu.mobs.BARONG           ] = '[DYNA]BarongKilled',
+    [xi.bubu.mobs.TARASCA          ] = '[DYNA]TarascaKilled',
+    [xi.bubu.mobs.ALKHLA           ] = '[DYNA]AlkhlaKilled',
+    [xi.bubu.mobs.BASILIC          ] = '[DYNA]BasilicKilled',
+    [xi.bubu.mobs.AITVARAS         ] = '[DYNA]AitvarasKilled',
+    [xi.bubu.mobs.KOSCHEI          ] = '[DYNA]KoscheiKilled',
+    [xi.bubu.mobs.STOLLEN_WURM     ] = '[DYNA]StollenWurmKilled',
+    -- NMs
+    [xi.bubu.mobs.BLOODSPILLER     ] = '[DYNA]BloodspillerKilled',
+    [xi.bubu.mobs.HAMFIST          ] = '[DYNA]HamfistKilled',
+    [xi.bubu.mobs.FLESHFEASTER     ] = '[DYNA]FleshfeasterKilled',
+    [xi.bubu.mobs.FLAMECALLER      ] = '[DYNA]FlamecallerKilled',
+    [xi.bubu.mobs.GOSSPIX          ] = '[DYNA]GosspixKilled',
+    [xi.bubu.mobs.BODYSNATCHER     ] = '[DYNA]BodysnatcherKilled',
+    [xi.bubu.mobs.IRONCLAD         ] = '[DYNA]IroncladKilled',
+    [xi.bubu.mobs.SHAMBLIX         ] = '[DYNA]ShamblixKilled',
+    [xi.bubu.mobs.WOODNIX          ] = '[DYNA]WoodnixKilled',
+    [xi.bubu.mobs.MELOMANIC        ] = '[DYNA]MelomanicKilled',
+    [xi.bubu.mobs.LYNCEAN          ] = '[DYNA]LynceanKilled',
+    [xi.bubu.mobs.LEVINBLADE       ] = '[DYNA]LevinbladeKilled',
+    [xi.bubu.mobs.FLEETFOOT        ] = '[DYNA]FleetfootKilled',
+    [xi.bubu.mobs.ELVAANSTICKER    ] = '[DYNA]ElvaanstickerKilled',
+    [xi.bubu.mobs.BIBLIOPHAGE      ] = '[DYNA]BibliophageKilled',
 }
 
 xi.dynamis.spawnCheck = xi.dynamis.spawnCheck or {}

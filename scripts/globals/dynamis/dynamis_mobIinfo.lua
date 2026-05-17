@@ -30,19 +30,19 @@ end
 -- ---------------------
 -- General Info functions
 -- ---------------------
-xi.dynamis.generalInfo = function(mob)
+xi.dynamis.generalInfo = function(mob, modelSize)
     mob:setTrueDetection(true)
     mob:setSpawnAnimation(1) -- This is the cool looking spwan animation
     mob:setMobMod(xi.mobMod.CHARMABLE, 0)
     mob:setMobMod(xi.mobMod.CHECK_AS_NM, 1)
     mob:setMobMod(xi.mobMod.NO_DESPAWN, 1)
     mob:setMobMod(xi.mobMod.CLAIM_TYPE, xi.claimType.NON_EXCLUSIVE)
-    mob:setMobMod(xi.mobMod.GIL_BONUS, -100)
-    mob:setMobMod(xi.mobMod.EXP_BONUS, -100)
+    mob:setMobMod(xi.mobMod.GIL_BONUS, -101)
+    mob:setMobMod(xi.mobMod.EXP_BONUS, -101)
     mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 150)
     mob:setRoamFlags(xi.roamFlag.SCRIPTED)
 
-    mob:setModelSize(2) -- TODO: Fix all the model sizes per zone
+    mob:setModelSize(modelSize or 2)
 
     -- TODO: figure out DRG wyvern calls later
     local job = mob:getMainJob()
@@ -54,13 +54,51 @@ xi.dynamis.generalInfo = function(mob)
     end
 end
 
+-- ---------------------------
+-- Shared Event Handlers
+-- ---------------------------
+xi.dynamis.onSharedEngage = function(mob, target)
+    debugPrint('Mob engaged, checking for spawns...')
+    debugPrint('Engaged mob ID: ' .. mob:getID() .. ' isSpawned: ' .. tostring(mob:isSpawned()))
+
+    -- Stop the spawning if the mob is re-engaged after a wipe
+    if mob:getLocalVar('engageCheck') == 1 then
+        return
+    end
+
+    mob:setLocalVar('engageCheck', 1)
+    local zoneId = mob:getZoneID()
+    local mobID  = mob:getID()
+
+    mob:setMobMod(xi.mobMod.MAGIC_DELAY, math.random(5, 15)) -- Random magic delay to make the casts delayed
+    mob:stun(3000) -- Used to make the mob not move at all for 3 seconds
+
+    -- Check for mobs on aggro conditions
+    xi.dynamis.spawnAggroStatues(mob, target)
+
+    -- If the mob has spawned from the master mob then do not check for more spawns
+    if mob:getLocalVar('spawnedFromMaster') == 1 then
+        debugPrint('I am an add, not spawning more mobs')
+        return
+    end
+
+    local count = xi.dynamis.spawnTable[zoneId][mobID][1]
+    debugPrint('Spawn count from onSharedEngage: ' .. count)
+    if count > 0 then
+        local checkForceSpawn = xi.dynamis.spawnTable[zoneId][mobID][2]
+        debugPrint('Checking force spawn conditions. EngageCheck: ' .. mob:getLocalVar('engageCheck') .. ' CheckForceSpawn: ' .. tostring(checkForceSpawn))
+        xi.dynamis.spawnNextMobsOnce(mob, count, target, checkForceSpawn)
+    end
+end
+
 -- ---------------------
 -- Statue functions
 -- ---------------------
-xi.dynamis.statueOnSpawn = function(mob)
+xi.dynamis.statueOnSpawn = function(mob, modelSize)
     -- Apply the general stats to from dynamis mobs
-    xi.dynamis.generalInfo(mob)
+    xi.dynamis.generalInfo(mob, modelSize)
     mob:setSpawnAnimation(0)
+    mob:setMobMod(xi.mobMod.NO_STANDBACK, 1) -- Statues do not stand back
 
     local mobId  = mob:getID()
     local zoneId = mob:getZoneID()
@@ -83,40 +121,6 @@ xi.dynamis.statueOnSpawn = function(mob)
     end
 
     xi.dynamis.generatePath(mob)
-end
-
-xi.dynamis.mobOnEngage = function(mob, target)
-    debugPrint('Statue engaged, checking for spawns...')
-    debugPrint('Engaged mob ID: ' .. mob:getID() .. ' isSpawned: ' .. tostring(mob:isSpawned()))
-
-    -- Stop the spawning if the statue is re-engaged after a wipe
-    if mob:getLocalVar('engageCheck') == 1 then
-        return
-    end
-
-    mob:setLocalVar('engageCheck', 1)
-    local zoneId = mob:getZoneID()
-    local mobID  = mob:getID()
-
-    mob:setMobMod(xi.mobMod.MAGIC_DELAY, math.random(5, 15)) -- Random magic delay to make the casts delayed
-    mob:stun(3000) -- Used to make the mob not move at all for 3 seconds
-
-    -- Check for mobs on aggro conditions
-    xi.dynamis.spawnAggroStatues(mob, target)
-
-    -- If the mob has spawned from the master mob then do not check for more spawns
-    if mob:getLocalVar('spawnedFromMaster') == 1 then
-        debugPrint('I am an add, not spawning more mobs')
-        return
-    end
-
-    local count = xi.dynamis.spawnTable[zoneId][mobID][1]
-    debugPrint('Spawn count from mobOnEngage: ' .. count)
-    if count > 0 then
-        local checkForceSpawn = xi.dynamis.spawnTable[zoneId][mobID][2]
-        debugPrint('Checking force spawn conditions. EngageCheck: ' .. mob:getLocalVar('engageCheck') .. ' CheckForceSpawn: ' .. tostring(checkForceSpawn))
-        xi.dynamis.spawnNextMobsOnce(mob, mobID, count, target, checkForceSpawn) -- Spawn the next X amount of IDs from that staue
-    end
 end
 
 xi.dynamis.checkEyeColor = function(mob)
@@ -171,8 +175,7 @@ end
 xi.dynamis.onStatueFight = function(mob, target)
     -- If its a normal statue don't try to do the restore effect
     local zoneId = mob:getZoneID()
-    local restoreStatue = xi.dynamis.eyeColor and xi.dynamis.eyeColor[zoneId] and xi.dynamis.eyeColor[zoneId][mob:getID()]
-    local eye = restoreStatue
+    local eye    = xi.dynamis.eyeColor and xi.dynamis.eyeColor[zoneId] and xi.dynamis.eyeColor[zoneId][mob:getID()]
     if eye ~= xi.dynamis.eye.BLUE and eye ~= xi.dynamis.eye.GREEN then
         return
     end
@@ -187,16 +190,16 @@ xi.dynamis.onStatueFight = function(mob, target)
     end
 
     debugPrint('I am at 1 HP')
-    -- I can probably just removed RED from everything, including the spawn files and use RED as default
+    -- I can probably just remove RED from everything, including the spawn files and use RED as default
 
     local zone    = mob:getZone()
     local players = zone:getPlayers()
 
-    for name, playerObj in pairs(players) do
+    for _, playerObj in pairs(players) do
         -- Test is dead player triggers this
         if mob:checkDistance(playerObj) < 30 then
             if eye == xi.dynamis.eye.BLUE then
-                print('I am restoring HP')
+                debugPrint('Restoring HP to nearby players')
                 local missingHP = playerObj:getMaxHP() - playerObj:getHP()
                 -- TODO: figure out if this wakes slept players up
                 playerObj:restoreHP(missingHP)
@@ -237,7 +240,6 @@ xi.dynamis.onStatueDeath = function(mob, player, optParams)
         xi.dynamis.spawnAggroStatues(mob, player)
     end
 
-    -- If the statue gets 1 shotted
     -- Force spawn check for NMs
     local zoneId   = mob:getZoneID()
     local statueId = mob:getID()
@@ -249,7 +251,7 @@ xi.dynamis.onStatueDeath = function(mob, player, optParams)
     if mob:getLocalVar('engageCheck') == 0 and checkForceSpawn then
         local count    = xi.dynamis.spawnTable[zoneId][statueId][1]
         if count > 0 then
-            xi.dynamis.spawnNextMobsOnce(mob, statueId, count, nil, checkForceSpawn) -- Spawn the next X amount of IDs from that staue
+            xi.dynamis.spawnNextMobsOnce(mob, count, nil, checkForceSpawn) -- Spawn the next X amount of IDs from that statue
         end
     end
 
@@ -262,33 +264,14 @@ end
 -- ---------------------
 -- Regular Mob functions
 -- ---------------------
-xi.dynamis.onMobSpawn = function(mob, mobType)
-    xi.dynamis.generalInfo(mob)
+xi.dynamis.onMobSpawn = function(mob, mobType, modelSize)
+    xi.dynamis.generalInfo(mob, modelSize)
 
-    -- Set model sizes here instead of 100 SQL rows
     if
         mobType == xi.dynamis.mobType.NIGHTMARE and
         mob:getZoneID() ~= xi.zone.DYNAMIS_TAVNAZIA
     then
         mob:setRoamFlags(xi.roamFlag.NONE)
-    elseif mobType == xi.dynamis.mobType.NIGHTMARE then
-        mob:setModelSize(3)
-    end
-
-    -- If Kindred set auto attack
-    if
-        mob:getFamily() == 169 and
-        (mob:getMainJob() == xi.job.RNG or mob:getMainJob() == xi.job.NIN)
-    then
-        mob:setMobMod(xi.mobMod.SPECIAL_SKILL, 560) -- Hecatomb Wave
-    end
-
-    -- If Quadav set auto attack
-    if
-        mob:getFamily() == 337 and
-        (mob:getMainJob() == xi.job.RNG or mob:getMainJob() == xi.job.NIN)
-    then
-        mob:setMobMod(xi.mobMod.SPECIAL_SKILL, 1075) -- Ore Toss
     end
 end
 
@@ -432,8 +415,8 @@ xi.dynamis.onBossInitialize = function(mob)
     mob:addImmunity(xi.immunity.TERROR)
 end
 
-xi.dynamis.onBossSpawn = function(mob)
-    xi.dynamis.generalInfo(mob)
+xi.dynamis.onBossSpawn = function(mob, modelSize)
+    xi.dynamis.generalInfo(mob, modelSize)
     mob:setSpawnAnimation(0)
 end
 
@@ -525,7 +508,6 @@ local function calculateLineSpawnPosition(statuePos, lineSpawnConfig, spawnedCou
 end
 
 local function setPetModelSize(mobToSpawn, mainSize)
-    -- TODO: MODEL SIZES FOR ALL THE ZONES RIP ME
     if string.find(mobToSpawn:getName(), 'Nightmare') then
         if mainSize > 1 then
             mobToSpawn:setModelSize(mainSize - 1)
@@ -540,7 +522,7 @@ local function setPetModelSize(mobToSpawn, mainSize)
     end
 end
 
-xi.dynamis.spawnNextMobsOnce = function(statue, statueId, count, target, checkForceSpawn)
+xi.dynamis.spawnNextMobsOnce = function(statue, count, target, checkForceSpawn)
     debugPrint('Spawning next mobs once...')
     if
         count <= 0 or
@@ -551,6 +533,7 @@ xi.dynamis.spawnNextMobsOnce = function(statue, statueId, count, target, checkFo
 
     statue:setLocalVar('spawnedAdds', 1)
 
+    local statueId  = statue:getID()
     local statuePos = statue:getPos()
     local randomStunTime = math.random(4000, 8000)
     local zoneId = statue:getZoneID()
@@ -619,14 +602,11 @@ xi.dynamis.spawnNextMobsOnce = function(statue, statueId, count, target, checkFo
 end
 
 xi.dynamis.spawnWave = function(wave)
-    -- debugPrint('Spawning wave...')
-    -- debugPrint('Wave data: ' .. tostring(wave))
     if not wave then
         return
     end
 
     for _, mobId in ipairs(wave) do
-        -- debugPrint('Spawning mob ID: ' .. mobId)
         local mob = GetMobByID(mobId)
         if mob and not mob:isSpawned() then
             mob:spawn()
@@ -639,16 +619,16 @@ end
 -----------------------------------
 xi.dynamis.generatePath = function(mob)
     local zoneId = mob:getZoneID()
-    local getID  = mob:getID()
+    local mobId  = mob:getID()
 
     if
         xi.dynamis.paths and
         xi.dynamis.paths[zoneId] and
-        xi.dynamis.paths[zoneId][getID] ~= nil
+        xi.dynamis.paths[zoneId][mobId] ~= nil
     then
-        local table = xi.dynamis.paths[zoneId][getID]
-        local first = table[1]
-        local second = table[2]
+        local pathData = xi.dynamis.paths[zoneId][mobId]
+        local first = pathData[1]
+        local second = pathData[2]
         local pathNodes =
         {
             { x = first[1],  y = first[2],  z = first[3],  wait = 1000 },
