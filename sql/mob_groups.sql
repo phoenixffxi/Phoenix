@@ -5827,6 +5827,7 @@ INSERT INTO `mob_groups` VALUES (158,6820,88,'Ushumgal',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (159,7167,88,'Goblin_Lansquenet',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (160,7178,88,'Goblin_Mine',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (161,7259,88,'Goblin_Picaroon',300,0,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (162,3920,88,'Time_Bomb',0,128,0,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Grauberg_[S] (Zone 89)
@@ -5995,6 +5996,7 @@ INSERT INTO `mob_groups` VALUES (158,7167,89,'Goblin_Lansquenet',0,128,0,0,0,0,N
 INSERT INTO `mob_groups` VALUES (159,7171,89,'Air_Elemental',300,4,38,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (160,7178,89,'Goblin_Mine',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (161,7267,89,'Ajattara',300,0,42,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (162,3920,89,'Time_Bomb',0,128,0,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Pashhow_Marshlands_[S] (Zone 90)
@@ -7366,6 +7368,7 @@ INSERT INTO `mob_groups` VALUES (153,291,98,'Auroral_Alicorn',0,128,0,0,0,0,NULL
 INSERT INTO `mob_groups` VALUES (154,5150,98,'Gugalanna',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (155,7170,98,'Earth_Elemental',300,4,733,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (156,7261,98,'War_Lynx',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (157,3920,98,'Time_Bomb',0,128,0,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Castle_Oztroja_[S] (Zone 99)
@@ -10353,6 +10356,8 @@ INSERT INTO `mob_groups` VALUES (139,2403,136,'Lewenhart',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (140,291,136,'Auroral_Alicorn',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (141,7167,136,'Goblin_Lansquenet',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (142,7187,136,'Ruszor',300,0,2135,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (143,3920,136,'Time_Bomb',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (144,1410,136,'Frost_Bomb',0,128,0,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Xarcabard_[S] (Zone 137)
@@ -10506,6 +10511,8 @@ INSERT INTO `mob_groups` VALUES (142,1324,137,'Ferreous_Coffin',0,128,0,0,0,0,NU
 INSERT INTO `mob_groups` VALUES (143,2403,137,'Lewenhart',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (144,291,137,'Auroral_Alicorn',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (145,7296,137,'Savage_Ruszor',300,0,2135,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (146,3920,137,'Time_Bomb',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (147,1410,137,'Frost_Bomb',0,128,0,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Castle_Zvahl_Baileys_[S] (Zone 138)
