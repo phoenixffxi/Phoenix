@@ -1,6 +1,13 @@
 -----------------------------------
 -- Area: Caedarva Mire
 --  Mob: Locus Imp
+--  TODO:
+--   - Horn break rate
+--   - Stats (except Level/HP)
+--   - Resistances
+--   - Drops
+-----------------------------------
+mixins = { require('scripts/mixins/families/imp'), require('scripts/mixins/families/imp_aggro') }
 -----------------------------------
 ---@type TMobEntity
 local entity = {}
@@ -8,7 +15,7 @@ local entity = {}
 entity.onMobSpawn = function(mob)
     mob:setMobMod(xi.mobMod.MAGIC_COOL, 20)
     mob:setMobMod(xi.mobMod.NO_STANDBACK, 1)
-    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 500)
+    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 500) -- Remove this mod when mob has been correctly captured
 end
 
 entity.onMobSpellChoose = function(mob, target, spell)
