@@ -1130,7 +1130,7 @@ INSERT INTO `mob_spawn_points` VALUES (17543205,0,'Vanguards_Crow','Vanguard\'s 
 INSERT INTO `mob_spawn_points` VALUES (17543206,0,'Manifest_Icon','Manifest Icon',100,65,65,0.765,-3.964,-64.998,196);
 INSERT INTO `mob_spawn_points` VALUES (17543207,0,'Vanguard_Exemplar','Vanguard Exemplar',12,75,77,-2.568,-3.970,-63.976,196);
 INSERT INTO `mob_spawn_points` VALUES (17543208,0,'Vanguard_Exemplar','Vanguard Exemplar',12,75,77,3.980,-3.886,-64.956,196);
-INSERT INTO `mob_spawn_points` VALUES (17543209,0,'Avatar_Icon','Avatar Icon',23,65,65,-0.568,-40.221,-4.683,57);
+INSERT INTO `mob_spawn_points` VALUES (17543209,0,'Avatar_Icon','Avatar Icon',23,65,65,3.200,-6.800,-34.800,57);
 INSERT INTO `mob_spawn_points` VALUES (17543210,0,'Vanguard_Inciter','Vanguard Inciter',11,75,77,0.701,-6.654,-33.363,66);
 INSERT INTO `mob_spawn_points` VALUES (17543211,0,'Vanguard_Persecutor','Vanguard Persecutor',16,75,77,3.366,-6.941,-29.751,66);
 INSERT INTO `mob_spawn_points` VALUES (17543212,0,'Avatar_Icon','Avatar Icon',23,65,65,-4.085,-6.903,-34.486,55);
@@ -1277,7 +1277,7 @@ INSERT INTO `mob_spawn_points` VALUES (17543352,0,'Vanguard_Prelate','Vanguard P
 INSERT INTO `mob_spawn_points` VALUES (17543353,0,'Vanguard_Exemplar','Vanguard Exemplar',12,75,77,104.298,-12.500,195.332,97);
 INSERT INTO `mob_spawn_points` VALUES (17543354,0,'Vanguard_Assassin','Vanguard Assassin',17,75,77,99.382,-12.500,200.411,97);
 INSERT INTO `mob_spawn_points` VALUES (17543355,0,'Manifest_Icon','Manifest Icon',100,65,65,118.802,-12.500,202.347,103);
-INSERT INTO `mob_spawn_points` VALUES (17543356,0,'Vanguard_Oracle','Vanguard Oracle',20,75,77,116.792,-15.500,200.398,103);
+INSERT INTO `mob_spawn_points` VALUES (17543356,0,'Vanguard_Oracle','Vanguard Oracle',20,75,77,116.792,-12.500,200.398,103);
 INSERT INTO `mob_spawn_points` VALUES (17543357,0,'Vanguards_Avatar','Vanguard\'s Avatar',21,75,77,1.000,1.000,1.000,1);
 INSERT INTO `mob_spawn_points` VALUES (17543358,0,'Avatar_Icon','Avatar Icon',23,65,65,54.008,-7.500,220.002,128);
 INSERT INTO `mob_spawn_points` VALUES (17543359,0,'Vanguard_Salvager','Vanguard Salvager',13,75,77,34.930,-7.500,228.259,153);
@@ -1351,14 +1351,14 @@ INSERT INTO `mob_spawn_points` VALUES (17543426,0,'Vanguard_Skirmisher','Vanguar
 INSERT INTO `mob_spawn_points` VALUES (17543427,0,'Vanguard_Skirmisher','Vanguard Skirmisher',4,75,77,-96.318,-5.000,135.299,247);
 INSERT INTO `mob_spawn_points` VALUES (17543428,0,'Avatar_Icon','Avatar Icon',23,65,65,-97.264,-5.250,125.379,9);
 INSERT INTO `mob_spawn_points` VALUES (17543429,0,'Avatar_Icon','Avatar Icon',23,65,65,-101.497,-5.250,136.499,220);
-INSERT INTO `mob_spawn_points` VALUES (17543430,0,'Manifest_Icon','Manifest Icon',100,65,65,-99.182,-5.250,122.539,21);
+INSERT INTO `mob_spawn_points` VALUES (17543430,0,'Manifest_Icon','Manifest Icon',100,65,65,-99.182,-5.250,122.539,26);
 INSERT INTO `mob_spawn_points` VALUES (17543431,0,'Vanguard_Skirmisher','Vanguard Skirmisher',4,75,77,-90.210,-5.811,122.677,255);
 INSERT INTO `mob_spawn_points` VALUES (17543432,0,'Vanguard_Sentinel','Vanguard Sentinel',8,75,77,-93.138,-5.611,122.179,250);
 INSERT INTO `mob_spawn_points` VALUES (17543433,0,'Vanguard_Ogresoother','Vanguard Ogresoother',14,75,77,-95.609,-5.354,121.651,253);
 INSERT INTO `mob_spawn_points` VALUES (17543434,0,'Vanguards_Crow','Vanguard\'s Crow',15,75,77,1.000,1.000,1.000,1);
 INSERT INTO `mob_spawn_points` VALUES (17543435,0,'Avatar_Icon','Avatar Icon',23,65,65,-85.319,-7.281,116.836,191);
 INSERT INTO `mob_spawn_points` VALUES (17543436,0,'Vanguard_Assassin','Vanguard Assassin',17,75,77,1.000,1.000,1.000,1);
-INSERT INTO `mob_spawn_points` VALUES (17543437,0,'Manifest_Icon','Manifest Icon',100,65,65,-103.941,-5.250,137.203,208);
+INSERT INTO `mob_spawn_points` VALUES (17543437,0,'Manifest_Icon','Manifest Icon',100,65,65,-103.941,-5.250,137.203,202);
 INSERT INTO `mob_spawn_points` VALUES (17543438,0,'Vanguard_Liberator','Vanguard Liberator',10,75,77,-103.785,-5.073,141.329,248);
 INSERT INTO `mob_spawn_points` VALUES (17543439,0,'Vanguard_Persecutor','Vanguard Persecutor',16,75,77,-107.439,-5.000,140.457,248);
 INSERT INTO `mob_spawn_points` VALUES (17543440,0,'Vanguard_Partisan','Vanguard Partisan',18,75,77,-110.407,-5.000,139.835,248);
@@ -1478,7 +1478,7 @@ INSERT INTO `mob_spawn_points` VALUES (17543553,0,'Avatar_Icon','Avatar Icon',23
 INSERT INTO `mob_spawn_points` VALUES (17543554,0,'Vanguard_Exemplar','Vanguard Exemplar',12,75,77,-207.360,-0.279,-140.077,123);
 INSERT INTO `mob_spawn_points` VALUES (17543555,0,'Vanguard_Partisan','Vanguard Partisan',18,75,77,-211.441,-0.037,-140.098,123);
 INSERT INTO `mob_spawn_points` VALUES (17543556,0,'Vanguards_Wyvern','Vanguard\'s Wyvern',19,75,77,1.000,1.000,1.000,1);
-INSERT INTO `mob_spawn_points` VALUES (17543557,0,'Manifest_Icon','Manifest Icon',100,65,65,-94.496,-2.500,-119.881,244);
+INSERT INTO `mob_spawn_points` VALUES (17543557,0,'Manifest_Icon','Manifest Icon',100,65,65,-93.850,-2.500,-122.149,244);
 INSERT INTO `mob_spawn_points` VALUES (17543558,0,'Vanguard_Visionary','Vanguard Visionary',9,75,77,-108.857,-2.501,-136.448,202);
 INSERT INTO `mob_spawn_points` VALUES (17543559,0,'Vanguard_Inciter','Vanguard Inciter',11,75,77,-107.655,-2.540,-132.314,207);
 INSERT INTO `mob_spawn_points` VALUES (17543560,0,'Vanguard_Partisan','Vanguard Partisan',18,75,77,-106.577,-2.330,-129.563,207);
@@ -1532,7 +1532,7 @@ INSERT INTO `mob_spawn_points` VALUES (17543607,0,'Vanguard_Liberator','Vanguard
 INSERT INTO `mob_spawn_points` VALUES (17543608,0,'Vanguard_Assassin','Vanguard Assassin',17,75,77,93.417,-7.202,153.554,130);
 INSERT INTO `mob_spawn_points` VALUES (17543609,0,'Manifest_Icon','Manifest Icon',100,65,65,88.672,-5.465,153.619,129);
 INSERT INTO `mob_spawn_points` VALUES (17543610,0,'Vanguard_Persecutor','Vanguard Persecutor',16,75,77,88.477,-7.639,179.932,126);
-INSERT INTO `mob_spawn_points` VALUES (17543611,0,'Vanguard_Priest','Vanguard Priest',5,75,77,83.390,-7.633,197.922,126);
+INSERT INTO `mob_spawn_points` VALUES (17543611,0,'Vanguard_Priest','Vanguard Priest',5,75,77,83.390,-7.633,179.922,126);
 INSERT INTO `mob_spawn_points` VALUES (17543612,0,'Vanguard_Exemplar','Vanguard Exemplar',12,75,77,82.797,-7.640,175.572,126);
 INSERT INTO `mob_spawn_points` VALUES (17543613,0,'Vanguard_Assassin','Vanguard Assassin',17,75,77,88.199,-7.634,175.418,126);
 INSERT INTO `mob_spawn_points` VALUES (17543614,0,'Manifest_Icon','Manifest Icon',100,65,65,101.907,-10.833,162.412,255);
@@ -1554,7 +1554,7 @@ INSERT INTO `mob_spawn_points` VALUES (17543629,0,'Manifest_Icon','Manifest Icon
 INSERT INTO `mob_spawn_points` VALUES (17543630,0,'Vanguard_Skirmisher','Vanguard Skirmisher',4,75,77,-81.281,-7.637,164.597,110);
 INSERT INTO `mob_spawn_points` VALUES (17543631,0,'Vanguard_Prelate','Vanguard Prelate',6,75,77,-74.177,-8.865,169.659,101);
 INSERT INTO `mob_spawn_points` VALUES (17543632,0,'Vanguard_Persecutor','Vanguard Persecutor',16,75,77,-70.301,-9.354,174.844,97);
-INSERT INTO `mob_spawn_points` VALUES (17543633,0,'Vanguard_Partisan','Vanguard Partisan',18,75,77,-68.539,-10.896,180.143,73);
+INSERT INTO `mob_spawn_points` VALUES (17543633,0,'Vanguard_Partisan','Vanguard Partisan',18,75,77,-67.844,-12.203,185.470,73);
 INSERT INTO `mob_spawn_points` VALUES (17543634,0,'Vanguards_Wyvern','Vanguard\'s Wyvern',19,75,77,1.000,1.000,1.000,1);
 INSERT INTO `mob_spawn_points` VALUES (17543635,0,'Avatar_Icon','Avatar Icon',23,65,65,-73.034,-8.937,170.904,218);
 INSERT INTO `mob_spawn_points` VALUES (17543636,0,'Vanguard_Priest','Vanguard Priest',5,75,77,-71.870,-9.068,172.512,91);
