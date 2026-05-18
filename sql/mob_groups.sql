@@ -16740,6 +16740,11 @@ INSERT INTO `mob_groups` VALUES (70,0,292,'Transcended_Porxie',0,128,0,0,0,0,NUL
 INSERT INTO `mob_groups` VALUES (71,0,292,'Transcended_Panopt',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (72,0,292,'Transcended_Unseelie',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (73,0,292,'Ou',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (74,6031,292,'Katashiro',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (75,6032,292,'Nii_Aquu',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (76,6034,292,'Zhuu_Buxu_the_Silent',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (77,6035,292,'Gessho',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (78,6033,292,'Reikuu',0,128,0,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Reisenjima_Sanctorium (Zone 293)
