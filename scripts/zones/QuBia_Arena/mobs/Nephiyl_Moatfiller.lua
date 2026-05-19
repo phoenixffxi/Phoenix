@@ -11,7 +11,6 @@ local entity = {}
 entity.onMobInitialize = function(mob)
     mob:addImmunity(xi.immunity.DARK_SLEEP)
     mob:addImmunity(xi.immunity.LIGHT_SLEEP)
-    mob:setMobMod(xi.mobMod.SUPERLINK, 1)
 end
 
 entity.onMobSpawn = function(mob)

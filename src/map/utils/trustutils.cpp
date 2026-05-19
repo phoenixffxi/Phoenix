@@ -66,7 +66,7 @@ struct TrustData
     uint8  name_prefix{};
     uint8  modelSize{ 0 };
     float  modelHitboxSize{ 0.0f };
-    uint16 m_Family{};
+    uint16 m_Species{};
 
     uint8 mJob{};
     uint8 sJob{};
@@ -194,7 +194,7 @@ void BuildTrustData(uint32 TrustID)
                                        "mob_pools.name, "
                                        "mob_pools.packet_name, "
                                        "mob_pools.modelid, "
-                                       "mob_pools.familyid, "
+                                       "mob_pools.speciesid, "
                                        "mob_pools.mJob, "
                                        "mob_pools.sJob, "
                                        "mob_pools.spellList, "
@@ -206,21 +206,21 @@ void BuildTrustData(uint32 TrustID)
                                        "mob_pools.modelSize, "
                                        "mob_pools.modelHitboxSize, "
                                        "spell_list.spellid, "
-                                       "mob_family_system.ecosystemID, "
-                                       "(mob_family_system.HP / 100) AS HP, "
-                                       "(mob_family_system.MP / 100) AS MP, "
-                                       "mob_family_system.speed, "
-                                       "mob_family_system.STR, "
-                                       "mob_family_system.DEX, "
-                                       "mob_family_system.VIT, "
-                                       "mob_family_system.AGI, "
-                                       "mob_family_system.INT, "
-                                       "mob_family_system.MND, "
-                                       "mob_family_system.CHR, "
-                                       "mob_family_system.DEF, "
-                                       "mob_family_system.ATT, "
-                                       "mob_family_system.ACC, "
-                                       "mob_family_system.EVA, "
+                                       "mob_species_system.ecosystemID, "
+                                       "(mob_species_system.HP / 100) AS HP, "
+                                       "(mob_species_system.MP / 100) AS MP, "
+                                       "mob_species_system.speed, "
+                                       "mob_species_system.STR, "
+                                       "mob_species_system.DEX, "
+                                       "mob_species_system.VIT, "
+                                       "mob_species_system.AGI, "
+                                       "mob_species_system.INT, "
+                                       "mob_species_system.MND, "
+                                       "mob_species_system.CHR, "
+                                       "mob_species_system.DEF, "
+                                       "mob_species_system.ATT, "
+                                       "mob_species_system.ACC, "
+                                       "mob_species_system.EVA, "
                                        "mob_resistances.slash_sdt, mob_resistances.pierce_sdt, "
                                        "mob_resistances.h2h_sdt, mob_resistances.impact_sdt, "
                                        "mob_resistances.magical_sdt, "
@@ -236,11 +236,11 @@ void BuildTrustData(uint32 TrustID)
                                        "mob_resistances.silence_res_rank, mob_resistances.slow_res_rank, "
                                        "mob_resistances.poison_res_rank, mob_resistances.light_sleep_res_rank, "
                                        "mob_resistances.dark_sleep_res_rank, mob_resistances.blind_res_rank "
-                                       "FROM spell_list, mob_pools, mob_family_system, mob_resistances "
+                                       "FROM spell_list, mob_pools, mob_species_system, mob_resistances "
                                        "WHERE spell_list.spellid = ? "
                                        "AND (spell_list.spellid + 5000) = mob_pools.poolid "
                                        "AND mob_pools.resist_id = mob_resistances.resist_id "
-                                       "AND mob_pools.familyid = mob_family_system.familyID "
+                                       "AND mob_pools.speciesid = mob_species_system.speciesID "
                                        "ORDER BY spell_list.spellid",
                                        TrustID);
 
@@ -258,7 +258,7 @@ void BuildTrustData(uint32 TrustID)
 
             db::extractFromBlob(rset, "modelid", data->look);
 
-            data->m_Family  = rset->get<uint16>("familyid");
+            data->m_Species = rset->get<uint16>("speciesid");
             data->mJob      = rset->get<uint8>("mJob");
             data->sJob      = rset->get<uint8>("sJob");
             data->spellList = rset->get<uint16>("spellList");
@@ -356,7 +356,7 @@ auto LoadTrust(CCharEntity* PMaster, uint32 TrustID) -> CTrustEntity*
     PTrust->m_Pool         = trustData->pool;
     PTrust->packetName     = trustData->packet_name;
     PTrust->m_name_prefix  = trustData->name_prefix;
-    PTrust->m_Family       = trustData->m_Family;
+    PTrust->m_Species      = trustData->m_Species;
     PTrust->m_MobSkillList = trustData->m_MobSkillList;
     PTrust->HPscale        = trustData->HPscale;
     PTrust->MPscale        = trustData->MPscale;
@@ -499,7 +499,7 @@ void LoadTrustStatsAndSkills(CTrustEntity* PTrust)
 
     // HP/MP ========================
     // This is the same system as used in charutils.cpp, but modified
-    // to use parts from mob_family_system instead of hardcoded player
+    // to use parts from mob_species_system instead of hardcoded player
     // race tables.
 
     // http://ffxi-stat-calc.sourceforge.net/cgi-bin/ffxistats.cgi?mode=document

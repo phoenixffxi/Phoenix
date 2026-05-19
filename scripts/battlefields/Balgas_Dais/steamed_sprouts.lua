@@ -63,6 +63,7 @@ content.groups =
             },
         },
 
+        superlink = true,
         allDeath = utils.bind(content.handleAllMonstersDefeated, content),
     },
 }

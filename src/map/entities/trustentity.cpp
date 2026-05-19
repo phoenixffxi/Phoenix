@@ -34,6 +34,7 @@
 #include "ai/states/weaponskill_state.h"
 #include "attack.h"
 #include "enmity_container.h"
+#include "mob_modifier.h"
 #include "mob_spell_container.h"
 #include "mob_spell_list.h"
 #include "packets/entity_set_name.h"
@@ -66,6 +67,12 @@ CTrustEntity::CTrustEntity(CCharEntity* PChar)
 CTrustEntity::~CTrustEntity()
 {
     TracyZoneScoped;
+}
+
+auto CTrustEntity::getShieldSize() -> int8
+{
+    const auto shieldSizeMod = static_cast<int8>(getMobMod(MOBMOD_TRUST_SHIELD_SIZE));
+    return shieldSizeMod > 0 ? shieldSizeMod : m_defaultShieldSize;
 }
 
 void CTrustEntity::PostTick()
@@ -119,6 +126,14 @@ void CTrustEntity::Spawn()
     // we need to skip CMobEntity's spawn because it calculates stats (and our stats are already calculated)
     CBattleEntity::Spawn();
     luautils::OnMobSpawn(this);
+
+    // Recompute derived HP/MP after spawn-time modifiers (e.g. HPP/MPP)
+    // and force current HP/MP to max so trusts start in a fully synchronized state.
+    UpdateHealth();
+    health.hp = GetMaxHP();
+    health.mp = GetMaxMP();
+    updatemask |= UPDATE_HP;
+
     static_cast<CCharEntity*>(PMaster)->pushPacket<CEntitySetNamePacket>(this);
 }
 

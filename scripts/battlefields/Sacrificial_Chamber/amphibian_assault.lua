@@ -65,6 +65,7 @@ content.groups =
             },
         },
 
+        superlinkGroup = 1,
         allDeath = handleDeath,
     },
 
@@ -76,6 +77,7 @@ content.groups =
             { sacrificialChamberID.mob.QULL_THE_FALLSTOPPER + 17 }, -- Sahagins Wyvern
         },
 
+        superlink = true,
         spawned = false,
         allDeath = handleDeath,
     },

@@ -275,7 +275,7 @@ g_mixins.job_special = function(jobSpecialMob)
         local ability = job2hr[mJob]
 
         if mJob == xi.job.RNG then
-            ability = familyEES[mob:getFamily()]
+            ability = familyEES[mob:getSpecies()]
         elseif mJob == xi.job.SMN and mob:isInDynamis() then
             ability = xi.mobSkill.ASTRAL_FLOW_MAAT
         end

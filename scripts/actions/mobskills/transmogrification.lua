@@ -1,6 +1,6 @@
 -----------------------------------
 --  Transmogrification
---  Description: Activates a shield to absorb all incoming physical damage.
+--  Description: Activates a physical shield that converts damage taken to HP. Absorbs 100% of physical damage.
 --  Type: Physical
 -----------------------------------
 ---@type TMobSkill
@@ -15,8 +15,7 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
 end
 
 mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
-    xi.mobskills.mobBuffMove(mob, xi.effect.PHYSICAL_SHIELD, 3, 0, 30)
-    skill:setMsg(xi.msg.basic.NONE)
+    skill:setMsg(xi.mobskills.mobBuffMove(mob, xi.effect.PHYSICAL_SHIELD, 2, 0, 30))
 
     return 0
 end

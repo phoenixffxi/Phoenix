@@ -57,7 +57,7 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     end
 
     -- Find proper pet skill
-    local petFamily = pet:getFamily()
+    local petFamily = pet:getSpecies()
     local skillId   = xi.mobSkill.SEARING_LIGHT_1 -- Default to Searing Light if not found below
 
     for mobSkillId, petFamilyList in pairs(petAstralFlowAbility) do

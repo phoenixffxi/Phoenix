@@ -7,10 +7,6 @@
 ---@type TMobEntity
 local entity = {}
 
-entity.onMobInitialize = function(mob)
-    mob:setMobMod(xi.mobMod.SUPERLINK, 1)
-end
-
 entity.onMobSpellChoose = function(mob, target, spellId)
     local spellList =
     {

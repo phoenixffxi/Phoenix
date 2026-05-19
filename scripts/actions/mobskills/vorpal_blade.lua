@@ -12,11 +12,11 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     -- Handle Ghrah family humanoid form.
     -- If not in Paladin form, then ignore.
     if
-        mob:getSuperFamily() == xi.mobSuperFamily.GHRAH and
+        mob:getFamily() == xi.mobFamily.GHRAH and
         mob:getAnimationSub() ~= 1
     then
         return 1
-    elseif mob:getSuperFamily() == xi.mobSuperFamily.MAMOOL_JA then
+    elseif mob:getFamily() == xi.mobFamily.MAMOOL_JA then
         -- Handle Mamool Ja BLU
         if
             mob:getAnimationSub() == 0 and

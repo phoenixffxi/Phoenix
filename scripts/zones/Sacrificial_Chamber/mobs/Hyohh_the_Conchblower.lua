@@ -20,7 +20,6 @@ entity.onMobInitialize = function(mob)
     mob:setMobMod(xi.mobMod.MAGIC_COOL, 20)
     mob:setMod(xi.mod.LIGHT_SLEEP_RES_RANK, 4)
     mob:setMod(xi.mod.DARK_SLEEP_RES_RANK, 4)
-    mob:setMobMod(xi.mobMod.SUPERLINK, 1)
 end
 
 entity.onMobSpellChoose = function(mob, target, spellId)

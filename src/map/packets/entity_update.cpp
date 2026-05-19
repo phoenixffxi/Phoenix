@@ -587,7 +587,8 @@ void CEntityUpdatePacket::updateWith(CBaseEntity* PEntity, ENTITYUPDATE type, ui
         std::memcpy(start, name.c_str(), maxLength);
     }
 
-    if (packet->SendFlg.General)
+    //  Don't overwrite data for model size and hitbox size from look string on NPCs
+    if (packet->SendFlg.General && (PEntity->objtype == TYPE_PC || PEntity->objtype == TYPE_PET || PEntity->objtype == TYPE_MOB))
     {
         packet->Flags1.GraphSize = PEntity->modelSize;
         // For some reason, SE reused a player struct where this "g" value is the hitbox size.

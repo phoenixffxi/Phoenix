@@ -10,7 +10,6 @@ local entity = {}
 
 entity.onMobInitialize = function(mob)
     mob:setMobMod(xi.mobMod.ADD_EFFECT, 1)
-    mob:setMobMod(xi.mobMod.SUPERLINK, 1)
 end
 
 entity.onMobSpawn = function(mob)

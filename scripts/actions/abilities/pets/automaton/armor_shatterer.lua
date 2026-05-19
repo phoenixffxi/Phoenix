@@ -1,11 +1,13 @@
 -----------------------------------
 -- Armor Shatterer
+-- Description: Delivers a fourfold attack. Additional Effect: Defense Down. Effect duration varies with TP.
 -----------------------------------
 ---@type TAbilityAutomaton
 local abilityObject = {}
 
 abilityObject.onAutomatonAbilityCheck = function(target, automaton, skill)
     local master = automaton:getMaster()
+
     if not master then
         return
     end
@@ -14,25 +16,43 @@ abilityObject.onAutomatonAbilityCheck = function(target, automaton, skill)
 end
 
 abilityObject.onAutomatonAbility = function(target, automaton, skill, master, action)
-    local params =
-    {
-        numHits = 2,
-        atkmulti = 2.25,
-        accBonus = 50,
-        ftpMod = { 6.0, 6.0, 6.0 },
-        dex_wsc = 0.5,
-    }
+    local params = {}
 
-    local damage = xi.autows.doAutoRangedWeaponskill(automaton, target, 0, params, skill:getTP(), true, skill, action)
+    params.baseDamage       = xi.automaton.getRangedBaseDamage(automaton)
+    params.numHits          = 4
+    params.fTP              = { 6.0, 6.0, 6.0 }
+    params.dex_wSC          = 0.50
+    params.attackMultiplier = { 1.25, 1.25, 1.25 }
+    params.accuracyModifier = { 50, 50, 50 }
+    params.attackType       = xi.attackType.RANGED
+    params.damageType       = xi.damageType.PIERCING
+    params.shadowBehavior   = xi.mobskills.shadowBehavior.NUMSHADOWS_4
+    params.skipParry        = true
+    params.skipGuard        = true
+    params.skipBlock        = true
 
-    if damage > 0 then
-        local bonusduration = 1 + 0.00033 * (skill:getTP() - 1000)
-        if not target:hasStatusEffect(xi.effect.DEFENSE_DOWN) then
-            target:addStatusEffect(xi.effect.DEFENSE_DOWN, { power = 15, duration = 90 * bonusduration, origin = automaton })
-        end
+    local duration = math.floor(60 + 3 * skill:getTP() / 100)
+
+    -- Flame Holder Adjustment
+    local flameHolderfTP = automaton:getMod(xi.mod.WEAPONSKILL_DAMAGE_BASE) / 100
+    if flameHolderfTP > 0 then
+        params.fTP =
+        {
+            params.fTP[1] * flameHolderfTP,
+            params.fTP[2] * flameHolderfTP,
+            params.fTP[3] * flameHolderfTP,
+        }
     end
 
-    return damage
+    local info = xi.mobskills.mobRangedMove(automaton, target, skill, action, params)
+
+    if xi.mobskills.processDamage(automaton, target, skill, action, info) then
+        target:takeDamage(info.damage, automaton, info.attackType, info.damageType)
+
+        xi.mobskills.mobStatusEffectMove(automaton, target, xi.effect.DEFENSE_DOWN, 15, 0, duration)
+    end
+
+    return info.damage
 end
 
 return abilityObject

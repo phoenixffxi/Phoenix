@@ -3,7 +3,7 @@
 -- Description: Petrifies targets within a fan-shaped area.
 -- Type: Breath
 -- Ignores Shadows
--- Range: Unknown cone
+-- Range: 15.0 yalms
 -----------------------------------
 ---@type TMobSkill
 local mobskillObject = {}

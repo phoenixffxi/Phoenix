@@ -1065,6 +1065,16 @@ xi.mobSkill =
 
     -- HUNDRED_FISTS                 = 2020,
 
+    TENEBROUS_MIST                = 2022,
+    THUNDERSTRIKE                 = 2023,
+    TOURBILLION                   = 2024,
+    DREADSTORM                    = 2025,
+    FOSSILIZING_BREATH            = 2026,
+    PLAGUE_SWIPE                  = 2027,
+    FULMINATION                   = 2028,
+
+    ROAR_KHIMAIRA                 = 2030,
+
     DAZE                          = 2066,
     KNOCKOUT                      = 2067,
 
@@ -1225,9 +1235,9 @@ xi.mobSkill =
 
     CROSS_REAVER_3                = 3706, -- Ark Angel HM Trust
 
-    ARROGANCE_INCARNATE_2         = 3710, -- Ark Angel EV Trust
-
-    DOMINION_SLASH_2              = 3712, -- Ark Angel EV Trust
+    ARROGANCE_INCARNATE_TRUST     = 3710, -- Ark Angel EV Trust
+    DOMINION_SLASH_TRUST          = 3712, -- Ark Angel EV Trust
+    SHIELD_STRIKE_TRUST           = 3714, -- Ark Angel EV Trust
 
     ARROGANCE_INCARNATE_3         = 3728,
 

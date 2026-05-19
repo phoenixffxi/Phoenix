@@ -9,6 +9,10 @@
 local abilityObject = {}
 
 abilityObject.onAbilityCheck = function(player, target, ability)
+    if player:getMP() == 0 then
+        return xi.msg.basic.CANNOT_PERFORM, 0
+    end
+
     return 0, 0
 end
 

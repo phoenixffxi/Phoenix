@@ -182,6 +182,8 @@ local function normalizePhysicalSkillParams(skillParams)
         result[paramName] = utils.defaultIfNil(skillParams[paramName], defaultValue)
     end
 
+    result.baseDamage = skillParams.baseDamage
+
     return result
 end
 

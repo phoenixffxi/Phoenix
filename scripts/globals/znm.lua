@@ -89,13 +89,13 @@ end
 
 -- Main interest objective
 
-xi.znm.isCurrentSuperFamily = function(plateData)
-    local superFamily     = plateData.superFamilyId
+xi.znm.isCurrentFamily = function(plateData)
+    local family          = plateData.familyId
     local currectInterest = xi.znm.getSanrakusInterest()
     local interestRow     = xi.znm.SANRAKUS_INTEREST[currectInterest]
 
-    if superFamily == interestRow.superFamily then
-        -- Handle elementals as all have same superFamily
+    if family == interestRow.family then
+        -- Handle elementals as all have same family
         if currectInterest >= 45 and currectInterest <= 51 then
             if plateData.signature ~= interestRow.name then
                 return false
@@ -110,11 +110,11 @@ end
 
 -- Secondary interest objective
 xi.znm.isCurrentEcosystem = function(plateData)
-    local superFamily     = plateData.superFamilyId
+    local family          = plateData.familyId
     local currectInterest = xi.znm.getSanrakusInterest()
     local interestRow     = xi.znm.SANRAKUS_INTEREST[currectInterest]
 
-    if utils.contains(superFamily, interestRow.ecoSystem) then
+    if utils.contains(family, interestRow.ecoSystem) then
         return true
     end
 
@@ -129,9 +129,9 @@ xi.znm.calculatePlateZeni = function(player, plateData)
     if xi.znm.isCurrentFauna(plateData) then
         zeni = zeni + xi.znm.SOULPLATE_FAUNA
         bonus = 'Fauna'
-    elseif xi.znm.isCurrentSuperFamily(plateData) then
+    elseif xi.znm.isCurrentFamily(plateData) then
         zeni = zeni + xi.znm.SOULPLATE_INTEREST
-        bonus = 'superFamily'
+        bonus = 'family'
     elseif xi.znm.isCurrentEcosystem(plateData) then
         zeni = zeni + xi.znm.SOULPLATE_ECOSYSTEM
         bonus = 'ecoSystem'
@@ -168,7 +168,7 @@ xi.znm.soultrapper.onItemCheck = function(target, item, param, caster)
     -- can not be used on non mobs or Structure type mobs
     if
         not target:isMob() or
-        (target:getFamily() >= 370 and target:getFamily() <= 379) -- All structures
+        (target:getSpecies() >= 370 and target:getSpecies() <= 379) -- All structures
     then
         return xi.msg.basic.ITEM_CANNOT_USE_TARGET
     end
@@ -226,14 +226,14 @@ xi.znm.soultrapper.onItemUse = function(target, player, item)
         local plate = player:addItem({ id = xi.item.SOUL_PLATE, silent = true })
         if plate then
             plate:setExData({
-                signature     = target:getName(),
-                zoneId        = target:getZoneID(),
-                superFamilyId = target:getSuperFamily(),
-                poolId        = target:getPool(),
-                level         = target:getMainLvl(),
-                quality       = quality,
-                feralSkill    = skillIndex,
-                feralPoints   = skillEntry.fp,
+                signature   = target:getName(),
+                zoneId      = target:getZoneID(),
+                familyId    = target:getFamily(),
+                poolId      = target:getPool(),
+                level       = target:getMainLvl(),
+                quality     = quality,
+                feralSkill  = skillIndex,
+                feralPoints = skillEntry.fp,
             })
         end
 
@@ -273,13 +273,13 @@ xi.znm.soultrapper.getZeniValue = function(target, player)
     zeni = zeni * 1 + math.abs(hpp - 100) / 6
 
     if
-        target:getFamily() == xi.mobSpecies.EUVHI and
+        target:getSpecies() == xi.mobSpecies.EUVHI and
         target:getZoneID() == 33
     then -- Dahak and Aw'euvhi
         zeni = zeni + xi.znm.SOULPLATE_UNIQUE_AMOUNT
     elseif
-        target:getFamily() == xi.mobSpecies.CHIGOE or
-        target:getFamily() == xi.mobSpecies.DJIGGA
+        target:getSpecies() == xi.mobSpecies.CHIGOE or
+        target:getSpecies() == xi.mobSpecies.DJIGGA
     then -- chigoe penalty
         zeni = zeni - xi.znm.SOULPLATE_UNIQUE_AMOUNT
     -- Generic NM/Rarity Component

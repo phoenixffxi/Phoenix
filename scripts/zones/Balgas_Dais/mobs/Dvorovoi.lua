@@ -8,7 +8,6 @@ local entity = {}
 
 entity.onMobInitialize = function(mob)
     mob:setMobMod(xi.mobMod.MAGIC_COOL, 60)
-    mob:setMobMod(xi.mobMod.SUPERLINK, 1)
 end
 
 -- Dvorovoi uses Paralyga, Blindga, and Flood randomly as spells.
