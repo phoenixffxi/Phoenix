@@ -10496,7 +10496,7 @@ INSERT INTO `mob_groups` VALUES (27,4097,139,'Undefeatable_Sappdapp',0,128,0,430
 INSERT INTO `mob_groups` VALUES (28,2670,139,'Minds-eyed_Klugwug',0,128,0,5200,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (29,723,139,'Chlevnik',0,128,0,60000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (30,1500,139,'Gerjis',0,128,0,5200,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (31,3026,139,'Orcish_Onager',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (31,3026,139,'Orcish_Onager',0,128,0,5000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (32,1100,139,'Dragonian_Berzerker',0,128,0,8250,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (33,1101,139,'Dragonian_Minstrel',0,128,0,8250,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (34,230,139,'Aries',0,128,0,12400,12600,0,NULL);
