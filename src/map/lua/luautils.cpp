@@ -1989,6 +1989,8 @@ void OnZoneIn(CCharEntity* PChar)
         return;
     }
 
+    PChar->m_zoneInCutscene = false;
+
     CZone*      prevZone    = zoneutils::GetZone(PChar->loc.prevzone);
     std::string prevZoneStr = "Unknown";
     if (prevZone)
@@ -2024,6 +2026,14 @@ void OnZoneIn(CCharEntity* PChar)
     else if (result.get_type() == sol::type::number)
     {
         PChar->currentEvent->eventId = result.get<int32>();
+    }
+
+    // On zone-in events
+    if (PChar->currentEvent->eventId >= 0)
+    {
+        PChar->currentEvent->type = CUTSCENE;
+        PChar->m_zoneInCutscene   = true;
+        PChar->setLocked(true);
     }
 }
 

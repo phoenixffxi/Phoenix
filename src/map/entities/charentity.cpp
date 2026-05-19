@@ -118,9 +118,10 @@ CCharEntity::CCharEntity()
     eventPreparation = new EventPrep();
     currentEvent     = new EventInfo();
 
-    inSequence = false;
-    gotMessage = false;
-    m_Locked   = false;
+    inSequence       = false;
+    gotMessage       = false;
+    m_Locked         = false;
+    m_zoneInCutscene = false;
 
     accid        = 0;
     m_GMlevel    = 0;
@@ -2921,7 +2922,8 @@ void CCharEntity::endCurrentEvent()
     currentEvent->reset();
     eventPreparation->reset();
     setLocked(false);
-    m_Substate = CHAR_SUBSTATE::SUBSTATE_NONE;
+    m_zoneInCutscene = false;
+    m_Substate       = CHAR_SUBSTATE::SUBSTATE_NONE;
     tryStartNextEvent();
 }
 
