@@ -42,7 +42,20 @@ xi.dynamis.generalInfo = function(mob, modelSize)
     mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 150)
     mob:setRoamFlags(xi.roamFlag.SCRIPTED)
 
-    mob:setModelSize(modelSize or 2)
+    mob:setMobMod(xi.mobMod.DETECTION, bit.bor(xi.detects.SIGHT, xi.detects.HEARING))
+    mob:setMobMod(xi.mobMod.SIGHT_RANGE, 12)
+    mob:setMobMod(xi.mobMod.SOUND_RANGE, 4)
+
+    mob:setModelSize(modelSize)
+    -- mob:setStatRank(xi.stat.STR, xi.statRank.A)
+    -- mob:setStatRank(xi.stat.DEX, xi.statRank.A)
+    -- mob:setStatRank(xi.stat.VIT, xi.statRank.A)
+    -- mob:setStatRank(xi.stat.AGI, xi.statRank.A)
+    -- mob:setStatRank(xi.stat.INT, xi.statRank.A)
+    -- mob:setStatRank(xi.stat.MND, xi.statRank.A)
+    -- mob:setStatRank(xi.stat.CHR, xi.statRank.A)
+    -- mob:setStatRank(xi.stat.DEF, xi.statRank.A)
+
 
     -- TODO: figure out DRG wyvern calls later
     local job = mob:getMainJob()
@@ -279,7 +292,7 @@ xi.dynamis.onMobDisengage = function(mob)
     local spawnPos = mob:getSpawnPos()
     mob:timer(3000, function(mobArg)
         -- Check if mob is far from spawn position
-        if mobArg:checkDistance(spawnPos) > 5 then
+        if mobArg:checkDistance(spawnPos) > 1 then
         -- Return to original spawn position
             mobArg:pathThrough({ spawnPos }, xi.path.flag.COORDS)
         end
@@ -507,21 +520,6 @@ local function calculateLineSpawnPosition(statuePos, lineSpawnConfig, spawnedCou
     return spawnX, spawnY, spawnZ, shouldSetSpawn
 end
 
-local function setPetModelSize(mobToSpawn, mainSize)
-    if string.find(mobToSpawn:getName(), 'Nightmare') then
-        if mainSize > 1 then
-            mobToSpawn:setModelSize(mainSize - 1)
-        else
-            mobToSpawn:setModelSize(1)
-        end
-    elseif string.find(mobToSpawn:getName(), 'Hydra') then
-        -- Size 3 does not work for Hydra, max size is 2
-        mobToSpawn:setModelSize(2)
-    else
-        mobToSpawn:setModelSize(mainSize)
-    end
-end
-
 xi.dynamis.spawnNextMobsOnce = function(statue, count, target, checkForceSpawn)
     debugPrint('Spawning next mobs once...')
     if
@@ -569,7 +567,11 @@ xi.dynamis.spawnNextMobsOnce = function(statue, count, target, checkForceSpawn)
 
             -- Sets the "pet" model sizes to one below its master
             local mainSize = statue:getModelSize()
-            setPetModelSize(mobToSpawn, mainSize)
+            if string.find(mobToSpawn:getName(), 'Nightmare') then
+                if mainSize > 1 then
+                    mobToSpawn:setModelSize(mainSize - 1)
+                end
+            end
 
             spawnedCount = spawnedCount + 1
             i = i + 1
