@@ -17107,6 +17107,147 @@ void CLuaBaseEntity::setMobLevel(uint8 level, sol::optional<bool> recover)
 }
 
 /************************************************************************
+ *  Function: getStatRank()
+ *  Purpose : Returns a Mob's rank value for a base stat
+ *  Example : local strRank = mob:getStatRank(xi.stat.STR)
+ *  Notes   : Primary stats (STR-CHR) use ranks A-G (1-7).
+ *            ATT/DEF/ACC use ranks A-E (1-5).
+ ************************************************************************/
+
+uint8 CLuaBaseEntity::getStatRank(uint8 statType)
+{
+    if (m_PBaseEntity->objtype != TYPE_MOB)
+    {
+        ShowWarning("getStatRank: invalid entity type (%s).", m_PBaseEntity->getName());
+        return 0;
+    }
+
+    auto* PMob = static_cast<CMobEntity*>(m_PBaseEntity);
+
+    switch (statType)
+    {
+        case 1:
+            return PMob->strRank; // STR
+        case 2:
+            return PMob->dexRank; // DEX
+        case 3:
+            return PMob->vitRank; // VIT
+        case 4:
+            return PMob->agiRank; // AGI
+        case 5:
+            return PMob->intRank; // INT
+        case 6:
+            return PMob->mndRank; // MND
+        case 7:
+            return PMob->chrRank; // CHR
+        case 8:
+            return PMob->attRank; // ATT
+        case 9:
+            return PMob->defRank; // DEF
+        case 10:
+            return PMob->accRank; // ACC
+        default:
+            ShowWarning("getStatRank: unsupported stat type (%d) for mob (%s).", statType, m_PBaseEntity->getName());
+            return 0;
+    }
+}
+
+/************************************************************************
+ *  Function: setStatRank()
+ *  Purpose : Updates a Mob's rank value for a base stat
+ *  Example : mob:setStatRank(xi.stat.STR, xi.rank.A)
+ *  Notes   : Must be called in onMobInitialize, before CalculateMobStats runs on spawn.
+ *            If you call this onMobSpawn or while the mob is alive the changes will take effect on the NEXT spawn.
+ *            Primary stats go to Rank G (7)
+ *            ATT/DEF/ACC only go to Rank E (5)
+ ************************************************************************/
+
+void CLuaBaseEntity::setStatRank(uint8 statType, uint8 rank)
+{
+    // Only allow stat ranks to be set on mobs for now
+    if (m_PBaseEntity->objtype != TYPE_MOB)
+    {
+        ShowWarning("setStatRank: invalid entity type (%s).", m_PBaseEntity->getName());
+        return;
+    }
+
+    // Only allow stat ranks to be changed while the mob is not actively spawned (dead or unspawned).
+    // CalculateMobStats runs on each Spawn(), so changes made while isDead() take effect on the next spawn.
+    auto* PMob = static_cast<CMobEntity*>(m_PBaseEntity);
+    if (!PMob->isDead())
+    {
+        ShowWarning("setStatRank: called on a live mob (id: %d, name: %s). Stat changes will take effect on the next spawn.", m_PBaseEntity->id, m_PBaseEntity->getName());
+    }
+
+    // Allow us to set ATT/DEF/ACC as well.
+    // Primary stats go to Rank G (7)
+    // ATT/DEF/ACC only go to Rank E (5)
+    uint8 maxRank = 0;
+
+    switch (statType)
+    {
+        case 1: // STR
+        case 2: // DEX
+        case 3: // VIT
+        case 4: // AGI
+        case 5: // INT
+        case 6: // MND
+        case 7: // CHR
+            maxRank = 7;
+            break;
+        case 8:  // ATT
+        case 9:  // DEF
+        case 10: // ACC
+            maxRank = 5;
+            break;
+        default:
+            ShowWarning(
+                "setStatRank: unsupported stat type (%d) for mob (%s).", statType, m_PBaseEntity->getName());
+            return;
+    }
+
+    if (rank == 0 || rank > maxRank)
+    {
+        ShowWarning("setStatRank: invalid rank (%d) for stat type (%d) on mob (%s). Valid range is 1-%d.", rank, statType, m_PBaseEntity->getName(), maxRank);
+        return;
+    }
+
+    switch (statType)
+    {
+        case 1:
+            PMob->strRank = rank; // STR
+            break;
+        case 2:
+            PMob->dexRank = rank; // DEX
+            break;
+        case 3:
+            PMob->vitRank = rank; // VIT
+            break;
+        case 4:
+            PMob->agiRank = rank; // AGI
+            break;
+        case 5:
+            PMob->intRank = rank; // INT
+            break;
+        case 6:
+            PMob->mndRank = rank; // MND
+            break;
+        case 7:
+            PMob->chrRank = rank; // CHR
+            break;
+        case 8:
+            PMob->attRank = rank; // ATT
+            break;
+        case 9:
+            PMob->defRank = rank; // DEF
+            break;
+        case 10:
+            PMob->accRank = rank; // ACC
+            break;
+    }
+}
+
+/************************************************************************
  *  Function: getEcosystem()
  *  Purpose : Returns integer value of system associated with an Entity
  *  Example : if pet:getEcosystem() ~= xi.ecosystem.ELEMENTAL then -- Not an elemental
@@ -20496,6 +20637,8 @@ void CLuaBaseEntity::Register()
 
     // Mob Entity-Specific
     SOL_REGISTER("setMobLevel", CLuaBaseEntity::setMobLevel);
+    SOL_REGISTER("getStatRank", CLuaBaseEntity::getStatRank);
+    SOL_REGISTER("setStatRank", CLuaBaseEntity::setStatRank);
     SOL_REGISTER("getEcosystem", CLuaBaseEntity::getEcosystem);
     SOL_REGISTER("getFamily", CLuaBaseEntity::getFamily);
     SOL_REGISTER("getSpecies", CLuaBaseEntity::getSpecies);
