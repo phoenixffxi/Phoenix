@@ -51,6 +51,7 @@ void GP_CLI_COMMAND_EVENTEND::process(MapSession* PSession, CCharEntity* PChar) 
             if (result != -1 && PChar->currentEvent->hasCutsceneOption(result))
             {
                 PChar->setLocked(true);
+                PChar->currentEvent->canSkip = false;
             }
 
             luautils::OnEventUpdate(PChar, eventId, result);

@@ -63,6 +63,7 @@ struct EventInfo : EventPrep
     std::vector<int32> cutsceneOptions;
     uint16             interruptText = 0;
     uint32             eventFlags    = 0;
+    bool               canSkip       = false;
 
     bool hasCutsceneOption(int32 _option)
     {
@@ -80,6 +81,7 @@ struct EventInfo : EventPrep
         textTable  = -1;
         eventFlags = 0;
         type       = NORMAL;
+        canSkip    = false;
     }
 };
 
