@@ -55,8 +55,6 @@ xi.dynamis.generalInfo = function(mob, modelSize)
     -- mob:setStatRank(xi.stat.MND, xi.statRank.A)
     -- mob:setStatRank(xi.stat.CHR, xi.statRank.A)
     -- mob:setStatRank(xi.stat.DEF, xi.statRank.A)
-
-
     -- TODO: figure out DRG wyvern calls later
     local job = mob:getMainJob()
     if
@@ -84,7 +82,13 @@ xi.dynamis.onSharedEngage = function(mob, target)
     local mobID  = mob:getID()
 
     mob:setMobMod(xi.mobMod.MAGIC_DELAY, math.random(5, 15)) -- Random magic delay to make the casts delayed
-    mob:stun(3000) -- Used to make the mob not move at all for 3 seconds
+
+    -- Inside statues (lineSpawns.inside) are not stunned; they aggro instantly
+    local engageLineSpawn = xi.dynamis.lineSpawns and xi.dynamis.lineSpawns[zoneId] and xi.dynamis.lineSpawns[zoneId][mobID]
+    local spawnOnTopStatue  = engageLineSpawn and engageLineSpawn.inside and engageLineSpawn.inside[1] == true
+    if not spawnOnTopStatue then
+        mob:stun(3000) -- Used to make the mob not move at all for 3 seconds
+    end
 
     -- Check for mobs on aggro conditions
     xi.dynamis.spawnAggroStatues(mob, target)
@@ -411,7 +415,12 @@ xi.dynamis.onNMDeath = function(mob, player, optParams)
 
             -- If all conditions are met, spawn and set the var to prevent respawn
             if allRequiredVarsMet and spawnCheck.spawn and spawnCheck.spawnedVar then
-                xi.dynamis.spawnWave(spawnCheck.spawn)
+                local spawn = spawnCheck.spawn
+                if type(spawn) == 'function' then
+                    spawn = spawn()
+                end
+
+                xi.dynamis.spawnWave(spawn)
                 zone:setLocalVar(spawnCheck.spawnedVar, 1)
             end
         end
@@ -538,8 +547,9 @@ xi.dynamis.spawnNextMobsOnce = function(statue, count, target, checkForceSpawn)
     local lineSpawnConfig = xi.dynamis.lineSpawns and
         xi.dynamis.lineSpawns[zoneId] and
         xi.dynamis.lineSpawns[zoneId][statueId]
+    local spawnOnTop     = lineSpawnConfig and lineSpawnConfig.inside and lineSpawnConfig.inside[1] == true
     local spawnedCount = 0
-    local i = 1
+    local i            = 1
 
     while spawnedCount < count do
         local mobId = statueId + i
@@ -556,14 +566,15 @@ xi.dynamis.spawnNextMobsOnce = function(statue, count, target, checkForceSpawn)
             ---@cast mobToSpawn CBaseEntity
             mobToSpawn:setMobMod(xi.mobMod.SUPERLINK, statueId)
             mobToSpawn:setRoamFlags(xi.roamFlag.SCRIPTED)
-            local spawnX, spawnY, spawnZ, shouldSetSpawn = calculateLineSpawnPosition(statuePos, lineSpawnConfig, spawnedCount, mobToSpawn:getSpawnPos())
 
-            if shouldSetSpawn then
-                mobToSpawn:setSpawn(spawnX, spawnY, spawnZ, statuePos.rot)
+            if spawnOnTop then
+                mobToSpawn:setSpawn(statuePos.x, statuePos.y, statuePos.z, statuePos.rot)
+            else
+                local spawnX, spawnY, spawnZ, shouldSetSpawn = calculateLineSpawnPosition(statuePos, lineSpawnConfig, spawnedCount, mobToSpawn:getSpawnPos())
+                if shouldSetSpawn then
+                    mobToSpawn:setSpawn(spawnX, spawnY, spawnZ, statuePos.rot)
+                end
             end
-
-            mobToSpawn:spawn()
-            mobToSpawn:setLocalVar('spawnedFromMaster', 1)
 
             -- Sets the "pet" model sizes to one below its master
             local mainSize = statue:getModelSize()
@@ -573,32 +584,53 @@ xi.dynamis.spawnNextMobsOnce = function(statue, count, target, checkForceSpawn)
                 end
             end
 
-            spawnedCount = spawnedCount + 1
-            i = i + 1
+            if spawnOnTop then
+                -- Spawn 1.5 seconds apart at the statue's position; aggro immediately, no stun or look-at timer.
+                local capturedMob   = mobToSpawn
+                local capturedDelay = spawnedCount * 1500
+                statue:timer(capturedDelay, function(_statueArg)
+                    if not capturedMob or capturedMob:isSpawned() then
+                        return
+                    end
 
-            -- One-shot force spawns call this without a target, so only normal engage pulls adds in.
-            if target then
-                mobToSpawn:updateEnmity(target)
+                    capturedMob:spawn()
+
+                    capturedMob:setLocalVar('spawnedFromMaster', 1)
+                    if target then
+                        capturedMob:updateEnmity(target)
+                    end
+                end)
+            else
+                mobToSpawn:spawn()
+                mobToSpawn:setLocalVar('spawnedFromMaster', 1)
+
+                -- One-shot force spawns call this without a target, so only normal engage pulls adds in.
+                if target then
+                    mobToSpawn:updateEnmity(target)
+                end
+
+                mobToSpawn:setAutoAttackEnabled(false)
+                mobToSpawn:setMagicCastingEnabled(false)
+                mobToSpawn:setMobAbilityEnabled(false)
+
+                mobToSpawn:stun(randomStunTime)
+                mobToSpawn:timer(3000, function(mobArg)
+                    if not mobArg then
+                        return
+                    end
+
+                    if target then
+                        mobArg:lookAt(target:getPos())
+                    end
+
+                    mobArg:setAutoAttackEnabled(true)
+                    mobArg:setMagicCastingEnabled(true)
+                    mobArg:setMobAbilityEnabled(true)
+                end)
             end
 
-            mobToSpawn:setAutoAttackEnabled(false)
-            mobToSpawn:setMagicCastingEnabled(false)
-            mobToSpawn:setMobAbilityEnabled(false)
-
-            mobToSpawn:stun(randomStunTime)
-            mobToSpawn:timer(3000, function(mobArg)
-                if not mobArg then
-                    return
-                end
-
-                if target then
-                    mobArg:lookAt(target:getPos())
-                end
-
-                mobArg:setAutoAttackEnabled(true)
-                mobArg:setMagicCastingEnabled(true)
-                mobArg:setMobAbilityEnabled(true)
-            end)
+            spawnedCount = spawnedCount + 1
+            i = i + 1
         end
     end
 end

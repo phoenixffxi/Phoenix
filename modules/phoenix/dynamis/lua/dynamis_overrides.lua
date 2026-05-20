@@ -81,7 +81,7 @@ local mobNames =
         { 'Adamantking_Effigy',   mobType.STATUE, 1 },
         { 'AaNyu_Dismantler',     mobType.NORMAL, 3 },
         { 'BeEbo_Tortoisedriver', mobType.NORMAL, 3 },
-        { 'Effigy_Shield',        mobType.NORMAL, 2 },
+        { 'Effigy_Shield',        mobType.NORMAL, 3 },
         { 'GiPha_Manameister',    mobType.NORMAL, 3 },
         { 'GuNhi_Noondozer',      mobType.NORMAL, 3 },
         { 'KoDho_Cannonball',     mobType.NORMAL, 3 },
