@@ -31,7 +31,7 @@ m:addOverride('xi.actions.weaponskills.split_shot.onUseWeaponSkill', function(pl
     params.numHits             = 1
     params.ftpMod              = { 1.00, 1.00, 1.00 }
     params.agi_wsc             = 0.3
-    params.ignoredDefense      = { 0.00, 0.35, 0.50 }
+    params.ignoredDefense      = { 0.00, 0.375, 0.75 }
     params.rangedAccuracyBonus = 30
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doRangedWeaponskill(player, target, wsID, params, tp, action, primary)
@@ -46,7 +46,7 @@ m:addOverride('xi.actions.weaponskills.sniper_shot.onUseWeaponSkill', function(p
     params.numHits    = 1
     params.ftpMod     = { 1.00, 1.00, 1.00 }
     params.agi_wsc    = 0.3
-    params.critVaries = { 0.10, 0.30, 0.50 }
+    params.critVaries = { 0.20, 0.50, 1.00 }
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doRangedWeaponskill(player, target, wsID, params, tp, action, primary)
 
@@ -98,7 +98,7 @@ m:addOverride('xi.actions.weaponskills.heavy_shot.onUseWeaponSkill', function(pl
     params.numHits    = 1
     params.ftpMod     = { 3.50, 3.50, 3.50 }
     params.agi_wsc    = 0.3
-    params.critVaries = { 0.10, 0.30, 0.50 }
+    params.critVaries = { 0.20, 0.50, 0.90 }
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doRangedWeaponskill(player, target, wsID, params, tp, action, primary)
     return tpHits, extraHits, criticalHit, damage

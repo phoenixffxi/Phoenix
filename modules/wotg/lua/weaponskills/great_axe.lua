@@ -80,7 +80,7 @@ m:addOverride('xi.actions.weaponskills.keen_edge.onUseWeaponSkill', function(pla
     params.numHits    = 1
     params.ftpMod     = { 1.00, 1.00, 1.00 }
     params.str_wsc    = 0.35
-    params.critVaries = { 0.40, 0.60, 0.80 }
+    params.critVaries = { 0.50, 0.75, 1.00 }
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
     return tpHits, extraHits, criticalHit, damage

@@ -7,14 +7,14 @@ zones[xi.zone.APOLLYON] =
 {
     text =
     {
-        ITEM_CANNOT_BE_OBTAINED       = 6384, -- You cannot obtain the <item>. Come back after sorting your inventory.
-        ITEM_OBTAINED                 = 6390, -- Obtained: <item>.
-        GIL_OBTAINED                  = 6391, -- Obtained <number> gil.
-        KEYITEM_OBTAINED              = 6393, -- Obtained key item: <keyitem>.
-        CARRIED_OVER_POINTS           = 7001, -- You have carried over <number> login point[/s].
-        LOGIN_CAMPAIGN_UNDERWAY       = 7002, -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!
-        LOGIN_NUMBER                  = 7003, -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
-        MEMBERS_LEVELS_ARE_RESTRICTED = 7023, -- Your party is unable to participate because certain members' levels are restricted.
+        ITEM_CANNOT_BE_OBTAINED       = 6385, -- You cannot obtain the <item>. Come back after sorting your inventory.
+        ITEM_OBTAINED                 = 6393, -- Obtained: <item>.
+        GIL_OBTAINED                  = 6394, -- Obtained <number> gil.
+        KEYITEM_OBTAINED              = 6396, -- Obtained key item: <keyitem>.
+        CARRIED_OVER_POINTS           = 7004, -- You have carried over <number> login point[/s].
+        LOGIN_CAMPAIGN_UNDERWAY       = 7005, -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!
+        LOGIN_NUMBER                  = 7006, -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
+        MEMBERS_LEVELS_ARE_RESTRICTED = 7026, -- Your party is unable to participate because certain members' levels are restricted.
         TIME_IN_THE_BATTLEFIELD_IS_UP = 7065, -- You have exceeded the time limit. Exiting Limbus now.
         PARTY_MEMBERS_ARE_ENGAGED     = 7066, -- You have clearance to enter Limbus, but cannot enter while you or a party member is engaged in battle.
         HUM                           = 7078, -- You hear a faint hum.
@@ -27,7 +27,7 @@ zones[xi.zone.APOLLYON] =
         CHIP_TRADE                    = 7372, -- The light in the <item> has grown dim.
         TIME_EXTENDED                 = 7374, -- our time in Limbus has been extended <number> [minute/minutes].
         TIME_LEFT                     = 7375, -- ou have <number> [minute/minutes] left in Limbus.
-        CONQUEST_BASE                 = 7377, -- Tallying conquest results...
+        CONQUEST_BASE                 = 7071, -- Tallying conquest results...
         ENTERING_THE_BATTLEFIELD_FOR  = 7548, -- You have entered [SW Apollyon/NW Apollyon/SE Apollyon/NE Apollyon/Central Apollyon/CS Apollyon/CS Apollyon/Central Apollyon].
         GATE_OPEN                     = 7556, -- vortex materializes...
     },

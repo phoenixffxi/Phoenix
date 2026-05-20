@@ -31,13 +31,16 @@ m:addOverride('xi.actions.weaponskills.shoulder_tackle.onUseWeaponSkill', functi
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
 
-    local effectId      = xi.effect.STUN
-    local actionElement = xi.element.THUNDER
-    local power         = 1
-    local skillType     = xi.skill.HAND_TO_HAND
-    local resist        = xi.combat.magicHitRate.calculateResistRate(player, target, 0, skillType, 0, actionElement, 0, effectId, 0)
-    local duration      = math.floor(tp / 500 * resist)
-    xi.weaponskills.handleWeaponskillEffect(player, target, effectId, actionElement, damage, power, duration)
+    if math.random(1, 100) <= xi.weaponskills.fTP(tp, { 50, 75, 100 }) then
+        local effectId      = xi.effect.STUN
+        local actionElement = xi.element.THUNDER
+        local power         = 1
+        local skillType     = xi.skill.HAND_TO_HAND
+        local resist        = xi.combat.magicHitRate.calculateResistRate(player, target, 0, skillType, 0, actionElement, 0, effectId, 0)
+        local duration      = math.floor(4 * resist)
+
+        xi.weaponskills.handleWeaponskillEffect(player, target, effectId, actionElement, damage, power, duration)
+    end
 
     return tpHits, extraHits, criticalHit, damage
 end)
@@ -50,7 +53,7 @@ m:addOverride('xi.actions.weaponskills.one_inch_punch.onUseWeaponSkill', functio
     params.numHits        = 2
     params.ftpMod         = { 1.00, 1.00, 1.00 }
     params.vit_wsc        = 0.4
-    params.ignoredDefense = { 0.00, 0.30, 0.50 }
+    params.ignoredDefense = { 0.00, 0.375, 0.75 }
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
     return tpHits, extraHits, criticalHit, damage
@@ -65,7 +68,7 @@ m:addOverride('xi.actions.weaponskills.backhand_blow.onUseWeaponSkill', function
     params.ftpMod     = { 1.00, 1.00, 1.00 }
     params.str_wsc    = 0.3
     params.dex_wsc    = 0.3
-    params.critVaries = { 0.40, 0.60, 0.80 }
+    params.critVaries = { 0.30, 0.63, 0.96 }
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
     return tpHits, extraHits, criticalHit, damage
@@ -167,7 +170,7 @@ m:addOverride('xi.actions.weaponskills.ascetics_fury.onUseWeaponSkill', function
     params.numHits    = 2
     params.ftpMod     = { 1.00, 1.00, 1.00 }
     params.atkVaries  = { 2.00, 2.00, 2.00 }
-    params.critVaries = { 0.10, 0.20, 0.40 }
+    params.critVaries = { 0.20, 0.40, 0.80 }
     params.str_wsc    = 0.5
     params.vit_wsc    = 0.5
 
@@ -187,7 +190,7 @@ m:addOverride('xi.actions.weaponskills.stringing_pummel.onUseWeaponSkill', funct
     params.ftpMod     = { 0.75, 0.75, 0.75 }
     params.str_wsc    = 0.32
     params.vit_wsc    = 0.32
-    params.critVaries = { 0.15, 0.30, 0.45 }
+    params.critVaries = { 0.10, 0.22, 0.36 }
 
     -- Apply Aftermath
     xi.aftermath.addStatusEffect(player, tp, xi.slot.MAIN, xi.aftermath.type.MYTHIC)

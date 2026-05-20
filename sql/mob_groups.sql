@@ -3696,6 +3696,9 @@ INSERT INTO `mob_groups` VALUES (9,705,72,'Cheese_Hoarder_Gigiroon',0,128,460,15
 INSERT INTO `mob_groups` VALUES (10,243,72,'Armed_Gears',0,128,168,32000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (11,4594,72,'Wulgaru',0,128,2829,32000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (12,6757,72,'Vidmapire',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (13,7577,72,'Apex_Archaic_Cog',960,0,0,305000,0,0,'ROV');
+INSERT INTO `mob_groups` VALUES (14,7578,72,'Apex_Archaic_Cogs',960,0,0,305000,0,0,'ROV');
+INSERT INTO `mob_groups` VALUES (15,7579,72,'Panaiveriyamman',0,128,0,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Zhayolm_Remnants (Zone 73)
@@ -10493,7 +10496,7 @@ INSERT INTO `mob_groups` VALUES (27,4097,139,'Undefeatable_Sappdapp',0,128,0,430
 INSERT INTO `mob_groups` VALUES (28,2670,139,'Minds-eyed_Klugwug',0,128,0,5200,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (29,723,139,'Chlevnik',0,128,0,60000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (30,1500,139,'Gerjis',0,128,0,5200,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (31,3026,139,'Orcish_Onager',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (31,3026,139,'Orcish_Onager',0,128,0,5000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (32,1100,139,'Dragonian_Berzerker',0,128,0,8250,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (33,1101,139,'Dragonian_Minstrel',0,128,0,8250,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (34,230,139,'Aries',0,128,0,12400,12600,0,NULL);
@@ -12122,6 +12125,28 @@ INSERT INTO `mob_groups` VALUES (119,291,171,'Auroral_Alicorn',0,128,0,0,0,0,NUL
 INSERT INTO `mob_groups` VALUES (120,4699,171,'Nympha_Eunomia',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (121,4700,171,'Kalos_Eunomia',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (122,7167,171,'Goblin_Lansquenet',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (123,7555,171,'Apex_Lugcrawler',960,0,0,305000,0,0,'ROV');
+INSERT INTO `mob_groups` VALUES (124,7556,171,'Locus_Lugcrawler',960,0,0,305000,0,0,'ROV');
+INSERT INTO `mob_groups` VALUES (125,7557,171,'Apex_Hornfly',960,0,0,305000,0,0,'ROV');
+INSERT INTO `mob_groups` VALUES (126,7558,171,'Locus_Hornfly',960,0,0,305000,0,0,'ROV');
+INSERT INTO `mob_groups` VALUES (127,7559,171,'Apex_Worker_Lugcrawler',960,0,0,305000,0,0,'ROV');
+INSERT INTO `mob_groups` VALUES (128,7560,171,'Locus_Worker_Lugcrawler',960,0,0,305000,0,0,'ROV');
+INSERT INTO `mob_groups` VALUES (129,7561,171,'Apex_Mycelar',960,0,0,305000,0,0,'ROV');
+INSERT INTO `mob_groups` VALUES (130,7562,171,'Locus_Nest_Elytra',960,0,0,305000,0,0,'ROV');
+INSERT INTO `mob_groups` VALUES (131,7563,171,'Apex_Nest_Elytra',960,0,0,305000,0,0,'ROV');
+INSERT INTO `mob_groups` VALUES (132,7564,171,'Apex_Dragonfly',960,0,0,305000,0,0,'ROV');
+INSERT INTO `mob_groups` VALUES (133,7565,171,'Locus_Dragonfly',960,0,0,305000,0,0,'ROV');
+INSERT INTO `mob_groups` VALUES (134,7566,171,'Locus_Soldier_Lugcrawler',960,0,0,305000,0,0,'ROV');
+INSERT INTO `mob_groups` VALUES (135,7567,171,'Apex_Blazer_Elytra',960,0,0,305000,0,0,'ROV');
+INSERT INTO `mob_groups` VALUES (136,7568,171,'Locus_Blazer_Elytra',960,0,0,305000,0,0,'ROV');
+INSERT INTO `mob_groups` VALUES (137,7569,171,'Apex_Soldier_Lugcrawler',960,0,0,305000,0,0,'ROV');
+INSERT INTO `mob_groups` VALUES (138,7570,171,'Apex_Doom_Scorpion',960,0,0,305000,0,0,'ROV');
+INSERT INTO `mob_groups` VALUES (139,7571,171,'Apex_Fire_Elemental',960,0,0,305000,0,0,'ROV');
+INSERT INTO `mob_groups` VALUES (140,7572,171,'Apex_Water_Elemental',960,0,0,305000,0,0,'ROV');
+INSERT INTO `mob_groups` VALUES (141,7573,171,'Apex_Rumble_Lugcrawler',960,0,0,305000,0,0,'ROV');
+INSERT INTO `mob_groups` VALUES (142,7574,171,'Apex_Helm_Elytra',960,0,0,305000,0,0,'ROV');
+INSERT INTO `mob_groups` VALUES (143,7575,171,'Apex_Lugcrawler_Hunter',960,0,0,305000,0,0,'ROV');
+INSERT INTO `mob_groups` VALUES (144,7576,171,'Apex_Knight_Lugcrawler',960,0,0,305000,0,0,'ROV');
 
 -- ------------------------------------------------------------
 -- Zeruhn_Mines (Zone 172)

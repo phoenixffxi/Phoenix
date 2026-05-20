@@ -3660,6 +3660,18 @@ function CBaseEntity:setMobLevel(level, recover)
 end
 
 ---@nodiscard
+---@param statType integer
+---@return integer
+function CBaseEntity:getStatRank(statType)
+end
+
+---@param statType integer
+---@param rank integer
+---@return nil
+function CBaseEntity:setStatRank(statType, rank)
+end
+
+---@nodiscard
 ---@return integer
 function CBaseEntity:getEcosystem()
 end
