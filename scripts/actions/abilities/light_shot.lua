@@ -6,6 +6,15 @@
 ---@type TAbility
 local abilityObject = {}
 
+local diaInfo =
+{
+    [1] = 10,
+    [3] = 15,
+    [5] = 20,
+    [7] = 25,
+    [9] = 30,
+}
+
 abilityObject.onAbilityCheck = function(player, target, ability)
     --ranged weapon/ammo: You do not have an appropriate ranged weapon equipped.
     --no card: <name> cannot perform that action.
@@ -37,45 +46,7 @@ abilityObject.onUseAbility = function(player, target, ability, action)
         return xi.effect.SLEEP_I
     end
 
-    duration = duration * resist
-
-    local effects = {}
-
-    local dia = target:getStatusEffect(xi.effect.DIA)
-
-    if dia ~= nil then
-        table.insert(effects, dia)
-    end
-
-    local threnody = target:getStatusEffect(xi.effect.THRENODY)
-
-    if threnody ~= nil and threnody:getSubPower() == xi.mod.DARK_MEVA then
-        table.insert(effects, threnody)
-    end
-
-    if #effects > 0 then
-        local effect = effects[math.random(1, #effects)]
-        -- TODO: duration here overwrites all previous values, this logic needs to be verified
-        duration = effect:getDuration()
-        local startTime = effect:getStartTime()
-        local tick      = effect:getTick()
-        local power     = effect:getPower()
-        local subpower  = effect:getSubPower()
-        local tier      = effect:getTier()
-        local effectId  = effect:getEffectType()
-        local subId     = effect:getSubType()
-        power    = power * 1.5
-        subpower = subpower * 1.5
-        target:delStatusEffectSilent(effectId)
-        target:addStatusEffect(effectId, { power = power, duration = duration, origin = player, tick = tick, subType = subId, subPower = subpower, tier = tier })
-
-        local newEffect = target:getStatusEffect(effectId)
-        if newEffect then
-            newEffect:setStartTime(startTime)
-        end
-    end
-
-    if target:addStatusEffect(xi.effect.SLEEP_I, { power = 1, duration = duration, origin = player }) then
+    if target:addStatusEffect(xi.effect.SLEEP_I, { power = 1, duration = math.floor(duration * resist), origin = player }) then
         ability:setMsg(xi.msg.basic.JA_ENFEEB_IS)
     else
         ability:setMsg(xi.msg.basic.JA_NO_EFFECT_2)
@@ -83,6 +54,35 @@ abilityObject.onUseAbility = function(player, target, ability, action)
 
     local _ = player:delItem(xi.item.LIGHT_CARD, 1) or player:delItem(xi.item.TRUMP_CARD, 1)
     target:updateClaim(player)
+
+    -- Boost dia effect
+    local dia = target:getStatusEffect(xi.effect.DIA)
+    if not dia then
+        return xi.effect.SLEEP_I
+    end
+
+    local diaOwner    = dia:getOriginID()
+    local diaPower    = dia:getPower()
+    local diaSubpower = dia:getSubPower()
+    local diaTier     = dia:getTier()
+    local startTime   = dia:getStartTime()
+
+    -- Already boosted
+    if diaSubpower > diaInfo[diaTier] then
+        return xi.effect.SLEEP_I
+    end
+
+    diaPower    = diaPower + 1
+    diaSubpower = diaSubpower + math.floor(100 * 28 / 1024) -- TODO: Change ATTP, DEFP and similar mods from base 100 to base 10k
+
+    target:delStatusEffectSilent(xi.effect.DIA)
+    target:addStatusEffect(xi.effect.DIA, { power = diaPower, duration = dia:getDuration(), origin = player, tick = dia:getTick(), subType = dia:getSubType(), subPower = diaSubpower, tier = diaTier })
+
+    local newEffect = target:getStatusEffect(xi.effect.DIA)
+    if newEffect then
+        newEffect:setStartTime(startTime)
+        newEffect:setOriginID(diaOwner)
+    end
 
     return xi.effect.SLEEP_I
 end
