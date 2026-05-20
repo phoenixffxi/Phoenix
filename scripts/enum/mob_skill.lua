@@ -655,7 +655,7 @@ xi.mobSkill =
     ASTRAL_FLOW_MAAT              = 1023,
 
     DRAGON_BREATH_2               = 1041,
-
+    SUPER_BUFF                    = 1053,
     HOWL                          = 1062,
 
     -- EES_?                         = 1065,

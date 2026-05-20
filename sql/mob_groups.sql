@@ -9480,7 +9480,7 @@ INSERT INTO `mob_groups` VALUES (6,2442,127,'Lost_Soul_blm',300,1,1541,0,0,0,NUL
 INSERT INTO `mob_groups` VALUES (7,2585,127,'Master_Coeurl',900,0,1640,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (8,407,127,'Bhuta',300,1,264,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (9,387,127,'Behemoth',0,128,251,65000,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (10,2255,127,'King_Behemoth',0,128,1450,75000,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (10,2255,127,'King_Behemoth',0,128,1450,80000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (11,3135,127,'Picklix_Longindex',0,128,0,9400,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (12,2767,127,'Moxnix_Nightgoggle',0,128,0,8700,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (13,1074,127,'Doglix_Muttsnout',0,128,0,8500,8500,0,NULL);
@@ -9501,7 +9501,7 @@ INSERT INTO `mob_groups` VALUES (3,1341,128,'Fire_Elemental',300,4,831,0,0,0,NUL
 INSERT INTO `mob_groups` VALUES (4,71,128,'Air_Elemental',300,4,38,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (5,4125,128,'Valley_Manticore',300,0,1228,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (6,44,128,'Adamantoise',0,128,21,10000,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (7,268,128,'Aspidochelone',0,128,183,13000,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (7,268,128,'Aspidochelone',0,128,183,20000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (8,3643,128,'Skahnowa',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (9,6856,128,'Tolba',0,128,0,0,0,0,NULL);
 
