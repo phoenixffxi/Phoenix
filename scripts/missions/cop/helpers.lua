@@ -158,7 +158,6 @@ xi.cop.helpers.spireEventFinish = function(mission, player, csid, option, npc)
 
         player:addKeyItem(xi.ki.LIGHT_OF_HOLLA + promyvionId)
         player:messageSpecial(zones[player:getZoneID()].text.CANT_REMEMBER, xi.ki.LIGHT_OF_HOLLA + promyvionId)
-        player:addExp(1500)
         mission:setVar(player, 'Option', 0)
 
         local numCompletedPromyvions = xi.cop.helpers.numPromyvionCompleted(player)

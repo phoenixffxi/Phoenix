@@ -408,6 +408,7 @@ end
 --  - requiredKeyItems: Key items required to be able to enter the battlefield - these are removed upon entry unless 'keep = true' (optional)
 --  - title: Title given to players upon victory (optional)
 --  - grantXP: Amount of XP to grant upon victory (optional)
+--  - grantXPLockout: If true, players can only receive the grantXP once per day, resetting at JST midnight. (optional)
 --  - lossEventParams: Parameters given to the loss event (32002). Defaults to none. (optional)
 ---@diagnostic disable-next-line: duplicate-set-field
 function Battlefield:new(data)
@@ -436,6 +437,7 @@ function Battlefield:new(data)
 
     obj.title            = data.title
     obj.grantXP          = data.grantXP
+    obj.grantXPLockout   = data.grantXPLockout
     obj.levelCap         = data.levelCap or 0
     obj.allowSubjob      = (data.allowSubjob == nil or data.allowSubjob) or false
     obj.allowTrusts      = data.allowTrusts and data.allowTrusts or false
@@ -928,6 +930,14 @@ function Battlefield:onEventFinishWin(player, csid, option, npc)
     end
 
     if self.grantXP then
+        if self.grantXPLockout then
+            if self:getVar(player, 'XP') > GetSystemTime() then
+                return
+            end
+
+            self:setVar(player, 'XP', JstMidnight())
+        end
+
         player:addExp(self.grantXP)
     end
 end
