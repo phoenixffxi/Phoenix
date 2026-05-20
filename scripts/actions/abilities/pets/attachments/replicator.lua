@@ -7,16 +7,45 @@ local attachmentObject = {}
 attachmentObject.onEquip = function(pet)
     pet:addListener('AUTOMATON_ATTACHMENT_CHECK', 'ATTACHMENT_REPLICATOR', function(automaton, target)
         local master = automaton:getMaster()
-        local hpthreshold = (automaton:getLocalVar('damagegauge') > 0) and 75 or 50
 
-        if
-            master and
-            master:countEffect(xi.effect.WIND_MANEUVER) > 0 and
-            automaton:getHPP() <= hpthreshold and
-            not automaton:hasStatusEffect(xi.effect.BLINK)
-        then
-            automaton:useMobAbility(xi.automaton.abilities.REPLICATOR, automaton)
+        -- If no master, return.
+        if not master then
+            return
         end
+
+        -- If blink or copy image is still active, return.
+        if
+            automaton:hasStatusEffect(xi.effect.BLINK) or
+            automaton:hasStatusEffect(xi.effect.COPY_IMAGE)
+        then
+            return
+        end
+
+        local windManeuvers = master:countEffect(xi.effect.WIND_MANEUVER)
+
+        -- If no wind maneuvers, return.
+        if windManeuvers == 0 then
+            return
+        end
+
+        -- If Replicator is on cooldown, return.
+        if automaton:hasRecast(xi.recast.ABILITY, xi.automaton.abilities.REPLICATOR) then
+            return
+        end
+
+        local activationThreshold = 50
+
+        -- If Damage Gauge is equipped, increase activation threshold to 75%.
+        if automaton:getLocalVar('damageGaugeEquipped') == 1 then
+            activationThreshold = 75
+        end
+
+        -- If HP is above activation threshold, return.
+        if automaton:getHPP() > activationThreshold then
+            return
+        end
+
+        automaton:useMobAbility(xi.automaton.abilities.REPLICATOR, automaton)
     end)
 end
 
