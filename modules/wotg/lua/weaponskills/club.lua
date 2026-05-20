@@ -50,13 +50,16 @@ m:addOverride('xi.actions.weaponskills.brainshaker.onUseWeaponSkill', function(p
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
 
     -- Handle status effect
-    local effectId      = xi.effect.STUN
-    local actionElement = xi.element.THUNDER
-    local power         = 1
-    local skillType     = xi.skill.CLUB
-    local resist        = xi.combat.magicHitRate.calculateResistRate(player, target, 0, skillType, 0, actionElement, 0, effectId, 0)
-    local duration      = math.floor(tp / 500 * resist)
-    xi.weaponskills.handleWeaponskillEffect(player, target, effectId, actionElement, damage, power, duration)
+    if math.random(1, 100) <= xi.weaponskills.fTP(tp, { 50, 75, 100 }) then
+        local effectId      = xi.effect.STUN
+        local actionElement = xi.element.THUNDER
+        local power         = 1
+        local skillType     = xi.skill.CLUB
+        local resist        = xi.combat.magicHitRate.calculateResistRate(player, target, 0, skillType, 0, actionElement, 0, effectId, 0)
+        local duration      = math.floor(4 * resist)
+
+        xi.weaponskills.handleWeaponskillEffect(player, target, effectId, actionElement, damage, power, duration)
+    end
 
     return tpHits, extraHits, criticalHit, damage
 end)
@@ -97,13 +100,17 @@ m:addOverride('xi.actions.weaponskills.skullbreaker.onUseWeaponSkill', function(
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
 
     -- Handle status effect
-    local effectId      = xi.effect.INT_DOWN
-    local actionElement = xi.element.FIRE
-    local power         = 10
-    local skillType     = xi.skill.CLUB
-    local resist        = xi.combat.magicHitRate.calculateResistRate(player, target, 0, skillType, 0, actionElement, 0, effectId, 0)
-    local duration      = math.floor(140 * resist)
-    xi.weaponskills.handleWeaponskillEffect(player, target, effectId, actionElement, damage, power, duration)
+    if math.random(1, 100) <= xi.weaponskills.fTP(tp, { 50, 75, 100 }) then
+        local effectId      = xi.effect.INT_DOWN
+        local actionElement = xi.element.FIRE
+        local power         = 10
+        local skillType     = xi.skill.CLUB
+        local resist        = xi.combat.magicHitRate.calculateResistRate(player, target, 0, skillType, 0, actionElement, 0, effectId, 0)
+        local duration      = math.floor(140 * resist)
+
+        xi.weaponskills.handleWeaponskillEffect(player, target, effectId, actionElement, damage, power, duration)
+    end
+
     return tpHits, extraHits, criticalHit, damage
 end)
 
@@ -146,7 +153,7 @@ m:addOverride('xi.actions.weaponskills.hexa_strike.onUseWeaponSkill', function(p
     params.ftpMod     = { 1.00, 1.00, 1.00 }
     params.str_wsc    = 0.2
     params.mnd_wsc    = 0.2
-    params.critVaries = { 0.10, 0.30, 0.50 }
+    params.critVaries = { 0.05, 0.10, 0.25 }
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
     return tpHits, extraHits, criticalHit, damage

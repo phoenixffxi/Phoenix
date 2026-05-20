@@ -99,7 +99,7 @@ m:addOverride('xi.actions.weaponskills.vorpal_scythe.onUseWeaponSkill', function
     params.numHits    = 1
     params.ftpMod     = { 1.00, 1.00, 1.00 }
     params.str_wsc    = 0.35
-    params.critVaries = { 0.40, 0.60, 0.80 }
+    params.critVaries = { 0.30, 0.63, 0.96 }
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
 

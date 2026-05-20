@@ -35,7 +35,6 @@ return {
     ['Mhao_Kehtsoruho'] = { event = 10173 },
     ['Migliorozz']      = { event = 10026 },
     ['Mojuro-Nojuro']   = { event = 128 },
-    ['Moritz']          = { event = 10027 },
     ['Nekha_Shachaba']  = { event = 123 },
     ['Nevela']          = { event = 69 },
     ['Olgald']          = { event = 10122 },

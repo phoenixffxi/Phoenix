@@ -1,4 +1,4 @@
------------------------------------
+﻿-----------------------------------
 -- Unique Events
 -----------------------------------
 xi = xi or {}
@@ -24,4 +24,5 @@ xi.uniqueEvent =
     MHAURA_INTRODUCTION    =  8,
     HYRIA_INTRODUCTION     =  9,
     VANESSA_ENM_COMPLETE   = 10,
+    ENM_TIMER_NPCS_INTRO   = 11,
 }

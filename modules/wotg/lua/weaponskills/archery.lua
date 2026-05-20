@@ -33,7 +33,7 @@ m:addOverride('xi.actions.weaponskills.piercing_arrow.onUseWeaponSkill', functio
     params.ftpMod              = { 1.00, 1.00, 1.00 }
     params.str_wsc             = 0.16
     params.agi_wsc             = 0.25
-    params.ignoredDefense      = { 0.00, 0.35, 0.50 }
+    params.ignoredDefense      = { 0.00, 0.375, 0.75 }
     params.rangedAccuracyBonus = 30
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doRangedWeaponskill(player, target, wsID, params, tp, action, primary)
@@ -49,7 +49,7 @@ m:addOverride('xi.actions.weaponskills.dulling_arrow.onUseWeaponSkill', function
     params.ftpMod     = { 1.00, 1.00, 1.00 }
     params.str_wsc    = 0.16
     params.agi_wsc    = 0.25
-    params.critVaries = { 0.10, 0.30, 0.50 }
+    params.critVaries = { 0.20, 0.50, 1.00 }
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doRangedWeaponskill(player, target, wsID, params, tp, action, primary)
 
@@ -104,7 +104,7 @@ m:addOverride('xi.actions.weaponskills.arching_arrow.onUseWeaponSkill', function
     params.ftpMod              = { 3.50, 3.50, 3.50 }
     params.str_wsc             = 0.16
     params.agi_wsc             = 0.25
-    params.critVaries          = { 0.10, 0.30, 0.50 }
+    params.critVaries          = { 0.20, 0.50, 0.90 }
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doRangedWeaponskill(player, target, wsID, params, tp, action, primary)
     return tpHits, extraHits, criticalHit, damage

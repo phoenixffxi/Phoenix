@@ -1,4 +1,4 @@
------------------------------------
+﻿-----------------------------------
 -- Darkness Named
 -- Promathia 3-5
 -----------------------------------
@@ -46,6 +46,7 @@ mission.sections =
                             npcUtil.tradeHasExactly(trade, xi.item.GRAY_CHIP)
                         )
                     then
+                        -- ToDo Uncaptured CS 51 seems to imply you traded the wrong item
                         return mission:progressEvent(52, xi.settings.main.GIL_RATE * 500)
                     end
                 end,

@@ -57,13 +57,16 @@ m:addOverride('xi.actions.weaponskills.shadowstitch.onUseWeaponSkill', function(
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
 
     -- Handle status effect
-    local effectId      = xi.effect.BIND
-    local actionElement = xi.element.ICE
-    local power         = 1
-    local skillType     = xi.skill.DAGGER
-    local resist        = xi.combat.magicHitRate.calculateResistRate(player, target, 0, skillType, 0, actionElement, 0, effectId, 0)
-    local duration      = math.floor((5 + tp / 200) * resist)
-    xi.weaponskills.handleWeaponskillEffect(player, target, effectId, actionElement, damage, power, duration)
+    if math.random(1, 100) <= xi.weaponskills.fTP(tp, { 50, 75, 100 }) then
+        local effectId      = xi.effect.BIND
+        local actionElement = xi.element.ICE
+        local power         = 1
+        local skillType     = xi.skill.DAGGER
+        local resist        = xi.combat.magicHitRate.calculateResistRate(player, target, 0, skillType, 0, actionElement, 0, effectId, 0)
+        local duration      = math.floor((5 + tp / 200) * resist)
+
+        xi.weaponskills.handleWeaponskillEffect(player, target, effectId, actionElement, damage, power, duration)
+    end
 
     return tpHits, extraHits, criticalHit, damage
 end)
@@ -207,7 +210,7 @@ m:addOverride('xi.actions.weaponskills.evisceration.onUseWeaponSkill', function(
     params.numHits    = 5
     params.ftpMod     = { 1.00, 1.00, 1.00 }
     params.dex_wsc    = 0.3
-    params.critVaries = { 0.10, 0.30, 0.50 }
+    params.critVaries = { 0.10, 0.24, 0.48 }
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
     return tpHits, extraHits, criticalHit, damage
@@ -261,13 +264,14 @@ m:addOverride('xi.actions.weaponskills.mordant_rime.onUseWeaponSkill', function(
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
     -- Handle status effect
-    local effectId      = xi.effect.WEIGHT
-    local actionElement = xi.element.WIND
-    local skillType     = xi.skill.DAGGER
-    local resist        = xi.combat.magicHitRate.calculateResistRate(player, target, 0, skillType, 0, actionElement, 0, effectId, 0)
-    if math.random(1, 100) <= tp / 30 * resist then
+    if math.random(1, 100) <= xi.weaponskills.fTP(tp, { 50, 75, 100 }) then
+        local effectId      = xi.effect.WEIGHT
+        local actionElement = xi.element.WIND
         local power         = 25
+        local skillType     = xi.skill.DAGGER
+        local resist        = xi.combat.magicHitRate.calculateResistRate(player, target, 0, skillType, 0, actionElement, 0, effectId, 0)
         local duration      = math.floor(60 * resist)
+
         xi.weaponskills.handleWeaponskillEffect(player, target, effectId, actionElement, damage, power, duration)
     end
 

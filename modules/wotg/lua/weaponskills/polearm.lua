@@ -63,13 +63,14 @@ m:addOverride('xi.actions.weaponskills.leg_sweep.onUseWeaponSkill', function(pla
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
 
     -- Handle status effect
-    local effectId      = xi.effect.STUN
-    local actionElement = xi.element.THUNDER
-    local skillType     = xi.skill.POLEARM
-    local resist        = xi.combat.magicHitRate.calculateResistRate(player, target, 0, skillType, 0, actionElement, 0, effectId, 0)
-    if math.random(1, 100) <= tp / 30 * resist then
+    if math.random(1, 100) <= xi.weaponskills.fTP(tp, { 33, 66, 100 }) then
+        local effectId      = xi.effect.STUN
+        local actionElement = xi.element.THUNDER
         local power         = 1
+        local skillType     = xi.skill.POLEARM
+        local resist        = xi.combat.magicHitRate.calculateResistRate(player, target, 0, skillType, 0, actionElement, 0, effectId, 0)
         local duration      = math.floor(4 * resist)
+
         xi.weaponskills.handleWeaponskillEffect(player, target, effectId, actionElement, damage, power, duration)
     end
 
@@ -101,7 +102,7 @@ m:addOverride('xi.actions.weaponskills.vorpal_thrust.onUseWeaponSkill', function
     params.ftpMod     = { 1.00, 1.00, 1.00 }
     params.str_wsc    = 0.2
     params.agi_wsc    = 0.2
-    params.critVaries = { 0.30, 0.60, 0.90 }
+    params.critVaries = { 0.30, 0.63, 0.96 }
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
     return tpHits, extraHits, criticalHit, damage
@@ -172,7 +173,7 @@ m:addOverride('xi.actions.weaponskills.drakesbane.onUseWeaponSkill', function(pl
     params.numHits    = 4
     params.ftpMod     = { 1.00, 1.00, 1.00 }
     params.str_wsc    = 0.5
-    params.critVaries = { 0.1, 0.3, 0.5 }
+    params.critVaries = { 0.1, 0.2, 0.3 }
     params.atkVaries  = { 0.8125, 0.8125, 0.8125 }
 
     -- Apply Aftermath

@@ -79,6 +79,7 @@ struct EventInfo : EventPrep
         strings.clear();
         textTable  = -1;
         eventFlags = 0;
+        type       = NORMAL;
     }
 };
 

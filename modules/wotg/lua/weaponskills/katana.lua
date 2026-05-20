@@ -15,7 +15,7 @@ m:addOverride('xi.actions.weaponskills.blade_rin.onUseWeaponSkill', function(pla
     params.ftpMod     = { 1.00, 1.00, 1.00 }
     params.str_wsc    = 0.2
     params.dex_wsc    = 0.2
-    params.critVaries = { 0.40, 0.60, 0.80 }
+    params.critVaries = { 0.30, 0.63, 0.96 }
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
     return tpHits, extraHits, criticalHit, damage
@@ -125,7 +125,7 @@ m:addOverride('xi.actions.weaponskills.blade_jin.onUseWeaponSkill', function(pla
     params.ftpMod     = { 1.00, 1.00, 1.00 }
     params.str_wsc    = 0.3
     params.dex_wsc    = 0.3
-    params.critVaries = { 0.00, 0.20, 0.40 }
+    params.critVaries = { 0.10, 0.20, 0.40 }
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
     return tpHits, extraHits, criticalHit, damage

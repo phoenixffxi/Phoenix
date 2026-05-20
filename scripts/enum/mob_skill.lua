@@ -392,6 +392,10 @@ xi.mobSkill =
     FLAME_ARMOR                   =  632,
     HOWL_BEHEMOTH                 =  633,
     FINAL_METEOR                  =  634, -- Final Meteor Chlevnik
+    BURST                         =  635,
+    FLAME_ARROW                   =  636,
+    FIREBOMB                      =  637,
+    BLASTBOMB                     =  638,
 
     RECOIL_DIVE_1                 =  641,
 

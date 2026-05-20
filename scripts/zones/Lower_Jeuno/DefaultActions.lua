@@ -15,7 +15,6 @@ return {
     ['Faursel']         = { event = 10065 },
     ['Garnev']          = { event = 207 },
     ['Geuhbe']          = { event = 10033 },
-    ['Ghebi_Damomohe']  = { event = 106, options = 4 },
     ['Greyson']         = { event = 20082 },
     ['Guide_Stone']     = { messageSpecial = ID.text.GUIDE_STONE },
     ['Gurdern']         = { event = 112 },
