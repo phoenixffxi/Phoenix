@@ -56182,6 +56182,154 @@ INSERT INTO `item_mods` VALUES (23650,31,84);   -- MEVA: 84
 INSERT INTO `item_mods` VALUES (23650,68,69);   -- EVA: 69
 INSERT INTO `item_mods` VALUES (23650,384,300); -- HASTE_GEAR: 300
 INSERT INTO `item_mods` VALUES (23650,858,90);  -- ARCANE_CIRCLE_DURATION: 90
+
+-- Hebenus Gilet
+INSERT INTO `item_mods` VALUES (23871,276,149); -- EQUIPMENT_ONLY_RACE: Hume M, Elvaan M, Tarutaru M, Galka
+
+-- Hebenus Boxers
+INSERT INTO `item_mods` VALUES (23872,276,149); -- EQUIPMENT_ONLY_RACE: Hume M, Elvaan M, Tarutaru M, Galka
+
+-- Hebenus Top
+INSERT INTO `item_mods` VALUES (23873,276,106); -- EQUIPMENT_ONLY_RACE: Hume F, Elvaan F, Tarutaru F, Mithra
+
+-- Hebenus Shorts
+INSERT INTO `item_mods` VALUES (23874,276,106); -- EQUIPMENT_ONLY_RACE: Hume F, Elvaan F, Tarutaru F, Mithra
+
+-- Maxixi Tiara +4
+INSERT INTO `item_mods` VALUES (23913,276,149); -- EQUIPMENT_ONLY_RACE: Hume M, Elvaan M, Tarutaru M, Galka
+
+-- Maxixi Tiara +4
+INSERT INTO `item_mods` VALUES (23914,276,106); -- EQUIPMENT_ONLY_RACE: Hume F, Elvaan F, Tarutaru F, Mithra
+
+-- Maxixi Casaque +4
+INSERT INTO `item_mods` VALUES (23958,276,149); -- EQUIPMENT_ONLY_RACE: Hume M, Elvaan M, Tarutaru M, Galka
+
+-- Maxixi Casaque +4
+INSERT INTO `item_mods` VALUES (23959,276,106); -- EQUIPMENT_ONLY_RACE: Hume F, Elvaan F, Tarutaru F, Mithra
+
+-- Maxixi Bangles +4
+INSERT INTO `item_mods` VALUES (24003,276,149); -- EQUIPMENT_ONLY_RACE: Hume M, Elvaan M, Tarutaru M, Galka
+
+-- Maxixi Bangles +4
+INSERT INTO `item_mods` VALUES (24004,276,106); -- EQUIPMENT_ONLY_RACE: Hume F, Elvaan F, Tarutaru F, Mithra
+
+-- Maxixi Tights +4
+INSERT INTO `item_mods` VALUES (24048,276,149); -- EQUIPMENT_ONLY_RACE: Hume M, Elvaan M, Tarutaru M, Galka
+
+-- Maxixi Tights +4
+INSERT INTO `item_mods` VALUES (24049,276,106); -- EQUIPMENT_ONLY_RACE: Hume F, Elvaan F, Tarutaru F, Mithra
+
+-- Maxixi Toe Sh. +4
+INSERT INTO `item_mods` VALUES (24093,276,149); -- EQUIPMENT_ONLY_RACE: Hume M, Elvaan M, Tarutaru M, Galka
+
+-- Maxixi Toe Sh. +4
+INSERT INTO `item_mods` VALUES (24094,276,106); -- EQUIPMENT_ONLY_RACE: Hume F, Elvaan F, Tarutaru F, Mithra
+
+-- CS Tunic +1
+INSERT INTO `item_mods` VALUES (24276,276,1); -- EQUIPMENT_ONLY_RACE: Hume M
+
+-- CS Vest +1
+INSERT INTO `item_mods` VALUES (24277,276,2); -- EQUIPMENT_ONLY_RACE: Hume F
+
+-- MG Jerkin +1
+INSERT INTO `item_mods` VALUES (24278,276,4); -- EQUIPMENT_ONLY_RACE: Elvaan M
+
+-- MG Bodice +1
+INSERT INTO `item_mods` VALUES (24279,276,8); -- EQUIPMENT_ONLY_RACE: Elvaan F
+
+-- WN Kaftan +1
+INSERT INTO `item_mods` VALUES (24280,276,48); -- EQUIPMENT_ONLY_RACE: Tarutaru M, Tarutaru F
+
+-- SV Separates +1
+INSERT INTO `item_mods` VALUES (24281,276,64); -- EQUIPMENT_ONLY_RACE: Mithra
+
+-- EL Surcoat +1
+INSERT INTO `item_mods` VALUES (24282,276,128); -- EQUIPMENT_ONLY_RACE: Galka
+
+-- CSM Gloves +1
+INSERT INTO `item_mods` VALUES (24283,276,1); -- EQUIPMENT_ONLY_RACE: Hume M
+
+-- CSF Gloves +1
+INSERT INTO `item_mods` VALUES (24284,276,2); -- EQUIPMENT_ONLY_RACE: Hume F
+
+-- MG Gauntlets +1
+INSERT INTO `item_mods` VALUES (24285,276,4); -- EQUIPMENT_ONLY_RACE: Elvaan M
+
+-- MG Gloves +1
+INSERT INTO `item_mods` VALUES (24286,276,8); -- EQUIPMENT_ONLY_RACE: Elvaan F
+
+-- WN Mittens +1
+INSERT INTO `item_mods` VALUES (24287,276,48); -- EQUIPMENT_ONLY_RACE: Tarutaru M, Tarutaru F
+
+-- SV Gauntlets +1
+INSERT INTO `item_mods` VALUES (24288,276,64); -- EQUIPMENT_ONLY_RACE: Mithra
+
+-- EL Bracers +1
+INSERT INTO `item_mods` VALUES (24289,276,128); -- EQUIPMENT_ONLY_RACE: Galka
+
+-- CS Slacks +1
+INSERT INTO `item_mods` VALUES (24290,276,1); -- EQUIPMENT_ONLY_RACE: Hume M
+
+-- CS Pants +1
+INSERT INTO `item_mods` VALUES (24291,276,2); -- EQUIPMENT_ONLY_RACE: Hume F
+
+-- MGM Chausses +1
+INSERT INTO `item_mods` VALUES (24292,276,4); -- EQUIPMENT_ONLY_RACE: Elvaan M
+
+-- MGF Chausses +1
+INSERT INTO `item_mods` VALUES (24293,276,8); -- EQUIPMENT_ONLY_RACE: Elvaan F
+
+-- WN Braccae +1
+INSERT INTO `item_mods` VALUES (24294,276,48); -- EQUIPMENT_ONLY_RACE: Tarutaru M, Tarutaru F
+
+-- SV Loincloth +1
+INSERT INTO `item_mods` VALUES (24295,276,64); -- EQUIPMENT_ONLY_RACE: Mithra
+
+-- EL Braguette +1
+INSERT INTO `item_mods` VALUES (24296,276,128); -- EQUIPMENT_ONLY_RACE: Galka
+
+-- CSM Boots +1
+INSERT INTO `item_mods` VALUES (24297,276,1); -- EQUIPMENT_ONLY_RACE: Hume M
+
+-- CSF Boots +1
+INSERT INTO `item_mods` VALUES (24298,276,2); -- EQUIPMENT_ONLY_RACE: Hume F
+
+-- MGM Ledelsens +1
+INSERT INTO `item_mods` VALUES (24299,276,4); -- EQUIPMENT_ONLY_RACE: Elvaan M
+
+-- MGF Ledelsens +1
+INSERT INTO `item_mods` VALUES (24300,276,8); -- EQUIPMENT_ONLY_RACE: Elvaan F
+
+-- WN Clomps +1
+INSERT INTO `item_mods` VALUES (24301,276,48); -- EQUIPMENT_ONLY_RACE: Tarutaru M, Tarutaru F
+
+-- SV Gaiters +1
+INSERT INTO `item_mods` VALUES (24302,276,64); -- EQUIPMENT_ONLY_RACE: Mithra
+
+-- EL Sandals +1
+INSERT INTO `item_mods` VALUES (24303,276,128); -- EQUIPMENT_ONLY_RACE: Galka
+
+-- Fancy Gilet
+INSERT INTO `item_mods` VALUES (25774,276,149); -- EQUIPMENT_ONLY_RACE: Hume M, Elvaan M, Tarutaru M, Galka
+
+-- Fancy Top
+INSERT INTO `item_mods` VALUES (25775,276,106); -- EQUIPMENT_ONLY_RACE: Hume F, Elvaan F, Tarutaru F, Mithra
+
+-- Iratsugo Happi
+INSERT INTO `item_mods` VALUES (25777,276,149); -- EQUIPMENT_ONLY_RACE: Hume M, Elvaan M, Tarutaru M, Galka
+
+-- Iratsume Happi
+INSERT INTO `item_mods` VALUES (25778,276,106); -- EQUIPMENT_ONLY_RACE: Hume F, Elvaan F, Tarutaru F, Mithra
+
+-- Fancy Trunks
+INSERT INTO `item_mods` VALUES (25838,276,149); -- EQUIPMENT_ONLY_RACE: Hume M, Elvaan M, Tarutaru M, Galka
+
+-- Fancy Shorts
+INSERT INTO `item_mods` VALUES (25839,276,106); -- EQUIPMENT_ONLY_RACE: Hume F, Elvaan F, Tarutaru F, Mithra
+
+-- Straw Hat
+INSERT INTO `item_mods` VALUES (27734,276,106); -- EQUIPMENT_ONLY_RACE: Hume F, Elvaan F, Tarutaru F, Mithra
+
 INSERT INTO `item_mods` VALUES (28230,1069,2);  -- ARCANE_CIRCLE_POTENCY: 2
 
 -- Totemic Gaiters +3
