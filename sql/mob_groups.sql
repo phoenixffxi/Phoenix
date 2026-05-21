@@ -4598,6 +4598,7 @@ INSERT INTO `mob_groups` VALUES (69,6758,79,'Shedu',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (70,0,79,'Vidhuwa_the_Wrathborn',0,128,0,0,0,0,'WOTG');
 INSERT INTO `mob_groups` VALUES (71,7299,79,'Chigoe_pet',0,128,466,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (72,7188,79,'Chigoe',300,0,466,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (73,7356,79,'Locus_Imp',60,0,0,267000,0,0,'TVR'); -- TODO: Drops, MP
 
 -- ------------------------------------------------------------
 -- Southern_San_dOria_[S] (Zone 80)
