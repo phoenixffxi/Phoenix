@@ -2537,6 +2537,8 @@ INSERT INTO `item_usable` VALUES (6716,'trust_magic_primer',1,1,0,0,0,0,0,0);   
 INSERT INTO `item_usable` VALUES (6717,'trust_magic_tome',1,1,0,0,0,0,0,0);                  -- TODO: verify animation
 INSERT INTO `item_usable` VALUES (6718,'copy_of_marjorys_thesis',1,1,0,0,0,0,0,0);           -- TODO: verify animation
 INSERT INTO `item_usable` VALUES (6719,'regines_fifth_eye',1,1,0,0,0,0,0,0);                 -- TODO: verify animation
+INSERT INTO `item_usable` VALUES (6720,'sack_of_beads',1,1,0,0,0,0,0,0);                     -- TODO: animation, animationTime, aoe
+INSERT INTO `item_usable` VALUES (6721,'large_sack_of_beads',1,1,0,0,0,0,0,0);               -- TODO: animation, animationTime, aoe
 INSERT INTO `item_usable` VALUES (10250,'moogle_suit',1,2,0,0,1,30,86400,0);
 INSERT INTO `item_usable` VALUES (10253,'decennial_coat_+1',1,2,0,0,1,30,86400,0);
 INSERT INTO `item_usable` VALUES (10254,'decennial_dress_+1',1,2,0,0,1,30,86400,0);
@@ -2962,6 +2964,7 @@ INSERT INTO `item_usable` VALUES (21370,'gobbie_goodie_bag',1,3,0,0,12,10,259200
 INSERT INTO `item_usable` VALUES (21485,'fomalhaut',1,2,0,0,1,10,3600,0); -- TODO: verify animation
 INSERT INTO `item_usable` VALUES (21760,'dispatchers_axe',1,1,0,0,1,30,3600,0);     -- TODO: verify animation
 INSERT INTO `item_usable` VALUES (21868,'sha_wujings_la._+1',1,2,0,0,1,30,72000,0); -- Dispenses: Distilled Water x 12
+INSERT INTO `item_usable` VALUES (21951,'shaded_moogle_rod_+1',1,1,0,0,1,30,3600,0);  -- TODO: animation, animationTime, aoe
 INSERT INTO `item_usable` VALUES (21997,'magicians_rod_+1',1,3,0,0,1,30,1800,0);    -- TODO: verify animation
 INSERT INTO `item_usable` VALUES (22003,'arthros_scepter',1,1,0,0,1,30,3600,0);     -- TODO: verify animation
 INSERT INTO `item_usable` VALUES (22018,'seika_uchiwa_+1',1,6,55,0,1,30,300,0);  -- Enchantment: Cool Breeze

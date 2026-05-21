@@ -3715,6 +3715,7 @@ INSERT INTO `item_weapon` VALUES (20652,'tizona',3,0,242,242,228,2,1,236,117,0);
 INSERT INTO `item_weapon` VALUES (20653,'almace',3,0,242,242,215,2,1,224,114,0);
 INSERT INTO `item_weapon` VALUES (20654,'almace',3,0,242,242,215,2,1,224,114,0);
 INSERT INTO `item_weapon` VALUES (20655,'archdukes_sword',3,0,0,0,0,2,1,240,144,0);       -- TODO: Not implemented
+INSERT INTO `item_weapon` VALUES (20656,'ja_ja_sword',3,0,0,0,0,2,1,233,1,0);             -- TODO: ilvl_skill/parry/macc, dmgType
 INSERT INTO `item_weapon` VALUES (20663,'ice_brand',3,0,0,0,0,2,1,264,201,0);             -- TODO: Not implemented
 INSERT INTO `item_weapon` VALUES (20664,'flametongue',3,0,0,0,0,2,1,264,201,0);           -- TODO: Not implemented
 INSERT INTO `item_weapon` VALUES (20665,'kam_lanaut_s_sword',3,0,0,0,0,2,1,240,1,0);      -- Kam'lanaut's sword: DMG:1 Delay:240
@@ -4557,6 +4558,7 @@ INSERT INTO `item_weapon` VALUES (21538,'lizard_fangs_+1',1,0,0,0,0,4,3,601,2,0)
 INSERT INTO `item_weapon` VALUES (21539,'dathaba_claws',1,0,0,0,0,4,3,546,129,0);       -- TODO: Not implemented
 INSERT INTO `item_weapon` VALUES (21540,'dragon_fangs',1,0,0,0,0,4,3,606,217,0);    -- TODO: Not implemented
 INSERT INTO `item_weapon` VALUES (21541,'premium_hearts',1,0,0,0,0,4,3,576,195,0);    -- TODO: Not implemented
+INSERT INTO `item_weapon` VALUES (21542,'ja_ja_mace',11,0,0,0,0,3,1,340,1,0);         -- TODO: ilvl_skill/parry/macc, dmgType
 INSERT INTO `item_weapon` VALUES (21554,'arasy_knife',2,0,242,242,188,1,1,183,94,0);
 INSERT INTO `item_weapon` VALUES (21555,'arasy_knife_+1',2,0,242,242,188,1,1,178,95,0);
 INSERT INTO `item_weapon` VALUES (21556,'beryllium_kris',2,0,228,228,188,1,1,192,125,0);  -- DMG:125 Delay:192
@@ -4826,6 +4828,7 @@ INSERT INTO `item_weapon` VALUES (21870,'exalted_spear_+1',8,0,228,228,188,1,1,3
 INSERT INTO `item_weapon` VALUES (21871,'raetic_halberd',8,0,242,242,215,1,1,396,264,0);    -- DMG:264 Delay:396
 INSERT INTO `item_weapon` VALUES (21872,'raetic_halberd_+1',8,0,242,242,215,1,1,385,265,0); -- DMG:265 Delay:385
 INSERT INTO `item_weapon` VALUES (21873,'ethereal_spear',8,0,0,0,0,1,1,480,1,0);         -- TODO: Not implemented
+INSERT INTO `item_weapon` VALUES (21874,'abyssbringer',8,0,0,0,0,1,1,396,1,0);           -- TODO: ilvl_skill/parry/macc, dmgType
 INSERT INTO `item_weapon` VALUES (21876,'wyrm_lance',8,0,242,242,228,1,1,507,338,0);        -- DMG:338 Delay:507
 INSERT INTO `item_weapon` VALUES (21877,'pteroslaver_lance',8,0,255,255,242,1,1,492,339,0); -- DMG:339 Delay:492
 INSERT INTO `item_weapon` VALUES (21878,'aram',8,0,269,269,255,1,1,492,340,0);              -- DMG:340 Delay:492
@@ -4875,7 +4878,9 @@ INSERT INTO `item_weapon` VALUES (21933,'yagyu_shortblade',9,0,0,0,0,2,1,227,1,0
 INSERT INTO `item_weapon` VALUES (21934,'yagyu_shortblade_+1',9,0,0,0,0,2,1,222,2,0);   -- TODO: Not implemented
 INSERT INTO `item_weapon` VALUES (21935,'dathaba_blade',9,0,0,0,0,2,1,190,126,0);       -- TODO: Not implemented
 INSERT INTO `item_weapon` VALUES (21936,'yagyu_darkblade',9,0,0,0,0,2,1,227,173,0);     -- TODO: Not implemented
+INSERT INTO `item_weapon` VALUES (21949,'shaded_moogle_rod',11,0,0,0,0,3,1,288,1,0);    -- TODO: ilvl_skill/parry/macc, dmgType
 INSERT INTO `item_weapon` VALUES (21950,'bud_rod',11,0,0,0,0,3,1,216,1,0);              -- TODO: Not implemented
+INSERT INTO `item_weapon` VALUES (21951,'shaded_moogle_rod_+1',11,0,0,0,0,3,1,280,2,0);  -- TODO: ilvl_skill/parry/macc, dmgType
 INSERT INTO `item_weapon` VALUES (21952,'zanmato_+2',10,0,0,0,0,2,1,464,354,0);         -- TODO: Not implemented
 INSERT INTO `item_weapon` VALUES (21953,'mutsu-no-kami_yoshiyuki',10,0,0,0,0,2,1,450,343,0);  -- TODO: Not implemented
 INSERT INTO `item_weapon` VALUES (21954,'amanomurakumo',10,0,269,269,228,2,1,437,308,0);
