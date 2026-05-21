@@ -7446,7 +7446,8 @@ INSERT INTO `mob_pools` VALUES (7350,'Succubus_Bats_Newton_Movalpolos','Succubus
 INSERT INTO `mob_pools` VALUES (7351,'Succubus_Bats_Uleguerand_Range','Succubus_Bats',181,0x0000040100000000000000000000000000000000,1,1,11,240,100,0,1,0,1,0,0,64,398,643,8,0,0,0,0,2015,47,1,16);
 INSERT INTO `mob_pools` VALUES (7352,'Nightmare_Bats_Newton_Movalpolos','Nightmare_Bats',181,0x0000040100000000000000000000000000000000,1,1,5,240,100,0,1,0,1,0,0,64,238,643,8,0,0,0,0,2015,47,1,16);
 INSERT INTO `mob_pools` VALUES (7353,'Nightmare_Bats_Uleguerand_Range','Nightmare_Bats',181,0x0000040100000000000000000000000000000000,1,1,5,240,100,0,1,0,1,0,0,64,238,643,8,0,0,0,0,2015,47,1,16);
--- 1 Unused space at 3687 or fresh blocks at 7354.
+INSERT INTO `mob_pools` VALUES (7354,'Macro_Test','Macro_Test',49,0x0000AF0100000000000000000000000000000000,1,1,1,240,100,0,0,0,0,2,0,0,0,0,0,0,0,32,0,0,0,0,10);
+-- 1 Unused space at 3687 or fresh blocks at 7355.
 
 -- Jug pet pools (skipped to allow keeping them sequential)
 INSERT INTO `mob_pools` VALUES (7500,'Pet_Sweet_Caroline','Pet_Sweet_Caroline',350,0x00008E0B00000000000000000000000000000000,2,2,1,480,100,0,0,0,0,8,0,32,605,129,0,0,0,0,0,766,178,0,12);

@@ -8005,6 +8005,7 @@ INSERT INTO `mob_groups` VALUES (68,0,105,'Hachiryu_Armor',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (69,0,105,'Omodaka_Armor',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (70,1642,105,'Goblin_Bounty_Hunter',300,0,1030,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (71,6570,105,'Wight_blm',300,1,2651,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (72,7354,105,'Macro_Test',0,0,0,0,0,0,'TVR');
 
 -- ------------------------------------------------------------
 -- North_Gustaberg (Zone 106)
@@ -8381,6 +8382,7 @@ INSERT INTO `mob_groups` VALUES (62,0,110,'Ubuginu_Armor',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (63,0,110,'Hachiryu_Armor',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (64,0,110,'Omodaka_Armor',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (65,6570,110,'Wight_blm',300,1,2651,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (66,7354,110,'Macro_Test',0,0,0,0,0,0,'TVR');
 
 -- ------------------------------------------------------------
 -- Beaucedine_Glacier (Zone 111)
@@ -9104,6 +9106,7 @@ INSERT INTO `mob_groups` VALUES (65,0,120,'Omodaka_Armor',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (66,1642,120,'Goblin_Bounty_Hunter',300,0,1030,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (67,6570,120,'Wight_blm',300,1,2651,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (68,6583,120,'Bashe',0,32,3142,3300,0,0,'WOTG');
+INSERT INTO `mob_groups` VALUES (69,7354,120,'Macro_Test',0,0,0,0,0,0,'TVR');
 
 -- ------------------------------------------------------------
 -- The_Sanctuary_of_ZiTah (Zone 121)
