@@ -13156,7 +13156,7 @@ INSERT INTO `mob_groups` VALUES (34,6890,191,'Celaeno',0,128,0,0,0,0,NULL);
 
 INSERT INTO `mob_groups` VALUES (1,372,192,'Battue_Bats',300,0,244,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (2,1737,192,'Goblin_Thug',300,0,1170,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (3,443,192,'Blade_Bat',300,0,461,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (3,7355,192,'Blade_Bat',300,0,461,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (4,1744,192,'Goblin_Weaver',300,0,1183,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (5,2475,192,'Magicked_Bones_club',300,0,2867,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (6,4915,192,'Troika_Bats',300,0,244,0,0,0,'ABYSSEA');
