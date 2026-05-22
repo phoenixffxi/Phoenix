@@ -67,7 +67,7 @@ xi.dynamis.spawnTable[zoneID] =
     [17539298] = { 3, false }, -- (52-Q)  | DRK, BRD
     [17539294] = { 2, true  }, -- (53-Q)  | WHM, NM
     [17539297] = { 0, false }, -- (54-Q)  |
-    [17539290] = { 2, false }, -- (55-Q)  | WHM
+    [17539290] = { 2, true  }, -- (55-Q)  | WHM
     [17539284] = { 1, false }, -- (56-Q)  | SMN
     [17539287] = { 1, false }, -- (57-Q)  | SMN
     [17539171] = { 3, false }, -- (58-Q)  | WAR, MNK, WHM
@@ -103,7 +103,7 @@ xi.dynamis.spawnTable[zoneID] =
     [17539085] = { 3, false }, -- (88-Q)  | MNK, MNK, DRK
     [17539089] = { 6, false }, -- (89-Q)  | WHM, WAR, RNG, MNK, BLM, RNG
     [17539077] = { 2, false }, -- (90-Q)  | PLD, WHM
-    [17539073] = { 2, false }, -- (91-Q)  | WHM
+    [17539073] = { 2, true  }, -- (91-Q)  | WHM
     [17539076] = { 0, false }, -- (92-Q)  |
     [17539080] = { 3, false }, -- (93-Q)  | DRG, THF, WHM
     [17539279] = { 0, false }, -- (94-Q)  |
@@ -122,8 +122,10 @@ xi.dynamis.spawnTable[zoneID] =
     [17539265] = { 2, false }, -- (107-Q) | DRG, MNK
     [17539272] = { 2, false }, -- (108-Q) | DRG, RDM
     [17539276] = { 2, false }, -- (109-Q) | PLD, BLM
-    [17539449] = { 5, true  }, -- (110-Q) | 5 NMs
-    [17539461] = { 5, true  }, -- (111-Q) | 5 NMs
+    [17539449] = { 0, false }, -- (110-Q) | 5 NMs
+    [17539455] = { 0, false }, -- 110-1 | 5 NMs
+    [17539461] = { 0, false }, -- 110-2 | 5 NMs
+    [17539470] = { 0, false }, -- 110-3) | with boss
     [17539471] = { 3, false }, -- (112-Q) | WAR, WAR, WAR
     [17539475] = { 3, false }, -- (113-Q) | BLM, BLM, BLM
     [17539479] = { 3, false }, -- (114-Q) | MNK, MNK, MNK
@@ -168,6 +170,7 @@ xi.dynamis.eyeColor[zoneID] =
     [17539229] = xi.dynamis.eye.GREEN, -- (38-Q) | DRK, MNK, WHM
     [17539228] = xi.dynamis.eye.BLUE , -- (39-Q) | DRG, MNK, WHM
     [17539227] = xi.dynamis.eye.BLUE , -- (41-Q) | WHM  **MAP HAS THEM SWAPPED THIS IS CORRECT
+    [17539158] = xi.dynamis.eye.GREEN, -- (67-Q) |
     [17539108] = xi.dynamis.eye.GREEN, -- (81-Q) | NIN
     [17539132] = xi.dynamis.eye.BLUE , -- (82-Q) | DRK, MNK, RDM
     [17539096] = xi.dynamis.eye.BLUE , -- (85-Q) | WAR, MNK, RDM
@@ -345,7 +348,7 @@ xi.bastok.mobs =
     ADAMANTKING_EFFIGY_041 = 17539227,
     VANGUARD_CONSTABLE_89  = 17539090,
     VANGUARD_VINDICATOR_89 = 17539091,
-    VANGUARD_MILITANT_89   = 17539093,
+    VANGUARD_MASON_89      = 17539092,
     -- NMs
     GUNHI_NOONDOZER        = 17539291,
     KODHO_CANNONBALL       = 17539156,
@@ -365,13 +368,51 @@ xi.dynamis.deathVarByMob[zoneID] =
     [xi.bastok.mobs.ZEVHO_FALLSPLITTER] = '[DYNA]ZeVhoKilled',
 }
 
+local bossTable =
+{
+    [1] =
+    {
+        xi.bastok.mobs.GUDHA_EFFIGY,
+        17539450, -- Effigy Shield
+        17539451, -- Effigy Shield
+        17539452, -- Effigy Shield
+        17539453, -- Effigy Shield
+        17539454, -- Effigy Shield
+        17539470, -- Statue
+    },
+    [2] =
+    {
+        xi.bastok.mobs.GUDHA_EFFIGY,
+        17539455, -- Statue
+        17539456, -- Effigy Shield
+        17539457, -- Effigy Shield
+        17539458, -- Effigy Shield
+        17539459, -- Effigy Shield
+        17539460, -- Effigy Shield
+    },
+    [3] =
+    {
+        xi.bastok.mobs.GUDHA_EFFIGY,
+        17539461, -- Statue
+        17539462, -- Effigy Shield
+        17539463, -- Effigy Shield
+        17539465, -- Effigy Shield
+        17539466, -- Effigy Shield
+        17539468, -- Effigy Shield
+    },
+}
+
 xi.dynamis.spawnCheck = xi.dynamis.spawnCheck or {}
 xi.dynamis.spawnCheck[zoneID] =
 {
     {
         -- Spawn the Mega Boss if all 3 NMs died
         requiredVars    = { '[DYNA]KoDhoKilled', '[DYNA]GiPhaKilled', '[DYNA]ZeVhoKilled', },
-        spawn           = { xi.bastok.mobs.GUDHA_EFFIGY },
+
+        spawn           = function()
+            return bossTable[math.random(1, #bossTable)]
+        end,
+
         spawnedVar      = '[DYNA]MegaBossSpawned',
     },
     {
@@ -388,46 +429,76 @@ xi.dynamis.aggro[zoneID] =
 {
     nonAggressive =
     {
-        -- Nothing
+        [17539294] = { 17539297 }, -- 53 spawns 54
     },
     aggressive =
     {
         [17539402] = { 17539405 }, -- Statue 25 spawns 26
         [17539385] = { 17539386, 17539389, 17539392 }, -- 28 spawns 29, 30, 31
         [17539085] = { 17539089 }, -- 88 spawns 89
+        [17539155] = { 17539158 }, -- 69 spawns 67
         [xi.bastok.mobs.GUDHA_EFFIGY] = { 17539461 }, -- Spawns 1 statue
     },
+}
+
+xi.dynamis.lineSpawns = xi.dynamis.lineSpawns or { }
+xi.dynamis.lineSpawns[zoneID] =
+{
+    -- Statue ID = { behind = { first mob distance, second mob distance } }, { side = { left distance, right distance } }, or { { xOffset, yOffset, zOffset }, ... }
+    [17539334] = { behind = { 3, 6, 9 } }, -- (035-Q) Mobs spawn behind
+    [17539402] = { behind = { 3, -3 } },   -- (025-Q) Mobs spawn behind and in front
+    [17539171] = { side = { -2, 2 } },     -- (058-Q) Mobs spawn to the left and right
+    [17539179] = { side = { -2, 2 } },     -- (060-Q) Mobs spawn to the left and right
+    [17539122] = { inside = { true } },
+    [17539125] = { inside = { true } },
+    [17539134] = { inside = { true } },
+    [17539139] = { inside = { true } },
+    [17539159] = { inside = { true } },
+    [17539163] = { inside = { true } },
+    [17539167] = { inside = { true } },
+    [17539309] = { inside = { true } },
+    [17539349] = { inside = { true } },
+    [17539352] = { inside = { true } },
+    [17539357] = { inside = { true } },
+    [17539373] = { inside = { true } },
+    [17539381] = { inside = { true } },
+    [17539395] = { inside = { true } },
+    [17539446] = { inside = { true } },
 }
 
 -- Pathing table
 xi.dynamis.paths = xi.dynamis.paths or { }
 xi.dynamis.paths[zoneID] =
 {
-    [17539409] = { { 40,    0,   -85 },  {   40,    1,  -96 }                      }, -- W1 Choc C
-    [17539357] = { { 20,    0,   -79 },  {   16,   -3,  -64 }                      }, -- W1 AH EE
-    [17539373] = { {  7,    0,  -100 },  {    5,    0,  -79 }                      }, -- W1 W of Choc
-    [17539352] = { {  0,    0,   -79 },  {   0,    -3,  -64 }                      }, -- W1 AH C
-    [17539349] = { { -20,    0,  -79 },  {  -16,   -3,  -64 }                      }, -- W1 AH WW
-    [17539377] = { { -24,    0, -100 },  {  -24,    0,  -79 }                      }, -- W1 W of Choc
-    [17539402] = { { -10,   -1, -114 },  {  -25,   -1, -114 }                      }, -- W1 S.Gate S
-    [17539395] = { { -32,    0,  -38 },  {  -45,    0,  -38 }                      }, -- W1 W of AH (C)
-    [17539446] = { { -44,    0,  -29 },  {  -42,    0,   -9 }                      }, -- W1 W of AH (NW)
-    [17539334] = { {  3,    0,   -25 },  {  -12,    0,  -25 }                      }, -- W1 AH N.Alley C
-    [17539309] = { {   31,    7,  -2 },  {    4,    7,   -2 }                      }, -- W1 O.St. NE
-    [17539307] = { {   31,    7,   5 },  {   31,    3,   16 }                      }, -- W1 O.St. CW S.Well Base
-    [17539259] = { {   31,    0,  24 },  {   31,    2,   18 }                      }, -- W1 O.St. CW S.Well#2
-    [17539171] = { { -78,    0,    4 },  {  -70,    0,    9 }                      }, -- W1 Under Bridge NE
-    [17539188] = { { -70,    0,    0 },  {  -78,    0,    0 }                      }, -- W1 Under Bridge E
-    [17539179] = { { -78,    0,   -4 },  {  -70,    0,   -9 }                      }, -- W1 Under Bridge SE
-    [17539175] = { { -94,    0,    9 },  {  -87,    0,    4 }                      }, -- W1 Under Bridge NW
-    [17539191] = { { -94,    0,    0 },  {  -86,    0,    0 }                      }, -- W1 Under Bridge W
-    [17539183] = { { -94,    0,   -9 },  {  -87,    0,   -4 }                      }, -- W1 Under Bridge SW
-    [17539139] = { { -108,   -8, -60 },  { -108,   -0,  -35 }, { -108,   0,  -14 } }, -- W1 Depot Ramp Base
-    [17539142] = { { -102,   -8, -60 },  {  -60,    0,  -60 }                      }, -- W1 Depot Ramp Top
-    [17539125] = { { -128, -1.6,   4 },  { -128,    0,   -6 }                      }, -- W1 Zer N.Ramp (SW)
-    [17539122] = { { -132,    0,  -6 },  { -132, -1.6,    4 }                      }, -- W1 Zer N.Ramp (NW)
-    [17539439] = { {   36,    0,   8 },  {   21,    0,    8 }                      }, -- W1 O.St. CW Enc.#3
-    [17539442] = { {   74,    0,   8 },  {   60,    0,    8 }                      }, -- W1 O.St. CW Enc.#4
+    [17539409] = { { 40,    0,   -85  },  {   40,    1,  -96 }                      }, -- W1 Choc C
+    [17539357] = { { 20,    0,   -79  },  {   16,   -3,  -64 }                      }, -- W1 AH EE
+    [17539373] = { {  7,    0,  -100  },  {    5,    0,  -79 }                      }, -- W1 W of Choc
+    [17539352] = { {  0,    0,   -79  },  {   0,    -3,  -64 }                      }, -- W1 AH C
+    [17539349] = { { -20,    0,  -79  },  {  -16,   -3,  -64 }                      }, -- W1 AH WW
+    [17539402] = { { -10,   -1, -114  },  {  -25,   -1, -114 }                      }, -- W1 S.Gate S
+    [17539395] = { { -32,    0,  -38  },  {  -45,    0,  -38 }                      }, -- W1 W of AH (C)
+    [17539446] = { { -42,    0, -14.9 },  {  -49,   0, -32.2 }                      }, -- W1 W of AH (NW)
+    [17539334] = { {  3,    0,   -25  },  {  -12,    0,  -25 }                      }, -- W1 AH N.Alley C
+    [17539309] = { {   31,    7,  -2  },  {    4,    7,   -2 }                      }, -- W1 O.St. NE
+    [17539307] = { {   31,    7,   5  },  {   31,    3,   16 }                      }, -- W1 O.St. CW S.Well Base
+    [17539259] = { {   31,    0,  24  },  {   31,    2,   18 }                      }, -- W1 O.St. CW S.Well#2
+    [17539171] = { { -78,    0,    4  },  {  -70,    0,    9 }                      }, -- W1 Under Bridge NE
+    [17539188] = { { -70,    0,    0  },  {  -78,    0,    0 }                      }, -- W1 Under Bridge E
+    [17539179] = { { -78,    0,   -4  },  {  -70,    0,   -9 }                      }, -- W1 Under Bridge SE
+    [17539175] = { { -94,    0,    9  },  {  -87,    0,    4 }                      }, -- W1 Under Bridge NW
+    [17539191] = { { -94,    0,    0  },  {  -86,    0,    0 }                      }, -- W1 Under Bridge W
+    [17539183] = { { -94,    0,   -9  },  {  -87,    0,   -4 }                      }, -- W1 Under Bridge SW
+    [17539139] = { { -108,   -8, -60  },  { -108,   -0,  -35 }, { -108,   0,  -14 } }, -- W1 Depot Ramp Base
+    [17539142] = { { -102,   -8, -60  },  {  -60,    0,  -60 }                      }, -- W1 Depot Ramp Top
+    [17539125] = { { -128, -1.6,   4  },  { -128,    0,   -6 }                      }, -- W1 Zer N.Ramp (SW)
+    [17539122] = { { -132,    0,  -6  },  { -132, -1.6,    4 }                      }, -- W1 Zer N.Ramp (NW)
+    [17539439] = { {   36,    0,   8  },  {   21,    0,    8 }                      }, -- W1 O.St. CW Enc.#3
+    [17539442] = { {   74,    0,   8  },  {   60,    0,    8 }                      }, -- W1 O.St. CW Enc.#4
+    [17539134] = { { -113.6, 0, -24.5 },  { -114.3,  0, -3.8 }                      },
+    [17539159] = { { -106.1, 12, 60.4 },  { -116,   12, 72.3 }                      },
+    [17539163] = { { -102.1, 12, 60.7 },  { -92.1,  12, 72.9 }                      },
+    [17539167] = { { -101.65, 8, 51.4 },  { -101.9,  8, 36.5 }                      },
+    [17539381] = { { -31.4,  0, -73.3 },  { -37.4,  0, -90.9 }                      }, -- W1 S.Gate N
 }
 
 xi.dynamis.timeExtension = xi.dynamis.timeExtension or { }
@@ -436,9 +507,9 @@ xi.dynamis.timeExtension[zoneID] =
     [xi.bastok.mobs.ADAMANTKING_EFFIGY_001] = 20,
     [xi.bastok.mobs.ADAMANTKING_EFFIGY_019] = 20,
     [xi.bastok.mobs.ADAMANTKING_EFFIGY_041] = 20,
-    [xi.bastok.mobs.GUDHA_EFFIGY]           = 30,
-    [xi.bastok.mobs.GUNHI_NOONDOZER]        = 30,
-    [xi.bastok.mobs.VANGUARD_CONSTABLE_89]  = 10,
+    [xi.bastok.mobs.GUDHA_EFFIGY          ] = 30,
+    [xi.bastok.mobs.GUNHI_NOONDOZER       ] = 30,
+    [xi.bastok.mobs.VANGUARD_CONSTABLE_89 ] = 10,
     [xi.bastok.mobs.VANGUARD_VINDICATOR_89] = 10,
-    [xi.bastok.mobs.VANGUARD_MILITANT_89]   = 10,
+    [xi.bastok.mobs.VANGUARD_MASON_89     ] = 10,
 }
