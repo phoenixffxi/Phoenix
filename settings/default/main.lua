@@ -290,6 +290,9 @@ xi.settings.main =
     -- Please visit scripts/globals/events/login_campaign.lua for assigning the correct campaign dates.
     ENABLE_LOGIN_CAMPAIGN = 0,
 
+    -- Strange Happenings in Vana'Diel
+    ENABLE_STRANGE_HAPPENINGS = 0,
+
     -- FISH RANKING CONTEST
     -- Set to false to require manual progression of contest
     AUTO_FISHING_CONTEST = true,

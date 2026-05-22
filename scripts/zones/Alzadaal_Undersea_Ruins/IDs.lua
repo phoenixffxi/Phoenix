@@ -17,6 +17,7 @@ zones[xi.zone.ALZADAAL_UNDERSEA_RUINS] =
         LOGIN_CAMPAIGN_UNDERWAY       = 7005, -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!
         LOGIN_NUMBER                  = 7006, -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
         MEMBERS_LEVELS_ARE_RESTRICTED = 7026, -- Your party is unable to participate because certain members' levels are restricted.
+        CHEST_WONT_OPEN               = 7070, -- It won't open.
         STAGING_GATE_CLOSER           = 7231, -- You must move closer.
         STAGING_GATE_INTERACT         = 7232, -- This gate guards an area under Imperial control.
         STAGING_GATE_NYZUL            = 7238, -- Nyzul Isle Staging Point.
@@ -39,18 +40,19 @@ zones[xi.zone.ALZADAAL_UNDERSEA_RUINS] =
     },
     mob =
     {
-        NEPIONIC_SOULFLAYER     = GetFirstID('Nepionic_Soulflayer'),
-        COOKIEDUSTER_LIPIROON   = GetFirstID('Cookieduster_Lipiroon'),
-        OB                      = GetFirstID('Ob'),
-        CHEESE_HOARDER_GIGIROON = GetFirstID('Cheese_Hoarder_Gigiroon'),
+        ALEXANDER               = GetFirstID('Alexander'),
         ARMED_GEARS             = GetFirstID('Armed_Gears'),
+        CHEESE_HOARDER_GIGIROON = GetFirstID('Cheese_Hoarder_Gigiroon'),
+        COOKIEDUSTER_LIPIROON   = GetFirstID('Cookieduster_Lipiroon'),
+        NEPIONIC_SOULFLAYER     = GetFirstID('Nepionic_Soulflayer'),
+        OB                      = GetFirstID('Ob'),
         WULGARU                 = GetFirstID('Wulgaru'),
-
     },
     npc =
     {
-        RUNIC_PORTAL_OFFSET = GetFirstID('Runic_Portal'), -- North portal
-        NEPIONIC_QM         = GetFirstID('blank_transformations'),
+        NEPIONIC_QM              = GetFirstID('blank_transformations'),
+        RUNIC_PORTAL_OFFSET      = GetFirstID('Runic_Portal'), -- North portal
+        STRANGE_HAPPENINGS_CHEST = GetFirstID('Treasure_Chest'),
     },
 }
 

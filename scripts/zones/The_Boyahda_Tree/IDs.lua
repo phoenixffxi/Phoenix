@@ -17,6 +17,7 @@ zones[xi.zone.THE_BOYAHDA_TREE] =
         LOGIN_CAMPAIGN_UNDERWAY       = 7005,  -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!
         LOGIN_NUMBER                  = 7006,  -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
         MEMBERS_LEVELS_ARE_RESTRICTED = 7026,  -- Your party is unable to participate because certain members' levels are restricted.
+        CHEST_WONT_OPEN               = 7070,  -- It won't open.
         FISHING_MESSAGE_OFFSET        = 7071,  -- You can't fish here.
         CHEST_UNLOCKED                = 7180,  -- You unlock the chest!
         CAN_SEE_SKY                   = 7193,  -- You can see the sky from here.
@@ -37,18 +38,20 @@ zones[xi.zone.THE_BOYAHDA_TREE] =
     },
     mob =
     {
-        ELLYLLON          = GetFirstID('Ellyllon'),
-        AQUARIUS          = GetFirstID('Aquarius'),
-        UNUT              = GetFirstID('Unut'),
-        LESHONKI          = GetFirstID('Leshonki'),
-        VOLUPTUOUS_VIVIAN = GetFirstID('Voluptuous_Vivian'),
-        MIMIC             = GetFirstID('Mimic'),
         AGAS              = GetFirstID('Agas'),
+        AQUARIUS          = GetFirstID('Aquarius'),
         BEET_LEAFHOPPER   = GetFirstID('Beet_Leafhopper'),
+        ELLYLLON          = GetFirstID('Ellyllon'),
+        FAFNIR            = GetFirstID('Fafnir'),
+        LESHONKI          = GetFirstID('Leshonki'),
+        MIMIC             = GetFirstID('Mimic'),
+        UNUT              = GetFirstID('Unut'),
+        VOLUPTUOUS_VIVIAN = GetFirstID('Voluptuous_Vivian'),
     },
     npc =
     {
-        TREASURE_COFFER = GetFirstID('Treasure_Coffer'),
+        STRANGE_HAPPENINGS_CHEST = GetFirstID('Treasure_Chest'),
+        TREASURE_COFFER          = GetFirstID('Treasure_Coffer'),
     },
 }
 

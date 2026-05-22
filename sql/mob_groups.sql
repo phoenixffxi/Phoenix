@@ -3699,6 +3699,7 @@ INSERT INTO `mob_groups` VALUES (12,6757,72,'Vidmapire',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (13,7577,72,'Apex_Archaic_Cog',960,0,0,305000,0,0,'ROV');
 INSERT INTO `mob_groups` VALUES (14,7578,72,'Apex_Archaic_Cogs',960,0,0,305000,0,0,'ROV');
 INSERT INTO `mob_groups` VALUES (15,7579,72,'Panaiveriyamman',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (16,7361,72,'Alexander',2700,0,0,3240000,0,0,'TVR');
 
 -- ------------------------------------------------------------
 -- Zhayolm_Remnants (Zone 73)
@@ -9606,6 +9607,8 @@ INSERT INTO `mob_groups` VALUES (18,3816,130,'Suzaku',0,128,2362,25000,25000,0,N
 INSERT INTO `mob_groups` VALUES (19,1249,130,'Eraser',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (20,4720,130,'Aello',0,128,0,0,9999,0,NULL);
 INSERT INTO `mob_groups` VALUES (21,4721,130,'Aellos_Handmaiden',0,128,0,0,9999,0,NULL);
+INSERT INTO `mob_groups` VALUES (22,7359,130,'Kirin',2700,0,0,3240000,0,0,'TVR');
+INSERT INTO `mob_groups` VALUES (23,7360,130,'Kirins_Avatar',0,128,0,0,0,0,'TVR');
 
 -- ------------------------------------------------------------
 -- Abyssea-La_Theine (Zone 132)
@@ -11104,10 +11107,9 @@ INSERT INTO `mob_groups` VALUES (37,5159,153,'Modron',0,128,0,0,9999,0,NULL);
 INSERT INTO `mob_groups` VALUES (38,5160,153,'Modrons_Druid',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (39,6876,153,'Ayapec',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (40,6877,153,'Hidhaegg',0,128,0,0,0,0,NULL);
-
--- Star Onion Fortune
-INSERT INTO `mob_groups` VALUES (41,0,153,'Templar_Crawler',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (41,0,153,'Templar_Crawler',0,128,0,0,0,0,NULL);   -- Star Onion Fortune
 INSERT INTO `mob_groups` VALUES (42,3768,153,'Steelshell',1200,0,2330,0,0,0,NULL); -- 20 min respawn near Cloister
+INSERT INTO `mob_groups` VALUES (43,7358,153,'Fafnir',2700,0,0,3240000,0,0,'TVR');
 
 -- ------------------------------------------------------------
 -- Dragons_Aery (Zone 154)

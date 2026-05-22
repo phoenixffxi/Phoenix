@@ -68,6 +68,7 @@ xi.events.registeredEvents =
     require('scripts/events/starlight_celebration'),
     require('scripts/events/egg_hunt_egg-stravaganza'),
     require('scripts/events/mog_bonanza'),
+    require('scripts/events/strange_happenings'),
 }
 
 xi.events.handler.checkSeasonalEvents = function()
