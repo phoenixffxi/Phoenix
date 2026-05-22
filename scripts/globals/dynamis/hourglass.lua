@@ -275,6 +275,6 @@ xi.dynamis.onGlassDrop = function(player, glassObj)
     if #xi.dynamis.getMatchingGlasses(player, glassData.zoneId, glassData.startTime) == 0 then
         xi.dynamis.debugPrint('------------onGlassDrop------------')
         xi.dynamis.debugPrint('Ejecting Player: ' .. player:getName())
-        xi.dynamis.ejectPlayer(player, true)
+        xi.dynamis.ejectPlayer(player)
     end
 end
