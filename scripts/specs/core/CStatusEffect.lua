@@ -149,3 +149,8 @@ end
 ---@return integer
 function CStatusEffect:getOriginID()
 end
+
+---@param originId integer
+---@return nil
+function CStatusEffect:setOriginID(originId)
+end
