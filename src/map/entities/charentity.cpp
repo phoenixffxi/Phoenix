@@ -1043,10 +1043,6 @@ void CCharEntity::RemoveTrust(CTrustEntity* PTrust)
 
     if (trustIt != PTrusts.end())
     {
-        if (PTrust->animation == ANIMATION_DESPAWN)
-        {
-            luautils::OnMobDespawn(PTrust);
-        }
         PTrust->PAI->Despawn();
         PTrusts.erase(trustIt);
     }

@@ -52,6 +52,7 @@ public:
     void OnWeaponSkillFinished(CWeaponSkillState& state, action_t& action) override;
 
     uint32 m_TrustID{};
+    bool   isReleased = false; // Track trust releasing (see c2s 0x01A action)
 
 private:
     static constexpr int8 m_defaultShieldSize = 3;
