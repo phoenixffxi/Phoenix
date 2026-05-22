@@ -7,6 +7,7 @@ local entity = {}
 
 entity.onMobInitialize = function(mob)
     mob:setMobMod(xi.mobMod.CANNOT_GUARD, 1)
+    mob:setMobMod(xi.mobMod.NO_H2H_PENALTY, 1)
 end
 
 entity.onMobSpawn = function(mob)
