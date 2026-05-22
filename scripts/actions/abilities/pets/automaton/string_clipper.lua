@@ -19,7 +19,7 @@ abilityObject.onAutomatonAbility = function(target, automaton, skill, master, ac
     local params = {}
 
     params.baseDamage       = automaton:getWeaponDmg()
-    params.numHits          = 2
+    params.numHits          = utils.clamp(2 + xi.automaton.getExtraHits(automaton, 2), 1, 8)
     params.fTP              = { 2.0, 2.0, 2.0 }
     params.str_wSC          = 0.30
     params.dex_wSC          = 0.30
@@ -27,22 +27,13 @@ abilityObject.onAutomatonAbility = function(target, automaton, skill, master, ac
     params.accuracyModifier = { 0, 50, 100 }
     params.attackType       = xi.attackType.PHYSICAL
     params.damageType       = xi.damageType.SLASHING
-    params.shadowBehavior   = xi.mobskills.shadowBehavior.NUMSHADOWS_2
+    params.shadowBehavior   = params.numHits
 
     if xi.settings.main.USE_ADOULIN_WEAPON_SKILL_CHANGES then
         params.fTP = { 3.5, 3.5, 3.5 }
     end
 
-    -- Flame Holder Adjustment
-    local flameHolderfTP = automaton:getMod(xi.mod.WEAPONSKILL_DAMAGE_BASE) / 100
-    if flameHolderfTP > 0 then
-        params.fTP =
-        {
-            params.fTP[1] * flameHolderfTP,
-            params.fTP[2] * flameHolderfTP,
-            params.fTP[3] * flameHolderfTP,
-        }
-    end
+    xi.automaton.applyFlameHolder(automaton, params.fTP)
 
     local info = xi.mobskills.mobPhysicalMove(automaton, target, skill, action, params)
 

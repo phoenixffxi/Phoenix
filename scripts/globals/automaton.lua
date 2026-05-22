@@ -232,10 +232,6 @@ local function getRefreshModValue(pet, attachmentName, numManeuvers)
     return regenRefreshFormulas[attachmentName][1][numManeuvers + 1] + petMaxMP * (regenRefreshFormulas[attachmentName][2][numManeuvers + 1] / 100)
 end
 
-xi.automaton.getRangedBaseDamage = function(automaton)
-    return automaton:getRangedDmg() * (1 + automaton:getMod(xi.mod.AUTO_RANGED_DAMAGEP) / 100)
-end
-
 local function isOpticFiber(attachmentName)
     if string.find(attachmentName, 'optic_fiber') ~= nil then
         return true
@@ -260,6 +256,36 @@ local function calculatePerformanceBoost(pet)
     end
 
     return performanceBoost
+end
+
+-- Return the base damage of an Automaton Ranged Attack, factoring in the AUTO_RANGED_DAMAGEP modifier.
+xi.automaton.getRangedBaseDamage = function(automaton)
+    return automaton:getRangedDmg() * (1 + automaton:getMod(xi.mod.AUTO_RANGED_DAMAGEP) / 100)
+end
+
+-- Returns the number of extra hits granted by the DOUBLE_ATTACK modifier based on the base number of hits.
+xi.automaton.getExtraHits = function(automaton, numHits)
+    local doubleAttackRate = utils.clamp(automaton:getMod(xi.mod.DOUBLE_ATTACK), 0, 100)
+    local extraHits        = 0
+    if doubleAttackRate > 0 then
+        for _ = 1, numHits do
+            if math.random(1, 100) <= doubleAttackRate then
+                extraHits = extraHits + 1
+            end
+        end
+    end
+
+    return extraHits
+end
+
+-- Applies the FTP multiplier for an Automaton Weapon Skill, factoring in the WEAPONSKILL_DAMAGE_BASE modifier from Flame Holder.
+xi.automaton.applyFlameHolder = function(automaton, ftp)
+    local flameHolderFTP = automaton:getMod(xi.mod.WEAPONSKILL_DAMAGE_BASE) / 100
+    if flameHolderFTP > 0 then
+        ftp[1] = ftp[1] * flameHolderFTP
+        ftp[2] = ftp[2] * flameHolderFTP
+        ftp[3] = ftp[3] * flameHolderFTP
+    end
 end
 
 -- Global functions to handle attachment equip, unequip, maneuver and performance changes
