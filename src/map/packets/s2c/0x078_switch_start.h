@@ -22,6 +22,9 @@
 #pragma once
 
 #include "base.h"
+#include "nominate_manager.h"
+
+#include <string>
 
 // https://github.com/atom0s/XiPackets/tree/main/world/server/0x0078
 // This packet is sent by the server to inform the client when a player has made a proposal. (via /nominate or /propose)
@@ -30,14 +33,13 @@ class GP_SERV_COMMAND_SWITCH_START final : public GP_SERV_PACKET<PacketS2C::GP_S
 public:
     struct PacketData
     {
-        uint32_t UniqueNo;  // PS2: UniqueNo
-        uint32_t AllNum;    // PS2: AllNum
-        uint16_t ActIndex;  // PS2: ActIndex
-        uint8_t  sName[15]; // PS2: sName
-        uint8_t  Kind;      // PS2: Kind
-        uint8_t  Str[224];  // PS2: Str (variable length)
+        uint32_t                            UniqueNo;  // PS2: UniqueNo
+        uint32_t                            AllNum;    // PS2: AllNum
+        uint16_t                            ActIndex;  // PS2: ActIndex
+        uint8_t                             sName[15]; // PS2: sName
+        GP_CLI_COMMAND_SWITCH_PROPOSAL_KIND Kind;      // PS2: Kind
+        uint8_t                             Str[224];  // PS2: Str (variable length)
     };
 
-    // TODO: Unimplemented
-    GP_SERV_COMMAND_SWITCH_START() = default;
+    GP_SERV_COMMAND_SWITCH_START(const NominateProposal& proposal, const std::string& formattedStr);
 };

@@ -798,6 +798,16 @@ auto CCharEntity::aman() -> CAMANContainer&
     return *m_AMAN;
 }
 
+auto CCharEntity::lastProposalCloseTime() const -> timer::time_point
+{
+    return lastProposalCloseTime_;
+}
+
+void CCharEntity::setLastProposalCloseTime(timer::time_point t)
+{
+    lastProposalCloseTime_ = t;
+}
+
 auto CCharEntity::inMogHouse() const -> bool
 {
     return m_moghouseID != 0;

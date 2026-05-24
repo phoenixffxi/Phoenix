@@ -122,6 +122,8 @@ set(SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/navmesh/navmesh_builder.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/navmesh/navmesh_builder.h
     ${CMAKE_CURRENT_SOURCE_DIR}/navmesh/navmesh_config.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/nominate_manager.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/nominate_manager.h
     ${CMAKE_CURRENT_SOURCE_DIR}/notoriety_container.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/notoriety_container.h
     ${CMAKE_CURRENT_SOURCE_DIR}/packet_system.cpp

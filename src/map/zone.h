@@ -557,6 +557,7 @@ class CBattleEntity;
 class CTrustEntity;
 class CTreasurePool;
 class CZoneEntities;
+class NominateManager;
 
 typedef std::list<std::unique_ptr<ITriggerArea>> triggerAreaList_t;
 
@@ -671,11 +672,13 @@ public:
     CZone(Scheduler& scheduler, MapConfig config, ZONEID ZoneID, REGION_TYPE RegionID, CONTINENT_TYPE ContinentID, uint8 levelRestriction);
     virtual ~CZone();
 
-    CBattlefieldHandler*          m_BattlefieldHandler; // BCNM Instances in this zone
-    CCampaignHandler*             m_CampaignHandler;    // WOTG campaign information for this zone
-    std::unique_ptr<SpawnHandler> m_spawnHandler;       // Handles mob respawns
+    CBattlefieldHandler*             m_BattlefieldHandler; // BCNM Instances in this zone
+    CCampaignHandler*                m_CampaignHandler;    // WOTG campaign information for this zone
+    std::unique_ptr<SpawnHandler>    m_spawnHandler;       // Handles mob respawns
+    std::unique_ptr<NominateManager> nominateManager_;     // Active /nominate proposals in this zone
 
     auto spawnHandler() const -> SpawnHandler*;
+    auto nominateManager() const -> NominateManager*;
 
     std::map<uint32_t, std::unique_ptr<SpawnSlot>> m_spawnSlots; // add unique slots to zone
 
