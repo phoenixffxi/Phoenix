@@ -18,6 +18,7 @@ zones[xi.zone.RUAUN_GARDENS] =
         LOGIN_CAMPAIGN_UNDERWAY       = 7005,  -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!
         LOGIN_NUMBER                  = 7006,  -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
         MEMBERS_LEVELS_ARE_RESTRICTED = 7026,  -- Your party is unable to participate because certain members' levels are restricted.
+        CHEST_WONT_OPEN               = 7070,  -- It won't open.
         FISHING_MESSAGE_OFFSET        = 7071,  -- You can't fish here.
         CONQUEST_BASE                 = 7172,  -- Tallying conquest results...
         IT_IS_ALREADY_FUNCTIONING     = 7332,  -- It is already functioning.
@@ -35,20 +36,23 @@ zones[xi.zone.RUAUN_GARDENS] =
 
     mob =
     {
-        DESPOT = GetFirstID('Despot'),
-        MIMIC  = GetFirstID('Mimic'),
-        GENBU  = GetFirstID('Genbu'),
-        SEIRYU = GetFirstID('Seiryu'),
-        BYAKKO = GetFirstID('Byakko'),
-        SUZAKU = GetFirstID('Suzaku'),
+        BYAKKO        = GetFirstID('Byakko'),
+        DESPOT        = GetFirstID('Despot'),
+        GENBU         = GetFirstID('Genbu'),
+        KIRIN         = GetFirstID('Kirin'),
+        KIRINS_AVATAR = GetFirstID('Kirins_Avatar'),
+        MIMIC         = GetFirstID('Mimic'),
+        SEIRYU        = GetFirstID('Seiryu'),
+        SUZAKU        = GetFirstID('Suzaku'),
     },
 
     npc =
     {
-        TREASURE_COFFER    = GetFirstID('Treasure_Coffer'),
-        PINCERSTONE_OFFSET = GetFirstID('Pincerstone'),
-        PORTAL_OFFSET      = GetFirstID('_3mc'),
-        OVERSEER_BASE      = GetFirstID('Conquest_Banner'),
+        OVERSEER_BASE            = GetFirstID('Conquest_Banner'),
+        PINCERSTONE_OFFSET       = GetFirstID('Pincerstone'),
+        PORTAL_OFFSET            = GetFirstID('_3mc'),
+        STRANGE_HAPPENINGS_CHEST = GetFirstID('Treasure_Chest'),
+        TREASURE_COFFER          = GetFirstID('Treasure_Coffer'),
     },
 }
 

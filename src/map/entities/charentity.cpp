@@ -1043,10 +1043,6 @@ void CCharEntity::RemoveTrust(CTrustEntity* PTrust)
 
     if (trustIt != PTrusts.end())
     {
-        if (PTrust->animation == ANIMATION_DESPAWN)
-        {
-            luautils::OnMobDespawn(PTrust);
-        }
         PTrust->PAI->Despawn();
         PTrusts.erase(trustIt);
     }
@@ -3028,19 +3024,22 @@ void CCharEntity::tryStartNextEvent()
 void CCharEntity::skipEvent()
 {
     TracyZoneScoped;
-    if (!m_Locked && !isInEvent() && (!currentEvent->cutsceneOptions.empty() || currentEvent->interruptText != 0))
+    // Locked players are untargetable and can not skip events.
+    if (!isInEvent() || m_Locked || !currentEvent->canSkip)
     {
-        pushPacket<GP_SERV_COMMAND_SYSTEMMES>(0, 0, MsgStd::EventSkipped);
-        pushPacket<GP_SERV_COMMAND_EVENTUCOFF>(this, GP_SERV_COMMAND_EVENTUCOFF_MODE::CancelEvent);
-        m_Substate = CHAR_SUBSTATE::SUBSTATE_NONE;
-
-        if (currentEvent->interruptText != 0)
-        {
-            pushPacket<GP_SERV_COMMAND_TALKNUM>(currentEvent->targetEntity, currentEvent->interruptText, false);
-        }
-
-        endCurrentEvent();
+        return;
     }
+
+    pushPacket<GP_SERV_COMMAND_SYSTEMMES>(0, 0, MsgStd::EventSkipped);
+    pushPacket<GP_SERV_COMMAND_EVENTUCOFF>(this, GP_SERV_COMMAND_EVENTUCOFF_MODE::CancelEvent);
+    m_Substate = CHAR_SUBSTATE::SUBSTATE_NONE;
+
+    if (currentEvent->interruptText != 0)
+    {
+        pushPacket<GP_SERV_COMMAND_TALKNUM>(currentEvent->targetEntity, currentEvent->interruptText, false);
+    }
+
+    endCurrentEvent();
 }
 
 void CCharEntity::setLocked(bool locked)

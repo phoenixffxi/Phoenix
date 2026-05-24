@@ -2257,6 +2257,13 @@ void CBattleEntity::processActionEffectFlags(const action_t& action) const
             PTarget = loc.zone->GetCharByID(target.actorId);
         }
 
+        // Event action can cancel a skippable event on PC targets
+        if (auto* PChar = dynamic_cast<CCharEntity*>(PTarget); PChar && PChar->isInEvent())
+        {
+            // Checks for if an event is skippable is handled in skipEvent
+            PChar->skipEvent();
+        }
+
         if (PTarget && this->allegiance != PTarget->allegiance)
         {
             emittedHostile = true;

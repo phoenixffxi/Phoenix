@@ -7,19 +7,20 @@ local spireOfMeaID = zones[xi.zone.SPIRE_OF_MEA]
 -----------------------------------
 
 local content = Battlefield:new({
-    zoneId        = xi.zone.SPIRE_OF_MEA,
-    battlefieldId = xi.battlefield.id.ANCIENT_FLAMES_BECKON_SPIRE_OF_MEA,
-    canLoseExp    = false,
-    isMission     = true,
-    allowTrusts   = true,
-    maxPlayers    = 6,
-    levelCap      = 30,
-    timeLimit     = utils.minutes(30),
-    index         = 0,
-    entryNpc      = '_0l0',
-    exitNpcs      = { '_0l1', '_0l2', '_0l3' },
+    zoneId         = xi.zone.SPIRE_OF_MEA,
+    battlefieldId  = xi.battlefield.id.ANCIENT_FLAMES_BECKON_SPIRE_OF_MEA,
+    canLoseExp     = false,
+    isMission      = true,
+    allowTrusts    = true,
+    maxPlayers     = 6,
+    levelCap       = 30,
+    timeLimit      = utils.minutes(30),
+    index          = 0,
+    entryNpc       = '_0l0',
+    exitNpcs       = { '_0l1', '_0l2', '_0l3' },
 
-    grantXP = 1500,
+    grantXP        = 1500,
+    grantXPLockout = true,
 })
 
 function content:entryRequirement(player, npc, isRegistrant, trade)
