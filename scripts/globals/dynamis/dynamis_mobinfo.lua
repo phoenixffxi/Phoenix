@@ -30,6 +30,26 @@ end
 -- ---------------------
 -- General Info functions
 -- ---------------------
+-- Must be called in onMobInitialize so that setStatRank runs before CalculateMobStats on first spawn.
+xi.dynamis.onSharedInitialize = function(mob)
+    mob:setStatRank(xi.stat.STR, xi.statRank.A)
+    mob:setStatRank(xi.stat.DEX, xi.statRank.A)
+    mob:setStatRank(xi.stat.VIT, xi.statRank.A)
+    mob:setStatRank(xi.stat.AGI, xi.statRank.A)
+    mob:setStatRank(xi.stat.INT, xi.statRank.A)
+    mob:setStatRank(xi.stat.MND, xi.statRank.A)
+    mob:setStatRank(xi.stat.CHR, xi.statRank.A)
+    mob:setStatRank(xi.stat.DEF, xi.statRank.A)
+
+    mob:addMod(xi.mod.STR, 10)
+    mob:addMod(xi.mod.DEX, 10)
+    mob:addMod(xi.mod.VIT, 10)
+    mob:addMod(xi.mod.AGI, 10)
+    mob:addMod(xi.mod.INT, 10)
+    mob:addMod(xi.mod.MND, 10)
+    mob:addMod(xi.mod.CHR, 10)
+end
+
 xi.dynamis.generalInfo = function(mob, modelSize)
     mob:setTrueDetection(true)
     mob:setSpawnAnimation(1) -- This is the cool looking spwan animation
@@ -47,14 +67,6 @@ xi.dynamis.generalInfo = function(mob, modelSize)
     mob:setMobMod(xi.mobMod.SOUND_RANGE, 4)
 
     mob:setModelSize(modelSize)
-    -- mob:setStatRank(xi.stat.STR, xi.statRank.A)
-    -- mob:setStatRank(xi.stat.DEX, xi.statRank.A)
-    -- mob:setStatRank(xi.stat.VIT, xi.statRank.A)
-    -- mob:setStatRank(xi.stat.AGI, xi.statRank.A)
-    -- mob:setStatRank(xi.stat.INT, xi.statRank.A)
-    -- mob:setStatRank(xi.stat.MND, xi.statRank.A)
-    -- mob:setStatRank(xi.stat.CHR, xi.statRank.A)
-    -- mob:setStatRank(xi.stat.DEF, xi.statRank.A)
     -- TODO: figure out DRG wyvern calls later
     local job = mob:getMainJob()
     if
@@ -115,6 +127,7 @@ xi.dynamis.statueOnSpawn = function(mob, modelSize)
     -- Apply the general stats to from dynamis mobs
     xi.dynamis.generalInfo(mob, modelSize)
     mob:setSpawnAnimation(0)
+    mob:setBaseSpeed(15)
     mob:setMobMod(xi.mobMod.NO_STANDBACK, 1) -- Statues do not stand back
 
     local mobId  = mob:getID()
@@ -431,6 +444,7 @@ end
 -- Boss functions
 -- ---------------------
 xi.dynamis.onBossInitialize = function(mob)
+    xi.dynamis.onSharedInitialize(mob)
     mob:addImmunity(xi.immunity.LIGHT_SLEEP)
     mob:addImmunity(xi.immunity.DARK_SLEEP)
     mob:addImmunity(xi.immunity.PETRIFY)
@@ -540,16 +554,14 @@ xi.dynamis.spawnNextMobsOnce = function(statue, count, target, checkForceSpawn)
 
     statue:setLocalVar('spawnedAdds', 1)
 
-    local statueId  = statue:getID()
-    local statuePos = statue:getPos()
-    local randomStunTime = math.random(4000, 8000)
-    local zoneId = statue:getZoneID()
-    local lineSpawnConfig = xi.dynamis.lineSpawns and
-        xi.dynamis.lineSpawns[zoneId] and
-        xi.dynamis.lineSpawns[zoneId][statueId]
-    local spawnOnTop     = lineSpawnConfig and lineSpawnConfig.inside and lineSpawnConfig.inside[1] == true
-    local spawnedCount = 0
-    local i            = 1
+    local statueId        = statue:getID()
+    local statuePos       = statue:getPos()
+    local randomStunTime  = math.random(4000, 8000)
+    local zoneId          = statue:getZoneID()
+    local lineSpawnConfig = xi.dynamis.lineSpawns and xi.dynamis.lineSpawns[zoneId] and xi.dynamis.lineSpawns[zoneId][statueId]
+    local spawnOnTop      = lineSpawnConfig and lineSpawnConfig.inside and lineSpawnConfig.inside[1] == true
+    local spawnedCount    = 0
+    local i               = 1
 
     while spawnedCount < count do
         local mobId = statueId + i

@@ -5,7 +5,7 @@
 --   Module Required Scripts     --
 -----------------------------------
 require('scripts/globals/dynamis')
-require('scripts/globals/dynamis/dynamis_mobIinfo')
+require('scripts/globals/dynamis/dynamis_mobinfo')
 require('scripts/globals/dynamis/zonemechs/buburimu')
 require('modules/module_utils')
 -----------------------------------
@@ -139,8 +139,8 @@ local mobNames =
     ['Dynamis-Jeuno'] =
     {
         { 'Goblin_Golem',           mobType.BOSS  , 3 },
-        { 'Goblin_Replica',         mobType.STATUE, 1 },
-        { 'Goblin_Statue',          mobType.STATUE, 1 },
+        { 'Goblin_Replica',         mobType.STATUE, 2 },
+        { 'Goblin_Statue',          mobType.STATUE, 2 },
         { 'Anvilix_Sootwrists',     mobType.NORMAL, 3 },
         { 'Bandrix_Rockjaw',        mobType.NORMAL, 3 },
         { 'Blazox_Boneybod',        mobType.NORMAL, 3 },
@@ -1032,6 +1032,10 @@ local mobOverrideHandlers =
 {
     [mobType.STATUE] =
     {
+        onMobInitialize = function(mob)
+            xi.dynamis.onSharedInitialize(mob)
+        end,
+
         onMobEngage = function(mob, target)
             xi.dynamis.onSharedEngage(mob, target)
             xi.dynamis.checkEyeColor(mob)
@@ -1085,6 +1089,10 @@ local mobOverrideHandlers =
 
     [mobType.NORMAL] =
     {
+        onMobInitialize = function(mob)
+            xi.dynamis.onSharedInitialize(mob)
+        end,
+
         onMobRoam = function(mob)
             xi.dynamis.onMobRoam(mob)
         end,
@@ -1102,6 +1110,10 @@ local mobOverrideHandlers =
 
     [mobType.NIGHTMARE] =
     {
+        onMobInitialize = function(mob)
+            xi.dynamis.onSharedInitialize(mob)
+        end,
+
         onMobEngage = function(mob, target)
             xi.dynamis.onSharedEngage(mob, target)
         end,

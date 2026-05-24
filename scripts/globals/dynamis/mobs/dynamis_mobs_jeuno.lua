@@ -185,7 +185,6 @@ xi.dynamis.eyeColor[zoneID] =
     [17547535] = xi.dynamis.eye.BLUE , -- (057-G/R(HP)) |
     [17547553] = xi.dynamis.eye.GREEN, -- (062-G/R(MP)) | BRD, SAM, Ticktox Beadyeyes
     [17547549] = xi.dynamis.eye.BLUE , -- (063-G/R(HP)) | WAR, WHM, THF
-    [17547557] = xi.dynamis.eye.GREEN, -- (064-G/S(MP)) |
     [17547515] = xi.dynamis.eye.BLUE , -- (065-G/R(HP)) | PLD
     [17547305] = xi.dynamis.eye.GREEN, -- (067-G/R(MP)) | MNK, BLM
     [17547302] = xi.dynamis.eye.BLUE , -- (068-G/R(HP)) | WAR, WHM
@@ -204,6 +203,8 @@ xi.dynamis.eyeColor[zoneID] =
     [17547482] = xi.dynamis.eye.GREEN, -- (095-G/R(MP)) | SMN, SMN, Mortilox Wartpaws
     [17547339] = xi.dynamis.eye.GREEN, -- (101-G/R(MP)) |
     [17547338] = xi.dynamis.eye.BLUE , -- (102-G/R(HP)) |
+    [17547606] = xi.dynamis.eye.BLUE,  -- (115-G/R) | WAR, DRK, BST, BRD
+    [17547594] = xi.dynamis.eye.GREEN, -- (116-G/R) MP| MNK, WHM, BST, SAM
     [17547619] = xi.dynamis.eye.GREEN, -- (118-G/R(MP)) |
     [17547618] = xi.dynamis.eye.BLUE , -- (119-G/R(HP)) |
     [17547675] = xi.dynamis.eye.GREEN, -- (122-G/R(MP)) | MNK, THF, SMN
@@ -464,6 +465,36 @@ xi.dynamis.aggro[zoneID] =
     },
 }
 
+xi.dynamis.lineSpawns = xi.dynamis.lineSpawns or { }
+xi.dynamis.lineSpawns[zoneID] =
+{
+    -- Statue ID = { behind = { first mob distance, second mob distance } }, { side = { left distance, right distance } }, or { { xOffset, yOffset, zOffset }, ... }
+    [17547395] = { behind = { -3, -6 } }, -- Mobs spawn in front
+    [17547398] = { behind = { -3, -6 } }, -- Mobs spawn in front
+    [17547268] = { inside = { true } },
+    [17547302] = { inside = { true } },
+    [17547305] = { inside = { true } },
+    [17547311] = { inside = { true } },
+    [17547314] = { inside = { true } },
+    [17547449] = { inside = { true } },
+    [17547466] = { inside = { true } },
+    [17547540] = { inside = { true } },
+    [17547594] = { inside = { true } },
+    [17547600] = { inside = { true } },
+    [17547606] = { inside = { true } },
+    [17547612] = { inside = { true } },
+    [17547628] = { inside = { true } },
+    [17547631] = { inside = { true } },
+    [17547666] = { inside = { true } },
+    [17547671] = { inside = { true } },
+    [17547675] = { inside = { true } },
+    [17547680] = { inside = { true } },
+    [17547708] = { inside = { true } },
+    [17547712] = { inside = { true } },
+    [17547716] = { inside = { true } },
+    [17547369] = { inside = { true } },
+}
+
 -- Pathing table
 xi.dynamis.paths = xi.dynamis.paths or { }
 xi.dynamis.paths[zoneID] =
@@ -491,11 +522,10 @@ xi.dynamis.paths[zoneID] =
     [17547411] = { { -18, 3, -10  }, { -36, 3,  -10 },                  }, -- N Upper Level S
     [17547402] = { { 4, 3, -6     }, { -24, 3,   -6 },                  }, -- N Upper Level C
     [17547449] = { { -56, 6, -6   }, { -68, 6,   -6 },                  }, -- AH C
-    [17547445] = { { -56, 6, -2   }, { -68, 6,    4 },                  }, -- AH N
-    [17547447] = { { -56, 6, -10  }, { -68, 6,  -14 },                  }, -- AH S
+    [17547445] = { { -68.3, 6, 3.4 }, { -56, 6, -4.1 },                 }, -- AH N
+    [17547447] = { { -66.8, 6, -15.9 }, { -56, 6, -7.8 },               }, -- AH S
     [17547464] = { { -41, 8, -23  }, { -41, 8,  -16 },                  }, -- AH Stairs
     [17547466] = { { -54, 12, -22 }, { -61, 12, -31 },                  }, -- AH Lower Platform
-    [17547498] = { { 0, 3,  -2    }, { 0, 3,   22   },                  }, -- Palace Entrance
     [17547508] = { { 12, 2,  40   }, { 12, 2,   68  },                  }, -- Palace Interior E
     [17547505] = { { -12, 2,  40  }, { -12, 2,   68 },                  }, -- Palace Interior W
     [17547522] = { { -12, 2,  72  }, { 12, 2,   72  },                  }, -- Palace Rear
@@ -509,7 +539,6 @@ xi.dynamis.paths[zoneID] =
     [17547572] = { { -12, 2,  54  }, { -12, 2,   42 },                  }, -- Palace Repop W #2
     [17547568] = { { 12, 2,  40   }, { 5, 2,    40  },                  }, -- Palace Repop S #1
     [17547566] = { { -12, 2,  40  }, { -5, 2,    40 },                  }, -- Palace Repop S #2
-    [17547580] = { { 0, 3,   4    }, { 0, 3,   22   },                  }, -- 2nd Wave Outside Palace
     [17547344] = { { 18, 9, -36   }, { 11, 9,  -36  },                  }, -- 2nd Wave Fountain E Door
     [17547342] = { { -20, 9, -50  }, { -11, 9,  -50 },                  }, -- 2nd Wave Fountain W Door
     [17547340] = { { 4, 9, -64    }, { 4, 9,  -55   },                  }, -- 2nd Wave Fountain S Door
@@ -522,10 +551,12 @@ xi.dynamis.paths[zoneID] =
     [17547675] = { { -38, 0, -40  }, { -38, 0,  -62 },                  }, -- Upper Level W Repop W
     [17547671] = { { -28, 0, -62  }, { -28, 0,  -44 },                  }, -- Upper Level W Repop E
     [17547666] = { { -34, 0, -64  }, { -26, 0,  -64 },                  }, -- Upper Level W Repop S
-    [17547594] = { { 2, 0, -74    }, { 6, 0,  -74   },                  }, -- Near Mega Boss #1
-    [17547600] = { { 0, 0, -80    }, { 0, 0,  -76   },                  }, -- Near Mega Boss #2
-    [17547606] = { { -2, 0, -74   }, { -6, 0,  -74  },                  }, -- Near Mega Boss #3
-    [17547612] = { {   0, 0, -72  }, { 0, 0,  -68   },                  }, -- Near Mega Boss #4
+    -- Cool looking walking patterns
+    [17547594] = { { 5, 0, -76 }, { 12, 0, -76 }, }, -- Near Mega Boss #1
+    [17547600] = { { 4, 0, -77 }, {  4, 0, -84 }, }, -- Near Mega Boss #2
+    [17547606] = { { 3, 0, -76 }, { -4, 0, -76 }, }, -- Near Mega Boss #3
+    [17547612] = { { 4, 0, -75 }, {  4, 0, -68 }, }, -- Near Mega Boss #4
+
     [17547694] = { { -31, 3, -9   }, { -34, 3,  -12 },                  }, -- Repop Upper Level N #1
     [17547697] = { { -27, 3, -9   }, { -24, 3,  -12 },                  }, -- Repop Upper Level N #2
     [17547701] = { { -27, 3, -5   }, { -24, 3,   -2 },                  }, -- Repop Upper Level N #3
@@ -533,6 +564,7 @@ xi.dynamis.paths[zoneID] =
     [17547716] = { {  -8, 3, -10  }, { -8, 3,   -2  },                  }, -- Repop Upper Level NC #1
     [17547712] = { { -12, 3, -2   }, { -12, 3,  -10 },                  }, -- Repop Upper Level NC #2
     [17547708] = { { -15, 3, -10  }, { -15, 3,   -2 },                  }, -- Repop Upper Level NC #3
+    [17547369] = { { 32.9, 0, -44.9 }, { 32.9, 0, -70 },                },
 }
 
 xi.dynamis.timeExtension = xi.dynamis.timeExtension or { }

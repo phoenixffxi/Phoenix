@@ -285,15 +285,15 @@ xi.dynamis.addMinutesToDynamis = function(zone, minutes)
         -- Clear old event queue
         dynaTimeVars[zoneId].eventsQueue =
         {
-            [newZoneExpiration - 620] = function()  -- 10 minute warning
+            [newZoneExpiration - 600] = function()  -- 10 minute warning
                 xi.dynamis.dynamisTimeWarning(zone, newZoneExpiration)
             end,
 
-            [newZoneExpiration - 200] = function()  -- 3 minute warning
+            [newZoneExpiration - 180] = function()  -- 3 minute warning
                 xi.dynamis.dynamisTimeWarning(zone, newZoneExpiration)
             end,
 
-            [newZoneExpiration - 80] = function()   -- 1 minute warning
+            [newZoneExpiration - 30] = function()   -- 30 second warning
                 xi.dynamis.dynamisTimeWarning(zone, newZoneExpiration)
             end,
         }
@@ -469,15 +469,15 @@ xi.dynamis.registerDynamis = function(player, startTime, endTime)
     -- Initialize dynaTimeVars for this zone with eventsQueue
     dynaTimeVars[dynazoneID] = {
         eventsQueue = {
-            [endTime - 620] = function()  -- 10 minute warning
+            [endTime - 600] = function()  -- 10 minute warning
                 xi.dynamis.dynamisTimeWarning(dynaZone, endTime)
             end,
 
-            [endTime - 200] = function()  -- 3 minute warning
+            [endTime - 180] = function()  -- 3 minute warning
                 xi.dynamis.dynamisTimeWarning(dynaZone, endTime)
             end,
 
-            [endTime - 80] = function()   -- 1 minute warning
+            [endTime - 30] = function()   -- 30 second warning
                 xi.dynamis.dynamisTimeWarning(dynaZone, endTime)
             end,
         }
