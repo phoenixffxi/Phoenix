@@ -34,16 +34,7 @@ abilityObject.onAutomatonAbility = function(target, automaton, skill, master, ac
         params.fTP     = { 6.0, 8.5, 11.0 }
     end
 
-    -- Flame Holder Adjustment
-    local flameHolderfTP = automaton:getMod(xi.mod.WEAPONSKILL_DAMAGE_BASE) / 100
-    if flameHolderfTP > 0 then
-        params.fTP =
-        {
-            params.fTP[1] * flameHolderfTP,
-            params.fTP[2] * flameHolderfTP,
-            params.fTP[3] * flameHolderfTP,
-        }
-    end
+    xi.automaton.applyFlameHolder(automaton, params.fTP)
 
     local info = xi.mobskills.mobRangedMove(automaton, target, skill, action, params)
 
