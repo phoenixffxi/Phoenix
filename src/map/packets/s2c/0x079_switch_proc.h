@@ -22,6 +22,15 @@
 #pragma once
 
 #include "base.h"
+#include "nominate_manager.h"
+
+#include <string>
+
+enum class GP_SERV_COMMAND_SWITCH_PROC_STATE : uint8_t
+{
+    Active = 0x00,
+    Closed = 0x02,
+};
 
 // https://github.com/atom0s/XiPackets/tree/main/world/server/0x0079
 // This packet is sent by the server to inform the client about a current proposal. (via /nominate or /propose)
@@ -31,15 +40,14 @@ class GP_SERV_COMMAND_SWITCH_PROC final : public GP_SERV_PACKET<PacketS2C::GP_SE
 public:
     struct PacketData
     {
-        uint32_t AllNum;        // PS2: AllNum
-        uint16_t VoteNumTbl[9]; // PS2: VoteNumTbl
-        uint8_t  Kind;          // PS2: Kind
-        uint8_t  State;         // PS2: State
-        uint8_t  QuestionNum;   // PS2: QuestionNum
-        uint8_t  sPropName[15]; // PS2: sPropName
-        uint8_t  Str[256];      // PS2: Str (variable length)
+        uint32_t                            AllNum;        // PS2: AllNum
+        uint16_t                            VoteNumTbl[9]; // PS2: VoteNumTbl
+        GP_CLI_COMMAND_SWITCH_PROPOSAL_KIND Kind;          // PS2: Kind
+        GP_SERV_COMMAND_SWITCH_PROC_STATE   State;         // PS2: State
+        uint8_t                             QuestionNum;   // PS2: QuestionNum
+        uint8_t                             sPropName[15]; // PS2: sPropName
+        uint8_t                             Str[256];      // PS2: Str (variable length)
     };
 
-    // TODO: Unimplemented
-    GP_SERV_COMMAND_SWITCH_PROC() = default;
+    GP_SERV_COMMAND_SWITCH_PROC(const NominateProposal& proposal, GP_SERV_COMMAND_SWITCH_PROC_STATE state, const std::string& formattedStr);
 };

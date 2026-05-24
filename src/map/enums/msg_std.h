@@ -64,6 +64,9 @@ enum class MsgStd : uint16_t
     CurrentPollResultsSystem     = 140, // Player Name's proposal - Current poll results:
     FinalPollResultsSystem       = 141, // Player Name's proposal - Final poll results:
     CannotUseCommandAtTheMoment  = 142, // You cannot use that command at the moment. Please try again later.
+    NotProposedAnything          = 143, // <name> has not proposed anything.
+    OnlyChooseFromGivenChoices   = 144, // You can only choose from the <number> choices given.
+    AlreadyVotedOnProposal       = 145, // You have already voted on <name>'s proposal.
     PollProposalSay              = 146, // Player Name's proposal to all (cast vote with command: "/vote ?"):
     CurrentPollResultsSay        = 147, // Player Name's proposal - Current poll results:
     FinalPollResultsSay          = 148, // Player Name's proposal - Final poll results:

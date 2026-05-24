@@ -175,7 +175,9 @@ set(PACKET_S2C_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/0x077_entity_vis.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x077_entity_vis.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x078_switch_start.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x078_switch_start.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x079_switch_proc.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x079_switch_proc.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x082_guild_buy.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x082_guild_buy.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x083_guild_buylist.h

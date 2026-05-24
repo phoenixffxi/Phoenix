@@ -69,6 +69,7 @@
 #include "linkshell.h"
 #include "map_networking.h"
 #include "mob_modifier.h"
+#include "nominate_manager.h"
 #include "recast_container.h"
 #include "roe.h"
 #include "spell.h"
@@ -79,6 +80,7 @@
 #include "unitychat.h"
 #include "universal_container.h"
 #include "weapon_skill.h"
+#include "zone.h"
 
 #include "entities/automatonentity.h"
 #include "entities/charentity.h"
@@ -8045,6 +8047,14 @@ void removeCharFromZone(CCharEntity* PChar)
 
     PChar->TradePending.clean();
     PChar->InvitePending.clean();
+
+    if (PChar->loc.zone != nullptr)
+    {
+        if (auto* manager = PChar->loc.zone->nominateManager())
+        {
+            manager->onCharLeavingZone(PChar);
+        }
+    }
 
     PChar->WideScanTarget = std::nullopt;
 

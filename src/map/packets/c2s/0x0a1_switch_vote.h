@@ -25,7 +25,7 @@
 
 // https://github.com/atom0s/XiPackets/tree/main/world/client/0x00A1
 // This packet is sent by the client when voting in a proposal. (via /vote)
-GP_CLI_PACKET(GP_CLI_COMMAND_SWITCH_VOTE,
-              uint8_t Index;    // PS2: Index
-              uint8_t Name[15]; // PS2: Name
+GP_CLI_PACKET_VLA(GP_CLI_COMMAND_SWITCH_VOTE, Name,
+                  uint8_t Index;    // PS2: Index
+                  uint8_t Name[15]; // PS2: Name (variable length)
 );
