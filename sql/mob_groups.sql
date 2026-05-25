@@ -3151,6 +3151,7 @@ INSERT INTO `mob_groups` VALUES (2021,1294,60,'Faluuya',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (2024,3826,60,'Swiftwinged_Gekko',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (2025,4305,60,'Watch_Imp',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (2026,4348,60,'Windjammer_Imp',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (2027,7498,60,'Flan_Princess',0,128,0,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Mount_Zhayolm (Zone 61)
@@ -14392,6 +14393,7 @@ INSERT INTO `mob_groups` VALUES (51,913,254,'Dark_Elemental',0,128,0,0,0,0,NULL)
 -- ------------------------------------------------------------
 
 INSERT INTO `mob_groups` VALUES (1,3604,255,'Shinryu',0,128,2238,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (2,3687,255,'Shinryu_Star',0,128,2238,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Rala_Waterways (Zone 258)
