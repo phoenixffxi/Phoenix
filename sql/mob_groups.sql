@@ -12498,6 +12498,17 @@ INSERT INTO `mob_groups` VALUES (5,1158,181,'Ealdnarche',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (6,1270,181,'Exoplates',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (7,4676,181,'Ealdnarche_2',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (8,2993,181,'Orbital',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (9,7589,181,'Ealdnarche_CP',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (10,7590,181,'Orbital_CP',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (11,7580,181,'Kamlanaut_CP',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (12,7581,181,'Ark_Angel_HM_CP',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (13,7582,181,'Ark_Angel_MR_CP',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (14,7583,181,'Ark_Angels_Behemoth_CP',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (15,7584,181,'Ark_Angels_Adamant_CP',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (16,7585,181,'Ark_Angel_EV_CP',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (17,7586,181,'Ark_Angel_TT_CP',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (18,7587,181,'Ark_Angel_GK_CP',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (19,7588,181,'Ark_Angels_Wyvern_CP',0,128,0,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Walk_of_Echoes (Zone 182)
