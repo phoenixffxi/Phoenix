@@ -1,6 +1,7 @@
 -----------------------------------
 -- Zone: Port_Bastok (236)
 -----------------------------------
+local ID = zones[xi.zone.PORT_BASTOK]
 ---@type TZone
 local zoneObject = {}
 
@@ -8,6 +9,23 @@ zoneObject.onInitialize = function(zone)
     zone:registerCuboidTriggerArea(1, -112, -3, -17, -96, 3, -3)     -- event COP
     zone:registerCuboidTriggerArea(2, 53.5, 5, -165.3, 66.5, 6, -72) -- drawbridge area
     xi.conquest.toggleRegionalNPCs(zone)
+
+    -- Set drawbridge NPCs always relevant to clients
+    local drawBridge1 = GetNPCByID(ID.npc.DRAWBRIDGE_1)
+    local drawBridge2 = GetNPCByID(ID.npc.DRAWBRIDGE_2)
+    local drawBridge3 = GetNPCByID(ID.npc.DRAWBRIDGE_3)
+
+    if drawBridge1 then
+        drawBridge1:setNpcAlwaysRelevant(true)
+    end
+
+    if drawBridge2 then
+        drawBridge2:setNpcAlwaysRelevant(true)
+    end
+
+    if drawBridge3 then
+        drawBridge3:setNpcAlwaysRelevant(true)
+    end
 end
 
 zoneObject.onConquestUpdate = function(zone, updatetype, influence, owner, ranking, isConquestAlliance)

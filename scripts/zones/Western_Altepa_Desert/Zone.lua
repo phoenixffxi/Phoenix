@@ -9,6 +9,14 @@ local zoneObject = {}
 
 zoneObject.onInitialize = function(zone)
     xi.beastmenTreasure.updatePeddlestox(xi.zone.YUHTUNGA_JUNGLE, ID.npc.PEDDLESTOX)
+
+    -- loop through Altepa Gate, Ruby/Topaz/Emerald/Sapphire pillar/column, set them all always relevant
+    for i = 0, 8, 1 do
+        local npc = GetNPCByID(ID.npc.ALTEPA_GATE + i)
+        if npc then
+            npc:setNpcAlwaysRelevant(true)
+        end
+    end
 end
 
 zoneObject.onGameDay = function()

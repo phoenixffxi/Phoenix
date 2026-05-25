@@ -3766,6 +3766,11 @@ end
 function CBaseEntity:setNpcFlags(flags)
 end
 
+---@param alwaysRelevant boolean
+---@return nil
+function CBaseEntity:setNpcAlwaysRelevant(alwaysRelevant)
+end
+
 ---@param despawnSec integer?
 ---@param respawnSec integer?
 ---@return nil

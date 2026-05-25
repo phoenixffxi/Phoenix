@@ -32,7 +32,8 @@ public:
     uint32       m_flags;
     uint8        name_prefix;
     uint8        widescan;
-    bool         m_triggerable = false;
+    bool         m_triggerable    = false;
+    bool         m_alwaysRelevant = false;           // Spawn this NPC in for players at all times, used for port bastok bridge, "moving" objects elevators/maybe airships, major zone elements like la theine rainbow, altepa gate pillars, etc.
     uint32       getEntityFlags() const;             // Returns the current value in m_flags
     void         setEntityFlags(uint32 EntityFlags); // Change the current value in m_flags
     void         HideHP(bool hide);

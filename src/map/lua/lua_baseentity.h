@@ -863,6 +863,7 @@ public:
     uint32 getMobFlags();
 
     void setNpcFlags(uint32 flags);
+    void setNpcAlwaysRelevant(bool alwaysRelevant);
 
     void spawn(const sol::object& despawnSec, const sol::object& respawnSec);
     bool isSpawned();
