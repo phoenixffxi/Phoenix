@@ -7589,7 +7589,7 @@ INSERT INTO `mob_pools` VALUES (7494,'Omega_Forerunner','Omega_Forerunner',477,0
 INSERT INTO `mob_pools` VALUES (7495,'Omegas_Bit','Omegas_Bit',74,0x0000320000000000000000000000000000000000,1,1,1,240,100,0,0,0,0,2,0,0,0,0,0,0,0,1,0,0,0,NULL,NULL);
 INSERT INTO `mob_pools` VALUES (7496,'Temenos_Euvhi','Temenos_Euvhi',321,0x00000E0200000000000000000000000000000000,1,1,1,240,100,0,0,0,0,0,0,0,116,129,0,0,0,0,0,0,0,0,10);
 INSERT INTO `mob_pools` VALUES (7497,'Temenos_Ghrah','Temenos_Ghrah',328,0x00008A0400000000000000000000000000000000,1,1,1,240,100,0,0,0,0,0,0,2,278,665,2,0,0,0,0,0,0,0,32);
-INSERT INTO `mob_pools` VALUES (7498,'Flan_Princess','Flan_Princess',5,0x0000070700000000000000000000000000000000,4,4,12,240,100,0,1,1,1,16,0,0,0,0,0,0,0,0,0,112,112,NULL,NULL); -- Capture needed
+INSERT INTO `mob_pools` VALUES (7498,'Flan_Princess','Flan_Princess',5,0x0000070700000000000000000000000000000000,4,4,12,240,100,0,1,1,1,16,0,0,0,0,0,0,0,0,0,112,112,NULL,NULL);                -- Capture needed
 -- Next fresh block: 7499.
 
 -- Jug pet pools (skipped to allow keeping them sequential)
@@ -7693,14 +7693,51 @@ INSERT INTO `mob_pools` VALUES (7596,'Gurfurlur_the_Menacing','Gurfurlur_the_Men
 INSERT INTO `mob_pools` VALUES (7597,'Gulool_Ja_Ja','Gulool_Ja_Ja',134,0x0000470700000000000000000000000000000000,13,13,3,280,125,0,1,1,1,16,0,32,70,157,0,0,7,0,0,285,285,2,20);
 INSERT INTO `mob_pools` VALUES (7598,'Mamool_Ja_Chamberlain','Mamool_Ja_Chamberlain',133,0x06005A0600000000000000000000000000000000,3,3,6,280,100,0,1,0,1,16,0,32,0,157,0,0,20,0,0,176,176,2,13);
 INSERT INTO `mob_pools` VALUES (7599,'Mamool_Ja_Palatine','Mamool_Ja_Palatine',132,0x0600430600000000000000000000000000000000,6,6,9,280,100,0,1,0,0,16,0,32,0,157,0,0,0,0,0,176,176,2,13);
-INSERT INTO `mob_pools` VALUES (7600,'Bztavian_OB','Bztavian',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);       -- Capture needed
-INSERT INTO `mob_pools` VALUES (7601,'Rockfin_OB','Rockfin',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);         -- Capture needed
-INSERT INTO `mob_pools` VALUES (7602,'Gabbrath_OB','Gabbrath',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);       -- Capture needed
-INSERT INTO `mob_pools` VALUES (7603,'Yggdreant_OB','Yggdreant',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);     -- Capture needed
-INSERT INTO `mob_pools` VALUES (7604,'Waktza_OB','Waktza',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);           -- Capture needed
-INSERT INTO `mob_pools` VALUES (7605,'Cehuetzi_OB','Cehuetzi',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);       -- Capture needed
-INSERT INTO `mob_pools` VALUES (7606,'Teodor_OB','Teodor',295,0x00001F0C00000000000000000000000000000000,4,6,3,240,100,0,1,1,1,16,0,32,0,3,0,0,399,0,0,1101,149,NULL,NULL); -- Capture needed
-INSERT INTO `mob_pools` VALUES (7607,'August_OB','August',295,0x00001C0C00000000000000000000000000000000,7,1,3,180,100,0,1,1,1,16,0,32,0,3,0,0,397,0,0,1099,149,NULL,NULL); -- Capture needed
+INSERT INTO `mob_pools` VALUES (7600,'Bztavian_OB','Bztavian',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                            -- Capture needed
+INSERT INTO `mob_pools` VALUES (7601,'Rockfin_OB','Rockfin',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                              -- Capture needed
+INSERT INTO `mob_pools` VALUES (7602,'Gabbrath_OB','Gabbrath',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                            -- Capture needed
+INSERT INTO `mob_pools` VALUES (7603,'Yggdreant_OB','Yggdreant',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                          -- Capture needed
+INSERT INTO `mob_pools` VALUES (7604,'Waktza_OB','Waktza',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                                -- Capture needed
+INSERT INTO `mob_pools` VALUES (7605,'Cehuetzi_OB','Cehuetzi',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                            -- Capture needed
+INSERT INTO `mob_pools` VALUES (7606,'Teodor_OB','Teodor',295,0x00001F0C00000000000000000000000000000000,4,6,3,240,100,0,1,1,1,16,0,32,0,3,0,0,399,0,0,1101,149,NULL,NULL);                      -- Capture needed
+INSERT INTO `mob_pools` VALUES (7607,'August_OB','August',295,0x00001C0C00000000000000000000000000000000,7,1,3,180,100,0,1,1,1,16,0,32,0,3,0,0,397,0,0,1099,149,NULL,NULL);                      -- Capture needed
+INSERT INTO `mob_pools` VALUES (7608,'Antican_Curule_Aedilis','Antican_Curule_Aedilis',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);   -- Capture needed
+INSERT INTO `mob_pools` VALUES (7609,'Berserk_Bunny','Berserk_Bunny',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                     -- Capture needed
+INSERT INTO `mob_pools` VALUES (7610,'Cave_Kraken','Cave_Kraken',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                         -- Capture needed
+INSERT INTO `mob_pools` VALUES (7611,'Cornucopieyes','Cornucopieyes',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                     -- Capture needed
+INSERT INTO `mob_pools` VALUES (7612,'Daimoxinos','Daimoxinos',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                           -- Capture needed
+INSERT INTO `mob_pools` VALUES (7613,'Dendigger_Crab','Dendigger_Crab',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                   -- Capture needed
+INSERT INTO `mob_pools` VALUES (7614,'Elkopsikor','Elkopsikor',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                           -- Capture needed
+INSERT INTO `mob_pools` VALUES (7615,'Feathered_Foe','Feathered_Foe',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                     -- Capture needed
+INSERT INTO `mob_pools` VALUES (7616,'Felsic_Marolith','Felsic_Marolith',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                 -- Capture needed
+INSERT INTO `mob_pools` VALUES (7617,'Floppy_Hare','Floppy_Hare',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                         -- Capture needed
+INSERT INTO `mob_pools` VALUES (7618,'Forcer','Forcer',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                                   -- Capture needed
+INSERT INTO `mob_pools` VALUES (7619,'Fresh_Catch','Fresh_Catch',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                         -- Capture needed
+INSERT INTO `mob_pools` VALUES (7620,'Garmatur_the_Merciless','Garmatur_the_Merciless',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);   -- Capture needed
+INSERT INTO `mob_pools` VALUES (7621,'Goblin_Browbeater','Goblin_Browbeater',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);             -- Capture needed
+INSERT INTO `mob_pools` VALUES (7622,'Grotto_Panopt','Grotto_Panopt',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                     -- Capture needed
+INSERT INTO `mob_pools` VALUES (7623,'Hirudinid','Hirudinid',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                             -- Capture needed
+INSERT INTO `mob_pools` VALUES (7624,'Izyx','Izyx',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                                       -- Capture needed
+INSERT INTO `mob_pools` VALUES (7625,'Izyxs_Voyeur','Izyxs_Voyeur',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                       -- Capture needed
+INSERT INTO `mob_pools` VALUES (7626,'Limber_Lynx','Limber_Lynx',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                         -- Capture needed
+INSERT INTO `mob_pools` VALUES (7627,'Mafic_Marolith','Mafic_Marolith',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                   -- Capture needed
+INSERT INTO `mob_pools` VALUES (7628,'Magisterial_Meeble','Magisterial_Meeble',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);           -- Capture needed
+INSERT INTO `mob_pools` VALUES (7629,'Maze_Lurker','Maze_Lurker',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                         -- Capture needed
+INSERT INTO `mob_pools` VALUES (7630,'Melisseus','Melisseus',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                             -- Capture needed
+INSERT INTO `mob_pools` VALUES (7631,'Melisseus_Zamzama','Melisseus_Zamzama',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);             -- Capture needed
+INSERT INTO `mob_pools` VALUES (7632,'Moblin_Commander','Moblin_Commander',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);               -- Capture needed
+INSERT INTO `mob_pools` VALUES (7633,'Moblin_Rapscallion','Moblin_Rapscallion',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);           -- Capture needed
+INSERT INTO `mob_pools` VALUES (7634,'Moblin_Ruffian','Moblin_Ruffian',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                   -- Capture needed
+INSERT INTO `mob_pools` VALUES (7635,'Moblin_Thaumaturge','Moblin_Thaumaturge',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);           -- Capture needed
+INSERT INTO `mob_pools` VALUES (7636,'Rambunctious_Meeble','Rambunctious_Meeble',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);         -- Capture needed
+INSERT INTO `mob_pools` VALUES (7637,'Rapacious_Meeble','Rapacious_Meeble',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);               -- Capture needed
+INSERT INTO `mob_pools` VALUES (7638,'Samursk','Samursk',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                                 -- Capture needed
+INSERT INTO `mob_pools` VALUES (7639,'Spikehelm_Argok','Spikehelm_Argok',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                 -- Capture needed
+INSERT INTO `mob_pools` VALUES (7640,'Stagdella','Stagdella',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                             -- Capture needed
+INSERT INTO `mob_pools` VALUES (7641,'Tethys','Tethys',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                                   -- Capture needed
+INSERT INTO `mob_pools` VALUES (7642,'Tunnel_Crab','Tunnel_Crab',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);                         -- Capture needed
+INSERT INTO `mob_pools` VALUES (7643,'Pupil_Palliator_I','Pupil_Palliator_I',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);             -- Capture needed
+INSERT INTO `mob_pools` VALUES (7644,'Pupil_Palliator_III','Pupil_Palliator_III',0,0x0000000000000000000000000000000000000000,1,1,1,240,100,0,1,1,1,16,0,0,0,3,0,0,0,0,0,0,0,NULL,NULL);         -- Capture needed
 
 -- ------------------------------------------------------------
 -- Start of Ambuscade section
