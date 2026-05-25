@@ -19317,40 +19317,39 @@ uint16 CLuaBaseEntity::getDespoilDebuff(uint16 itemID)
 
 /************************************************************************
  *  Function: itemStolen()
- *  Purpose : Flags a mob's item as stolen, returns true upon update
- *  Example : target:itemStolen()
- *  Notes   : Used in scripts/globals/job_utils/thief.lua
+ *  Purpose : Flags a mob's item as stolen or not
+ *  Example : target:itemStolen(true)
+ *  Notes   : Used in scripts/globals/job_utils/thief.lua and QM NM popping code
  ************************************************************************/
 
-bool CLuaBaseEntity::itemStolen()
+void CLuaBaseEntity::itemStolen(bool stolen)
 {
     if (m_PBaseEntity->objtype != TYPE_MOB)
     {
         ShowWarning("Attempting to flag stolen item for invalid entity type (%s).", m_PBaseEntity->getName());
-        return false;
+        return;
     }
 
-    static_cast<CMobEntity*>(m_PBaseEntity)->m_ItemStolen = true;
-    return true;
+    static_cast<CMobEntity*>(m_PBaseEntity)->m_ItemStolen = stolen;
+    return;
 }
 
 /************************************************************************
  *  Function: itemDespoiled()
- *  Purpose : Flags a mob's item as despoiled, returns true upon update
+ *  Purpose : Flags a mob's item as despoiled or not
  *  Example : target:itemDespoiled()
- *  Notes   : Used in scripts/globals/job_utils/thief.lua
+ *  Notes   : Used in scripts/globals/job_utils/thief.lua and and QM NM popping code
  ************************************************************************/
 
-bool CLuaBaseEntity::itemDespoiled()
+void CLuaBaseEntity::itemDespoiled(bool despoiled)
 {
     if (m_PBaseEntity->objtype != TYPE_MOB)
     {
         ShowWarning("Attempting to flag despoiled item for invalid entity type (%s).", m_PBaseEntity->getName());
-        return false;
+        return;
     }
 
-    static_cast<CMobEntity*>(m_PBaseEntity)->m_ItemDespoiled = true;
-    return true;
+    static_cast<CMobEntity*>(m_PBaseEntity)->m_ItemDespoiled = despoiled;
 }
 
 /************************************************************************
