@@ -979,6 +979,11 @@ xi.mobSkill =
 
     PROBOSCIS_SHOWER              = 1708,
 
+    KIBOSH                        = 1725,
+    CUTPURSE                      = 1726,
+    SANDSPRAY                     = 1727,
+    FAZE                          = 1728,
+
     FORCEFUL_BLOW                 = 1731, -- Used with Mamool's weapons break.
 
     FIRESPIT                      = 1733,
