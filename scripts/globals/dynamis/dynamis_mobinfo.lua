@@ -19,7 +19,7 @@ xi.dynamis.mobType = xi.dynamis.mobType or
 
 -- Debug control
 xi.mobinfo = xi.mobinfo or {}
-xi.mobinfo.DEBUG = false
+xi.mobinfo.DEBUG = true
 
 local function debugPrint(message)
     if xi.mobinfo.DEBUG then
@@ -500,16 +500,29 @@ end
 -- Spawn mechanics
 -- ---------------------
 local function calculateLineSpawnPosition(statuePos, lineSpawnConfig, spawnedCount, addSpawnPos)
-    local lineSpawnOffset = lineSpawnConfig and lineSpawnConfig[spawnedCount + 1]
-    local lineSpawnDistance = lineSpawnConfig and lineSpawnConfig.behind and lineSpawnConfig.behind[spawnedCount + 1]
-    local lineSpawnSideDistance = lineSpawnConfig and lineSpawnConfig.side and lineSpawnConfig.side[spawnedCount + 1]
+    local lineSpawnOffset           = lineSpawnConfig and lineSpawnConfig[spawnedCount + 1]
+    local lineSpawnDistance         = lineSpawnConfig and lineSpawnConfig.behind and lineSpawnConfig.behind[spawnedCount + 1]
+    local lineSpawnSideDistance     = lineSpawnConfig and lineSpawnConfig.side and lineSpawnConfig.side[spawnedCount + 1]
+    local lineSpawnBehindLine       = lineSpawnConfig and lineSpawnConfig.behindLine
+    local lineSpawnBehindLineSide   = lineSpawnBehindLine and lineSpawnBehindLine.side and lineSpawnBehindLine.side[spawnedCount + 1]
 
     local spawnX = statuePos.x
     local spawnY = statuePos.y
     local spawnZ = statuePos.z
     local shouldSetSpawn = true
 
-    if lineSpawnDistance then
+    if lineSpawnBehindLine then
+        -- behindLine is checked first to avoid Lua treating 0 as truthy in the behind/side branches
+        local rawBehind       = lineSpawnBehindLine.behind
+        local behindDist      = type(rawBehind) == 'table' and (rawBehind[spawnedCount + 1] or 0) or (rawBehind or 0)
+        local sideDist        = lineSpawnBehindLineSide or 0
+        local rotationRadians = (statuePos.rot / 256) * 2 * math.pi
+        local cosRot          = math.cos(2 * math.pi - rotationRadians)
+        local sinRot          = math.sin(2 * math.pi - rotationRadians)
+
+        spawnX = spawnX + cosRot * -behindDist - sinRot * sideDist
+        spawnZ = spawnZ + sinRot * -behindDist + cosRot * sideDist
+    elseif lineSpawnDistance then
         local rotationRadians = (statuePos.rot / 256) * 2 * math.pi
         local behindXOffset = math.cos(2 * math.pi - rotationRadians) * -lineSpawnDistance
         local behindZOffset = math.sin(2 * math.pi - rotationRadians) * -lineSpawnDistance
@@ -643,6 +656,14 @@ xi.dynamis.spawnNextMobsOnce = function(statue, count, target, checkForceSpawn)
 
             spawnedCount = spawnedCount + 1
             i = i + 1
+
+            -- BST and SMN spawn a pet at mob:getID() + 1 via callPets inside onMobSpawn.
+            -- That callback runs async, so the pet has no master yet when the loop reaches it.
+            -- Pre-skip the pet slot here so it isn't counted as a regular mob.
+            local job = mobToSpawn:getMainJob()
+            if job == xi.job.BST or job == xi.job.SMN then
+                i = i + 1
+            end
         end
     end
 end
