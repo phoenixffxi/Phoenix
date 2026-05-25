@@ -1,54 +1,30 @@
 -----------------------------------
 -- Attachment: Ice Maker
+-- Description : Adds ice maneuver burden to increase magic damage.
+-- 50% at 1, 75% at 2, and 100% at 3. Works as a coefficient increase to magic attack bonus.
+-- https://wiki.ffo.jp/html/11198.html
 -----------------------------------
 ---@type TAttachment
 local attachmentObject = {}
 
-attachmentObject.onEquip = function(automaton)
-    automaton:addListener('MAGIC_START', 'AUTO_ICE_MAKER_START', function(pet, target, spell, action)
-        if spell:getSkillType() ~= xi.skill.ELEMENTAL_MAGIC then
-            return
-        end
-
-        local master    = pet:getMaster()
-        local maneuvers = utils.clamp(master:countEffect(xi.effect.ICE_MANEUVER), 0, 3)
-        local amount    = 0
-
-        -- Values updated in https://wiki.ffo.jp/html/34039.html version update.
-        if maneuvers > 0 then
-            amount = 25 + 25 * maneuvers
-        end
-
-        pet:setMod(xi.mod.AUTO_MAB_COEFFICIENT, amount)
-        pet:setLocalVar('iceMakerManeuvers', maneuvers)
-    end)
-
-    automaton:addListener('MAGIC_STATE_EXIT', 'AUTO_ICE_MAKER_END', function(pet, spell)
-        local master   = pet:getMaster()
-        local toRemove = pet:getLocalVar('iceMakerManeuvers')
-
-        if toRemove == 0 then
-            return
-        end
-
-        for i = 1, toRemove do
-            master:delStatusEffectSilent(xi.effect.ICE_MANEUVER)
-        end
-
-        pet:setMod(xi.mod.AUTO_MAB_COEFFICIENT, 0)
-        pet:setLocalVar('iceMakerManeuvers', 0)
-    end)
+attachmentObject.onEquip = function(pet, attachment)
+    xi.automaton.onAttachmentEquip(pet, attachment)
 end
 
-attachmentObject.onUnequip = function(pet)
-    pet:removeListener('AUTO_ICE_MAKER_START')
-    pet:removeListener('AUTO_ICE_MAKER_END')
+attachmentObject.onUnequip = function(pet, attachment)
+    xi.automaton.onAttachmentUnequip(pet, attachment)
 end
 
-attachmentObject.onManeuverGain = function(pet, maneuvers)
+attachmentObject.onManeuverGain = function(pet, attachment, maneuvers)
+    xi.automaton.onManeuverGain(pet, attachment, maneuvers)
 end
 
-attachmentObject.onManeuverLose = function(pet, maneuvers)
+attachmentObject.onManeuverLose = function(pet, attachment, maneuvers)
+    xi.automaton.onManeuverLose(pet, attachment, maneuvers)
+end
+
+attachmentObject.onUpdate = function(pet, attachment, maneuvers)
+    xi.automaton.updateAttachmentModifier(pet, attachment, maneuvers)
 end
 
 return attachmentObject

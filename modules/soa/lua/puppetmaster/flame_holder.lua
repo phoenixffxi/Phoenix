@@ -1,6 +1,8 @@
 -----------------------------------
 -- Flame Holder
--- Reverts Flame Holder to its pre-2019 functionality - Where it consumed Fire Maneuvers on skill execution.
+-- Reverts Flame Holder to its pre-2015 functionality - Where it consumed Fire Maneuvers on skill execution.
+-- Flame Holder Bonus increased on August 5th, 2015.
+-- Changed to no longer consume Fire Maneuvers on August 6th, 2019.
 -- Source : https://wiki.ffo.jp/html/11183.html
 -----------------------------------
 require('modules/module_utils')
