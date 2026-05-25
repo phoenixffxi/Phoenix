@@ -6,6 +6,19 @@
 local entity = {}
 
 entity.onSpawn = function(npc)
+    local lowerDoorNpc = GetNPCByID(npc:getID() + 2)
+    local upperDoorNpc = GetNPCByID(npc:getID() + 1)
+
+    if lowerDoorNpc then
+        lowerDoorNpc:setNpcAlwaysRelevant(true)
+    end
+
+    if upperDoorNpc then
+        upperDoorNpc:setNpcAlwaysRelevant(true)
+    end
+
+    npc:setNpcAlwaysRelevant(true)
+
     local elevator =
     {
         id = xi.elevator.TIMED_AUTOMATIC,
