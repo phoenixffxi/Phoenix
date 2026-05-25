@@ -94,6 +94,9 @@ zones[xi.zone.PORT_BASTOK] =
     },
     npc =
     {
+        DRAWBRIDGE_1 = GetFirstID('_6ke'),
+        DRAWBRIDGE_2 = GetFirstID('_6ks'),
+        DRAWBRIDGE_3 = GetFirstID('_6kt'),
     },
 }
 
