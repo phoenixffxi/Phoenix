@@ -229,7 +229,7 @@ xi.job_utils.thief.useDespoil = function(player, target, ability, action)
             player:addItem(despoiled)
         end
 
-        target:itemDespoiled()
+        target:itemDespoiled(true)
 
         -- Attempt to grab the debuff from the DB
         -- If there isn't a debuff assigned to the item stolen, select one at random
@@ -415,7 +415,7 @@ xi.job_utils.thief.useSteal = function(player, target, ability, action)
 
     if target:isMob() and math.random(1, 100) <= stealChance and stolen ~= 0 then
         player:addItem(stolen)
-        target:itemStolen()
+        target:itemStolen(true)
         ability:setMsg(xi.msg.basic.STEAL_SUCCESS) -- Item stolen successfully
         target:triggerListener('ITEM_STOLEN', target, player, stolen)
         -- Aura Steal does not trigger on successful item steal

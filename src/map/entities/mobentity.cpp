@@ -658,14 +658,21 @@ bool CMobEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags)
 void CMobEntity::Spawn()
 {
     TracyZoneScoped;
+
+    // Reset stolen item always for battlefields or only if HP was 0 (mob died)
+    if (this->m_Type & MOBTYPE_BATTLEFIELD || health.hp == 0)
+    {
+        m_ItemStolen    = false;
+        m_ItemDespoiled = false;
+    }
+
     CBattleEntity::Spawn();
+
     m_giveExp        = true;
     m_HiPCLvl        = 0;
     m_HiPartySize    = 0;
     m_THLvl          = 0;
     m_GilfinderLevel = 0;
-    m_ItemStolen     = false;
-    m_ItemDespoiled  = false;
     m_DropItemTime   = 1000ms;
     animationsub     = (uint8)getMobMod(MOBMOD_SPAWN_ANIMATIONSUB);
     SetCallForHelpFlag(false);
