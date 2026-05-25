@@ -11,6 +11,12 @@ zoneObject.onInitialize = function(zone)
     laTheineGlobal.moveFallenEgg()
     xi.chocobo.initZone(zone)
     xi.voidwalker.zoneOnInit(zone)
+
+    local rainbow = GetNPCByID(ID.npc.RAINBOW)
+
+    if rainbow then
+        rainbow:setNpcAlwaysRelevant(true)
+    end
 end
 
 zoneObject.onZoneIn = function(player, prevZone)
