@@ -1057,18 +1057,17 @@ end
 function CBaseEntity:createShop(size, arg1)
 end
 
----@param itemID integer
----@param rawPrice number
----@param arg2 integer
----@param arg3 integer
----@return nil
-function CBaseEntity:addShopItem(itemID, rawPrice, arg2, arg3)
-end
+---@class ShopItemRequirements
+---@field job   xi.job?       Required job; paired with `level`.
+---@field level integer?      Required job level. Only used with `job`.
+---@field guild xi.skill?     Required guild/craft skill; paired with `rank`.
+---@field rank  xi.craftRank? Required guild rank. Only used with `guild`.
 
 ---@param itemID integer
 ---@param rawPrice number
+---@param requirements ShopItemRequirements?
 ---@return nil
-function CBaseEntity:addShopItem(itemID, rawPrice)
+function CBaseEntity:addShopItem(itemID, rawPrice, requirements)
 end
 
 ---@nodiscard

@@ -4906,13 +4906,14 @@ void CLuaBaseEntity::createShop(uint8 size, const sol::object& arg1)
 /************************************************************************
  *  Function: addShopItem()
  *  Purpose : Adds an item and established price to an existing shop
- *          : Optionally accepts a GuildID + Guild Rank requirement
- *  Example : addShopItem(512, 8000)                                                   --Regular item
- *          : addShopItem(512, 8000, xi.skill.CLOTHCRAFT, xi.craftRank.JOURNEYMAN)   --Guild-rank locked item
+ *          : Optionally accepts a job/level or guild/rank requirement
+ *  Example : addShopItem(512, 8000)                                                                   -- Regular item
+ *          : addShopItem(512, 8000, { job   = xi.job.PUP,          level = 80 })                      -- Job-locked item
+ *          : addShopItem(512, 8000, { guild = xi.skill.CLOTHCRAFT, rank  = xi.craftRank.JOURNEYMAN }) -- Guild-rank locked item
  *  Notes   : Use with createShop() - 16 Max Items in Shop
  ************************************************************************/
 
-void CLuaBaseEntity::addShopItem(uint16 itemID, double rawPrice, const sol::object& arg2, const sol::object& arg3)
+void CLuaBaseEntity::addShopItem(const uint16 itemID, const double rawPrice, sol::optional<sol::table> requirements) const
 {
     if (m_PBaseEntity->objtype != TYPE_PC)
     {
@@ -4920,9 +4921,9 @@ void CLuaBaseEntity::addShopItem(uint16 itemID, double rawPrice, const sol::obje
         return;
     }
 
-    CCharEntity* PChar  = static_cast<CCharEntity*>(m_PBaseEntity);
-    uint8        slotID = PChar->Container->getItemsCount();
-    uint32       price  = static_cast<uint32>(rawPrice);
+    const auto*  PChar  = static_cast<CCharEntity*>(m_PBaseEntity);
+    const uint8  slotID = PChar->Container->getItemsCount();
+    const uint32 price  = static_cast<uint32>(rawPrice);
 
     PChar->Container->setItem(slotID, itemID, 0, price);
 
@@ -4930,13 +4931,20 @@ void CLuaBaseEntity::addShopItem(uint16 itemID, double rawPrice, const sol::obje
     // so track the shop's number of items separately from the container's size.
     PChar->Container->setExSize(PChar->Container->getExSize() + 1);
 
-    if (arg2.is<int>() && arg3.is<int>())
+    if (requirements)
     {
-        uint8  guildID   = arg2.as<uint8>();
-        uint16 guildRank = arg3.as<uint16>();
-
-        static_cast<CCharEntity*>(m_PBaseEntity)->Container->setGuildID(slotID, guildID);
-        static_cast<CCharEntity*>(m_PBaseEntity)->Container->setGuildRank(slotID, guildRank);
+        if (auto job = requirements->get<sol::optional<uint8>>("job"))
+        {
+            // Job-locked: player cannot purchase unless they have the given job at the specified level.
+            const auto level = std::clamp<uint8>(requirements->get_or<uint8>("level", 1), 1, 99);
+            PChar->Container->setRestriction(slotID, JobRestriction{ *job, level });
+        }
+        else if (auto guild = requirements->get<sol::optional<uint8>>("guild"))
+        {
+            // Guild-locked: player cannot purchase unless they have the given guild rank.
+            const auto rank = requirements->get_or<uint16>("rank", 0);
+            PChar->Container->setRestriction(slotID, GuildRestriction{ *guild, rank });
+        }
     }
 }
 
