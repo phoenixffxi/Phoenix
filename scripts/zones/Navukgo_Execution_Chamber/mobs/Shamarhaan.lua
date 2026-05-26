@@ -22,6 +22,7 @@ entity.onMobInitialize = function(mob)
     mob:addListener('TAKE_DAMAGE', 'SHAMARHAAN_TAKE_DAMAGE', function(mobArg, damage, attacker, attackType, damageType)
         if damage >= 350 then
             mob:messageText(mob, ID.text.SHAMARHAAN_UNDERESTIMATED)
+            mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 150)
         end
     end)
 end
