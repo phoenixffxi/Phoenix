@@ -27,6 +27,36 @@ local function debugPrint(message)
     end
 end
 
+local timerTargetLocalVar = 'dynamisTimerTargetID'
+
+local function setTimerTarget(mob, target)
+    local targetID = 0
+
+    if target then
+        targetID = target:getID()
+    end
+
+    mob:setLocalVar(timerTargetLocalVar, targetID)
+end
+
+local function getTimerTarget(mob)
+    local targetID = mob:getLocalVar(timerTargetLocalVar)
+    if targetID == 0 then
+        return nil
+    end
+
+    local target = GetPlayerByID(targetID)
+    if target then
+        if target:getZoneID() == mob:getZoneID() then
+            return target
+        end
+
+        return nil
+    end
+
+    return GetEntityByID(targetID, mob:getInstance(), true)
+end
+
 -- ---------------------
 -- General Info functions
 -- ---------------------
@@ -192,9 +222,13 @@ xi.dynamis.spawnAggroStatues = function(mob, target)
             debugPrint('Aggressive Spawn Mob ID: ' .. mobId)
             if mobToSpawn and not mobToSpawn:isSpawned() then
                 mobToSpawn:spawn()
+                setTimerTarget(mobToSpawn, target)
                 mobToSpawn:timer(500, function(mobArg)
-                    if mobArg and target then
-                        mobArg:updateEnmity(target)
+                    if mobArg then
+                        local timerTarget = getTimerTarget(mobArg)
+                        if timerTarget then
+                            mobArg:updateEnmity(timerTarget)
+                        end
                     end
                 end)
             end
@@ -588,8 +622,7 @@ xi.dynamis.spawnNextMobsOnce = function(statue, count, target, checkForceSpawn)
         then
             i = i + 1
         else
-            ---@cast mobToSpawn CBaseEntity
-            mobToSpawn:setMobMod(xi.mobMod.SUPERLINK, statueId)
+            -- mobToSpawn:setMobMod(xi.mobMod.SUPERLINK, statue:getTargID())
             mobToSpawn:setRoamFlags(xi.roamFlag.SCRIPTED)
 
             if spawnOnTop then
@@ -613,6 +646,7 @@ xi.dynamis.spawnNextMobsOnce = function(statue, count, target, checkForceSpawn)
                 -- Spawn 1.5 seconds apart at the statue's position; aggro immediately, no stun or look-at timer.
                 local capturedMob   = mobToSpawn
                 local capturedDelay = spawnedCount * 1500
+                setTimerTarget(capturedMob, target)
                 statue:timer(capturedDelay, function(_statueArg)
                     if not capturedMob or capturedMob:isSpawned() then
                         return
@@ -621,13 +655,15 @@ xi.dynamis.spawnNextMobsOnce = function(statue, count, target, checkForceSpawn)
                     capturedMob:spawn()
 
                     capturedMob:setLocalVar('spawnedFromMaster', 1)
-                    if target then
-                        capturedMob:updateEnmity(target)
+                    local timerTarget = getTimerTarget(capturedMob)
+                    if timerTarget then
+                        capturedMob:updateEnmity(timerTarget)
                     end
                 end)
             else
                 mobToSpawn:spawn()
                 mobToSpawn:setLocalVar('spawnedFromMaster', 1)
+                setTimerTarget(mobToSpawn, target)
 
                 -- One-shot force spawns call this without a target, so only normal engage pulls adds in.
                 if target then
@@ -644,8 +680,9 @@ xi.dynamis.spawnNextMobsOnce = function(statue, count, target, checkForceSpawn)
                         return
                     end
 
-                    if target then
-                        mobArg:lookAt(target:getPos())
+                    local timerTarget = getTimerTarget(mobArg)
+                    if timerTarget then
+                        mobArg:lookAt(timerTarget:getPos())
                     end
 
                     mobArg:setAutoAttackEnabled(true)
