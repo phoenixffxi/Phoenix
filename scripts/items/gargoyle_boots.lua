@@ -17,10 +17,17 @@ itemObject.onItemCheck = function(target, item, caster)
 end
 
 itemObject.onItemUse = function(target, user, item, action)
-    if target:addStatusEffect(xi.effect.STONESKIN, { power = 200, duration = 60, origin = user }) then
-        action:messageID(target:getID(), xi.msg.basic.ITEM_RECEIVES_EFFECT)
+    local pet = user:getPet()
 
-        return xi.effect.STONESKIN
+    if pet and pet:getPetID() == xi.petId.WYVERN then
+        -- item is self target but reports effect on Wyvern.
+        action:ID(user:getID(), pet:getID())
+
+        if pet:addStatusEffect(xi.effect.STONESKIN, { power = 200, duration = 60, origin = user }) then
+            action:messageID(pet:getID(), xi.msg.basic.ITEM_RECEIVES_EFFECT)
+
+            return xi.effect.STONESKIN
+        end
     end
 
     action:messageID(target:getID(), xi.msg.basic.ITEM_NO_EFFECT) -- Guessed
