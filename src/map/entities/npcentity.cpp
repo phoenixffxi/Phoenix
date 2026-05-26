@@ -39,6 +39,7 @@ CNpcEntity::CNpcEntity()
 , widescan(1)
 {
     TracyZoneScoped;
+
     objtype    = TYPE_NPC;
     look.face  = 0x32;
     allegiance = ALLEGIANCE_TYPE::MOB;

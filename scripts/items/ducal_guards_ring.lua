@@ -6,7 +6,7 @@
 ---@type TItem
 local itemObject = {}
 
-itemObject.onItemCheck = function(target, item, param, caster)
+itemObject.onItemCheck = function(target, item, caster)
     local result = 0
     if not target:hasVisitedZone(xi.zone.RULUDE_GARDENS) then
         result = 56

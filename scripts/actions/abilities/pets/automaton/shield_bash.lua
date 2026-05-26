@@ -1,62 +1,77 @@
 -----------------------------------
---  Shield Bash
+-- Shield Bash (Automaton)
+-- Description: Deals damage and stuns the target. Additional effect: Slow - Based on Earth Maneuvers if Hammermill is equipped.
+-- Hammermill Slow increases with tiers per Earth Maneuver, at 3, overrides Haste (tier 6) -- Confirmed in Brenner.
+-- https://wiki.ffo.jp/html/12156.html
 -----------------------------------
 ---@type TAbilityAutomaton
 local abilityObject = {}
+
+-- Slow tier and duration based on Earth Maneuvers.
+local slowTable =
+{
+    [1] = { tier = 4, duration = 30 },
+    [2] = { tier = 5, duration = 50 },
+    [3] = { tier = 6, duration = 70 },
+}
+
+local function applyHammermillSlow(automaton, target, skill, master)
+    local power = automaton:getMod(xi.mod.AUTO_SHIELD_BASH_SLOW) * 100
+    if power <= 0 then
+        return
+    end
+
+    local slowTier = slowTable[master and master:countEffect(xi.effect.EARTH_MANEUVER) or 0]
+
+    local params =
+    {
+        [1] = { effectId = xi.effect.SLOW, power = power, duration = slowTier.duration, tier = slowTier.tier },
+    }
+
+    xi.combat.action.executeMobskillStatusEffect(automaton, target, skill, params, { messageBypass = true })
+end
 
 abilityObject.onAutomatonAbilityCheck = function(target, automaton, skill)
     return 0
 end
 
 abilityObject.onAutomatonAbility = function(target, automaton, skill, master, action)
-    local chance = 90
-    local damage = (automaton:getSkillLevel(xi.skill.AUTOMATON_MELEE) / 2) * (1 + automaton:getMod(xi.mod.SHIELD_BASH) / 100)
+    local params = {}
 
-    damage = math.floor(damage)
+    params.baseDamage     = automaton:getWeaponDmg()
+    params.numHits        = utils.clamp(1 + xi.automaton.getExtraHits(automaton, 1), 1, 8)
+    params.fTP            = { 1.0, 1.0, 1.0 }
+    params.attackType     = xi.attackType.PHYSICAL
+    params.damageType     = xi.damageType.BLUNT
+    params.shadowBehavior = params.numHits
 
-    chance = chance + (automaton:getMainLvl() - target:getMainLvl()) * 5
+    if automaton:getLocalVar('hammermill') == 1 then
+        local shieldBashBonus = 1.0 + automaton:getMod(xi.mod.SHIELD_BASH) / 100
 
-    if math.random() * 100 < chance then
-        target:addStatusEffect(xi.effect.STUN, { power = 1, duration = 6, origin = automaton })
+        params.fTP =
+        {
+            params.fTP[1] * shieldBashBonus,
+            params.fTP[2] * shieldBashBonus,
+            params.fTP[3] * shieldBashBonus,
+        }
+
+        params.guaranteedFirstHit = true
     end
 
-    local slowPower = automaton:getMod(xi.mod.AUTO_SHIELD_BASH_SLOW)
-    if slowPower > 0 then
-        local duration = 20
-        if slowPower == 12 then
-            duration = math.random(20, 35)
-        elseif slowPower == 19 then
-            duration = math.random(51, 57)
-        elseif slowPower == 25 then
-            duration = math.random(70, 75)
+    local info = xi.mobskills.mobPhysicalMove(automaton, target, skill, action, params)
+
+    if xi.mobskills.processDamage(automaton, target, skill, action, info) then
+        target:takeDamage(info.damage, automaton, info.attackType, info.damageType)
+
+        xi.mobskills.mobStatusEffectMove(automaton, target, xi.effect.STUN, 1, 0, 6)
+
+        -- Check for Hammermill, if equipped, apply Slow based on Earth Maneuvers.
+        if automaton:getLocalVar('hammermill') == 1 then
+            applyHammermillSlow(automaton, target, skill, master)
         end
-
-        target:addStatusEffect(xi.effect.SLOW, { power = slowPower * 100, duration = duration, origin = automaton, tier = 3 })
     end
 
-    -- randomize damage
-    -- TODO: Should this use our newer PDIF calcs located in physical_utilities.lua?
-    local ratio = automaton:getStat(xi.mod.ATT) / target:getStat(xi.mod.DEF)
-    if ratio > 1.3 then
-        ratio = 1.3
-    end
-
-    if ratio < 0.2 then
-        ratio = 0.2
-    end
-
-    local pdif = math.random(ratio * 0.8 * 1000, ratio * 1.2 * 1000)
-
-    damage = damage * (pdif / 1000)
-
-    -- TODO: Affected by Phalanx, Physical Damage % modifiers?
-
-    damage = utils.handleStoneskin(target, damage)
-    target:takeDamage(damage, automaton, xi.attackType.PHYSICAL, xi.damageType.BLUNT)
-    target:updateEnmityFromDamage(automaton, damage)
-    target:addEnmity(automaton, 450, 900)
-
-    return damage
+    return info.damage
 end
 
 return abilityObject

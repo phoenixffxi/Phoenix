@@ -22,16 +22,19 @@
 #include "0x0a1_switch_vote.h"
 
 #include "entities/charentity.h"
+#include "nominate_manager.h"
+#include "zone.h"
 
 auto GP_CLI_COMMAND_SWITCH_VOTE::validate(MapSession* PSession, const CCharEntity* PChar) const -> PacketValidationResult
 {
-    // Not implemented.
     return PacketValidator(PChar)
         .blockedBy({ BlockedState::InEvent });
 }
 
 void GP_CLI_COMMAND_SWITCH_VOTE::process(MapSession* PSession, CCharEntity* PChar) const
 {
-    auto name = asStringFromUntrustedSource(this->Name, sizeof(this->Name));
-    ShowDebugFmt("GP_CLI_COMMAND_SWITCH_VOTE: Not implemented. Index: {}, Name: {}", this->Index, name);
+    if (auto* manager = PChar->loc.zone ? PChar->loc.zone->nominateManager() : nullptr)
+    {
+        manager->onVote(PChar, *this);
+    }
 }

@@ -97,6 +97,10 @@ function npcUtil.popFromQM(player, qm, mobId, params)
         -- spawn
         mob:spawn()
 
+        -- mobs that pop from QM should get their steal items reset even if they didn't die on previous pop
+        mob:itemStolen(false)
+        mob:itemDespoiled(false)
+
         -- claim
         if params.claim then
             mob:updateClaim(player)

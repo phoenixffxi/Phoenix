@@ -105,7 +105,6 @@ void GP_CLI_COMMAND_MYROOM_JOB::process(MapSession* PSession, CCharEntity* PChar
         PChar->SetSJob(this->SupportJobIndex);
         PChar->SetSLevel(PChar->jobs.job[PChar->GetSJob()]);
 
-        charutils::CheckEquipLogic(PChar, SCRIPT_CHANGESJOB, prevsjob);
         puppetutils::LoadAutomaton(PChar);
 
         if (this->SupportJobIndex == JOB_BLU)

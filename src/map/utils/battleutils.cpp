@@ -1769,7 +1769,7 @@ float GetRangedDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, b
         ShowError("battleutils::GetRangedDamageRatio() failed to run lua calls");
     }
 
-    return pDIF;
+    return std::max(pDIF, 0.f);
 }
 
 int16 CalculateBaseTP(CBattleEntity* PEntity, int32 delay)
@@ -2763,7 +2763,7 @@ float GetDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool is
         ShowError("battleutils::GetDamageRatio() failed to run lua calls");
     }
 
-    return pDIF;
+    return std::max(pDIF, 0.f);
 }
 
 /************************************************************************
@@ -3992,6 +3992,7 @@ inline bool areInLine(uint8 firstEntityWorldAngle, CBattleEntity* anchorEntity, 
 CBattleEntity* getAvailableTrickAttackChar(CBattleEntity* taUser, CBattleEntity* PMob)
 {
     TracyZoneScoped;
+
     if (!taUser->StatusEffectContainer->HasStatusEffect(EFFECT_TRICK_ATTACK))
     {
         return nullptr;
@@ -4201,8 +4202,8 @@ uint16 doSoulEaterEffect(CCharEntity* m_PChar, uint32 damage)
         // Souleater's HP consumed is 10% (base) + x% from gear (ONLY HIGHEST) + x% from gear augments.
         float souleaterBonus    = m_PChar->getMaxGearMod(Mod::SOULEATER_EFFECT) * 0.01;
         float souleaterBonusII  = m_PChar->getMod(Mod::SOULEATER_EFFECT_II) * 0.01;
-        float stalwartSoulBonus = 1 - static_cast<float>(m_PChar->getMod(Mod::STALWART_SOUL)) / 100;
-        float bonusDamage       = m_PChar->health.hp * (0.1f + souleaterBonus + souleaterBonusII);
+        float stalwartSoulBonus = 1.f - std::max(static_cast<float>(m_PChar->getMod(Mod::STALWART_SOUL)) / 100, 0.f);
+        float bonusDamage       = m_PChar->health.hp * (0.1f + std::max(souleaterBonus + souleaterBonusII, 0.f));
 
         if (bonusDamage >= 1)
         {
@@ -5920,6 +5921,13 @@ uint16 CalculateSpellCost(CBattleEntity* PEntity, CSpell* PSpell)
             cost += (int16)(base * (PEntity->getMod(Mod::WHITE_MAGIC_COST) / 100.0f));
         }
     }
+
+    const auto mpCostReduction = PEntity->getMod(Mod::MP_COST_REDUCTION);
+    if (mpCostReduction > 0)
+    {
+        cost = cost * (1.f - static_cast<float>(mpCostReduction) / 100.f);
+    }
+
     if (xirand::GetRandomNumber(100) < (PEntity->getMod(Mod::NO_SPELL_MP_DEPLETION)))
     {
         cost = 0;

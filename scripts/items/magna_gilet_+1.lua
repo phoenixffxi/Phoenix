@@ -6,7 +6,7 @@
 ---@type TItem
 local itemObject = {}
 
-itemObject.onItemCheck = function(target, item, param, caster)
+itemObject.onItemCheck = function(target, item, caster)
     local result = 0
     if not target:hasVisitedZone(xi.zone.BIBIKI_BAY) then
         result = xi.msg.basic.ITEM_UNABLE_TO_USE_2

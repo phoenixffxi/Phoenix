@@ -5,7 +5,7 @@
 ---@type TItem
 local itemObject = {}
 
-itemObject.onItemCheck = function(target, item, param, caster)
+itemObject.onItemCheck = function(target, item, caster)
     -- Only usable on a mastered job.
     if not target:hasKeyItem(xi.ki.MASTER_BREAKER) then
         return xi.msg.basic.ITEM_UNABLE_TO_USE

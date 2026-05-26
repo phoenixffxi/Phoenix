@@ -6,7 +6,7 @@
 ---@type TItem
 local itemObject = {}
 
-itemObject.onItemCheck = function(target, item, param, caster)
+itemObject.onItemCheck = function(target, item, caster)
     if target:getNation() ~= xi.nation.SANDORIA then
         return xi.msg.basic.ITEM_CANNOT_USE_ON
     end

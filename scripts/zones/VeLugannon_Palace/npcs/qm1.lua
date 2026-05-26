@@ -15,25 +15,15 @@ entity.onTrigger = function(player, npc)
         player:addItem(xi.item.CURTANA)
         player:messageSpecial(ID.text.ITEM_OBTAINED, xi.item.CURTANA) -- Curtana
 
-        -- ??? dissapears for 2 hours and reappears on new position
-        hideTime = 7200
+        -- ??? disappears for 2 or 3 hours and reappears on new position
+        hideTime = 60 * 60 * math.random(2, 3)
     else
         player:messageSpecial(ID.text.ITEM_CANNOT_BE_OBTAINED, xi.item.CURTANA) -- Curtana
+
+        return
     end
 
-    local curtanaPos =
-    {
-        [1] = { -370.039, 16.014, -274.378 },
-        [2] = {     -389,     16,     -274 },
-        [3] = {     -434,     16,     -229 },
-        [4] = {     -434,     16,     -210 },
-        [5] = {      434,     16,     -210 },
-        [6] = {      434,     16,     -230 },
-        [7] = {      390,     16,     -194 },
-        [8] = {      370,     16,     -194 },
-    }
-
-    npc:setPos(unpack(curtanaPos[math.random(1, 8)]))
+    npc:setPos(unpack(ID.positions.curtana[math.random(1, #ID.positions.curtana)]))
     npc:hideNPC(hideTime)
 end
 

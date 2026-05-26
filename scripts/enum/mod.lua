@@ -686,19 +686,20 @@ xi.mod =
     DARK_ARTS_EFFECT                = 335,
     LIGHT_ARTS_SKILL                = 336,
     DARK_ARTS_SKILL                 = 337,
-    LIGHT_ARTS_REGEN                = 338, -- Regen bonus HP from Light Arts and Tabula Rasa
+    LIGHT_ARTS_REGEN                = 338,  -- Regen bonus HP from Light Arts and Tabula Rasa
     REGEN_DURATION                  = 339,
     HELIX_EFFECT                    = 478,
     HELIX_DURATION                  = 477,
     STORMSURGE_EFFECT               = 400,
     SUBLIMATION_BONUS               = 401,
-    GRIMOIRE_SPELLCASTING           = 489, -- "Grimoire: Reduces spellcasting time" bonus
+    GRIMOIRE_SPELLCASTING           = 489,  -- "Grimoire: Reduces spellcasting time" bonus
     WYVERN_BREATH                   = 402,
-    UNCAPPED_WYVERN_BREATH          = 284, -- Uncapped wyvern breath boost. Used on retail for augments, normal gear should use WYVERN_BREATH.
-    REGEN_DOWN                      = 404, -- poison
-    REFRESH_DOWN                    = 405, -- plague, reduce mp
-    REGAIN_DOWN                     = 406, -- plague, reduce tp
-    MAGIC_DAMAGE                    = 311, --  Magic damage added directly to the spell's base damage
+    UNCAPPED_WYVERN_BREATH          = 284,  -- Uncapped wyvern breath boost. Used on retail for augments, normal gear should use WYVERN_BREATH.
+    REGEN_DOWN                      = 404,  -- poison
+    REFRESH_DOWN                    = 405,  -- plague, reduce mp
+    REGAIN_DOWN                     = 406,  -- plague, reduce tp
+    MAGIC_DAMAGE                    = 311,  --  Magic damage added directly to the spell's base damage
+    MP_COST_REDUCTION               = 1197, -- Reduces MP cost of all spells by percentage (e.g. mod value 10 = -10% MP cost)
 
     -- Gear set modifiers
     DA_DOUBLE_DMG_RATE              = 408,  -- Double attack's double damage chance %.

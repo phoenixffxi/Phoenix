@@ -6,7 +6,7 @@
 ---@type TItem
 local itemObject = {}
 
-itemObject.onItemCheck = function(target, item, param, caster)
+itemObject.onItemCheck = function(target, item, caster)
     if target:getZoneID() == xi.zone.MAMOOL_JA_TRAINING_GROUNDS then
         return 0
     end

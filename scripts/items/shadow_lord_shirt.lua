@@ -6,7 +6,7 @@
 ---@type TItem
 local itemObject = {}
 
-itemObject.onItemCheck = function(target, item, param, caster)
+itemObject.onItemCheck = function(target, item, caster)
     local result = 0
     -- Need retail verification: Is having set foot in the zone a requirement?
     if not target:hasVisitedZone(xi.zone.CASTLE_ZVAHL_KEEP) then

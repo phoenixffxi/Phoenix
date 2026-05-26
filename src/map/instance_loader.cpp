@@ -66,6 +66,10 @@ CInstance* CInstanceLoader::LoadInstance() const
 {
     TracyZoneScoped;
 
+    const auto realZoneId      = m_PZone->GetID();
+    const auto overlayId       = m_PInstance->overlayId();
+    const auto effectiveZoneId = (overlayId != 0) ? overlayId : static_cast<uint32>(realZoneId);
+
     auto rset = db::preparedStmt("SELECT mobname, mobid, pos_rot, pos_x, pos_y, pos_z, "
                                  "respawntime, spawntype, dropid, mob_groups.HP, mob_groups.MP, minLevel, maxLevel, "
                                  "modelid, mJob, sJob, cmbSkill, cmbDmgMult, cmbDelay, behavior, links, mobType, immunity, "
@@ -79,13 +83,18 @@ CInstance* CInstanceLoader::LoadInstance() const
                                  "(mob_species_system.HP / 100) AS hp_scale, (mob_species_system.MP / 100) AS mp_scale, hasSpellScript, spellList, mob_groups.poolid, "
                                  "allegiance, namevis, aggro, mob_pools.skill_list_id, mob_pools.true_detection, detects, "
                                  "mob_species_system.charmable, mob_pools.modelSize, mob_pools.modelHitboxSize "
-                                 "FROM instance_entities INNER JOIN mob_spawn_points ON instance_entities.id = mob_spawn_points.mobid "
-                                 "INNER JOIN mob_groups ON mob_groups.groupid = mob_spawn_points.groupid AND mob_groups.zoneid=((mob_spawn_points.mobid>>12)&0xFFF) "
+                                 "FROM instance_entities "
+                                 "INNER JOIN mob_spawn_points ON instance_entities.id = mob_spawn_points.mobid "
+                                 "INNER JOIN mob_groups ON mob_groups.groupid = mob_spawn_points.groupid AND mob_groups.zoneid = ? "
                                  "INNER JOIN mob_pools ON mob_groups.poolid = mob_pools.poolid "
                                  "INNER JOIN mob_resistances ON mob_resistances.resist_id = mob_pools.resist_id "
                                  "INNER JOIN mob_species_system ON mob_pools.speciesid = mob_species_system.speciesID "
-                                 "WHERE instanceid = ? AND NOT (pos_x = 0 AND pos_y = 0 AND pos_z = 0)",
-                                 m_PInstance->GetID());
+                                 "WHERE instanceid = ? "
+                                 "  AND ((mob_spawn_points.mobid >> 12) & 0xFFF) = ? "
+                                 "  AND NOT (pos_x = 0 AND pos_y = 0 AND pos_z = 0)",
+                                 realZoneId,
+                                 m_PInstance->GetID(),
+                                 effectiveZoneId);
 
     if (!m_PInstance->Failed())
     {
@@ -231,7 +240,7 @@ CInstance* CInstanceLoader::LoadInstance() const
             m_PInstance->InsertMOB(PMob);
         }
 
-        const uint32 zoneMin = (m_PZone->GetID() << 12) + 0x1000000;
+        const uint32 zoneMin = (effectiveZoneId << 12) + 0x1000000;
         const uint32 zoneMax = zoneMin + 1024;
 
         rset = db::preparedStmt("SELECT npcid, name, pos_rot, pos_x, pos_y, pos_z, "

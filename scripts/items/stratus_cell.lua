@@ -6,7 +6,7 @@
 ---@type TItem
 local itemObject = {}
 
-itemObject.onItemCheck = function(target, item, param, caster)
+itemObject.onItemCheck = function(target, item, caster)
     return xi.salvage.onCellItemCheck(target, xi.effect.ENCUMBRANCE_I, 0x0180)
 end
 

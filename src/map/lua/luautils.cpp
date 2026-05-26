@@ -244,6 +244,8 @@ void init(IPP mapIPP, bool isRunningInCI)
     lua.set_function("GarbageCollectFull", &luautils::garbageCollectFull);
     lua.set_function("GetZone", &luautils::GetZone);
     lua.set_function("GetItemByID", &luautils::GetItemByID);
+    lua.set_function("GetItemFlagsByID", &luautils::GetItemFlagsByID);
+    lua.set_function("GetItemLevelRequirementsByID", &luautils::GetItemLevelRequirementsByID);
     lua.set_function("GetNPCByID", &luautils::GetNPCByID);
     lua.set_function("GetMobByID", &luautils::GetMobByID);
     lua.set_function("GetEntityByID", &luautils::GetEntityByID);
@@ -561,6 +563,7 @@ void init(IPP mapIPP, bool isRunningInCI)
     std::vector<std::string> GetContainerFilenamesList()
     {
         TracyZoneScoped;
+
         std::vector<std::string> outVec;
 
         // Scrape for files of the form:
@@ -1050,33 +1053,56 @@ void PopulateIDLookups(uint16 zoneId, const std::string& zoneName)
     // Load all Name/ID pairs from mobs and npcs
     std::unordered_map<std::string, std::vector<uint32>> lookup;
 
-    // Mobs
-    {
-        const auto rset = db::preparedStmt("SELECT mobname, mobid FROM mob_spawn_points WHERE ((mobid >> 12) & 0xFFF) = ? ORDER BY mobid ASC", zoneId);
-        if (rset && rset->rowsCount())
-        {
-            while (rset->next())
-            {
-                const auto name = rset->get<std::string>("mobname");
-                const auto id   = rset->get<uint32>("mobid");
+    std::vector<uint16> effectiveZones;
+    effectiveZones.push_back(static_cast<uint16>(zoneId));
 
-                lookup[name].emplace_back(id);
-            }
+    const auto overlayRset = db::preparedStmt("SELECT overlay_id FROM instance_list "
+                                              "WHERE instance_zone = ? AND overlay_id IS NOT NULL AND overlay_id != 0",
+                                              zoneId);
+    FOR_DB_MULTIPLE_RESULTS(overlayRset)
+    {
+        effectiveZones.push_back(overlayRset->get<uint16>("overlay_id"));
+    }
+
+    const auto idRange = [](uint16 effectiveZone) -> std::pair<uint32, uint32>
+    {
+        const uint32 idMin = (static_cast<uint32>(effectiveZone) << 12) | 0x01000000;
+        return { idMin, idMin + 0xFFF };
+    };
+
+    // Mobs
+    for (auto effectiveZone : effectiveZones)
+    {
+        const auto [idMin, idMax] = idRange(effectiveZone);
+        const auto rset           = db::preparedStmt("SELECT mobname, mobid FROM mob_spawn_points "
+                                                     "WHERE mobid BETWEEN ? AND ? "
+                                                     "ORDER BY mobid ASC",
+                                           idMin,
+                                           idMax);
+        FOR_DB_MULTIPLE_RESULTS(rset)
+        {
+            const auto name = rset->get<std::string>("mobname");
+            const auto id   = rset->get<uint32>("mobid");
+
+            lookup[name].emplace_back(id);
         }
     }
 
     // NPCs
+    for (auto effectiveZone : effectiveZones)
     {
-        const auto rset = db::preparedStmt("SELECT name, npcid FROM npc_list WHERE ((npcid >> 12) & 0xFFF) = ? ORDER BY npcid ASC", zoneId);
-        if (rset && rset->rowsCount())
+        const auto [idMin, idMax] = idRange(effectiveZone);
+        const auto rset           = db::preparedStmt("SELECT name, npcid FROM npc_list "
+                                                     "WHERE npcid BETWEEN ? AND ? "
+                                                     "ORDER BY npcid ASC",
+                                           idMin,
+                                           idMax);
+        FOR_DB_MULTIPLE_RESULTS(rset)
         {
-            while (rset->next())
-            {
-                const auto name = rset->get<std::string>("name");
-                const auto id   = rset->get<uint32>("npcid");
+            const auto name = rset->get<std::string>("name");
+            const auto id   = rset->get<uint32>("npcid");
 
-                lookup[name].emplace_back(id);
-            }
+            lookup[name].emplace_back(id);
         }
     }
 
@@ -1266,6 +1292,36 @@ auto GetItemByID(uint32 itemId) -> const CItem*
     return xi::items::lookup(itemId);
 }
 
+// GetItemByID currently fails because we can't properly guarantee the constness of `const CItem*`
+// We fetch the template and then intend to return an item, but that's really just not set up to work properly
+// So instead we return non-reference values from the item templates that cannot be modified
+// Remove me when we come up with a better way to fetch item templates in lua
+auto GetItemFlagsByID(uint32 itemId) -> ItemFlag
+{
+    const auto* item = xi::items::lookup(itemId);
+    if (item)
+    {
+        return item->getFlag();
+    }
+
+    return ItemFlag::None;
+}
+
+// GetItemByID currently fails because we can't properly guarantee the constness of `const CItem*`
+// We fetch the template and then intend to return an item, but that's really just not set up to work properly
+// So instead we return non-reference values from the item templates that cannot be modified
+// Remove me when we come up with a better way to fetch item templates in lua
+auto GetItemLevelRequirementsByID(uint32 itemId) -> uint8
+{
+    const auto* item = xi::items::lookup<CItemEquipment>(itemId);
+    if (item)
+    {
+        return item->getReqLvl();
+    }
+
+    return 0;
+}
+
 CBaseEntity* GetNPCByID(uint32 npcid, const sol::object& instanceObj)
 {
     TracyZoneScoped;
@@ -1390,18 +1446,21 @@ CBaseEntity* GetEntityByID(uint32 entityid, const sol::object& instanceObj, cons
 void WeekUpdateConquest(uint8 updateType)
 {
     TracyZoneScoped;
+
     conquest::UpdateConquestGM(static_cast<ConquestUpdate>(updateType));
 }
 
 uint8 GetRegionOwner(uint8 type)
 {
     TracyZoneScoped;
+
     return conquest::GetRegionOwner(static_cast<REGION_TYPE>(type));
 }
 
 uint8 GetRegionInfluence(uint8 type)
 {
     TracyZoneScoped;
+
     return conquest::GetInfluenceGraphics(static_cast<REGION_TYPE>(type));
 }
 
@@ -1430,12 +1489,14 @@ uint8 GetNationRank(uint8 nation)
 uint8 GetConquestBalance()
 {
     TracyZoneScoped;
+
     return conquest::GetBalance();
 }
 
 bool IsConquestAlliance()
 {
     TracyZoneScoped;
+
     return conquest::IsAlliance();
 }
 
@@ -1524,18 +1585,21 @@ uint32 VanadielMonth()
 uint32 VanadielUniqueDay()
 {
     TracyZoneScoped;
+
     return vanadiel_time::count_days(vanadiel_time::now().time_since_epoch());
 }
 
 uint32 VanadielDayOfTheYear()
 {
     TracyZoneScoped;
+
     return vanadiel_time::get_yearday();
 }
 
 uint32 VanadielDayOfTheMonth()
 {
     TracyZoneScoped;
+
     return vanadiel_time::get_monthday();
 }
 
@@ -1551,18 +1615,21 @@ uint32 VanadielDayOfTheMonth()
 uint32 VanadielDayOfTheWeek()
 {
     TracyZoneScoped;
+
     return vanadiel_time::get_weekday();
 }
 
 uint32 VanadielHour()
 {
     TracyZoneScoped;
+
     return vanadiel_time::get_hour();
 }
 
 uint32 VanadielMinute()
 {
     TracyZoneScoped;
+
     return vanadiel_time::get_minute();
 }
 
@@ -1578,6 +1645,7 @@ uint32 VanadielMinute()
 uint8 VanadielDayElement()
 {
     TracyZoneScoped;
+
     return static_cast<uint8>(battleutils::GetDayElement());
 }
 
@@ -1589,6 +1657,7 @@ uint8 VanadielDayElement()
 uint32 GetSystemTime()
 {
     TracyZoneScoped;
+
     return earth_time::timestamp();
 }
 
@@ -1693,6 +1762,7 @@ void DecrementLinkshellConciergeMembersGoal(uint16 zoneId, uint32 linkshellid)
 uint32 JstMidnight()
 {
     TracyZoneScoped;
+
     auto jstMidnight = earth_time::jst::get_next_midnight();
     return earth_time::timestamp(jstMidnight);
 }
@@ -1700,12 +1770,14 @@ uint32 JstMidnight()
 uint32 JstDayOfTheYear()
 {
     TracyZoneScoped;
+
     return earth_time::jst::get_yearday();
 }
 
 uint32 JstDayOfTheMonth()
 {
     TracyZoneScoped;
+
     return earth_time::jst::get_monthday();
 }
 
@@ -1718,24 +1790,28 @@ uint32 JstDayOfTheMonth()
 uint32 JstDayOfTheWeek()
 {
     TracyZoneScoped;
+
     return earth_time::jst::get_weekday();
 }
 
 int32 JstYear()
 {
     TracyZoneScoped;
+
     return earth_time::jst::get_year();
 }
 
 uint32 JstMonth()
 {
     TracyZoneScoped;
+
     return earth_time::jst::get_month();
 }
 
 uint32 JstHour()
 {
     TracyZoneScoped;
+
     return earth_time::jst::get_hour();
 }
 
@@ -1748,6 +1824,7 @@ uint32 JstHour()
 uint32 NextGameTime(uint32 intervalSeconds)
 {
     TracyZoneScoped;
+
     uint32 vanaTimestamp = earth_time::vanadiel_timestamp();
     uint32 secondsMod    = vanaTimestamp % intervalSeconds;
     auto   nextInterval  = std::chrono::seconds(vanaTimestamp - secondsMod + intervalSeconds);
@@ -1760,6 +1837,7 @@ uint32 NextGameTime(uint32 intervalSeconds)
 uint32 NextJstWeek()
 {
     TracyZoneScoped;
+
     return earth_time::timestamp(earth_time::get_next_game_week());
 }
 
@@ -1768,30 +1846,35 @@ uint32 NextJstWeek()
 uint32 VanadielMoonPhase()
 {
     TracyZoneScoped;
+
     return vanadiel_time::moon::get_phase();
 }
 
 uint8 VanadielMoonDirection()
 {
     TracyZoneScoped;
+
     return vanadiel_time::moon::get_direction();
 }
 
 uint8 VanadielRSERace()
 {
     TracyZoneScoped;
+
     return vanadiel_time::rse::get_race();
 }
 
 uint8 VanadielRSELocation()
 {
     TracyZoneScoped;
+
     return vanadiel_time::rse::get_location();
 }
 
 void SetTimeOffset(const int32 offset)
 {
     TracyZoneScoped;
+
     earth_time::reset_offset();
     earth_time::add_offset(std::chrono::seconds(offset));
 }
@@ -1940,6 +2023,7 @@ bool PlayerHasValidSession(uint32 playerId)
 void SendToJailOffline(uint32 playerId, int8 cellId, float posX, float posY, float posZ, uint8 rot)
 {
     TracyZoneScoped;
+
     charutils::PersistCharVar(playerId, "inJail", cellId);
     db::preparedStmt("UPDATE chars SET pos_x = ?, pos_y = ?, pos_z = ?, pos_rot = ?, pos_zone = ?, moghouse = 0 WHERE charid = ?",
                      posX,
@@ -1953,6 +2037,7 @@ void SendToJailOffline(uint32 playerId, int8 cellId, float posX, float posY, flo
 void DrawIn(CLuaBaseEntity* PLuaBaseEntity, const sol::table& table, float offset, float degrees)
 {
     TracyZoneScoped;
+
     if (auto* PBattleEntity = dynamic_cast<CBattleEntity*>(PLuaBaseEntity->GetBaseEntity()))
     {
         position_t pos;
@@ -1973,6 +2058,7 @@ void DrawIn(CLuaBaseEntity* PLuaBaseEntity, const sol::table& table, float offse
 int32 GetTextIDVariable(uint16 ZoneID, const char* variable)
 {
     TracyZoneScoped;
+
     return lua["zones"][ZoneID]["text"][variable].get_or(0);
 }
 
@@ -2772,7 +2858,7 @@ void OnUpdateAttachment(CBattleEntity* PEntity, const CItemPuppet* attachment, u
 
 // We check the possibility of using the item.
 // If all is well, then return value - 0, in case of failure - error message number
-auto OnItemCheck(CBaseEntity* PTarget, CItem* PItem, ITEMCHECK param, CBaseEntity* PCaster) -> std::tuple<int32, int32, int32>
+auto OnItemCheck(CBaseEntity* PTarget, CItem* PItem, CBaseEntity* PCaster) -> std::tuple<int32, int32, int32>
 {
     TracyZoneScoped;
 
@@ -2784,7 +2870,7 @@ auto OnItemCheck(CBaseEntity* PTarget, CItem* PItem, ITEMCHECK param, CBaseEntit
         return { 56, 0, 0 };
     }
 
-    auto result = onItemCheck(PTarget, PItem, static_cast<uint32>(param), PCaster);
+    auto result = onItemCheck(PTarget, PItem, PCaster);
     if (!result.valid())
     {
         sol::error err = result;
@@ -3472,6 +3558,7 @@ void OnMobDisengage(CBaseEntity* PMob)
 void OnMobFollow(CBaseEntity* PMob, CBaseEntity* PTarget)
 {
     TracyZoneScoped;
+
     if (PTarget == nullptr || PMob == nullptr)
     {
         return;
@@ -3494,6 +3581,7 @@ void OnMobFollow(CBaseEntity* PMob, CBaseEntity* PTarget)
 void OnMobUnfollow(CBaseEntity* PMob, CBaseEntity* PTarget)
 {
     TracyZoneScoped;
+
     if (PTarget == nullptr || PMob == nullptr)
     {
         return;
@@ -4568,6 +4656,7 @@ bool OnCanUseSpell(CBattleEntity* PChar, CSpell* PSpell) // triggers when CanUse
 void Terminate()
 {
     TracyZoneScoped;
+
     // clang-format off
         zoneutils::ForEachZone([](CZone* PZone)
         {
@@ -4826,6 +4915,7 @@ void OnInstanceComplete(CInstance* PInstance)
 void StartElevator(uint32 ElevatorID)
 {
     TracyZoneScoped;
+
     CTransportHandler::getInstance()->startElevator(ElevatorID);
 }
 
@@ -4833,6 +4923,7 @@ void StartElevator(uint32 ElevatorID)
 int16 GetElevatorState(uint8 id) // Returns -1 if elevator is not found. Otherwise, returns the uint8 state.
 {
     TracyZoneScoped;
+
     Elevator_t* elevator = CTransportHandler::getInstance()->getElevator(id);
 
     if (elevator)
@@ -5389,6 +5480,7 @@ void OnFurnitureRemoved(CCharEntity* PChar, CItemFurnishing* PItem)
 uint16 SelectDailyItem(CLuaBaseEntity* PLuaBaseEntity, uint8 dial)
 {
     TracyZoneScoped;
+
     CCharEntity* player = dynamic_cast<CCharEntity*>(PLuaBaseEntity->GetBaseEntity());
     return daily::SelectItem(player, dial);
 }

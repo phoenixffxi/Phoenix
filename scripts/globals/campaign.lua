@@ -326,7 +326,11 @@ xi.campaign.sigilOnEventUpdate = function(player, csid, option, npc)
         -- needing to check types.  The first checks job requirement only, followed by
         -- job requirement _and_ level so that the appropriate message is displayed.
 
-        if GetItemByID(itemInfo[1]):getReqLvl() > 0 then
+        local item         = GetItemByID(itemInfo[1])
+        local itemReqLevel = GetItemLevelRequirementsByID(itemInfo[1])
+
+        -- check nil of item, since GetItemLevelRequirementsByID can't return nil (but we can't fetch from it yet either)
+        if item and itemReqLevel > 0 then
             if not player:canEquipItem(itemInfo[1]) then
                 canEquip = 0
             elseif not player:canEquipItem(itemInfo[1], true) then

@@ -1103,7 +1103,12 @@ xi.combat.physical.canParry = function(defender, attacker)
         not defender:hasPreventActionEffect(true) -- Not stunned, slept, etc, but can parry when charmed
     then
         if defender:isPC() then
+            if defender:getSkillRank(xi.skill.PARRY) == 0 then
+                return false
+            end
+
             local mainWeapon = defender:getEquippedItem(xi.slot.MAIN)
+
             if mainWeapon then
                 canParry = mainWeapon:getSkillType() ~= xi.skill.HAND_TO_HAND
             end

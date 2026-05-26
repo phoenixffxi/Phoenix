@@ -7,7 +7,7 @@ require('scripts/globals/teleports')
 ---@type TItem
 local itemObject = {}
 
-itemObject.onItemCheck = function(target, item, param, caster)
+itemObject.onItemCheck = function(target, item, caster)
     local zoneId = target:getZoneID()
     local destZoneData = xi.teleport.tidalDestinations[zoneId]
 

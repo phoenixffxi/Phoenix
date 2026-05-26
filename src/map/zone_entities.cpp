@@ -897,11 +897,12 @@ void CZoneEntities::SpawnNPCs(CCharEntity* PChar)
     {
         auto& spawnList = PChar->SpawnNPCList;
 
-        const auto id              = PCurrentEntity->id;
-        const auto itr             = spawnList.find(id);
-        const auto isInSpawnList   = itr != spawnList.end();
-        const auto isInRange       = isWithinDistance(PChar->loc.p, PCurrentEntity->loc.p, ENTITY_RENDER_DISTANCE);
-        const auto isVisibleStatus = PCurrentEntity->status == STATUS_TYPE::NORMAL || PCurrentEntity->status == STATUS_TYPE::UPDATE;
+        const auto id               = PCurrentEntity->id;
+        const auto itr              = spawnList.find(id);
+        const auto isInSpawnList    = itr != spawnList.end();
+        const auto isInRange        = isWithinDistance(PChar->loc.p, PCurrentEntity->loc.p, ENTITY_RENDER_DISTANCE);
+        const auto isVisibleStatus  = PCurrentEntity->status == STATUS_TYPE::NORMAL || PCurrentEntity->status == STATUS_TYPE::UPDATE;
+        const auto isAlwaysRelevant = PCurrentEntity->objtype == TYPE_NPC && static_cast<CNpcEntity*>(PCurrentEntity)->m_alwaysRelevant;
 
         const auto tryAddToSpawnList = [&]()
         {
@@ -921,7 +922,7 @@ void CZoneEntities::SpawnNPCs(CCharEntity* PChar)
             }
         };
 
-        if (isVisibleStatus && isInRange)
+        if (isVisibleStatus && (isInRange || isAlwaysRelevant))
         {
             tryAddToSpawnList();
         }
@@ -1339,33 +1340,6 @@ void CZoneEntities::TOTDChange(vanadiel_time::TOTD TOTD)
     TracyZoneScoped;
 
     m_zone->spawnHandler()->onTOTDChange(TOTD);
-
-    SCRIPTTYPE ScriptType = SCRIPT_NONE;
-
-    switch (TOTD)
-    {
-        case vanadiel_time::TOTD::DAWN:
-            ScriptType = SCRIPT_TIME_DAWN;
-            break;
-        case vanadiel_time::TOTD::DAY:
-            ScriptType = SCRIPT_TIME_DAY;
-            break;
-        case vanadiel_time::TOTD::DUSK:
-            ScriptType = SCRIPT_TIME_DUSK;
-            break;
-        case vanadiel_time::TOTD::EVENING:
-            ScriptType = SCRIPT_TIME_EVENING;
-            break;
-        default:
-            break;
-    }
-    if (ScriptType != SCRIPT_NONE)
-    {
-        FOR_EACH_PAIR_CAST_SECOND(CCharEntity*, PChar, m_charList)
-        {
-            charutils::CheckEquipLogic(PChar, ScriptType, TOTD);
-        }
-    }
 }
 
 void CZoneEntities::SavePlayTime()

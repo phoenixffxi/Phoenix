@@ -50,8 +50,24 @@ GP_SERV_COMMAND_SHOP_LIST::GP_SERV_COMMAND_SHOP_LIST(CCharEntity* PChar)
         packet.ShopItemTbl[i].ItemPrice = PChar->Container->getQuantity(slotID);
         packet.ShopItemTbl[i].ItemNo    = PChar->Container->getItemID(slotID);
         packet.ShopItemTbl[i].ShopIndex = slotID;
-        packet.ShopItemTbl[i].Skill     = PChar->Container->getGuildID(slotID);
-        packet.ShopItemTbl[i].GuildInfo = (PChar->Container->getGuildRank(slotID) + 1) * 100;
+
+        // Publish item restriction, if any
+        std::visit(
+            [&]<typename T>(T const& restriction)
+            {
+                if constexpr (std::is_same_v<T, GuildRestriction>)
+                {
+                    packet.ShopItemTbl[i].Skill     = restriction.guildId;
+                    packet.ShopItemTbl[i].GuildInfo = (restriction.rank + 1) * 100;
+                }
+                else if constexpr (std::is_same_v<T, JobRestriction>)
+                {
+                    packet.ShopItemTbl[i].Skill     = restriction.jobId + 64; // Client knows values above 64 are job IDs
+                    packet.ShopItemTbl[i].GuildInfo = restriction.level;
+                }
+            },
+            PChar->Container->getRestriction(slotID));
+
         i++;
     }
 

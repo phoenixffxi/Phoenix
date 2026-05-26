@@ -426,7 +426,7 @@ xi.piratesChart.onMobDeath = function(mob, player, optParams)
     end
 end
 
-xi.piratesChart.onItemCheck = function(target, item, param, caster)
+xi.piratesChart.onItemCheck = function(target, item, caster)
     for _, pirateMobID in pairs(barnacleBuddyIDs) do
         if target:getID() == pirateMobID then
             return 0

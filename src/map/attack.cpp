@@ -182,14 +182,8 @@ bool CAttack::CheckGuarded()
     m_isGuarded = attackutils::IsGuarded(m_attacker, m_victim);
     if (m_isGuarded)
     {
-        if (m_damageRatio > 1.0f)
-        {
-            m_damageRatio -= 1.0f;
-        }
-        else
-        {
-            m_damageRatio = 0;
-        }
+        m_damageRatio -= 1.0f;
+        m_damageRatio = std::max(m_damageRatio, 0.f);
     }
     return m_isGuarded;
 }
@@ -301,7 +295,7 @@ uint16 CAttack::GetAnimationID()
         animation = this->m_attackDirection == RIGHTATTACK ? AttackAnimation::RIGHTATTACK : AttackAnimation::LEFTATTACK;
     }
 
-    return (uint16)animation;
+    return static_cast<uint16>(animation);
 }
 
 /************************************************************************
@@ -450,12 +444,13 @@ bool CAttack::CheckCounter()
     }
 
     uint8 meritCounter = 0;
-    if (m_victim->objtype == TYPE_PC && charutils::hasTrait((CCharEntity*)m_victim, TRAIT_COUNTER))
+
+    // Skip checking for counter merits if you're not on MNK
+    if (m_victim->objtype == TYPE_PC && m_victim->GetMJob() == JOB_MNK)
     {
-        if (m_victim->GetMJob() == JOB_MNK || m_victim->GetMJob() == JOB_PUP)
-        {
-            meritCounter = ((CCharEntity*)m_victim)->PMeritPoints->GetMeritValue(MERIT_COUNTER_RATE, (CCharEntity*)m_victim);
-        }
+        auto* PChar = static_cast<CCharEntity*>(m_victim);
+
+        meritCounter = PChar->PMeritPoints->GetMeritValue(MERIT_COUNTER_RATE, PChar);
     }
 
     uint16 seiganChance = 0;
@@ -464,13 +459,14 @@ bool CAttack::CheckCounter()
     {
         // counter check (rate AND your hit rate makes it land, else its just a regular hit)
         // having seigan active gives chance to counter at 25% of the zanshin proc rate
-        auto* weapon             = dynamic_cast<CItemWeapon*>(m_victim->m_Weapons[SLOT_MAIN]);
+        auto* PChar              = static_cast<CCharEntity*>(m_victim);
+        auto* weapon             = dynamic_cast<CItemWeapon*>(PChar->m_Weapons[SLOT_MAIN]);
         bool  isValid2HandWeapon = weapon && weapon->isTwoHanded();
-        bool  hasValidSeigan     = isValid2HandWeapon && m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_SEIGAN, 0);
+        bool  hasValidSeigan     = isValid2HandWeapon && PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SEIGAN, 0);
 
         if (hasValidSeigan)
         {
-            seiganChance = m_victim->getMod(Mod::ZANSHIN) + ((CCharEntity*)m_victim)->PMeritPoints->GetMeritValue(MERIT_ZASHIN_ATTACK_RATE, (CCharEntity*)m_victim);
+            seiganChance = PChar->getMod(Mod::ZANSHIN) + PChar->PMeritPoints->GetMeritValue(MERIT_ZASHIN_ATTACK_RATE, PChar);
             seiganChance = std::clamp<uint16>(seiganChance, 0, 100);
             seiganChance /= 4;
         }
@@ -570,19 +566,21 @@ void CAttack::ProcessDamage()
             {
                 if (m_attacker->objtype == TYPE_PC)
                 {
+                    auto* PChar = static_cast<CCharEntity*>(m_attacker);
+
                     if (m_attackType == PHYSICAL_ATTACK_TYPE::DAKEN)
                     {
-                        charutils::TrySkillUP((CCharEntity*)m_attacker, SKILLTYPE::SKILL_THROWING, m_victim->GetMLevel());
+                        charutils::TrySkillUP(PChar, SKILLTYPE::SKILL_THROWING, m_victim->GetMLevel());
                     }
-                    else if (auto* weapon = dynamic_cast<CItemWeapon*>(m_attacker->m_Weapons[(SLOTTYPE)GetWeaponSlot()]))
+                    else if (auto* weapon = dynamic_cast<CItemWeapon*>(m_attacker->m_Weapons[static_cast<SLOTTYPE>(GetWeaponSlot())]))
                     {
-                        charutils::TrySkillUP((CCharEntity*)m_attacker, (SKILLTYPE)weapon->getSkillType(), m_victim->GetMLevel());
+                        charutils::TrySkillUP(PChar, static_cast<SKILLTYPE>(weapon->getSkillType()), m_victim->GetMLevel());
                     }
                 }
                 else if (m_attacker->objtype == TYPE_PET && m_attacker->PMaster && m_attacker->PMaster->objtype == TYPE_PC &&
                          static_cast<CPetEntity*>(m_attacker)->getPetType() == PET_TYPE::AUTOMATON)
                 {
-                    puppetutils::TrySkillUP((CAutomatonEntity*)m_attacker, SKILL_AUTOMATON_MELEE, m_victim->GetMLevel());
+                    puppetutils::TrySkillUP(static_cast<CAutomatonEntity*>(m_attacker), SKILL_AUTOMATON_MELEE, m_victim->GetMLevel());
                 }
             }
             m_isBlocked = attackutils::IsBlocked(m_attacker, m_victim);
@@ -601,27 +599,27 @@ void CAttack::ProcessDamage()
         (behind(m_attacker->loc.p, m_victim->loc.p, 64) || m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_HIDE) ||
          m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_DOUBT)))
     {
-        m_bonusBasePhysicalDamage += m_attacker->DEX() * (1.0f + m_attacker->getMod(Mod::SNEAK_ATK_DEX) / 100.0f);
+        m_bonusBasePhysicalDamage += static_cast<float>(m_attacker->DEX()) * (1.0f + std::max(m_attacker->getMod(Mod::SNEAK_ATK_DEX) / 100.0f, 0.f));
         m_isSA = true;
     }
 
     // Trick attack.
     if (m_attacker->GetMJob() == JOB_THF && m_isFirstSwing && m_attackRound->GetTAEntity() != nullptr)
     {
-        m_bonusBasePhysicalDamage += m_attacker->AGI() * (1.0f + m_attacker->getMod(Mod::TRICK_ATK_AGI) / 100.0f);
+        m_bonusBasePhysicalDamage += static_cast<float>(m_attacker->AGI()) * (1.0f + std::max(m_attacker->getMod(Mod::TRICK_ATK_AGI) / 100.0f, 0.f));
         m_isTA = true;
     }
 
     // Consume mana
     if (m_attacker->objtype == TYPE_PC)
     {
-        m_bonusBasePhysicalDamage += battleutils::doConsumeManaEffect((CCharEntity*)m_attacker);
+        m_bonusBasePhysicalDamage += battleutils::doConsumeManaEffect(static_cast<CCharEntity*>(m_attacker));
     }
 
-    SLOTTYPE slot = (SLOTTYPE)GetWeaponSlot();
+    SLOTTYPE slot = static_cast<SLOTTYPE>(GetWeaponSlot());
     if (m_attackRound->IsH2H())
     {
-        m_naturalH2hDamage = (int32)(m_attacker->GetSkill(SKILL_HAND_TO_HAND) * 0.11f) + 3;
+        m_naturalH2hDamage = std::floor<int32>(m_attacker->GetSkill(SKILL_HAND_TO_HAND) * 0.11f) + 3;
         m_baseDamage       = m_attacker->GetMainWeaponDmg();
         int32 kickDamage   = 0;
 
@@ -659,29 +657,37 @@ void CAttack::ProcessDamage()
                 m_damage = (m_damage + fSTR) * mobH2HPenalty;
             }
 
+            m_damage = std::max(m_damage, 0);
+
             m_damage = std::floor<uint32>(m_damage * m_damageRatio);
         }
         else if (m_attackType == PHYSICAL_ATTACK_TYPE::KICK) // Players use this calculation.
         {
             kickDamage = m_naturalH2hDamage + m_attacker->getMod(Mod::KICK_DMG); // KICK_DMG includes weapon dmg if footwork is active
-            m_damage   = (uint32)(((kickDamage + m_bonusBasePhysicalDamage + battleutils::GetFSTR(m_attacker, m_victim, slot)) * m_damageRatio));
+            m_damage   = std::max(kickDamage + m_bonusBasePhysicalDamage + battleutils::GetFSTR(m_attacker, m_victim, slot), 0);
+            m_damage   = std::floor<uint32>(m_damage * m_damageRatio);
         }
         else // Players use this calculation.
         {
-            m_damage = (uint32)(((m_baseDamage + m_naturalH2hDamage + m_bonusBasePhysicalDamage + battleutils::GetFSTR(m_attacker, m_victim, slot)) * m_damageRatio));
+            m_damage = std::max(m_baseDamage + m_naturalH2hDamage + m_bonusBasePhysicalDamage + battleutils::GetFSTR(m_attacker, m_victim, slot), 0);
+            m_damage = std::floor<uint32>(m_damage * m_damageRatio);
         }
     }
     else if (slot == SLOT_MAIN)
     {
-        m_damage = (uint32)(((m_attacker->GetMainWeaponDmg() + m_bonusBasePhysicalDamage + battleutils::GetFSTR(m_attacker, m_victim, slot)) * m_damageRatio));
+        m_damage = std::max(m_attacker->GetMainWeaponDmg() + m_bonusBasePhysicalDamage + battleutils::GetFSTR(m_attacker, m_victim, slot), 0);
+        m_damage = std::floor<uint32>(m_damage * m_damageRatio);
     }
     else if (slot == SLOT_SUB)
     {
-        m_damage = (uint32)(((m_attacker->GetSubWeaponDmg() + m_bonusBasePhysicalDamage + battleutils::GetFSTR(m_attacker, m_victim, slot)) * m_damageRatio));
+        m_damage = std::max(m_attacker->GetSubWeaponDmg() + m_bonusBasePhysicalDamage + battleutils::GetFSTR(m_attacker, m_victim, slot), 0);
+        m_damage = std::floor<uint32>(m_damage * m_damageRatio);
     }
     else if (slot == SLOT_AMMO)
     {
-        m_damage = (uint32)((m_attacker->GetRangedWeaponDmg() + battleutils::GetFSTR(m_attacker, m_victim, slot)) * m_damageRatio);
+        // GetFSTR uses slot to determine fSTR vs fSTR2
+        m_damage = std::max(m_attacker->GetRangedWeaponDmg() + battleutils::GetFSTR(m_attacker, m_victim, slot), 0);
+        m_damage = std::floor<uint32>(m_damage * m_damageRatio);
     }
 
     // Apply Scarlet Delirium damage bonus
@@ -690,23 +696,23 @@ void CAttack::ProcessDamage()
     {
         float effectPower = 1.0f + static_cast<float>(m_attacker->StatusEffectContainer->GetStatusEffect(EFFECT_SCARLET_DELIRIUM_1)->GetPower()) / 1000.0f;
 
-        m_damage = (uint32)(m_damage * effectPower);
+        m_damage = std::floor<uint32>(m_damage * std::max(effectPower, 0.f));
     }
 
     // Apply "Double Attack" damage and "Triple Attack" damage mods
     if (m_attackType == PHYSICAL_ATTACK_TYPE::DOUBLE && m_attacker->objtype == TYPE_PC)
     {
-        m_damage = (int32)(m_damage * (1.0f + m_attacker->getMod(Mod::DOUBLE_ATTACK_DMG) / 100.0f));
+        m_damage = std::floor<uint32>(m_damage * 1.0f + std::max(m_attacker->getMod(Mod::DOUBLE_ATTACK_DMG) / 100.0f, 0.f));
     }
     else if (m_attackType == PHYSICAL_ATTACK_TYPE::TRIPLE && m_attacker->objtype == TYPE_PC)
     {
-        m_damage = (int32)(m_damage * (1.0f + m_attacker->getMod(Mod::TRIPLE_ATTACK_DMG) / 100.0f));
+        m_damage = std::floor<uint32>(m_damage * 1.0f + std::max(m_attacker->getMod(Mod::TRIPLE_ATTACK_DMG) / 100.0f, 0.f));
     }
 
     // Soul eater.
     if (m_attacker->objtype == TYPE_PC)
     {
-        m_damage = battleutils::doSoulEaterEffect((CCharEntity*)m_attacker, m_damage);
+        m_damage = battleutils::doSoulEaterEffect(static_cast<CCharEntity*>(m_attacker), m_damage);
     }
 
     // Set attack type to Samba if the attack type is normal.  Don't overwrite other types.  Used for Samba double damage.
@@ -726,13 +732,13 @@ void CAttack::ProcessDamage()
     // Apply Sneak Attack Augment Mod
     if (m_attacker->getMod(Mod::AUGMENTS_SA) > 0 && IsSneakAttack() && m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_SNEAK_ATTACK))
     {
-        m_damage = (int32)(m_damage * (1.0f + m_attacker->getMod(Mod::AUGMENTS_SA) / 100.0f));
+        m_damage = std::floor<uint32>(m_damage * (1.0f + std::max(m_attacker->getMod(Mod::AUGMENTS_SA) / 100.0f, 0.f)));
     }
 
     // Apply Trick Attack Augment Mod
     if (m_attacker->getMod(Mod::AUGMENTS_TA) > 0 && IsTrickAttack() && m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_TRICK_ATTACK))
     {
-        m_damage = (int32)(m_damage * (1.0f + m_attacker->getMod(Mod::AUGMENTS_TA) / 100.0f));
+        m_damage = std::floor<uint32>(m_damage * (1.0f + std::max(m_attacker->getMod(Mod::AUGMENTS_TA) / 100.0f, 0.f)));
     }
 
     // low level mobs can get negative fSTR so low they crater their (base weapon damage + fstr) to below 0.
@@ -749,19 +755,20 @@ void CAttack::ProcessDamage()
     {
         if (m_attacker->objtype == TYPE_PC)
         {
+            auto* PChar = static_cast<CCharEntity*>(m_attacker);
             if (m_attackType == PHYSICAL_ATTACK_TYPE::DAKEN)
             {
-                charutils::TrySkillUP((CCharEntity*)m_attacker, SKILLTYPE::SKILL_THROWING, m_victim->GetMLevel());
+                charutils::TrySkillUP(PChar, SKILLTYPE::SKILL_THROWING, m_victim->GetMLevel());
             }
             else if (auto* weapon = dynamic_cast<CItemWeapon*>(m_attacker->m_Weapons[slot]))
             {
-                charutils::TrySkillUP((CCharEntity*)m_attacker, (SKILLTYPE)weapon->getSkillType(), m_victim->GetMLevel());
+                charutils::TrySkillUP(PChar, static_cast<SKILLTYPE>(weapon->getSkillType()), m_victim->GetMLevel());
             }
         }
         else if (m_attacker->objtype == TYPE_PET && m_attacker->PMaster && m_attacker->PMaster->objtype == TYPE_PC &&
                  static_cast<CPetEntity*>(m_attacker)->getPetType() == PET_TYPE::AUTOMATON)
         {
-            puppetutils::TrySkillUP((CAutomatonEntity*)m_attacker, SKILL_AUTOMATON_MELEE, m_victim->GetMLevel());
+            puppetutils::TrySkillUP(static_cast<CAutomatonEntity*>(m_attacker), SKILL_AUTOMATON_MELEE, m_victim->GetMLevel());
         }
     }
     m_isBlocked = attackutils::IsBlocked(m_attacker, m_victim);

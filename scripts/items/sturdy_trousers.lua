@@ -7,7 +7,7 @@
 ---@type TItem
 local itemObject = {}
 
-itemObject.onItemCheck = function(target, item, param, caster)
+itemObject.onItemCheck = function(target, item, caster)
     if target:getStatusEffectBySource(xi.effect.MAX_HP_BOOST, xi.effectSourceType.EQUIPPED_ITEM, xi.item.STURDY_TROUSERS) ~= nil then
         target:delStatusEffect(xi.effect.MAX_HP_BOOST, nil, xi.effectSourceType.EQUIPPED_ITEM, xi.item.STURDY_TROUSERS)
     end

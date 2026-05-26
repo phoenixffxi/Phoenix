@@ -113,6 +113,8 @@ find_package(OpenSSLlibcrypto REQUIRED)
 find_package(OpenSSLlibssl REQUIRED)
 
 if(UNIX AND NOT APPLE)
+# zstd is sometimes a prereq for binutils
+    find_package(Zstd REQUIRED)
     find_package(Binutils REQUIRED)
 endif()
 

@@ -154,6 +154,7 @@ GP_SERV_COMMAND_LOGIN::GP_SERV_COMMAND_LOGIN(CCharEntity* PChar, const EventInfo
     packet.WeatherNumber = static_cast<uint16>(PChar->loc.zone->GetWeather());
     packet.WeatherTime   = PChar->loc.zone->GetWeatherChangeTime();
     packet.ZoneNo        = PChar->getZone();
+    packet.ZoneSubNo     = PChar->PInstance ? PChar->PInstance->overlayId() : 0;
     packet.MapNumber     = PChar->getZone();
     packet.SubMapNumber  = PChar->loc.boundary;
     packet.PlayTime      = static_cast<uint32>(timer::count_seconds(PChar->GetPlayTime()));

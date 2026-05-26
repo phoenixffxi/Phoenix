@@ -27,6 +27,18 @@ function GetItemByID(itemId)
 end
 
 ---@nodiscard
+---@param itemId xi.item
+---@return number
+function GetItemFlagsByID(itemId)
+end
+
+---@nodiscard
+---@param itemId xi.item
+---@return number
+function GetItemLevelRequirementsByID(itemId)
+end
+
+---@nodiscard
 ---@param npcid integer
 ---@param instanceObj CInstance?
 ---@return CBaseEntity?

@@ -7,7 +7,7 @@
 ---@type TItem
 local itemObject = {}
 
-itemObject.onItemCheck = function(target, item, param, caster)
+itemObject.onItemCheck = function(target, item, caster)
     if target:getStatusEffectBySource(xi.effect.REFRESH, xi.effectSourceType.EQUIPPED_ITEM, xi.item.VIAL_OF_REFRESH_MUSK) ~= nil then
         target:delStatusEffect(xi.effect.REFRESH, nil, xi.effectSourceType.EQUIPPED_ITEM, xi.item.VIAL_OF_REFRESH_MUSK)
     end

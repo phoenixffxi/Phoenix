@@ -6,6 +6,11 @@ local attachmentObject = {}
 
 attachmentObject.onEquip = function(pet)
     pet:addListener('AUTOMATON_ATTACHMENT_CHECK', 'ATTACHMENT_BARRAGE_TURBINE', function(automaton, target)
+        -- If Barrage Turbine is still on cooldown, do nothing.
+        if automaton:hasRecast(xi.recast.ABILITY, xi.automaton.abilities.BARRAGE_TURBINE) then
+            return
+        end
+
         local master = automaton:getMaster()
 
         if not master then
@@ -14,11 +19,6 @@ attachmentObject.onEquip = function(pet)
 
         -- If no Wind Maneuvers are active, do nothing.
         if master:countEffect(xi.effect.WIND_MANEUVER) == 0 then
-            return
-        end
-
-        -- If Barrage Turbine is still on cooldown, do nothing.
-        if automaton:hasRecast(xi.recast.ABILITY, xi.automaton.abilities.BARRAGE_TURBINE) then
             return
         end
 

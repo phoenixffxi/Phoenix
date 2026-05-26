@@ -303,9 +303,11 @@ elseif(APPLE)
     )
 elseif(UNIX)
     # Linux needs bfd as it's not native like MacOS
+    # bfd may link zstd
     list(APPEND SHARED_EXTERNAL_LIBS
         bfd
         dl
+        zstd
     )
 endif()
 

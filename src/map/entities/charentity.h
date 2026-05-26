@@ -48,6 +48,7 @@
 
 #include "automatonentity.h"
 #include "battleentity.h"
+#include "linkshell.h"
 #include "maze.h"
 #include "packets/s2c/base.h"
 #include "petentity.h"
@@ -440,6 +441,19 @@ public:
         }
     }
 
+    template <typename F, typename... Args>
+    void ForLinkshell(const uint8 slot, F func, Args&&... args)
+    {
+        const auto* PLinkshell = (slot == 1) ? this->PLinkshell1 : this->PLinkshell2;
+        if (PLinkshell != nullptr)
+        {
+            for (auto* PMember : PLinkshell->members)
+            {
+                func(PMember, std::forward<Args>(args)...);
+            }
+        }
+    }
+
     CBattleEntity* PClaimedMob = nullptr;
 
     // These missions do not need a list of completed, because client automatically
@@ -624,6 +638,8 @@ public:
     auto inMogHouse() const -> bool;
 
     auto gmCallContainer() -> GMCallContainer&;
+    auto lastProposalCloseTime() const -> timer::time_point;
+    void setLastProposalCloseTime(timer::time_point t);
 
     auto maze() -> maze_t&;
 
@@ -773,6 +789,7 @@ private:
     // Lazily initialized AMAN data
     Maybe<CAMANContainer> m_AMAN;
     GMCallContainer       gmCallContainer_;
+    timer::time_point     lastProposalCloseTime_{}; // Time last /nominate closed
 
     std::unique_ptr<CItemContainer> m_Inventory;
     std::unique_ptr<CItemContainer> m_Mogsafe;

@@ -39,6 +39,7 @@ CAutomatonEntity::CAutomatonEntity()
 : CPetEntity(PET_TYPE::AUTOMATON)
 {
     TracyZoneScoped;
+
     PAI->SetController(nullptr);
 }
 

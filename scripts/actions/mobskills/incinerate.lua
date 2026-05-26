@@ -23,6 +23,10 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     params.damageType       = xi.damageType.FIRE
     params.shadowBehavior   = xi.mobskills.shadowBehavior.IGNORE_SHADOWS
 
+    if mob:getPool() == xi.mobPool.ENERGETIC_ERUCA then
+        params.damageCap = 800
+    end
+
     local info = xi.mobskills.mobBreathMove(mob, target, skill, action, params)
 
     if xi.mobskills.processDamage(mob, target, skill, action, info) then
