@@ -326,18 +326,22 @@ local checkEntryReqs = function(player, instanceId)
     end
 end
 
+-- Clear up after possible failed loads
+xi.instance.clearInstance = function(player)
+    player:setLocalVar('INSTANCE_REQUESTED', 0)
+    local existingInstance = player:getInstance()
+    if existingInstance then
+        existingInstance:fail()
+    end
+end
+
 xi.instance.onTrade = function(player, npc, trade)
 end
 
 xi.instance.onTrigger = function(player, npc, instanceZoneID)
     local zoneLookup = xi.instance.lookup[instanceZoneID]
 
-    -- Clear up after possible failed loads
-    player:setLocalVar('INSTANCE_REQUESTED', 0)
-    local existingInstance = player:getInstance()
-    if existingInstance then
-        existingInstance:fail()
-    end
+    xi.instance.clearInstance(player)
 
     -- Find the first instance you're valid for
     -- TODO: Handle being valid for multiple instances from the same entrance
@@ -425,18 +429,19 @@ xi.instance.onEventUpdate = function(player, csid, option, npc)
 end
 
 -- 'Default' behavior. It's up to each instance whether or not they want to use this logic
-xi.instance.onInstanceCreatedCallback = function(player, instance)
-    local zoneLookup = xi.instance.lookup[instance:getZone():getID()]
+-- Can pass instance cutscene information directly if accessible from container, otherwise will try and find it from the player's instance
+xi.instance.onInstanceCreatedCallback = function(player, instance, entryInfo)
     local instanceId = instance:getID()
 
-    -- Collect cs for party members
-    local lookupEntry
-    for _, entry in ipairs(zoneLookup) do
-        local entryInstanceId = entry[1]
-        if instanceId == entryInstanceId then
-            lookupEntry = entry
+    if entryInfo == nil then
+        -- Collect cs for party members
+        for _, entry in ipairs(xi.instance.lookup[instance:getZone():getID()]) do
+            local entryInstanceId = entry[1]
+            if instanceId == entryInstanceId then
+                entryInfo = entry
 
-            break
+                break
+            end
         end
     end
 
@@ -455,7 +460,7 @@ xi.instance.onInstanceCreatedCallback = function(player, instance)
                     -- player will be brought into instance either way
                     -- this makes the animation trigger reliably
                     v:release()
-                    v:startEvent(unpack(lookupEntry[4]))
+                    v:startEvent(unpack(entryInfo.memberEvent or entryInfo[4]))
 
                     v:setInstance(instance)
                     local npc = player:getEventTarget()
@@ -480,7 +485,7 @@ xi.instance.onInstanceCreatedCallback = function(player, instance)
         end
 
         -- finally, send commander in
-        player:startEvent(unpack(lookupEntry[4])) -- will fail if previous event is working as it should, otherwise catches secondary event to enter
+        player:startEvent(unpack(entryInfo.memberEvent or entryInfo[4])) -- will fail if previous event is working as it should, otherwise catches secondary event to enter
         local npc = player:getEventTarget()
         if npc ~= nil then
             player:instanceEntry(npc, 4)
@@ -493,13 +498,18 @@ xi.instance.onInstanceCreatedCallback = function(player, instance)
     end
 end
 
-xi.instance.onEventFinish = function(player, csid, option, npc)
+-- Default instance behavior. Unpacks the csid and option from the lookup table.
+-- Can pass instance custcene information directly if accessible from container,
+-- otherwise will try and find it from the player's instance and a table lookup.
+xi.instance.onEventFinish = function(player, csid, option, npc, instanceInfo)
     local instance = player:getInstance()
 
     if instance then
-        local instanceZoneId         = instance:getZone():getID()
-        local zoneLookup             = xi.instance.lookup[instanceZoneId]
-        local csidEntry, optionEntry = unpack(zoneLookup[1][3])
+        if not instanceInfo then
+            instanceInfo = xi.instance.lookup[instance:getZone():getID()][1][3]
+        end
+
+        local csidEntry, optionEntry = unpack(instanceInfo)
 
         if csid == csidEntry and option == optionEntry then
             for _, v in ipairs(player:getParty()) do

@@ -1359,7 +1359,9 @@ void AfterZoneIn(CBaseEntity* PEntity)
         return;
     }
 
-    if (!PChar->PBattlefield || !PChar->PBattlefield->isEntered(PChar))
+    const bool inBattlefield    = PChar->PBattlefield && PChar->PBattlefield->isEntered(PChar);
+    const bool inCappedInstance = PChar->PInstance && PChar->PInstance->GetLevelCap() > 0;
+    if (!inBattlefield && !inCappedInstance)
     {
         GetZone(PChar->getZone())->updateCharLevelRestriction(PChar);
     }

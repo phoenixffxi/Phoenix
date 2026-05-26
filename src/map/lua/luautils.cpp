@@ -98,6 +98,7 @@
 #include "zone_entities.h"
 
 #include <array>
+#include <cctype>
 #include <filesystem>
 #include <numeric>
 #include <string>
@@ -4631,10 +4632,8 @@ void AfterInstanceRegister(CBaseEntity* PChar)
 
     TracyZoneScoped;
 
-    auto zone     = PChar->loc.zone->getName();
-    auto instance = PChar->PInstance->GetName();
-
-    auto afterInstanceRegister = lua["xi"]["zones"][zone]["instances"][instance]["afterInstanceRegister"];
+    auto instanceData          = instanceutils::GetInstanceData(PChar->PInstance->GetID());
+    auto afterInstanceRegister = GetCacheEntryFromFilename(instanceData.filename)["afterInstanceRegister"];
     if (!afterInstanceRegister.valid())
     {
         return;
@@ -4742,10 +4741,8 @@ void OnInstanceCreated(CInstance* PInstance)
 {
     TracyZoneScoped;
 
-    auto zone = PInstance->GetZone()->getName();
-    auto name = PInstance->GetName();
-
-    auto onInstanceCreated = lua["xi"]["zones"][zone]["instances"][name]["onInstanceCreated"];
+    auto instanceData      = instanceutils::GetInstanceData(PInstance->GetID());
+    auto onInstanceCreated = GetCacheEntryFromFilename(instanceData.filename)["onInstanceCreated"];
     if (!onInstanceCreated.valid())
     {
         return;
@@ -4763,10 +4760,8 @@ void OnInstanceProgressUpdate(CInstance* PInstance)
 {
     TracyZoneScoped;
 
-    auto zone = PInstance->GetZone()->getName();
-    auto name = PInstance->GetName();
-
-    auto onInstanceProgressUpdate = lua["xi"]["zones"][zone]["instances"][name]["onInstanceProgressUpdate"];
+    auto instanceData             = instanceutils::GetInstanceData(PInstance->GetID());
+    auto onInstanceProgressUpdate = GetCacheEntryFromFilename(instanceData.filename)["onInstanceProgressUpdate"];
     if (!onInstanceProgressUpdate.valid())
     {
         return;
@@ -4785,10 +4780,8 @@ void OnInstanceStageChange(CInstance* PInstance)
 {
     TracyZoneScoped;
 
-    auto zone = PInstance->GetZone()->getName();
-    auto name = PInstance->GetName();
-
-    auto onInstanceStageChange = lua["xi"]["zones"][zone]["instances"][name]["onInstanceStageChange"];
+    auto instanceData          = instanceutils::GetInstanceData(PInstance->GetID());
+    auto onInstanceStageChange = GetCacheEntryFromFilename(instanceData.filename)["onInstanceStageChange"];
     if (!onInstanceStageChange.valid())
     {
         return;
@@ -4806,10 +4799,8 @@ void OnInstanceComplete(CInstance* PInstance)
 {
     TracyZoneScoped;
 
-    auto zone = PInstance->GetZone()->getName();
-    auto name = PInstance->GetName();
-
-    auto onInstanceComplete = lua["xi"]["zones"][zone]["instances"][name]["onInstanceComplete"];
+    auto instanceData       = instanceutils::GetInstanceData(PInstance->GetID());
+    auto onInstanceComplete = GetCacheEntryFromFilename(instanceData.filename)["onInstanceComplete"];
     if (!onInstanceComplete.valid())
     {
         return;
