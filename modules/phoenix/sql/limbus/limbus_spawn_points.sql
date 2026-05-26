@@ -6,6 +6,9 @@
 -- Temenos (Zone 37)
 -- ------------------------------------------------------------
 
+-- Delete retail spawn points
+DELETE FROM `mob_spawn_points` WHERE `mobid` BETWEEN 16928769 AND 16929558;
+
 -- Northern Tower
 INSERT INTO `mob_spawn_points` VALUES (16928769,0,'Armoury_Crate_Recover','Armoury Crate',326,1,1,332.000,69.500,468.000,32);
 INSERT INTO `mob_spawn_points` VALUES (16928772,0,'Goblin_Slaughterman','Goblin Slaughterman',201,78,80,330.000,69.500,470.000,32);
@@ -327,6 +330,8 @@ INSERT INTO `mob_spawn_points` VALUES (16929088,0,'Temenos_Ghrah','Temenos Ghrah
 -- ------------------------------------------------------------
 -- Apollyon (Zone 38)
 -- ------------------------------------------------------------
+-- Delete retail spawn points
+DELETE FROM `mob_spawn_points` WHERE `mobid` BETWEEN 16932865 AND 16933504;
 
 -- SW Apollyon
 INSERT INTO `mob_spawn_points` VALUES (16932867,0,'Armoury_Crate_Recover','Armoury Crate',283,1,1,-397.000,-0.550,-527.000,64);
