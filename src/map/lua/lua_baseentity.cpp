@@ -18377,6 +18377,25 @@ auto CLuaBaseEntity::getCrystalElement() const -> ELEMENT
 }
 
 /************************************************************************
+ *  Function: setCrystalElement()
+ *  Purpose : Sets a mob crystal element
+ *  Example : mob:getCrystalElement(xi.element.FIRE)
+ *  Notes   :
+ ************************************************************************/
+void CLuaBaseEntity::setCrystalElement(ELEMENT crystalElement)
+{
+    auto* PMob = dynamic_cast<CMobEntity*>(m_PBaseEntity);
+
+    if (!PMob)
+    {
+        ShowWarning("Invalid Entity (NPC: %s) calling function.", m_PBaseEntity->getName());
+        return;
+    }
+
+    PMob->m_Element = crystalElement;
+}
+
+/************************************************************************
  *  Function: getBehavior()
  *  Purpose : Returns the current Mob behavior
  *  Example : mob:getBehavior()
@@ -20790,6 +20809,7 @@ void CLuaBaseEntity::Register()
 
     SOL_REGISTER("getBattleTime", CLuaBaseEntity::getBattleTime);
     SOL_REGISTER("getCrystalElement", CLuaBaseEntity::getCrystalElement);
+    SOL_REGISTER("setCrystalElement", CLuaBaseEntity::setCrystalElement);
 
     SOL_REGISTER("getBehavior", CLuaBaseEntity::getBehavior);
     SOL_REGISTER("setBehavior", CLuaBaseEntity::setBehavior);

@@ -905,6 +905,7 @@ public:
 
     uint32 getBattleTime();
     auto   getCrystalElement() const -> ELEMENT;
+    void   setCrystalElement(ELEMENT crystalElement);
 
     uint16 getBehavior();
     void   setBehavior(uint16 behavior);
