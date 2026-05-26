@@ -16,6 +16,7 @@ xi.mobPool =
     CEMETERY_CHERRY        = 671,  -- Specific variant of Entangle
     CERNUNNOS              = 682,  -- Specific variant of Entangle
     CYRANUCE_M_CUTAULEON   = 884,  -- Dread Shriek bonus potency
+    ENERGETIC_ERUCA        = 1215, -- Stronger Incinerate (800 cap)
     EOZDEI_RIGHT           = 1242, -- Eo'zdei right rotation
     LEAFLESS_JIDRA         = 1346, -- Specific variant of Entangle
     FEELER_ANTLION         = 1318, -- Needed for Feeler Antlion special behavior
