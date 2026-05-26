@@ -551,6 +551,7 @@ INSERT INTO `mob_groups` VALUES (38,2692,12,'Moblin_Engineman',0,128,1708,0,0,0,
 INSERT INTO `mob_groups` VALUES (39,2684,12,'Moblin_Aidman',0,128,1703,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (40,2692,12,'Moblin_Engineman',0,128,1708,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (41,2706,12,'Moblin_Topsman',0,128,1717,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (42,6109,12,'Awoken_Andhrimnir',0,128,0,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Mine_Shaft_2716 (Zone 13)
@@ -2764,6 +2765,7 @@ INSERT INTO `mob_groups` VALUES (139,7367,51,'Garma',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (140,7369,51,'Wicked_Dahak',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (141,7372,51,'Gandaberunda',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (142,7373,51,'Ravenous_Colibri',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (143,6099,51,'Awoken_Hildesvini',0,128,0,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Bhaflau_Thickets (Zone 52)
@@ -2978,6 +2980,7 @@ INSERT INTO `mob_groups` VALUES (95,6747,54,'Qutrub_blm',960,0,2885,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (96,6748,54,'Lamia_Idolater_blm',960,0,1492,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (97,2318,54,'Lahama',960,0,1482,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (98,7169,54,'Merrow_Typhoondancer',960,0,1657,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (99,6102,54,'Awoken_Morbol_Emperor',0,128,0,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Ilrusi_Atoll (Zone 55)
@@ -3221,6 +3224,7 @@ INSERT INTO `mob_groups` VALUES (58,6753,61,'Sarama',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (59,6750,61,'Fahrafahr_the_Bloodied',0,32,3259,0,0,0,'WOTG');
 INSERT INTO `mob_groups` VALUES (60,4280,61,'Wamoura',0,128,2607,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (61,7287,61,'Assassin_Fly',300,0,571,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (62,6098,61,'Awoken_Mokkuralfi',0,128,0,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Halvung (Zone 62)
@@ -3528,6 +3532,7 @@ INSERT INTO `mob_groups` VALUES (41,7174,68,'Pandemonium_Warden',0,128,1977,1470
 INSERT INTO `mob_groups` VALUES (42,7175,68,'Pandemonium_Warden',0,128,1977,147000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (43,7176,68,'Pandemonium_Warden',0,128,1977,147000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (44,7177,68,'Pandemonium_Warden',0,128,1977,147000,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (45,6103,68,'Awoken_Hrungnir',0,128,0,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Leujaoam_Sanctum (Zone 69)
@@ -4507,6 +4512,7 @@ INSERT INTO `mob_groups` VALUES (70,0,79,'Vidhuwa_the_Wrathborn',0,128,0,0,0,0,'
 INSERT INTO `mob_groups` VALUES (71,7299,79,'Chigoe_pet',0,128,466,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (72,7188,79,'Chigoe',300,0,466,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (73,7356,79,'Locus_Imp',60,0,0,267000,0,0,'TVR'); -- TODO: Drops, MP
+INSERT INTO `mob_groups` VALUES (74,6097,79,'Awoken_Vampyr_Jarl',0,128,0,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Southern_San_dOria_[S] (Zone 80)
@@ -8013,6 +8019,7 @@ INSERT INTO `mob_groups` VALUES (69,0,105,'Omodaka_Armor',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (70,1642,105,'Goblin_Bounty_Hunter',300,0,1030,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (71,6570,105,'Wight_blm',300,1,2651,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (72,7354,105,'Macro_Test',0,0,0,0,0,0,'TVR');
+INSERT INTO `mob_groups` VALUES (73,6106,105,'Awoken_Freke',0,128,0,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- North_Gustaberg (Zone 106)
@@ -8472,6 +8479,7 @@ INSERT INTO `mob_groups` VALUES (63,0,111,'Harnessed_Smilodon',0,128,0,0,0,0,NUL
 -- Of Knights and Orcs
 INSERT INTO `mob_groups` VALUES (64,0,111,'Slackjawed_Mukdrom',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (65,0,111,'Excenmille',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (66,6100,111,'Awoken_Gorgimera',0,128,0,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Xarcabard (Zone 112)
@@ -8537,6 +8545,9 @@ INSERT INTO `mob_groups` VALUES (52,7012,112,'Gjenganger',300,0,0,4900,0,0,'WOTG
 INSERT INTO `mob_groups` VALUES (53,7011,112,'Gorehound',300,0,0,5000,0,0,'WOTG');
 
 INSERT INTO `mob_groups` VALUES (54,4857,112,'Beist',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (55,6112,112,'Awoken_Hrani',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (56,6111,112,'Awoken_Hjorvarth',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (57,6110,112,'Awoken_Angantyr',0,128,0,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Cape_Teriggan (Zone 113)
@@ -9411,6 +9422,7 @@ INSERT INTO `mob_groups` VALUES (38,6850,125,'Picolaton',0,32,3225,6900,0,0,'WOT
 INSERT INTO `mob_groups` VALUES (39,6851,125,'Sabotender_Campeador',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (40,6852,125,'Sabotender_Mercenario',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (41,6853,125,'King_Uropygid',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (42,6105,125,'Awoken_Dendainsonne',0,128,0,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Qufim_Island (Zone 126)
@@ -9476,6 +9488,7 @@ INSERT INTO `mob_groups` VALUES (52,1642,126,'Goblin_Bounty_Hunter',0,128,1030,0
 -- 53 free
 INSERT INTO `mob_groups` VALUES (54,4855,126,'Jester_Malatrix',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (55,6169,126,'Ophiotaurus',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (56,6113,126,'Awoken_Tanngrisnir',0,128,0,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Behemoths_Dominion (Zone 127)
@@ -10859,6 +10872,7 @@ INSERT INTO `mob_groups` VALUES (26,6725,143,'Incensed_Pineapple',0,128,0,0,0,0,
 
 -- Cornelia's Call to Action
 INSERT INTO `mob_groups` VALUES (27,0,143,'Mind-warped_Scorpion',0,128,0,0,0,0,NULL); -- TODO: capture level from retail
+INSERT INTO `mob_groups` VALUES (28,6101,143,'Awoken_Ariri_Samariri',0,128,0,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Waughroon_Shrine (Zone 144)
@@ -14809,6 +14823,7 @@ INSERT INTO `mob_groups` VALUES (16,5050,258,'Skittering_Spider',300,0,0,0,0,0,N
 INSERT INTO `mob_groups` VALUES (17,5051,258,'New_Moon_Bats',300,0,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (18,5052,258,'Duskbringer_Bat',300,0,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (19,5053,258,'Plantpassage_Slug',300,0,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (20,6108,258,'Awoken_Hakenmann',0,128,0,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Rala_Waterways_[U] (Zone 259)
@@ -15358,6 +15373,7 @@ INSERT INTO `mob_groups` VALUES (37,0,267,'Sinaa',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (38,6939,267,'Cherti',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (39,6940,267,'Mirka',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (40,7283,267,'Shaggy_Ovim',960,0,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (41,6107,267,'Awoken_Nihhus',0,128,0,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Sih_Gates (Zone 268)
@@ -16636,6 +16652,7 @@ INSERT INTO `mob_groups` VALUES (88,5612,291,'Boobrie',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (89,5613,291,'Quetzalcoatl',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (90,5614,291,'Quetzalcoatls_Sibilus',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (91,0,291,'Mireu',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (92,6104,291,'Awoken_Stoorworm',0,128,0,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Reisenjima_Henge (Zone 292)
