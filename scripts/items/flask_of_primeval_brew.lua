@@ -26,7 +26,7 @@
 ---@type TItem
 local itemObject = {}
 
-itemObject.onItemCheck = function(target, item, param, caster)
+itemObject.onItemCheck = function(target, item, caster)
     if target:hasStatusEffect(xi.effect.TRANSCENDENCY) then
         return 523
     else

@@ -8,7 +8,7 @@ local itemObject = {}
 
 local keyItemId = xi.ki.DECORATIVE_CHAIR
 
-itemObject.onItemCheck = function(target, item, param, caster)
+itemObject.onItemCheck = function(target, item, caster)
     if target:hasKeyItem(keyItemId) then
         return xi.msg.basic.ALREADY_HAVE_KEY_ITEM, 0, keyItemId
     end

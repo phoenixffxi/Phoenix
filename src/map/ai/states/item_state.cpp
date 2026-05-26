@@ -99,7 +99,7 @@ CItemState::CItemState(CCharEntity* PEntity, const uint16 targid, const uint8 lo
         }
     }
 
-    auto [error, param, value] = luautils::OnItemCheck(PTarget, m_PItem, ITEMCHECK::NONE, m_PEntity);
+    auto [error, param, value] = luautils::OnItemCheck(PTarget, m_PItem, m_PEntity);
     if (error || m_PEntity->StatusEffectContainer->HasPreventActionEffect())
     {
         if (error == -1)

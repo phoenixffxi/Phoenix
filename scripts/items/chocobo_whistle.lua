@@ -5,7 +5,7 @@
 ---@type TItem
 local itemObject = {}
 
-itemObject.onItemCheck = function(target, item, param, caster)
+itemObject.onItemCheck = function(target, item, caster)
     if not target:canUseMisc(xi.zoneMisc.MOUNT) then
         return xi.msg.basic.CANT_BE_USED_IN_AREA
     elseif

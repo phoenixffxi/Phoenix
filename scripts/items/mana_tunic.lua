@@ -5,7 +5,7 @@
 ---@type TItem
 local itemObject = {}
 
-itemObject.onItemCheck = function(target, item, param, caster)
+itemObject.onItemCheck = function(target, item, caster)
     if target:getMP() == target:getMaxMP() then
         return xi.msg.basic.ITEM_UNABLE_TO_USE
     end

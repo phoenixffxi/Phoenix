@@ -6,7 +6,7 @@
 ---@type TItem
 local itemObject = {}
 
-itemObject.onItemCheck = function(target, item, param, caster)
+itemObject.onItemCheck = function(target, item, caster)
     -- TODO: The error message returned by this is wrong
     return target:hasKeyItem(xi.keyItem.SHEET_OF_NEAR_EAST_TUNES) and 1 or 0
 end

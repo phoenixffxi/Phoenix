@@ -1,7 +1,7 @@
 ---@meta
 
 ---@class TItem
----@field onItemCheck? fun(target: CBaseEntity, item: CItem?, param: integer?, caster: CBaseEntity?): (integer?, integer?, integer?)
+---@field onItemCheck? fun(target: CBaseEntity, item: CItem?, caster: CBaseEntity?): (integer?, integer?, integer?)
 ---@field onItemUse? fun(target: CBaseEntity, user: CBaseEntity?, item: CItem, action: CAction): integer?
 ---@field onItemUnequip? fun(PUser: CBaseEntity, PItem: CItem): nil
 ---@field onItemEquip? fun(PUser: CBaseEntity, PItem: CItem): nil

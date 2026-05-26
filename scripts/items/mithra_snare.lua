@@ -7,8 +7,8 @@
 ---@type TItem
 local itemObject = {}
 
-itemObject.onItemCheck = function(target, item, param, caster)
-    return xi.piratesChart.onItemCheck(target, item, param, caster)
+itemObject.onItemCheck = function(target, item, caster)
+    return xi.piratesChart.onItemCheck(target, item, caster)
 end
 
 itemObject.onItemUse = function(target)

@@ -2188,12 +2188,6 @@ void UnequipItem(CCharEntity* PChar, uint8 equipSlotID, Recalculate recalculate)
             }
         }
 
-        // Call the LUA event before actually "unequipping" the item so the script can do stuff with it first
-        if (((CItemEquipment*)PItem)->getScriptType() & SCRIPT_EQUIP || ((CItemEquipment*)PItem)->isType(ITEM_USABLE))
-        {
-            luautils::OnItemCheck(PChar, PItem, ITEMCHECK::UNEQUIP, nullptr);
-        }
-
         // todo: issues as item 0 reference is being handled as a real equipment piece
         //      thought to be source of nin bug
         PChar->clearEquip(equipSlotID);
@@ -3374,9 +3368,9 @@ void EquipItem(CCharEntity* PChar, uint8 slotID, uint8 equipSlotID, uint8 contai
             {
                 if (PItem->getScriptType() & SCRIPT_EQUIP)
                 {
-                    luautils::OnItemCheck(PChar, PItem, ITEMCHECK::EQUIP, nullptr);
                     PChar->m_EquipFlag |= PItem->getScriptType();
                 }
+
                 if (PItem->isType(ITEM_USABLE) && ((CItemUsable*)PItem)->getCurrentCharges() != 0)
                 {
                     PItem->setAssignTime(timer::now());
@@ -3387,6 +3381,7 @@ void EquipItem(CCharEntity* PChar, uint8 slotID, uint8 equipSlotID, uint8 contai
 
                     PChar->pushPacket<GP_SERV_COMMAND_ITEM_ATTR>(PItem, static_cast<CONTAINER_ID>(containerID), slotID);
                 }
+
                 PItem->setSubType(ITEM_LOCKED);
 
                 if (equipSlotID == SLOT_SUB)
@@ -3510,37 +3505,6 @@ void RemoveAllEquipment(CCharEntity* PChar)
 
     BuildingCharWeaponSkills(PChar);
     PChar->RequestPersist(CHAR_PERSIST::EQUIP);
-}
-
-/************************************************************************
- *                                                                       *
- *  Check the logic of all character equipment                           *
- *                                                                       *
- ************************************************************************/
-
-// Later will need to make equipment in the structure,
-// where to add a bit field indicating in which cell is the equipment with the condition
-// To begin with, this field will save us from checking cells in characters without equipment with the condition
-
-void CheckEquipLogic(CCharEntity* PChar, SCRIPTTYPE ScriptType, uint32 param)
-{
-    if (!(PChar->m_EquipFlag & ScriptType))
-    {
-        return;
-    }
-
-    for (uint8 slotID = 0; slotID < 16; ++slotID)
-    {
-        CItem* PItem = PChar->getEquip((SLOTTYPE)slotID);
-
-        if ((PItem != nullptr) && PItem->isType(ITEM_EQUIPMENT))
-        {
-            if (((CItemEquipment*)PItem)->getScriptType() & ScriptType)
-            {
-                luautils::OnItemCheck(PChar, PItem, static_cast<ITEMCHECK>(param), nullptr);
-            }
-        }
-    }
 }
 
 /************************************************************************
@@ -8143,7 +8107,6 @@ void removeCharFromZone(CCharEntity* PChar)
     {
         PChar->PSession->shuttingDown = 2;
         db::preparedStmt("UPDATE char_stats SET zoning = 1 WHERE charid = ?", PChar->id);
-        charutils::CheckEquipLogic(PChar, SCRIPT_CHANGEZONE, PChar->getZone());
     }
 
     if (PChar->loc.zone != nullptr)

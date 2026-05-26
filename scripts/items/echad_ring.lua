@@ -10,7 +10,7 @@
 ---@type TItem
 local itemObject = {}
 
-itemObject.onItemCheck = function(target, item, param, caster)
+itemObject.onItemCheck = function(target, item, caster)
     local result = 0
     if target:hasStatusEffect(xi.effect.DEDICATION) then
         result = xi.msg.basic.ITEM_UNABLE_TO_USE_2

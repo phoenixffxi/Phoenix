@@ -7,7 +7,7 @@
 ---@type TItem
 local itemObject = {}
 
-itemObject.onItemCheck = function(target, item, param, caster)
+itemObject.onItemCheck = function(target, item, caster)
     local pet = target:getPet()
     if not pet then
         return xi.msg.basic.REQUIRES_A_PET, 0

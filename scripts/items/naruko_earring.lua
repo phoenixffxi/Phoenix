@@ -7,7 +7,7 @@
 ---@type TItem
 local itemObject = {}
 
-itemObject.onItemCheck = function(target, item, param, caster)
+itemObject.onItemCheck = function(target, item, caster)
     if target:getStatusEffectBySource(xi.effect.ENMITY_BOOST, xi.effectSourceType.EQUIPPED_ITEM, xi.item.NARUKO_EARRING) ~= nil then
         target:delStatusEffect(xi.effect.ENMITY_BOOST, nil, xi.effectSourceType.EQUIPPED_ITEM, xi.item.NARUKO_EARRING)
     end

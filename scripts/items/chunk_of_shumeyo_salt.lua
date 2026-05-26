@@ -8,7 +8,7 @@ local ID = zones[xi.zone.BEARCLAW_PINNACLE]
 ---@type TItem
 local itemObject = {}
 
-itemObject.onItemCheck = function(target, item, param, caster)
+itemObject.onItemCheck = function(target, item, caster)
     local msg     = 0
     local offset  = target:getBattlefield():getArea() - 1
     local snollID = ID.mob.SNOLL_TZAR_OFFSET + offset

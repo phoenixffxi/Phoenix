@@ -164,7 +164,7 @@ xi.znm.soultrapper = xi.znm.soultrapper or {}
 -- onItemCheck
 -----------------------------------
 
-xi.znm.soultrapper.onItemCheck = function(target, item, param, caster)
+xi.znm.soultrapper.onItemCheck = function(target, item, caster)
     -- can not be used on non mobs or Structure type mobs
     if
         not target:isMob() or

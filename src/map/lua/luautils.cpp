@@ -2827,7 +2827,7 @@ void OnUpdateAttachment(CBattleEntity* PEntity, const CItemPuppet* attachment, u
 
 // We check the possibility of using the item.
 // If all is well, then return value - 0, in case of failure - error message number
-auto OnItemCheck(CBaseEntity* PTarget, CItem* PItem, ITEMCHECK param, CBaseEntity* PCaster) -> std::tuple<int32, int32, int32>
+auto OnItemCheck(CBaseEntity* PTarget, CItem* PItem, CBaseEntity* PCaster) -> std::tuple<int32, int32, int32>
 {
     TracyZoneScoped;
 
@@ -2839,7 +2839,7 @@ auto OnItemCheck(CBaseEntity* PTarget, CItem* PItem, ITEMCHECK param, CBaseEntit
         return { 56, 0, 0 };
     }
 
-    auto result = onItemCheck(PTarget, PItem, static_cast<uint32>(param), PCaster);
+    auto result = onItemCheck(PTarget, PItem, PCaster);
     if (!result.valid())
     {
         sol::error err = result;
