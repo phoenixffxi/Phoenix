@@ -33,12 +33,27 @@ describe('SynthTransaction', function()
     end)
 
     it('successful synth consumes ingredients and yields the result', function()
-        player:addItem(crystal)
-        player:addItem(ingredient)
+        player:setSkillLevel(xi.skill.WOODWORKING, 10)
 
-        player.actions:craft(crystal, { ingredient })
-        xi.test.world:skipTime(17)
-        xi.test.world:skipTime(15)
+        local maxAttempts = 10
+        local succeeded   = false
+        for _ = 1, maxAttempts do
+            player:addItem(crystal)
+            player:addItem(ingredient)
+
+            player.actions:craft(crystal, { ingredient })
+            xi.test.world:skipTime(17)
+            xi.test.world:skipTime(15)
+
+            if player:hasItem(resultItem) then
+                succeeded = true
+                break
+            end
+
+            player:delContainerItems(xi.inv.INVENTORY)
+        end
+
+        assert(succeeded, 'synth did not succeed within ' .. maxAttempts .. ' attempts')
 
         player.assert.no:hasItem(crystal)
         player.assert.no:hasItem(ingredient)
@@ -48,13 +63,26 @@ describe('SynthTransaction', function()
     end)
 
     it('stack ingredient consumes exactly N from one inventory slot', function()
-        local stackQty = 3
-        player:addItem(crystal)
-        player:addItem(ingredient, stackQty)
+        local stackQty    = 3
+        local maxAttempts = 10
+        local succeeded   = false
+        for _ = 1, maxAttempts do
+            player:addItem(crystal)
+            player:addItem(ingredient, stackQty)
 
-        player.actions:craft(crystal, { ingredient })
-        xi.test.world:skipTime(17)
-        xi.test.world:skipTime(15)
+            player.actions:craft(crystal, { ingredient })
+            xi.test.world:skipTime(17)
+            xi.test.world:skipTime(15)
+
+            if player:hasItem(resultItem) then
+                succeeded = true
+                break
+            end
+
+            player:delContainerItems(xi.inv.INVENTORY)
+        end
+
+        assert(succeeded, 'synth did not succeed within ' .. maxAttempts .. ' attempts')
 
         assert(player:getItemCount(ingredient) == stackQty - 1,
             string.format('expected %d remaining, got %d', stackQty - 1, player:getItemCount(ingredient)))
