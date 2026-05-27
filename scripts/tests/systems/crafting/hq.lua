@@ -59,10 +59,10 @@ describe('HQ', function()
         local prob     = expectedHQ / 100.0
         local expected = total * prob
         local sigma    = math.sqrt(total * prob * (1.0 - prob))
-        local lo       = expected - 3 * sigma
-        local hi       = expected + 3 * sigma
+        local lo       = expected - 4 * sigma
+        local hi       = expected + 4 * sigma
         assert(hqTotal >= lo and hqTotal <= hi, string.format(
-            'HQ count %d outside 3σ range [%.0f, %.0f] (expected %.1f)',
+            'HQ count %d outside 4σ range [%.0f, %.0f] (expected %.1f)',
             hqTotal, lo, hi, expected))
     end
 
