@@ -2181,7 +2181,7 @@ INSERT INTO `mob_spawn_points` VALUES (17326091,0,'Vanguard_Tinkerer','Vanguard 
 INSERT INTO `mob_spawn_points` VALUES (17326092,0,'Vanguard_Maestro','Vanguard Maestro',131,75,77,-231.628,-40.243,-350.179,64);
 INSERT INTO `mob_spawn_points` VALUES (17326093,0,'Serjeant_Tombstone','Serjeant Tombstone',89,65,65,-301.265,-40.400,-295.428,192);
 INSERT INTO `mob_spawn_points` VALUES (17326094,0,'Vanguard_Grappler','Vanguard Grappler',64,75,77,-298.289,-40.242,-287.461,238);
-INSERT INTO `mob_spawn_points` VALUES (17326095,0,'Vanguard_Impaler','Vanguard Impaler',69,75,77,-290.043,-398.724,-295.833,239);
+INSERT INTO `mob_spawn_points` VALUES (17326095,0,'Vanguard_Impaler','Vanguard Impaler',69,75,77,-290.043,-39.872,-295.833,239);
 INSERT INTO `mob_spawn_points` VALUES (17326096,0,'Vanguards_Wyvern','Vanguard\'s Wyvern',27,75,77,1.000,1.000,1.000,1);
 INSERT INTO `mob_spawn_points` VALUES (17326097,0,'Adamantking_Effigy','Adamantking Effigy',55,65,65,-284.269,-40.185,-272.325,57);
 INSERT INTO `mob_spawn_points` VALUES (17326098,0,'Vanguard_Beasttender','Vanguard Beasttender',21,75,77,-289.300,-39.736,-279.031,90);
@@ -2706,7 +2706,7 @@ INSERT INTO `mob_spawn_points` VALUES (17326612,0,'Petro_Pukis','Petro Pukis',5,
 UPDATE `mob_groups` SET spawntype = 128, respawntime = 0 WHERE zoneid = 135; -- Sets mobs to not spawn
 
 -- Delete new dyna spawn points table
-DELETE FROM `mob_spawn_points` WHERE `mobid` BETWEEN 17330177 AND 17330771;
+DELETE FROM `mob_spawn_points` WHERE `mobid` BETWEEN 17330177 AND 17330770;
 DELETE FROM `npc_list` WHERE `npcid` BETWEEN 17330771 AND 17330816;
 
 -- Insert Win QM
