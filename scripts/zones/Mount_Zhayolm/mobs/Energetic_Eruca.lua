@@ -8,6 +8,23 @@ local ID = zones[xi.zone.MOUNT_ZHAYOLM]
 ---@type TMobEntity
 local entity = {}
 
+local function handleRegain(mob)
+    local dayElement = VanadielDayElement()
+    local regain     = mob:getMod(xi.mod.REGAIN)
+
+    if
+        dayElement == xi.element.FIRE and
+        regain == 0
+    then
+        mob:setMod(xi.mod.REGAIN, 30)
+    elseif
+        dayElement ~= xi.element.FIRE and
+        regain ~= 0
+    then
+        mob:setMod(xi.mod.REGAIN, 0)
+    end
+end
+
 entity.phList =
 {
     -- Verified that there is only one PH
@@ -24,7 +41,15 @@ entity.onMobInitialize = function(mob)
 end
 
 entity.onMobSpawn = function(mob)
-    mob:setMod(xi.mod.SLASH_SDT,  -10000) -- Immune to slashing damage
+    mob:setMod(xi.mod.SLASH_SDT, -10000) -- Immune to slashing damage
+end
+
+entity.onMobRoam = function(mob)
+    handleRegain(mob)
+end
+
+entity.onMobFight = function(mob, target)
+    handleRegain(mob)
 end
 
 entity.onMobDeath = function(mob, player, optParams)
