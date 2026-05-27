@@ -2087,7 +2087,7 @@ int32 TakePhysicalDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, PHY
 
         if (isBlocked)
         {
-            uint8 absorb = 100;
+            uint8 absorb = 50; // TODO: get trust/pet/etc absorb percents
 
             // shield def bonus is a flat raw damage reduction that occurs before absorb
             // however do not reduce below 0 or if damage is negative
@@ -2096,52 +2096,22 @@ int32 TakePhysicalDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, PHY
                 damage = std::max(0, damage - PDefender->getMod(Mod::SHIELD_DEF_BONUS));
             }
 
+            // Shield Mastery
+            if (std::max(damage - PDefender->getMod(Mod::STONESKIN), 0) > 0 &&
+                PDefender->getMod(Mod::SHIELD_MASTERY_TP))
+            {
+                // If the attack was blocked and has shield mastery, add shield mastery TP bonus
+                // unblocked damage (before block but as if affected by phalanx) must be greater than zero
+                PDefender->addTP(PDefender->getMod(Mod::SHIELD_MASTERY_TP));
+            }
+
             if (const auto PChar = dynamic_cast<CCharEntity*>(PDefender))
             {
                 CItemEquipment* slotSub = PChar->getEquip(SLOT_SUB);
                 if (slotSub && slotSub->IsShield())
                 {
                     absorb = std::clamp(100 - slotSub->getShieldAbsorption(), 0, 100);
-
-                    // Shield Mastery
-                    if ((std::max(damage - (PDefender->getMod(Mod::PHALANX) + PDefender->getMod(Mod::STONESKIN)), 0) > 0) &&
-                        PDefender->getMod(Mod::SHIELD_MASTERY_TP))
-                    {
-                        // If the player blocked with a shield and has shield mastery, add shield mastery TP bonus
-                        // unblocked damage (before block but as if affected by stoneskin/phalanx) must be greater than zero
-                        PDefender->addTP(PDefender->getMod(Mod::SHIELD_MASTERY_TP));
-                    }
                 }
-            }
-            else if (PDefender->objtype == TYPE_PET)
-            {
-                absorb = 50;
-
-                // Shield Mastery
-                if ((std::max(damage - (PDefender->getMod(Mod::PHALANX) + PDefender->getMod(Mod::STONESKIN)), 0) > 0) &&
-                    (PDefender->getMod(Mod::SHIELD_MASTERY_TP)))
-                {
-                    // If the pet blocked with a shield and has shield mastery, add shield mastery TP bonus
-                    // unblocked damage (before block but as if affected by stoneskin/phalanx) must be greater than zero
-                    PDefender->addTP(PDefender->getMod(Mod::SHIELD_MASTERY_TP));
-                }
-            }
-            else if (PDefender->objtype == TYPE_TRUST)
-            {
-                absorb = 50;
-
-                // Shield Mastery
-                if ((std::max(damage - (PDefender->getMod(Mod::PHALANX) + PDefender->getMod(Mod::STONESKIN)), 0) > 0) &&
-                    (PDefender->getMod(Mod::SHIELD_MASTERY_TP)))
-                {
-                    // If the trust blocked with a shield and has shield mastery, add shield mastery TP bonus
-                    // unblocked damage (before block but as if affected by stoneskin/phalanx) must be greater than zero
-                    PDefender->addTP(PDefender->getMod(Mod::SHIELD_MASTERY_TP));
-                }
-            }
-            else
-            {
-                absorb = 50;
             }
 
             // Reprisal
