@@ -820,6 +820,7 @@ public:
     void delPetMod(uint16 modID, int16 amount);
 
     auto hasAttachment(uint16 itemID) const -> bool;
+    auto hasAttachmentSet(uint16 itemID) const -> bool;
     auto getAutomatonName() const -> std::string;
     auto getAutomatonFrame() const -> Maybe<AutomatonFrame>;
     void setAutomatonFrame(AutomatonFrame frame) const;

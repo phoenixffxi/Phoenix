@@ -3572,6 +3572,12 @@ function CBaseEntity:hasAttachment(itemID)
 end
 
 ---@nodiscard
+---@param itemID integer
+---@return boolean
+function CBaseEntity:hasAttachmentSet(itemID)
+end
+
+---@nodiscard
 ---@return string
 function CBaseEntity:getAutomatonName()
 end

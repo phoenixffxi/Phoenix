@@ -16749,7 +16749,35 @@ auto CLuaBaseEntity::hasAttachment(const uint16 itemID) const -> bool
     }
 
     const CItem* PItem = xi::items::lookup(itemID);
-    return puppetutils::HasAttachment(static_cast<CCharEntity*>(m_PBaseEntity), PItem);
+    if (PItem)
+    {
+        return puppetutils::HasAttachment(static_cast<CCharEntity*>(m_PBaseEntity), PItem);
+    }
+
+    return false;
+}
+
+/************************************************************************
+ *  Function: hasAttachmentSet()
+ *  Purpose : Returns true if automaton has attachment set (in current use)
+ *  Example : if player:hasAttachmentSet() then
+ *  Notes   :
+ ************************************************************************/
+
+auto CLuaBaseEntity::hasAttachmentSet(const uint16 itemID) const -> bool
+{
+    if (m_PBaseEntity->objtype != TYPE_PET)
+    {
+        ShowWarning("Invalid entity type calling function (%s).", m_PBaseEntity->getName());
+        return false;
+    }
+
+    if (static_cast<CPetEntity*>(m_PBaseEntity)->getPetType() == PET_TYPE::AUTOMATON)
+    {
+        return static_cast<CAutomatonEntity*>(m_PBaseEntity)->hasAttachment(itemID - 0x2100);
+    }
+
+    return false;
 }
 
 /************************************************************************
@@ -20808,6 +20836,7 @@ void CLuaBaseEntity::Register()
     SOL_REGISTER("delPetMod", CLuaBaseEntity::delPetMod);
 
     SOL_REGISTER("hasAttachment", CLuaBaseEntity::hasAttachment);
+    SOL_REGISTER("hasAttachmentSet", CLuaBaseEntity::hasAttachmentSet);
     SOL_REGISTER("getAutomatonName", CLuaBaseEntity::getAutomatonName);
     SOL_REGISTER("getAutomatonFrame", CLuaBaseEntity::getAutomatonFrame);
     SOL_REGISTER("setAutomatonFrame", CLuaBaseEntity::setAutomatonFrame);
