@@ -256,6 +256,12 @@ xi.job_utils.beastmaster.checkTame = function(player, target, ability)
         return xi.msg.basic.ALREADY_HAS_A_PET, 0
     end
 
+    for _, member in pairs(player:getPartyWithTrusts()) do
+        if member:isTrust() then
+            return xi.msg.basic.UNABLE_TO_USE_JA, 0
+        end
+    end
+
     return 0, 0
 end
 
