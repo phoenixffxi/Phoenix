@@ -27,6 +27,7 @@
 
 #include <asio.hpp> // for signal_set
 
+#include <chrono>
 #include <memory>
 #include <string>
 
@@ -101,6 +102,8 @@ public:
     auto console() const -> ConsoleService&;
 
 protected:
+    std::chrono::steady_clock::time_point startTime_{ std::chrono::steady_clock::now() };
+
     Scheduler        scheduler_;
     asio::signal_set signals_;
 

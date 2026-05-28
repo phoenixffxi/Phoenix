@@ -214,7 +214,9 @@ void Application::prepareLogging()
 
 void Application::markLoaded()
 {
-    ShowInfoFmt("The {}-server is ready to work...", serverName_);
+    const auto elapsed = std::chrono::duration<double>(std::chrono::steady_clock::now() - startTime_).count();
+
+    ShowInfoFmt("The {}-server is ready to work after {:.2f} seconds...", serverName_, elapsed);
     ShowInfoFmt("Type 'help' for a list of available commands.");
     ShowInfoFmt("=======================================================================");
 
