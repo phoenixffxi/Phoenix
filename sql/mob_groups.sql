@@ -73,7 +73,7 @@ INSERT INTO `mob_groups` VALUES (4,5868,2,'Greater_Pugil_fished',0,128,147,0,0,0
 INSERT INTO `mob_groups` VALUES (5,1347,2,'Fishtrap',0,128,834,0,0,0,NULL);
 
 INSERT INTO `mob_groups` VALUES (6,382,2,'Beady_Beetle',300,0,249,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (7,3164,2,'Poison_Funguar',300,0,2009,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (7,3160,2,'Poison_Funguar',300,0,2009,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (8,3724,2,'Specter_Bat',300,2,386,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (9,575,2,'Bulldog_Bats',300,2,80,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (10,1036,2,'Digger_Wasp',300,0,652,0,0,0,NULL);
