@@ -100,6 +100,7 @@
 #include <array>
 #include <filesystem>
 #include <numeric>
+#include <ranges>
 #include <string>
 #include <unordered_map>
 
@@ -231,14 +232,28 @@ void init(IPP mapIPP, bool isRunningInCI)
     ShowInfo("luautils: Lua initializing");
 
     // Bind math.randon(...) globally
-    // clang-format off
-        lua["math"]["random"] =
-            sol::overload([]() { return xirand::GetRandomNumber(1.0f); },
-                          [](int n) { return xirand::GetRandomNumber<int>(1, n + 1); },
-                          [](float n) { return xirand::GetRandomNumber<float>(0.0f, n); },
-                          [](int n, int m) { return xirand::GetRandomNumber<int>(n, m + 1); },
-                          [](float n, float m) { return xirand::GetRandomNumber<float>(n, m); });
-    // clang-format on
+    lua["math"]["random"] =
+        sol::overload(
+            []()
+            {
+                return xirand::GetRandomNumber(1.0f);
+            },
+            [](int n)
+            {
+                return xirand::GetRandomNumber<int>(1, n + 1);
+            },
+            [](float n)
+            {
+                return xirand::GetRandomNumber<float>(0.0f, n);
+            },
+            [](int n, int m)
+            {
+                return xirand::GetRandomNumber<int>(n, m + 1);
+            },
+            [](float n, float m)
+            {
+                return xirand::GetRandomNumber<float>(n, m);
+            });
 
     lua.set_function("GarbageCollectStep", &luautils::garbageCollectStep);
     lua.set_function("GarbageCollectFull", &luautils::garbageCollectFull);
@@ -335,522 +350,534 @@ void init(IPP mapIPP, bool isRunningInCI)
     lua.set_function("InitializeFishingContestSystem", &luautils::InitializeFishingContestSystem);
 
     // This binding specifically exists to forcefully crash the server.
-    // clang-format off
-        lua.set_function("ForceCrash", []() { crash(); });
-    // clang-format on
-
-    // clang-format off
-        lua.set_function("BuildString", []()
+    lua.set_function(
+        "ForceCrash",
+        []()
         {
-            return fmt::format("{}-{}\n{}\n{}",
+            crash();
+        });
+
+    lua.set_function(
+        "BuildString",
+        []()
+        {
+            return fmt::format(
+                "{}-{}\n{}\n{}",
                 version::GetGitBranch(),
                 version::GetGitSha(),
                 version::GetGitCommitSubject(),
                 version::GetGitDate());
         });
 
-        // Register Sol Bindings
-        CLuaAbility::Register();
-        CLuaAction::Register();
-        CLuaAttack::Register();
-        CLuaBaseEntity::Register();
-        CLuaBattlefield::Register();
-        CLuaInstance::Register();
-        CLuaLootContainer::Register();
-        CLuaMobSkill::Register();
-        CLuaPetSkill::Register();
-        CLuaWeaponSkill::Register();
-        CLuaTriggerArea::Register();
-        CLuaSpell::Register();
-        CLuaStatusEffect::Register();
-        CLuaTradeContainer::Register();
-        CLuaTreasurePool::Register();
-        CLuaZone::Register();
-        CLuaItem::Register();
-        CLuaItemPuppet::Register();
+    // Register Sol Bindings
+    CLuaAbility::Register();
+    CLuaAction::Register();
+    CLuaAttack::Register();
+    CLuaBaseEntity::Register();
+    CLuaBattlefield::Register();
+    CLuaInstance::Register();
+    CLuaLootContainer::Register();
+    CLuaMobSkill::Register();
+    CLuaPetSkill::Register();
+    CLuaWeaponSkill::Register();
+    CLuaTriggerArea::Register();
+    CLuaSpell::Register();
+    CLuaStatusEffect::Register();
+    CLuaTradeContainer::Register();
+    CLuaTreasurePool::Register();
+    CLuaZone::Register();
+    CLuaItem::Register();
+    CLuaItemPuppet::Register();
 
-        // Load global enums
-        for (auto const& entry : sorted_directory_iterator<std::filesystem::directory_iterator>("./scripts/enum"))
+    // Load global enums
+    for (const auto& entry : sorted_directory_iterator<std::filesystem::directory_iterator>("./scripts/enum"))
+    {
+        if (entry.extension() == ".lua")
         {
-            if (entry.extension() == ".lua")
+            const auto relative_path_string = entry.relative_path().generic_string();
+
+            ShowTrace("Loading enum script %s", relative_path_string);
+
+            const auto result = lua.safe_script_file(relative_path_string);
+            if (!result.valid())
             {
-                auto relative_path_string = entry.relative_path().generic_string();
+                const sol::error err = result;
+                ShowError(err.what());
+            }
+        }
+    }
 
-                ShowTrace("Loading enum script %s", relative_path_string);
+    // Load global utilities
+    for (const auto& entry : sorted_directory_iterator<std::filesystem::directory_iterator>("./scripts/utils"))
+    {
+        if (entry.extension() == ".lua")
+        {
+            const auto relative_path_string = entry.relative_path().generic_string();
 
-                auto result = lua.safe_script_file(relative_path_string);
+            ShowTrace("Loading utility script %s", relative_path_string);
+
+            const auto result = lua.safe_script_file(relative_path_string);
+            if (!result.valid())
+            {
+                const sol::error err = result;
+                ShowError(err.what());
+            }
+        }
+    }
+
+    // Load global data
+    for (const auto& entry : sorted_directory_iterator<std::filesystem::directory_iterator>("./scripts/data"))
+    {
+        if (entry.extension() == ".lua")
+        {
+            const auto relative_path_string = entry.relative_path().generic_string();
+
+            ShowTrace("Loading data script %s", relative_path_string);
+
+            const auto result = lua.safe_script_file(relative_path_string);
+            if (!result.valid())
+            {
+                const sol::error err = result;
+                ShowError(err.what());
+            }
+        }
+    }
+
+    PopulateIDLookupsByFilename();
+
+    // Collect globals parts so we can apply overrides after modules are registered
+    std::vector<std::vector<std::string>> globalsParts;
+    globalsParts.reserve(64);
+
+    // Then the rest...
+    for (const auto& entry : sorted_directory_iterator<std::filesystem::recursive_directory_iterator>("./scripts/globals"))
+    {
+        if (entry.extension() == ".lua")
+        {
+            const auto relative_path_string = entry.relative_path().generic_string();
+
+            ShowTrace("Loading global script %s", relative_path_string);
+
+            const auto result = lua.safe_script_file(relative_path_string);
+            if (!result.valid())
+            {
+                const sol::error err = result;
+                ShowError(err.what());
+            }
+
+            std::vector<std::string> parts;
+            for (auto part : entry)
+            {
+                part.replace_extension("");
+                parts.emplace_back(part.string());
+            }
+
+            // Strip leading path components up to and including "scripts"
+            // so parts match the format TryApplyLuaModules expects (same as CacheLuaObjectFromFile)
+            if (const auto it = std::ranges::find(parts, std::string("scripts")); it != parts.end())
+            {
+                parts.erase(parts.begin(), it + 1);
+            }
+            globalsParts.emplace_back(std::move(parts));
+        }
+    }
+
+    // Load Commands
+    for (const auto& entry : sorted_directory_iterator<std::filesystem::directory_iterator>("./scripts/commands"))
+    {
+        if (entry.extension() == ".lua")
+        {
+            CacheLuaObjectFromFile(entry.relative_path().generic_string());
+        }
+    }
+
+    // Load all lua files (for sanity testing, no need for during regular use)
+    if (isRunningInCI)
+    {
+        ShowInfo("*** CI ONLY: Smoke testing by running all Lua files. ***");
+        for (const auto& entry : sorted_directory_iterator<std::filesystem::recursive_directory_iterator>("./scripts"))
+        {
+            // Break apart path so that we can verify and ignore specific subdirectories
+            std::vector<std::string> parts;
+            for (auto part : entry)
+            {
+                part.replace_extension("");
+                parts.emplace_back(part.string());
+            }
+
+            // Spec meta files should not be cached, and are only used
+            // for Lua Language Server parsing
+            // Test files are handled by xi_test exclusively
+            if (!parts.empty() && (parts[2] == "specs" || parts[2] == "tests"))
+            {
+                continue;
+            }
+
+            // If we try to reload IDs.lua files, we'll wipe out the results
+            // of GetFirstID() calls, so lets skip over those.
+            if (entry.extension() == ".lua" && entry.filename() != "IDs.lua")
+            {
+                const auto result = lua.safe_script_file(entry.relative_path().generic_string());
                 if (!result.valid())
                 {
-                    sol::error err = result;
+                    const sol::error err = result;
                     ShowError(err.what());
                 }
             }
         }
-
-        // Load global utilities
-        for (auto const& entry : sorted_directory_iterator<std::filesystem::directory_iterator>("./scripts/utils"))
-        {
-            if (entry.extension() == ".lua")
-            {
-                auto relative_path_string = entry.relative_path().generic_string();
-
-                ShowTrace("Loading utility script %s", relative_path_string);
-
-                auto result = lua.safe_script_file(relative_path_string);
-                if (!result.valid())
-                {
-                    sol::error err = result;
-                    ShowError(err.what());
-                }
-            }
-        }
-
-        // Load global data
-        for (auto const& entry : sorted_directory_iterator<std::filesystem::directory_iterator>("./scripts/data"))
-        {
-            if (entry.extension() == ".lua")
-            {
-                auto relative_path_string = entry.relative_path().generic_string();
-
-                ShowTrace("Loading data script %s", relative_path_string);
-
-                auto result = lua.safe_script_file(relative_path_string);
-                if (!result.valid())
-                {
-                    sol::error err = result;
-                    ShowError(err.what());
-                }
-            }
-        }
-
-        PopulateIDLookupsByFilename();
-
-        // Then the rest...
-        for (auto const& entry : sorted_directory_iterator<std::filesystem::recursive_directory_iterator>("./scripts/globals"))
-        {
-            if (entry.extension() == ".lua")
-            {
-                auto relative_path_string = entry.relative_path().generic_string();
-
-                ShowTrace("Loading global script %s", relative_path_string);
-
-                auto result = lua.safe_script_file(relative_path_string);
-                if (!result.valid())
-                {
-                    sol::error err = result;
-                    ShowError(err.what());
-                }
-            }
-        }
-
-        // Load Commands
-        for (auto const& entry : sorted_directory_iterator<std::filesystem::directory_iterator>("./scripts/commands"))
-        {
-            if (entry.extension() == ".lua")
-            {
-                CacheLuaObjectFromFile(entry.relative_path().generic_string());
-            }
-        }
-
-        // Load all lua files (for sanity testing, no need for during regular use)
-        if (isRunningInCI)
-        {
-            ShowInfo("*** CI ONLY: Smoke testing by running all Lua files. ***");
-            for (auto const& entry : sorted_directory_iterator<std::filesystem::recursive_directory_iterator>("./scripts"))
-            {
-                // Break apart path so that we can verify and ignore specific subdirectories
-                std::vector<std::string> parts;
-                for (auto part : entry)
-                {
-                    part.replace_extension("");
-                    parts.emplace_back(part.string());
-                }
-
-                // Spec meta files should not be cached, and are only used
-                // for Lua Language Server parsing
-                // Test files are handled by xi_test exclusively
-                if (!parts.empty() && (parts[2] == "specs" || parts[2] == "tests"))
-                {
-                    continue;
-                }
-
-                // If we try to reload IDs.lua files, we'll wipe out the results
-                // of GetFirstID() calls, so lets skip over those.
-                if (entry.extension() == ".lua" && entry.filename() != "IDs.lua")
-                {
-                    auto result = lua.safe_script_file(entry.relative_path().generic_string());
-                    if (!result.valid())
-                    {
-                        sol::error err = result;
-                        ShowError(err.what());
-                    }
-                }
-            }
-        }
-
-        // Handle settings
-        moduleutils::LoadLuaModules(mapIPP);
-
-        filewatcher = std::make_unique<Filewatcher>(std::vector<std::string>{ "scripts", "modules", "settings" });
-
-        TracyReportLuaMemory(lua.lua_state());
     }
 
-    void cleanup()
+    moduleutils::LoadLuaModules(mapIPP);
+
+    for (const auto& parts : globalsParts)
     {
-        moduleutils::CleanupLuaModules();
+        moduleutils::TryApplyLuaModules(parts);
     }
 
-    void garbageCollectStep()
+    moduleutils::TryApplyRemainingLuaModules();
+
+    filewatcher = std::make_unique<Filewatcher>(std::vector<std::string>{ "scripts", "modules", "settings" });
+
+    TracyReportLuaMemory(lua.lua_state());
+}
+
+void cleanup()
+{
+    moduleutils::CleanupLuaModules();
+}
+
+void garbageCollectStep()
+{
+    TracyZoneScoped;
+    TracyReportLuaMemory(lua.lua_state());
+
+    lua.step_gc(10); // LUA_GCSTEP 10 (performs an incremental step of garbage collection. Step size 10kb.)
+
+    // NOTE: This is just requesting that an incremental step starts. There won't be a before/after change from
+    //       this request!
+    ShowInfo("Garbage Collected (Step)");
+    ShowInfo("Current State Top: %d, Total Memory Used: %dkb", lua_gettop(lua.lua_state()), lua.memory_used() / 1024);
+
+    TracyReportLuaMemory(lua.lua_state());
+}
+
+void garbageCollectFull()
+{
+    TracyZoneScoped;
+    TracyReportLuaMemory(lua.lua_state());
+
+    auto before_mem_kb = lua.memory_used() / 1024;
+
+    lua.collect_garbage(); // LUA_GCCOLLECT (performs a full garbage-collection cycle.)
+
+    auto after_mem_kb = lua.memory_used() / 1024;
+
+    ShowInfo("Garbage Collected (Full)");
+    ShowInfo("Current State Top: %d, Total Memory Used: %dkb -> %dkb", lua_gettop(lua.lua_state()), before_mem_kb, after_mem_kb);
+
+    TracyReportLuaMemory(lua.lua_state());
+}
+
+void TryReloadFilewatchList()
+{
+    const auto changedFiles = filewatcher->popChangedLuaFilesList();
+
+    if (changedFiles.empty())
     {
-        TracyZoneScoped;
-        TracyReportLuaMemory(lua.lua_state());
-
-        lua.step_gc(10); // LUA_GCSTEP 10 (performs an incremental step of garbage collection. Step size 10kb.)
-
-        // NOTE: This is just requesting that an incremental step starts. There won't be a before/after change from
-        //       this request!
-
-        ShowInfo("Garbage Collected (Step)");
-        ShowInfo("Current State Top: %d, Total Memory Used: %dkb", lua_gettop(lua.lua_state()), lua.memory_used() / 1024);
-
-        TracyReportLuaMemory(lua.lua_state());
+        return;
     }
 
-    void garbageCollectFull()
+    // For coherency between looking things up by filename and by Lua global
+    // name we need to nuke the whole lookup cache on any file changes.
+    // detail::cachedObjects.clear();
+
+    for (const auto& [filename, action] : changedFiles)
     {
-        TracyZoneScoped;
-        TracyReportLuaMemory(lua.lua_state());
+        const auto pathStr = filename.generic_string();
+        if (action == Filewatcher::Action::Add || action == Filewatcher::Action::Modified)
+        {
+            ShowInfo("[FileWatcher] %s", pathStr.c_str());
+            CacheLuaObjectFromFile(pathStr, true);
+        }
 
-        auto before_mem_kb = lua.memory_used() / 1024;
-
-        lua.collect_garbage(); // LUA_GCCOLLECT (performs a full garbage-collection cycle.)
-
-        auto after_mem_kb = lua.memory_used() / 1024;
-
-        ShowInfo("Garbage Collected (Full)");
-        ShowInfo("Current State Top: %d, Total Memory Used: %dkb -> %dkb", lua_gettop(lua.lua_state()), before_mem_kb, after_mem_kb);
-
-        TracyReportLuaMemory(lua.lua_state());
+        // TODO: Handle moved and deleted files
     }
+}
 
-    void TryReloadFilewatchList()
+std::vector<std::string> GetContainerFilenamesList()
+{
+    TracyZoneScoped;
+
+    std::vector<std::string> outVec;
+
+    // Scrape for files of the form:
+    // "scripts/quests/(area|expansion)/(filename).lua"
+    // "scripts/missions/(area|expansion)/(filename).lua"
+    // "scripts/battlefields/(zone)/(filename).lua"
+    auto scrapeSubdir = [&](const std::string& subFolder) -> void
     {
-        const auto changedFiles = filewatcher->popChangedLuaFilesList();
-
-        if (changedFiles.empty())
+        for (const auto& entry : sorted_directory_iterator<std::filesystem::recursive_directory_iterator>(subFolder))
         {
-            return;
-        }
+            auto path = entry.relative_path();
 
-        // For coherency between looking things up by filename and by Lua global
-        // name we need to nuke the whole lookup cache on any file changes.
-        // detail::cachedObjects.clear();
+            // TODO(compiler updates):
+            // entry.depth() is not yet available in all of our compilers
+            auto depth = std::distance(path.begin(), path.end());
 
-        for (const auto& [filename, action] : changedFiles)
-        {
-            const auto pathStr = filename.generic_string();
-            if (action == Filewatcher::Action::Add || action == Filewatcher::Action::Modified)
+            bool isHelpersFile = path.filename() == "helpers.lua";
+
+            if (!std::filesystem::is_directory(path) &&
+                path.extension() == ".lua" &&
+                depth == 4 &&
+                !isHelpersFile)
             {
-                ShowInfo("[FileWatcher] %s", pathStr.c_str());
-                CacheLuaObjectFromFile(pathStr, true);
+                outVec.emplace_back(path.replace_extension("").make_preferred().string());
             }
-
-            // TODO: Handle moved and deleted files
         }
-    }
+    };
 
-    std::vector<std::string> GetContainerFilenamesList()
+    scrapeSubdir("scripts/battlefields");
+    scrapeSubdir("scripts/missions");
+    scrapeSubdir("scripts/quests");
+
+    return outVec;
+}
+
+sol::function getEntityCachedFunction(CBaseEntity* PEntity, std::string funcName)
+{
+    TracyZoneScoped;
+    TracyZoneString(funcName);
+    TracyZoneString(PEntity->getName());
+
+    if (PEntity->objtype == TYPE_NPC)
     {
-        TracyZoneScoped;
+        std::string zone_name = PEntity->loc.zone->getName();
+        std::string npc_name  = PEntity->getName();
 
-        std::vector<std::string> outVec;
-
-        // Scrape for files of the form:
-        // "scripts/quests/(area|expansion)/(filename).lua"
-        // "scripts/missions/(area|expansion)/(filename).lua"
-        // "scripts/battlefields/(zone)/(filename).lua"
-        auto scrapeSubdir = [&](std::string const& subFolder) -> void
-        {
-            for (auto const& entry : sorted_directory_iterator<std::filesystem::recursive_directory_iterator>(subFolder))
-            {
-                auto path = entry.relative_path();
-
-                // TODO(compiler updates):
-                // entry.depth() is not yet available in all of our compilers
-                auto depth = std::distance(path.begin(), path.end());
-
-                bool isHelpersFile = path.filename() == "helpers.lua";
-
-                if (!std::filesystem::is_directory(path) &&
-                    path.extension() == ".lua" &&
-                    depth == 4 &&
-                    !isHelpersFile)
-                {
-                    outVec.emplace_back(path.replace_extension("").make_preferred().string());
-                }
-            }
-        };
-
-        scrapeSubdir("scripts/battlefields");
-        scrapeSubdir("scripts/missions");
-        scrapeSubdir("scripts/quests");
-
-        return outVec;
-    }
-
-    sol::function getEntityCachedFunction(CBaseEntity* PEntity, std::string funcName)
-    {
-        TracyZoneScoped;
-        TracyZoneString(funcName);
-        TracyZoneString(PEntity->getName());
-
-        if (PEntity->objtype == TYPE_NPC)
-        {
-            std::string zone_name = PEntity->loc.zone->getName();
-            std::string npc_name  = PEntity->getName();
-
-            if (auto cached_func = lua["xi"]["zones"][zone_name]["npcs"][npc_name][funcName]; cached_func.valid())
-            {
-                return cached_func;
-            }
-        }
-        else if (PEntity->objtype == TYPE_MOB)
-        {
-            std::string zone_name = PEntity->loc.zone->getName();
-            std::string mob_name  = PEntity->getName();
-
-            if (auto cached_func = lua["xi"]["zones"][zone_name]["mobs"][mob_name][funcName]; cached_func.valid())
-            {
-                return cached_func;
-            }
-        }
-        else if (PEntity->objtype == TYPE_PET)
-        {
-            std::string mob_name = static_cast<CPetEntity*>(PEntity)->GetScriptName();
-
-            if (auto cached_func = lua["xi"]["pets"][mob_name][funcName]; cached_func.valid())
-            {
-                return cached_func;
-            }
-        }
-        else if (PEntity->objtype == TYPE_TRUST)
-        {
-            std::string mob_name = PEntity->getName();
-
-            if (auto cached_func = lua["xi"]["actions"]["spells"]["trust"][mob_name][funcName]; cached_func.valid())
-            {
-                return cached_func;
-            }
-        }
-
-        // Didn't find it
-        return sol::lua_nil;
-    }
-
-    sol::function getSpellCachedFunction(CSpell* PSpell, std::string funcName)
-    {
-        TracyZoneScoped;
-        TracyZoneString(funcName);
-        TracyZoneString(PSpell->getName());
-
-        auto name = PSpell->getName();
-
-        std::string switchKey = "";
-        switch (PSpell->getSpellGroup())
-        {
-            case SPELLGROUP_WHITE:
-            {
-                switchKey = "white";
-            }
-            break;
-            case SPELLGROUP_BLACK:
-            {
-                switchKey = "black";
-            }
-            break;
-            case SPELLGROUP_SONG:
-            {
-                switchKey = "songs";
-            }
-            break;
-            case SPELLGROUP_NINJUTSU:
-            {
-                switchKey = "ninjutsu";
-            }
-            break;
-            case SPELLGROUP_SUMMONING:
-            {
-                switchKey = "summoning";
-            }
-            break;
-            case SPELLGROUP_BLUE:
-            {
-                switchKey = "blue";
-            }
-            break;
-            case SPELLGROUP_GEOMANCY:
-            {
-                switchKey = "geomancy";
-            }
-            break;
-            case SPELLGROUP_TRUST:
-            {
-                switchKey = "trust";
-            }
-            break;
-            default:
-            {
-                ShowError("luautils::getSpellCachedFunction: Spell %s not inside a folder or doesnt have a SpellGroup", name);
-            }
-            break;
-        }
-
-        if (auto cached_func = lua["xi"]["actions"]["spells"][switchKey][name][funcName]; cached_func.valid())
+        if (auto cached_func = lua["xi"]["zones"][zone_name]["npcs"][npc_name][funcName]; cached_func.valid())
         {
             return cached_func;
         }
+    }
+    else if (PEntity->objtype == TYPE_MOB)
+    {
+        std::string zone_name = PEntity->loc.zone->getName();
+        std::string mob_name  = PEntity->getName();
 
-        // Didn't find it
-        return sol::lua_nil;
+        if (auto cached_func = lua["xi"]["zones"][zone_name]["mobs"][mob_name][funcName]; cached_func.valid())
+        {
+            return cached_func;
+        }
+    }
+    else if (PEntity->objtype == TYPE_PET)
+    {
+        std::string mob_name = static_cast<CPetEntity*>(PEntity)->GetScriptName();
+
+        if (auto cached_func = lua["xi"]["pets"][mob_name][funcName]; cached_func.valid())
+        {
+            return cached_func;
+        }
+    }
+    else if (PEntity->objtype == TYPE_TRUST)
+    {
+        std::string mob_name = PEntity->getName();
+
+        if (auto cached_func = lua["xi"]["actions"]["spells"]["trust"][mob_name][funcName]; cached_func.valid())
+        {
+            return cached_func;
+        }
     }
 
-    // Assumes filename in the form "./scripts/folder0/folder1/folder2/mob_name.lua
-    // Object returned form that script will be cached to:
-    // xi.folder0.folder1.folder2.mob_name
-    void CacheLuaObjectFromFile(std::string const& filename, bool overwriteCurrentEntry /* = false*/)
+    // Didn't find it
+    return sol::lua_nil;
+}
+
+sol::function getSpellCachedFunction(CSpell* PSpell, std::string funcName)
+{
+    TracyZoneScoped;
+    TracyZoneString(funcName);
+    TracyZoneString(PSpell->getName());
+
+    auto name = PSpell->getName();
+
+    std::string switchKey = "";
+    switch (PSpell->getSpellGroup())
     {
-        TracyZoneScoped;
-        TracyZoneString(filename);
-
-        auto path = std::filesystem::path(filename);
-        if (path.empty() || path.extension() == "")
+        case SPELLGROUP_WHITE:
         {
+            switchKey = "white";
+        }
+        break;
+        case SPELLGROUP_BLACK:
+        {
+            switchKey = "black";
+        }
+        break;
+        case SPELLGROUP_SONG:
+        {
+            switchKey = "songs";
+        }
+        break;
+        case SPELLGROUP_NINJUTSU:
+        {
+            switchKey = "ninjutsu";
+        }
+        break;
+        case SPELLGROUP_SUMMONING:
+        {
+            switchKey = "summoning";
+        }
+        break;
+        case SPELLGROUP_BLUE:
+        {
+            switchKey = "blue";
+        }
+        break;
+        case SPELLGROUP_GEOMANCY:
+        {
+            switchKey = "geomancy";
+        }
+        break;
+        case SPELLGROUP_TRUST:
+        {
+            switchKey = "trust";
+        }
+        break;
+        default:
+        {
+            ShowError("luautils::getSpellCachedFunction: Spell %s not inside a folder or doesnt have a SpellGroup", name);
+        }
+        break;
+    }
+
+    if (auto cached_func = lua["xi"]["actions"]["spells"][switchKey][name][funcName]; cached_func.valid())
+    {
+        return cached_func;
+    }
+
+    // Didn't find it
+    return sol::lua_nil;
+}
+
+// Assumes filename in the form "./scripts/folder0/folder1/folder2/mob_name.lua"
+// Object returned from that script will be cached to:
+// xi.folder0.folder1.folder2.mob_name
+void CacheLuaObjectFromFile(const std::string& filename, bool overwriteCurrentEntry /* = false*/)
+{
+    TracyZoneScoped;
+
+    TracyZoneString(filename);
+
+    const auto path = std::filesystem::path(filename);
+    if (path.empty() || path.extension().empty())
+    {
+        return;
+    }
+
+    std::vector<std::string> parts;
+    parts.reserve(8);
+    for (auto part : path)
+    {
+        parts.emplace_back(part.replace_extension("").string());
+    }
+
+    // Handle Lua module files, then return
+    if (!parts.empty() && parts[0] == "modules")
+    {
+        const auto result = lua.safe_script_file(filename);
+        if (!result.valid())
+        {
+            const sol::error err = result;
+            ShowError("luautils::CacheLuaObjectFromFile: Load module error: %s: %s", filename, err.what());
             return;
         }
 
-        // Handle filename -> path conversion
-        std::vector<std::string> parts;
-        for (auto part : path)
+        // Commands are a special case, since they are not a "true" module
+        const sol::table cmdTable = result;
+        if (cmdTable["cmdprops"].valid() && cmdTable["onTrigger"].valid())
         {
-            part.replace_extension("");
-            parts.emplace_back(part.string());
+            lua[sol::create_if_nil]["xi"]["commands"][parts.back()] = cmdTable;
         }
 
-        // Handle Lua module files, then return
-        if (!parts.empty() && parts[0] == "modules")
+        ShowInfo("[FileWatcher] RE-RUNNING MODULE FILE %s", filename);
+        return;
+    }
+
+    // Handle Lua settings files, then return
+    if (!parts.empty() && parts[0] == "settings")
+    {
+        const auto result = lua.safe_script_file(filename);
+        if (!result.valid())
         {
-            auto result = lua.safe_script_file(filename);
-            if (!result.valid())
-            {
-                sol::error err = result;
-                ShowError("luautils::CacheLuaObjectFromFile: Load module error: %s: %s", filename, err.what());
-                return;
-            }
-
-            // Commands are a special case, since they are not a "true" module
-            sol::table cmdTable = result;
-            if (cmdTable["cmdprops"].valid() && cmdTable["onTrigger"].valid())
-            {
-                lua[sol::create_if_nil]["xi"]["commands"][parts.back()] = cmdTable;
-            }
-
-            ShowInfo("[FileWatcher] RE-RUNNING MODULE FILE %s", filename);
+            const sol::error err = result;
+            ShowError("luautils::CacheLuaObjectFromFile: Load settings error: %s: %s", filename, err.what());
             return;
         }
 
-        // Handle Lua settings files, then return
-        if (!parts.empty() && parts[0] == "settings")
+        ShowInfo("[FileWatcher] RELOADING ALL LUA SETTINGS FILES");
+
+        settings::init();
+
+        return;
+    }
+
+    const auto scriptsIt = std::ranges::find(parts, std::string("scripts"));
+    if (scriptsIt == parts.end())
+    {
+        ShowError("luautils::CacheLuaObjectFromFile: Invalid filename: %s", filename);
+        return;
+    }
+
+    // Strip "scripts" and everything before it
+    parts.erase(parts.begin(), scriptsIt + 1);
+
+    // Handle Globals
+    if (!parts.empty() && parts[0] == "globals" && path.extension() == ".lua")
+    {
+        const auto requireName = fmt::format("scripts/globals/{}", fmt::join(parts.cbegin() + 1, parts.cend(), "/"));
+
+        const auto result = lua.safe_script(fmt::format(R"(package.loaded["{}"] = nil; require("{}");)", requireName, requireName));
+        if (!result.valid())
         {
-            auto result = lua.safe_script_file(filename);
-            if (!result.valid())
-            {
-                sol::error err = result;
-                ShowError("luautils::CacheLuaObjectFromFile: Load settings error: %s: %s", filename, err.what());
-                return;
-            }
-
-            ShowInfo("[FileWatcher] RELOADING ALL LUA SETTINGS FILES");
-
-            settings::init();
-
+            const sol::error err = result;
+            ShowError("luautils::CacheLuaObjectFromFile: Load global error: %s: %s", filename, err.what());
             return;
         }
 
-        // Completely ignore specs, they're for the linter, not for runtime.
-        // (BAD THINGS HAPPEN IF YOU RELOAD SPEC FILES AT RUNTIME!)
-        if (parts.size() >= 2 && parts[0] == "scripts" && parts[1] == "specs")
+        moduleutils::TryApplyLuaModules(parts, true);
+        ShowInfo("[FileWatcher] GLOBAL %s -> \"%s\"", filename, requireName);
+        return;
+    }
+
+    // Handle IDs then return
+    if (parts.size() == 3 && parts[2] == "IDs")
+    {
+        PopulateIDLookupsByFilename(path.parent_path().stem().generic_string());
+        ShowInfo("[FileWatcher] IDs %s", filename);
+        return;
+    }
+
+    // Handle Quests, Missions and Battlefields then return
+    if (parts.size() == 3 && (parts[0] == "quests" || parts[0] == "missions" || parts[0] == "battlefields"))
+    {
+        const auto requireName = fmt::format("scripts/{}/{}/{}", parts[0], parts[1], parts[2]);
+
+        if (parts[2] == "helpers")
         {
-            ShowInfo("[FileWatcher] Skipping reload of spec file: %s", filename);
-            return;
-        }
-
-        auto it = std::find(parts.begin(), parts.end(), "scripts");
-        if (it == parts.end())
-        {
-            ShowError("luautils::CacheLuaObjectFromFile: Invalid filename: %s", filename);
-            return;
-        }
-
-        // Now that the list is verified, overwrite it with the same list; without "scripts"
-        parts = std::vector<std::string>(it + 1, parts.end());
-
-        // Handle Globals then return
-        // Globals need to be nil'd before they're reloaded
-        if (parts[0] == "globals" && path.extension() == ".lua")
-        {
-            std::string requireName("scripts/globals");
-
-            for (std::size_t i = 1; i < parts.size(); ++i)
-            {
-                requireName = fmt::format("{}/{}", requireName, parts[i]);
-            }
-
-            auto result = lua.safe_script(fmt::format(R"(package.loaded["{}"] = nil; require("{}");)", requireName, requireName));
-            if (!result.valid())
-            {
-                sol::error err = result;
-                ShowError("luautils::CacheLuaObjectFromFile: Load global error: %s: %s", filename, err.what());
-                return;
-            }
-
-            ShowInfo("[FileWatcher] GLOBAL %s -> \"%s\"", filename, requireName);
-            return;
-        }
-
-        // Handle IDs then return
-        if (parts.size() == 3 && parts[2] == "IDs")
-        {
-            // Strip down to just the zone name
-            auto zoneName = path.parent_path().stem().generic_string();
-
-            PopulateIDLookupsByFilename(zoneName);
-            ShowInfo("[FileWatcher] IDs %s", filename);
-            return;
-        }
-
-        // Handle Quests and Missions then return
-        if (parts.size() == 3 &&
-            (parts[0] == "quests" || parts[0] == "missions" || parts[0] == "battlefields"))
-        {
-            if (parts[2] == "helpers")
-            {
-                std::string requireName = fmt::format("scripts/{}/{}/{}", parts[0], parts[1], parts[2]);
-
-                // clang-format off
-                auto result = lua.safe_script(fmt::format(R"(
+            lua.safe_script(
+                fmt::format(
+                    R"(
                     package.loaded["{0}"] = nil
                     utils.prequire("{0}")
-                )", requireName));
-            // clang-format on
-
+                )",
+                    requireName));
             ShowInfo("[FileWatcher] INTERACTION HELPERS %s", parts[1]);
         }
-        else // Regular interaction files
+        else
         {
-            std::string requireName = fmt::format("scripts/{}/{}/{}", parts[0], parts[1], parts[2]);
-
-            auto result = lua.safe_script(fmt::format(R"(
+            const auto result = lua.safe_script(
+                fmt::format(
+                    R"(
                     if package.loaded["{0}"] then
                         local old = package.loaded["{0}"]
                         package.loaded["{0}"] = nil
@@ -864,18 +891,17 @@ void init(IPP mapIPP, bool isRunningInCI)
                         InteractionGlobal.lookup:addContainer(res)
                     end
                 )",
-                                                      requireName));
+                    requireName));
 
             if (!result.valid())
             {
-                sol::error err = result;
+                const sol::error err = result;
                 ShowError("luautils::CacheLuaObjectFromFile: Load interaction error: %s: %s", filename, err.what());
                 return;
             }
 
             ShowInfo("[FileWatcher] INTERACTION %s -> %s", requireName, parts[2]);
         }
-
         return;
     }
 
@@ -885,36 +911,33 @@ void init(IPP mapIPP, bool isRunningInCI)
         return;
     }
 
-    // Try and load script
-    auto file_result = lua.safe_script_file(filename);
-    if (!file_result.valid())
+    const auto fileResult = lua.safe_script_file(filename);
+    if (!fileResult.valid())
     {
-        sol::error err = file_result;
+        const sol::error err = fileResult;
         ShowError("luautils::CacheLuaObjectFromFile: Load error: %s: %s", filename, err.what());
         return;
     }
 
-    if (!file_result.return_count())
+    if (!fileResult.return_count())
     {
         ShowError("luautils::CacheLuaObjectFromFile: No returned object to cache: %s", filename);
         return;
     }
 
-    // file_result should be good, cache it!
-    // detail::cachedObjects[filename] = file_result;
-
     auto table = lua["xi"].get_or_create<sol::table>();
-    for (auto& part : parts)
+    for (size_t i = 0; i < parts.size(); ++i)
     {
-        if (part == parts.back())
+        const auto& part = parts[i];
+        if (i == parts.size() - 1)
         {
             if (overwriteCurrentEntry)
             {
-                table[sol::override_value][part] = file_result;
+                table[sol::override_value][part] = fileResult;
             }
             else
             {
-                table[sol::update_if_empty][part] = file_result;
+                table[sol::update_if_empty][part] = fileResult;
             }
         }
         else
@@ -923,7 +946,7 @@ void init(IPP mapIPP, bool isRunningInCI)
         }
     }
 
-    moduleutils::TryApplyLuaModules();
+    moduleutils::TryApplyLuaModules(parts, overwriteCurrentEntry);
 }
 
 sol::table GetCacheEntryFromFilename(const std::string& filename)
@@ -1036,7 +1059,7 @@ void LoadExpDifficultyCurves(const sol::table& expToDifficultyTable, const uint8
     std::sort(
         expDifficultyTable.begin(),
         expDifficultyTable.end(),
-        [](std::pair<uint16, EMobDifficulty> const& a, std::pair<uint16, EMobDifficulty> const& b)
+        [](const std::pair<uint16, EMobDifficulty>& a, const std::pair<uint16, EMobDifficulty>& b)
         {
             return a.first > b.first;
         });
@@ -1115,8 +1138,10 @@ void PopulateIDLookups(uint16 zoneId, const std::string& zoneName)
     }
 
     // Update GetFirstID to use this new lookup
-    // clang-format off
-        lua.set_function("GetFirstID", [&](std::string const& name) -> Maybe<uint32>
+
+    lua.set_function(
+        "GetFirstID",
+        [&](const std::string& name) -> Maybe<uint32>
         {
             if (lookup.find(name) != lookup.end())
             {
@@ -1129,9 +1154,11 @@ void PopulateIDLookups(uint16 zoneId, const std::string& zoneName)
             }
         });
 
-        std::unordered_map<std::string, sol::table> idLuaTables;
+    std::unordered_map<std::string, sol::table> idLuaTables;
 
-        lua.set_function("GetTableOfIDs", [&](std::string const& name) -> sol::table
+    lua.set_function(
+        "GetTableOfIDs",
+        [&](const std::string& name) -> sol::table
         {
             // Is it already built and cached: return it
             if (idLuaTables.find(name) != idLuaTables.end())
@@ -1157,11 +1184,11 @@ void PopulateIDLookups(uint16 zoneId, const std::string& zoneName)
             }
 
             // Look up all that match name
-            for (auto const& [lookupName, lookupVec] : lookup)
+            for (const auto& [lookupName, lookupVec] : lookup)
             {
                 if (name == lookupName)
                 {
-                    for (auto const& entryId : lookupVec)
+                    for (const auto& entryId : lookupVec)
                     {
                         table.add(entryId);
                     }
@@ -1178,7 +1205,6 @@ void PopulateIDLookups(uint16 zoneId, const std::string& zoneName)
 
             return table;
         });
-    // clang-format on
 
     // Pre-require
     auto result = lua.safe_script_file(fmt::format("scripts/zones/{}/IDs.lua", zoneName.c_str()));
@@ -1188,17 +1214,19 @@ void PopulateIDLookups(uint16 zoneId, const std::string& zoneName)
         ShowError(err.what());
     }
 
-    // clang-format off
-        lua.set_function("GetFirstID", [&](std::string const& name) -> void
+    lua.set_function(
+        "GetFirstID",
+        [&](const std::string& name) -> void
         {
             ShowWarning("GetFirstID is designed to be used at load/reload-time only!");
         });
 
-        lua.set_function("GetTableOfIDs", [&](std::string const& name, Maybe<int> optRange) -> void
+    lua.set_function(
+        "GetTableOfIDs",
+        [&](const std::string& name, Maybe<int> optRange) -> void
         {
             ShowWarning("GetTableOfIDs is designed to be used at load/reload-time only!");
         });
-    // clang-format on
 
     // Re-publish to package.loaded. This is the same as loading the contents of a script with require("name").
     lua["package"]["loaded"][fmt::format("scripts/zones/{}/IDs", zoneName)] = lua["zones"][zoneId];
@@ -1208,78 +1236,75 @@ void PopulateIDLookupsByFilename(Maybe<std::string> maybeFilename)
 {
     TracyZoneScoped;
 
-    // clang-format off
-        const auto handleZone = [&](std::string const& zoneName)
+    const auto handleZone = [&](const std::string& zoneName)
+    {
+        uint16 zoneId = [&]() -> uint16
         {
-            uint16 zoneId = [&]() -> uint16
+            const auto rset = db::preparedStmt("SELECT zoneid FROM zone_settings WHERE name = ? LIMIT 1", zoneName);
+            if (rset && rset->rowsCount())
             {
-                const auto rset = db::preparedStmt("SELECT zoneid FROM zone_settings WHERE name = ? LIMIT 1", zoneName);
-                if (rset && rset->rowsCount())
+                if (rset->next())
                 {
-                    if (rset->next())
-                    {
-                        return rset->get<uint16>("zoneid");
-                    }
+                    return rset->get<uint16>("zoneid");
                 }
+            }
 
-                return 0;
-            }();
+            return 0;
+        }();
 
-            PopulateIDLookups(zoneId, zoneName);
-        };
+        PopulateIDLookups(zoneId, zoneName);
+    };
 
-        if (!maybeFilename)
+    if (!maybeFilename)
+    {
+        // Pre-load all zone/IDs files so we can pre-populate their GetFirstID lookups
+        for (const auto& zoneDirEntry : sorted_directory_iterator<std::filesystem::directory_iterator>("./scripts/zones"))
         {
-            // Pre-load all zone/IDs files so we can pre-populate their GetFirstID lookups
-            for (const auto& zoneDirEntry : sorted_directory_iterator<std::filesystem::directory_iterator>("./scripts/zones"))
+            for (const auto& fileEntry : sorted_directory_iterator<std::filesystem::directory_iterator>(zoneDirEntry.relative_path().generic_string()))
             {
-                for (const auto& fileEntry : sorted_directory_iterator<std::filesystem::directory_iterator>(zoneDirEntry.relative_path().generic_string()))
+                if (fileEntry.stem() == "IDs")
                 {
-                    if (fileEntry.stem() == "IDs")
-                    {
-                        // Prepare which zone we're in using the file path
-                        const auto relative_path_string = fileEntry.relative_path().generic_string();
-                        const auto zoneName = fileEntry.parent_path().stem().generic_string();
+                    // Prepare which zone we're in using the file path
+                    const auto relative_path_string = fileEntry.relative_path().generic_string();
+                    const auto zoneName             = fileEntry.parent_path().stem().generic_string();
 
-                        handleZone(zoneName);
-                    }
+                    handleZone(zoneName);
                 }
             }
         }
-        else
-        {
-            handleZone(maybeFilename.value());
-        }
-    // clang-format on
+    }
+    else
+    {
+        handleZone(maybeFilename.value());
+    }
 }
 
 void PopulateIDLookupsByZone(Maybe<uint16> maybeZoneId)
 {
     TracyZoneScoped;
 
-    // clang-format off
-        const auto handleZone = [&](CZone* PZone)
-        {
-            const auto zoneId   = PZone->GetID();
-            const auto zoneName = PZone->getName();
-            PopulateIDLookups(zoneId, zoneName);
-        };
+    const auto handleZone = [&](CZone* PZone)
+    {
+        const auto zoneId   = PZone->GetID();
+        const auto zoneName = PZone->getName();
+        PopulateIDLookups(zoneId, zoneName);
+    };
 
-        if (!maybeZoneId.has_value())
-        {
-            zoneutils::ForEachZone([&](CZone* PZone)
+    if (!maybeZoneId.has_value())
+    {
+        zoneutils::ForEachZone(
+            [&](CZone* PZone)
             {
                 if (PZone->GetIP() != 0)
                 {
                     handleZone(PZone);
                 }
             });
-        }
-        else
-        {
-            handleZone(zoneutils::GetZone(maybeZoneId.value()));
-        }
-    // clang-format on
+    }
+    else
+    {
+        handleZone(zoneutils::GetZone(maybeZoneId.value()));
+    }
 }
 
 // temporary solution for geysers in Dangruf_Wadi
@@ -3683,13 +3708,13 @@ void OnMobDeath(CBaseEntity* PMob, CBaseEntity* PKiller)
             return;
         }
 
-        // clang-format off
-            PChar->ForAlliance([PMob, PChar, &onMobDeathEx](CBattleEntity* PMember)
+        PChar->ForAlliance(
+            [PMob, PChar, &onMobDeathEx](CBattleEntity* PMember)
             {
                 if (PMember->getZone() == PChar->getZone())
                 {
                     bool isKiller          = PMember == PChar;
-                    bool   isWeaponSkillKill = (PMob->GetLocalVar("weaponskillHit") & 0xFFFFFF) > 0;
+                    bool isWeaponSkillKill = (PMob->GetLocalVar("weaponskillHit") & 0xFFFFFF) > 0;
 
                     auto result = onMobDeathEx(PMob, PMember, isKiller, isWeaponSkillKill);
                     if (!result.valid())
@@ -3699,15 +3724,14 @@ void OnMobDeath(CBaseEntity* PMob, CBaseEntity* PKiller)
                     }
                 }
             });
-        // clang-format on
 
         auto filename = fmt::format("./scripts/zones/{}/mobs/{}.lua", PMob->loc.zone->getName(), PMob->getName());
 
         auto          onMobDeathFramework = lua["InteractionGlobal"]["onMobDeath"];
         sol::function onMobDeath          = getEntityCachedFunction(PMob, "onMobDeath");
 
-        // clang-format off
-            PChar->ForAlliance([PMob, PChar, &onMobDeathFramework, &onMobDeath, &filename, &optParams](CBattleEntity* PPartyMember)
+        PChar->ForAlliance(
+            [PMob, PChar, &onMobDeathFramework, &onMobDeath, &filename, &optParams](CBattleEntity* PPartyMember)
             {
                 CCharEntity* PMember = (CCharEntity*)PPartyMember;
                 if (PMember && PMember->getZone() == PChar->getZone())
@@ -3738,7 +3762,6 @@ void OnMobDeath(CBaseEntity* PMob, CBaseEntity* PKiller)
                     PChar->PAI->EventHandler.triggerListener("DEFEATED_MOB", PMob, PMember, optParams);
                 }
             });
-        // clang-format on
     }
     else
     {
@@ -4665,18 +4688,19 @@ void Terminate()
 {
     TracyZoneScoped;
 
-    // clang-format off
-        zoneutils::ForEachZone([](CZone* PZone)
+    zoneutils::ForEachZone(
+        [](CZone* PZone)
         {
-            PZone->ForEachChar([](CCharEntity* PChar)
-            {
-                PChar->PersistData();
-                charutils::SaveCharPosition(PChar);
-                charutils::SaveCharStats(PChar);
-                charutils::SaveCharExp(PChar, PChar->GetMJob());
-            });
+            PZone->ForEachChar(
+                [](CCharEntity* PChar)
+                {
+                    PChar->PersistData();
+                    charutils::SaveCharPosition(PChar);
+                    charutils::SaveCharStats(PChar);
+                    charutils::SaveCharExp(PChar, PChar->GetMJob());
+                });
         });
-    // clang-format on
+
     std::exit(1);
 }
 
@@ -5566,45 +5590,43 @@ void HandleCustomMenu(CCharEntity* PChar, const std::string& selection)
         return;
     }
 
-    // clang-format off
-        // Messages used to denote the player cancelled the GM tell manually..
-        const std::vector<std::string> cancelMsgs =
-        {
-            // JP: GMTELL(%s):質問(%s):結果(キャンセル)
-            "\x3A\x8C\x8B\x89\xCA\x28\x83\x4C\x83\x83\x83\x93\x83\x5A\x83\x8B\x29",
+    // Messages used to denote the player cancelled the GM tell manually..
+    const std::vector<std::string> cancelMsgs = {
+        // JP: GMTELL(%s):質問(%s):結果(キャンセル)
+        "\x3A\x8C\x8B\x89\xCA\x28\x83\x4C\x83\x83\x83\x93\x83\x5A\x83\x8B\x29",
 
-            // NA: GMTELL(%s): Question(%s): Result (Canceled.)
-            "\x3A\x20\x52\x65\x73\x75\x6C\x74\x20\x28\x43\x61\x6E\x63\x65\x6C\x65\x64\x2E\x29",
-        };
+        // NA: GMTELL(%s): Question(%s): Result (Canceled.)
+        "\x3A\x20\x52\x65\x73\x75\x6C\x74\x20\x28\x43\x61\x6E\x63\x65\x6C\x65\x64\x2E\x29",
+    };
 
-        // Messages used to denote the player cancelled the GM tell automatically due to an event or other conditions..
-        const std::vector<std::string> eventCancelMsgs =
-        {
-            // JP: 現在イベント中です。このgmtellは無効です。
-            "\x8C\xBB\x8D\xDD\x83\x43\x83\x78\x83\x93\x83\x67\x92\x86\x82\xC5\x82\xB7\x81\x42\x82\xB1\x82\xCC\x67\x6D\x74\x65\x6C\x6C\x82\xCD\x96\xB3\x8C\xF8\x82\xC5\x82\xB7\x81\x42",
-            // JP: 現在4つのgmtellを受け付けています。このgmtellは無効です。
-            "\x8C\xBB\x8D\xDD\x34\x82\xC2\x82\xCC\x67\x6D\x74\x65\x6C\x6C\x82\xF0\x8E\xF3\x82\xAF\x95\x74\x82\xAF\x82\xC4\x82\xA2\x82\xDC\x82\xB7\x81\x42\x82\xB1\x82\xCC\x67\x6D\x74\x65\x6C\x6C\x82\xCD\x96\xB3\x8C\xF8\x82\xC5\x82\xB7\x81\x42",
-            // JP: GMTELL(%s):質問(%s):結果(イベントが起動したためキャンセル)
-            "\x3A\x8C\x8B\x89\xCA\x28\x83\x43\x83\x78\x83\x93\x83\x67\x82\xAA\x8B\x4E\x93\xAE\x82\xB5\x82\xBD\x82\xBD\x82\xDF\x83\x4C\x83\x83\x83\x93\x83\x5A\x83\x8B\x29",
+    // Messages used to denote the player cancelled the GM tell automatically due to an event or other conditions..
+    const std::vector<std::string> eventCancelMsgs = {
+        // JP: 現在イベント中です。このgmtellは無効です。
+        "\x8C\xBB\x8D\xDD\x83\x43\x83\x78\x83\x93\x83\x67\x92\x86\x82\xC5\x82\xB7\x81\x42\x82\xB1\x82\xCC\x67\x6D\x74\x65\x6C\x6C\x82\xCD\x96\xB3\x8C\xF8\x82\xC5\x82\xB7\x81\x42",
+        // JP: 現在4つのgmtellを受け付けています。このgmtellは無効です。
+        "\x8C\xBB\x8D\xDD\x34\x82\xC2\x82\xCC\x67\x6D\x74\x65\x6C\x6C\x82\xF0\x8E\xF3\x82\xAF\x95\x74\x82\xAF\x82\xC4\x82\xA2\x82\xDC\x82\xB7\x81\x42\x82\xB1\x82\xCC\x67\x6D\x74\x65\x6C\x6C\x82\xCD\x96\xB3\x8C\xF8\x82\xC5\x82\xB7\x81\x42",
+        // JP: GMTELL(%s):質問(%s):結果(イベントが起動したためキャンセル)
+        "\x3A\x8C\x8B\x89\xCA\x28\x83\x43\x83\x78\x83\x93\x83\x67\x82\xAA\x8B\x4E\x93\xAE\x82\xB5\x82\xBD\x82\xBD\x82\xDF\x83\x4C\x83\x83\x83\x93\x83\x5A\x83\x8B\x29",
 
-            // NA: Currently in an event. This GMTELL was invalidated.
-            "\x43\x75\x72\x72\x65\x6E\x74\x6C\x79\x20\x69\x6E\x20\x61\x6E\x20\x65\x76\x65\x6E\x74\x2E\x20\x54\x68\x69\x73\x20\x47\x4D\x54\x45\x4C\x4C\x20\x77\x61\x73\x20\x69\x6E\x76\x61\x6C\x69\x64\x61\x74\x65\x64\x2E",
-            // NA: Currently four GMTELL's have been received. This GMTELL was invalidated.
-            "\x43\x75\x72\x72\x65\x6E\x74\x6C\x79\x20\x66\x6F\x75\x72\x20\x47\x4D\x54\x45\x4C\x4C\x27\x73\x20\x68\x61\x76\x65\x20\x62\x65\x65\x6E\x20\x72\x65\x63\x65\x69\x76\x65\x64\x2E\x20\x54\x68\x69\x73\x20\x47\x4D\x54\x45\x4C\x4C\x20\x77\x61\x73\x20\x69\x6E\x76\x61\x6C\x69\x64\x61\x74\x65\x64\x2E",
-            // NA: GMTELL(%s): Question(%s): Result (Canceled due to event activation.)
-            "\x3A\x20\x52\x65\x73\x75\x6C\x74\x20\x28\x43\x61\x6E\x63\x65\x6C\x65\x64\x20\x64\x75\x65\x20\x74\x6F\x20\x65\x76\x65\x6E\x74\x20\x61\x63\x74\x69\x76\x61\x74\x69\x6F\x6E\x2E\x29",
-        };
+        // NA: Currently in an event. This GMTELL was invalidated.
+        "\x43\x75\x72\x72\x65\x6E\x74\x6C\x79\x20\x69\x6E\x20\x61\x6E\x20\x65\x76\x65\x6E\x74\x2E\x20\x54\x68\x69\x73\x20\x47\x4D\x54\x45\x4C\x4C\x20\x77\x61\x73\x20\x69\x6E\x76\x61\x6C\x69\x64\x61\x74\x65\x64\x2E",
+        // NA: Currently four GMTELL's have been received. This GMTELL was invalidated.
+        "\x43\x75\x72\x72\x65\x6E\x74\x6C\x79\x20\x66\x6F\x75\x72\x20\x47\x4D\x54\x45\x4C\x4C\x27\x73\x20\x68\x61\x76\x65\x20\x62\x65\x65\x6E\x20\x72\x65\x63\x65\x69\x76\x65\x64\x2E\x20\x54\x68\x69\x73\x20\x47\x4D\x54\x45\x4C\x4C\x20\x77\x61\x73\x20\x69\x6E\x76\x61\x6C\x69\x64\x61\x74\x65\x64\x2E",
+        // NA: GMTELL(%s): Question(%s): Result (Canceled due to event activation.)
+        "\x3A\x20\x52\x65\x73\x75\x6C\x74\x20\x28\x43\x61\x6E\x63\x65\x6C\x65\x64\x20\x64\x75\x65\x20\x74\x6F\x20\x65\x76\x65\x6E\x74\x20\x61\x63\x74\x69\x76\x61\x74\x69\x6F\x6E\x2E\x29",
+    };
 
-        const auto wasCancelled = std::any_of(cancelMsgs.begin(), cancelMsgs.end(), [&selection](const auto& s)
+    const auto wasCancelled = std::any_of(
+        cancelMsgs.begin(), cancelMsgs.end(), [&selection](const auto& s)
         {
             return selection.find(s) != selection.npos;
         });
 
-        const auto wasCancelledEvent = std::any_of(eventCancelMsgs.begin(), eventCancelMsgs.end(), [&selection](const auto& s)
+    const auto wasCancelledEvent = std::any_of(
+        eventCancelMsgs.begin(), eventCancelMsgs.end(), [&selection](const auto& s)
         {
             return selection.find(s) != selection.npos;
         });
-    // clang-format on
 
     const auto context = customMenuContext[PChar->id];
 
@@ -5695,21 +5717,27 @@ SendToDBoxReturnCode SendItemToDeliveryBox(const std::string& playerName, uint16
     // limit the quantity to the stack size of the item
     quantity = std::clamp<uint32>(quantity, 1, stackSize);
 
-    // clang-format off
-        const bool success = db::transaction([&]()
+    const bool success = db::transaction(
+        [&]()
         {
-            const auto rset = db::preparedStmt("INSERT INTO delivery_box (charid, box, itemid, quantity, senderid, sender) VALUES (?, ?, ?, ?, ?, ?)",
-                                               playerID, 1, itemId, quantity, playerID, senderText);
+            const auto rset = db::preparedStmt(
+                "INSERT INTO delivery_box (charid, box, itemid, quantity, senderid, sender) VALUES (?, ?, ?, ?, ?, ?)",
+                playerID,
+                1,
+                itemId,
+                quantity,
+                playerID,
+                senderText);
+
             if (!rset)
             {
                 throw std::runtime_error(fmt::format("Failed to insert item into delivery box for player: {} ({}), itemId: {}", playerName, playerID, itemId));
             }
         });
-        if (!success)
-        {
-            return SendToDBoxReturnCode::QUERY_ERROR;
-        }
-    // clang-format on
+    if (!success)
+    {
+        return SendToDBoxReturnCode::QUERY_ERROR;
+    }
 
     if (quantityMoreThanStackSize)
     {

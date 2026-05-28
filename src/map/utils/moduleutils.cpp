@@ -1,4 +1,4 @@
-﻿/*
+/*
 ===========================================================================
 
   Copyright (c) 2021 LandSandBoat Dev Teams
@@ -29,15 +29,14 @@
 
 #include <filesystem>
 #include <fstream>
-#include <iostream>
-#include <regex>
+#include <ranges>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace
 {
 
-// static storage, init and access
 std::vector<CPPModule*>& cppModules()
 {
     static std::vector<CPPModule*> cppModules{};
@@ -49,12 +48,79 @@ std::vector<CPPModule*>& cppModules()
 namespace moduleutils
 {
 
+namespace
+{
+
+struct Override
+{
+    std::string              filename;
+    std::string              overrideName;
+    std::vector<std::string> nameParts;
+    sol::object              func;
+    bool                     applied{ false };
+};
+
+std::unordered_multimap<std::string, Override> overrides;
+
+auto applyOverride(sol::state& lua, sol::table table, Override& override, bool silent = false) -> bool
+{
+    if (override.nameParts.empty())
+    {
+        return false;
+    }
+
+    for (size_t i = 0; i < override.nameParts.size(); ++i)
+    {
+        const auto& part = override.nameParts[i];
+
+        if (i == override.nameParts.size() - 1)
+        {
+            DebugModules(fmt::format("Applying override: {}", override.overrideName));
+
+            if (table[part] == sol::lua_nil)
+            {
+                DebugModules("Inserting empty function to override for: %s (%s)", override.overrideName, override.filename);
+                table[part] = []()
+                {
+                };
+            }
+            else
+            {
+                DebugModules("Override target exists for: %s (%s)", override.overrideName, override.filename);
+            }
+
+            const auto result = lua["applyOverride"](table, part, override.func, override.overrideName, override.filename);
+            if (!result.valid())
+            {
+                const sol::error err = result;
+                ShowError("applyOverride failed for %s: %s", override.overrideName, err.what());
+                return false;
+            }
+
+            override.applied = true;
+            return true;
+        }
+
+        table = table[part].get_or<sol::table>(sol::lua_nil);
+        if (table == sol::lua_nil)
+        {
+            if (!silent)
+            {
+                ShowError("Cannot navigate to override path: %s (missing %s)", override.overrideName, part);
+            }
+            return false;
+        }
+    }
+    return false;
+}
+
+} // namespace
+
 void RegisterCPPModule(CPPModule* ptr)
 {
     cppModules().emplace_back(ptr);
 }
 
-// Hooks for calling modules
 void OnInit()
 {
     TracyZoneScoped;
@@ -130,41 +196,25 @@ auto OnIncomingPacket(MapSession* PSession, CCharEntity* PChar, CBasicPacket& pa
     return false;
 }
 
-struct Override
-{
-    std::string              filename;
-    std::string              overrideName;
-    std::vector<std::string> nameParts;
-    sol::object              func;
-    bool                     applied;
-};
-
-// Lua-side Module
-// obj.name = name
-// obj.overrides = {}
-// obj.enabled = false
-
-std::vector<Override> overrides;
-
 void LoadLuaModules(IPP mapIPP)
 {
-    // Load the helper file
     lua.safe_script_file("./modules/module_utils.lua");
 
-    // Read lines from init.txt
+    // Read module list from init.txt
     std::vector<std::string> list;
-    std::ifstream            file("./modules/init.txt", std::ios_base::in);
-    std::string              line;
-    while (std::getline(file, line))
     {
-        if (!line.empty() && line.at(0) != '#' && line != "\n" && line != "\r" && line != "\r\n")
+        std::ifstream file("./modules/init.txt", std::ios_base::in);
+        std::string   line;
+        while (std::getline(file, line))
         {
-            auto str = trim("./modules/" + line, " \t\r\n");
-            list.emplace_back(str);
+            if (!line.empty() && line[0] != '#' && line != "\n" && line != "\r" && line != "\r\n")
+            {
+                list.emplace_back(trim("./modules/" + line, " \t\r\n"));
+            }
         }
     }
 
-    // Expand out folders
+    // Expand directories into individual file paths
     std::vector<std::string> expandedList = list;
     for (const auto& entry : list)
     {
@@ -172,114 +222,109 @@ void LoadLuaModules(IPP mapIPP)
         {
             for (const auto& innerEntry : sorted_directory_iterator<std::filesystem::recursive_directory_iterator>(entry))
             {
-                auto path = innerEntry.relative_path();
-                expandedList.emplace_back(path.generic_string());
+                expandedList.emplace_back(innerEntry.relative_path().generic_string());
             }
         }
     }
 
-    // Load zone_settings information
+    // Cache zone -> port mapping for multi-process override filtering
     std::unordered_map<std::string, uint16> zoneSettingsPorts;
 
-    auto rset = db::preparedStmt("SELECT name, zoneport FROM zone_settings");
+    const auto rset = db::preparedStmt("SELECT name, zoneport FROM zone_settings");
     while (rset && rset->next())
     {
         zoneSettingsPorts[rset->get<std::string>("name")] = rset->get<uint16>("zoneport");
     }
 
-    // Load each module file that isn't the helpers.lua file or a directory
+    const auto currentPort = mapIPP.getPort() == 0 ? settings::get<uint16>("network.MAP_PORT") : mapIPP.getPort();
+
     for (const auto& entry : expandedList)
     {
-        auto path          = std::filesystem::path(entry).relative_path();
-        bool isHelpersFile = path.filename() == "module_utils.lua";
+        const auto path = std::filesystem::path(entry).relative_path();
 
-        if (!isHelpersFile &&
-            !std::filesystem::is_directory(path) &&
-            path.extension() == ".lua")
+        if (path.filename() == "module_utils.lua" || std::filesystem::is_directory(path) || path.extension() != ".lua")
         {
-            std::string filename = path.filename().generic_string();
-            std::string relPath  = path.relative_path().generic_string();
-
-            auto res = lua.safe_script_file(relPath);
-            if (!res.valid())
-            {
-                sol::error err = res;
-                ShowError("Failed to load module: %s", filename);
-                ShowError(err.what());
-                continue;
-            }
-
-            if (!res.valid() || res.get_type() != sol::type::table)
-            {
-                ShowError("Failed to load module: Invalid object returned from: %s", filename);
-                continue;
-            }
-
-            // We've confirmed this is a table, treat it as such from now on
-            sol::table table = res;
-
-            // Check the table is a valid command
-            if (table["cmdprops"].valid() && table["onTrigger"].valid())
-            {
-                auto commandName = path.filename().replace_extension("").generic_string();
-                ShowInfo(fmt::format("Registering module command: !{}", commandName));
-                lua[sol::create_if_nil]["xi"]["commands"][commandName] = table;
-                continue;
-            }
-
-            // Check table was created with Module:new() (or manually with the right fields)
-            if (table["overrides"].valid())
-            {
-                bool skipOverrideCheck = false;
-                auto moduleName        = table.get_or("name", std::string());
-
-                ShowInfo(fmt::format("=== Module: {} ===", moduleName));
-
-                for (auto& override : table.get_or("overrides", std::vector<sol::table>()))
-                {
-                    std::string name = override["name"];
-                    sol::object func = override["func"];
-
-                    DebugModules(fmt::format("Preparing override: {}", name));
-
-                    auto parts = split(name, ".");
-
-                    // If you are running multi-process, all of the overrides in all of your modules will try to apply
-                    // themselves. The zones they're targetting might not exist on this process and then error out, so
-                    // we need to sanity check them here by checking the name and port against the database.
-                    if (parts.size() >= 3 && parts[0] == "xi" && parts[1] == "zones")
-                    {
-                        const auto zoneName    = parts[2];
-                        const auto currentPort = mapIPP.getPort() == 0 ? settings::get<uint16>("network.MAP_PORT") : mapIPP.getPort();
-
-                        if (zoneSettingsPorts.find(zoneName) != zoneSettingsPorts.end() && zoneSettingsPorts[zoneName] != currentPort)
-                        {
-                            DebugModules(fmt::format("{} exists on a different port ({}), skipping", zoneName, zoneSettingsPorts[zoneName]));
-                            skipOverrideCheck = true;
-                            continue;
-                        }
-                    }
-
-                    overrides.emplace_back(Override{ filename, name, parts, func, false });
-                }
-
-                if (!skipOverrideCheck && overrides.empty())
-                {
-                    ShowError("No overrides found in module: %s", filename);
-                }
-
-                // NOTE: This continue is for the expandedList loop
-                // TODO: Flatten all of this surrounding logic so it's less fragile
-                continue;
-            }
-
-            // TODO: Come up with a way to differentiate if the user has sent in an invalid table, malformed module (command or overrides),
-            //     : or whether they've just got a data-only table file in their modules directory.
-
-            // If we get here, we haven't managaed to look up (cmdprops + onTrigger) or (overrides) on the table we
-            // got back from the module, so something is wrong with the module.
-            // ShowError("Failed to find valid table fields in module: %s", filename);
+            continue;
         }
+
+        const auto filename = path.filename().generic_string();
+        const auto res      = lua.safe_script_file(path.generic_string());
+        if (!res.valid())
+        {
+            const sol::error err = res;
+            ShowError("Failed to load module: %s", filename);
+            ShowError(err.what());
+            continue;
+        }
+
+        if (res.get_type() != sol::type::table)
+        {
+            ShowError("Failed to load module: Invalid object returned from: %s", filename);
+            continue;
+        }
+
+        const sol::table table = res;
+
+        if (table["cmdprops"].valid() && table["onTrigger"].valid())
+        {
+            const auto commandName = path.stem().generic_string();
+            ShowInfo(fmt::format("Registering module command: !{}", commandName));
+            lua[sol::create_if_nil]["xi"]["commands"][commandName] = table;
+            continue;
+        }
+
+        if (table["overrides"].valid())
+        {
+            const auto moduleName = table.get_or("name", std::string{});
+            ShowInfo(fmt::format("=== Module: {} ===", moduleName));
+
+            bool anyPortFiltered = false;
+
+            const auto prevOverrideCount = overrides.size();
+            for (auto& override : table.get_or("overrides", std::vector<sol::table>{}))
+            {
+                const auto name  = override["name"].get<std::string>();
+                const auto func  = override["func"];
+                const auto parts = split(name, ".");
+
+                DebugModules(fmt::format("Preparing override: {}", name));
+
+                // Multi-process: skip overrides targeting zones on a different port
+                if (parts.size() >= 3 && parts[0] == "xi" && parts[1] == "zones")
+                {
+                    const auto& zoneName = parts[2];
+                    const auto  portIt   = zoneSettingsPorts.find(zoneName);
+                    if (portIt != zoneSettingsPorts.end() && portIt->second != currentPort)
+                    {
+                        DebugModules(fmt::format("{} exists on a different port ({}), skipping", zoneName, portIt->second));
+                        anyPortFiltered = true;
+                        continue;
+                    }
+                }
+
+                overrides.emplace(name.substr(0, name.rfind('.')),
+                                  Override{
+                                      .filename     = filename,
+                                      .overrideName = name,
+                                      .nameParts    = parts,
+                                      .func         = func,
+                                  });
+            }
+
+            // Only warn if no overrides were added AND none were intentionally skipped
+            // due to targeting zones on a different map process port.
+            if (!anyPortFiltered && overrides.size() == prevOverrideCount)
+            {
+                ShowError("No overrides found in module: %s", filename);
+            }
+
+            // NOTE: This continue is for the expandedList loop
+            // TODO: Flatten all of this surrounding logic so it's less fragile
+            continue;
+        }
+
+        // TODO: Differentiate invalid table vs data-only table in modules directory
+        // ShowError("Failed to find valid table fields in module: %s", filename);
     }
 }
 
@@ -288,49 +333,59 @@ void CleanupLuaModules()
     overrides.clear();
 }
 
-void TryApplyLuaModules()
+void TryApplyLuaModules(const std::vector<std::string>& parts, bool isReload)
 {
-    for (auto& override : overrides)
+    if (parts.empty())
+    {
+        return;
+    }
+
+    const size_t start     = (parts[0] == "globals") ? 1 : 0;
+    const auto   lookupKey = fmt::format("xi.{}", fmt::join(parts.cbegin() + start, parts.cend(), "."));
+
+    // Also try the bare filename stem for non-xi globals (e.g. utils, npcUtil convention files)
+    const auto& bareKey = parts.back();
+
+    const auto applyRange = [&](const std::string& key)
+    {
+        const auto [rangeBegin, rangeEnd] = overrides.equal_range(key);
+        for (auto& [_, override] : std::ranges::subrange(rangeBegin, rangeEnd))
+        {
+            if (isReload)
+            {
+                override.applied = false;
+            }
+
+            if (!override.applied)
+            {
+                auto table = lua["_G"];
+                applyOverride(lua, table, override);
+            }
+        }
+    };
+
+    applyRange(lookupKey);
+    if (bareKey != lookupKey)
+    {
+        applyRange(bareKey);
+    }
+}
+
+void TryApplyRemainingLuaModules()
+{
+    auto table = lua["_G"];
+    for (auto& [_, override] : overrides)
     {
         if (!override.applied)
         {
-            sol::table table = lua["_G"];
-            for (auto& part : override.nameParts)
-            {
-                if (part == override.nameParts.back())
-                {
-                    DebugModules(fmt::format("Applying override: {}", override.overrideName));
-
-                    if (table[override.nameParts.back()] == sol::lua_nil)
-                    {
-                        DebugModules("Inserting empty function to override for: %s (%s)", override.overrideName, override.filename);
-                        table[override.nameParts.back()] = []
-                        {
-                            // Empty function
-                        };
-                    }
-
-                    // Function defined in LoadLuaModules()
-                    lua["applyOverride"](table, override.nameParts.back(), override.func, override.overrideName, override.filename);
-
-                    override.applied = true;
-
-                    break;
-                }
-
-                table = table[part].get_or<sol::table>(sol::lua_nil);
-                if (table == sol::lua_nil)
-                {
-                    break;
-                }
-            }
+            applyOverride(lua, table, override, true);
         }
     }
 }
 
 void ReportLuaModuleUsage()
 {
-    for (auto& override : overrides)
+    for (const auto& [_, override] : overrides)
     {
         if (!override.applied)
         {
