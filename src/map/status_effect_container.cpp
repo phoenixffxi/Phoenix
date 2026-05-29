@@ -1091,6 +1091,7 @@ auto CStatusEffectContainer::ApplyCorsairEffect(CStatusEffect* PStatusEffect, ui
                                                                           duration,                     // Effect Duration
                                                                           PStatusEffect->GetSubID(),    // Effect SubType (Mod ID)
                                                                           PStatusEffect->GetSubPower(), // Effect SubPower (Roll #)
+                                                                          PStatusEffect->GetSubIcon(),  // Effect SubIcon
                                                                           PStatusEffect->GetTier());    // Effect Tier
 
                             bustEffect->SetSource(PEffect->GetSourceType(), PEffect->GetSourceTypeParam());
@@ -1720,6 +1721,7 @@ void CStatusEffectContainer::LoadStatusEffects()
                               duration,
                               rset->get<uint16>("subid"),
                               rset->get<uint16>("subpower"),
+                              0, // SubIcon (not persisted in char_effects)
                               rset->get<uint16>("tier"),
                               flags,
                               rset->get<uint16>("sourcetype"),
