@@ -695,7 +695,7 @@ INSERT INTO `mob_groups` VALUES (91,7132,15,'Cryptonberry_Occultist',300,0,541,5
 -- ------------------------------------------------------------
 
 INSERT INTO `mob_groups` VALUES (1,6651,16,'Wanderer',600,0,2612,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (2,6652,16,'Weeper',600,0,2634,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (2,4331,16,'Weeper',600,0,2634,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (3,2048,16,'Apex_Idle_Drifter',960,0,0,260000,0,0,'ABYSSEA'); -- TODO: Confirm MP/drop table
 INSERT INTO `mob_groups` VALUES (4,3897,16,'Thinker',600,0,2398,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (5,2614,16,'Memory_Receptacle',300,0,0,0,0,0,NULL);
@@ -706,7 +706,7 @@ INSERT INTO `mob_groups` VALUES (9,3897,16,'Thinker',720,0,2398,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (10,3539,16,'Seether',720,0,2192,0,0,0,NULL);
 -- 11 free
 -- 12 free
-INSERT INTO `mob_groups` VALUES (13,6652,16,'Weeper',720,0,2634,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (13,4331,16,'Weeper',720,0,2634,0,0,0,NULL);
 -- 14 free
 -- 15 free
 -- 16 free
