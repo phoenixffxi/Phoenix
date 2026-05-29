@@ -1226,7 +1226,7 @@ INSERT INTO `mob_groups` VALUES (3,1885,31,'Hamadryad',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (4,3333,31,'Razon',0,128,0,2100,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (5,4304,31,'Watch_Hippogryph',0,128,0,5000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (6,1834,31,'Guard_Hippogryph',0,128,0,1000,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (7,1992,31,'Hotupuku',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (7,1992,31,'Hotupuku',0,128,0,5000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (8,2502,31,'Mammet_Master',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (9,2501,31,'Mammet-800',0,128,1586,4150,10000,0,NULL);
 INSERT INTO `mob_groups` VALUES (10,6949,31,'Gullinkambi',0,128,0,0,0,0,NULL);

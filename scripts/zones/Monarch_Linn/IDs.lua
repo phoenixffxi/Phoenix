@@ -30,6 +30,7 @@ zones[xi.zone.MONARCH_LINN] =
     },
     mob =
     {
+        HOTUPUKU          = GetFirstID('Hotupuku'),
         MAMMET_19_EPSILON = GetFirstID('Mammet-19_Epsilon'),
         MAMMET_800        = GetFirstID('Mammet-800'),
         OURYU             = GetFirstID('Ouryu'),
