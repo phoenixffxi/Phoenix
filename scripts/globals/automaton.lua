@@ -476,3 +476,38 @@ xi.automaton.getModelId = function(player)
 
     return frameTable[head] or defaultModelId
 end
+
+---@param actor CBaseEntity
+---@param target CBaseEntity
+---@return number
+xi.automaton.handleAttuner = function(actor, target)
+    if
+        actor:isAutomaton() and
+        actor:hasAttachmentSet(xi.item.ATTUNER_ATTACHMENT) and
+        actor:getMainLvl() < target:getMainLvl()
+    then
+        local master = actor:getMaster()
+
+        -- We have reason to believe BG wiki is wrong about the attuner values
+        -- so we are using these for the moment; JP wiki and dev posts imply that it's not as simple as level + 1 and higher gets massive def ignore.
+        if master then
+            local numFireManeuvers = math.min(master:countEffect(xi.effect.FIRE_MANEUVER), 3)
+
+            if numFireManeuvers > 0 and master:hasStatusEffect(xi.effect.OVERDRIVE) then
+                numFireManeuvers = 3
+            end
+
+            local attunerEffect    =
+            {
+                [0] = 0.05,
+                [1] = 0.10,
+                [2] = 0.15,
+                [3] = 0.20
+            }
+
+            return attunerEffect[numFireManeuvers] or 0
+        end
+    end
+
+    return 0
+end

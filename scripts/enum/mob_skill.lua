@@ -1109,6 +1109,8 @@ xi.mobSkill =
 
     GRIM_GLOWER                   = 2156,
 
+    NOX_BLAST                     = 2175,
+
     PEDAL_PIROUETTE               = 2210,
 
     HELL_SCISSORS                 = 2221,

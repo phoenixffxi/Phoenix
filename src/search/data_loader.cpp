@@ -21,6 +21,7 @@
 #include <cstring>
 
 #include "common/database.h"
+#include "common/earth_time.h"
 #include "common/logging.h"
 #include "common/mmo.h"
 #include "common/settings.h"
@@ -757,9 +758,10 @@ void CDataLoader::ExpireAHItems(uint16 expireAgeInDays)
 
     std::vector<ListingToExpire> listingsToExpire;
 
-    const auto rset0 = db::preparedStmt("SELECT T0.id,T0.itemid,T1.stacksize, T0.stack, T0.seller FROM auction_house T0 INNER JOIN item_basic T1 ON "
-                                        "T0.itemid = T1.itemid WHERE datediff(now(),from_unixtime(date)) >= ? AND buyer_name IS NULL",
-                                        expireAgeInDays);
+    const auto cutoff = earth_time::timestamp() - static_cast<uint32>(expireAgeInDays) * 86400u;
+    const auto rset0  = db::preparedStmt("SELECT T0.id,T0.itemid,T1.stacksize, T0.stack, T0.seller FROM auction_house T0 INNER JOIN item_basic T1 ON "
+                                         "T0.itemid = T1.itemid WHERE T0.buyer_name IS NULL AND T0.date <= ?",
+                                        cutoff);
 
     const auto expiredAuctions = rset0->rowsCount();
 

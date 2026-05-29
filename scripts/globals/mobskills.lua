@@ -404,6 +404,15 @@ local function handleSinglePhysicalHit(mob, target, baseHitDamage, params)
     -- TODO: Fan Dance Reduction
 
     hitDamage = math.floor(target:checkDamageCap(hitDamage))
+
+    -- Pre phalanx check - if stoneskin breaks we can get TP from shield mastery
+    if
+        blockedWithShieldMastery and
+        math.max(hitDamage - target:getMod(xi.mod.STONESKIN), 0) > 0
+    then
+        target:addTP(target:getMod(xi.mod.SHIELD_MASTERY_TP))
+    end
+
     hitDamage = utils.handlePhalanx(target, hitDamage)
 
     if not params.skipStoneskin then
@@ -747,7 +756,7 @@ xi.mobskills.mobRangedMove = function(mob, target, skill, action, skillParams)
     totalDamage = resolveMissMessage(skill, hitsLanded, hitsYaegasumi, hitsAnticipated, hitsAbsorbed, shadowsAbsorbed, params.primaryMessage, totalDamage)
 
     -- Mob only gets TP for hitting the initial target. AOE hits do not count.
-    xi.mobskills.calculateSkillTPReturn(damage, mob, skill, target, params.attackType, hitsLanded)
+    xi.mobskills.calculateSkillTPReturn(totalDamage, mob, skill, target, params.attackType, hitsLanded)
 
     returnInfo.damage       = totalDamage
     returnInfo.hybridDamage = magicDamage
@@ -982,7 +991,7 @@ xi.mobskills.mobPhysicalMove = function(mob, target, skill, action, skillParams)
     ----------------------------------
     -- Handle TP Returns
     ----------------------------------
-    xi.mobskills.calculateSkillTPReturn(damage, mob, skill, target, params.attackType, hitsLanded)
+    xi.mobskills.calculateSkillTPReturn(totalDamage, mob, skill, target, params.attackType, hitsLanded)
 
     returnInfo.damage       = totalDamage
     returnInfo.hybridDamage = magicDamage

@@ -2896,6 +2896,12 @@ end
 function CBaseEntity:getNotorietyList()
 end
 
+---@nodiscard
+---@param rangeOverride number? Optional, Defaults to 22
+---@return CBaseEntity?
+function CBaseEntity:getMasterThreatMob(rangeOverride)
+end
+
 ---@param PEntity CBaseEntity
 ---@return nil
 function CBaseEntity:clearEnmityForEntity(PEntity)
@@ -3563,6 +3569,12 @@ end
 ---@param itemID integer
 ---@return boolean
 function CBaseEntity:hasAttachment(itemID)
+end
+
+---@nodiscard
+---@param itemID integer
+---@return boolean
+function CBaseEntity:hasAttachmentSet(itemID)
 end
 
 ---@nodiscard

@@ -99,7 +99,7 @@ describe('Soultrapper', function()
         player:delItem(xi.item.SOUL_PLATE, 1, xi.inv.INVENTORY)
 
         -- Reuse after 30s
-        xi.test.world:skipTime(30)
+        xi.test.world:skipTime(31)
         player.actions:useItem(euvhi, soultrapper:getSlotID())
         xi.test.world:skipTime(1)
         xi.test.world:tickEntity(player)

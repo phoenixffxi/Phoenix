@@ -22,7 +22,8 @@ CREATE TABLE IF NOT EXISTS `auction_house` (
   `sale` int(10) unsigned NOT NULL DEFAULT '0',
   `sell_date` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `itemid` (`itemid`),
+  KEY `idx_ah_active` (`buyer_name`, `itemid`, `stack`, `price`),
+  KEY `idx_ah_history` (`itemid`, `stack`, `sell_date`),
   KEY `charid` (`seller`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci AUTO_INCREMENT=1 ;
 

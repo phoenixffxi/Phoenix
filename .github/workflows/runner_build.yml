@@ -146,7 +146,8 @@ jobs:
             luajit \
             mariadb-client \
             tzdata \
-            zlib1g-dev
+            zlib1g-dev \
+            libzstd-dev
 
       - name: Setup GCC (Linux)
         if: ${{ runner.os == 'Linux' && startsWith(inputs.compiler, 'gcc') && env.SKIP_BUILD != 'true' }}

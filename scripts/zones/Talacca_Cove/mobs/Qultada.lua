@@ -13,6 +13,7 @@ entity.onMobInitialize = function(mob)
     mob:addListener('TAKE_DAMAGE', 'QULTADA_TAKE_DAMAGE', function(mobArg, damage, attacker, attackType, damageType)
         if damage >= 350 then
             mob:messageText(mob, ID.text.QULTADA_HEAT_UP)
+            mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 150)
         end
     end)
 
@@ -29,7 +30,6 @@ end
 
 entity.onMobSpawn = function(mob)
     mob:setUnkillable(true)
-    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 150)
 
     -- Reset mob.
     xi.combat.behavior.enableAllActions(mob)

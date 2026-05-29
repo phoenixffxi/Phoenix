@@ -31,22 +31,10 @@ if(ENABLE_IPO AND NOT CMAKE_BUILD_TYPE STREQUAL Debug AND NOT CMAKE_BUILD_TYPE S
 endif()
 message(STATUS "CMAKE_INTERPROCEDURAL_OPTIMIZATION: ${CMAKE_INTERPROCEDURAL_OPTIMIZATION} (this implies /GL or -flto)")
 
-# Snippet from GLM: https://github.com/g-truc/glm (MIT)
-# NOTE: fast-math was on by default before the CMake build refactoring!
-option(ENABLE_FAST_MATH "Enable fast math optimizations" ON)
-if(ENABLE_FAST_MATH)
-    message(STATUS "ENABLE_FAST_MATH: ON")
-    if((CMAKE_CXX_COMPILER_ID MATCHES "Clang") OR (CMAKE_CXX_COMPILER_ID MATCHES "GNU"))
-        add_compile_options(-ffast-math)
-        add_compile_options(-fno-finite-math-only) # only GCC needs this, /fp:fast on VC++ doesnt force finite math only
-    elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-        add_compile_options(/fp:fast)
-    endif()
-else()
-    message(STATUS "ENABLE_FAST_MATH: OFF")
-    if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-        add_compile_options(/fp:precise)
-    endif()
+if((CMAKE_CXX_COMPILER_ID MATCHES "Clang") OR (CMAKE_CXX_COMPILER_ID MATCHES "GNU"))
+    add_compile_options(-fno-fast-math)
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+    add_compile_options(/fp:precise)
 endif()
 
 if(MSVC)

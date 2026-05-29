@@ -2886,7 +2886,7 @@ INSERT INTO `mob_groups` VALUES (2,255,54,'Arrapago_Leech',0,128,174,0,0,0,NULL)
 INSERT INTO `mob_groups` VALUES (3,721,54,'Chimera_Clot',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (4,4813,54,'Lahama_fished',0,128,1482,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (5,2426,54,'Llamhigyn_Y_Dwr',0,128,1528,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (6,1534,54,'Giant_Orobon',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (6,1534,54,'Giant_Orobon',0,128,0,7700,0,0,NULL);
 
 INSERT INTO `mob_groups` VALUES (7,5192,54,'Reserve_Draugar_thf',960,0,2088,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (8,3355,54,'Reserve_Draugar_blm',960,0,2088,0,0,0,NULL);
@@ -3077,7 +3077,7 @@ INSERT INTO `mob_groups` VALUES (2,255,57,'Arrapago_Leech',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (3,3840,57,'Talacca_Clot',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (4,4813,57,'Lahama_fished',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (5,2426,57,'Llamhigyn_Y_Dwr',0,128,1528,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (6,1534,57,'Giant_Orobon',0,128,969,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (6,1534,57,'Giant_Orobon',0,128,969,7700,0,0,NULL);
 
 INSERT INTO `mob_groups` VALUES (7,2071,57,'Imp_Bandsman',0,128,0,8000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (8,139,57,'Angler_Orobon',0,128,0,12800,0,0,NULL);
@@ -3167,7 +3167,7 @@ INSERT INTO `mob_groups` VALUES (2,4491,61,'Zazalda_Clot',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (3,4259,61,'Vozold_Clot',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (4,4492,61,'Zazalda_Jagil',0,128,37,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (5,4260,61,'Vozold_Jagil',0,128,147,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (6,1534,61,'Giant_Orobon',0,128,969,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (6,1534,61,'Giant_Orobon',0,128,969,7700,0,0,NULL);
 
 INSERT INTO `mob_groups` VALUES (7,4371,61,'Wootzshell',300,0,2668,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (8,3616,61,'Sicklemoon_Jagil',300,0,463,0,0,0,NULL);
@@ -16740,6 +16740,11 @@ INSERT INTO `mob_groups` VALUES (70,0,292,'Transcended_Porxie',0,128,0,0,0,0,NUL
 INSERT INTO `mob_groups` VALUES (71,0,292,'Transcended_Panopt',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (72,0,292,'Transcended_Unseelie',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (73,0,292,'Ou',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (74,6031,292,'Katashiro',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (75,6032,292,'Nii_Aquu',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (76,6034,292,'Zhuu_Buxu_the_Silent',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (77,6035,292,'Gessho',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (78,6033,292,'Reikuu',0,128,0,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Reisenjima_Sanctorium (Zone 293)

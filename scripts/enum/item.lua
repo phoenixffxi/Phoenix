@@ -3899,6 +3899,7 @@ xi.item =
     SHARPSHOT_FRAME                     = 8226,
     STORMWAKER_FRAME                    = 8227,
     STROBE_ATTACHMENT                   = 8449,
+    ATTUNER_ATTACHMENT                  = 8453,
     RAAZ_TUSK                           = 8709,
     COPPER_AMAN_VOUCHER                 = 8711,
     RED_MOG_PELL                        = 8714,
