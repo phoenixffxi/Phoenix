@@ -23,6 +23,9 @@ set(COMMON_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/ipp.h
     ${CMAKE_CURRENT_SOURCE_DIR}/logging.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/logging.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/logging_context.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/logging_context.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/logging_json.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/lua.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/lua.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/md52.cpp

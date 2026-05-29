@@ -147,6 +147,8 @@ auto GP_CLI_COMMAND_ACTION::validate(MapSession* PSession, const CCharEntity* PC
 
 void GP_CLI_COMMAND_ACTION::process(MapSession* PSession, CCharEntity* PChar) const
 {
+    LogWith({ "action", { { "type", static_cast<GP_CLI_COMMAND_ACTION_ACTIONID>(this->ActionID) }, { "target_id", this->ActIndex } } });
+
     const auto actionStr = fmt::format("Player Action: {}: {} -> ActIndex: {}", PChar->getName(), actionToStr(static_cast<GP_CLI_COMMAND_ACTION_ACTIONID>(this->ActionID)), this->ActIndex);
     ShowTrace(actionStr);
     DebugActions(actionStr);

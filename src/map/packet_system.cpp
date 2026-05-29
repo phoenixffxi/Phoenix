@@ -371,6 +371,9 @@ constexpr auto packetHandlers_ = buildPacketHandlers();
 
 void PacketSystem::dispatch(uint16 packetId, MapSession* PSession, CCharEntity* PChar, CBasicPacket& data)
 {
+    LogWith({ "char", { { "id", PChar->id }, { "name", PChar->getName() } } },
+            { "packet", { { "id", packetId } } });
+
     if (const auto handler = packetHandlers_[packetId])
     {
         if (rateLimiter_.isLimited(PChar, packetId))
