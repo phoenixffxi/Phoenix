@@ -87,8 +87,8 @@ xi.dynamis.generalInfo = function(mob, modelSize)
     mob:setMobMod(xi.mobMod.CHECK_AS_NM, 1)
     mob:setMobMod(xi.mobMod.NO_DESPAWN, 1)
     mob:setMobMod(xi.mobMod.CLAIM_TYPE, xi.claimType.NON_EXCLUSIVE)
-    mob:setMobMod(xi.mobMod.GIL_BONUS, -101)
-    mob:setMobMod(xi.mobMod.EXP_BONUS, -101)
+    mob:setMobMod(xi.mobMod.GIL_BONUS, -100)
+    mob:setMobMod(xi.mobMod.EXP_BONUS, -100)
     mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 150)
     mob:setRoamFlags(xi.roamFlag.SCRIPTED)
 
@@ -646,7 +646,7 @@ xi.dynamis.spawnNextMobsOnce = function(statue, count, target, checkForceSpawn)
                 -- Spawn 1.5 seconds apart at the statue's position; aggro immediately, no stun or look-at timer.
                 local capturedMob   = mobToSpawn
                 local capturedDelay = spawnedCount * 1500
-                setTimerTarget(capturedMob, target)
+                local capturedTarget = target
                 statue:timer(capturedDelay, function(_statueArg)
                     if not capturedMob or capturedMob:isSpawned() then
                         return
@@ -655,6 +655,7 @@ xi.dynamis.spawnNextMobsOnce = function(statue, count, target, checkForceSpawn)
                     capturedMob:spawn()
 
                     capturedMob:setLocalVar('spawnedFromMaster', 1)
+                    setTimerTarget(capturedMob, capturedTarget)
                     local timerTarget = getTimerTarget(capturedMob)
                     if timerTarget then
                         capturedMob:updateEnmity(timerTarget)

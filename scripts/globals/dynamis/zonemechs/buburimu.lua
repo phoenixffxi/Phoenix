@@ -319,8 +319,6 @@ local function getAvailable2hrs(mob)
 end
 
 xi.dynamis.onApocSpawn = function(mob)
-    xi.dynamis.generalInfo(mob)
-
     mob:addImmunity(xi.immunity.GRAVITY)
     mob:addImmunity(xi.immunity.TERROR)
     mob:addImmunity(xi.immunity.SILENCE)
@@ -464,8 +462,6 @@ end
 -- Dragon NMs
 -- -----------------
 xi.dynamis.onSpawnBubuDragon = function(mob)
-    xi.dynamis.generalInfo(mob)
-
     local mobId = mob:getID()
     for _, entry in ipairs(apocWeaponskillLockouts) do
         if entry[1] == mobId then
