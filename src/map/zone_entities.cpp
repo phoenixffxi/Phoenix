@@ -893,44 +893,47 @@ void CZoneEntities::SpawnNPCs(CCharEntity* PChar)
     //     : spatial partitioning to only check entities within a certain range of the player.
     //     : This would change this loop to look like:
     //     : Compare previous and current spatial partitioning results to determine which entities to add/remove from the spawn list.
-    for (const auto& [_, PCurrentEntity] : m_npcList)
+    const auto syncSpawn = [&](const EntityList_t& list, auto&& shouldBeSpawned)
     {
         auto& spawnList = PChar->SpawnNPCList;
-
-        const auto id               = PCurrentEntity->id;
-        const auto itr              = spawnList.find(id);
-        const auto isInSpawnList    = itr != spawnList.end();
-        const auto isInRange        = isWithinDistance(PChar->loc.p, PCurrentEntity->loc.p, ENTITY_RENDER_DISTANCE);
-        const auto isVisibleStatus  = PCurrentEntity->status == STATUS_TYPE::NORMAL || PCurrentEntity->status == STATUS_TYPE::UPDATE;
-        const auto isAlwaysRelevant = PCurrentEntity->objtype == TYPE_NPC && static_cast<CNpcEntity*>(PCurrentEntity)->m_alwaysRelevant;
-
-        const auto tryAddToSpawnList = [&]()
+        for (const auto& [_, PEntity] : list)
         {
-            if (!isInSpawnList)
+            const auto itr        = spawnList.find(PEntity->id);
+            const auto inSpawnSet = itr != spawnList.end();
+            const auto want       = shouldBeSpawned(PEntity);
+
+            if (want && !inSpawnSet)
             {
-                spawnList.insert(itr, SpawnIDList_t::value_type(id, PCurrentEntity));
-                PChar->updateEntityPacket(PCurrentEntity, ENTITY_SPAWN, UPDATE_ALL_MOB);
+                spawnList.insert(itr, SpawnIDList_t::value_type(PEntity->id, PEntity));
+                PChar->updateEntityPacket(PEntity, ENTITY_SPAWN, UPDATE_ALL_MOB);
             }
-        };
-
-        const auto tryRemoveFromSpawnList = [&]()
-        {
-            if (isInSpawnList)
+            else if (!want && inSpawnSet)
             {
                 spawnList.erase(itr);
-                PChar->updateEntityPacket(PCurrentEntity, ENTITY_DESPAWN, UPDATE_NONE);
+                PChar->updateEntityPacket(PEntity, ENTITY_DESPAWN, UPDATE_NONE);
             }
-        };
+        }
+    };
 
-        if (isVisibleStatus && (isInRange || isAlwaysRelevant))
-        {
-            tryAddToSpawnList();
-        }
-        else
-        {
-            tryRemoveFromSpawnList();
-        }
-    }
+    syncSpawn(m_npcList, [&](CBaseEntity* PEntity)
+              {
+                  const auto inRange       = isWithinDistance(PChar->loc.p, PEntity->loc.p, ENTITY_RENDER_DISTANCE);
+                  const auto visibleStatus = PEntity->status == STATUS_TYPE::NORMAL || PEntity->status == STATUS_TYPE::UPDATE;
+                  const auto alwaysRel     = PEntity->objtype == TYPE_NPC && static_cast<CNpcEntity*>(PEntity)->m_alwaysRelevant;
+                  return visibleStatus && (inRange || alwaysRel);
+              });
+
+    // Registered transports are broadcast at zone-in by SpawnTransport and driven by TransportTimer; everything else
+    // in m_TransportList is a static SubKind=4 prop that gets proximity-spawned regardless of status.
+    syncSpawn(m_TransportList, [&](CBaseEntity* PEntity)
+              {
+                  if (static_cast<CNpcEntity*>(PEntity)->m_alwaysRelevant)
+                  {
+                      return false;
+                  }
+
+                  return isWithinDistance(PChar->loc.p, PEntity->loc.p, ENTITY_RENDER_DISTANCE);
+              });
 }
 
 void CZoneEntities::SpawnTRUSTs(CCharEntity* PChar)
@@ -1244,6 +1247,11 @@ void CZoneEntities::SpawnTransport(CCharEntity* PChar)
 
     FOR_EACH_PAIR_CAST_SECOND(CNpcEntity*, PEntity, m_TransportList)
     {
+        if (!PEntity->m_alwaysRelevant)
+        {
+            continue;
+        }
+
         PChar->updateEntityPacket(PEntity, ENTITY_SPAWN, UPDATE_ALL_MOB);
     }
 }
