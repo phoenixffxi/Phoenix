@@ -73,7 +73,8 @@ apk --update-cache add \
     python3-dev \
     samurai \
     zeromq-dev \
-    zlib-dev
+    zlib-dev \
+    zstd-dev
 EOF
 
 # Install secondary dependencies as user.

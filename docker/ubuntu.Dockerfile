@@ -82,7 +82,8 @@ apt-get update && apt-get install --assume-yes --no-install-recommends --quiet \
     ninja-build \
     python3-dev \
     python3-venv \
-    zlib1g-dev
+    zlib1g-dev \
+    libzstd-dev
 update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-$GCC_VERSION 100
 update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-$GCC_VERSION 100
 EOF
