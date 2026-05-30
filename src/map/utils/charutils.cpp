@@ -50,6 +50,7 @@
 #include "packets/s2c/0x04f_equip_clear.h"
 #include "packets/s2c/0x050_equip_list.h"
 #include "packets/s2c/0x051_grap_list.h"
+#include "packets/s2c/0x053_systemmes.h"
 #include "packets/s2c/0x055_scenarioitem.h"
 #include "packets/s2c/0x061_clistatus.h"
 #include "packets/s2c/0x062_clistatus2.h"
@@ -7304,20 +7305,26 @@ std::string GetConquestPointsName(CCharEntity* PChar)
     }
 }
 
-void SendToZone(CCharEntity* PChar, uint16 zoneId)
+auto SendToZone(CCharEntity* PChar, uint16 zoneId) -> bool
 {
     TracyZoneScoped;
 
     if (PChar->PSession->blowfish.status == BLOWFISH_PENDING_ZONE)
     {
-        return;
+        return false;
     }
 
     auto ipp = IPP(zoneutils::GetZoneIPP(zoneId));
     if (ipp.getIP() == 0)
     {
         ShowErrorFmt("charutils::SendToZone : Invalid zoneId {}", zoneId);
-        return;
+        return false;
+    }
+
+    if (zoneutils::IsZoneAtPlayerCap(zoneId, PChar->m_GMlevel > 0))
+    {
+        ShowInfoFmt("charutils::SendToZone : zone {} at player cap, denying {} (gm={})", zoneId, PChar->name, PChar->m_GMlevel);
+        return false;
     }
 
     auto ip   = ipp.getIP();
@@ -7372,6 +7379,8 @@ void SendToZone(CCharEntity* PChar, uint16 zoneId)
     {
         PChar->setPetZoningInfo();
     }
+
+    return true;
 }
 
 void SendDisconnect(CCharEntity* PChar)
@@ -7417,9 +7426,16 @@ void ForceRezone(CCharEntity* PChar)
     }
 }
 
-void HomePoint(CCharEntity* PChar, bool resetHPMP)
+auto HomePoint(CCharEntity* PChar, bool resetHPMP) -> bool
 {
     TracyZoneScoped;
+
+    if (zoneutils::IsZoneAtPlayerCap(PChar->profile.home_point.destination, PChar->m_GMlevel > 0))
+    {
+        PChar->pushPacket<GP_SERV_COMMAND_SYSTEMMES>(0, 0, MsgStd::CouldNotEnter);
+        PChar->requestedWarp = false;
+        return false;
+    }
 
     // player initiated warp/warp 2 or otherwise
     if (resetHPMP)
@@ -7443,7 +7459,7 @@ void HomePoint(CCharEntity* PChar, bool resetHPMP)
     PChar->updatemask |= UPDATE_HP;
 
     PChar->clearPacketList();
-    SendToZone(PChar, PChar->loc.destination);
+    return SendToZone(PChar, PChar->loc.destination);
 }
 
 bool AddWeaponSkillPoints(CCharEntity* PChar, SLOTTYPE slotid, int wspoints)

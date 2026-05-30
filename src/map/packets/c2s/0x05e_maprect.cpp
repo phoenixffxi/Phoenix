@@ -231,6 +231,12 @@ void GP_CLI_COMMAND_MAPRECT::process(MapSession* PSession, CCharEntity* PChar) c
                     return;
                 }
 
+                if (!isMogHouseEntrance && zoneutils::IsZoneAtPlayerCap(PZoneLine->destinationZoneId, PChar->m_GMlevel > 0))
+                {
+                    denyZone(PChar);
+                    return;
+                }
+
                 if (isMogHouseEntrance)
                 {
                     // TODO: for entering another persons mog house, it must be set here

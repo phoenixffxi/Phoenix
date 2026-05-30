@@ -2011,8 +2011,10 @@ auto CZoneEntities::ZoneServer(timer::time_point tick) -> Task<void>
             if (ready)
             {
                 PChar->clearPacketList();
-                charutils::HomePoint(PChar, PChar->isDead());
-                shouldErase = true;
+                if (charutils::HomePoint(PChar, PChar->isDead()))
+                {
+                    shouldErase = true;
+                }
             }
         }
         else if (PChar->loc.destination != 0xFFFF)
@@ -2021,8 +2023,10 @@ auto CZoneEntities::ZoneServer(timer::time_point tick) -> Task<void>
             if (ready)
             {
                 PChar->clearPacketList();
-                charutils::SendToZone(PChar, PChar->loc.destination);
-                shouldErase = true;
+                if (charutils::SendToZone(PChar, PChar->loc.destination))
+                {
+                    shouldErase = true;
+                }
             }
         }
 
