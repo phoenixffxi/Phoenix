@@ -37,6 +37,9 @@ xi.settings.logging =
     --]]
     PATTERN = '[%D %T:%e][%&]%^[%n]%$ %v (%!:%#)',
 
+    -- Emit JSON instead of PATTERN.
+    JSON_ENABLED = false,
+
     -- Enable/Disable these logging types globally
     LOG_DEBUG   = true,
     LOG_INFO    = true,

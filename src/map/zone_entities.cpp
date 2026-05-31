@@ -1842,6 +1842,7 @@ auto CZoneEntities::ZoneServer(timer::time_point tick) -> Task<void>
 {
     TracyZoneScoped;
     TracyZoneString(m_zone->getName());
+    LogWith({ "zone", { { "name", m_zone->getName() }, { "id", m_zone->GetID() } } });
 
     luautils::OnZoneTick(this->m_zone);
 
