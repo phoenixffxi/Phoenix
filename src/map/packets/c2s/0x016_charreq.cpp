@@ -41,7 +41,7 @@ void GP_CLI_COMMAND_CHARREQ::process(MapSession* PSession, CCharEntity* PChar) c
         return;
     }
 
-    CBaseEntity* PEntity = PChar->GetEntity(this->ActIndex, TYPE_NPC | TYPE_PC);
+    CBaseEntity* PEntity = PChar->GetEntity(this->ActIndex, TYPE_NPC | TYPE_PC | TYPE_SHIP);
     if (!PEntity)
     {
         const auto fullId = ((4096 + PChar->getZone()) << 12) + this->ActIndex;
