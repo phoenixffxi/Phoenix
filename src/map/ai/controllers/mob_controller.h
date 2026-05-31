@@ -81,7 +81,7 @@ protected:
     void         FollowRoamPath();
     auto         CanMoveForward(float currentDistance) -> bool;
     auto         IsSpecialSkillReady(float currentDistance) const -> bool;
-    auto         IsSpellReady(float currentDistance) const -> bool;
+    auto         IsSpellReady(const float& currentDistance, const float& meleeRange) const -> bool;
 
     CBattleEntity* PTarget{ nullptr };
 

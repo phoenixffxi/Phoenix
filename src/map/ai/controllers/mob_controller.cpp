@@ -752,13 +752,14 @@ auto CMobController::DoCombatTick(timer::time_point tick) -> Task<void>
     {
         const float currentDistance   = distance(PMob->loc.p, PTarget->loc.p);
         const float rangedAttackRange = PMob->GetRangedAttackRange();
+        const float meleeAttackRange  = PMob->GetMeleeRange(PTarget);
 
         if (IsSpecialSkillReady(currentDistance) && TrySpecialSkill())
         {
             co_return;
         }
 
-        if (IsSpellReady(currentDistance) && TryCastSpell()) // Try to spellcast (this is done first so things like Chainspell spam is prioritised over TP moves etc.
+        if (IsSpellReady(currentDistance, meleeAttackRange) && TryCastSpell()) // Try to spellcast (this is done first so things like Chainspell spam is prioritised over TP moves etc.
         {
             co_return;
         }
@@ -1650,7 +1651,7 @@ auto CMobController::IsSpecialSkillReady(const float currentDistance) const -> b
     return m_Tick >= m_LastSpecialTime + std::chrono::seconds(PMob->getMobMod(MOBMOD_SPECIAL_COOL) - bonusTime);
 }
 
-auto CMobController::IsSpellReady(const float currentDistance) const -> bool
+auto CMobController::IsSpellReady(const float& currentDistance, const float& meleeRange) const -> bool
 {
     TracyZoneScoped;
 
@@ -1659,7 +1660,13 @@ auto CMobController::IsSpellReady(const float currentDistance) const -> bool
         return true;
     }
 
-    if (currentDistance > 5)
+    // Worms don't cast in melee range (typically.) The edge cases can be scripted.
+    if (PMob->m_roamFlags & ROAMFLAG_WORM && currentDistance <= meleeRange)
+    {
+        return false;
+    }
+
+    if (currentDistance > 5 && (PMob->m_roamFlags & ROAMFLAG_WORM) == 0)
     {
         // Mobs use magic quicker when standing back
         return m_Tick >= (m_nextMagicTime - std::chrono::seconds(PMob->getMobMod(MOBMOD_STANDBACK_COOL)));
