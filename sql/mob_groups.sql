@@ -265,6 +265,7 @@ INSERT INTO `mob_groups` VALUES (55,6812,5,'Little_Wingman',0,128,0,0,0,0,NULL);
 -- ------------------------------------------------------------
 -- Bearclaw_Pinnacle (Zone 6)
 -- ------------------------------------------------------------
+
 INSERT INTO `mob_groups` VALUES (1,3684,6,'Snoll_Tzar',0,128,0,7000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (2,384,6,'Bearclaw_Rabbit',0,128,0,10000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (3,383,6,'Bearclaw_Leveret',0,128,0,4500,0,0,NULL);
@@ -504,6 +505,7 @@ INSERT INTO `mob_groups` VALUES (43,565,11,'Bugbear_Servingman',0,128,377,0,0,0,
 INSERT INTO `mob_groups` VALUES (44,2689,11,'Moblin_Coalman',0,128,1706,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (45,2694,11,'Moblin_Gasman',0,128,1706,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (46,2699,11,'Moblin_Pikeman',0,128,1706,0,0,0,NULL);
+
 -- ------------------------------------------------------------
 -- Newton_Movalpolos (Zone 12)
 -- ------------------------------------------------------------
@@ -717,6 +719,7 @@ INSERT INTO `mob_groups` VALUES (19,6651,16,'Wanderer',720,0,2612,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (21,681,16,'Cerebrator',14400,0,447,3000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (22,298,16,'Apex_Woeful_Lamenter',960,0,1350,260000,0,0,'ABYSSEA'); -- TODO: Confirm MP/drop table
 INSERT INTO `mob_groups` VALUES (23,4527,16,'Apex_Livid_Rager',960,0,1350,260000,0,0,'ABYSSEA'); -- TODO: Confirm MP/drop table
+
 -- ------------------------------------------------------------
 -- Spire_of_Holla (Zone 17)
 -- ------------------------------------------------------------
@@ -3031,6 +3034,8 @@ INSERT INTO `mob_groups` VALUES (33,3059,55,'Orobon_fished',0,128,0,8500,0,0,NUL
 INSERT INTO `mob_groups` VALUES (34,3262,55,'Qiqirn_Pecheur',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (35,2222,55,'Khimaira_14X',0,128,0,25000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (36,2582,55,'Martial_Maestro_Megomak',0,128,0,8000,9999,0,NULL);
+INSERT INTO `mob_groups` VALUES (37,8167,55,'Clavauert_B_Chanoix',0,128,0,0,0,1,NULL);
+INSERT INTO `mob_groups` VALUES (38,973,55,'Demolition_Automaton',0,128,0,0,0,1,NULL);
 
 -- ------------------------------------------------------------
 -- Periqia (Zone 56)
@@ -3069,12 +3074,12 @@ INSERT INTO `mob_groups` VALUES (30,2425,56,'Living_Staves',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (31,863,56,'Cursed_Axe',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (32,2481,56,'Magic_Shields',0,128,0,0,0,0,NULL);
 
-INSERT INTO `mob_groups` VALUES (1956,2591,56,'Maymun_09',0,128,0,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (1957,2592,56,'Maymun_21',0,128,0,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (1958,2593,56,'Maymun_27',0,128,0,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (1959,2594,56,'Maymun_33',0,128,0,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (1960,2595,56,'Maymun_53',0,128,0,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (1961,2596,56,'Maymun_74',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (1956,2591,56,'Maymun_09',0,128,0,0,0,1,NULL);
+INSERT INTO `mob_groups` VALUES (1957,2592,56,'Maymun_21',0,128,0,0,0,1,NULL);
+INSERT INTO `mob_groups` VALUES (1958,2593,56,'Maymun_27',0,128,0,0,0,1,NULL);
+INSERT INTO `mob_groups` VALUES (1959,2594,56,'Maymun_33',0,128,0,0,0,1,NULL);
+INSERT INTO `mob_groups` VALUES (1960,2595,56,'Maymun_53',0,128,0,0,0,1,NULL);
+INSERT INTO `mob_groups` VALUES (1961,2596,56,'Maymun_74',0,128,0,0,0,1,NULL);
 
 -- ------------------------------------------------------------
 -- Talacca_Cove (Zone 57)
@@ -3326,6 +3331,10 @@ INSERT INTO `mob_groups` VALUES (18,4281,63,'Wamouracampa',0,128,0,0,0,0,NULL); 
 INSERT INTO `mob_groups` VALUES (21,438,63,'Black_Shuck',0,128,0,25000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (22,2903,63,'Nocuous_Inferno',0,128,0,0,0,0,NULL); -- TODO: capture level from retail
 INSERT INTO `mob_groups` VALUES (100,5872,63,'Qiqirn_Mine',0,128,0,0,0,1,NULL); -- Qiqirn Mine
+INSERT INTO `mob_groups` VALUES (101,2291,63,'Kudjreel',0,128,0,0,0,1,NULL);
+INSERT INTO `mob_groups` VALUES (102,4465,63,'Yanshaal',0,128,0,0,0,1,NULL);
+INSERT INTO `mob_groups` VALUES (103,1070,63,'Djahama',0,128,0,0,0,1,NULL);
+INSERT INTO `mob_groups` VALUES (104,2177,63,'Kadjaya',0,128,0,0,0,1,NULL);
 
 -- ------------------------------------------------------------
 -- Navukgo_Execution_Chamber (Zone 64)
@@ -6553,7 +6562,7 @@ INSERT INTO `mob_groups` VALUES (4647,3274,93,'Quadav_Guard',0,128,0,0,0,0,NULL)
 INSERT INTO `mob_groups` VALUES (4648,3275,93,'Quadav_Stormer',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (4649,3277,93,'Quadav_Turret',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (4650,3352,93,'Republican_Infantry',0,128,0,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (4651,3353,93,'Republic_Garrison',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (4651,3353,93,'Republic_Garrison',0,128,0,0,0,1,NULL);
 INSERT INTO `mob_groups` VALUES (4652,7037,93,'Sapphire_Quadav',0,128,0,2500,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (4653,7036,93,'Sapphirine_Quadav',0,128,0,2100,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (4654,3769,93,'Steel_Quadav',0,128,0,0,0,0,NULL);
@@ -14205,6 +14214,7 @@ INSERT INTO `mob_groups` VALUES (45,6692,208,'Uran-Mafran',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (46,6695,208,'Spelunking_Sabotender',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (47,7055,208,'Sand_Tarantula',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (48,7069,208,'Sand_Lizard',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (49,24,208,'Oggbi',0,128,0,0,0,1,NULL);
 
 -- ------------------------------------------------------------
 -- Cloister_of_Tremors (Zone 209)
@@ -14332,6 +14342,7 @@ INSERT INTO `mob_groups` VALUES (36,1728,213,'Goblins_Leech_HI',0,128,0,0,0,0,NU
 -- ------------------------------------------------------------
 -- Abyssea-Attohwa (Zone 215)
 -- ------------------------------------------------------------
+
 -- TODO: check retail respawn timers
 
 INSERT INTO `mob_groups` VALUES (1,835,215,'Crevice_Amoeban',300,0,779,0,999,0,NULL);
@@ -14411,6 +14422,7 @@ INSERT INTO `mob_groups` VALUES (73,7102,215,'Sturdy_Pyxis',0,128,0,0,0,0,NULL);
 -- ------------------------------------------------------------
 -- Abyssea-Misareaux (Zone 216)
 -- ------------------------------------------------------------
+
 -- TODO: check retail respawn timers
 
 -- fished
@@ -14492,6 +14504,7 @@ INSERT INTO `mob_groups` VALUES (73,7102,216,'Sturdy_Pyxis',0,128,0,0,0,0,NULL);
 -- ------------------------------------------------------------
 -- Abyssea-Vunkerl (Zone 217)
 -- ------------------------------------------------------------
+
 -- TODO: check retail respawn timers
 
 -- fished
@@ -14572,6 +14585,7 @@ INSERT INTO `mob_groups` VALUES (72,7102,217,'Sturdy_Pyxis',0,128,0,0,0,0,NULL);
 -- ------------------------------------------------------------
 -- Abyssea-Altepa (Zone 218)
 -- ------------------------------------------------------------
+
 -- TODO: check retail respawn timers
 
 -- fished
@@ -14630,6 +14644,7 @@ INSERT INTO `mob_groups` VALUES (50,1160,218,'Earth_Elemental',0,128,0,0,0,0,NUL
 -- ------------------------------------------------------------
 -- Ship_bound_for_Selbina (Zone 220)
 -- ------------------------------------------------------------
+
 -- TODO: check retail respawn timers
 
 -- fished
@@ -14651,6 +14666,7 @@ INSERT INTO `mob_groups` VALUES (13,1213,220,'Enagakure',0,128,0,2400,2400,0,NUL
 -- ------------------------------------------------------------
 -- Ship_bound_for_Mhaura (Zone 221)
 -- ------------------------------------------------------------
+
 -- TODO: check retail respawn timers
 
 -- fished
@@ -14684,6 +14700,7 @@ INSERT INTO `mob_groups` VALUES (8,4666,222,'Wazir',0,128,0,180000,9999,0,NULL);
 -- ------------------------------------------------------------
 -- Ship_bound_for_Selbina_Pirates (Zone 227)
 -- ------------------------------------------------------------
+
 -- TODO: check retail respawn timers
 
 -- fished
@@ -14706,6 +14723,7 @@ INSERT INTO `mob_groups` VALUES (14,1213,227,'Enagakure',0,128,0,2400,2400,0,NUL
 -- ------------------------------------------------------------
 -- Ship_bound_for_Mhaura_Pirates (Zone 228)
 -- ------------------------------------------------------------
+
 -- TODO: check retail respawn timers
 
 -- fished
@@ -14738,6 +14756,7 @@ INSERT INTO `mob_groups` VALUES (6,3866,229,'Volker',0,128,0,0,0,1,NULL);
 -- ------------------------------------------------------------
 -- Abyssea-Uleguerand (Zone 253)
 -- ------------------------------------------------------------
+
 -- TODO: check retail respawn timers
 
 INSERT INTO `mob_groups` VALUES (1,1430,253,'Frost_Bomb_Mk-II',0,128,0,0,0,0,NULL);
@@ -14793,6 +14812,7 @@ INSERT INTO `mob_groups` VALUES (49,2043,253,'Ice_Elemental',0,128,0,0,0,0,NULL)
 -- ------------------------------------------------------------
 -- Abyssea-Grauberg (Zone 254)
 -- ------------------------------------------------------------
+
 -- TODO: check retail respawn timers
 
 -- fished
@@ -15723,6 +15743,7 @@ INSERT INTO `mob_groups` VALUES (120,0,271,'Malignant_Acuex',0,128,0,0,0,0,NULL)
 -- ------------------------------------------------------------
 -- Dho_Gates (Zone 272)
 -- ------------------------------------------------------------
+
  -- TODO: capture retail respawn timers
 
 -- fished
