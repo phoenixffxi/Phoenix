@@ -1666,7 +1666,7 @@ auto CMobController::IsSpellReady(const float& currentDistance, const float& mel
         return false;
     }
 
-    if (currentDistance > 5)
+    if (currentDistance > 5 && (PMob->m_roamFlags & ROAMFLAG_WORM) == 0)
     {
         // Mobs use magic quicker when standing back
         return m_Tick >= (m_nextMagicTime - std::chrono::seconds(PMob->getMobMod(MOBMOD_STANDBACK_COOL)));
