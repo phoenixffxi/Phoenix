@@ -31,6 +31,7 @@ xi.automaton.abilities =
     HEAT_CAPACITOR  = 2745,
     BARRAGE_TURBINE = 2746,
     DISRUPTOR       = 2747,
+    REGULATOR       = 3485,
 }
 
 -- [FRAME][HEAD] = Model ID
