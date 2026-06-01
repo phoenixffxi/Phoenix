@@ -36,7 +36,10 @@ attachmentObject.onEquip = function(pet)
         local activationThreshold = 50
 
         -- If Damage Gauge is equipped, increase activation threshold to 75%.
-        if automaton:getLocalVar('damageGaugeEquipped') == 1 then
+        if
+            automaton:hasAttachmentSet(xi.item.DAMAGE_GAUGE_ATTACHMENT) or
+            automaton:hasAttachmentSet(xi.item.DAMAGE_GAUGE_II_ATTACHMENT)
+        then
             activationThreshold = 75
         end
 
