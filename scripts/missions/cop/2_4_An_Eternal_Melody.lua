@@ -81,7 +81,7 @@ mission.sections =
             {
                 onTrigger = function(player, npc)
                     if mission:getVar(player, 'Status') == 1 then
-                        return mission:event(5)
+                        return mission:cutscene(5)
                     end
                 end,
             },

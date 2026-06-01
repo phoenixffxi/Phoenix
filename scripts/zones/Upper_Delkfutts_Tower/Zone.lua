@@ -40,12 +40,12 @@ zoneObject.onTriggerAreaEnter = function(player, triggerArea)
     {
         [1] = function()
             --player:setCharVar('porter_lock', 1)
-            player:startEvent(0)
+            player:startOptionalCutscene(0, { cs_option = 0, canSkip = true })
         end,
 
         [2] = function()
             --player:setCharVar('porter_lock', 1)
-            player:startEvent(1)
+            player:startOptionalCutscene(1, { cs_option = 0, canSkip = true })
         end,
     }
 end

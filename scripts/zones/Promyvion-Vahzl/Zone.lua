@@ -55,23 +55,23 @@ zoneObject.onTriggerAreaEnter = function(player, triggerArea)
 
     switch (triggerAreaID) : caseof {
         [1] = function() -- Floor 1: Exit promyvion
-            player:startOptionalCutscene(45)
+            player:startOptionalCutscene(45, { cs_option = 0, canSkip = true })
         end,
 
         [2] = function() -- Floor 2: Return to floor 1
-            player:startOptionalCutscene(41)
+            player:startOptionalCutscene(41, { cs_option = 0, canSkip = true })
         end,
 
         [3] = function() -- Floor 3: Return to floor 2
-            player:startOptionalCutscene(42)
+            player:startOptionalCutscene(42, { cs_option = 0, canSkip = true })
         end,
 
         [4] = function() -- Floor 4: Return to floor 3
-            player:startOptionalCutscene(43)
+            player:startOptionalCutscene(43, { cs_option = 0, canSkip = true })
         end,
 
         [5] = function() -- Floor 5: Return to floor 4
-            player:startOptionalCutscene(44)
+            player:startOptionalCutscene(44, { cs_option = 0, canSkip = true })
         end,
 
         [6] = function() -- Floor 1: Portal S

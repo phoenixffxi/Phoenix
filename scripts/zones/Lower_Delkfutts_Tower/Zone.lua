@@ -42,12 +42,12 @@ zoneObject.onTriggerAreaEnter = function(player, triggerArea)
     {
         [1] = function()
             player:setCharVar('option', 1)
-            player:startEvent(4)
+            player:startOptionalCutscene(4, { cs_option = 0, canSkip = true })
         end,
 
         [2] = function()
             player:setCharVar('option', 2)
-            player:startEvent(4)
+            player:startOptionalCutscene(4, { cs_option = 0, canSkip = true })
         end,
     }
 end

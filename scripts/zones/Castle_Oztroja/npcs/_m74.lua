@@ -17,7 +17,7 @@ entity.onTrigger = function(player, npc)
         brassDoor and
         brassDoor:getAnimation() == xi.anim.CLOSE_DOOR
     then
-        player:startEvent(10)
+        player:startEvent(10, { canSkip = true })
     else
         player:messageSpecial(ID.text.TORCH_LIT)
     end

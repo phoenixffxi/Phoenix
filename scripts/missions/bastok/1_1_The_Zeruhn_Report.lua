@@ -127,7 +127,7 @@ mission.sections =
                     if player:hasKeyItem(xi.ki.ZERUHN_REPORT) then
                         return mission:messageSpecial(zeruhnID.text.MAKARIM_DIALOG_I)
                     else
-                        return mission:progressEvent(121)
+                        return mission:progressEvent(121, { canSkip = true })
                     end
                 end,
             },
@@ -136,7 +136,7 @@ mission.sections =
             {
                 onTrigger = function(player, npc)
                     if not player:hasKeyItem(xi.ki.ZERUHN_REPORT) then
-                        return mission:progressEvent(120)
+                        return mission:progressEvent(120, { canSkip = true })
                     end
                 end,
             },

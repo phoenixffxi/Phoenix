@@ -52,7 +52,7 @@ zoneObject.onTriggerAreaEnter = function(player, triggerArea)
         player:getAnimation() == xi.anim.NONE
     then
         -- prevent 2cs at same time
-        player:startOptionalCutscene(149 + triggerArea:getTriggerAreaID()) -- Confirmed to wipe enmity.
+        player:startOptionalCutscene(149 + triggerArea:getTriggerAreaID(), { cs_option = 0, canSkip = true }) -- Confirmed to wipe enmity.
     end
 end
 
