@@ -18,12 +18,22 @@ end
 
 -- is a lottery NM in the table already spawned or primed to pop?
 local function lotteryPrimed(phList)
-    local nm
+    local nm = nil
 
     for k, v in pairs(phList) do
-        nm = GetMobByID(v)
-        if nm ~= nil and (nm:isSpawned() or nm:getRespawnTime() ~= 0) then
-            return true
+        -- if `v` is a table, then it's a table of numbers: { id, id2 }
+        if type(v) == 'table' then
+            for _, innerId in pairs(v) do
+                nm = GetMobByID(innerId)
+                if nm ~= nil and (nm:isSpawned() or nm:getRespawnTime() ~= 0) then
+                    return true
+                end
+            end
+        else -- `v` is a number
+            nm = GetMobByID(v)
+            if nm ~= nil and (nm:isSpawned() or nm:getRespawnTime() ~= 0) then
+                return true
+            end
         end
     end
 
@@ -83,9 +93,35 @@ xi.mob.updateNMSpawnPoint = function(mobParam, spawnPointsOverride)
     end
 end
 
+local function getMobEntityObj(phNmId)
+    local mobEntityObj = nil
+
+    if type(phNmId) == 'number' then
+        mobEntityObj = getMobLuaPathObject(GetMobByID(phNmId))
+    elseif type(phNmId) == 'table' then
+        mobEntityObj = getMobLuaPathObject(GetMobByID(utils.randomEntry(phNmId)))
+    end
+
+    return mobEntityObj
+end
+
+local function getNmId(phList, phId)
+    local nmId = nil
+
+    if phList and phList[phId] then
+        if type(phList[phId]) == 'number' then
+            nmId = phList[phId]
+        elseif type(phList[phId]) == 'table' then
+            nmId = utils.randomEntry(phList[phId])
+        end
+    end
+
+    return nmId
+end
+
 -- potential lottery placeholder was killed
 ---@param ph CBaseEntity
----@param phNmId integer
+---@param phNmId integer|table
 ---@param chance integer
 ---@param cooldown integer
 ---@param params table?
@@ -104,11 +140,11 @@ xi.mob.phOnDespawn = function(ph, phNmId, chance, cooldown, params)
     local nmId         = nil
     local nm           = nil
     local phList       = nil
-    local mobEntityObj = getMobLuaPathObject(GetMobByID(phNmId))
+    local mobEntityObj = getMobEntityObj(phNmId)
 
     if mobEntityObj then
         phList = mobEntityObj.phList
-        nmId   = phList and phList[phId]
+        nmId   = getNmId(phList, phId)
         nm     = nmId and GetMobByID(nmId)
     end
 
@@ -176,6 +212,7 @@ xi.mob.phOnDespawn = function(ph, phNmId, chance, cooldown, params)
     end
 
     -- on PH death, replace PH repop with NM repop
+    -- TODO, fetch phId's spawn slot and disable respawn for all mobs in that spawn slot
     DisallowRespawn(phId, true)
     DisallowRespawn(nmId, false)
 

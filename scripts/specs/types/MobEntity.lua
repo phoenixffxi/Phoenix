@@ -6,7 +6,7 @@
 ---@field z number
 
 ---@class TMobEntity
----@field phList? table<integer, integer>
+---@field phList? table<integer, integer|integer[]>
 ---@field spawnPoints? table<integer, SpawnPosition|table<integer, SpawnPosition>>
 ---@field onMobInitialize? fun(mob: CBaseEntity)
 ---@field onPath? fun(mob: CBaseEntity)
