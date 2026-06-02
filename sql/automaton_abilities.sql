@@ -56,6 +56,7 @@ INSERT INTO `automaton_abilities` VALUES (2744,'armor_shatterer',22,324);
 INSERT INTO `automaton_abilities` VALUES (2745,'heat_capacitor',0,0);
 INSERT INTO `automaton_abilities` VALUES (2746,'barrage_turbine',22,0);
 INSERT INTO `automaton_abilities` VALUES (2747,'disruptor',0,0);
+INSERT INTO `automaton_abilities` VALUES (3485,'regulator',0,0);
 
 /*!40000 ALTER TABLE `automaton_abilities` ENABLE KEYS */;
 UNLOCK TABLES;
