@@ -41,7 +41,7 @@ entity.onTrigger = function(player, npc)
                 player:getCurrentMission(xi.mission.log_id.WINDURST) == xi.mission.id.windurst.TO_EACH_HIS_OWN_RIGHT and
                 player:getMissionStatus(player:getNation()) == 3
             then
-                player:startEvent(43)
+                player:startCutscene(43)
             end
         end
     else

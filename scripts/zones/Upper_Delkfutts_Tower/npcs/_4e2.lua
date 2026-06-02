@@ -10,13 +10,13 @@ local entity = {}
 
 entity.onTrade = function(player, npc, trade)
     if npcUtil.tradeHas(trade, xi.item.DELKFUTT_KEY) then -- Delkfutt Key
-        player:startEvent(6)
+        player:startOptionalCutscene(6, { cs_option = 0, canSkip = true })
     end
 end
 
 entity.onTrigger = function(player, npc)
     if player:hasKeyItem(xi.ki.DELKFUTT_KEY) then
-        player:startEvent(6)
+        player:startOptionalCutscene(6, { cs_option = 0, canSkip = true })
     else
         player:messageSpecial(ID.text.THIS_ELEVATOR_GOES_DOWN)
     end

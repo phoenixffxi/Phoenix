@@ -25,7 +25,7 @@ entity.onTrigger = function(player, npc)
     end
 
     if player:hasKeyItem(xi.ki.YAGUDO_TORCH) then
-        player:startEvent(10)
+        player:startEvent(10, { canSkip = true })
     else
         player:messageSpecial(ID.text.UNLIT_TORCH)
     end

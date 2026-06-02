@@ -71,11 +71,11 @@ entity.onTrigger = function(player, npc)
                 player:getCurrentMission(xi.mission.log_id.COP) == xi.mission.id.cop.DISTANT_BELIEFS and
                 xi.mission.getVar(player, xi.mission.log_id.COP, xi.mission.id.cop.DISTANT_BELIEFS, 'Status') == 1
             then
-                player:startEvent(35)
+                player:startEvent(35) -- TODO: Check if you lose agro on this event.
             elseif eventID == 99 then
                 player:messageSpecial(ID.text.DOOR_SEALED_SHUT)
             else
-                player:startOptionalCutscene(eventID)
+                player:startOptionalCutscene(eventID, { cs_option = 0, canSkip = true })
             end
         end
     end
