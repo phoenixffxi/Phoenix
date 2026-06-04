@@ -22,11 +22,15 @@ entity.onTrigger = function(player, npc)
 end
 
 entity.onEventUpdate = function(player, csid, option, npc)
-    xi.waypoint.onEventUpdate(player, csid, option, npc)
+    if csid == 10121 then
+        xi.waypoint.onEventUpdate(player, csid, option, npc)
+    end
 end
 
 entity.onEventFinish = function(player, csid, option, npc)
-    xi.waypoint.onEventFinish(player, csid, option, npc)
+    if csid == 10121 then
+        xi.waypoint.onEventFinish(player, csid, option, npc)
+    end
 end
 
 return entity

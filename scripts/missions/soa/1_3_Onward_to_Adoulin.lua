@@ -35,6 +35,7 @@ mission.sections =
                 [10120] = function(player, csid, option, npc)
                     if option == 1 then
                         player:setMissionStatus(mission.areaId, 1)
+                        player:setPos(169.638, 0.491, -27.128, 207, xi.zone.CEIZAK_BATTLEGROUNDS)
                     end
                 end,
             },
