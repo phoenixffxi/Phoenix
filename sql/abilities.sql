@@ -393,11 +393,11 @@ INSERT INTO `abilities` VALUES (384,'contradance',19,50,1,300,229,0,0,81,2000,0,
 INSERT INTO `abilities` VALUES (385,'apogee',15,70,1,180,108,100,0,94,2000,0,6,0,0,0,1,80,0,0,'SOA');
 INSERT INTO `abilities` VALUES (386,'entrust',21,75,1,600,93,100,0,332,2000,0,6,0,0,0,1,300,0,0,'SOA');
 INSERT INTO `abilities` VALUES (387,'bestial_loyalty',9,23,1,1200,94,100,0,83,2000,0,6,0,0,0,1,0,900,0,'SOA');
-INSERT INTO `abilities` VALUES (388,'cascade',4,85,1,60,12,100,0,333,2000,0,6,0,0,0,0,0,0,0,NULL); -- check animation
+INSERT INTO `abilities` VALUES (388,'cascade',4,85,1,60,12,100,0,333,2000,0,6,0,0,0,0,0,0,0,'ROV'); -- check animation
 INSERT INTO `abilities` VALUES (389,'consume_mana',8,55,1,60,95,0,0,337,2000,0,6,0,0,0,1,1300,0,0,'SOA');
 INSERT INTO `abilities` VALUES (390,'naturalists_roll',17,67,1,60,193,420,0,328,2000,0,6,0,1,8,1,80,0,8,'SOA'); -- No Enhancing Magic Duration MOD, Empty PH effect exists
 INSERT INTO `abilities` VALUES (391,'runeists_roll',17,70,1,60,193,420,0,329,2000,0,6,0,1,8,1,80,0,8,'SOA');
-INSERT INTO `abilities` VALUES (392,'crooked_cards',17,95,1,600,96,100,0,335,2000,0,6,0,0,0,0,0,0,0,NULL);
+INSERT INTO `abilities` VALUES (392,'crooked_cards',17,95,1,600,96,100,0,335,2000,0,6,0,0,0,0,0,0,0,'ROV');
 INSERT INTO `abilities` VALUES (393,'spirit_bond',14,65,257,60,149,100,0,86,2000,0,6,4,0,0,0,0,0,0,'ROV');
 INSERT INTO `abilities` VALUES (394,'majesty',7,70,1,60,150,100,0,338,2000,0,6,0,0,0,0,340,0,0,'ROV');
 INSERT INTO `abilities` VALUES (512,'healing_ruby',15,1,3,60,174,0,0,94,2000,0,6,20,0,0,1,60,0,0,NULL);

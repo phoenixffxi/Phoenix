@@ -58,7 +58,7 @@ end
 -----------------------------------
 -- Ability Use Functions
 -----------------------------------
-xi.job_utils.paladin.useChivalry = function(player, target, ability)
+xi.job_utils.paladin.useChivalry = function(player, target, ability, action)
     local merits = player:getMerit(xi.merit.CHIVALRY) - 5
     local tp     = target:getTP()
     local base   = 0.05 + (player:getMod(xi.mod.ENHANCES_CHIVALRY) / 100)
@@ -90,7 +90,7 @@ xi.job_utils.paladin.useDivineEmblem = function(player, target, ability)
     return xi.effect.DIVINE_EMBLEM
 end
 
-xi.job_utils.paladin.useFealty = function(player, target, ability)
+xi.job_utils.paladin.useFealty = function(player, target, ability, action)
     local merits    = player:getMerit(xi.merit.FEALTY) - 5
     local enhFealty = (player:getMerit(xi.merit.FEALTY) / 5) * player:getMod(xi.mod.ENHANCES_FEALTY)
     local duration  = 60 + merits + enhFealty
@@ -197,7 +197,6 @@ xi.job_utils.paladin.useShieldBash = function(player, target, ability)
     local shieldSize = player:getShieldSize()
     local jpValue    = player:getJobPointLevel(xi.jp.SHIELD_BASH_EFFECT)
     local damage     = math.floor(player:getMainLvl() * 0.273)
-    local chance     = 90
 
     if shieldSize == 2 then
         damage = 13 + damage
@@ -210,18 +209,22 @@ xi.job_utils.paladin.useShieldBash = function(player, target, ability)
     -- Main job factors
     if player:getMainJob() ~= xi.job.PLD then
         damage = math.floor(damage / 2.5)
-        chance = 60
     else
         damage = math.floor(damage)
     end
 
     damage = damage + player:getMod(xi.mod.SHIELD_BASH) + (jpValue * 10)
 
-    -- Calculate stun proc chance
-    chance = chance + (player:getMainLvl() - target:getMainLvl()) * 5
-
-    if math.random(1, 100) <= chance then
-        target:addStatusEffect(xi.effect.STUN, { power = 1, duration = 6, origin = player })
+    -- Apply stun effect
+    if
+        not xi.data.statusEffect.isTargetImmune(target, xi.effect.STUN, xi.element.THUNDER) and
+        not xi.data.statusEffect.isTargetResistant(player, target, xi.effect.STUN) and
+        not xi.data.statusEffect.isEffectNullified(target, xi.effect.STUN, 0)
+    then
+        local resistanceRate = xi.combat.magicHitRate.calculateResistRate(player, target, 0, 0, xi.skillRank.A_PLUS, xi.element.THUNDER, xi.mod.INT, xi.effect.STUN, 0)
+        if xi.data.statusEffect.isResistRateSuccessfull(xi.effect.STUN, resistanceRate, 0) then
+            target:addStatusEffect(xi.effect.STUN, { power = 1, duration = math.random(2, 8) * resistanceRate, origin = player })
+        end
     end
 
     -- Randomize damage

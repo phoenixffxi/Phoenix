@@ -106,6 +106,52 @@ end)
 -- end)
 
 -----------------------------------
+-- Red Mage
+-----------------------------------
+
+-- TODO: Blind II / Blind
+-- Source: https://forum.square-enix.com/ffxi/threads/46531-Mar-26-2015-%28JST%29-Version-Update
+--  - Remove fixed 180 duration, revert to between 80 and 300 seconds
+--  - Potency: Blind: (User INT - Opponent MND + 60)/4   Blind II: (User INT - Opponent MND + 100)/4
+
+-- TODO: Paralyze / Paralyze II
+--  - Remove fixed 120 duration, revert to between 30 and 120 seconds
+
+-- TODO: Poison / Poison II / Poisonga
+--  - Revert potencies to pre-RoV values
+
+-- TODO: Bio / Bio II / Bio III / Dia / Dia II / Dia III
+-- Source: https://forum.square-enix.com/ffxi/threads/55263-April.-3-2019-%28JST%29-Version-Update
+--  - Revert potencies to pre-RoV values
+
+-----------------------------------
+-- Paladin
+-----------------------------------
+
+-- Rampart: Revert to a magical damage stoneskin effect for party members
+m:addOverride('xi.job_utils.paladin.useRampart', function(player, target, ability)
+    local duration    = 30 + player:getMod(xi.mod.RAMPART_DURATION)
+    local stoneskinHP = player:getStat(xi.mod.VIT) * 2
+    local defense     = player:getMainLvl() == 75 and 23 or 21
+
+    -- Apply STONESKIN effect but display as RAMPART icon
+    -- TODO: subType 2 not yet implemented for magical only stoneskin
+    target:addStatusEffectEx(xi.effect.STONESKIN, xi.effect.RAMPART, defense, 0, duration, 2, stoneskinHP)
+
+    return xi.effect.RAMPART
+end)
+
+-- Stoneskin onEffectGain: Add defense buff when displayed as RAMPART
+m:addOverride('xi.effects.stoneskin.onEffectGain', function(target, effect)
+    if effect:getIcon() == xi.effect.RAMPART then
+        effect:addMod(xi.mod.STONESKIN, effect:getSubPower())
+        effect:addMod(xi.mod.DEF, effect:getPower())
+    else
+        effect:addMod(xi.mod.STONESKIN, effect:getPower())
+    end
+end)
+
+-----------------------------------
 -- Dark Knight
 -----------------------------------
 

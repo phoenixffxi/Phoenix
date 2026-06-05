@@ -48,6 +48,34 @@ UPDATE merits SET upgrade = 0 WHERE name = 'ele_magic_debuff_effect';
 UPDATE merits SET upgrade = 0 WHERE name = 'aspir_absorption_amount';
 
 ------------------------------------
+-- Red Mage
+-- https://forum.square-enix.com/ffxi/threads/55751-August.-6-2019-%28JST%29-Version-Update
+------------------------------------
+
+-- Disable OOE RDM Group 2 merits
+UPDATE merits SET upgrade = 0 WHERE name = 'enfeebling_magic_duration';
+UPDATE merits SET upgrade = 0 WHERE name = 'magic_accuracy';
+UPDATE merits SET upgrade = 0 WHERE name = 'enhancing_magic_duration';
+UPDATE merits SET upgrade = 0 WHERE name = 'immunobreak_chance';
+UPDATE merits SET upgrade = 0 WHERE name = 'enspell_damage';
+UPDATE merits SET upgrade = 0 WHERE name = 'melee_accuracy';
+
+------------------------------------
+-- Paladin
+------------------------------------
+
+-- Remove PLD from Banishga
+-- Source: https://forum.square-enix.com/ffxi/threads/56243
+UPDATE spell_list SET jobs = 0x00000F00000000000000000000000000000000000000 WHERE name = 'banishga';
+
+-- Rampart: Revert recast from 3 to 5 minutes
+-- Source: https://forum.square-enix.com/ffxi/threads/56444-February-12-2020-%28JST%29-Version-Update
+UPDATE abilities SET recastTime = 300 WHERE name = 'rampart';
+
+-- Rampart merit: Revert value from 4 to 10 seconds per level
+UPDATE merits SET value = 10 WHERE name = 'rampart_recast';
+
+------------------------------------
 -- Ranger
 -- Source: https://forum.square-enix.com/ffxi/threads/55263-April.-3-2019-%28JST%29-Version-Update
 ------------------------------------
