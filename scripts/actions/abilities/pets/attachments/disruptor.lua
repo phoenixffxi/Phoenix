@@ -1,25 +1,40 @@
 -----------------------------------
--- Attachment: Disruptor
+-- Disruptor
+-- https://wiki.ffo.jp/html/24445.html
+-- Removes one beneficial effect from the target.
 -----------------------------------
 ---@type TAttachment
 local attachmentObject = {}
 
 attachmentObject.onEquip = function(pet)
     pet:addListener('AUTOMATON_ATTACHMENT_CHECK', 'ATTACHMENT_DISRUPTOR', function(automaton, target)
-        local master = automaton:getMaster()
-        if
-            master and
-            master:countEffect(xi.effect.DARK_MANEUVER) > 0 and
-            automaton:getLocalVar('dispel') < VanadielTime() and
-            target:hasStatusEffectByFlag(xi.effectFlag.DISPELABLE) and
-            automaton:checkDistance(target) < (7 + target:getHitboxSize() + automaton:getHitboxSize()) -- needs verification
-        then
-            automaton:useMobAbility(xi.automaton.abilities.DISRUPTOR)
+        -- If Disruptor is still on cooldown, do nothing.
+        if automaton:hasRecast(xi.recast.ABILITY, xi.automaton.abilities.DISRUPTOR) then
+            return
         end
+
+        -- If the target has no dispelable effects, do nothing.
+        if not target:hasStatusEffectByFlag(xi.effectFlag.DISPELABLE) then
+            return
+        end
+
+        local master = automaton:getMaster()
+
+        if not master then
+            return
+        end
+
+        -- If no Dark Maneuvers are active, do nothing.
+        if master:countEffect(xi.effect.DARK_MANEUVER) == 0 then
+            return
+        end
+
+        automaton:useMobAbility(xi.automaton.abilities.DISRUPTOR, target)
     end)
 end
 
 attachmentObject.onUnequip = function(pet)
+    pet:removeListener('ATTACHMENT_DISRUPTOR')
 end
 
 attachmentObject.onManeuverGain = function(pet, maneuvers)
