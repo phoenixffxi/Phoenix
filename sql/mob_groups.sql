@@ -10742,9 +10742,9 @@ INSERT INTO `mob_groups` VALUES (5,1002,139,'Derakbak_of_Clan_Wolf',0,128,0,4000
 INSERT INTO `mob_groups` VALUES (6,3341,139,'Reaper_Clan_Warmachine',0,128,0,1800,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (7,4358,139,'Wolf_Clan_Warmachine',0,128,0,1800,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (8,3048,139,'Orcs_Wyvern',0,128,0,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (9,4835,139,'Maat_war',0,128,0,2300,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (10,4836,139,'Maat_blm',0,128,0,2300,1000,0,NULL);
-INSERT INTO `mob_groups` VALUES (11,4837,139,'Maat_rng',0,128,0,2300,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (9,4835,139,'Maat_war',0,128,0,3650,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (10,4836,139,'Maat_blm',0,128,0,1800,3000,0,NULL);
+INSERT INTO `mob_groups` VALUES (11,4837,139,'Maat_rng',0,128,0,2400,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (12,3681,139,'Sniper_Pugil',0,128,0,750,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (13,222,139,'Archer_Pugil',0,128,0,500,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (14,3136,139,'Pilwiz',0,128,0,1450,3000,0,NULL);
