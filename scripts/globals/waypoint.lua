@@ -199,19 +199,7 @@ local function getWaypointIndex(npcObj)
 
     for indexVal, npcData in ipairs(waypointList) do
         if npcData:getID() == waypointNpcId then
-            local resultIndex = indexVal
-            -- NOTE: Western Adoulin Auction House and Rent-a-Room are special cases where
-            -- the NPC ID order does not follow Waypoint data order.  The below is a workaround
-            -- for that exception
-            if zoneObject:getID() == xi.zone.WESTERN_ADOULIN then
-                if indexVal == 5 then
-                    resultIndex = 6
-                elseif indexVal == 6 then
-                    resultIndex = 5
-                end
-            end
-
-            return waypointStartIndex[zoneObject:getID()] + resultIndex
+            return waypointStartIndex[zoneObject:getID()] + indexVal
         end
     end
 
