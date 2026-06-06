@@ -1,5 +1,7 @@
 -----------------------------------
--- Attachment: Mana Booster -- Fix Me!
+-- Attachment: Mana Booster
+-- Provides a bonus to Fast Cast based on the number of Ice Maneuvers.
+-- https://wiki.ffo.jp/html/8622.html
 -----------------------------------
 ---@type TAttachment
 local attachmentObject = {}
