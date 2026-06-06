@@ -1707,6 +1707,33 @@ INSERT INTO `mob_spawn_slots` VALUES (166,8,0);
 INSERT INTO `mob_spawn_slots` VALUES (167,1,0);
 INSERT INTO `mob_spawn_slots` VALUES (167,2,0);
 
+-- Toraimarai Canal
+INSERT INTO `mob_spawn_slots` VALUES (169,1,0);
+INSERT INTO `mob_spawn_slots` VALUES (169,2,0);
+INSERT INTO `mob_spawn_slots` VALUES (169,3,0);
+INSERT INTO `mob_spawn_slots` VALUES (169,4,0);
+INSERT INTO `mob_spawn_slots` VALUES (169,5,0);
+INSERT INTO `mob_spawn_slots` VALUES (169,6,0);
+INSERT INTO `mob_spawn_slots` VALUES (169,7,0);
+INSERT INTO `mob_spawn_slots` VALUES (169,8,0);
+INSERT INTO `mob_spawn_slots` VALUES (169,9,0);
+INSERT INTO `mob_spawn_slots` VALUES (169,10,0);
+INSERT INTO `mob_spawn_slots` VALUES (169,11,0);
+INSERT INTO `mob_spawn_slots` VALUES (169,12,0);
+INSERT INTO `mob_spawn_slots` VALUES (169,13,0);
+INSERT INTO `mob_spawn_slots` VALUES (169,14,0);
+INSERT INTO `mob_spawn_slots` VALUES (169,15,0);
+INSERT INTO `mob_spawn_slots` VALUES (169,16,0);
+INSERT INTO `mob_spawn_slots` VALUES (169,17,0);
+INSERT INTO `mob_spawn_slots` VALUES (169,18,0);
+INSERT INTO `mob_spawn_slots` VALUES (169,19,0);
+INSERT INTO `mob_spawn_slots` VALUES (169,20,0);
+INSERT INTO `mob_spawn_slots` VALUES (169,21,0);
+INSERT INTO `mob_spawn_slots` VALUES (169,22,0);
+INSERT INTO `mob_spawn_slots` VALUES (169,23,0);
+INSERT INTO `mob_spawn_slots` VALUES (169,24,0);
+INSERT INTO `mob_spawn_slots` VALUES (169,25,0);
+
 -- Korroloka Tunnel
 INSERT INTO `mob_spawn_slots` VALUES (173,1,0);
 INSERT INTO `mob_spawn_slots` VALUES (173,2,0);
