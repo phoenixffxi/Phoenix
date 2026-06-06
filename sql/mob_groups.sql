@@ -1042,7 +1042,7 @@ INSERT INTO `mob_groups` VALUES (37,1592,25,'Gigass_Sheep',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (38,6281,25,'Orcish_Gladiator',300,0,3255,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (39,2945,25,'Odqan',7200,0,1839,4900,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (40,2556,25,'Mantrap',300,0,3077,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (41,3073,25,'Overgrown_Rose',300,0,1964,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (41,3112,25,'Overgrown_Rose',300,0,1964,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (42,4105,25,'Upyri',86400,0,2526,5000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (43,1389,25,'Fomor_Red_Mage',300,1,855,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (44,1391,25,'Fomor_Summoner',300,1,858,0,0,0,NULL);
