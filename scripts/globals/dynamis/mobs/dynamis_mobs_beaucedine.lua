@@ -467,6 +467,8 @@ xi.dynamis.lineSpawns = xi.dynamis.lineSpawns or { }
 xi.dynamis.lineSpawns[zoneID] =
 {
     -- Statue ID = { behind = { first mob distance, second mob distance } }, { side = { left distance, right distance } }, { behindLine = { behind = dist, side = { left, right } } }, or { { xOffset, yOffset, zOffset }, ... }
+    -- Mobs with DB spawn position 1.000, 1.000, 1.000 default to spawning on top of the statue.
+    -- lineSpawns below is only for explicit positioning exceptions.
     -- Beauc
     [17326319] = { behindLine = { behind = 4, side = { -3, 3 } } },
     [17326323] = { behindLine = { behind = 4, side = { -3, 3 } } },
@@ -491,36 +493,6 @@ xi.dynamis.lineSpawns[zoneID] =
     [17326284] = { side = { -3, 3 } },
     [17326289] = { side = { -3, 3 } },
     [17326295] = { side = { -3, 3 } },
-
-    [17326116] = { inside = { true } },
-    [17326120] = { inside = { true } },
-    [17326124] = { inside = { true } },
-    [17326130] = { inside = { true } },
-    [17326133] = { inside = { true } },
-    [17326139] = { inside = { true } },
-    [17326150] = { inside = { true } },
-    [17326153] = { inside = { true } },
-    [17326241] = { inside = { true } },
-    [17326244] = { inside = { true } },
-    [17326247] = { inside = { true } },
-    [17326252] = { inside = { true } },
-    [17326362] = { inside = { true } },
-    [17326365] = { inside = { true } },
-    [17326373] = { inside = { true } },
-    [17326376] = { inside = { true } },
-    [17326433] = { inside = { true } },
-    [17326452] = { inside = { true } },
-    [17326478] = { inside = { true } },
-    [17326486] = { inside = { true } },
-    [17326542] = { inside = { true } },
-    [17326128] = { inside = { true } },
-    [17326137] = { inside = { true } },
-    [17326282] = { inside = { true } },
-    [17326287] = { inside = { true } },
-    [17326293] = { inside = { true } },
-    [17326298] = { inside = { true } },
-    [17326303] = { inside = { true } },
-    [17326309] = { inside = { true } },
 }
 
 -- Pathing table

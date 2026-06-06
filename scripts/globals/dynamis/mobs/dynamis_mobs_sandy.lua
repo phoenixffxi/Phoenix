@@ -380,7 +380,7 @@ xi.dynamis.spawnCheck[zoneID] =
         -- Spawn the 3 statues if WYRMGNASHER_BJAKDEK dies
         -- 32, 143, 144
         requiredVars    = { '[DYNA]WyrmgnasherKilled' },
-        spawn           = { 17535063, 17534994, 17534990 },
+        spawn           = { 17535203, 17534994, 17534990 },
         spawnedVar      = '[DYNA]WyrmgnasherWaveSpawned',
     },
     {
@@ -437,6 +437,8 @@ xi.dynamis.lineSpawns = xi.dynamis.lineSpawns or { }
 xi.dynamis.lineSpawns[zoneID] =
 {
     -- Statue ID = { behind = { first mob distance, second mob distance } }, { side = { left distance, right distance } }, or { { xOffset, yOffset, zOffset }, ... }
+    -- Mobs with DB spawn position 1.000, 1.000, 1.000 default to spawning on top of the statue.
+    -- lineSpawns below is only for explicit positioning exceptions.
     [17535151] = { behind = { 4, 8 } }, -- (041-O/S) Mobs spawn in a line behind the statue
     [17535156] = { behind = { 4, 8 } }, -- (042-O/S) Mobs spawn in a line behind the statue
     [17535161] = { behind = { 4, 8 } }, -- (043-O/S) Mobs spawn in a line behind the statue

@@ -996,7 +996,7 @@ local specialMobHooks =
     },
 }
 
-local function runSpecialMobHook(zoneName, mobName, eventName, ...)
+local function runSpecialMobHook(zoneName, mobName, eventName, modelSize, ...)
     local zoneHooks = specialMobHooks[zoneName]
     if not zoneHooks then
         return
@@ -1017,7 +1017,11 @@ local function runSpecialMobHook(zoneName, mobName, eventName, ...)
     end
 
     if type(hook) == 'function' then
-        hook(...)
+        if eventName == 'onMobSpawn' then
+            hook(..., modelSize)
+        else
+            hook(...)
+        end
     end
 end
 
@@ -1180,7 +1184,7 @@ local function registerMobOverrides(zoneName, mobName, overrideMobType, modelSiz
                     handler(...)
                 end
 
-                runSpecialMobHook(zoneName, mobName, eventName, ...)
+                runSpecialMobHook(zoneName, mobName, eventName, modelSize, ...)
             end)
         end
     end

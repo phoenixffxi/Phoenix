@@ -125,11 +125,20 @@ xi.dynamis.onSharedEngage = function(mob, target)
 
     mob:setMobMod(xi.mobMod.MAGIC_DELAY, math.random(5, 15)) -- Random magic delay to make the casts delayed
 
-    -- Inside statues (lineSpawns.inside) are not stunned; they aggro instantly
-    local engageLineSpawn = xi.dynamis.lineSpawns and xi.dynamis.lineSpawns[zoneId] and xi.dynamis.lineSpawns[zoneId][mobID]
-    local spawnOnTopStatue  = engageLineSpawn and engageLineSpawn.inside and engageLineSpawn.inside[1] == true
-    if not spawnOnTopStatue then
-        mob:stun(3000) -- Used to make the mob not move at all for 3 seconds
+    local lineSpawnConfig = xi.dynamis.lineSpawns and xi.dynamis.lineSpawns[zoneId] and xi.dynamis.lineSpawns[zoneId][mobID]
+    local firstAdd        = GetMobByID(mobID + 1)
+    local firstAddSpawn   = firstAdd and firstAdd:getSpawnPos()
+    local defaultInside   =
+        firstAddSpawn and
+        firstAddSpawn.x == 1.000 and
+        firstAddSpawn.y == 1.000 and
+        firstAddSpawn.z == 1.000
+
+    -- Default inside statues use a short stun; explicit line spawns keep the normal stun.
+    if lineSpawnConfig or not defaultInside then
+        mob:stun(3000) -- Stun for 3 seconds
+    else
+        mob:stun(1000) -- Stun for 1 second
     end
 
     -- Check for mobs on aggro conditions
@@ -533,61 +542,118 @@ end
 -- ---------------------
 -- Spawn mechanics
 -- ---------------------
-local function calculateLineSpawnPosition(statuePos, lineSpawnConfig, spawnedCount, addSpawnPos)
-    local lineSpawnOffset           = lineSpawnConfig and lineSpawnConfig[spawnedCount + 1]
-    local lineSpawnDistance         = lineSpawnConfig and lineSpawnConfig.behind and lineSpawnConfig.behind[spawnedCount + 1]
-    local lineSpawnSideDistance     = lineSpawnConfig and lineSpawnConfig.side and lineSpawnConfig.side[spawnedCount + 1]
-    local lineSpawnBehindLine       = lineSpawnConfig and lineSpawnConfig.behindLine
-    local lineSpawnBehindLineSide   = lineSpawnBehindLine and lineSpawnBehindLine.side and lineSpawnBehindLine.side[spawnedCount + 1]
+local function isValidSpawnNumber(value)
+    return type(value) == 'number' and value == value
+end
 
-    local spawnX = statuePos.x
-    local spawnY = statuePos.y
-    local spawnZ = statuePos.z
-    local shouldSetSpawn = true
+local function getLineSpawnRotation(statuePos)
+    local rot     = isValidSpawnNumber(statuePos.rot) and statuePos.rot or 0
+    local radians = 2 * math.pi - (rot / 256) * 2 * math.pi
+    return math.cos(radians), math.sin(radians)
+end
 
-    if lineSpawnBehindLine then
-        -- behindLine is checked first to avoid Lua treating 0 as truthy in the behind/side branches
-        local rawBehind       = lineSpawnBehindLine.behind
-        local behindDist      = type(rawBehind) == 'table' and (rawBehind[spawnedCount + 1] or 0) or (rawBehind or 0)
-        local sideDist        = lineSpawnBehindLineSide or 0
-        local rotationRadians = (statuePos.rot / 256) * 2 * math.pi
-        local cosRot          = math.cos(2 * math.pi - rotationRadians)
-        local sinRot          = math.sin(2 * math.pi - rotationRadians)
+local function isDefaultInsideSpawnPosition(spawnPos)
+    return
+        spawnPos and
+        spawnPos.x == 1.000 and
+        spawnPos.y == 1.000 and
+        spawnPos.z == 1.000
+end
 
-        spawnX = spawnX + cosRot * -behindDist - sinRot * sideDist
-        spawnZ = spawnZ + sinRot * -behindDist + cosRot * sideDist
-    elseif lineSpawnDistance then
-        local rotationRadians = (statuePos.rot / 256) * 2 * math.pi
-        local behindXOffset = math.cos(2 * math.pi - rotationRadians) * -lineSpawnDistance
-        local behindZOffset = math.sin(2 * math.pi - rotationRadians) * -lineSpawnDistance
-
-        spawnX = spawnX + behindXOffset
-        spawnZ = spawnZ + behindZOffset
-    elseif lineSpawnSideDistance then
-        local rotationRadians = (statuePos.rot / 256) * 2 * math.pi
-        local sideXOffset = math.sin(2 * math.pi - rotationRadians) * lineSpawnSideDistance
-        local sideZOffset = math.cos(2 * math.pi - rotationRadians) * lineSpawnSideDistance
-
-        spawnX = spawnX + sideXOffset
-        spawnZ = spawnZ + sideZOffset
-    elseif lineSpawnOffset then
-        spawnX = spawnX + lineSpawnOffset[1]
-        spawnY = spawnY + lineSpawnOffset[2]
-        spawnZ = spawnZ + lineSpawnOffset[3]
-    elseif
-        addSpawnPos and
-        addSpawnPos.x == 1.000 and
-        addSpawnPos.y == 1.000 and
-        addSpawnPos.z == 1.000
+local function setSpawnPosition(mobToSpawn, x, y, z, rot, fallbackPos)
+    if
+        not isValidSpawnNumber(x) or
+        not isValidSpawnNumber(y) or
+        not isValidSpawnNumber(z)
     then
-        spawnX = spawnX + math.random() * 6 - 3
-        spawnY = spawnY + 1
-        spawnZ = spawnZ + math.random() * 6 - 3
-    else
-        shouldSetSpawn = false
+        if
+            not fallbackPos or
+            not isValidSpawnNumber(fallbackPos.x) or
+            not isValidSpawnNumber(fallbackPos.y) or
+            not isValidSpawnNumber(fallbackPos.z)
+        then
+            return
+        end
+
+        x = fallbackPos.x
+        y = fallbackPos.y
+        z = fallbackPos.z
     end
 
-    return spawnX, spawnY, spawnZ, shouldSetSpawn
+    if not isValidSpawnNumber(rot) then
+        rot = 0
+    end
+
+    mobToSpawn:setSpawn(x, y, z, rot)
+end
+
+local function calculateBehindLineSpawnPosition(statuePos, behindDistance, sideDistance)
+    local cosRot, sinRot = getLineSpawnRotation(statuePos)
+
+    return
+        statuePos.x + cosRot * -behindDistance - sinRot * sideDistance,
+        statuePos.y,
+        statuePos.z + sinRot * -behindDistance + cosRot * sideDistance,
+        true,
+        false
+end
+
+local function calculateBehindSpawnPosition(statuePos, distance)
+    local cosRot, sinRot = getLineSpawnRotation(statuePos)
+
+    return
+        statuePos.x + cosRot * -distance,
+        statuePos.y,
+        statuePos.z + sinRot * -distance,
+        true,
+        false
+end
+
+local function calculateSideSpawnPosition(statuePos, distance)
+    local cosRot, sinRot = getLineSpawnRotation(statuePos)
+
+    return
+        statuePos.x + sinRot * distance,
+        statuePos.y,
+        statuePos.z + cosRot * distance,
+        true,
+        false
+end
+
+local function calculateLineSpawnPosition(statuePos, lineSpawnConfig, spawnedCount, addSpawnPos)
+    local spawnIndex = spawnedCount + 1
+
+    if lineSpawnConfig then
+        local behindLine = lineSpawnConfig.behindLine
+        if behindLine then
+            local rawBehind      = behindLine.behind
+            local behindDistance = type(rawBehind) == 'table' and (rawBehind[spawnIndex] or 0) or (rawBehind or 0)
+            local sideDistance   = behindLine.side and behindLine.side[spawnIndex] or 0
+
+            return calculateBehindLineSpawnPosition(statuePos, behindDistance, sideDistance)
+        end
+
+        local behindDistance = lineSpawnConfig.behind and lineSpawnConfig.behind[spawnIndex]
+        if behindDistance then
+            return calculateBehindSpawnPosition(statuePos, behindDistance)
+        end
+
+        local sideDistance = lineSpawnConfig.side and lineSpawnConfig.side[spawnIndex]
+        if sideDistance then
+            return calculateSideSpawnPosition(statuePos, sideDistance)
+        end
+
+        local offset = lineSpawnConfig[spawnIndex]
+        if offset then
+            return statuePos.x + offset[1], statuePos.y + offset[2], statuePos.z + offset[3], true, false
+        end
+    end
+
+    if isDefaultInsideSpawnPosition(addSpawnPos) then
+        return statuePos.x, statuePos.y, statuePos.z, true, true
+    end
+
+    return statuePos.x, statuePos.y, statuePos.z, false, false
 end
 
 xi.dynamis.spawnNextMobsOnce = function(statue, count, target, checkForceSpawn)
@@ -605,13 +671,19 @@ xi.dynamis.spawnNextMobsOnce = function(statue, count, target, checkForceSpawn)
     local statuePos       = statue:getPos()
     local randomStunTime  = math.random(4000, 8000)
     local zoneId          = statue:getZoneID()
+    local zoneSpawnTable  = xi.dynamis.spawnTable and xi.dynamis.spawnTable[zoneId]
     local lineSpawnConfig = xi.dynamis.lineSpawns and xi.dynamis.lineSpawns[zoneId] and xi.dynamis.lineSpawns[zoneId][statueId]
-    local spawnOnTop      = lineSpawnConfig and lineSpawnConfig.inside and lineSpawnConfig.inside[1] == true
     local spawnedCount    = 0
     local i               = 1
 
     while spawnedCount < count do
         local mobId = statueId + i
+
+        if zoneSpawnTable and zoneSpawnTable[mobId] then
+            debugPrint('Stopping add scan for statue ' .. statueId .. ' at next configured statue ' .. mobId)
+            break
+        end
+
         local mobToSpawn = GetMobByID(mobId)
 
         -- If the mob you are trying to spawn is a pet, skip it and keep walking IDs.
@@ -625,13 +697,11 @@ xi.dynamis.spawnNextMobsOnce = function(statue, count, target, checkForceSpawn)
             -- mobToSpawn:setMobMod(xi.mobMod.SUPERLINK, statue:getTargID())
             mobToSpawn:setRoamFlags(xi.roamFlag.SCRIPTED)
 
+            local spawnX, spawnY, spawnZ, shouldSetSpawn, spawnOnTop = calculateLineSpawnPosition(statuePos, lineSpawnConfig, spawnedCount, mobToSpawn:getSpawnPos())
             if spawnOnTop then
-                mobToSpawn:setSpawn(statuePos.x, statuePos.y, statuePos.z, statuePos.rot)
-            else
-                local spawnX, spawnY, spawnZ, shouldSetSpawn = calculateLineSpawnPosition(statuePos, lineSpawnConfig, spawnedCount, mobToSpawn:getSpawnPos())
-                if shouldSetSpawn then
-                    mobToSpawn:setSpawn(spawnX, spawnY, spawnZ, statuePos.rot)
-                end
+                setSpawnPosition(mobToSpawn, statuePos.x, statuePos.y, statuePos.z, statuePos.rot)
+            elseif shouldSetSpawn then
+                setSpawnPosition(mobToSpawn, spawnX, spawnY, spawnZ, statuePos.rot, statuePos)
             end
 
             -- Sets the "pet" model sizes to one below its master
@@ -643,9 +713,9 @@ xi.dynamis.spawnNextMobsOnce = function(statue, count, target, checkForceSpawn)
             end
 
             if spawnOnTop then
-                -- Spawn 1.5 seconds apart at the statue's position; aggro immediately, no stun or look-at timer.
-                local capturedMob   = mobToSpawn
-                local capturedDelay = spawnedCount * 1500
+                -- Start after 2 seconds, then spawn 2 seconds apart at the statue's position.
+                local capturedMob    = mobToSpawn
+                local capturedDelay  = (spawnedCount + 1) * 2000
                 local capturedTarget = target
                 statue:timer(capturedDelay, function(_statueArg)
                     if not capturedMob or capturedMob:isSpawned() then
