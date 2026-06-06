@@ -738,7 +738,7 @@ enum class Mod
     OVERLOAD_THRESH             = 505,  // Overload Threshold Bonus
     AUTO_DECISION_DELAY         = 842,  // Reduces the Automaton's global decision delay
     AUTO_SHIELD_BASH_DELAY      = 843,  // Reduces the Automaton's global shield bash delay
-    AUTO_MAGIC_DELAY            = 844,  // Reduces the Automaton's global magic delay
+    AUTO_MAGIC_COOLDOWN         = 844,  // Adjusts the Automaton's global magic cooldown (negative value reduces cooldown, positive value increases cooldown)
     AUTO_HEALING_DELAY          = 845,  // Reduces the Automaton's global healing delay
     AUTO_HEALING_THRESHOLD      = 846,  // Increases the healing trigger threshold
     BURDEN_DECAY                = 847,  // Increases amount of burden removed per tick
