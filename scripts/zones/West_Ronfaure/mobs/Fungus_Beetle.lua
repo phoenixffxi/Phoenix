@@ -9,7 +9,7 @@ local entity = {}
 
 entity.phList =
 {
-    [ID.mob.FUNGUS_BEETLE - 21] = ID.mob.FUNGUS_BEETLE, -- -332.722 -21.032 -112.044
+    [ID.mob.FUNGUS_BEETLE - 21] = ID.mob.FUNGUS_BEETLE, -- Confirmed on retail
 }
 
 entity.spawnPoints =
