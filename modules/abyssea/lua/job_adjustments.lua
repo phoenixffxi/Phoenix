@@ -165,7 +165,7 @@ m:addOverride('xi.job_utils.paladin.useHolyCircle', function(player, target, abi
 
     power = power + player:getMod(xi.mod.HOLY_CIRCLE_POTENCY)
 
-    target:addStatusEffect(xi.effect.HOLY_CIRCLE, power, 0, duration)
+    target:addStatusEffect(xi.effect.HOLY_CIRCLE, { power = power, duration = duration, origin = player })
 
     return xi.effect.HOLY_CIRCLE
 end)
@@ -193,7 +193,7 @@ m:addOverride('xi.job_utils.paladin.useFealty', function(player, target, ability
     local enhFealty = (player:getMerit(xi.merit.FEALTY) / 5) * player:getMod(xi.mod.ENHANCES_FEALTY)
     local duration  = 60 + enhFealty
 
-    player:addStatusEffect(xi.effect.FEALTY, 1, 0, duration)
+    player:addStatusEffect(xi.effect.FEALTY, { power = 1, duration = duration, origin = player })
 
     return xi.effect.FEALTY
 end)
@@ -219,7 +219,7 @@ m:addOverride('xi.job_utils.paladin.useShieldBash', function(player, target, abi
     then
         local resistanceRate = xi.combat.magicHitRate.calculateResistRate(player, target, 0, 0, xi.skillRank.A_PLUS, xi.element.THUNDER, xi.mod.INT, xi.effect.STUN, 0)
         if xi.data.statusEffect.isResistRateSuccessfull(xi.effect.STUN, resistanceRate, 0) then
-            target:addStatusEffect(xi.effect.STUN, 1, 0, math.random(2, 8) * resistanceRate)
+            target:addStatusEffect(xi.effect.STUN, { power = 1, duration = math.random(2, 8) * resistanceRate, origin = player })
         end
     end
 
