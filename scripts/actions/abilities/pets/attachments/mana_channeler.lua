@@ -1,43 +1,30 @@
 -----------------------------------
 -- Attachment: Mana Channeler
+-- Provides a bonus to magic attack and increases the cooldown of all magic used by the automaton based on Water Maneuvers.
+-- https://wiki.ffo.jp/html/8628.html
+-- TODO: Capture accurate values.
 -----------------------------------
 ---@type TAttachment
 local attachmentObject = {}
 
-attachmentObject.onEquip = function(pet)
-    pet:addMod(xi.mod.MATT, 10)
-    pet:addMod(xi.mod.AUTO_MAGIC_DELAY, -3)
+attachmentObject.onEquip = function(pet, attachment)
+    xi.automaton.onAttachmentEquip(pet, attachment)
 end
 
-attachmentObject.onUnequip = function(pet)
-    pet:delMod(xi.mod.MATT, 10)
-    pet:delMod(xi.mod.AUTO_MAGIC_DELAY, -3)
+attachmentObject.onUnequip = function(pet, attachment)
+    xi.automaton.onAttachmentUnequip(pet, attachment)
 end
 
-attachmentObject.onManeuverGain = function(pet, maneuvers)
-    if maneuvers == 1 then
-        pet:addMod(xi.mod.MATT, 20)
-        pet:addMod(xi.mod.AUTO_MAGIC_DELAY, -6)
-    elseif maneuvers == 2 then
-        pet:addMod(xi.mod.MATT, 30)
-        pet:addMod(xi.mod.AUTO_MAGIC_DELAY, -9)
-    elseif maneuvers == 3 then
-        pet:addMod(xi.mod.MATT, 40)
-        pet:addMod(xi.mod.AUTO_MAGIC_DELAY, -12)
-    end
+attachmentObject.onManeuverGain = function(pet, attachment, maneuvers)
+    xi.automaton.onManeuverGain(pet, attachment, maneuvers)
 end
 
-attachmentObject.onManeuverLose = function(pet, maneuvers)
-    if maneuvers == 1 then
-        pet:delMod(xi.mod.MATT, 20)
-        pet:delMod(xi.mod.AUTO_MAGIC_DELAY, -6)
-    elseif maneuvers == 2 then
-        pet:delMod(xi.mod.MATT, 30)
-        pet:delMod(xi.mod.AUTO_MAGIC_DELAY, -9)
-    elseif maneuvers == 3 then
-        pet:delMod(xi.mod.MATT, 40)
-        pet:delMod(xi.mod.AUTO_MAGIC_DELAY, -12)
-    end
+attachmentObject.onManeuverLose = function(pet, attachment, maneuvers)
+    xi.automaton.onManeuverLose(pet, attachment, maneuvers)
+end
+
+attachmentObject.onUpdate = function(pet, attachment, maneuvers)
+    xi.automaton.updateAttachmentModifier(pet, attachment, maneuvers)
 end
 
 return attachmentObject

@@ -1,25 +1,34 @@
 -----------------------------------
--- Attachment: Heat Capacitor
+-- Heat Capacitor
+-- Increases TP based on the number of Fire Maneuvers and the attachments equipped.
+-- https://wiki.ffo.jp/html/23696.html
 -----------------------------------
 ---@type TAttachment
 local attachmentObject = {}
 
 attachmentObject.onEquip = function(pet)
-    pet:setLocalVar('heat_capacitor', pet:getLocalVar('heat_capacitor') + 1)
     pet:addListener('AUTOMATON_ATTACHMENT_CHECK', 'ATTACHMENT_HEAT_CAPACITOR', function(automaton, target)
-        local master = automaton:getMaster()
-        if
-            master and
-            master:countEffect(xi.effect.FIRE_MANEUVER) > 0 and
-            automaton:getLocalVar('meditate') < VanadielTime()
-        then
-            automaton:useMobAbility(2745, automaton)
+        -- If Heat Capacitor is still on cooldown, do nothing.
+        if automaton:hasRecast(xi.recast.ABILITY, xi.automaton.abilities.HEAT_CAPACITOR) then
+            return
         end
+
+        local master = automaton:getMaster()
+
+        if not master then
+            return
+        end
+
+        -- If no Fire Maneuvers are active, do nothing.
+        if master:countEffect(xi.effect.FIRE_MANEUVER) == 0 then
+            return
+        end
+
+        automaton:useMobAbility(xi.automaton.abilities.HEAT_CAPACITOR, automaton)
     end)
 end
 
 attachmentObject.onUnequip = function(pet)
-    pet:setLocalVar('heat_capacitor', pet:getLocalVar('heat_capacitor') - 1)
     pet:removeListener('ATTACHMENT_HEAT_CAPACITOR')
 end
 

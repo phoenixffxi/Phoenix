@@ -31,6 +31,7 @@ xi.automaton.abilities =
     HEAT_CAPACITOR  = 2745,
     BARRAGE_TURBINE = 2746,
     DISRUPTOR       = 2747,
+    REGULATOR       = 3485,
 }
 
 -- [FRAME][HEAD] = Model ID
@@ -119,10 +120,16 @@ local attachmentModifiers =
                                 { xi.mod.REGEN,                       {   nil,   nil,   nil,   nil }, true  }, },
     ['auto-repair_kit_iv']  = { { xi.mod.HPP,                         {    20,    20,    20,    20 }, false },
                                 { xi.mod.REGEN,                       {   nil,   nil,   nil,   nil }, true  }, },
+    ['barrier_module']      = { { xi.mod.SHIELDBLOCKRATE,             {     0,     5,    10,    15 }, true  },
+                                { xi.mod.AUTO_SHIELD_BASH_DELAY,      {     0,     5,    10,    15 }, false }, },
+    ['barrier_module_ii']   = { { xi.mod.SHIELDBLOCKRATE,             {     0,    10,    20,    30 }, true  },
+                                { xi.mod.AUTO_SHIELD_BASH_DELAY,      {     0,     5,    10,    15 }, false }, },
     ['coiler']              = { { xi.mod.DOUBLE_ATTACK,               {     3,    10,    20,    30 }, true  }, },
     ['coiler_ii']           = { { xi.mod.DOUBLE_ATTACK,               {    10,    15,    25,    35 }, true  }, },
-    ['damage_gauge']        = { { xi.mod.AUTO_HEALING_THRESHOLD,      {    50,    60,    70,    85 }, true  },
-                                { xi.mod.AUTO_HEALING_DELAY,          {     0,     3,     6,     9 }, false }, },
+    ['damage_gauge']        = { { xi.mod.AUTO_HEALING_THRESHOLD,      {    50,    60,    70,    80 }, false },
+                                { xi.mod.AUTO_HEALING_DELAY,          {     3,     3,     3,     3 }, false }, },
+    ['damage_gauge_ii']     = { { xi.mod.AUTO_HEALING_THRESHOLD,      {    60,    70,    80,    90 }, false },
+                                { xi.mod.AUTO_HEALING_DELAY,          {     3,     3,     3,     3 }, false }, },
     ['drum_magazine']       = { { xi.mod.AUTO_RANGED_DELAY,           {     3,     6,     9,    15 }, true  }, },
     ['dynamo']              = { { xi.mod.CRITHITRATE,                 {     3,     5,     7,     9 }, true  }, },
     ['dynamo_ii']           = { { xi.mod.CRITHITRATE,                 {     5,    10,    15,    20 }, true  }, },
@@ -133,11 +140,9 @@ local attachmentModifiers =
     ['hammermill']          = { { xi.mod.SHIELD_BASH,                 {    15,    25,    50,   100 }, true  },
                                 { xi.mod.AUTO_SHIELD_BASH_SLOW,       {     0,    12,    19,    25 }, true  }, },
     ['heatsink']            = { { xi.mod.BURDEN_DECAY,                {     1,     3,     4,     5 }, true  }, },
-    ['icemaker']            = { { xi.mod.AUTO_MAB_COEFFICIENT,        {     0,    50,    75,   100 }, false }, },
-    ['inhibitor']           = { { xi.mod.STORETP,                     {     5,    15,    25,    40 }, true  },
-                                { xi.mod.AUTO_TP_EFFICIENCY,          {   900,   900,   900,   900 }, false }, },
-    ['inhibitor_ii']        = { { xi.mod.STORETP,                     {    10,    25,    40,    65 }, true  },
-                                { xi.mod.AUTO_TP_EFFICIENCY,          {   900,   900,   900,   900 }, false }, },
+    ['ice_maker']           = { { xi.mod.AUTO_MAB_COEFFICIENT,        {     0,    50,    75,   100 }, false }, },
+    ['inhibitor']           = { { xi.mod.STORETP,                     {     5,    15,    25,    40 }, true  }, },
+    ['inhibitor_ii']        = { { xi.mod.STORETP,                     {    10,    25,    40,    65 }, true  }, },
     ['loudspeaker']         = { { xi.mod.MATT,                        {     5,    10,    15,    20 }, true  }, },
     ['loudspeaker_ii']      = { { xi.mod.MATT,                        {    10,    15,    20,    25 }, true  }, },
     ['loudspeaker_iii']     = { { xi.mod.MATT,                        {    20,    30,    40 ,   50 }, true  }, },
@@ -147,7 +152,11 @@ local attachmentModifiers =
                                 { xi.mod.RANGED_DMG_RATING,           {     5,    15,    30,    45 }, true  }, },
     ['magniplug_ii']        = { { xi.mod.MAIN_DMG_RATING,             {    10,    20,    35,    50 }, true  },
                                 { xi.mod.RANGED_DMG_RATING,           {    10,    20,    35,    50 }, true  }, },
-    ['mana_booster']        = { { xi.mod.AUTO_MAGIC_DELAY,            {     2,     4,     6,     8 }, false }, },
+    ['mana_booster']        = { { xi.mod.FASTCAST,                    {    20,    30,    45,    60 }, false }, },
+    ['mana_channeler']      = { { xi.mod.MATT,                        {    10,    15,    25,    35 }, true  },
+                                { xi.mod.AUTO_MAGIC_COOLDOWN,         {     3,     6,     9,    12 }, true  }, },
+    ['mana_channeler_ii']   = { { xi.mod.MATT,                        {    20,    30,    40,    50 }, true  },
+                                { xi.mod.AUTO_MAGIC_COOLDOWN,         {     6,    12,    18,    24 }, true  }, },
     ['mana_conserver']      = { { xi.mod.CONSERVE_MP,                 {    15,    30,    45,    60 }, true  }, },
     ['mana_jammer']         = { { xi.mod.MDEF,                        {    10,    20,    30,    40 }, true  }, },
     ['mana_jammer_ii']      = { { xi.mod.MDEF,                        {    20,    30,    40,    50 }, true  }, },
@@ -174,10 +183,11 @@ local attachmentModifiers =
     ['scope_ii']            = { { xi.mod.RACC,                        {    20,    30,    40,    50 }, true  }, },
     ['scope_iii']           = { { xi.mod.RACC,                        {    30,    40,    55,    70 }, true  }, },
     ['scope_iv']            = { { xi.mod.RACC,                        {    40,    50,    65,    80 }, true  }, },
-    ['speedloader']         = { { xi.mod.SKILLCHAINBONUS,             {    20,    30,    40,    60 }, true  },
-                                { xi.mod.AUTO_TP_EFFICIENCY,          {   900,   900,   900,   900 }, false }, },
-    ['speedloader_ii']      = { { xi.mod.SKILLCHAINBONUS,             {    35,    45,    60,    80 }, true  },
-                                { xi.mod.AUTO_TP_EFFICIENCY,          {   900,   900,   900,   900 }, false }, },
+    ['speedloader']         = { { xi.mod.SKILLCHAINBONUS,             {    20,    30,    40,    60 }, true  }, },
+    ['speedloader_ii']      = { { xi.mod.SKILLCHAINBONUS,             {    35,    45,    60,    80 }, true  }, },
+    ['smoke_screen']        = { { xi.mod.EVA,                         {    20,    40,    80,   160 }, true  },
+                                { xi.mod.ACC,                         {   -20,   -40,   -80,  -160 }, true  },
+                                { xi.mod.RACC,                        {   -20,   -40,   -80,  -160 }, true  }, },
     ['stabilizer']          = { { xi.mod.ACC,                         {     5,    10,    15,    20 }, true  }, },
     ['stabilizer_ii']       = { { xi.mod.ACC,                         {    10,    15,    20,    25 }, true  }, },
     ['stabilizer_iii']      = { { xi.mod.ACC,                         {    20,    30,    40,    50 }, true  }, },
@@ -361,13 +371,7 @@ xi.automaton.updateAttachmentModifier = function(pet, attachment, maneuvers)
                 pet:delMod(modList[1], previousMod)
             end
 
-            -- TP Efficiency shouldn't stack, and all values are the same.  This simplify logic to
-            -- always set the latest, since there's no difference.
-            if modList[1] == xi.mod.AUTO_TP_EFFICIENCY then
-                pet:setMod(modList[1], modValue)
-            else
-                pet:addMod(modList[1], modValue)
-            end
+            pet:addMod(modList[1], modValue)
 
             pet:setLocalVar(attachmentName .. attachmentModPos, math.abs(modValue))
 

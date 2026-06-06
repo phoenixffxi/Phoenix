@@ -120,11 +120,11 @@ quest.sections =
                     local questProgress = quest:getVar(player, 'Prog')
 
                     if questProgress == 0 then
-                        return quest:progressEvent(24)
+                        return quest:progressEvent(24, { canSkip = true })
                     elseif questProgress == 1 then
-                        return quest:progressEvent(22)
+                        return quest:progressEvent(22, { canSkip = true })
                     elseif questProgress == 2 then
-                        return quest:progressEvent(21)
+                        return quest:progressEvent(21, { canSkip = true })
                     elseif questProgress == 3 then
                         return quest:progressCutscene(25, 0, 0, 0, 136)
                     end

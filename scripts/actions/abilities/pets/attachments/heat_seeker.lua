@@ -1,71 +1,78 @@
 -----------------------------------
 -- Attachment: Heat Seeker
+-- Increases accuracy and ranged accuracy against current target every tick based on the number of Thunder Maneuvers active. Caps at 30 accuracy.
+-- Accuracy bonus resets when switching targets.
+-- https://wiki.ffo.jp/html/9224.html
+-- TODO: Investigate if accuracy bonus decays when maneuvers wear off. Investigate accuracy values, this code is based off very old testing and may not be accurate.
 -----------------------------------
 ---@type TAttachment
 local attachmentObject = {}
 
+local accuracyPerTick =
+{
+    [0] = 0,
+    [1] = 1,
+    [2] = 2,
+    [3] = 3,
+}
+
 attachmentObject.onEquip = function(automaton)
-    automaton:addListener('ENGAGE', 'AUTO_HEAT_SEEKER_ENGAGE', function(pet, target)
-        pet:setLocalVar('heatseekertick', VanadielTime())
-    end)
-
     automaton:addListener('AUTOMATON_AI_TICK', 'AUTO_HEAT_SEEKER_TICK', function(pet, target)
-        if pet:getLocalVar('heatseekertick') > 0 then
-            local master = pet:getMaster()
-            local maneuvers = master:countEffect(xi.effect.THUNDER_MANEUVER)
-            local lasttick = pet:getLocalVar('heatseekertick')
-            local tick = VanadielTime()
-            local dt = tick - lasttick
-            local prevamount = pet:getLocalVar('heatseeker')
-            local amount
-            if maneuvers > 0 then
-                amount = maneuvers * dt
-                if (amount + prevamount) > 30 then
-                    amount = 30 - prevamount
-                end
+        local heatSeekerAccuracyBonus = pet:getLocalVar('heatSeekerAccuracyBonus')
+        local currentTarget           = target:getID()
+        local heatSeekerTarget        = pet:getLocalVar('heatSeekerTarget')
 
-                if amount ~= 0 then
-                    pet:addMod(xi.mod.ACC, amount)
-                end
-            else
-                amount = -1 * dt
-                if (amount + prevamount) < 0 then
-                    amount = -prevamount
-                end
-
-                if amount ~= 0 then
-                    pet:delMod(xi.mod.ACC, -amount)
-                end
+        -- If the current target is not the same as our stored target, reset accuracy bonus and store the new target.
+        if currentTarget ~= heatSeekerTarget then
+            if heatSeekerAccuracyBonus > 0 then
+                pet:delMod(xi.mod.ACC, heatSeekerAccuracyBonus)
+                pet:delMod(xi.mod.RACC, heatSeekerAccuracyBonus)
             end
 
-            if amount ~= 0 then
-                pet:setLocalVar('heatseeker', prevamount + amount)
-            end
-
-            pet:setLocalVar('heatseekertick', tick)
-        end
-    end)
-
-    automaton:addListener('DISENGAGE', 'AUTO_HEAT_SEEKER_DISENGAGE', function(pet)
-        if pet:getLocalVar('heatseeker') > 0 then
-            pet:delMod(xi.mod.ACC, pet:getLocalVar('heatseeker'))
-            pet:setLocalVar('heatseeker', 0)
+            pet:setLocalVar('heatSeekerAccuracyBonus', 0)
+            pet:setLocalVar('heatSeekerTarget', currentTarget)
+            return
         end
 
-        pet:setLocalVar('heatseekertick', 0)
+        local master = pet:getMaster()
+
+        if not master then
+            return
+        end
+
+        local thunderManeuvers = master:countEffect(xi.effect.THUNDER_MANEUVER)
+
+        if thunderManeuvers == 0 then
+            return
+        end
+
+        if heatSeekerAccuracyBonus >= 30 then
+            return
+        end
+
+        -- Calculate the new accuracy bonus based on the number of Thunder Maneuvers and apply it if it's greater than the current bonus. Clamped to a maximum of 30.
+        local accuracyBonus = math.min(30, heatSeekerAccuracyBonus + (accuracyPerTick[thunderManeuvers] or 0))
+        local accuracyDelta = accuracyBonus - heatSeekerAccuracyBonus
+
+        if accuracyDelta > 0 then
+            pet:addMod(xi.mod.ACC, accuracyDelta)
+            pet:addMod(xi.mod.RACC, accuracyDelta)
+            pet:setLocalVar('heatSeekerAccuracyBonus', accuracyBonus)
+        end
     end)
 end
 
 attachmentObject.onUnequip = function(pet)
-    pet:removeListener('AUTO_HEAT_SEEKER_ENGAGE')
     pet:removeListener('AUTO_HEAT_SEEKER_TICK')
-    pet:removeListener('AUTO_HEAT_SEEKER_DISENGAGE')
-end
 
-attachmentObject.onManeuverGain = function(pet, maneuvers)
-end
+    local heatSeekerAccuracyBonus = pet:getLocalVar('heatSeekerAccuracyBonus')
+    if heatSeekerAccuracyBonus > 0 then
+        pet:delMod(xi.mod.ACC, heatSeekerAccuracyBonus)
+        pet:delMod(xi.mod.RACC, heatSeekerAccuracyBonus)
+    end
 
-attachmentObject.onManeuverLose = function(pet, maneuvers)
+    pet:setLocalVar('heatSeekerAccuracyBonus', 0)
+    pet:setLocalVar('heatSeekerTarget', 0)
 end
 
 return attachmentObject

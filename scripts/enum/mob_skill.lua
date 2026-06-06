@@ -654,7 +654,17 @@ xi.mobSkill =
     CALL_WYVERN_MAAT              = 1022,
     ASTRAL_FLOW_MAAT              = 1023,
 
+    COMBO_MAAT                    = 1027,
+    TACKLE_MAAT                   = 1028,
+    ONE_ILM_PUNCH_MAAT            = 1029,
+    BACKHAND_BLOW_MAAT            = 1030,
+    SPINNING_ATTACK_MAAT          = 1031,
+    HOWLING_FIST_MAAT             = 1032,
+    DRAGON_KICK_MAAT              = 1033,
+    ASURAN_FISTS_MAAT             = 1034,
+
     DRAGON_BREATH_2               = 1041,
+
     SUPER_BUFF                    = 1053,
     HOWL                          = 1062,
 

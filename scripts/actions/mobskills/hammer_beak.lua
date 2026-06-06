@@ -20,6 +20,10 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     params.damageType     = xi.damageType.SLASHING
     params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_1
 
+    if mob:getPool() == xi.mobPool.ZIZZY_ZILLAH then
+        params.fTP = { 3.25, 3.25, 3.25 }
+    end
+
     local info = xi.mobskills.mobPhysicalMove(mob, target, skill, action, params)
 
     if xi.mobskills.processDamage(mob, target, skill, action, info) then

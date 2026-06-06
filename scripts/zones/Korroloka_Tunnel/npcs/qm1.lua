@@ -10,17 +10,17 @@ local korrolokaGlobal = require('scripts/zones/Korroloka_Tunnel/globals')
 local entity = {}
 
 entity.onSpawn = function(npc)
-    npc:timer(900000, function()
-        korrolokaGlobal.moveMorionWormQM()
-    end) -- Time in miliseconds. 15 minutes.
+    korrolokaGlobal.moveMorionWormQM()
 end
 
 entity.onTrade = function(player, npc, trade)
     if
         npcUtil.tradeHas(trade, xi.item.CHUNK_OF_IRON_ORE) and
-        npcUtil.popFromQM(player, npc, ID.mob.MORION_WORM, { radius = 1 })
+        npcUtil.popFromQM(player, npc, ID.mob.MORION_WORM, { radius = 1, hide = 0 }) -- set hide to zero, we are manually despawning this
     then
+        npc:clearTimerQueue() -- Clear previous 15 minute timer, timer will be reinstated by Morion Worm's script
         player:confirmTrade()
+        npc:setStatus(xi.status.DISAPPEAR)
     end
 end
 

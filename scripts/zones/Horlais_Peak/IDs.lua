@@ -57,7 +57,7 @@ zones[xi.zone.HORLAIS_PEAK] =
         ATORI_TUTORI            = GetFirstID('Atori-Tutori_qm'),
         DAROKBOK_OF_CLAN_REAPER = GetFirstID('Darokbok_of_Clan_Reaper'),
         HELLTAIL_HARRY          = GetFirstID('Helltail_Harry'),
-        MAAT                    = GetFirstID('Maat'),
+        MAAT                    = GetFirstID('Maat_war'),
     },
     npc =
     {

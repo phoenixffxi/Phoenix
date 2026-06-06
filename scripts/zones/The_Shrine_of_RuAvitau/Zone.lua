@@ -77,7 +77,7 @@ zoneObject.onTriggerAreaEnter = function(player, triggerArea)
     local areaId = triggerArea:getTriggerAreaID()
 
     if teleportEventsByArea[areaId] then
-        player:startOptionalCutscene(teleportEventsByArea[areaId])
+        player:startOptionalCutscene(teleportEventsByArea[areaId], { cs_option = 0, canSkip = true })
     end
 end
 

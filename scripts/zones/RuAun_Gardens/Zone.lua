@@ -8,7 +8,7 @@ local zoneObject = {}
 
 local function handleClosingPortal(player, eventId, npcId)
     if GetNPCByID(npcId):getAnimation() == xi.anim.OPEN_DOOR then
-        player:startOptionalCutscene(eventId)
+        player:startOptionalCutscene(eventId, { cs_option = 0, canSkip = true })
     end
 end
 
@@ -106,15 +106,15 @@ zoneObject.onTriggerAreaEnter = function(player, triggerArea)
 
     switch (triggerAreaID) : caseof {
         [1] = function()
-            player:startOptionalCutscene(0)
+            player:startOptionalCutscene(0, { cs_option = 0, canSkip = true })
         end,
 
         [2] = function()
-            player:startOptionalCutscene(1)
+            player:startOptionalCutscene(1, { cs_option = 0, canSkip = true })
         end,
 
         [3] = function()
-            player:startOptionalCutscene(36)
+            player:startOptionalCutscene(36, { cs_option = 0, canSkip = true })
         end,
 
         [4] = function()
@@ -158,63 +158,63 @@ zoneObject.onTriggerAreaEnter = function(player, triggerArea)
         end,
 
         [14] = function()
-            player:startOptionalCutscene(2)
+            player:startOptionalCutscene(2, { cs_option = 0, canSkip = true })
         end,
 
         [15] = function()
-            player:startOptionalCutscene(6)
+            player:startOptionalCutscene(6, { cs_option = 0, canSkip = true })
         end,
 
         [16] = function()
-            player:startOptionalCutscene(9)
+            player:startOptionalCutscene(9, { cs_option = 0, canSkip = true })
         end,
 
         [17] = function()
-            player:startOptionalCutscene(13)
+            player:startOptionalCutscene(13, { cs_option = 0, canSkip = true })
         end,
 
         [18] = function()
-            player:startOptionalCutscene(16)
+            player:startOptionalCutscene(16, { cs_option = 0, canSkip = true })
         end,
 
         [19] = function()
-            player:startOptionalCutscene(20)
+            player:startOptionalCutscene(20, { cs_option = 0, canSkip = true })
         end,
 
         [20] = function()
-            player:startOptionalCutscene(23)
+            player:startOptionalCutscene(23, { cs_option = 0, canSkip = true })
         end,
 
         [21] = function()
-            player:startOptionalCutscene(27)
+            player:startOptionalCutscene(27, { cs_option = 0, canSkip = true })
         end,
 
         [22] = function()
-            player:startOptionalCutscene(30)
+            player:startOptionalCutscene(30, { cs_option = 0, canSkip = true })
         end,
 
         [23] = function()
-            player:startOptionalCutscene(34)
+            player:startOptionalCutscene(34, { cs_option = 0, canSkip = true })
         end,
 
         [24] = function()
-            player:startOptionalCutscene(4 + math.random(0, 1))
+            player:startOptionalCutscene(4 + math.random(0, 1), { cs_option = 0, canSkip = true })
         end,
 
         [25] = function()
-            player:startOptionalCutscene(11 + math.random(0, 1))
+            player:startOptionalCutscene(11 + math.random(0, 1), { cs_option = 0, canSkip = true })
         end,
 
         [26] = function()
-            player:startOptionalCutscene(18 + math.random(0, 1))
+            player:startOptionalCutscene(18 + math.random(0, 1), { cs_option = 0, canSkip = true })
         end,
 
         [27] = function()
-            player:startOptionalCutscene(25 + math.random(0, 1))
+            player:startOptionalCutscene(25 + math.random(0, 1), { cs_option = 0, canSkip = true })
         end,
 
         [28] = function()
-            player:startOptionalCutscene(32 + math.random(0, 1))
+            player:startOptionalCutscene(32 + math.random(0, 1), { cs_option = 0, canSkip = true })
         end,
 
         [29] = function()
@@ -234,19 +234,19 @@ zoneObject.onTriggerAreaEnter = function(player, triggerArea)
         end,
 
         [33] = function()
-            player:startOptionalCutscene(37)
+            player:startOptionalCutscene(37, { cs_option = 0, canSkip = true })
         end,
 
         [34] = function()
-            player:startOptionalCutscene(38)
+            player:startOptionalCutscene(38, { cs_option = 0, canSkip = true })
         end,
 
         [35] = function()
-            player:startOptionalCutscene(39)
+            player:startOptionalCutscene(39, { cs_option = 0, canSkip = true })
         end,
 
         [36] = function()
-            player:startOptionalCutscene(40)
+            player:startOptionalCutscene(40, { cs_option = 0, canSkip = true })
         end,
 
         [37] = function()

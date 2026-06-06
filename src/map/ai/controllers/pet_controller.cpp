@@ -125,7 +125,7 @@ auto CPetController::DoRoamTick(timer::time_point tick) -> Task<void>
             if (isLightSpirit)
             {
                 // This will respect the pet's mob casting cooldown properties via MOBMOD_MAGIC_COOL
-                if (CMobController::IsSpellReady(0) && CMobController::TryCastSpell())
+                if (CMobController::IsSpellReady(0, 0) && CMobController::TryCastSpell())
                 {
                     co_return;
                 }

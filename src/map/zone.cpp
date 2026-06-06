@@ -660,6 +660,7 @@ void CZone::updateCharLevelRestriction(CCharEntity* PChar)
         PChar->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ROLL, EffectNotice::Silent);
         PChar->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_SYNTH_SUPPORT, EffectNotice::Silent);
         PChar->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_BLOODPACT, EffectNotice::Silent);
+        PChar->StatusEffectContainer->DelStatusEffectSilent(EFFECT_RERAISE);
         PChar->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_LEVEL_RESTRICTION, EFFECT_LEVEL_RESTRICTION, m_levelRestriction, 0s, 0s));
     }
 }

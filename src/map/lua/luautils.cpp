@@ -2389,6 +2389,8 @@ int32 OnTrigger(CCharEntity* PChar, CBaseEntity* PNpc)
 {
     TracyZoneScoped;
 
+    LogWith({ "npc", { { "name", PNpc->getName() }, { "id", PNpc->id } } });
+
     // Clicking objects does nothing if the player is mid synthesis
     if (PChar->animation == ANIMATION_SYNTH)
     {
@@ -2436,6 +2438,8 @@ int32 OnTrigger(CCharEntity* PChar, CBaseEntity* PNpc)
 int32 OnEventUpdate(CCharEntity* PChar, uint16 eventID, uint32 result)
 {
     TracyZoneScoped;
+
+    LogWith({ "event", { { "id", eventID }, { "type", "update" } } });
 
     ShowTraceFmt("luautils::OnEventUpdate: {} ({}), id: {}, result: {}",
                  PChar->getName(),
@@ -2497,6 +2501,8 @@ int32 OnEventUpdate(CCharEntity* PChar, const std::string& updateString)
 int32 OnEventFinish(CCharEntity* PChar, uint16 eventID, uint32 result)
 {
     TracyZoneScoped;
+
+    LogWith({ "event", { { "id", eventID }, { "type", "finish" } } });
 
     ShowTraceFmt("luautils::OnEventFinish: {} ({}), id: {}, result: {}",
                  PChar->getName(),

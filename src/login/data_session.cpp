@@ -414,6 +414,17 @@ void data_session::read_func()
                     ShowWarning(fmt::format("data_session: account {} attempting to login when {} already has {} active session(s), limit is {}", session.accountID, ipAddress, sessionCount, loginLimit));
                 }
 
+                if (loginHelpers::isZoneAtPlayerCap(ZoneID, isGM))
+                {
+                    ShowWarning(fmt::format("data_session: zone {} at player cap, denying charid {} (gm={})", ZoneID, charid, isGM ? 1 : 0));
+                    if (auto viewSession = session.view_session.get())
+                    {
+                        loginHelpers::generateErrorMessage(viewSession->buffer_.data(), loginErrors::errorCode::WORLD_IS_FULL);
+                        viewSession->do_write(0x24);
+                        return;
+                    }
+                }
+
                 if ((isNotMaint && loginLimitOK) || isGM)
                 {
                     if (PrevZone == 0)

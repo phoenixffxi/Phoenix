@@ -24,6 +24,16 @@ entity.phList =
     [ID.mob.PEALLAIDH_PH_OFFSET + 6] = ID.mob.PEALLAIDH, -- 321.809 -16.843 -373.780
 }
 
+entity.onMobInitialize = function(mob)
+    mob:addImmunity(xi.immunity.TERROR)
+    mob:addImmunity(xi.immunity.PLAGUE)
+    mob:addImmunity(xi.immunity.SILENCE)
+end
+
+entity.onMobSpawn = function(mob)
+    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 150)
+end
+
 entity.onMobDeath = function(mob, player, optParams)
     xi.hunts.checkHunt(mob, player, 468)
 end

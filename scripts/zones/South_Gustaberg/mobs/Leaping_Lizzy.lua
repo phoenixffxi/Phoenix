@@ -7,6 +7,7 @@ local ID = zones[xi.zone.SOUTH_GUSTABERG]
 ---@type TMobEntity
 local entity = {}
 
+-- TODO: split into East/West LL
 entity.spawnPoints =
 {
     { x = -364.189, y =  30.000, z = -442.720 },
@@ -77,8 +78,7 @@ entity.spawnPoints =
 
 entity.phList =
 {
-    [ID.mob.LEAPING_LIZZY[1] - 1] = ID.mob.LEAPING_LIZZY[1], -- -275.441 20.451 -347.294
-    [ID.mob.LEAPING_LIZZY[2] - 1] = ID.mob.LEAPING_LIZZY[2], -- -322.871 30.052 -401.184
+    [ID.mob.LEAPING_LIZZY[1] - 1] = { ID.mob.LEAPING_LIZZY[1], ID.mob.LEAPING_LIZZY[2] },
 }
 
 entity.onMobDeath = function(mob, player, optParams)

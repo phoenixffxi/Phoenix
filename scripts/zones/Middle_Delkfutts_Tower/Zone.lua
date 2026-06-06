@@ -46,7 +46,7 @@ end
 
 zoneObject.onTriggerAreaEnter = function(player, triggerArea)
     local triggerAreaID = triggerArea:getTriggerAreaID()
-    player:startEvent(triggerAreaID - 1)
+    player:startOptionalCutscene(triggerAreaID - 1, { cs_option = 0, canSkip = true })
 end
 
 zoneObject.onTriggerAreaLeave = function(player, triggerArea)

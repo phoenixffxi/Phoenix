@@ -17,6 +17,10 @@ xi.settings.map =
 
     MAX_TIME_LASTUPDATE = 60,
 
+    -- Per-zone player cap. 0 disables. GMs reserve the top GM_RESERVED slots.
+    ZONE_PLAYER_CAP         = 700,
+    ZONE_PLAYER_GM_RESERVED = 5,
+
     -- --------------------------------
     -- SQL settings
     -- --------------------------------

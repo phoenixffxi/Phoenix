@@ -95,7 +95,7 @@ INSERT INTO `item_puppet` VALUES (8552,'barrier_module_ii',3,8192);
 INSERT INTO `item_puppet` VALUES (8553,'shock_absorber_ii',3,8192);
 INSERT INTO `item_puppet` VALUES (8554,'armor_plate_iii',3,16384);
 INSERT INTO `item_puppet` VALUES (8555,'barrier_module',3,4096);
-INSERT INTO `item_puppet` VALUES (8556,'barrier_module',3,20480);
+INSERT INTO `item_puppet` VALUES (8556,'armor_plate_iv',3,20480);
 INSERT INTO `item_puppet` VALUES (8557,'shock_absorber_iii',3,12288);
 INSERT INTO `item_puppet` VALUES (8577,'stabilizer',3,65536);
 INSERT INTO `item_puppet` VALUES (8578,'volt_gun',3,65536);

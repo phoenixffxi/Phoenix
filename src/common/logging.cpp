@@ -173,6 +173,13 @@ void logging::ShutDown()
 
 void logging::SetPattern(const std::string& str)
 {
+    detail::gJsonMode = settings::get<bool>("logging.JSON_ENABLED");
+    if (detail::gJsonMode)
+    {
+        spdlog::set_pattern("%v");
+        return;
+    }
+
     // https://github.com/gabime/spdlog/wiki/3.-Custom-formatting
     auto formatter = std::make_unique<spdlog::pattern_formatter>();
     formatter->add_flag<star_formatter_flag>('*');

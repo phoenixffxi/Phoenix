@@ -215,7 +215,7 @@ xi.promyvion.handlePortal = function(player, npcId, eventId)
         player:getAnimation() == xi.anim.NONE and
         GetNPCByID(npcId):getAnimation() == xi.anim.OPEN_DOOR
     then
-        player:startOptionalCutscene(eventId)
+        player:startOptionalCutscene(eventId, { cs_option = 0, canSkip = true })
     end
 end
 

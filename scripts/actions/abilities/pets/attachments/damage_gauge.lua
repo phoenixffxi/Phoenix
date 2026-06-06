@@ -1,32 +1,52 @@
 -----------------------------------
 -- Attachment: Damage Gauge
--- Causes an automaton with access to healing magic use Cure sooner and reduces the recast time for healing magic. Reduces healing magic cooldown further for each active light maneuver.
--- Light Maneuvers increase the percent that the automaton will cure its master, but not itself, this will always remain at 50%.
--- Equipping Damage Gauge also increases when Replicator activates, from ≤50% to ≤75%.
+-- Raises the activation threshold of Regulator from 50% to 75%.
+-- Raises the threshold at which the automaton will prioritize healing players based off Light Maneuvers.
+-- Reduces the cooldown of healing magic by 3 seconds.
+-- Does not stack with Damage Gauge II.
+-- https://wiki.ffo.jp/html/8624.html
 -----------------------------------
 ---@type TAttachment
 local attachmentObject = {}
 
 attachmentObject.onEquip = function(pet, attachment)
-    xi.automaton.onAttachmentEquip(pet, attachment) -- Used for Healing Magic interactions.
-    pet:setLocalVar('damageGaugeEquipped', 1) -- Used for Replicator interactions.
+    if pet:hasAttachmentSet(xi.item.DAMAGE_GAUGE_II_ATTACHMENT) then
+        return
+    else
+        xi.automaton.onAttachmentEquip(pet, attachment)
+    end
 end
 
 attachmentObject.onUnequip = function(pet, attachment)
-    xi.automaton.onAttachmentUnequip(pet, attachment) -- Used for Healing Magic interactions.
-    pet:setLocalVar('damageGaugeEquipped', 0) -- Used for Replicator interactions.
+    if pet:hasAttachmentSet(xi.item.DAMAGE_GAUGE_II_ATTACHMENT) then
+        return
+    else
+        xi.automaton.onAttachmentUnequip(pet, attachment)
+    end
 end
 
 attachmentObject.onManeuverGain = function(pet, attachment, maneuvers)
-    xi.automaton.onManeuverGain(pet, attachment, maneuvers)
+    if pet:hasAttachmentSet(xi.item.DAMAGE_GAUGE_II_ATTACHMENT) then
+        return
+    else
+        xi.automaton.onManeuverGain(pet, attachment, maneuvers)
+    end
 end
 
 attachmentObject.onManeuverLose = function(pet, attachment, maneuvers)
-    xi.automaton.onManeuverLose(pet, attachment, maneuvers)
+    if pet:hasAttachmentSet(xi.item.DAMAGE_GAUGE_II_ATTACHMENT) then
+        return
+    else
+        xi.automaton.onManeuverLose(pet, attachment, maneuvers)
+    end
 end
 
 attachmentObject.onUpdate = function(pet, attachment, maneuvers)
-    xi.automaton.updateAttachmentModifier(pet, attachment, maneuvers)
+    if pet:hasAttachmentSet(xi.item.DAMAGE_GAUGE_II_ATTACHMENT) then
+        return
+    else
+        xi.automaton.updateAttachmentModifier(pet, attachment, maneuvers)
+    end
 end
 
 return attachmentObject

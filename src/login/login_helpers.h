@@ -87,6 +87,8 @@ enum FEATURE_DISPLAY : uint16
 
 bool isStringMalformed(const std::string& str, std::size_t max_length);
 
+auto isZoneAtPlayerCap(uint16 zoneId, bool isGM) -> bool;
+
 session_t& get_authenticated_session(const std::string& ipAddr, const std::string& sessionHash);
 
 // https://github.com/atom0s/XiPackets/blob/main/lobby/S2C_0x0004_ResponseError.md

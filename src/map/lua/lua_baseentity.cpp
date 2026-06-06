@@ -14808,6 +14808,7 @@ auto CLuaBaseEntity::addCorsairRoll(sol::variadic_args va) -> bool
                                                std::chrono::seconds(duration), // Duration
                                                subType,                        // SubType (Mod ID)
                                                subPower,                       // SubPower (Roll #)
+                                               0,                              // SubIcon (rolls have no sub-icon)
                                                tier                            // Tier
     );
 
@@ -14921,6 +14922,7 @@ bool CLuaBaseEntity::addBardSong(CLuaBaseEntity* PEntity, uint16 effectID, uint1
                                                std::chrono::seconds(duration), // Duration
                                                subType,                        // SubType
                                                subPower,                       // SubPower
+                                               0,                              // SubIcon (songs have no sub-icon)
                                                tier                            // Tier
     );
 

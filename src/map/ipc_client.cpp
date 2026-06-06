@@ -120,6 +120,8 @@ void IPCClient::handleIncomingMessages()
         const auto firstByte = out.data<uint8>()[0];
         const auto msgType   = ipc::toString(static_cast<ipc::MessageType>(firstByte));
 
+        LogWith({ "ipc_msg", msgType });
+
         // TODO: Make an IPP for the world server, so we can use it here
         DebugIPCFmt("Incoming {} message", msgType);
 

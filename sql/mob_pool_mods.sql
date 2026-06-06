@@ -467,12 +467,6 @@ INSERT INTO `mob_pool_mods` VALUES (4672,3,100,1); -- MP_BASE: 100
 -- Suzaku Pet
 INSERT INTO `mob_pool_mods` VALUES (4673,3,100,1); -- MP_BASE: 100
 
--- Maat Blm
-INSERT INTO `mob_pool_mods` VALUES (4836,62,1,1); -- NO_STANDBACK: 1
-
--- Maat Rng
-INSERT INTO `mob_pool_mods` VALUES (4837,62,1,1); -- NO_STANDBACK: 1
-
 -- Maat Bst
 INSERT INTO `mob_pool_mods` VALUES (4932,30,1017,1); -- SPECIAL_SKILL: 1017
 INSERT INTO `mob_pool_mods` VALUES (4932,33,50,1);   -- SPECIAL_COOL: 50
