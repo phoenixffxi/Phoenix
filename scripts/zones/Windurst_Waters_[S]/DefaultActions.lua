@@ -11,6 +11,7 @@ return {
     ['Churacoco']       = { event = 434 },
     ['Corbrere']        = { event = 414 },
     ['Dallus-Mallus']   = { event = 323 },
+    ['Dhea_Prandoleh']  = { event = 136 },
     ['Eih_Lhogotan']    = { event = 407 },
     ['Ekki-Mokki']      = { event = 409 },
     ['Emhi_Tchaoryo']   = { event = 307 },

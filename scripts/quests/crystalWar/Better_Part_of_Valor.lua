@@ -20,16 +20,14 @@ quest.sections =
 {
     {
         check = function(player, status, vars)
-            return status == xi.questStatus.QUEST_AVAILABLE
+            return status == xi.questStatus.QUEST_AVAILABLE and
+                xi.wotg.helpers.hasCompletedFirstQuest(player)
         end,
 
         [xi.zone.NORTH_GUSTABERG_S] =
         {
             onZoneIn = function(player, prevZone)
-                if
-                    prevZone == xi.zone.BASTOK_MARKETS_S and
-                    player:getCampaignAllegiance() > 0
-                then
+                if prevZone == xi.zone.BASTOK_MARKETS_S then
                     return 1
                 end
             end,
