@@ -663,6 +663,8 @@ xi.mobSkill =
     DRAGON_KICK_MAAT              = 1033,
     ASURAN_FISTS_MAAT             = 1034,
 
+    MAATS_BASH                    = 1036,
+
     DRAGON_BREATH_2               = 1041,
 
     SUPER_BUFF                    = 1053,

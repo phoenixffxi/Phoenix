@@ -98,20 +98,20 @@ xi.pets.summon.modelId =
     [xi.pets.summon.type.WATER_SPIRIT  ] = 12,
     [xi.pets.summon.type.LIGHT_SPIRIT  ] = 14,
     [xi.pets.summon.type.DARK_SPIRIT   ] = 15,
-    [xi.pets.summon.type.CARBUNCLE     ] =  0,
-    [xi.pets.summon.type.FENRIR        ] =  0,
-    [xi.pets.summon.type.IFRIT         ] =  0,
-    [xi.pets.summon.type.TITAN         ] =  0,
-    [xi.pets.summon.type.LEVIATHAN     ] =  0,
-    [xi.pets.summon.type.GARUDA        ] =  0,
-    [xi.pets.summon.type.SHIVA         ] =  0,
-    [xi.pets.summon.type.RAMUH         ] =  0,
-    [xi.pets.summon.type.DIABOLOS      ] =  0,
-    [xi.pets.summon.type.ALEXANDER     ] =  0,
-    [xi.pets.summon.type.ODIN          ] =  0,
-    [xi.pets.summon.type.ATOMOS        ] =  0,
-    [xi.pets.summon.type.CAIT_SITH     ] =  0,
-    [xi.pets.summon.type.SIREN         ] =  0,
+    [xi.pets.summon.type.CARBUNCLE     ] = 791,
+    [xi.pets.summon.type.FENRIR        ] = 792,
+    [xi.pets.summon.type.IFRIT         ] = 793,
+    [xi.pets.summon.type.TITAN         ] = 794,
+    [xi.pets.summon.type.LEVIATHAN     ] = 795,
+    [xi.pets.summon.type.GARUDA        ] = 796,
+    [xi.pets.summon.type.SHIVA         ] = 797,
+    [xi.pets.summon.type.RAMUH         ] = 798,
+    [xi.pets.summon.type.DIABOLOS      ] = 0,
+    [xi.pets.summon.type.ALEXANDER     ] = 0,
+    [xi.pets.summon.type.ODIN          ] = 0,
+    [xi.pets.summon.type.ATOMOS        ] = 0,
+    [xi.pets.summon.type.CAIT_SITH     ] = 0,
+    [xi.pets.summon.type.SIREN         ] = 0,
 }
 
 xi.pets.summon.spellListId =
@@ -140,12 +140,37 @@ xi.pets.summon.spellListId =
     [xi.pets.summon.type.SIREN         ] =  0,
 }
 
+-- Astral Flow ENUMs. Alexander, Odin, Atomos, Cait Sith & Siren are currently not supported.
+xi.pets.summon.astralFlowId =
+{
+    [xi.pets.summon.type.CARBUNCLE     ] = xi.mobSkill.SEARING_LIGHT_1,
+    [xi.pets.summon.type.FENRIR        ] = xi.mobSkill.HOWLING_MOON_2,
+    [xi.pets.summon.type.IFRIT         ] = xi.mobSkill.INFERNO_1,
+    [xi.pets.summon.type.TITAN         ] = xi.mobSkill.EARTHEN_FURY_1,
+    [xi.pets.summon.type.LEVIATHAN     ] = xi.mobSkill.TIDAL_WAVE_1,
+    [xi.pets.summon.type.GARUDA        ] = xi.mobSkill.AERIAL_BLAST_1,
+    [xi.pets.summon.type.SHIVA         ] = xi.mobSkill.DIAMOND_DUST_1,
+    [xi.pets.summon.type.RAMUH         ] = xi.mobSkill.JUDGMENT_BOLT_1,
+    [xi.pets.summon.type.DIABOLOS      ] = xi.mobSkill.RUINOUS_OMEN_1,
+    [xi.pets.summon.type.ALEXANDER     ] = 0,
+    [xi.pets.summon.type.ODIN          ] = 0,
+    [xi.pets.summon.type.ATOMOS        ] = 0,
+    [xi.pets.summon.type.CAIT_SITH     ] = 0,
+    [xi.pets.summon.type.SIREN         ] = 0,
+}
+
 xi.pets.summon.setupSummon = function(mob, summonTable)
     local chosenSummon = summonTable[math.random(1, #summonTable)]
 
-    -- Sets the spell list and model
+    -- Sets the spell list, model and astral flow skill ID if needed.
     mob:setSpellList(xi.pets.summon.spellListId[chosenSummon])
     mob:setModelId(xi.pets.summon.modelId[chosenSummon])
+
+    if chosenSummon >= xi.pets.summon.type.CARBUNCLE then
+        mob:setLocalVar('astralFlowId', xi.pets.summon.astralFlowId[chosenSummon] or 0)
+    else
+        mob:setLocalVar('astralFlowId', 0)
+    end
 
     -- Apply resistance ranks
     for element = xi.element.FIRE, xi.element.DARK do
