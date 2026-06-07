@@ -392,8 +392,6 @@ local function handleSinglePhysicalHit(mob, target, baseHitDamage, params)
     hitDamage = math.floor(hitDamage * xi.combat.damage.physicalElementSDT(target, params.damageType))
     hitDamage = math.floor(hitDamage * xi.combat.damage.calculateDamageAdjustment(target, true, false, false, false))
 
-    -- TODO: Automaton Steam Jacket Reduction
-
     -- TODO: Automaton Equalizer Reduction
 
     -- TODO: Need captures for different severe damage mechanics. Do they proc per hit or per skill
@@ -507,8 +505,6 @@ local function handleSingleRangedHit(mob, target, baseHitDamage, params)
 
     hitDamage = math.floor(hitDamage * xi.combat.damage.physicalElementSDT(target, params.damageType))
     hitDamage = math.floor(hitDamage * xi.combat.damage.calculateDamageAdjustment(target, true, false, true, false))
-
-    -- TODO: Automaton Steam Jacket Reduction
 
     -- TODO: Automaton Equalizer Reduction
 
@@ -1192,6 +1188,7 @@ xi.mobskills.mobMagicalMove = function(mob, target, skill, action, skillParams)
     local sdt                   = xi.combat.damage.magicalElementSDT(target, actionElement)
     local resistTier            = 1
     local dayAndWeather         = xi.spells.damage.calculateDayAndWeather(mob, actionElement, false)
+    local steamJacketMultiplier = xi.combat.damage.steamJacketMultiplier(target, actionElement)
     local magicBonusDiff        = 1
     local magicDamageAdjustment = 1
     local bloodPactMultiplier   = 1
@@ -1245,6 +1242,7 @@ xi.mobskills.mobMagicalMove = function(mob, target, skill, action, skillParams)
     damage = math.floor(damage * sdt)
     damage = math.floor(damage * resistTier)
     damage = math.floor(damage * dayAndWeather)
+    damage = math.floor(damage * steamJacketMultiplier)
     damage = math.floor(damage * magicBonusDiff)
     damage = math.floor(damage * magicDamageAdjustment)
     damage = math.floor(damage * bloodPactMultiplier)
@@ -1394,9 +1392,10 @@ xi.mobskills.mobBreathMove = function(mob, target, skill, action, skillParams)
 
     -- Damage Multipliers
     local systemBonus            = 1 -- 1 + utils.getEcosystemStrengthBonus(mob:getEcosystem(), target:getEcosystem()) / 4
-    local elementalSDT           = 1
+    local elementalSDT           = xi.combat.damage.magicalElementSDT(target, actionElement)
     local resistRate             = 1
-    local dayAndWeather          = 1
+    local dayAndWeather          = xi.spells.damage.calculateDayAndWeather(mob, actionElement, false)
+    local steamJacketMultiplier  = xi.combat.damage.steamJacketMultiplier(target, actionElement)
     local breathDamageAdjustment = 1
     local magicBurst             = 1
     local magicBurstBonus        = 1
@@ -1426,18 +1425,18 @@ xi.mobskills.mobBreathMove = function(mob, target, skill, action, skillParams)
 
     -- TODO: Need more research about monster correlation.
     -- local systemBonus     = 1 + utils.getEcosystemStrengthBonus(mob:getEcosystem(), target:getEcosystem()) / 4
-    elementalSDT  = xi.combat.damage.magicalElementSDT(target, actionElement)
-    dayAndWeather = xi.spells.damage.calculateDayAndWeather(mob, actionElement, false)
 
     damage = math.floor(damage * systemBonus)
     damage = math.floor(damage * elementalSDT)
     damage = math.floor(damage * resistRate)
     damage = math.floor(damage * dayAndWeather)
+    damage = math.floor(damage * steamJacketMultiplier)
     damage = math.floor(damage * breathDamageAdjustment)
-    damage = utils.clamp(damage, 0, breathSkillDamageCap)
     damage = math.floor(damage * absorbDamage)
     damage = math.floor(damage * magicBurst)
     damage = math.floor(damage * magicBurstBonus)
+
+    damage = utils.clamp(damage, 0, breathSkillDamageCap)
 
     -- If we absorbed, then return early as the rest is not needed.
     if absorbDamage < 0  then

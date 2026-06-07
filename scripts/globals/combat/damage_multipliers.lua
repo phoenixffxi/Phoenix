@@ -26,10 +26,11 @@ xi.combat.damage.physicalElementSDT = function(target, physicalElement)
 end
 
 xi.combat.damage.magicalElementSDT = function(target, magicalElement)
-    if
-        magicalElement < xi.element.FIRE or
-        magicalElement > xi.element.DARK
-    then
+    if magicalElement < xi.element.FIRE then
+        return 1
+    end
+
+    if magicalElement > xi.element.DARK then
         return 1
     end
 
@@ -84,4 +85,34 @@ xi.combat.damage.scarletDeliriumMultiplier = function(actor)
     local scarletDeliriumMultiplier = 1 + actor:getStatusEffect(xi.effect.SCARLET_DELIRIUM_1):getPower() / 1000
 
     return scarletDeliriumMultiplier
+end
+
+-- Handles Automaton attachment "Steam Jacket", which reduces damage from consecutive elemental damage.
+xi.combat.damage.steamJacketMultiplier = function(target, magicalElement)
+    -- Early return: Action isn't elemental.
+    if magicalElement < xi.element.FIRE then
+        return 1
+    end
+
+    -- Early return: Action isn't elemental.
+    if magicalElement > xi.element.DARK then
+        return 1
+    end
+
+    -- Early return: Target can't track an element.
+    local steamJacketModifierValue = target:getMod(xi.mod.AUTO_STEAM_JACKET_REDUCTION)
+    if steamJacketModifierValue <= 0 then
+        return 1
+    end
+
+    -- Handle element tracking.
+    local trackedElement = target:getLocalVar('[steamJacket]Element')
+    target:setLocalVar('[steamJacket]Element', magicalElement)
+
+    -- Early return: Action element doesn't match Steam Jacket's element.
+    if trackedElement ~= magicalElement then
+        return 1
+    end
+
+    return 1 - steamJacketModifierValue / 100
 end
