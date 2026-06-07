@@ -1132,7 +1132,7 @@ local pTableFloorRandomEntities =
 
 local function lampsActivate(instance)
     local floorLayout      = instance:getLocalVar('Nyzul_Isle_FloorLayout')
-    local lampsObjective   = instance:getLocalVar('[Lamps]Objective')
+    local lampsObjective   = instance:getLocalVar('[Lamp]Objective')
     local partySize        = utils.clamp(instance:getLocalVar('partySize'), 3, 5)
     local dTableLampPoints = {}
 
@@ -1315,7 +1315,7 @@ xi.nyzul.prepareMobs = function(instance)
 
             -- Activate Lamps Objective
             [xi.nyzul.objective.ACTIVATE_ALL_LAMPS] = function()
-                instance:setLocalVar('[Lamps]Objective', math.random(xi.nyzul.lampsObjective.REGISTER, xi.nyzul.lampsObjective.ORDER))
+                instance:setLocalVar('[Lamp]Objective', math.random(xi.nyzul.lampsObjective.REGISTER, xi.nyzul.lampsObjective.ORDER))
                 lampsActivate(instance)
             end,
         }
@@ -1435,10 +1435,6 @@ xi.nyzul.prepareMobs = function(instance)
             spawnPointIndex   = math.random(1, #dTableSpawnPoint)
             spawnPoint        = dTableSpawnPoint[spawnPointIndex]
 
-            -- Spawn Mob.
-            GetMobByID(mobID, instance):setSpawn(spawnPoint.x, spawnPoint.y, spawnPoint.z, math.random(0, 255))
-            SpawnMob(mobID, instance)
-
             -- Remove table entry.
             table.remove(dTableEnemies, randomEnemy)
             table.remove(dTableSpawnPoint, spawnPointIndex)
@@ -1454,6 +1450,10 @@ xi.nyzul.prepareMobs = function(instance)
             end
 
             enemyAmount = enemyAmount - 1
+
+            -- Spawn Mob. Do this last so everything is set for mob spawn logic in their lua script triggers properly.
+            GetMobByID(mobID, instance):setSpawn(spawnPoint.x, spawnPoint.y, spawnPoint.z, math.random(0, 255))
+            SpawnMob(mobID, instance)
         end
     end
 end

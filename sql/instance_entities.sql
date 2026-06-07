@@ -1979,6 +1979,7 @@ INSERT INTO `instance_entities` VALUES (7704,17092617);
 INSERT INTO `instance_entities` VALUES (7704,17092618);
 INSERT INTO `instance_entities` VALUES (7704,17092619);
 INSERT INTO `instance_entities` VALUES (7704,17092620);
+INSERT INTO `instance_entities` VALUES (7704,17093424); -- Weather
 -- mobs
 INSERT INTO `instance_entities` VALUES (7704,17092629);
 INSERT INTO `instance_entities` VALUES (7704,17092630);
