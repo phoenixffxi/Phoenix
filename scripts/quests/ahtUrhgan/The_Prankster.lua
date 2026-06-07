@@ -4,7 +4,7 @@
 -- Ahaadah !pos -70 -6 105 50
 -- Aht Whitegate region 11
 -- Aht Whitegate region 12
--- qm4 !pos 460.166 -14.920 256.214 52
+-- qm3 !pos 460.166 -14.920 256.214 52
 -----------------------------------
 
 local quest = Quest:new(xi.questLog.AHT_URHGAN, xi.quest.id.ahtUrhgan.THE_PRANKSTER)
@@ -98,7 +98,7 @@ quest.sections =
 
         [xi.zone.BHAFLAU_THICKETS] =
         {
-            ['qm4'] =
+            ['qm3'] =
             {
                 onTrigger = function(player, npc)
                     if not GetMobByID(ID.mob.PLAGUE_CHIGOE):isSpawned() then
@@ -132,7 +132,7 @@ quest.sections =
         {
             ['Ahaadah'] = quest:event(17),
 
-            ['qm4'] = quest:progressCutscene(2),
+            ['qm3'] = quest:progressCutscene(2),
 
             onEventFinish =
             {
