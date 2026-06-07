@@ -57,6 +57,7 @@ local function validateParameters(actor, target, fedData)
     params.drainHP         = fedData.drainHP or false
     params.drainMP         = fedData.drainMP or false
     params.drainTP         = fedData.drainTP or false
+    params.overDrain       = fedData.overDrain or false
 
     -- Animations and messaging.
     params.animation       = fedData.animation or defaultsTable[params.magicalElement][1]
@@ -166,19 +167,19 @@ xi.combat.action.executeAddEffectDamage = function(actor, target, fedData)
 
     -- Drain HP, MP or TP
     if params.drainHP then
-        damage               = utils.clamp(damage, 0, params.aeTarget:getHP())
+        damage               = params.overDrain and damage or utils.clamp(damage, 0, params.aeTarget:getHP())
         params.messageDamage = xi.msg.basic.ADD_EFFECT_HP_DRAIN
         actor:addHP(damage)
     end
 
     if params.drainMP then
-        damage               = utils.clamp(damage, 0, params.aeTarget:getMP())
+        damage               = params.overDrain and damage or utils.clamp(damage, 0, params.aeTarget:getMP())
         params.messageDamage = xi.msg.basic.ADD_EFFECT_MP_DRAIN
         actor:addMP(damage)
     end
 
     if params.drainTP then
-        damage               = utils.clamp(damage, 0, params.aeTarget:getTP())
+        damage               = params.overDrain and damage or utils.clamp(damage, 0, params.aeTarget:getTP())
         params.messageDamage = xi.msg.basic.ADD_EFFECT_TP_DRAIN
         actor:addTP(damage)
     end
