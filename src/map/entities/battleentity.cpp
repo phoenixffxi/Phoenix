@@ -3311,15 +3311,51 @@ void CBattleEntity::OnRangedAttack(CRangeState& state, action_t& action)
             // or else sleep effect won't work
             // battleutils::HandleRangedAdditionalEffect(this,PTarget,&Action);
             // TODO: move all hard coded additional effect ammo to scripts
-            if ((PAmmo != nullptr && battleutils::GetScaledItemModifier(this, PAmmo, Mod::ITEM_ADDEFFECT_TYPE) > 0) ||
-                (PItem != nullptr && battleutils::GetScaledItemModifier(this, PItem, Mod::ITEM_ADDEFFECT_TYPE) > 0))
+
+            // returns true if handled
+            auto checkAddEffect = [&](CItemWeapon* weapon) -> bool
             {
-                // TODO: move hard-coded additional effect ammo to scripts.
+                // don't proc on dead stuff
+                if (PTarget->GetHPP() == 0)
+                {
+                    return true;
+                }
+
+                bool hasGlobalAdditionalEffect     = battleutils::GetScaledItemModifier(this, weapon, Mod::ITEM_ADDEFFECT_TYPE) > 0;     // additional_effect.lua
+                bool hasItemScriptAdditionalEffect = battleutils::GetScaledItemModifier(this, weapon, Mod::ITEM_ADDEFFECT_SCRIPTED) > 0; // scripts/items/{}.lua
+
+                if (hasGlobalAdditionalEffect && hasItemScriptAdditionalEffect)
+                {
+                    ShowErrorFmt("Item '{}' has misconfigured additional effect data with both item script and add effect global configured", weapon->getName());
+                }
+
+                if (hasGlobalAdditionalEffect && luautils::additionalEffectAttack(this, PTarget, weapon, &actionResult, totalDamage) == 0 && actionResult.hasAdditionalEffect())
+                {
+                    return true;
+                }
+
+                if (hasItemScriptAdditionalEffect && luautils::OnItemAdditionalEffect(this, PTarget, weapon, &actionResult, totalDamage) == 0 && actionResult.hasAdditionalEffect())
+                {
+                    return true;
+                }
+
+                return false;
+            };
+
+            // No Ranged weapons that have ammo contain an add effect on the weapon (but this is edge case 11)
+            if (PAmmo)
+            {
+                checkAddEffect(PAmmo);
             }
-            // Handle additional effects only if target is not already dead
-            if (PTarget->GetHPP() > 0)
+            else if (PItem) // ranged item with no ammo (boomerang/chakram)
             {
-                luautils::additionalEffectAttack(this, PTarget, (PAmmo != nullptr ? PAmmo : PItem), &actionResult, totalDamage);
+                checkAddEffect(PItem);
+            }
+
+            if (actionResult.addEffectMessage == MsgBasic::AddEffectDamage && actionResult.addEffectParam < 0)
+            {
+                actionResult.addEffectParam   = -actionResult.addEffectParam;
+                actionResult.addEffectMessage = MsgBasic::AddEffectRecoversHP;
             }
         }
     }
