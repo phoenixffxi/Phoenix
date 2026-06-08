@@ -596,27 +596,18 @@ void LoadAutomatonStats(CCharEntity* PMaster, CPetEntity* PPet, Pet_t* petStats,
             default: // case AutomatonFrame::Harlequin:
                 PPet->WorkingSkills.evasion = battleutils::GetMaxSkill(4, mlvl > 99 ? 99 : mlvl);
                 PPet->setModifier(Mod::DEF, battleutils::GetMaxSkill(11, mlvl > 99 ? 99 : mlvl));
-                PPet->setModifier(Mod::DMG, -625);
                 break;
             case AutomatonFrame::Valoredge:
-                PPet->setModifier(Mod::SHIELDBLOCKRATE, 45);
-                PPet->setMobMod(MOBMOD_CAN_SHIELD_BLOCK, 1);
-                PPet->setModifier(Mod::DMG, -1250);
                 PPet->WorkingSkills.evasion = battleutils::GetMaxSkill(7, mlvl > 99 ? 99 : mlvl);
                 PPet->setModifier(Mod::DEF, battleutils::GetMaxSkill(8, mlvl > 99 ? 99 : mlvl));
                 break;
             case AutomatonFrame::Sharpshot:
                 PPet->WorkingSkills.evasion = battleutils::GetMaxSkill(2, mlvl > 99 ? 99 : mlvl);
                 PPet->setModifier(Mod::DEF, battleutils::GetMaxSkill(12, mlvl > 99 ? 99 : mlvl));
-                PPet->setModifier(Mod::PIERCE_SDT, 8750);
-                PPet->setModifier(Mod::DMGBREATH, -1250);
-                PPet->setModifier(Mod::DMGMAGIC, -1250);
                 break;
             case AutomatonFrame::Stormwaker:
                 PPet->WorkingSkills.evasion = battleutils::GetMaxSkill(10, mlvl > 99 ? 99 : mlvl);
                 PPet->setModifier(Mod::DEF, battleutils::GetMaxSkill(12, mlvl > 99 ? 99 : mlvl));
-                PPet->setModifier(Mod::DMGBREATH, -2500);
-                PPet->setModifier(Mod::DMGMAGIC, -2500);
                 break;
         }
 
