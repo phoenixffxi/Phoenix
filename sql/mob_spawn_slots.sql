@@ -745,6 +745,22 @@ INSERT INTO `mob_spawn_slots` VALUES (113,77,0);
 INSERT INTO `mob_spawn_slots` VALUES (113,78,0);
 INSERT INTO `mob_spawn_slots` VALUES (113,79,0);
 
+-- Eastern Altepa Desert
+INSERT INTO `mob_spawn_slots` VALUES (114,1,0);
+INSERT INTO `mob_spawn_slots` VALUES (114,2,0);
+INSERT INTO `mob_spawn_slots` VALUES (114,3,0);
+INSERT INTO `mob_spawn_slots` VALUES (114,4,0);
+INSERT INTO `mob_spawn_slots` VALUES (114,5,0);
+INSERT INTO `mob_spawn_slots` VALUES (114,6,0);
+INSERT INTO `mob_spawn_slots` VALUES (114,7,0);
+INSERT INTO `mob_spawn_slots` VALUES (114,8,0);
+INSERT INTO `mob_spawn_slots` VALUES (114,9,0);
+INSERT INTO `mob_spawn_slots` VALUES (114,10,0);
+INSERT INTO `mob_spawn_slots` VALUES (114,11,0);
+INSERT INTO `mob_spawn_slots` VALUES (114,12,0);
+INSERT INTO `mob_spawn_slots` VALUES (114,13,0);
+INSERT INTO `mob_spawn_slots` VALUES (114,14,0);
+
 -- West Sarutabaruta
 INSERT INTO `mob_spawn_slots` VALUES (115,1,0);
 INSERT INTO `mob_spawn_slots` VALUES (115,2,0);
