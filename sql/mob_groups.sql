@@ -8016,7 +8016,7 @@ INSERT INTO `mob_groups` VALUES (34,3979,105,'Tottering_Toby',0,32,2456,850,0,0,
 INSERT INTO `mob_groups` VALUES (35,3990,105,'Treant',300,0,2462,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (36,316,105,'Ba',300,0,207,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (37,743,105,'Clipper',300,0,93,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (38,5852,105,'Eyegouger',3600,0,3063,4000,0,0,'WOTG');
+INSERT INTO `mob_groups` VALUES (38,5852,105,'Eyegouger',0,32,3063,4000,0,0,'WOTG');
 INSERT INTO `mob_groups` VALUES (39,1267,105,'Evil_Weapon',300,0,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (40,5758,105,'Prankster_Maverix',0,32,1610,5500,0,0,'WOTG');
 INSERT INTO `mob_groups` VALUES (41,66,105,'Ahtu',0,128,33,2500,0,0,NULL);

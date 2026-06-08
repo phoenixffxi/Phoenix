@@ -10,6 +10,11 @@ entity.spawnPoints =
     { x =  177.300, y = -2.100, z = -54.540 }
 }
 
+entity.phList =
+{
+    [ID.mob.EYEGOURGER - 9] = ID.mob.EYEGOURGER, -- Confirmed on retail
+}
+
 entity.onMobInitialize = function(mob)
     mob:setMobMod(xi.mobMod.ADD_EFFECT, 1)
 end
