@@ -14,7 +14,7 @@ entity.spawnPoints =
 
 entity.phList =
 {
-    [ID.mob.NAA_ZEKU_THE_UNWAITING - 5] = ID.mob.NAA_ZEKU_THE_UNWAITING,
+    [ID.mob.NAA_ZEKU_THE_UNWAITING - 5] = ID.mob.NAA_ZEKU_THE_UNWAITING, -- Confirmed on retail
 }
 
 entity.onMobDeath = function(mob, player, optParams)
