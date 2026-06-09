@@ -38,6 +38,21 @@ INSERT INTO `mob_spawn_slots` VALUES (2,24,0);
 INSERT INTO `mob_spawn_slots` VALUES (2,25,0);
 INSERT INTO `mob_spawn_slots` VALUES (2,26,0);
 
+-- Bibiki Bay
+INSERT INTO `mob_spawn_slots` VALUES (4,1,0);
+INSERT INTO `mob_spawn_slots` VALUES (4,2,0);
+INSERT INTO `mob_spawn_slots` VALUES (4,3,0);
+INSERT INTO `mob_spawn_slots` VALUES (4,4,0);
+INSERT INTO `mob_spawn_slots` VALUES (4,5,0);
+INSERT INTO `mob_spawn_slots` VALUES (4,6,0);
+INSERT INTO `mob_spawn_slots` VALUES (4,7,0);
+INSERT INTO `mob_spawn_slots` VALUES (4,8,0);
+INSERT INTO `mob_spawn_slots` VALUES (4,9,0);
+INSERT INTO `mob_spawn_slots` VALUES (4,10,0);
+INSERT INTO `mob_spawn_slots` VALUES (4,11,0);
+INSERT INTO `mob_spawn_slots` VALUES (4,12,0);
+INSERT INTO `mob_spawn_slots` VALUES (4,13,0);
+
 -- Uleguerand Range
 INSERT INTO `mob_spawn_slots` VALUES (5,1,0);
 INSERT INTO `mob_spawn_slots` VALUES (5,2,0);
@@ -118,15 +133,66 @@ INSERT INTO `mob_spawn_slots` VALUES (18,15,0);
 INSERT INTO `mob_spawn_slots` VALUES (18,16,0);
 INSERT INTO `mob_spawn_slots` VALUES (18,17,0);
 
+-- Promyvion-Vahzl
+INSERT INTO `mob_spawn_slots` VALUES (22,1,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,2,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,3,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,4,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,5,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,6,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,7,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,8,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,9,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,10,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,11,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,12,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,13,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,14,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,15,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,16,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,17,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,18,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,19,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,20,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,21,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,22,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,23,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,24,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,25,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,26,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,27,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,28,0);
+
+-- Phomiuna Aqueducts
+INSERT INTO `mob_spawn_slots` VALUES (27,1,0);
+INSERT INTO `mob_spawn_slots` VALUES (27,2,0);
+INSERT INTO `mob_spawn_slots` VALUES (27,3,0);
+INSERT INTO `mob_spawn_slots` VALUES (27,4,0);
+INSERT INTO `mob_spawn_slots` VALUES (27,5,0);
+
+-- Riverne-Site A01
+INSERT INTO `mob_spawn_slots` VALUES (30,1,0);
+INSERT INTO `mob_spawn_slots` VALUES (30,2,0);
+INSERT INTO `mob_spawn_slots` VALUES (30,3,0);
+INSERT INTO `mob_spawn_slots` VALUES (30,4,0);
+INSERT INTO `mob_spawn_slots` VALUES (30,5,0);
+INSERT INTO `mob_spawn_slots` VALUES (30,6,0);
+
 -- Arrapago Reef
 INSERT INTO `mob_spawn_slots` VALUES (54,1,0);
 INSERT INTO `mob_spawn_slots` VALUES (54,2,0);
+
+-- Mount Zhayolm (No spawn slots)
 
 -- Mamook
 INSERT INTO `mob_spawn_slots` VALUES (65,1,0);
 INSERT INTO `mob_spawn_slots` VALUES (65,2,0);
 INSERT INTO `mob_spawn_slots` VALUES (65,3,0);
 INSERT INTO `mob_spawn_slots` VALUES (65,4,0);
+
+-- Caedarva Mire
+INSERT INTO `mob_spawn_slots` VALUES (79,1,0);
+INSERT INTO `mob_spawn_slots` VALUES (79,2,0);
 
 -- West Ronfaure
 INSERT INTO `mob_spawn_slots` VALUES (100,1,0);
