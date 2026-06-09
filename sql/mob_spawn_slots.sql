@@ -163,6 +163,13 @@ INSERT INTO `mob_spawn_slots` VALUES (22,26,0);
 INSERT INTO `mob_spawn_slots` VALUES (22,27,0);
 INSERT INTO `mob_spawn_slots` VALUES (22,28,0);
 
+-- Phomiuna Aqueducts
+INSERT INTO `mob_spawn_slots` VALUES (27,1,0);
+INSERT INTO `mob_spawn_slots` VALUES (27,2,0);
+INSERT INTO `mob_spawn_slots` VALUES (27,3,0);
+INSERT INTO `mob_spawn_slots` VALUES (27,4,0);
+INSERT INTO `mob_spawn_slots` VALUES (27,5,0);
+
 -- Riverne-Site A01
 INSERT INTO `mob_spawn_slots` VALUES (30,1,0);
 INSERT INTO `mob_spawn_slots` VALUES (30,2,0);
@@ -175,14 +182,7 @@ INSERT INTO `mob_spawn_slots` VALUES (30,6,0);
 INSERT INTO `mob_spawn_slots` VALUES (54,1,0);
 INSERT INTO `mob_spawn_slots` VALUES (54,2,0);
 
--- Mount Zhayolm
-INSERT INTO `mob_spawn_slots` VALUES (61,1,0);
-INSERT INTO `mob_spawn_slots` VALUES (61,2,0);
-INSERT INTO `mob_spawn_slots` VALUES (61,3,0);
-INSERT INTO `mob_spawn_slots` VALUES (61,4,0);
-INSERT INTO `mob_spawn_slots` VALUES (61,5,0);
-INSERT INTO `mob_spawn_slots` VALUES (61,6,0);
-INSERT INTO `mob_spawn_slots` VALUES (61,7,0);
+-- Mount Zhayolm (No spawn slots)
 
 -- Mamook
 INSERT INTO `mob_spawn_slots` VALUES (65,1,0);
