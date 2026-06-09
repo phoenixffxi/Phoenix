@@ -118,6 +118,36 @@ INSERT INTO `mob_spawn_slots` VALUES (18,15,0);
 INSERT INTO `mob_spawn_slots` VALUES (18,16,0);
 INSERT INTO `mob_spawn_slots` VALUES (18,17,0);
 
+-- Promyvion-Vahzl
+INSERT INTO `mob_spawn_slots` VALUES (22,1,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,2,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,3,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,4,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,5,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,6,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,7,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,8,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,9,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,10,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,11,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,12,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,13,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,14,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,15,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,16,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,17,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,18,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,19,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,20,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,21,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,22,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,23,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,24,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,25,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,26,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,27,0);
+INSERT INTO `mob_spawn_slots` VALUES (22,28,0);
+
 -- Riverne-Site A01
 INSERT INTO `mob_spawn_slots` VALUES (30,1,0);
 INSERT INTO `mob_spawn_slots` VALUES (30,2,0);
