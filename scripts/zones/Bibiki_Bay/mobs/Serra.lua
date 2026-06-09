@@ -14,7 +14,7 @@ entity.spawnPoints =
 
 entity.phList =
 {
-    [ID.mob.SERRA - 1] = ID.mob.SERRA,
+    [ID.mob.SERRA - 1] = ID.mob.SERRA, -- Confirmed on retail
 }
 
 entity.onMobDeath = function(mob, player, optParams)

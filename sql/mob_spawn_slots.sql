@@ -38,6 +38,21 @@ INSERT INTO `mob_spawn_slots` VALUES (2,24,0);
 INSERT INTO `mob_spawn_slots` VALUES (2,25,0);
 INSERT INTO `mob_spawn_slots` VALUES (2,26,0);
 
+-- Bibiki Bay
+INSERT INTO `mob_spawn_slots` VALUES (4,1,0);
+INSERT INTO `mob_spawn_slots` VALUES (4,2,0);
+INSERT INTO `mob_spawn_slots` VALUES (4,3,0);
+INSERT INTO `mob_spawn_slots` VALUES (4,4,0);
+INSERT INTO `mob_spawn_slots` VALUES (4,5,0);
+INSERT INTO `mob_spawn_slots` VALUES (4,6,0);
+INSERT INTO `mob_spawn_slots` VALUES (4,7,0);
+INSERT INTO `mob_spawn_slots` VALUES (4,8,0);
+INSERT INTO `mob_spawn_slots` VALUES (4,9,0);
+INSERT INTO `mob_spawn_slots` VALUES (4,10,0);
+INSERT INTO `mob_spawn_slots` VALUES (4,11,0);
+INSERT INTO `mob_spawn_slots` VALUES (4,12,0);
+INSERT INTO `mob_spawn_slots` VALUES (4,13,0);
+
 -- Uleguerand Range
 INSERT INTO `mob_spawn_slots` VALUES (5,1,0);
 INSERT INTO `mob_spawn_slots` VALUES (5,2,0);
