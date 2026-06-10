@@ -9,8 +9,6 @@
 -- EAST_RONFAURE_S      : !zone 81
 -- SOUTHERN_SAN_DORIA_S : !zone 80
 -----------------------------------
-require('scripts/missions/wotg/helpers')
------------------------------------
 
 local mission = Mission:new(xi.mission.log_id.WOTG, xi.mission.id.wotg.CAIT_SITH)
 
@@ -24,8 +22,7 @@ mission.sections =
 {
     {
         check = function(player, currentMission, missionStatus, vars)
-            return currentMission == mission.missionId and
-                xi.wotg.helpers.meetsMission3Reqs(player)
+            return currentMission == mission.missionId
         end,
 
         [xi.zone.SOUTHERN_SAN_DORIA_S] =
