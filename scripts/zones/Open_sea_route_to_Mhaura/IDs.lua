@@ -7,20 +7,20 @@ zones[xi.zone.OPEN_SEA_ROUTE_TO_MHAURA] =
 {
     text =
     {
-        ITEM_CANNOT_BE_OBTAINED       = 6385, -- You cannot obtain the <item>. Come back after sorting your inventory.
-        ITEM_OBTAINED                 = 6393, -- Obtained: <item>.
-        GIL_OBTAINED                  = 6394, -- Obtained <number> gil.
-        KEYITEM_OBTAINED              = 6396, -- Obtained key item: <keyitem>.
-        CARRIED_OVER_POINTS           = 7004, -- You have carried over <number> login point[/s].
-        LOGIN_CAMPAIGN_UNDERWAY       = 7005, -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!
-        LOGIN_NUMBER                  = 7006, -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
-        MEMBERS_LEVELS_ARE_RESTRICTED = 7026, -- Your party is unable to participate because certain members' levels are restricted.
-        FISHING_MESSAGE_OFFSET        = 7071, -- You can't fish here.
-        ON_WAY_TO_MHAURA              = 7331, -- We are on our way to Mhaura. We should arrive in [less than an hour/about 1 hour/about 2 hours/about 3 hours/about 4 hours/about 5 hours/about 6 hours/about 7 hours] (# [minute/minutes] in Earth time).
-        DOCKING_IN_MHAURA             = 7332, -- We are now docking in Mhaura.
-        NEARING_MHAURA                = 7333, -- We are nearing Mhaura.
-        PASHI_MACCALEH_SHOP_DIALOG    = 7335, -- Step right up for the best fishing gear in these parts!
-        ARRIVING_SOON_MHAURA          = 7336, -- We are on our way to Mhaura. We will be arriving soon.
+        ITEM_CANNOT_BE_OBTAINED       = 6386, -- You cannot obtain the <item>. Come back after sorting your inventory.
+        ITEM_OBTAINED                 = 6394, -- Obtained: <item>.
+        GIL_OBTAINED                  = 6395, -- Obtained <number> gil.
+        KEYITEM_OBTAINED              = 6397, -- Obtained key item: <keyitem>.
+        CARRIED_OVER_POINTS           = 7005, -- You have carried over <number> login point[/s].
+        LOGIN_CAMPAIGN_UNDERWAY       = 7006, -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!
+        LOGIN_NUMBER                  = 7007, -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
+        MEMBERS_LEVELS_ARE_RESTRICTED = 7027, -- Your party is unable to participate because certain members' levels are restricted.
+        FISHING_MESSAGE_OFFSET        = 7072, -- You can't fish here.
+        ON_WAY_TO_MHAURA              = 7332, -- We are on our way to Mhaura. We should arrive in [less than an hour/about 1 hour/about 2 hours/about 3 hours/about 4 hours/about 5 hours/about 6 hours/about 7 hours] (# [minute/minutes] in Earth time).
+        DOCKING_IN_MHAURA             = 7333, -- We are now docking in Mhaura.
+        NEARING_MHAURA                = 7334, -- We are nearing Mhaura.
+        PASHI_MACCALEH_SHOP_DIALOG    = 7336, -- Step right up for the best fishing gear in these parts!
+        ARRIVING_SOON_MHAURA          = 7337, -- We are on our way to Mhaura. We will be arriving soon.
     },
     mob =
     {

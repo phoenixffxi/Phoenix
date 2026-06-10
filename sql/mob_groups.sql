@@ -1485,6 +1485,12 @@ INSERT INTO `mob_groups` VALUES (54,7427,37,'Ultima_Forerunner',0,128,0,0,0,0,NU
 INSERT INTO `mob_groups` VALUES (55,7428,37,'Ultimas_Zisurru',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (56,7496,37,'Temenos_Euvhi',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (57,7497,37,'Temenos_Ghrah',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (58,1216,37,'Temenos_Hume_Echo',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (59,1217,37,'Temenos_Elvaan_Echo',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (60,1218,37,'Temenos_Tarutaru_Echo',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (61,1219,37,'Temenos_Mithra_Echo',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (62,1220,37,'Mithras_Avatar',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (63,1221,37,'Temenos_Galka_Echo',0,128,0,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Apollyon (Zone 38)
@@ -1557,6 +1563,13 @@ INSERT INTO `mob_groups` VALUES (64,7492,38,'Tolimi_Vampyr',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (65,7493,38,'Tolimi_Wyrm',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (66,7494,38,'Omega_Forerunner',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (67,7495,38,'Omegas_Bit',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (68,1222,38,'Apollyon_Hume_Shade',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (69,1223,38,'Apollyon_Elvaan_Shade',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (70,1224,38,'Apollyon_Tarutaru_Shade',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (71,1225,38,'Apollyon_Mithra_Shade',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (72,1226,38,'Mithras_Korrigan',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (73,1227,38,'Apollyon_Galka_Shade',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (74,1228,38,'Galkas_Wyvern',0,128,0,0,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Dynamis-Valkurm (Zone 39)
