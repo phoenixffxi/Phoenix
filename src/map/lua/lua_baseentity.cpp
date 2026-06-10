@@ -150,6 +150,10 @@
 #include "packets/s2c/0x063_miscdata_monstrosity.h"
 #include "packets/s2c/0x075_battlefield.h"
 #include "packets/s2c/0x077_entity_vis.h"
+#include "packets/s2c/0x082_guild_buy.h"
+#include "packets/s2c/0x083_guild_buylist.h"
+#include "packets/s2c/0x084_guild_sell.h"
+#include "packets/s2c/0x085_guild_selllist.h"
 #include "packets/s2c/0x086_guild_open.h"
 #include "packets/s2c/0x0aa_magic_data.h"
 #include "packets/s2c/0x0ac_command_data.h"
@@ -2711,9 +2715,10 @@ void CLuaBaseEntity::sendMenu(uint32 menu)
 
 auto CLuaBaseEntity::sendGuild(const uint16 guildId, uint8 open, uint8 close, uint8 holiday) const -> bool
 {
-    if (m_PBaseEntity->objtype != TYPE_PC)
+    auto* PChar = dynamic_cast<CCharEntity*>(m_PBaseEntity);
+    if (!PChar)
     {
-        ShowWarning("Invalid entity type calling function (%s).", m_PBaseEntity->getName());
+        ShowWarningFmt("Invalid entity type calling function ({}).", m_PBaseEntity->getName());
         return false;
     }
 
@@ -2742,12 +2747,84 @@ auto CLuaBaseEntity::sendGuild(const uint16 guildId, uint8 open, uint8 close, ui
     }
 
     CItemContainer* PGuildShop = guildutils::GetGuildShop(guildId);
-    auto*           PChar      = static_cast<CCharEntity*>(m_PBaseEntity);
 
     PChar->PGuildShop = PGuildShop;
+    PChar->guildShopNpc_.clean();
     PChar->pushPacket<GP_SERV_COMMAND_GUILD_OPEN>(status, open, close, holiday);
 
     return status == GP_SERV_COMMAND_GUILD_OPEN_STAT::Open;
+}
+
+/************************************************************************
+ *  Function: openGuildShop()
+ *  Purpose : Opens a lua guild shop and remembers the NPC the PC opened it with
+ *  Example : if player:openGuildShop(npc, 8, 23) then
+ ************************************************************************/
+
+auto CLuaBaseEntity::openGuildShop(CLuaBaseEntity* PNpc, uint8 open, uint8 close) const -> bool
+{
+    auto* PChar = dynamic_cast<CCharEntity*>(m_PBaseEntity);
+    if (!PChar)
+    {
+        ShowWarningFmt("Invalid entity type calling function ({}).", m_PBaseEntity->getName());
+        return false;
+    }
+
+    if (PNpc == nullptr || PNpc->GetBaseEntity() == nullptr)
+    {
+        ShowWarning("Invalid guild shop NPC passed to openGuildShop().");
+        return false;
+    }
+
+    const uint8 vanadielHour = static_cast<uint8>(vanadiel_time::get_hour(vanadiel_time::now()));
+    const bool  isOpen       = vanadielHour >= open && vanadielHour < close;
+    const auto  status       = isOpen ? GP_SERV_COMMAND_GUILD_OPEN_STAT::Open : GP_SERV_COMMAND_GUILD_OPEN_STAT::Close;
+
+    const auto* PNpcEntity = PNpc->GetBaseEntity();
+
+    PChar->guildShopNpc_.id     = PNpcEntity->id;
+    PChar->guildShopNpc_.targid = PNpcEntity->targid;
+    PChar->PGuildShop           = nullptr;
+    PChar->pushPacket<GP_SERV_COMMAND_GUILD_OPEN>(status, open, close, 0);
+
+    return isOpen;
+}
+
+/************************************************************************
+ *  Function: clearGuildShop()
+ *  Purpose : Clears the PC's open guild shop handle
+ *  Example : player:clearGuildShop()
+ ************************************************************************/
+
+void CLuaBaseEntity::clearGuildShop() const
+{
+    auto* PChar = dynamic_cast<CCharEntity*>(m_PBaseEntity);
+    if (!PChar)
+    {
+        ShowWarningFmt("Invalid entity type calling function ({}).", m_PBaseEntity->getName());
+        return;
+    }
+
+    PChar->guildShopNpc_.clean();
+    PChar->PGuildShop = nullptr;
+}
+
+/************************************************************************
+ *  Function: sendGuildClose()
+ *  Purpose : Sends the guild-open packet with a Close status to the PC
+ *  Example : player:sendGuildClose(8, 23)
+ ************************************************************************/
+
+void CLuaBaseEntity::sendGuildClose(uint8 open, uint8 close) const
+{
+    auto* PChar = dynamic_cast<CCharEntity*>(m_PBaseEntity);
+    if (!PChar)
+    {
+        ShowWarningFmt("Invalid entity type calling function ({}).", m_PBaseEntity->getName());
+        return;
+    }
+
+    PChar->pushPacket<GP_SERV_COMMAND_GUILD_OPEN>(GP_SERV_COMMAND_GUILD_OPEN_STAT::Close, open, close, 0);
 }
 
 /************************************************************************
@@ -20249,6 +20326,9 @@ void CLuaBaseEntity::Register()
     SOL_REGISTER("changeMusic", CLuaBaseEntity::changeMusic);
     SOL_REGISTER("sendMenu", CLuaBaseEntity::sendMenu);
     SOL_REGISTER("sendGuild", CLuaBaseEntity::sendGuild);
+    SOL_REGISTER("openGuildShop", CLuaBaseEntity::openGuildShop);
+    SOL_REGISTER("clearGuildShop", CLuaBaseEntity::clearGuildShop);
+    SOL_REGISTER("sendGuildClose", CLuaBaseEntity::sendGuildClose);
     SOL_REGISTER("openSendBox", CLuaBaseEntity::openSendBox);
     SOL_REGISTER("leaveGame", CLuaBaseEntity::leaveGame);
     SOL_REGISTER("sendEmote", CLuaBaseEntity::sendEmote);

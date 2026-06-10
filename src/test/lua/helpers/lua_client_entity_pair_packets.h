@@ -46,6 +46,7 @@ public:
     void parseIncoming();
     auto getIncoming() const -> sol::table;
     auto actionPackets() const -> sol::table;
+    auto guildList(uint16 packetId) const -> sol::table;
     void clear() const;
 
     static void Register();

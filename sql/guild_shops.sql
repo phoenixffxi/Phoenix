@@ -1157,27 +1157,6 @@ INSERT INTO `guild_shops` VALUES (531,13783,81084,162345,60,0,0);  -- iron_scale
 -- INSERT INTO `guild_shops` VALUES (531,13785,20240,45600,60,0,0);   -- steel_scale_mail TODO: missing min_price and max_price
 -- INSERT INTO `guild_shops` VALUES (531,12306,20240,45600,60,0,0);   -- kite_shield TODO: missing min_price and max_price
 
--- Kamilah (Mhaura) Smithing Guild (S)
-INSERT INTO `guild_shops` VALUES (532,641,30,66,240,48,110);       -- chunk_of_tin_ore
-INSERT INTO `guild_shops` VALUES (532,643,675,3825,240,33,110);    -- chunk_of_iron_ore
-INSERT INTO `guild_shops` VALUES (532,649,115,349,120,0,0);        -- bronze_ingot
-INSERT INTO `guild_shops` VALUES (532,651,2700,13680,120,0,0);     -- iron_ingot
-INSERT INTO `guild_shops` VALUES (532,652,3517,25620,120,16,90);   -- steel_ingot
-INSERT INTO `guild_shops` VALUES (532,660,61,423,120,33,36);       -- bronze_sheet
-INSERT INTO `guild_shops` VALUES (532,662,4050,20520,120,0,0);     -- iron_sheet
-INSERT INTO `guild_shops` VALUES (532,672,81,254,60,0,0);          -- handful_of_bronze_scales
-INSERT INTO `guild_shops` VALUES (532,674,4945,30744,60,0,0);      -- handful_of_iron_scales
-INSERT INTO `guild_shops` VALUES (532,680,11781,12411,60,0,0);     -- iron_chain
--- INSERT INTO `guild_shops` VALUES (532,12552,20240,45600,60,0,0);   -- chainmail TODO: missing min_price and max_price
--- INSERT INTO `guild_shops` VALUES (532,12560,20240,45600,60,0,0);   -- scale_mail TODO: missing min_price and max_price
-INSERT INTO `guild_shops` VALUES (532,12578,61086,81086,60,0,0);   -- padded_armor
--- INSERT INTO `guild_shops` VALUES (532,12936,20240,45600,60,0,0);   -- greaves TODO: missing min_price and max_price
-INSERT INTO `guild_shops` VALUES (532,12944,1519,5294,60,0,0);     -- scale_greaves
-INSERT INTO `guild_shops` VALUES (532,12962,27866,76830,60,0,0);   -- leggings
--- INSERT INTO `guild_shops` VALUES (532,12680,20240,45600,60,0,0);   -- chain_mittens TODO: missing min_price and max_price
-INSERT INTO `guild_shops` VALUES (532,12688,1666,5664,60,0,0);     -- scale_finger_gauntlets
-INSERT INTO `guild_shops` VALUES (532,12706,21945,21945,60,0,0);  -- iron_mittens
-
 -- Amulya (Metalworks) Smithing Guild (S)
 INSERT INTO `guild_shops` VALUES (5332,641,30,66,240,48,180);       -- chunk_of_tin_ore
 INSERT INTO `guild_shops` VALUES (5332,643,675,3825,240,33,180);    -- chunk_of_iron_ore
@@ -1250,15 +1229,6 @@ INSERT INTO `guild_shops` VALUES (5332,11872,59731,62834,60,0,0);   -- targe
 INSERT INTO `guild_shops` VALUES (5332,17336,4,11,240,0,0);         -- crossbow_bolt
 INSERT INTO `guild_shops` VALUES (5332,17337,4,11,240,0,0);         -- mythril_bolt
 INSERT INTO `guild_shops` VALUES (5332,17298,38,38,240,0,0);      -- tathlum TODO: missing min_price and max_price
-
--- Beugungel (Carpenter's Landing) Woodworking Guild
-INSERT INTO `guild_shops` VALUES (534,1657,75,255,240,48,180);  -- bundling_twine
-INSERT INTO `guild_shops` VALUES (534,1021,312,500,200,48,180); -- hatchet
-INSERT INTO `guild_shops` VALUES (534,688,15,30,200,48,180);    -- arrowwood_log
-INSERT INTO `guild_shops` VALUES (534,698,72,441,200,48,180);   -- ash_log
-INSERT INTO `guild_shops` VALUES (534,696,330,2024,200,48,150); -- yew_log
-INSERT INTO `guild_shops` VALUES (534,695,120,736,200,48,150);  -- willow_log
-INSERT INTO `guild_shops` VALUES (534,693,640,3928,240,48,180); -- walnut_log
 
 -- Akamafula (Lower Jeuno) Tenshodo Merchent -- TODO: Audit and update Akamafula.lua. Converted from a guild merchant to a standard shop as of April 2018.
 INSERT INTO `guild_shops` VALUES (60417,16896,517,884,20,10,20);     -- kunai

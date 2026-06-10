@@ -33,6 +33,7 @@
 #include "map/map_networking.h"
 #include "map/packets/c2s/0x00a_login.h"
 #include "map/packets/s2c/0x028_battle2.h"
+#include "map/packets/s2c/0x083_guild_buylist.h"
 #include "packets/c2s/0x011_zone_transition.h"
 #include "test_char.h"
 #include "test_common.h"
@@ -224,6 +225,40 @@ auto CLuaClientEntityPairPackets::actionPackets() const -> sol::table
         {
             auto* packet = reinterpret_cast<GP_SERV_COMMAND_BATTLE2*>(pkt.get());
             table[idx++] = packet->unpack();
+        }
+    }
+
+    return table;
+}
+
+/************************************************************************
+ *  Function: guildList()
+ *  Purpose : Decode a received guild buy/sell list packet into { [itemNo] = { count, max, price } }
+ ************************************************************************/
+
+auto CLuaClientEntityPairPackets::guildList(uint16 packetId) const -> sol::table
+{
+    const auto testChar = parent_->testChar();
+    auto       table    = lua.create_table();
+
+    for (auto&& pkt : testChar->entity()->getPacketList())
+    {
+        if (pkt->getType() != packetId)
+        {
+            continue;
+        }
+
+        const auto& body = pkt->ref<GP_SERV_COMMAND_GUILD_BUYLIST::PacketData>(sizeof(GP_SERV_HEADER));
+        for (uint8 i = 0; i < body.Count; ++i)
+        {
+            const auto& item = body.List[i];
+
+            auto row     = lua.create_table();
+            row["count"] = item.Count;
+            row["max"]   = item.Max;
+            row["price"] = item.Price;
+
+            table[item.ItemNo] = row;
         }
     }
 
