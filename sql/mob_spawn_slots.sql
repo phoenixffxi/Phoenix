@@ -70,6 +70,19 @@ INSERT INTO `mob_spawn_slots` VALUES (5,14,0);
 INSERT INTO `mob_spawn_slots` VALUES (5,15,0);
 INSERT INTO `mob_spawn_slots` VALUES (5,16,0);
 
+-- Attohwa Chasm
+INSERT INTO `mob_spawn_slots` VALUES (7,1,0);
+INSERT INTO `mob_spawn_slots` VALUES (7,2,0);
+INSERT INTO `mob_spawn_slots` VALUES (7,3,0);
+INSERT INTO `mob_spawn_slots` VALUES (7,4,0);
+INSERT INTO `mob_spawn_slots` VALUES (7,5,0);
+INSERT INTO `mob_spawn_slots` VALUES (7,6,0);
+INSERT INTO `mob_spawn_slots` VALUES (7,7,0);
+INSERT INTO `mob_spawn_slots` VALUES (7,8,0);
+INSERT INTO `mob_spawn_slots` VALUES (7,9,0);
+INSERT INTO `mob_spawn_slots` VALUES (7,10,0);
+INSERT INTO `mob_spawn_slots` VALUES (7,11,0);
+
 -- Psoxja
 INSERT INTO `mob_spawn_slots` VALUES (9,1,0);
 INSERT INTO `mob_spawn_slots` VALUES (9,2,0);

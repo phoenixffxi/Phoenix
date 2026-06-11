@@ -9,9 +9,7 @@ local entity = {}
 
 entity.phList =
 {
-    [ID.mob.CITIPATI - 7] = ID.mob.CITIPATI, -- -328.973 -12.876 67.481
-    [ID.mob.CITIPATI - 4] = ID.mob.CITIPATI, -- -398.931 -4.536 79.640
-    [ID.mob.CITIPATI - 1] = ID.mob.CITIPATI, -- -381.284 -9.233 40.054
+    [ID.mob.CITIPATI - 1] = ID.mob.CITIPATI, -- Confirmed on retail
 }
 
 entity.spawnPoints =
