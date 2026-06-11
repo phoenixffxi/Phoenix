@@ -2773,6 +2773,12 @@ INSERT INTO `mob_spawn_slots` VALUES (205,40,0);
 INSERT INTO `mob_spawn_slots` VALUES (205,41,0);
 INSERT INTO `mob_spawn_slots` VALUES (205,42,0);
 
+-- Quicksand Caves
+INSERT INTO `mob_spawn_slots` VALUES (208,1,0);
+INSERT INTO `mob_spawn_slots` VALUES (208,2,0);
+INSERT INTO `mob_spawn_slots` VALUES (208,3,0);
+INSERT INTO `mob_spawn_slots` VALUES (208,4,0);
+
 -- Gustav Tunnel
 INSERT INTO `mob_spawn_slots` VALUES (212,1,0);
 INSERT INTO `mob_spawn_slots` VALUES (212,2,0);

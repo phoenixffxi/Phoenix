@@ -9,8 +9,7 @@ local entity = {}
 
 entity.phList =
 {
-    [ID.mob.SABOTENDER_BAILARIN - 3] = ID.mob.SABOTENDER_BAILARIN, -- 604 -5.5 -680
-    [ID.mob.SABOTENDER_BAILARIN - 2] = ID.mob.SABOTENDER_BAILARIN, -- 600 -5.5 -673
+    [ID.mob.SABOTENDER_BAILARIN - 2] = ID.mob.SABOTENDER_BAILARIN, -- Confirmed on retail
 }
 
 entity.onMobInitialize = function(mob)

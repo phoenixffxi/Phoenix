@@ -14,7 +14,11 @@ entity.spawnPoints =
 
 entity.phList =
 {
-    [ID.mob.DIAMOND_DAIG + 9] = ID.mob.DIAMOND_DAIG, -- -95.632 -0.5 -214.732
+    [ID.mob.DIAMOND_DAIG + 3]  = ID.mob.DIAMOND_DAIG, -- Confirmed on retail
+    [ID.mob.DIAMOND_DAIG + 6]  = ID.mob.DIAMOND_DAIG, -- Confirmed on retail
+    [ID.mob.DIAMOND_DAIG + 9]  = ID.mob.DIAMOND_DAIG, -- Confirmed on retail
+    [ID.mob.DIAMOND_DAIG + 12] = ID.mob.DIAMOND_DAIG, -- Confirmed on retail
+    [ID.mob.DIAMOND_DAIG + 16] = ID.mob.DIAMOND_DAIG, -- Confirmed on retail
 }
 
 entity.onMobInitialize = function(mob)
