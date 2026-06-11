@@ -1,7 +1,8 @@
 -----------------------------------
 -- Area: Ship Bound for Mhaura (Pirates)
 --   NM: Silverhook
--- To do: This NM does not use an SP ability like JP wiki claims but it does have a dust cloud animation that triggers as soon as it is pushed below 50% HP. It is unclear what this does, if anything, after multiple retail captures.
+-- To do: This NM does not use an SP ability like JP wiki claims but it does have a dust cloud animation that triggers as soon as it is pushed below 50% HP.
+-- It is unclear what this does, if anything, after multiple retail captures.
 -----------------------------------
 ---@type TMobEntity
 local entity = {}
@@ -19,6 +20,7 @@ entity.onMobSpawn = function(mob)
     mob:setMod(xi.mod.ICE_RES_RANK, 10)
     mob:setMod(xi.mod.POWER_MULTIPLIER_SPELL, 55)
     mob:setMobMod(xi.mobMod.NO_STANDBACK, 1)
+    mob:setRespawnTime(0) -- one-and-done per ride; the 1s spawn timer must not respawn him
 end
 
 entity.onMobSpellChoose = function(mob, target, spellId)
