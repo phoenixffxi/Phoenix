@@ -12145,11 +12145,11 @@ INSERT INTO `item_equipment` VALUES (23833,'ruby_robe',1,0,4194303,0,0,0,32,0,0,
 INSERT INTO `item_equipment` VALUES (23834,'ruby_cuffs',1,0,4194303,0,0,0,64,0,0,0);         -- TODO: Not implemented
 INSERT INTO `item_equipment` VALUES (23835,'ruby_slops',1,0,4194303,0,0,0,128,0,0,0);         -- TODO: Not implemented
 INSERT INTO `item_equipment` VALUES (23836,'ruby_pigaches',1,0,4194303,0,0,0,256,0,0,0);      -- TODO: Not implemented
-INSERT INTO `item_equipment` VALUES (23837,'apathy_mask',1,0,4194303,4587,0,0,16,0,0,0);
-INSERT INTO `item_equipment` VALUES (23838,'apathy_platemail',1,0,4194303,8683,0,0,32,0,0,0);
-INSERT INTO `item_equipment` VALUES (23839,'apathy_gauntlets',1,0,4194303,12779,0,0,64,0,0,0);
-INSERT INTO `item_equipment` VALUES (23840,'apathy_brais',1,0,4194303,16875,0,0,128,0,0,0);
-INSERT INTO `item_equipment` VALUES (23841,'apathy_sabatons',1,0,4194303,20971,0,0,256,0,0,0);
+INSERT INTO `item_equipment` VALUES (23837,'apathy_mask',1,0,4194303,4586,0,0,16,0,0,0);
+INSERT INTO `item_equipment` VALUES (23838,'apathy_platemail',1,0,4194303,8682,0,0,32,0,0,0);
+INSERT INTO `item_equipment` VALUES (23839,'apathy_gauntlets',1,0,4194303,12778,0,0,64,0,0,0);
+INSERT INTO `item_equipment` VALUES (23840,'apathy_brais',1,0,4194303,16874,0,0,128,0,0,0);
+INSERT INTO `item_equipment` VALUES (23841,'apathy_sabatons',1,0,4194303,20970,0,0,256,0,0,0);
 INSERT INTO `item_equipment` VALUES (23842,'rage_platemail',1,0,4194303,8686,0,0,32,0,0,0);
 INSERT INTO `item_equipment` VALUES (23843,'rage_gauntlets',1,0,4194303,12782,0,0,64,0,0,0);
 INSERT INTO `item_equipment` VALUES (23844,'rage_brais',1,0,4194303,16878,0,0,128,0,0,0);
@@ -12164,11 +12164,11 @@ INSERT INTO `item_equipment` VALUES (23852,'envy_cyclas',1,0,4194303,8685,0,0,32
 INSERT INTO `item_equipment` VALUES (23853,'envy_gauntlets',1,0,4194303,12781,0,0,64,0,0,0);
 INSERT INTO `item_equipment` VALUES (23854,'envy_flanchard',1,0,4194303,16877,0,0,128,0,0,0);
 INSERT INTO `item_equipment` VALUES (23855,'envy_sollerets',1,0,4194303,20973,0,0,256,0,0,0);
-INSERT INTO `item_equipment` VALUES (23856,'arrogance_crown',1,0,4194303,4586,0,0,16,0,0,0);
-INSERT INTO `item_equipment` VALUES (23857,'arrogance_platemail',1,0,4194303,8682,0,0,32,0,0,0);
-INSERT INTO `item_equipment` VALUES (23858,'arrogance_gauntlets',1,0,4194303,12778,0,0,64,0,0,0);
-INSERT INTO `item_equipment` VALUES (23859,'arrogance_brais',1,0,4194303,16874,0,0,128,0,0,0);
-INSERT INTO `item_equipment` VALUES (23860,'arrogance_sabatons',1,0,4194303,20970,0,0,256,0,0,0);
+INSERT INTO `item_equipment` VALUES (23856,'arrogance_crown',1,0,4194303,4587,0,0,16,0,0,0);
+INSERT INTO `item_equipment` VALUES (23857,'arrogance_platemail',1,0,4194303,8683,0,0,32,0,0,0);
+INSERT INTO `item_equipment` VALUES (23858,'arrogance_gauntlets',1,0,4194303,12779,0,0,64,0,0,0);
+INSERT INTO `item_equipment` VALUES (23859,'arrogance_brais',1,0,4194303,16875,0,0,128,0,0,0);
+INSERT INTO `item_equipment` VALUES (23860,'arrogance_sabatons',1,0,4194303,20971,0,0,256,0,0,0);
 INSERT INTO `item_equipment` VALUES (23861,'suit_of_adamantite_armor',99,119,4194303,0,0,0,32,0,0,0);      -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (23862,'boudoxs_masque',1,0,4194303,0,0,0,16,0,0,0);                   -- TODO: Not implemented, verify model
 INSERT INTO `item_equipment` VALUES (23863,'boudoxs_suit',1,0,4194303,0,0,0,32,0,0,0);                     -- TODO: Not implemented, verify model
