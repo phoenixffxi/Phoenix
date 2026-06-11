@@ -15,8 +15,8 @@ entity.spawnPoints =
 
 entity.phList =
 {
-    [ID.mob.NI_ZHO_BLADEBENDER - 57] = ID.mob.NI_ZHO_BLADEBENDER, -- -429.953 24.5 -305.450 TODO: Audit PH
-    [ID.mob.NI_ZHO_BLADEBENDER - 8]  = ID.mob.NI_ZHO_BLADEBENDER, -- 11.309 23.904 -337.923
+    [ID.mob.NI_ZHO_BLADEBENDER - 57] = ID.mob.NI_ZHO_BLADEBENDER, -- Confirmed on retail
+    [ID.mob.NI_ZHO_BLADEBENDER - 8]  = ID.mob.NI_ZHO_BLADEBENDER, -- Confirmed on retail
 }
 
 entity.onMobDeath = function(mob, player, optParams)

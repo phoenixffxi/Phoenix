@@ -13,7 +13,7 @@ entity.onMobDeath = function(mob, player, optParams)
 end
 
 entity.onMobDespawn = function(mob)
-    xi.mob.phOnDespawn(mob, ID.mob.JOLLY_GREEN, 5, 1) -- 1 second / no cooldown
+    xi.mob.phOnDespawn(mob, ID.mob.JOLLY_GREEN, 10, 1) -- 1 second / no cooldown
 end
 
 return entity
