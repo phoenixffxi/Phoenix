@@ -14,8 +14,8 @@ entity.spawnPoints =
 
 entity.phList =
 {
-    [ID.mob.COOKIEDUSTER_LIPIROON - 8] = ID.mob.COOKIEDUSTER_LIPIROON,
-    [ID.mob.COOKIEDUSTER_LIPIROON - 6] = ID.mob.COOKIEDUSTER_LIPIROON,
+    [ID.mob.COOKIEDUSTER_LIPIROON - 8] = ID.mob.COOKIEDUSTER_LIPIROON, -- Confimred on retail
+    [ID.mob.COOKIEDUSTER_LIPIROON - 2] = ID.mob.COOKIEDUSTER_LIPIROON, -- Confimred on retail
 }
 
 entity.onMobInitialize = function(mob)

@@ -190,6 +190,9 @@ INSERT INTO `mob_spawn_slots` VALUES (65,2,0);
 INSERT INTO `mob_spawn_slots` VALUES (65,3,0);
 INSERT INTO `mob_spawn_slots` VALUES (65,4,0);
 
+-- Alzadaal Undersea Ruins
+INSERT INTO `mob_spawn_slots` VALUES (72,1,0);
+
 -- Caedarva Mire
 INSERT INTO `mob_spawn_slots` VALUES (79,1,0);
 INSERT INTO `mob_spawn_slots` VALUES (79,2,0);
