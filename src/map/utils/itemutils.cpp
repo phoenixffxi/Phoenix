@@ -35,6 +35,7 @@
 
 #include "entities/battleentity.h"
 #include "enums/item_types.h"
+#include "items/item_flowerpot.h"
 #include "items/item_furnishing.h"
 #include "items/item_general.h"
 #include "items/item_linkshell.h"
@@ -150,6 +151,12 @@ auto clone(const CItem& source) -> std::unique_ptr<CItem>
         return std::make_unique<CItemLinkshell>(static_cast<const CItemLinkshell&>(source));
     }
 
+    // Flowerpot check has to go before Furnishing because isType is a bitwise check and flowerpots are a child class
+    if (source.isType(ITEM_FLOWERPOT))
+    {
+        return std::make_unique<CItemFlowerpot>(static_cast<const CItemFlowerpot&>(source));
+    }
+
     if (source.isType(ITEM_FURNISHING))
     {
         return std::make_unique<CItemFurnishing>(static_cast<const CItemFurnishing&>(source));
@@ -244,6 +251,8 @@ void LoadItemList()
                 return std::make_unique<CItemWeapon>(itemId);
             case ItemType::Currency:
                 return std::make_unique<CItemCurrency>(itemId);
+            case ItemType::FlowerPot:
+                return std::make_unique<CItemFlowerpot>(itemId);
             default:
                 ShowErrorFmt("LoadItemList({}): Unknown item type {}", itemId, static_cast<uint8>(itemType));
                 return std::make_unique<CItemGeneral>(itemId);

@@ -95,14 +95,14 @@ void UpdateGardening(CCharEntity* PChar, SendPacket sendPacket)
         for (int slotID = 0; slotID < PContainer->GetSize(); ++slotID)
         {
             CItem* PItem = PContainer->GetItem(slotID);
-            if (PItem != nullptr && PItem->isType(ITEM_FURNISHING))
+            if (PItem != nullptr && PItem->isType(ITEM_FLOWERPOT))
             {
                 CItemFlowerpot* PPotItem = dynamic_cast<CItemFlowerpot*>(PItem);
                 if (PPotItem != nullptr && PPotItem->canGrow() && vanatime >= PPotItem->getStageTimestamp())
                 {
-                    uint8  stageDuration        = GetStageDuration(PPotItem);
-                    uint32 daysSinceStageChange = (vanatime - PPotItem->getStageTimestamp()) / VANADAY_SECONDS;
-                    uint8  wiltTime             = VANADAYS_TO_WILT + PChar->getMod(Mod::GARDENING_WILT_BONUS);
+                    uint32 stageDuration        = GetStageDuration(PPotItem);
+                    uint32 daysSinceStageChange = std::floor<uint32>(std::max<float>(0.f, static_cast<float>(vanatime - PPotItem->getStageTimestamp()) / static_cast<float>(VANADAY_SECONDS)));
+                    uint32 wiltTime             = VANADAYS_TO_WILT + PChar->getMod(Mod::GARDENING_WILT_BONUS);
                     bool   wasExamined          = PPotItem->wasExamined();
                     if ((!wasExamined && (stageDuration > wiltTime || (stageDuration + daysSinceStageChange > wiltTime))) ||
                         daysSinceStageChange > VANADAYS_TO_GUARANTEE_WILT + wiltTime)

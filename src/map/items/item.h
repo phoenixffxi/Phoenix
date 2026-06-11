@@ -46,6 +46,7 @@ enum ITEM_TYPE
     ITEM_CURRENCY   = 0x20,
     ITEM_FURNISHING = 0x40,
     ITEM_LINKSHELL  = 0x80,
+    ITEM_FLOWERPOT  = 0x100,
 };
 
 // Additional type of object m_subtype
@@ -142,12 +143,12 @@ public:
     }
 
 protected:
-    void setType(uint8);
+    void setType(uint16);
 
 private:
     uint16   m_id;
     uint16   m_subid;
-    uint8    m_type;
+    uint16   m_type;
     uint8    m_subtype;
     uint32   m_quantity; // Current number of items
     uint32   m_reserve;
