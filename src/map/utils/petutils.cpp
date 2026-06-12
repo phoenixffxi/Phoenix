@@ -34,6 +34,7 @@
 #include "items/item_weapon.h"
 #include "job_points.h"
 #include "latent_effect_container.h"
+#include "lua/luautils.h"
 #include "mob_spell_list.h"
 #include "notoriety_container.h"
 #include "petutils.h"
@@ -401,7 +402,7 @@ void LoadJugStats(CPetEntity* PMob, Pet_t* petStats)
     PMob->stats.CHR = (uint16)((fCHR + mCHR) * 0.9f);
 }
 
-void LoadAutomatonStats(CCharEntity* PMaster, CPetEntity* PPet, Pet_t* petStats, uint8 mlvl, JOBTYPE mjob, JOBTYPE sjob)
+void LoadAutomatonStats(CCharEntity* PMaster, CPetEntity* PPet, Pet_t* petStats, uint8 mlvl)
 {
     skills_t& tempSkills = PMaster->automatonInfo.automatonSkills;
     stats_t&  tempStats  = PMaster->automatonInfo.automatonStats;
@@ -449,122 +450,49 @@ void LoadAutomatonStats(CCharEntity* PMaster, CPetEntity* PPet, Pet_t* petStats,
         tempSkills.dark            = meritbonus + modBonus;
     }
 
-    // Declaration of variables needed for calculation.
-    float raceStat          = 0; // Final HP for level based on race.
-    float jobStat           = 0; // Final number of HP for the level based on the primary profession.
-    float sJobStat          = 0; // Finite number of HP for the level based on the secondary profession.
-    int32 bonusStat         = 0; // Bonus number of HP that is added under certain conditions.
-    int32 baseValueColumn   = 0; // Number of the column with the base amount of HP
-    int32 scaleTo60Column   = 1; // Column number with modifier up to level 60
-    int32 scaleOver30Column = 2; // Column number with modifier after level 30
-    int32 scaleOver60Column = 3; // Column number with modifier after level 60
-    int32 scaleOver75Column = 4; // Column number with modifier after level 75
-    int32 scaleOver60       = 2; // Column number with a modifier for calculating MP after level 60
-    // int32 scaleOver75       = 3; // Column number with a modifier for calculating Stats after level 75
+    const auto frame      = static_cast<uint8>(PMaster->getAutomatonFrame());
+    const auto statsLevel = std::min<uint8>(mlvl, 99);
 
-    uint8 grade = 0;
+    const auto frameStats = lua["xi"]["pets"]["automaton"]["frameStats"].get<sol::optional<sol::table>>();
+    if (!frameStats)
+    {
+        ShowError("LoadAutomatonStats: Missing xi.pets.automaton.frameStats");
+        return;
+    }
 
-    // Calculate HP gain from main job
-    int32 mainLevelOver30     = std::clamp(mlvl - 30, 0, 30); // Calculate condition +1HP every lvl after level 30
-    int32 mainLevelUpTo60     = (mlvl < 60 ? mlvl - 1 : 59);  // First calculation mode up to level 60 (Used the same for MP)
-    int32 mainLevelOver60To75 = std::clamp(mlvl - 60, 0, 15); // Second calculation mode after level 60
-    int32 mainLevelOver75     = (mlvl < 75 ? 0 : mlvl - 75);  // Third calculation mode after level 75
+    const auto frameData = (*frameStats)[frame].get<sol::optional<sol::table>>();
+    if (!frameData)
+    {
+        ShowErrorFmt("LoadAutomatonStats: Missing automaton frame stats for frame {}", static_cast<uint16>(frame));
+        return;
+    }
 
-    // Calculate the bonus amount of HP
-    int32 mainLevelOver10           = (mlvl < 10 ? 0 : mlvl - 10);  // +2HP on every level after 10
-    int32 mainLevelOver50andUnder60 = std::clamp(mlvl - 50, 0, 10); // +2HP at each level between level 50 and 60
-    int32 mainLevelOver60           = (mlvl < 60 ? 0 : mlvl - 60);
+    const auto levelData = (*frameData)[statsLevel].get<sol::optional<sol::table>>();
+    if (!levelData)
+    {
+        ShowErrorFmt("LoadAutomatonStats: Missing automaton frame stats for frame {} level {}", static_cast<uint16>(frame), static_cast<uint16>(statsLevel));
+        return;
+    }
 
-    // Calculate raceStat jobStat bonusStat sJobStat
-    // Calculate by race
+    const auto getLevelStat = [levelData](const char* key) -> uint16
+    {
+        return (*levelData)[key].get<uint16>();
+    };
 
-    grade = 4;
-
-    raceStat = grade::GetHPScale(grade, baseValueColumn) + (grade::GetHPScale(grade, scaleTo60Column) * mainLevelUpTo60) +
-               (grade::GetHPScale(grade, scaleOver30Column) * mainLevelOver30) + (grade::GetHPScale(grade, scaleOver60Column) * mainLevelOver60To75) +
-               (grade::GetHPScale(grade, scaleOver75Column) * mainLevelOver75);
-
-    // raceStat = (int32)(statScale[grade][baseValueColumn] + statScale[grade][scaleTo60Column] * (mlvl - 1));
-
-    // Calculation by main job
-    grade = grade::GetJobGrade(mjob, 0);
-
-    jobStat = grade::GetHPScale(grade, baseValueColumn) + (grade::GetHPScale(grade, scaleTo60Column) * mainLevelUpTo60) +
-              (grade::GetHPScale(grade, scaleOver30Column) * mainLevelOver30) + (grade::GetHPScale(grade, scaleOver60Column) * mainLevelOver60To75) +
-              (grade::GetHPScale(grade, scaleOver75Column) * mainLevelOver75);
-
-    // Calculate Bonus HP
-    bonusStat        = (mainLevelOver10 + mainLevelOver50andUnder60) * 2;
-    tempHealth.maxhp = (int32)((raceStat + jobStat + bonusStat + sJobStat) * petStats->HPscale);
+    tempHealth.maxhp = getLevelStat("maxHP");
     tempHealth.hp    = tempHealth.maxhp;
-
-    // Start MP calculation
-    raceStat = 0;
-    jobStat  = 0;
-    sJobStat = 0;
-
-    // Calculate the MP for the race.
-    grade = 4;
-
-    // If the main job doesn't have an MP rating, calculate the racial bonus based on the level of the subjob's level (assuming it has an MP rating)
-    if (!(grade::GetJobGrade(mjob, 1) == 0 && grade::GetJobGrade(sjob, 1) == 0))
-    {
-        // calculate normal racial bonus
-        raceStat = grade::GetMPScale(grade, 0) + grade::GetMPScale(grade, scaleTo60Column) * mainLevelUpTo60 +
-                   grade::GetMPScale(grade, scaleOver60) * mainLevelOver60;
-    }
-
-    // For the main profession
-    grade = grade::GetJobGrade(mjob, 1);
-    if (grade > 0)
-    {
-        jobStat = grade::GetMPScale(grade, 0) + grade::GetMPScale(grade, scaleTo60Column) * mainLevelUpTo60 +
-                  grade::GetMPScale(grade, scaleOver60) * mainLevelOver60;
-    }
-
-    grade = grade::GetJobGrade(sjob, 1);
-    if (grade > 0)
-    {
-        sJobStat = grade::GetMPScale(grade, 0) + grade::GetMPScale(grade, scaleTo60Column) * mainLevelUpTo60 +
-                   grade::GetMPScale(grade, scaleOver60) * mainLevelOver60;
-    }
-
-    tempHealth.maxmp = (int32)((raceStat + jobStat + sJobStat) * petStats->MPscale);
+    tempHealth.maxmp = getLevelStat("maxMP");
     tempHealth.mp    = tempHealth.maxmp;
 
-    uint16 slvl = std::floor<uint16>(mlvl / 2);
-
-    uint16 fSTR = GetBaseToRank(petStats->strRank, mlvl);
-    uint16 fDEX = GetBaseToRank(petStats->dexRank, mlvl);
-    uint16 fVIT = GetBaseToRank(petStats->vitRank, mlvl);
-    uint16 fAGI = GetBaseToRank(petStats->agiRank, mlvl);
-    uint16 fINT = GetBaseToRank(petStats->intRank, mlvl);
-    uint16 fMND = GetBaseToRank(petStats->mndRank, mlvl);
-    uint16 fCHR = GetBaseToRank(petStats->chrRank, mlvl);
-
-    uint16 mSTR = GetBaseToRank(grade::GetJobGrade(mjob, 2), mlvl);
-    uint16 mDEX = GetBaseToRank(grade::GetJobGrade(mjob, 3), mlvl);
-    uint16 mVIT = GetBaseToRank(grade::GetJobGrade(mjob, 4), mlvl);
-    uint16 mAGI = GetBaseToRank(grade::GetJobGrade(mjob, 5), mlvl);
-    uint16 mINT = GetBaseToRank(grade::GetJobGrade(mjob, 6), mlvl);
-    uint16 mMND = GetBaseToRank(grade::GetJobGrade(mjob, 7), mlvl);
-    uint16 mCHR = GetBaseToRank(grade::GetJobGrade(mjob, 8), mlvl);
-
-    uint16 sSTR = GetBaseToRank(grade::GetJobGrade(sjob, 2), slvl);
-    uint16 sDEX = GetBaseToRank(grade::GetJobGrade(sjob, 3), slvl);
-    uint16 sVIT = GetBaseToRank(grade::GetJobGrade(sjob, 4), slvl);
-    uint16 sAGI = GetBaseToRank(grade::GetJobGrade(sjob, 5), slvl);
-    uint16 sINT = GetBaseToRank(grade::GetJobGrade(sjob, 6), slvl);
-    uint16 sMND = GetBaseToRank(grade::GetJobGrade(sjob, 7), slvl);
-    uint16 sCHR = GetBaseToRank(grade::GetJobGrade(sjob, 8), slvl);
-
-    tempStats.STR = fSTR + mSTR + sSTR;
-    tempStats.DEX = fDEX + mDEX + sDEX;
-    tempStats.VIT = fVIT + mVIT + sVIT;
-    tempStats.AGI = fAGI + mAGI + sAGI;
-    tempStats.INT = fINT + mINT + sINT;
-    tempStats.MND = fMND + mMND + sMND;
-    tempStats.CHR = fCHR + mCHR + sCHR;
+    tempStats = {
+        getLevelStat("STR"),
+        getLevelStat("DEX"),
+        getLevelStat("VIT"),
+        getLevelStat("AGI"),
+        getLevelStat("INT"),
+        getLevelStat("MND"),
+        getLevelStat("CHR"),
+    };
 
     if (PPet)
     {
@@ -1015,29 +943,7 @@ void CalculateAutomatonStats(CBattleEntity* PMaster, CBattleEntity* PPet)
     // TODO: should CBattleEntity be able to load a real automaton?
     if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(PMaster))
     {
-        JOBTYPE mjob = JOBTYPE::JOB_NON;
-        JOBTYPE sjob = JOBTYPE::JOB_NON;
-
-        switch (PChar->getAutomatonFrame())
-        {
-            default: // case AutomatonFrame::Harlequin:
-                mjob = JOB_WAR;
-                sjob = JOB_RDM;
-                break;
-            case AutomatonFrame::Valoredge:
-                mjob = JOB_PLD;
-                sjob = JOB_WAR;
-                break;
-            case AutomatonFrame::Sharpshot:
-                mjob = JOB_RNG;
-                sjob = JOB_PUP;
-                break;
-            case AutomatonFrame::Stormwaker:
-                mjob = JOB_RDM;
-                sjob = JOB_WHM;
-                break;
-        }
-
+        // TODO: AUTOMATON_LEVEL_BONUS will raise the level of the automaton, but stats will be capped to 99. Needs retail captures.
         uint8 mainLevel = PMaster->GetMJob() == JOB_PUP ? PMaster->GetMLevel() + PMaster->getMod(Mod::AUTOMATON_LVL_BONUS) : PMaster->GetSLevel();
 
         uint32 petID = 0;
@@ -1068,7 +974,7 @@ void CalculateAutomatonStats(CBattleEntity* PMaster, CBattleEntity* PPet)
             }
         }
 
-        LoadAutomatonStats(PChar, PAutomaton, g_PPetList.at(petID), mainLevel, mjob, sjob); // temp
+        LoadAutomatonStats(PChar, PAutomaton, g_PPetList.at(petID), mainLevel);
 
         if (PAutomaton)
         {
