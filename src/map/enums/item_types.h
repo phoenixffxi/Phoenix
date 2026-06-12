@@ -31,4 +31,5 @@ enum class ItemType : uint8_t
     Equipment  = 6, // CItemEquipment
     Weapon     = 7, // CItemWeapon
     Currency   = 8, // CItemCurrency
+    FlowerPot  = 9, // CItemFlowerpot
 };

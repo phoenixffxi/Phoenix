@@ -15,4 +15,5 @@ xi.itemType =
     CURRENCY    = 0x20,
     FURNISHING  = 0x40,
     LINKSHELL   = 0x80,
+    FLOWERPOT   = 0x100,
 }
