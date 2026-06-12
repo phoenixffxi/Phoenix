@@ -57,6 +57,23 @@ local function getTimerTarget(mob)
     return GetEntityByID(targetID, mob:getInstance(), true)
 end
 
+local function isStationaryMob(mob)
+    local zoneId         = mob:getZoneID()
+    local stationaryMobs = xi.dynamis.stationary and xi.dynamis.stationary[zoneId]
+    if not stationaryMobs then
+        return false
+    end
+
+    local mobId = mob:getID()
+    for _, stationaryMobId in pairs(stationaryMobs) do
+        if stationaryMobId == mobId then
+            return true
+        end
+    end
+
+    return false
+end
+
 -- ---------------------
 -- General Info functions
 -- ---------------------
@@ -345,6 +362,10 @@ xi.dynamis.onMobSpawn = function(mob, mobType, modelSize)
         mob:getZoneID() ~= xi.zone.DYNAMIS_TAVNAZIA
     then
         mob:setRoamFlags(xi.roamFlag.NONE)
+    end
+
+    if isStationaryMob(mob) then
+        mob:setRoamFlags(bit.bor(mob:getRoamFlags(), xi.roamFlag.SCRIPTED))
     end
 end
 
