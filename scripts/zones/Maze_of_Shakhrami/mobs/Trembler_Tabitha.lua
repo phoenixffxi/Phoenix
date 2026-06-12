@@ -14,8 +14,7 @@ entity.spawnPoints =
 
 entity.phList =
 {
-    [ID.mob.TREMBLER_TABITHA - 2] = ID.mob.TREMBLER_TABITHA,
-    [ID.mob.TREMBLER_TABITHA - 1] = ID.mob.TREMBLER_TABITHA,
+    [ID.mob.TREMBLER_TABITHA - 2] = ID.mob.TREMBLER_TABITHA, -- Confirmed on retail
 }
 
 entity.onMobDeath = function(mob, player, optParams)

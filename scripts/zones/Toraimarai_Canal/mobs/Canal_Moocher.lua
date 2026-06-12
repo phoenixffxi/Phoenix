@@ -14,9 +14,7 @@ entity.spawnPoints =
 
 entity.phList =
 {
-    [ID.mob.CANAL_MOOCHER - 3] = ID.mob.CANAL_MOOCHER,
-    [ID.mob.CANAL_MOOCHER - 2] = ID.mob.CANAL_MOOCHER,
-    [ID.mob.CANAL_MOOCHER - 1] = ID.mob.CANAL_MOOCHER,
+    [ID.mob.CANAL_MOOCHER - 3] = ID.mob.CANAL_MOOCHER, -- Confirmed on retail
 }
 
 entity.onMobInitialize = function(mob)

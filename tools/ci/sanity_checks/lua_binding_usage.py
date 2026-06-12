@@ -114,6 +114,11 @@ def main():
     function_names.append("find")
     function_names.append("sub")
     function_names.append("getStatusEffectBySource")
+    function_names.append("afterInstanceRegister")
+    function_names.append("onInstanceCreated")
+    function_names.append("onAssaultFail")
+    function_names.append("onInstanceProgressUpdate")
+    function_names.append("onInstanceComplete")
 
     # root_dir needs a trailing slash (i.e. /root/dir/)
     for filename in glob.iglob("./scripts/" + "**/*.lua", recursive=True):

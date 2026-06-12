@@ -5,10 +5,6 @@
 --  Eastern Ginger Root: https://www.bg-wiki.com/ffxi/June_2008_Version_Update_Changes#Other_Usable_Items
 --  Dyer's Woad: https://www.bg-wiki.com/ffxi/September_2008_Version_Update_Changes#Other_Usable_Items
 -----------------------------------
-require('modules/module_utils')
------------------------------------
-local m = Module:new('wotg_helm_adjustments')
-
 local removals =
 {
     [xi.helmType.HARVESTING] =
@@ -64,4 +60,4 @@ for helmType, zones in pairs(removals) do
     end
 end
 
-return m
+return { name = 'wotg_helm_adjustments' } -- This is needed for data-only modules

@@ -28,7 +28,7 @@ end
 entity.phList =
 {
     -- Verified that there is only one PH
-    [ID.mob.ENERGETIC_ERUCA - 320] = ID.mob.ENERGETIC_ERUCA, -- 175.315 -14.444 -173.589
+    [ID.mob.ENERGETIC_ERUCA - 320] = ID.mob.ENERGETIC_ERUCA, -- Confirmed on retail
 }
 
 entity.onMobInitialize = function(mob)

@@ -53,7 +53,7 @@ xi.aftermath.effects =
     [19] = { mods = { xi.mod.ATTP, 10 }, duration = getTier2RelicDuration, includePets = true }, -- Guttler
     [20] = { mods = { xi.mod.DMG, -2000, xi.mod.REGEN, 15 }, duration = getTier2RelicDuration }, -- Bravura
     [21] = { mods = { xi.mod.HASTE_ABILITY, 1000, xi.mod.ACC, 15 }, duration = getTier2RelicDuration }, -- Apocalypse
-    [22] = { mods = { xi.mod.SPIKES, xi.subEffect.SHOCK_SPIKES, xi.mod.SPIKES_DMG, 10, xi.mod.ATTP, 5, xi.mod.DOUBLE_ATTACK, 5 }, duration = getTier2RelicDuration }, -- Gungir
+    [22] = { mods = { xi.mod.SPIKES, xi.subEffect.SHOCK_SPIKES, xi.mod.SPIKES_DMG, 19, xi.mod.ATTP, 5, xi.mod.DOUBLE_ATTACK, 5 }, duration = getTier2RelicDuration }, -- Gungir
     [23] = { mods = { xi.mod.SUBTLE_BLOW, 10, xi.mod.ATTP, 10 }, duration = getTier2RelicDuration }, -- Kikoku
     [24] = { mods = { xi.mod.STORETP, 10, xi.mod.ZANSHIN, 10 }, duration = getTier2RelicDuration }, -- Amanomurakumo
     [25] = { mods = { xi.mod.ACC, 20, xi.mod.MACC, 20, xi.mod.REFRESH, 5 }, duration = getTier2RelicDuration }, -- Mjollnir
@@ -536,7 +536,7 @@ xi.aftermath.effects =
     [44] =
     {
         mod = xi.mod.REM_OCC_DO_DOUBLE_DMG,
-        power = { 30, 40, 50 },
+        power = { 300, 400, 500 }, -- 30%, 40%, 50% in core, fetched with rate = (x / 10)
         duration = { 30, 60, 90 },
     },
 
@@ -546,7 +546,7 @@ xi.aftermath.effects =
     [45] =
     {
         mod = xi.mod.REM_OCC_DO_TRIPLE_DMG,
-        power = { 30, 40, 50 },
+        power = { 300, 400, 500 }, -- 30%, 40%, 50% in core, fetched with rate = (x / 10)
         duration = { 60, 120, 180 },
     }
 }
@@ -568,18 +568,15 @@ xi.aftermath.addStatusEffect = function(player, tp, weaponSlot, aftermathType)
     local invalid = false
     switch (aftermathType) : caseof
     {
-        -- Relic
-        [1] = function(x)
+        [xi.aftermath.type.RELIC] = function(x)
             invalid = id > 28
         end,
 
-        -- Mythic
-        [2] = function(x)
+        [xi.aftermath.type.MYTHIC] = function(x)
             invalid = id < 29 or id > 43
         end,
 
-        -- Empyrean
-        [3] = function(x)
+        [xi.aftermath.type.EMPYREAN] = function(x)
             invalid = id < 44
         end
     }
@@ -600,20 +597,22 @@ xi.aftermath.addStatusEffect = function(player, tp, weaponSlot, aftermathType)
     player:delStatusEffect(xi.effect.AFTERMATH)
     switch (aftermathType) : caseof
     {
-        -- Relic
-        [1] = function(x)
+        [xi.aftermath.type.RELIC] = function(x)
+            -- Gungnir's AM overwrites and prevents all Spikes spells from landing. Core handles the latter
+            if id == 8 or id == 22 then -- Gungnir Shock Spikes
+                player:delStatusEffectsByType(xi.effectType.SPIKES)
+            end
+
             player:addStatusEffect(xi.effect.AFTERMATH, { power = id, duration = aftermath.duration(tp), origin = player, subPower = tp, tier = aftermathType })
         end,
 
-        -- Mythic
-        [2] = function(x)
+        [xi.aftermath.type.MYTHIC] = function(x)
             local tier = math.floor(tp / 1000)
             local icon = xi.effect['AFTERMATH_LV'..tier]
             player:addStatusEffect(xi.effect.AFTERMATH, { power = id, duration = aftermath.duration[tier], origin = player, icon = icon, subPower = tp, tier = aftermathType })
         end,
 
-        -- Empyrean
-        [3] = function(x)
+        [xi.aftermath.type.EMPYREAN] = function(x)
             local tier = math.floor(tp / 1000)
             local icon = xi.effect['AFTERMATH_LV'..tier]
             player:addStatusEffect(xi.effect.AFTERMATH, { power = id, duration = aftermath.duration[tier], origin = player, icon = icon, subPower = tp, tier = aftermathType })
@@ -630,8 +629,7 @@ xi.aftermath.onEffectGain = function(target, effect)
     local aftermath = xi.aftermath.effects[effect:getPower()]
     switch (effect:getTier()) : caseof
     {
-        -- Relic
-        [1] = function(x)
+        [xi.aftermath.type.RELIC] = function(x)
             local pet = target:getPet()
             if
                 pet and
@@ -648,8 +646,7 @@ xi.aftermath.onEffectGain = function(target, effect)
             end
         end,
 
-        -- Mythic
-        [2] = function(x)
+        [xi.aftermath.type.MYTHIC] = function(x)
             local tp = effect:getSubPower()
             local mods = aftermath.mods[math.floor(tp / 1000)]
             local pet = target:getPet()
@@ -665,8 +662,7 @@ xi.aftermath.onEffectGain = function(target, effect)
             end
         end,
 
-        -- Empyrean
-        [3] = function(x)
+        [xi.aftermath.type.EMPYREAN] = function(x)
             effect:addMod(aftermath.mod, aftermath.power[math.floor(effect:getSubPower() / 1000)])
         end
     }
@@ -678,7 +674,8 @@ xi.aftermath.canOverwrite = function(player, tp, aftermathId, aftermathType)
         return true
     end
 
-    -- Empyrean > Mythic > Relic 'cause why not?
+    -- This is some jank about mixed RMEA aftermaths, but also for Mythic AM level 1/2/3.
+    -- We already remove AM on weapon switch, so this probably is only useful for mythics
     if aftermathType < effect:getTier() then
         return false
     end
@@ -687,21 +684,18 @@ xi.aftermath.canOverwrite = function(player, tp, aftermathId, aftermathType)
     local aftermath = xi.aftermath.effects[aftermathId]
     switch (aftermathType) : caseof
     {
-        -- Relic
-        [1] = function(x)
+        [xi.aftermath.type.RELIC] = function(x)
             local newDuration = aftermath.duration(tp) * 1000
             canOverwrite = newDuration > effect:getTimeRemaining()
         end,
 
-        -- Mythic
-        [2] = function(x)
+        [xi.aftermath.type.MYTHIC] = function(x)
             local currentLevel = math.floor(effect:getSubPower() / 1000)
             local newLevel = math.floor(tp / 1000)
             canOverwrite = currentLevel == 1 or currentLevel < newLevel
         end,
 
-        -- Empyrean
-        [3] = function(x)
+        [xi.aftermath.type.EMPYREAN] = function(x)
             local currentLevel = math.floor(effect:getSubPower() / 1000)
             local newLevel = math.floor(tp / 1000)
             canOverwrite = currentLevel == 1 or currentLevel < newLevel

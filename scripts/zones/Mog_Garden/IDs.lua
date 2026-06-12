@@ -7,21 +7,21 @@ zones[xi.zone.MOG_GARDEN] =
 {
     text =
     {
-        ITEM_CANNOT_BE_OBTAINED       = 6385, -- You cannot obtain the <item>. Come back after sorting your inventory.
-        ITEM_OBTAINED                 = 6393, -- Obtained: <item>.
-        GIL_OBTAINED                  = 6394, -- Obtained <number> gil.
-        KEYITEM_OBTAINED              = 6396, -- Obtained key item: <keyitem>.
-        NOT_HAVE_ENOUGH_GIL           = 6398, -- You do not have enough gil.
-        ITEM_OBTAINEDX                = 6402, -- You obtain <number> <item>!
-        NOTHING_OUT_OF_ORDINARY       = 6407, -- There is nothing out of the ordinary here.
-        CARRIED_OVER_POINTS           = 7004, -- You have carried over <number> login point[/s].
-        LOGIN_CAMPAIGN_UNDERWAY       = 7005, -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!
-        LOGIN_NUMBER                  = 7006, -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
-        MEMBERS_LEVELS_ARE_RESTRICTED = 7026, -- Your party is unable to participate because certain members' levels are restricted.
-        FISHING_MESSAGE_OFFSET        = 7230, -- You can't fish here.
-        STARS_ON_KEYITEM              = 7519, -- <number> star[/s] on your <item> [has/have] come aglow. A total of <number> star[/s] twinkle[s/] softly inside your <item>.
-        MOGLOCKER_MESSAGE_OFFSET      = 7535, -- Your particular paid period of Mog Locker patronage has been extended until the following time, kupo! Earth Time: #/#/# at #:#:#.
-        RETRIEVE_DIALOG_ID            = 8586, -- You retrieve <item> from the porter moogle's care.
+        ITEM_CANNOT_BE_OBTAINED       = 6386, -- You cannot obtain the <item>. Come back after sorting your inventory.
+        ITEM_OBTAINED                 = 6394, -- Obtained: <item>.
+        GIL_OBTAINED                  = 6395, -- Obtained <number> gil.
+        KEYITEM_OBTAINED              = 6397, -- Obtained key item: <keyitem>.
+        NOT_HAVE_ENOUGH_GIL           = 6399, -- You do not have enough gil.
+        ITEM_OBTAINEDX                = 6403, -- You obtain <number> <item>!
+        NOTHING_OUT_OF_ORDINARY       = 6408, -- There is nothing out of the ordinary here.
+        CARRIED_OVER_POINTS           = 7005, -- You have carried over <number> login point[/s].
+        LOGIN_CAMPAIGN_UNDERWAY       = 7006, -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!
+        LOGIN_NUMBER                  = 7007, -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
+        MEMBERS_LEVELS_ARE_RESTRICTED = 7027, -- Your party is unable to participate because certain members' levels are restricted.
+        FISHING_MESSAGE_OFFSET        = 7231, -- You can't fish here.
+        STARS_ON_KEYITEM              = 7520, -- <number> star[/s] on your <item> [has/have] come aglow. A total of <number> star[/s] twinkle[s/] softly inside your <item>.
+        MOGLOCKER_MESSAGE_OFFSET      = 7536, -- Your particular paid period of Mog Locker patronage has been extended until the following time, kupo! Earth Time: #/#/# at #:#:#.
+        RETRIEVE_DIALOG_ID            = 8587, -- You retrieve <item> from the porter moogle's care.
     },
     mob =
     {

@@ -1,5 +1,8 @@
 -----------------------------------
 -- Mana Converter
+-- Converts HP to MP. The amount of MP restored is based on the amount of HP lost.
+-- MP is restored over 30 seconds in the form of a Refresh effect.
+-- https://wiki.ffo.jp/html/5329.html
 -----------------------------------
 ---@type TAbilityAutomaton
 local abilityObject = {}
@@ -10,16 +13,17 @@ end
 
 abilityObject.onAutomatonAbility = function(target, automaton, skill, master, action)
     automaton:addRecast(xi.recast.ABILITY, skill:getID(), 180)
-    local hp = target:getHP()
-    local duration = 30
-    local amount = math.floor((hp / 2) / 10)
-    local difference = math.ceil(hp / 2 - (amount * 10))
+
+    local currentHP = target:getHP()
+    local hpCost = math.floor(currentHP / 2)
+    local refreshAmount = math.floor(hpCost / 10)
+
     skill:setMsg(xi.msg.basic.SKILL_GAIN_EFFECT)
 
-    target:addMP(difference) -- To prevent possible loss of MP from flooring the refresh
-    target:setHP(math.floor(hp / 2))
+    target:setHP(currentHP - hpCost)
+
     target:delStatusEffect(xi.effect.REFRESH)
-    target:addStatusEffect(xi.effect.REFRESH, { power = amount, duration = duration, origin = automaton, tick = 3 })
+    target:addStatusEffect(xi.effect.REFRESH, { power = refreshAmount, duration = 30, origin = automaton, tick = 3 })
 
     return xi.effect.REFRESH
 end

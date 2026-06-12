@@ -1,5 +1,8 @@
 -----------------------------------
 -- Economizer
+-- Recovers a percentage of missing MP based on dark maneuvers.
+-- Activation threshold is 30% MP, increasing by 10% per dark maneuver.
+-- https://wiki.ffo.jp/html/10435.html
 -----------------------------------
 ---@type TAbilityAutomaton
 local abilityObject = {}
@@ -10,15 +13,13 @@ end
 
 abilityObject.onAutomatonAbility = function(target, automaton, skill, master, action)
     automaton:addRecast(xi.recast.ABILITY, skill:getID(), 180)
-    local maneuvers = master:countEffect(xi.effect.DARK_MANEUVER)
-    local amount = math.floor(automaton:getMaxMP() * 0.2 * maneuvers)
+
+    local darkManeuvers = master:countEffect(xi.effect.DARK_MANEUVER)
+    local mpRecovered = math.floor(automaton:getMaxMP() * 0.2 * darkManeuvers)
+
     skill:setMsg(xi.msg.basic.SKILL_RECOVERS_MP)
 
-    for i = 1, maneuvers do
-        master:delStatusEffectSilent(xi.effect.DARK_MANEUVER)
-    end
-
-    return automaton:addMP(amount)
+    return automaton:addMP(mpRecovered)
 end
 
 return abilityObject

@@ -5,13 +5,11 @@
 local effectObject = {}
 
 effectObject.onEffectGain = function(target, effect) -- Power = 30 initially, subpower = 20 for enmity
-    local power   = effect:getPower()
-    local jpValue = target:getJobPointLevel(xi.jp.INNIN_EFFECT)
+    local power = effect:getPower()
 
     effect:addMod(xi.mod.NIN_NUKE_BONUS_INNIN, power)
     effect:addMod(xi.mod.EVA, -power)
     effect:addMod(xi.mod.ENMITY, -effect:getSubPower())
-    effect:addMod(xi.mod.ACC, jpValue)
 end
 
 effectObject.onEffectTick = function(target, effect)

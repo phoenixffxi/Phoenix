@@ -14,9 +14,6 @@ effectObject.onEffectGain = function(target, effect) -- power = 30 initially
     if yoninMerits ~= 0 then
         effect:addMod(xi.mod.HP, yoninMerits)
     end
-
-    local jpValue = target:getJobPointLevel(xi.jp.YONIN_EFFECT)
-    effect:addMod(xi.mod.EVA, 2 * jpValue)
 end
 
 effectObject.onEffectTick = function(target, effect)

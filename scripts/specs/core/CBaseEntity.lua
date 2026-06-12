@@ -3004,6 +3004,11 @@ end
 function CBaseEntity:delStatusEffectsByFlag(flag, silent)
 end
 
+---@param type xi.effectType
+---@return nil
+function CBaseEntity:delStatusEffectsByType(type)
+end
+
 ---@param StatusID integer
 ---@return boolean
 function CBaseEntity:delStatusEffectSilent(StatusID)

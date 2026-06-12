@@ -45,7 +45,9 @@ abilityObject.onAutomatonAbility = function(target, automaton, skill, master, ac
     params.damageType     = xi.damageType.BLUNT
     params.shadowBehavior = params.numHits
 
-    if automaton:getLocalVar('hammermill') == 1 then
+    local hammermillEquipped = automaton:hasAttachmentSet(xi.item.HAMMERMILL_ATTACHMENT)
+
+    if hammermillEquipped then
         local shieldBashBonus = 1.0 + automaton:getMod(xi.mod.SHIELD_BASH) / 100
 
         params.fTP =
@@ -66,7 +68,7 @@ abilityObject.onAutomatonAbility = function(target, automaton, skill, master, ac
         xi.mobskills.mobStatusEffectMove(automaton, target, xi.effect.STUN, 1, 0, 6)
 
         -- Check for Hammermill, if equipped, apply Slow based on Earth Maneuvers.
-        if automaton:getLocalVar('hammermill') == 1 then
+        if hammermillEquipped then
             applyHammermillSlow(automaton, target, skill, master)
         end
     end

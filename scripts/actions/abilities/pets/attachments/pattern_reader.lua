@@ -1,71 +1,73 @@
 -----------------------------------
 -- Attachment: Pattern Reader
+-- Increases evasion against current target every tick based on the number of Wind Maneuvers active. Caps at 30 evasion.
+-- Evasion bonus resets when switching targets.
 -----------------------------------
 ---@type TAttachment
 local attachmentObject = {}
 
+local evasionPerTick =
+{
+    [0] = 0,
+    [1] = 1,
+    [2] = 2,
+    [3] = 3,
+}
+
 attachmentObject.onEquip = function(automaton)
-    automaton:addListener('ENGAGE', 'AUTO_PATTERN_READER_ENGAGE', function(pet, target)
-        pet:setLocalVar('patternreadertick', VanadielTime())
-    end)
-
     automaton:addListener('AUTOMATON_AI_TICK', 'AUTO_PATTERN_READER_TICK', function(pet, target)
-        if pet:getLocalVar('patternreadertick') > 0 then
-            local master = pet:getMaster()
-            local maneuvers = master:countEffect(xi.effect.WIND_MANEUVER)
-            local lasttick = pet:getLocalVar('patternreadertick')
-            local tick = VanadielTime()
-            local dt = tick - lasttick
-            local prevamount = pet:getLocalVar('patternreader')
-            local amount
-            if maneuvers > 0 then
-                amount = maneuvers * dt
-                if (amount + prevamount) > 30 then
-                    amount = 30 - prevamount
-                end
+        local patternReaderEvasionBonus = pet:getLocalVar('patternReaderEvasionBonus')
+        local currentTarget             = target:getID()
+        local patternReaderTarget       = pet:getLocalVar('patternReaderTarget')
 
-                if amount ~= 0 then
-                    pet:addMod(xi.mod.EVA, amount)
-                end
-            else
-                amount = -1 * dt
-                if (amount + prevamount) < 0 then
-                    amount = -prevamount
-                end
-
-                if amount ~= 0 then
-                    pet:delMod(xi.mod.EVA, -amount)
-                end
+        -- If the current target is not the same as our stored target, reset evasion bonus and store the new target.
+        if currentTarget ~= patternReaderTarget then
+            if patternReaderEvasionBonus > 0 then
+                pet:delMod(xi.mod.EVA, patternReaderEvasionBonus)
             end
 
-            if amount ~= 0 then
-                pet:setLocalVar('patternreader', prevamount + amount)
-            end
-
-            pet:setLocalVar('patternreadertick', tick)
-        end
-    end)
-
-    automaton:addListener('DISENGAGE', 'AUTO_PATTERN_READER_DISENGAGE', function(pet)
-        if pet:getLocalVar('patternreader') > 0 then
-            pet:delMod(xi.mod.EVA, pet:getLocalVar('patternreader'))
-            pet:setLocalVar('patternreader', 0)
+            pet:setLocalVar('patternReaderEvasionBonus', 0)
+            pet:setLocalVar('patternReaderTarget', currentTarget)
+            return
         end
 
-        pet:setLocalVar('patternreadertick', 0)
+        local master = pet:getMaster()
+
+        if not master then
+            return
+        end
+
+        local windManeuvers = master:countEffect(xi.effect.WIND_MANEUVER)
+
+        if windManeuvers == 0 then
+            return
+        end
+
+        if patternReaderEvasionBonus >= 30 then
+            return
+        end
+
+        -- Calculate the new evasion bonus based on the number of Wind Maneuvers and apply it if it's greater than the current bonus. Clamped to a maximum of 30.
+        local evasionBonus = math.min(30, patternReaderEvasionBonus + (evasionPerTick[windManeuvers] or 0))
+        local evasionDelta = evasionBonus - patternReaderEvasionBonus
+
+        if evasionDelta > 0 then
+            pet:addMod(xi.mod.EVA, evasionDelta)
+            pet:setLocalVar('patternReaderEvasionBonus', evasionBonus)
+        end
     end)
 end
 
 attachmentObject.onUnequip = function(pet)
-    pet:removeListener('AUTO_PATTERN_READER_ENGAGE')
     pet:removeListener('AUTO_PATTERN_READER_TICK')
-    pet:removeListener('AUTO_PATTERN_READER_DISENGAGE')
-end
 
-attachmentObject.onManeuverGain = function(pet, maneuvers)
-end
+    local patternReaderEvasionBonus = pet:getLocalVar('patternReaderEvasionBonus')
+    if patternReaderEvasionBonus > 0 then
+        pet:delMod(xi.mod.EVA, patternReaderEvasionBonus)
+    end
 
-attachmentObject.onManeuverLose = function(pet, maneuvers)
+    pet:setLocalVar('patternReaderEvasionBonus', 0)
+    pet:setLocalVar('patternReaderTarget', 0)
 end
 
 return attachmentObject

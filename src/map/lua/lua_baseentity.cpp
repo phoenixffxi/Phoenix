@@ -14276,7 +14276,7 @@ bool CLuaBaseEntity::delStatusEffect(uint16 StatusID, const sol::object& SubType
 /************************************************************************
  *  Function: delStatusEffectsByFlag()
  *  Purpose : Removes all Status Effects of a specified flag
- *  Example : target:delEffectsByFlag(xi.effectFlag.DEATH)
+ *  Example : target:delStatusEffectsByFlag(xi.effectFlag.DEATH)
  *  Notes   : Used for removal of multiple effects with matching flag
  ************************************************************************/
 
@@ -14297,6 +14297,30 @@ void CLuaBaseEntity::delStatusEffectsByFlag(uint32 flag, const sol::object& sile
     auto removalNotice = (silent.is<bool>() && silent.as<bool>()) ? EffectNotice::Silent : EffectNotice::ShowMessage;
 
     PBattleEntity->StatusEffectContainer->DelStatusEffectsByFlag(static_cast<EFFECTFLAG>(flag), removalNotice);
+}
+
+/************************************************************************
+ *  Function: delStatusEffectsByType()
+ *  Purpose : Removes all Status Effects of a specified type
+ *  Example : target:delStatusEffectsByType(xi.effectType.SPIKES)
+ *  Notes   : Used for removal of multiple effects with matching type
+ ************************************************************************/
+
+void CLuaBaseEntity::delStatusEffectsByType(uint16 type)
+{
+    if (m_PBaseEntity->objtype == TYPE_NPC)
+    {
+        ShowWarning("Invalid Entity (NPC: %s) calling function.", m_PBaseEntity->getName());
+        return;
+    }
+
+    auto* PBattleEntity = dynamic_cast<CBattleEntity*>(m_PBaseEntity);
+    if (!PBattleEntity)
+    {
+        return;
+    }
+
+    PBattleEntity->StatusEffectContainer->DelStatusEffectsByType(type);
 }
 
 /************************************************************************
@@ -20727,6 +20751,7 @@ void CLuaBaseEntity::Register()
 
     SOL_REGISTER("delStatusEffect", CLuaBaseEntity::delStatusEffect);
     SOL_REGISTER("delStatusEffectsByFlag", CLuaBaseEntity::delStatusEffectsByFlag);
+    SOL_REGISTER("delStatusEffectsByType", CLuaBaseEntity::delStatusEffectsByType);
     SOL_REGISTER("delStatusEffectSilent", CLuaBaseEntity::delStatusEffectSilent);
     SOL_REGISTER("eraseStatusEffect", CLuaBaseEntity::eraseStatusEffect);
     SOL_REGISTER("eraseAllStatusEffect", CLuaBaseEntity::eraseAllStatusEffect);

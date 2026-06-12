@@ -2,11 +2,6 @@
 -- Original pDIF caps for the base game.
 -- Date : 2007-08-27 (One day before the ToAU 2H update)
 -----------------------------------
-require('modules/module_utils')
------------------------------------
-
-local m = Module:new('original_pdif_caps')
-
 xi.combat.physical.pDifWeaponCapTable[xi.skill.HAND_TO_HAND    ] = 2
 xi.combat.physical.pDifWeaponCapTable[xi.skill.DAGGER          ] = 2
 xi.combat.physical.pDifWeaponCapTable[xi.skill.SWORD           ] = 2
@@ -26,4 +21,4 @@ xi.combat.physical.pDifWeaponCapTable[xi.skill.ARCHERY         ] = 3
 xi.combat.physical.pDifWeaponCapTable[xi.skill.MARKSMANSHIP    ] = 3
 xi.combat.physical.pDifWeaponCapTable[xi.skill.THROWING        ] = 3
 
-return m
+return { name = 'original_pdif_caps' } -- This is needed for data-only modules

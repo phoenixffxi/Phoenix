@@ -1,21 +1,32 @@
 -----------------------------------
--- Attachment: Flashbulb
+-- Flashbulb
+-- Applies "Flash" to the target.
+-- https://wiki.ffo.jp/html/6295.html
 -----------------------------------
 ---@type TAttachment
 local attachmentObject = {}
 
 attachmentObject.onEquip = function(pet)
     pet:addListener('AUTOMATON_ATTACHMENT_CHECK', 'ATTACHMENT_FLASHBULB', function(automaton, target)
+        -- If Flashbulb is still on cooldown, do nothing.
+        if automaton:hasRecast(xi.recast.ABILITY, xi.automaton.abilities.FLASHBULB) then
+            return
+        end
+
         local master = automaton:getMaster()
 
-        if
-            not automaton:hasRecast(xi.recast.ABILITY, xi.automaton.abilities.FLASHBULB) and
-            master and
-            master:countEffect(xi.effect.LIGHT_MANEUVER) > 0 and
-            automaton:checkDistance(target) < (7 + target:getHitboxSize() + automaton:getHitboxSize()) -- needs verification
-        then
-            automaton:useMobAbility(xi.automaton.abilities.FLASHBULB)
+        if not master then
+            return
         end
+
+        local lightManeuvers = master:countEffect(xi.effect.LIGHT_MANEUVER)
+
+        -- If no Light Maneuvers are active, do nothing.
+        if lightManeuvers == 0 then
+            return
+        end
+
+        automaton:useMobAbility(xi.automaton.abilities.FLASHBULB)
     end)
 end
 

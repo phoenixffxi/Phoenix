@@ -5,10 +5,6 @@
 --  Aquilaria Log: https://www.bg-wiki.com/ffxi/September_2010_Version_Update_Changes#Usable_Items
 --  Butterpear and Kapor Log: https://www.bg-wiki.com/ffxi/September_2011_Version_Update_Changes#Wings_of_the_Goddess_Quests
 -----------------------------------
-require('modules/module_utils')
------------------------------------
-local m = Module:new('abyssea_helm_adjustments')
-
 local removals =
 {
     [xi.helmType.LOGGING] =
@@ -56,4 +52,4 @@ for helmType, zones in pairs(removals) do
     end
 end
 
-return m
+return { name = 'abyssea_helm_adjustments' }  -- This is needed for data-only modules

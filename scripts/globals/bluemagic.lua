@@ -425,6 +425,7 @@ xi.spells.blue.useMagicalSpell = function(caster, target, spell, params)
     finalDamage = math.floor(finalDamage * xi.spells.damage.calculateElementalStaffBonus(caster, spellElement))
     finalDamage = math.floor(finalDamage * xi.combat.damage.magicalElementSDT(target, spellElement))
     finalDamage = math.floor(finalDamage * xi.spells.damage.calculateDayAndWeather(caster, spellElement, false))
+    finalDamage = math.floor(finalDamage * xi.combat.damage.steamJacketMultiplier(target, spellElement))
     finalDamage = math.floor(finalDamage * xi.spells.damage.calculateMagicBonusDiff(caster, target, spellId, skillType, spellElement, 0))
 
     if

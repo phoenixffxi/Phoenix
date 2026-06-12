@@ -78,6 +78,7 @@ global_objects=(
     BattlefieldQuest
     Limbus
     SeasonalEvent
+    InstanceAssault
 
     onBattlefieldHandlerInitialize
     applyResistanceAddEffect
