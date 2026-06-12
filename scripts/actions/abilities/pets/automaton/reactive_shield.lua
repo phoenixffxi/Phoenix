@@ -1,5 +1,8 @@
 -----------------------------------
 -- Reactive Shield
+-- Grants Blaze Spikes to the automaton for 60 seconds.
+-- https://wiki.ffo.jp/html/10431.html
+-- Power formula derived from brief testing. TODO: Gather more data and refine formula.
 -----------------------------------
 ---@type TAbilityAutomaton
 local abilityObject = {}
@@ -9,12 +12,14 @@ abilityObject.onAutomatonAbilityCheck = function(target, automaton, skill)
 end
 
 abilityObject.onAutomatonAbility = function(target, automaton, skill, master, action)
-    automaton:addRecast(xi.recast.ABILITY, skill:getID(), 65)
-    local pMod = automaton:getSkillLevel(xi.skill.AUTOMATON_MAGIC)
-    local duration = 60
-    local power = math.floor((pMod / 56)^3 / 8) + 4 -- No idea how the actual formula used Automaton skill level, so heres a placeholder (4 @ lvl 1, 10 @ lvl 61, 20 @ lvl 75, 62 @ lvl 99)
+    automaton:addRecast(xi.recast.ABILITY, skill:getID(), 60)
 
-    if target:addStatusEffect(xi.effect.BLAZE_SPIKES, { power = power, duration = duration, origin = automaton }) then
+    local skillLevel   = math.max(automaton:getSkillLevel(xi.skill.AUTOMATON_MELEE), automaton:getSkillLevel(xi.skill.AUTOMATON_RANGED), automaton:getSkillLevel(xi.skill.AUTOMATON_MAGIC))
+    local intelligence = automaton:getStat(xi.mod.INT)
+
+    local power = math.floor(skillLevel / 16) + math.floor(intelligence / 8)
+
+    if target:addStatusEffect(xi.effect.BLAZE_SPIKES, { power = power, duration = 60, origin = automaton }) then
         skill:setMsg(xi.msg.basic.SKILL_GAIN_EFFECT)
     else
         skill:setMsg(xi.msg.basic.SKILL_NO_EFFECT)

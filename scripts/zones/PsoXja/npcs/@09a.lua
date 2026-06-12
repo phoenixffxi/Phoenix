@@ -22,8 +22,8 @@ entity.onSpawn = function(npc)
     local elevator =
     {
         id = xi.elevator.TIMED_AUTOMATIC,
-        lowerDoor = npc:getID() + 1,
-        upperDoor = npc:getID() + 2,
+        lowerDoor = npc:getID() + 2,
+        upperDoor = npc:getID() + 1,
         elevator = npc:getID(),
         reversedAnimations = true,
     }

@@ -327,6 +327,25 @@ bool CStatusEffectContainer::CanGainStatusEffect(CStatusEffect* PStatusEffect)
                 return false;
             }
             break;
+        case EFFECT_BLAZE_SPIKES:
+        case EFFECT_ICE_SPIKES:
+        case EFFECT_SHOCK_SPIKES:
+        case EFFECT_REPRISAL:
+        case EFFECT_DELUGE_SPIKES:
+        case EFFECT_GALE_SPIKES:
+        case EFFECT_GLINT_SPIKES:
+        case EFFECT_DAMAGE_SPIKES:
+        case EFFECT_DREAD_SPIKES:
+        case EFFECT_CLOD_SPIKES:
+        {
+            const auto PAftermath = this->GetStatusEffect(EFFECT_AFTERMATH);
+            // Geirskogul aftermath edge case
+            if (PAftermath && (PAftermath->GetPower() == 8 || PAftermath->GetPower() == 22))
+            {
+                return false;
+            }
+            break;
+        }
         default:
             break;
     }

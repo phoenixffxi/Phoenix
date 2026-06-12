@@ -35,6 +35,11 @@ UPDATE traits SET level = 55 WHERE name = 'max hp boost' AND job = 2 AND rank = 
 UPDATE traits SET level = 70 WHERE name = 'max hp boost' AND job = 2 AND rank = 4;
 
 ------------------------------------
+-- White Mage
+-- Source: https://forum.square-enix.com/ffxi/threads/46531-Mar-26-2015-%28JST%29-Version-Update
+------------------------------------
+
+------------------------------------
 -- Black Mage
 -- Source: https://forum.square-enix.com/ffxi/threads/55525-June.-10-2019-%28JST%29-Version-Update
 ------------------------------------
@@ -64,10 +69,6 @@ UPDATE merits SET upgrade = 0 WHERE name = 'melee_accuracy';
 -- Paladin
 ------------------------------------
 
--- Remove PLD from Banishga
--- Source: https://forum.square-enix.com/ffxi/threads/56243
-UPDATE spell_list SET jobs = 0x00000F00000000000000000000000000000000000000 WHERE name = 'banishga';
-
 -- Rampart: Revert recast from 3 to 5 minutes
 -- Source: https://forum.square-enix.com/ffxi/threads/56444-February-12-2020-%28JST%29-Version-Update
 UPDATE abilities SET recastTime = 300 WHERE name = 'rampart';
@@ -77,11 +78,27 @@ UPDATE merits SET value = 10 WHERE name = 'rampart_recast';
 
 ------------------------------------
 -- Ranger
--- Source: https://forum.square-enix.com/ffxi/threads/55263-April.-3-2019-%28JST%29-Version-Update
 ------------------------------------
 
 -- Velocity Shot: Revert recast from 1 minute to 5 minutes
+-- Source: https://forum.square-enix.com/ffxi/threads/55263-April.-3-2019-%28JST%29-Version-Update
 UPDATE abilities SET recastTime = 300 WHERE name = 'velocity_shot';
+
+-- Archery and Marksmanship: Revert skill rank increase from A+ to A.
+-- Source: https://forum.square-enix.com/ffxi/threads/47481-Jun-25-2015-%28JST%29-Version-Update
+UPDATE skill_ranks SET rng = 2 WHERE name = 'archery';
+UPDATE skill_ranks SET rng = 2 WHERE name = 'marksmanship';
+
+------------------------------------
+-- Bard
+-- Source: https://forum.square-enix.com/ffxi/threads/55360-May.-10-2019-%28JST%29-Version-Update
+------------------------------------
+
+-- Foe Sirvente/Adventurer's Dirge: Set merit ranks to 5 and merit value to 5 per rank.
+UPDATE merits SET upgrade = 5, value = 5 WHERE name IN ('foe_sirvente', 'adventurers_dirge');
+
+-- Disable OOE BRD Group 2 merits
+UPDATE merits SET upgrade = 0 WHERE name IN ('con_anima', 'con_brio');
 
 -----------------------------------
 -- Ninja

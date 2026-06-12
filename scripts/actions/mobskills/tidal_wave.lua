@@ -19,7 +19,7 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     params.attackType      = xi.attackType.MAGICAL
     params.damageType      = xi.damageType.WATER
     params.shadowBehavior  = xi.mobskills.shadowBehavior.WIPE_SHADOWS
-    params.dStatMultiplier = 1
+    params.dStatMultiplier = 2
 
     local info   = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 

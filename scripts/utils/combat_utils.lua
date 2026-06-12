@@ -261,7 +261,11 @@ function utils.handleStoneskin(actor, damage)
     end
 end
 
--- Handles Automaton attachment "Analyzer" which decreases damage from successive special attacks.
+-- Handles Automaton attachment "Analyzer", which decreases damage from successive special attacks.
+---@param actor CBaseEntity
+---@param skill CPetSkill|CMobSkill
+---@param damage integer
+---@return integer
 function utils.handleAutomatonAutoAnalyzer(actor, skill, damage)
     local analyzerModifier = actor:getMod(xi.mod.AUTO_ANALYZER)
 

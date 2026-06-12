@@ -105,13 +105,10 @@ xi.combat.physicalHitRate.getHitRateModifiers = function(attacker, target, isWea
             attacker:hasStatusEffect(xi.effect.INNIN) and
             attacker:isBehind(target, 23) -- angle needs confirmation
         then
-            -- Innin acc boost if attacker is behind target
-            accBonus = accBonus + attacker:getStatusEffect(xi.effect.INNIN):getPower()
-        end
+            local jpValue = target:getJobPointLevel(xi.jp.INNIN_EFFECT)
 
-        -- Yonin reduces your accuracy regardless of position
-        if attacker:hasStatusEffect(xi.effect.YONIN) then
-            accBonus = accBonus - attacker:getStatusEffect(xi.effect.YONIN):getPower()
+            -- Innin acc boost if attacker is behind target
+            accBonus = accBonus + attacker:getStatusEffect(xi.effect.INNIN):getPower() + jpValue
         end
 
         if attacker:isPC() and attacker:isFacing(target) then
@@ -129,7 +126,9 @@ xi.combat.physicalHitRate.getHitRateModifiers = function(attacker, target, isWea
         attacker:hasStatusEffect(xi.effect.YONIN) and
         attacker:isFacing(target, 64) -- angle needs confirmation
     then
-        evaBonus = evaBonus + attacker:getStatusEffect(xi.effect.YONIN):getPower()
+        local jpValue = target:getJobPointLevel(xi.jp.YONIN_EFFECT)
+
+        evaBonus = evaBonus + attacker:getStatusEffect(xi.effect.YONIN):getPower() + 2 * jpValue
     end
 
     -- target modifiers

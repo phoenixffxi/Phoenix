@@ -2,7 +2,6 @@
 -- Appraisal Utilities
 -- desc: Common functionality for Appraisals
 -----------------------------------
-require('scripts/globals/assault')
 require('scripts/globals/npc_util')
 -----------------------------------
 xi = xi or {}

@@ -16,7 +16,7 @@ entity.spawnPoints =
 
 entity.phList =
 {
-    [ID.mob.HERBAGE_HUNTER - 1] = ID.mob.HERBAGE_HUNTER, -- -119.301, 24.087, 448.636
+    [ID.mob.HERBAGE_HUNTER - 1] = ID.mob.HERBAGE_HUNTER, -- Confirmed on retail
 }
 
 entity.onMobInitialize = function(mob)

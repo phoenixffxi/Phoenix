@@ -702,6 +702,7 @@ public:
 
     bool   delStatusEffect(uint16 StatusID, const sol::object& SubType, const sol::object& SourceType, const sol::object& SourceTypeParam);
     void   delStatusEffectsByFlag(uint32 flag, const sol::object& silent);
+    void   delStatusEffectsByType(uint16 type);
     bool   delStatusEffectSilent(uint16 StatusID); // Removes Status Effect, suppresses message
     uint16 eraseStatusEffect();
     uint8  eraseAllStatusEffect();

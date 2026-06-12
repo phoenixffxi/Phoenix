@@ -1,27 +1,53 @@
 -----------------------------------
--- Attachment: Mana Converter
+-- Mana Converter
+-- Converts HP to MP. The amount of MP restored is based on the amount of HP lost.
+-- MP is restored over 30 seconds in the form of a Refresh effect.
+-- https://wiki.ffo.jp/html/5329.html
 -----------------------------------
+local activationThresholds =
+{
+    [1] = 40,
+    [2] = 60,
+    [3] = 70,
+}
+
 ---@type TAttachment
 local attachmentObject = {}
 
 attachmentObject.onEquip = function(pet)
     pet:addListener('AUTOMATON_ATTACHMENT_CHECK', 'ATTACHMENT_MANA_CONVERTER', function(automaton, target)
+        -- If Mana Converter is on cooldown, do nothing.
+        if automaton:hasRecast(xi.recast.ABILITY, xi.automaton.abilities.MANA_CONVERTER) then
+            return
+        end
+
         local master = automaton:getMaster()
-        local maneuvers = master and master:countEffect(xi.effect.DARK_MANEUVER) or 0
-        local mpthreshold = -1
 
-        if maneuvers == 1 then
-            mpthreshold = 40
-        elseif maneuvers == 2 then
-            mpthreshold = 60
-        elseif maneuvers == 3 then
-            mpthreshold = 65
+        if not master then
+            return
         end
 
-        local mpp = (automaton:getMaxMP() > 0) and math.ceil(automaton:getMP() / automaton:getMaxMP() * 100) or 100
-        if mpp < mpthreshold and automaton:getLocalVar('convert') < VanadielTime() then
-            automaton:useMobAbility(xi.automaton.abilities.MANA_CONVERTER, automaton)
+        local darkManeuvers = master:countEffect(xi.effect.DARK_MANEUVER)
+
+        -- If no dark maneuvers are active, do nothing.
+        if darkManeuvers == 0 then
+            return
         end
+
+        local mpThreshold = activationThresholds[darkManeuvers]
+
+        if not mpThreshold then
+            return
+        end
+
+        local mpPercent = automaton:getMPP()
+
+        -- If MP is above the threshold, do nothing.
+        if mpPercent > mpThreshold then
+            return
+        end
+
+        automaton:useMobAbility(xi.automaton.abilities.MANA_CONVERTER, automaton)
     end)
 end
 

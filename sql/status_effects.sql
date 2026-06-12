@@ -629,7 +629,7 @@ INSERT INTO `status_effects` VALUES (569,'blaze_of_glory',@FLAG_DEATH | @FLAG_ON
 INSERT INTO `status_effects` VALUES (570,'battuta',@FLAG_DEATH | @FLAG_ON_ZONE | @FLAG_LOGOUT | @FLAG_ON_JOBCHANGE,0,0,0,0,0,0,0,0,NULL);
 INSERT INTO `status_effects` VALUES (571,'rayke',@FLAG_ERASABLE | @FLAG_DEATH | @FLAG_NO_CANCEL,0,0,2,0,0,0,0,0,NULL);
 INSERT INTO `status_effects` VALUES (572,'avoidance_down',@FLAG_DEATH | @FLAG_NO_CANCEL,0,0,0,0,0,0,0,0,NULL);
-INSERT INTO `status_effects` VALUES (573,'deluge_spikes',@FLAG_DISPELABLE | @FLAG_EMPATHY | @FLAG_DEATH,0,0,0,0,0,6,0,800,NULL);
+INSERT INTO `status_effects` VALUES (573,'deluge_spikes',@FLAG_DISPELABLE | @FLAG_EMPATHY | @FLAG_DEATH,34,0,0,0,0,6,0,800,NULL);
 INSERT INTO `status_effects` VALUES (574,'fast_cast',@FLAG_DEATH,0,0,0,0,0,0,0,0,NULL);
 INSERT INTO `status_effects` VALUES (575,'gestation',@FLAG_DEATH,0,0,0,0,0,0,0,0,NULL);
 INSERT INTO `status_effects` VALUES (576,'doubt',@FLAG_DEATH | @FLAG_NO_CANCEL,0,0,0,0,0,0,0,0,204);

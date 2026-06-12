@@ -14,6 +14,8 @@
 -- Rolanberry Fields [S]    : !pos -198 8 360 91
 -- Sauromugue Champaign [S] : !pos 369 8 -227 98
 -----------------------------------
+require('scripts/missions/wotg/helpers')
+-----------------------------------
 
 local mission = Mission:new(xi.mission.log_id.WOTG, xi.mission.id.wotg.BACK_TO_THE_BEGINNING)
 
@@ -27,7 +29,8 @@ mission.sections =
 {
     {
         check = function(player, currentMission, missionStatus, vars)
-            return currentMission == mission.missionId
+            return currentMission == mission.missionId and
+                xi.wotg.helpers.meetsMission3Reqs(player)
         end,
 
         [xi.zone.BATALLIA_DOWNS] =

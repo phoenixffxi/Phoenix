@@ -14,8 +14,8 @@ entity.spawnPoints =
 
 entity.phList =
 {
-    [ID.mob.HOVERING_HOTPOT - 5] = ID.mob.HOVERING_HOTPOT, -- Fallen_Major: 182.157 -0.012 29.941
-    [ID.mob.HOVERING_HOTPOT - 3] = ID.mob.HOVERING_HOTPOT, -- Fallen_Mage:  188.229 -0.018 20.151
+    [ID.mob.HOVERING_HOTPOT - 4] = ID.mob.HOVERING_HOTPOT, -- Confirmed on retail
+    [ID.mob.HOVERING_HOTPOT - 2] = ID.mob.HOVERING_HOTPOT, -- Confirmed on retail
 }
 
 entity.onMobDeath = function(mob, player, optParams)
