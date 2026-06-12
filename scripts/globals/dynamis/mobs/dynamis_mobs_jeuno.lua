@@ -469,30 +469,10 @@ xi.dynamis.lineSpawns = xi.dynamis.lineSpawns or { }
 xi.dynamis.lineSpawns[zoneID] =
 {
     -- Statue ID = { behind = { first mob distance, second mob distance } }, { side = { left distance, right distance } }, or { { xOffset, yOffset, zOffset }, ... }
+    -- Mobs with DB spawn position 1.000, 1.000, 1.000 default to spawning on top of the statue.
+    -- lineSpawns below is only for explicit positioning exceptions.
     [17547395] = { behind = { -3, -6 } }, -- Mobs spawn in front
     [17547398] = { behind = { -3, -6 } }, -- Mobs spawn in front
-    [17547268] = { inside = { true } },
-    [17547302] = { inside = { true } },
-    [17547305] = { inside = { true } },
-    [17547311] = { inside = { true } },
-    [17547314] = { inside = { true } },
-    [17547449] = { inside = { true } },
-    [17547466] = { inside = { true } },
-    [17547540] = { inside = { true } },
-    [17547594] = { inside = { true } },
-    [17547600] = { inside = { true } },
-    [17547606] = { inside = { true } },
-    [17547612] = { inside = { true } },
-    [17547628] = { inside = { true } },
-    [17547631] = { inside = { true } },
-    [17547666] = { inside = { true } },
-    [17547671] = { inside = { true } },
-    [17547675] = { inside = { true } },
-    [17547680] = { inside = { true } },
-    [17547708] = { inside = { true } },
-    [17547712] = { inside = { true } },
-    [17547716] = { inside = { true } },
-    [17547369] = { inside = { true } },
 }
 
 -- Pathing table

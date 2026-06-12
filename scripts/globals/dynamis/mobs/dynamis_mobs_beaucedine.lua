@@ -467,6 +467,8 @@ xi.dynamis.lineSpawns = xi.dynamis.lineSpawns or { }
 xi.dynamis.lineSpawns[zoneID] =
 {
     -- Statue ID = { behind = { first mob distance, second mob distance } }, { side = { left distance, right distance } }, { behindLine = { behind = dist, side = { left, right } } }, or { { xOffset, yOffset, zOffset }, ... }
+    -- Mobs with DB spawn position 1.000, 1.000, 1.000 default to spawning on top of the statue.
+    -- lineSpawns below is only for explicit positioning exceptions.
     -- Beauc
     [17326319] = { behindLine = { behind = 4, side = { -3, 3 } } },
     [17326323] = { behindLine = { behind = 4, side = { -3, 3 } } },
@@ -491,36 +493,6 @@ xi.dynamis.lineSpawns[zoneID] =
     [17326284] = { side = { -3, 3 } },
     [17326289] = { side = { -3, 3 } },
     [17326295] = { side = { -3, 3 } },
-
-    [17326116] = { inside = { true } },
-    [17326120] = { inside = { true } },
-    [17326124] = { inside = { true } },
-    [17326130] = { inside = { true } },
-    [17326133] = { inside = { true } },
-    [17326139] = { inside = { true } },
-    [17326150] = { inside = { true } },
-    [17326153] = { inside = { true } },
-    [17326241] = { inside = { true } },
-    [17326244] = { inside = { true } },
-    [17326247] = { inside = { true } },
-    [17326252] = { inside = { true } },
-    [17326362] = { inside = { true } },
-    [17326365] = { inside = { true } },
-    [17326373] = { inside = { true } },
-    [17326376] = { inside = { true } },
-    [17326433] = { inside = { true } },
-    [17326452] = { inside = { true } },
-    [17326478] = { inside = { true } },
-    [17326486] = { inside = { true } },
-    [17326542] = { inside = { true } },
-    [17326128] = { inside = { true } },
-    [17326137] = { inside = { true } },
-    [17326282] = { inside = { true } },
-    [17326287] = { inside = { true } },
-    [17326293] = { inside = { true } },
-    [17326298] = { inside = { true } },
-    [17326303] = { inside = { true } },
-    [17326309] = { inside = { true } },
 }
 
 -- Pathing table
@@ -577,6 +549,18 @@ xi.dynamis.paths[zoneID] =
     [17326392] = { { 388.371, 0.174, 6.023       }, { 375.195, 0.315, 8.720      } },
     [17326400] = { { 375.839, 0.6, 30.158        }, { 400.699, 0.326, 29.459     } },
     [17326403] = { { 374.503, 0.646, 40.071      }, { 399.685, 0, 40.787         } },
+    [17326334] = { { 333.597, -158.405, 0.556    }, { -393.696, -158.532, 0.114  } },
+    [17326452] = { { -110.021, 146.218, -80.008  }, { -91.121, 145.619, -79.766   } },
+    [17326458] = { { -148.852, 182.064, -80.437  }, { -155.609, 153.214, -79.827  } },
+    [17326469] = { { -43.419, 74.469, -80.078    }, { -77.771, 74.189, -80.092    } },
+    [17326472] = { { -80.143, 86.834, -79.859    }, { -43.608, 85.001, -79.882    } },
+    [17326476] = { { -33.085, -16.742, -80.11    }, { -58.382, -28.899, -80.435   } },
+    [17326478] = { { -56.17, -42.376, -79.715    }, { -68.990, -58.022, -79.695   } },
+    [17326481] = { { -73.277, -58.937, -79.658   }, { -80.375, -60.288, -80       } },
+    [17326486] = { { -96.929, -69.882, -80.319   }, { -102.119, -100.953, -78.825 } },
+    [17326539] = { { -245.539, 11.312, -99.841   }, { -234.149, 8.3000, -99.976   } },
+    [17326542] = { { -248.258, 22.19, -99.524    }, { -232.685, 17.696, -99.283   } },
+    [17326545] = { { -247.553, 30.01, -99.953    }, { -231.545, 26.133, -99.357   } },
 }
 
 xi.dynamis.timeExtension = xi.dynamis.timeExtension or { }

@@ -149,7 +149,7 @@ local function checkAndSpawnQm(zone, qmNpc, spawnVarName, eyeVars)
         (killedCount == 1 and math.random(1, 2) == 1) or
         killedCount == 2
     then
-    qmNpc:setStatus(xi.status.NORMAL)
+        qmNpc:setStatus(xi.status.NORMAL)
         zone:setLocalVar(spawnVarName, 1)
     end
 end
