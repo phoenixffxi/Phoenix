@@ -1205,6 +1205,37 @@ INSERT INTO `mob_spawn_slots` VALUES (119,54,0);
 INSERT INTO `mob_spawn_slots` VALUES (119,55,0);
 INSERT INTO `mob_spawn_slots` VALUES (119,56,0);
 
+-- Sauromugue Champaign
+INSERT INTO `mob_spawn_slots` VALUES (120,1,0);
+INSERT INTO `mob_spawn_slots` VALUES (120,2,0);
+INSERT INTO `mob_spawn_slots` VALUES (120,3,0);
+INSERT INTO `mob_spawn_slots` VALUES (120,4,0);
+INSERT INTO `mob_spawn_slots` VALUES (120,5,0);
+INSERT INTO `mob_spawn_slots` VALUES (120,6,0);
+INSERT INTO `mob_spawn_slots` VALUES (120,7,0);
+INSERT INTO `mob_spawn_slots` VALUES (120,8,0);
+INSERT INTO `mob_spawn_slots` VALUES (120,9,0);
+INSERT INTO `mob_spawn_slots` VALUES (120,10,0);
+INSERT INTO `mob_spawn_slots` VALUES (120,11,0);
+INSERT INTO `mob_spawn_slots` VALUES (120,12,0);
+INSERT INTO `mob_spawn_slots` VALUES (120,13,0);
+INSERT INTO `mob_spawn_slots` VALUES (120,14,0);
+INSERT INTO `mob_spawn_slots` VALUES (120,15,0);
+INSERT INTO `mob_spawn_slots` VALUES (120,16,0);
+INSERT INTO `mob_spawn_slots` VALUES (120,17,0);
+INSERT INTO `mob_spawn_slots` VALUES (120,18,0);
+INSERT INTO `mob_spawn_slots` VALUES (120,19,0);
+INSERT INTO `mob_spawn_slots` VALUES (120,20,0);
+INSERT INTO `mob_spawn_slots` VALUES (120,21,0);
+INSERT INTO `mob_spawn_slots` VALUES (120,22,0);
+INSERT INTO `mob_spawn_slots` VALUES (120,23,0);
+INSERT INTO `mob_spawn_slots` VALUES (120,24,0);
+INSERT INTO `mob_spawn_slots` VALUES (120,25,0);
+INSERT INTO `mob_spawn_slots` VALUES (120,26,0);
+INSERT INTO `mob_spawn_slots` VALUES (120,27,0);
+INSERT INTO `mob_spawn_slots` VALUES (120,28,0);
+INSERT INTO `mob_spawn_slots` VALUES (120,29,0);
+
 -- The Sanctuary of ZiTah
 INSERT INTO `mob_spawn_slots` VALUES (121,1,0);
 INSERT INTO `mob_spawn_slots` VALUES (121,2,0);
