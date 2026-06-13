@@ -83,7 +83,7 @@ class ZMQRouterWrapper final
                 std::array<zmq::message_t, 2> msgs;
                 try
                 {
-                    if (!zmq::recv_multipart_n(zmqSocket_, msgs.data(), msgs.size(), zmq::recv_flags::dontwait))
+                    if (!zmq::recv_multipart_n(zmqSocket_, msgs.data(), msgs.size(), zmq::recv_flags::none))
                     {
                         IPPMessage msg;
                         while (outgoingQueue_.try_dequeue(msg))
