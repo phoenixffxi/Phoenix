@@ -66,6 +66,7 @@ SOL_BIND_DEF(CLuaInstance, CInstance);
 #include "items/item.h"
 #include "lua_item.h"
 SOL_BIND_DEF(CLuaItem, CItem);
+SOL_BIND_DEF_CONST(CLuaItem, CItem);
 
 #include "items/item_currency.h"
 #include "items/item_equipment.h"

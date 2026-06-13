@@ -10,7 +10,7 @@ local ID = zones[xi.zone.CARPENTERS_LANDING]
 local entity = {}
 
 entity.onTrigger = function(player, npc)
-    if player:sendGuild(534, 5, 22, 0) then
+    if xi.guildShops.onTrigger(player, npc) then
         player:showText(npc, ID.text.BEUGUNGEL_SHOP_DIALOG)
     end
 end

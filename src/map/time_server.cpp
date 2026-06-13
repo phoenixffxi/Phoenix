@@ -123,6 +123,14 @@ auto time_server(Scheduler& scheduler, MapConfig config) -> Task<void>
                     {
                         PChar->PLatentEffectContainer->CheckLatentsHours();
                         PChar->PLatentEffectContainer->CheckLatentsMoonPhase();
+
+                        if (PChar->guildShopNpc_.id != 0)
+                        {
+                            if (auto* PNpc = zoneutils::GetEntity(PChar->guildShopNpc_.id, TYPE_NPC))
+                            {
+                                luautils::callGlobal<void>("xi.guildShops.onGameHour", PChar, PNpc);
+                            }
+                        }
                     });
             });
 

@@ -150,6 +150,37 @@ end
 function CClientEntityPairActions:skillchain(target, ...)
 end
 
+---Buy an item from a guild shop
+---@param itemId xi.item Item ID
+---@param quantity integer Amount to buy
+---@return nil
+function CClientEntityPairActions:guildBuy(itemId, quantity)
+end
+
+---Sell an item to a guild shop
+---@param itemId xi.item Item ID
+---@param quantity integer Amount to sell
+---@return nil
+function CClientEntityPairActions:guildSell(itemId, quantity)
+end
+
+---@class GuildListEntry
+---@field count integer Current stock
+---@field max integer Max stock
+---@field price integer Buy or sell price
+
+---Request a guild shop's buy list and return it decoded
+---@nodiscard
+---@return table<integer, GuildListEntry> list Entries keyed by item ID
+function CClientEntityPairActions:guildBuyList()
+end
+
+---Request a guild shop's sell list and return it decoded
+---@nodiscard
+---@return table<integer, GuildListEntry> list Entries keyed by item ID
+function CClientEntityPairActions:guildSellList()
+end
+
 ---Move an item between containers or split a stack
 ---@param srcContainer xi.inventoryLocation Source container
 ---@param srcSlot integer Source slot index
