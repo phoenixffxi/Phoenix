@@ -453,30 +453,36 @@ void LoadAutomatonStats(CCharEntity* PMaster, CPetEntity* PPet, Pet_t* petStats,
     const auto frame      = static_cast<uint8>(PMaster->getAutomatonFrame());
     const auto statsLevel = std::min<uint8>(mlvl, 99);
 
-    const auto frameStats = lua["xi"]["pets"]["automaton"]["frameStats"].get<sol::optional<sol::table>>();
-    if (!frameStats)
+    const auto maybeFrameStats = lua["xi"]["pets"]["automaton"]["frameStats"].get<sol::optional<sol::table>>();
+    if (!maybeFrameStats)
     {
         ShowError("LoadAutomatonStats: Missing xi.pets.automaton.frameStats");
         return;
     }
 
-    const auto frameData = (*frameStats)[frame].get<sol::optional<sol::table>>();
-    if (!frameData)
+    const auto& frameStats = *maybeFrameStats;
+
+    const auto maybeFrameData = frameStats[frame].get<sol::optional<sol::table>>();
+    if (!maybeFrameData)
     {
         ShowErrorFmt("LoadAutomatonStats: Missing automaton frame stats for frame {}", static_cast<uint16>(frame));
         return;
     }
 
-    const auto levelData = (*frameData)[statsLevel].get<sol::optional<sol::table>>();
-    if (!levelData)
+    const auto& frameData = *maybeFrameData;
+
+    const auto maybeLevelData = frameData[statsLevel].get<sol::optional<sol::table>>();
+    if (!maybeLevelData)
     {
         ShowErrorFmt("LoadAutomatonStats: Missing automaton frame stats for frame {} level {}", static_cast<uint16>(frame), static_cast<uint16>(statsLevel));
         return;
     }
 
-    const auto getLevelStat = [levelData](const char* key) -> uint16
+    const auto& levelData = *maybeLevelData;
+
+    const auto getLevelStat = [&levelData](const char* key) -> uint16
     {
-        return (*levelData)[key].get<uint16>();
+        return levelData[key].get<uint16>();
     };
 
     tempHealth.maxhp = getLevelStat("maxHP");
