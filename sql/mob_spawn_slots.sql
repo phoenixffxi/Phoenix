@@ -176,6 +176,38 @@ INSERT INTO `mob_spawn_slots` VALUES (22,26,0);
 INSERT INTO `mob_spawn_slots` VALUES (22,27,0);
 INSERT INTO `mob_spawn_slots` VALUES (22,28,0);
 
+-- Misareaux Coast
+INSERT INTO `mob_spawn_slots` VALUES (25,1,0);
+INSERT INTO `mob_spawn_slots` VALUES (25,2,0);
+INSERT INTO `mob_spawn_slots` VALUES (25,3,0);
+INSERT INTO `mob_spawn_slots` VALUES (25,4,0);
+INSERT INTO `mob_spawn_slots` VALUES (25,5,0);
+INSERT INTO `mob_spawn_slots` VALUES (25,6,0);
+INSERT INTO `mob_spawn_slots` VALUES (25,7,0);
+INSERT INTO `mob_spawn_slots` VALUES (25,8,0);
+INSERT INTO `mob_spawn_slots` VALUES (25,9,0);
+INSERT INTO `mob_spawn_slots` VALUES (25,10,0);
+INSERT INTO `mob_spawn_slots` VALUES (25,11,0);
+INSERT INTO `mob_spawn_slots` VALUES (25,12,0);
+INSERT INTO `mob_spawn_slots` VALUES (25,13,0);
+INSERT INTO `mob_spawn_slots` VALUES (25,14,0);
+INSERT INTO `mob_spawn_slots` VALUES (25,15,0);
+INSERT INTO `mob_spawn_slots` VALUES (25,16,0);
+INSERT INTO `mob_spawn_slots` VALUES (25,17,0);
+INSERT INTO `mob_spawn_slots` VALUES (25,18,0);
+INSERT INTO `mob_spawn_slots` VALUES (25,19,0);
+INSERT INTO `mob_spawn_slots` VALUES (25,20,0);
+INSERT INTO `mob_spawn_slots` VALUES (25,21,0);
+INSERT INTO `mob_spawn_slots` VALUES (25,22,0);
+INSERT INTO `mob_spawn_slots` VALUES (25,23,0);
+INSERT INTO `mob_spawn_slots` VALUES (25,24,0);
+INSERT INTO `mob_spawn_slots` VALUES (25,25,0);
+INSERT INTO `mob_spawn_slots` VALUES (25,26,0);
+INSERT INTO `mob_spawn_slots` VALUES (25,27,0);
+INSERT INTO `mob_spawn_slots` VALUES (25,28,0);
+INSERT INTO `mob_spawn_slots` VALUES (25,29,0);
+INSERT INTO `mob_spawn_slots` VALUES (25,30,0);
+
 -- Phomiuna Aqueducts
 INSERT INTO `mob_spawn_slots` VALUES (27,1,0);
 INSERT INTO `mob_spawn_slots` VALUES (27,2,0);
