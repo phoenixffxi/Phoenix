@@ -287,6 +287,15 @@ INSERT INTO `mob_spawn_slots` VALUES (30,4,0);
 INSERT INTO `mob_spawn_slots` VALUES (30,5,0);
 INSERT INTO `mob_spawn_slots` VALUES (30,6,0);
 
+-- Wajaom Woodlands
+INSERT INTO `mob_spawn_slots` VALUES (51,1,0);
+INSERT INTO `mob_spawn_slots` VALUES (51,2,0);
+INSERT INTO `mob_spawn_slots` VALUES (51,3,0);
+INSERT INTO `mob_spawn_slots` VALUES (51,4,0);
+INSERT INTO `mob_spawn_slots` VALUES (51,5,0);
+INSERT INTO `mob_spawn_slots` VALUES (51,6,0);
+INSERT INTO `mob_spawn_slots` VALUES (51,7,0);
+
 -- Arrapago Reef
 INSERT INTO `mob_spawn_slots` VALUES (54,1,0);
 INSERT INTO `mob_spawn_slots` VALUES (54,2,0);
