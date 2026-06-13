@@ -120,8 +120,8 @@ describe('Chains of Promathia', function()
             player.assert:inZone(xi.zone.HALL_OF_TRANSFERENCE)
             player.events:expect({ eventId = 155 })
 
-            -- Event upon entering promy
-            player:gotoZone(xi.zone.PROMYVION_MEA)
+            -- event upon entering promy after Hall warp
+            player.assert:inZone(xi.zone.PROMYVION_MEA)
             player.events:expect({ eventId = 52 })
 
             -- enter and beat BCNM

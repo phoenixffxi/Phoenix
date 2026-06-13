@@ -122,6 +122,7 @@ mission.sections =
 
             onZoneIn = function(player, prevZone)
                 if
+                    xi.cop.helpers.shatteredTelepointInfo[prevZone] ~= nil and
                     xi.cop.helpers.numPromyvionCompleted(player) == 2 and
                     not xi.cop.helpers.hasCompletedPromyvion(player, prevZone) and
                     mission:getVar(player, 'Status') == 0
@@ -140,7 +141,7 @@ mission.sections =
                 [155] = function(player, csid, option, npc)
                     -- This event only happens once since there is no sealing component.
                     mission:setVar(player, 'Status', 1)
-                    xi.cop.helpers.sendToPromyvionZone(player:getLocalVar('toPromyvion'))
+                    xi.cop.helpers.sendToPromyvionZone(player, player:getLocalVar('toPromyvion'))
                 end,
             },
         },
