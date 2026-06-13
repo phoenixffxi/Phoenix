@@ -912,7 +912,7 @@ auto HandleSpikesDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, acti
             const float DamageRatio = GetDamageRatio(PDefender, PAttacker, crit, 1.0f, skilltype, SLOT_MAIN, false);
             uint16      dmg         = static_cast<uint32>((PDefender->GetMainWeaponDmg() + battleutils::GetFSTR(PDefender, PAttacker, SLOT_MAIN)) * DamageRatio);
             dmg                     = attackutils::CheckForDamageMultiplier(static_cast<CCharEntity*>(PDefender), dynamic_cast<CItemWeapon*>(PDefender->m_Weapons[SLOT_MAIN]), dmg, PHYSICAL_ATTACK_TYPE::NORMAL, SLOT_MAIN);
-            const uint16 bonus      = dmg * (PDefender->getMod(Mod::RETALIATION) / 100);
+            const uint16 bonus      = std::floor<uint16>(static_cast<float>(dmg) * (static_cast<float>(PDefender->getMod(Mod::RETALIATION)) / 100.f));
             dmg                     = dmg + bonus;
 
             // TP and stoneskin are handled inside TakePhysicalDamage
