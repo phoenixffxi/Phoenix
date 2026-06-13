@@ -16,7 +16,7 @@ end
 entity.onMobDespawn = function(mob)
     local params = {}
     params.dayOnly = true
-    xi.mob.phOnDespawn(mob, ID.mob.LESHONKI, 5, 3600, params) -- 1 hour
+    xi.mob.phOnDespawn(mob, ID.mob.LESHONKI, 15, 3600, params) -- 1 hour
 end
 
 return entity
