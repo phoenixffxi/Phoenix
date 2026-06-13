@@ -127,6 +127,18 @@ INSERT INTO `mob_spawn_slots` VALUES (12,12,0);
 INSERT INTO `mob_spawn_slots` VALUES (12,13,0);
 INSERT INTO `mob_spawn_slots` VALUES (12,14,0);
 
+-- Promyvion-Holla
+INSERT INTO `mob_spawn_slots` VALUES (16,1,0);
+INSERT INTO `mob_spawn_slots` VALUES (16,2,0);
+INSERT INTO `mob_spawn_slots` VALUES (16,3,0);
+INSERT INTO `mob_spawn_slots` VALUES (16,4,0);
+INSERT INTO `mob_spawn_slots` VALUES (16,5,0);
+INSERT INTO `mob_spawn_slots` VALUES (16,6,0);
+INSERT INTO `mob_spawn_slots` VALUES (16,7,0);
+INSERT INTO `mob_spawn_slots` VALUES (16,8,0);
+INSERT INTO `mob_spawn_slots` VALUES (16,9,0);
+INSERT INTO `mob_spawn_slots` VALUES (16,10,0);
+
 -- Promyvion - Dem
 INSERT INTO `mob_spawn_slots` VALUES (18,1,0);
 INSERT INTO `mob_spawn_slots` VALUES (18,2,0);
