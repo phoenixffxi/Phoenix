@@ -61,7 +61,12 @@ quest.sections =
             ['Maat'] =
             {
                 onTrigger = function(player, npc)
-                    return quest:event(94) -- Default dialog after completing this quest? Needs confirmation.
+                    if
+                        player:getMainJob() <= 15 and
+                        player:getMainLvl() >= 66
+                    then
+                        return quest:event(78, player:getMainJob())
+                    end
                 end,
             },
         },
