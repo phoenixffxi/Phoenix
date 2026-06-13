@@ -296,6 +296,15 @@ INSERT INTO `mob_spawn_slots` VALUES (51,5,0);
 INSERT INTO `mob_spawn_slots` VALUES (51,6,0);
 INSERT INTO `mob_spawn_slots` VALUES (51,7,0);
 
+-- Bhaflau Thickets
+INSERT INTO `mob_spawn_slots` VALUES (52,1,0);
+INSERT INTO `mob_spawn_slots` VALUES (52,2,0);
+INSERT INTO `mob_spawn_slots` VALUES (52,3,0);
+INSERT INTO `mob_spawn_slots` VALUES (52,4,0);
+INSERT INTO `mob_spawn_slots` VALUES (52,5,0);
+INSERT INTO `mob_spawn_slots` VALUES (52,6,0);
+INSERT INTO `mob_spawn_slots` VALUES (52,7,0);
+
 -- Arrapago Reef
 INSERT INTO `mob_spawn_slots` VALUES (54,1,0);
 INSERT INTO `mob_spawn_slots` VALUES (54,2,0);
