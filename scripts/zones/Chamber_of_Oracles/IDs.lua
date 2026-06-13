@@ -46,7 +46,7 @@ zones[xi.zone.CHAMBER_OF_ORACLES] =
     mob =
     {
         CENTURIO_V_III   = GetFirstID('Centurio_V-III'),
-        MAAT             = GetFirstID('Maat'),
+        MAAT             = GetFirstID('Maat_sam'),
         NANAA_MIHGO      = GetFirstID('Nanaa_Mihgo'),
         SECUTOR_XI_XXXII = GetFirstID('Secutor_XI-XXXII'),
     },

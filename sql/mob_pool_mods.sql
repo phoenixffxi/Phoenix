@@ -189,9 +189,6 @@ INSERT INTO `mob_pool_mods` VALUES (2271,165,15,0); -- CRITHITRATE: 15
 -- Ladon
 INSERT INTO `mob_pool_mods` VALUES (2314,28,23,1); -- EXP_BONUS: 23
 
--- Mammet-19 Epsilon
-INSERT INTO `mob_pool_mods` VALUES (2499,240,90,0); -- SLEEPRES: 90
-
 -- Minotaur
 INSERT INTO `mob_pool_mods` VALUES (2675,4,25,1); -- SIGHT_RANGE: 25
 
@@ -466,13 +463,6 @@ INSERT INTO `mob_pool_mods` VALUES (4672,3,100,1); -- MP_BASE: 100
 
 -- Suzaku Pet
 INSERT INTO `mob_pool_mods` VALUES (4673,3,100,1); -- MP_BASE: 100
-
--- Maat Bst
-INSERT INTO `mob_pool_mods` VALUES (4932,30,1017,1); -- SPECIAL_SKILL: 1017
-INSERT INTO `mob_pool_mods` VALUES (4932,33,50,1);   -- SPECIAL_COOL: 50
-
--- Maat Nin
-INSERT INTO `mob_pool_mods` VALUES (5403,62,1,1); -- NO_STANDBACK: 1
 
 -- Trust: Shikaree Z
 INSERT INTO `mob_pool_mods` VALUES (5915,6,100,0);      -- MPP: 100

@@ -18,11 +18,11 @@ entity.onMobInitialize = function(mob)
 
     mob:addListener('TAKE_DAMAGE', 'MAAT_TAKE_DAMAGE', function(mobArg, damage, attacker, attackType, damageType)
         if damage >= 216 then
-            mob:messageText(mob, ID.text.THAT_LL_HURT_IN_THE_MORNING)
+            mobArg:messageText(mobArg, ID.text.THAT_LL_HURT_IN_THE_MORNING)
         end
 
         if damage >= 432 then
-            mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 200)
+            mobArg:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 200)
         end
     end)
 end
@@ -99,6 +99,7 @@ entity.onMobFight = function(mob, target)
     then
         xi.combat.behavior.disableAllActions(mob)
         mob:showText(mob, ID.text.YOUVE_COME_A_LONG_WAY)
+        players[1]:addTitle(xi.title.MAAT_MASHER)
         players[1]:disengage()
         battlefield:win()
         return

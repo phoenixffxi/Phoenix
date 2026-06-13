@@ -167,9 +167,13 @@ xi.mobSkill =
     HEALING_BREEZE                =  287,
 
     ENTANGLE_DRAIN                =  299,
-
+    HEAD_BUTT_1                   =  300,
+    DREAM_FLOWER_1                =  301,
+    WILD_OATS_1                   =  302,
     -- HUNDRED_FISTS                 =  303,
-
+    PHOTOSYNTHESIS_1              =  304,
+    LEAF_DAGGER_1                 =  305,
+    SCREAM_1                      =  306,
     SUBSTITUTE                    =  307,
     FROGKICK_1                    =  308,
     SPORE_1                       =  309,
@@ -193,7 +197,12 @@ xi.mobSkill =
     LEAFSTORM                     =  331,
     ENTANGLE                      =  332,
 
+    POWER_ATTACK_1                =  338,
+    HI_FREQ_FIELD_1               =  339,
+    RHINO_ATTACK_1                =  340,
+    RHINO_GUARD_1                 =  341,
     VULCANIAN_IMPACT_1            =  342, -- COP Bombs
+    SPOIL_1                       =  343,
 
     VELOCIOUS_BLADE               =  347, -- Mammet-800
 
