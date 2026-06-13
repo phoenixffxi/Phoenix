@@ -1376,7 +1376,7 @@ xi.combat.physical.isBlocked = function(defender, attacker)
         if
             defender:isPC() and
             (blocked or                                  -- We blocked
-            not xi.settings.map.PARRY_OLD_SKILLUP_STYLE) -- Old style skillup is not enabled
+            not xi.settings.map.DEFENSIVE_OLD_SKILLUP_STYLE) -- Old style skillup is not enabled
         then
             defender:trySkillUp(xi.skill.SHIELD, attacker:getMainLvl())
         end
@@ -1415,7 +1415,7 @@ xi.combat.physical.isParried = function(defender, attacker)
         if
             isPC and
             (parried or                                  -- We parried
-            not xi.settings.map.PARRY_OLD_SKILLUP_STYLE) -- Old style skillup is not enabled
+            not xi.settings.map.DEFENSIVE_OLD_SKILLUP_STYLE) -- Old style skillup is not enabled
         then
             defender:trySkillUp(xi.skill.PARRY, attacker:getMainLvl())
         end
@@ -1443,7 +1443,7 @@ xi.combat.physical.isGuarded = function(defender, attacker)
         if
             isPC and
             (guarded or                                  -- We guarded
-            not xi.settings.map.PARRY_OLD_SKILLUP_STYLE) -- Old style skillup is not enabled
+            not xi.settings.map.DEFENSIVE_OLD_SKILLUP_STYLE) -- Old style skillup is not enabled
         then
             defender:trySkillUp(xi.skill.GUARD, attacker:getMainLvl())
         end

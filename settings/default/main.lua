@@ -81,17 +81,9 @@ xi.settings.main =
 
     -- Monstrosity (Heavily in development, use at your own risk!)
     ENABLE_MONSTROSITY               = 0,
-    MONSTROSITY_INFAMY_RATIO         = 0.1, -- (float) The ratio of exp gained to infamy gained on defeating a mob.
-    MONSTROSITY_INFAMY_MESSAGING     = 0,   -- Show a message when you gain infamy.
     MONSTROSITY_TELEPORT_TO_FERETORY = 0,   -- Return to Feretory instead of the zone where you entered Feretory when Relinquishing or after death.
     MONSTROSITY_TRIGGER_NPCS         = 0,   -- Allow Monipulators to trigger NPCs outside of the Feretory.
     MONSTROSITY_DONT_WIPE_BUFFS      = 0,   -- If set, buffs won't be wiped when changing species in the Feretory.
-
-    -- Monstrosity PVP Mode
-    -- 0: Retail (fully restricted): Monipulators and Players must both be flagged for Beligerency before they can fight
-    -- 1: (partially restricted): Players do not need to be flagged to fight, but Monipulators do.
-    -- 2: (open): Belligerency is not needed for Players and Monipulators to fight.
-    MONSTROSITY_PVP_MODE        = 0,
     MONSTROSITY_PVP_ZONE_BYPASS = 0, -- Show the full zone teleport menu from Feretory while Belligerency is flagged.
 
     -- TREASURE CASKETS
@@ -128,7 +120,6 @@ xi.settings.main =
     BAYLD_RATE          = 1.000, -- Multiples bayld earned from quests.
     -- Note: EXP rates are also influenced by conf setting
     EXP_RATE            = 1.000, -- Multiplies exp from script (except FoV/GoV).
-    CAPACITY_RATE       = 1.000, -- Multiplies capacity points gained.
     BOOK_EXP_RATE       = 1.000, -- Multiplies exp from FoV/GoV book pages.
     TABS_RATE           = 1.000, -- Multiplies tabs earned from fov.
     ROE_EXP_RATE        = 1.000, -- Multiplies exp earned from records of eminence.
@@ -196,7 +187,6 @@ xi.settings.main =
     EXCAVATION_RATE         = 50, -- % chance to recieve an item from excavation.  Set between 0 and 100.
     LOGGING_RATE            = 50, -- % chance to recieve an item from logging.  Set between 0 and 100.
     MINING_RATE             = 50, -- % chance to recieve an item from mining.  Set between 0 and 100.
-    DIGGING_RATE            = 85, -- % chance to receive an item from chocbo digging during favorable weather.  Set between 0 and 100.
 
     HEALING_TP_CHANGE       = -100, -- Change in TP for each healing tick. Default is -100
 
@@ -247,10 +237,6 @@ xi.settings.main =
 
     -- SPELL SPECIFIC SETTINGS
     STONESKIN_CAP                   = 350,   -- Soft cap for hp absorbed by stoneskin
-    BLINK_SHADOWS                   = 2,     -- Number of shadows supplied by Blink spell
-    SPIKE_EFFECT_DURATION           = 180,   -- the duration of RDM, BLM spikes effects (not Reprisal)
-    ELEMENTAL_DEBUFF_DURATION       = 120,   -- base duration of elemental debuffs
-    AQUAVEIL_COUNTER                = 1,     -- Base amount of hits Aquaveil absorbs to prevent spell interrupts. Retail is 1.
     SNEAK_INVIS_DURATION_MULTIPLIER = 1,     -- multiplies duration of sneak, invis, deodorize to reduce player torture. 1 = retail behavior.
     USE_OLD_CURE_FORMULA            = false, -- true/false. if true, uses older cure formula (3*MND + VIT + 3*(healing skill/5)) // cure 6 will use the newer formula
     USE_OLD_MAGIC_DAMAGE            = false, -- true/false. if true, uses older magic damage formulas
@@ -329,7 +315,6 @@ xi.settings.main =
     BYPASS_EXP_RING_ONE_PER_WEEK = 0,     -- Set to 1 to bypass the limit of one ring per Conquest Tally Week.
     NUMBER_OF_DM_EARRINGS        = 1,     -- Number of earrings players can simultaneously own from Divine Might before scripts start blocking them (Default: 1)
     HOMEPOINT_TELEPORT           = 1,     -- Enables the homepoint teleport system
-    DIG_ABUNDANCE_BONUS          = 0,     -- Increase chance of digging up an item (450  = item digup chance +45)
     DIG_FATIGUE                  = 100,   -- Allowed succesful digs per day. Set to 0 to disable Dig Fatigue
     DIG_GRANT_BURROW             = 0,     -- Set to 1 to grant burrow ability
     DIG_GRANT_BORE               = 0,     -- Set to 1 to grant bore ability
