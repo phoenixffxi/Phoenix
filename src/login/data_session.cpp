@@ -129,7 +129,7 @@ void data_session::read_func()
 
                 uint32_t i = 0;
 
-                // Generate on first time read from db
+                // Generate on first time read from db or after the account logs out after a log in
                 if (!generatedCharInfo)
                 {
                     characterInfoResponse            = {};
@@ -513,7 +513,8 @@ void data_session::read_func()
                 viewSession->socket_.lowest_layer().close();
                 session.view_session = nullptr;
 
-                session.incrementKeyValue = 0; // Reset incremented key after inserting into db
+                session.incrementKeyValue = 0;     // Reset incremented key after inserting into db
+                generatedCharInfo         = false; // Reset this so next time we log out it regenerates the char info
 
                 const auto payload = ipc::toBytesWithHeader(ipc::CharZone{
                     .charId            = charid,
