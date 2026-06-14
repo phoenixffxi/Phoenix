@@ -22,7 +22,6 @@ spellObject.onMobSpawn = function(mob)
 
     local mJob   = master:getMainJob()
 
-    -- TODO: Nott weaponskill needs implemented and logic added here for Apururu to use at 50% MP at level 50.
     -- Has Regain (50/tick) and uses Nott when MP falls below 66%.
     -- cure IV cures 456 HP @99
 
@@ -33,6 +32,8 @@ spellObject.onMobSpawn = function(mob)
     if mob:getMainLvl() >= 99 then
         mob:addMod(xi.mod.GEOMANCY_BONUS, 3)
     end
+
+    mob:addGambit(ai.t.SELF, { { ai.c.MPP_LT, 66 }, { ai.c.LVL_GTE, 50 }, { ai.c.TP_GTE, 1000 } }, { ai.r.MS, ai.s.SPECIFIC, xi.mobSkill.NOTT })
 
     mob:addGambit(ai.t.PARTY, { ai.c.HPP_LT, 25 }, { ai.r.MA, ai.s.HIGHEST, xi.magic.spellFamily.CURE })
 
