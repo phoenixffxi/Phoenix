@@ -423,6 +423,67 @@ xi.pets.automaton.frameStats =
     },
 }
 
+xi.pets.automaton.skillCaps =
+{
+    -- Base frame ranks, an unlisted skill means no skill unless combined with a head that grants it.
+    frames =
+    {
+        [xi.automaton.frame.HARLEQUIN] =
+        {
+            [xi.skill.AUTOMATON_MELEE ] = xi.skillRank.B_MINUS,
+            [xi.skill.AUTOMATON_RANGED] = xi.skillRank.B_MINUS,
+            [xi.skill.AUTOMATON_MAGIC ] = xi.skillRank.B_MINUS,
+        },
+
+        [xi.automaton.frame.VALOREDGE] =
+        {
+            [xi.skill.AUTOMATON_MELEE] = xi.skillRank.B_PLUS,
+        },
+
+        [xi.automaton.frame.SHARPSHOT] =
+        {
+            [xi.skill.AUTOMATON_MELEE ] = xi.skillRank.C_PLUS,
+            [xi.skill.AUTOMATON_RANGED] = xi.skillRank.B_PLUS,
+        },
+
+        [xi.automaton.frame.STORMWAKER] =
+        {
+            [xi.skill.AUTOMATON_MELEE] = xi.skillRank.C,
+            [xi.skill.AUTOMATON_MAGIC] = xi.skillRank.B_PLUS,
+        },
+    },
+
+    -- Head Bonuses. For skill rank ENUMs, lower is better. Example : xi.skillRank.B_PLUS(3) -2 = xi.skillRank.A_PLUS(1)
+    -- If this bonus is applied to a frame that does not have that skill innately, becomes xi.skillRank.F.
+    heads =
+    {
+        [xi.automaton.head.VALOREDGE] =
+        {
+            [xi.skill.AUTOMATON_MELEE] = -2,
+        },
+
+        [xi.automaton.head.SHARPSHOT] =
+        {
+            [xi.skill.AUTOMATON_RANGED] = -2,
+        },
+
+        [xi.automaton.head.STORMWAKER] =
+        {
+            [xi.skill.AUTOMATON_MAGIC] = -2,
+        },
+
+        [xi.automaton.head.SOULSOOTHER] =
+        {
+            [xi.skill.AUTOMATON_MAGIC] = -2,
+        },
+
+        [xi.automaton.head.SPIRITREAVER] =
+        {
+            [xi.skill.AUTOMATON_MAGIC] = -2,
+        },
+    },
+}
+
 xi.pets.automaton.frameMods =
 {
     -----------------------------------
@@ -432,7 +493,7 @@ xi.pets.automaton.frameMods =
     {
         mods =
         {
-            { xi.mod.DMG,              -625 },
+            { xi.mod.DMG, -625 },
         },
     },
 
@@ -460,9 +521,9 @@ xi.pets.automaton.frameMods =
     {
         mods =
         {
-            { xi.mod.PIERCE_SDT,       8750 },
-            { xi.mod.DMGBREATH,       -1250 },
-            { xi.mod.DMGMAGIC,        -1250 },
+            { xi.mod.PIERCE_SDT,  8750 },
+            { xi.mod.DMGBREATH,  -1250 },
+            { xi.mod.DMGMAGIC,   -1250 },
         },
     },
 
@@ -473,8 +534,8 @@ xi.pets.automaton.frameMods =
     {
         mods =
         {
-            { xi.mod.DMGBREATH,       -2500 },
-            { xi.mod.DMGMAGIC,        -2500 },
+            { xi.mod.DMGBREATH, -2500 },
+            { xi.mod.DMGMAGIC,  -2500 },
         },
     },
 }
