@@ -1257,6 +1257,8 @@ xi.mobSkill =
     -- AZURE_LORE                    = 3481,
     BOLSTER                       = 3482,
 
+    NOTT                          = 3502,
+
     DAYBREAK_TRUST                = 3652, -- August Trust
     TARTARIC_SIGIL_TRUST          = 3653, -- August Trust
     NULL_FIELD_TRUST              = 3654, -- August Trust

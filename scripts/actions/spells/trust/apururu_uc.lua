@@ -27,10 +27,11 @@ spellObject.onMobSpawn = function(mob)
 
     -- Unity ranking high : xi.trust.message(mob, xi.trust.messageOffset.TEAMWORK_1)
 
-    -- TODO: Nott weaponskill needs implemented and logic added here for Apururu to use at 50% MP at level 50.
     -- TODO: UC trusts are supposed to get bonuses depending on unity ranking. Needs research.
     -- TODO: Custom spawn messages if Unity ranking is higher.
     -- TODO: Setup conditional behaviors for Devotion, Martyr
+
+    mob:addGambit(ai.t.SELF, { { ai.c.MPP_LT, 51 }, { ai.c.LVL_GTE, 50 }, { ai.c.TP_GTE, 1000 } }, { ai.r.MS, ai.s.SPECIFIC, xi.mobSkill.NOTT })
 
     mob:addGambit(ai.t.SELF, { ai.c.MPP_LT, 25 }, { ai.r.JA, ai.s.SPECIFIC, xi.ja.CONVERT })
 
