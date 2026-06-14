@@ -25,7 +25,6 @@ entity.onMobInitialize = function(mob)
             if target:getHPP() <= 20 then
                 xi.combat.behavior.disableAllActions(target)
                 target:showText(target, ID.text.YOUVE_COME_A_LONG_WAY)
-                user:addTitle(xi.title.MAAT_MASHER)
                 battlefield:win()
             end
         end

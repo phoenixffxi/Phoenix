@@ -117,7 +117,6 @@ entity.onMobFight = function(mob, target)
         xi.combat.behavior.disableAllActions(pet)
         mob:showText(mob, ID.text.YOUVE_COME_A_LONG_WAY)
         players[1]:disengage()
-        players[1]:addTitle(xi.title.MAAT_MASHER)
         battlefield:win()
         return
     end
