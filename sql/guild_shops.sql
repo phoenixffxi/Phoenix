@@ -469,20 +469,6 @@ INSERT INTO `guild_shops` VALUES (5182,4477,3540,19840,120,0,0);    -- gavial_fi
 INSERT INTO `guild_shops` VALUES (5182,4480,455,2800,120,0,0);      -- gugru_tuna
 INSERT INTO `guild_shops` VALUES (5182,4479,1350,8784,120,0,0);     -- bhefhel_marlin
 
--- Mep Nhapopoluko (Bibiki Bay) Fishing Guild
-INSERT INTO `guild_shops` VALUES (519,17388,766,1324,200,10,110);  -- fastwater_fishing_rod
-INSERT INTO `guild_shops` VALUES (519,17382,7081,15398,200,5,110); -- single_hook_fishing_rod
-INSERT INTO `guild_shops` VALUES (519,4399,1350,8784,200,33,150);  -- bluetail
-INSERT INTO `guild_shops` VALUES (519,4485,2100,13888,200,6,150);  -- noble_lady
-INSERT INTO `guild_shops` VALUES (519,4317,120,237,200,48,150);    -- trilobite
-INSERT INTO `guild_shops` VALUES (519,4484,1350,8784,200,11,150);  -- shall_shell
-INSERT INTO `guild_shops` VALUES (519,4385,115,775,200,48,150);    -- zafmlug_bass
-INSERT INTO `guild_shops` VALUES (519,5121,2142,2856,200,48,150);  -- moorish_idol
-INSERT INTO `guild_shops` VALUES (519,4314,300,600,200,48,150);    -- bibikibo
-INSERT INTO `guild_shops` VALUES (519,4318,3375,4500,200,16,150);  -- bibiki_urchin
-INSERT INTO `guild_shops` VALUES (519,624,24,172,200,48,150);      -- clump_of_pamtam_kelp
-INSERT INTO `guild_shops` VALUES (519,4443,24,165,20,48,150);      -- cobalt_jellyfish
-
 -- Rajmonda (Ship bound for Selbina) Fishing Guild -- TODO: Audit this vendor immediately after server maintenance.
 INSERT INTO `guild_shops` VALUES (520,17395,9,13,240,48,180);     -- lugworm
 INSERT INTO `guild_shops` VALUES (520,17407,303,955,60,6,20);     -- minnow

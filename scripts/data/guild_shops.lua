@@ -143,4 +143,24 @@ xi.data.guildShops =
             { id = xi.item.IRON_MITTENS,             initial = 0,   maxStock = 60,  targetStock = 45,  buyMax = 86400,  restockRate = 0 },
         },
     },
+    ['Mep Nhapopoluko'] =
+    {
+        hours      = { 1, 18 },
+        priceFloor = xi.guildPriceFloor.THREE_QUARTER_MAX,
+        stock      =
+        {
+            { id = xi.item.FASTWATER_FISHING_ROD,   initial = 110, maxStock = 200, targetStock = 190, buyMax = 6976,  restockRate = 10 },
+            { id = xi.item.SINGLE_HOOK_FISHING_ROD, initial = 110, maxStock = 200, targetStock = 190, buyMax = 64380, restockRate = 10 },
+            { id = xi.item.BLUETAIL_1,              initial = 150, maxStock = 200, targetStock = 150, buyMax = 9000,  restockRate = 100 },
+            { id = xi.item.NOBLE_LADY,              initial = 150, maxStock = 200, targetStock = 150, buyMax = 14000, restockRate = 100 },
+            { id = xi.item.TRILOBITE,               initial = 150, maxStock = 200, targetStock = 150, buyMax = 800,   restockRate = 100 },
+            { id = xi.item.SHALL_SHELL,             initial = 150, maxStock = 200, targetStock = 150, buyMax = 9000,  restockRate = 100 },
+            { id = xi.item.ZAFMLUG_BASS,            initial = 150, maxStock = 200, targetStock = 150, buyMax = 770,   restockRate = 100 },
+            { id = xi.item.MOORISH_IDOL,            initial = 150, maxStock = 200, targetStock = 150, buyMax = 14280, restockRate = 100 },
+            { id = xi.item.BIBIKIBO,                initial = 150, maxStock = 200, targetStock = 150, buyMax = 2000,  restockRate = 100 },
+            { id = xi.item.BIBIKI_URCHIN,           initial = 150, maxStock = 200, targetStock = 150, buyMax = 22500, restockRate = 100 },
+            { id = xi.item.CLUMP_OF_PAMTAM_KELP,    initial = 150, maxStock = 200, targetStock = 150, buyMax = 160,   restockRate = 100 },
+            { id = xi.item.COBALT_JELLYFISH,        initial = 150, maxStock = 200, targetStock = 150, buyMax = 160,   restockRate = 100 },
+        },
+    },
 }
