@@ -65,7 +65,7 @@ local memoryFluxOnTrigger = function(player, npc)
         SpawnMob(fluxInfo[2]):updateClaim(player)
         return mission:messageSpecial(promyvionVahzlID.text.ON_NM_SPAWN)
     elseif not mission:isVarBitsSet(player, 'Option', fluxInfo[1] + 3) then
-        return mission:progressEvent(fluxInfo[3])
+        return mission:progressCutscene(fluxInfo[3])
     end
 end
 

@@ -106,7 +106,7 @@ mission.sections =
                     local missionStatus = mission:getVar(player, 'Status')
 
                     if missionStatus == 1 then
-                        return mission:progressEvent(9)
+                        return mission:progressCutscene(9)
                     elseif missionStatus > 1 then
                         return mission:event(502)
                     end
@@ -139,9 +139,9 @@ mission.sections =
 
                     if player:getXPos() > 45 then
                         if missionStatus == 2 then
-                            return mission:progressEvent(6, 0, xi.ki.RELIQUIARIUM_KEY)
+                            return mission:progressCutscene(6, 0, xi.ki.RELIQUIARIUM_KEY)
                         elseif missionStatus == 3 and player:hasKeyItem(xi.ki.RELIQUIARIUM_KEY) then
-                            return mission:progressEvent(5)
+                            return mission:progressCutscene(5)
                         end
                     else
                         return mission:messageSpecial(sacrariumID.text.CANNOT_OPEN_SIDE)
@@ -190,7 +190,7 @@ mission.sections =
                 onTrigger = function(player, npc)
                     if player:getXPos() > 45 then
                         if player:hasKeyItem(xi.ki.RELIQUIARIUM_KEY) then
-                            player:startEvent(110)
+                            player:startCutscene(110)
                         end
                     else
                         return mission:messageSpecial(sacrariumID.text.CANNOT_OPEN_SIDE)

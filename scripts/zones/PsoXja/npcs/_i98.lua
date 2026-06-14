@@ -13,9 +13,9 @@ entity.onTrigger = function(player, npc)
         player:hasCompletedMission(xi.mission.log_id.COP, xi.mission.id.cop.THE_LAST_VERSE)
     then
         if player:getZPos() < 318 then
-            player:startEvent(69)
+            player:startOptionalCutscene(69, { cs_option = 0, canSkip = true })
         else
-            player:startEvent(70)
+            player:startOptionalCutscene(70, { cs_option = 0, canSkip = true })
         end
     else
         player:messageSpecial(ID.text.DOOR_LOCKED)

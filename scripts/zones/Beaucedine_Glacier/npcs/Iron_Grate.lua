@@ -17,17 +17,17 @@ entity.onTrigger = function(player, npc)
     local zPos = player:getZPos()
 
     if xPos < 247 and xPos > 241 then         -- J-8
-        player:startEvent(200)
+        player:startOptionalCutscene(200, { cs_option = 0, canSkip = true })
     elseif zPos < -353 and zPos > -359 then  -- H-10
-        player:startEvent(201)
+        player:startOptionalCutscene(201, { cs_option = 0, canSkip = true })
     elseif xPos > 95 and xPos < 104 and zPos > 153 and zPos < 159 then    -- I-7
-        player:startEvent(202)
+        player:startOptionalCutscene(202, { cs_option = 0, canSkip = true })
     elseif xPos < -193 and xPos > -199 then     -- G-9
-        player:startEvent(203)
+        player:startOptionalCutscene(203, { cs_option = 0, canSkip = true })
     elseif zPos > -47 and zPos < -41 then     -- H-8
-        player:startEvent(204)
+        player:startOptionalCutscene(204, { cs_option = 0, canSkip = true })
     elseif xPos > -344 and xPos < -337 and zPos > 153 and zPos < 159 then    -- F-7
-        player:startEvent(205)
+        player:startOptionalCutscene(205, { cs_option = 0, canSkip = true })
     end
 end
 
