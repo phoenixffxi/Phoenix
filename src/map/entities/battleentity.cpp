@@ -629,8 +629,7 @@ uint16 CBattleEntity::GetMainWeaponDmg()
 
         if (PPetEntity->getPetType() == PET_TYPE::AUTOMATON)
         {
-            // Unsure of the accuracy of this, but it's what we have in petutils
-            return std::floor(GetSkill(SKILL_AUTOMATON_MELEE) / 9 * 2) + 3 + getMod(Mod::MAIN_DMG_RATING);
+            return std::floor((GetSkill(SKILL_AUTOMATON_MELEE) / 8.7f) * 2.0f + 3.0f) + getMod(Mod::MAIN_DMG_RATING);
         }
         else if (PPetEntity->getPetType() == PET_TYPE::WYVERN)
         {
@@ -724,8 +723,7 @@ uint16 CBattleEntity::GetRangedWeaponDmg()
 
         if (PPetEntity->getPetType() == PET_TYPE::AUTOMATON)
         {
-            // Unsure of the accuracy of this, but it's what we have in petutils
-            return std::floor(GetSkill(SKILL_AUTOMATON_RANGED) / 9 * 2) + 3 + getMod(Mod::RANGED_DMG_RATING);
+            return std::floor((GetSkill(SKILL_AUTOMATON_RANGED) / 8.7f) * 2.0f + 3.0f) + getMod(Mod::RANGED_DMG_RATING);
         }
         else if (PPetEntity->getPetType() == PET_TYPE::WYVERN)
         {
