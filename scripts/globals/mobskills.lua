@@ -392,7 +392,7 @@ local function handleSinglePhysicalHit(mob, target, baseHitDamage, params)
     hitDamage = math.floor(hitDamage * xi.combat.damage.physicalElementSDT(target, params.damageType))
     hitDamage = math.floor(hitDamage * xi.combat.damage.calculateDamageAdjustment(target, true, false, false, false))
 
-    -- TODO: Automaton Equalizer Reduction
+    hitDamage = xi.automaton.handleEqualizer(target, hitDamage)
 
     -- TODO: Need captures for different severe damage mechanics. Do they proc per hit or per skill
     hitDamage = math.floor(target:handleSevereDamage(hitDamage, true))
@@ -506,7 +506,7 @@ local function handleSingleRangedHit(mob, target, baseHitDamage, params)
     hitDamage = math.floor(hitDamage * xi.combat.damage.physicalElementSDT(target, params.damageType))
     hitDamage = math.floor(hitDamage * xi.combat.damage.calculateDamageAdjustment(target, true, false, true, false))
 
-    -- TODO: Automaton Equalizer Reduction
+    hitDamage = xi.automaton.handleEqualizer(target, hitDamage)
 
     -- TODO: Need captures for different severe damage mechanics. Do they proc per hit or per skill
     hitDamage = math.floor(target:handleSevereDamage(hitDamage, true))

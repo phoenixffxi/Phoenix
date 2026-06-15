@@ -553,7 +553,7 @@ local function applyAutomatonFrameMods(mob)
     end
 
     for _, modData in ipairs(frameData.mods or {}) do
-        mob:setMod(modData[1], modData[2])
+        mob:addMod(modData[1], modData[2])
     end
 end
 
