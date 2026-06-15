@@ -58,8 +58,8 @@ INSERT INTO `mob_groups` VALUES (9,2987,1,'Ooze',0,128,1866,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (10,3912,1,'Thunder_Elemental',0,128,2410,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (11,4309,1,'Water_Elemental',0,128,2629,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (12,4242,1,'Vodyanoi',0,1,2584,3870,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (13,3796,1,'Stubborn_Dredvodd',0,128,2350,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (14,3048,1,'Orcs_Wyvern',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (13,3796,1,'Stubborn_Dredvodd',0,128,2350,2300,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (14,3048,1,'Orcs_Wyvern',0,128,0,450,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Carpenters_Landing (Zone 2)
