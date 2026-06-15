@@ -43,6 +43,14 @@ enum class AutomatonHead : uint8
 
 enum class AutomatonAttachment : uint8
 {
-    OpticFiber   = 198,
-    OpticFiberII = 206,
+    AutoRepairKit    = 193,
+    AutoRepairKitII  = 196,
+    OpticFiber       = 198,
+    AutoRepairKitIII = 202,
+    AutoRepairKitIV  = 205,
+    OpticFiberII     = 206,
+    ManaTank         = 225,
+    ManaTankII       = 228,
+    ManaTankIII      = 233,
+    ManaTankIV       = 235,
 };

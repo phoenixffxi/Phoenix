@@ -490,6 +490,163 @@ void LoadAutomatonStats(CCharEntity* PMaster, CPetEntity* PPet, Pet_t* petStats,
     tempHealth.maxmp = getLevelStat("maxMP");
     tempHealth.mp    = tempHealth.maxmp;
 
+    // Handle Auto-Repair Kits, HP boost provided is shown in the automaton equipment menu, which means it needs to be calculated here.
+    const bool hasAutoRepairKit    = PMaster->hasAutomatonAttachment(static_cast<uint8>(AutomatonAttachment::AutoRepairKit));
+    const bool hasAutoRepairKitII  = PMaster->hasAutomatonAttachment(static_cast<uint8>(AutomatonAttachment::AutoRepairKitII));
+    const bool hasAutoRepairKitIII = PMaster->hasAutomatonAttachment(static_cast<uint8>(AutomatonAttachment::AutoRepairKitIII));
+    const bool hasAutoRepairKitIV  = PMaster->hasAutomatonAttachment(static_cast<uint8>(AutomatonAttachment::AutoRepairKitIV));
+
+    if (hasAutoRepairKit || hasAutoRepairKitII || hasAutoRepairKitIII || hasAutoRepairKitIV)
+    {
+        const auto maybeRepairKit = lua["xi"]["automaton"]["repairKit"].get<sol::optional<sol::table>>();
+        if (!maybeRepairKit)
+        {
+            ShowError("LoadAutomatonStats: Missing xi.automaton.repairKit");
+            return;
+        }
+
+        const auto& repairKit = *maybeRepairKit;
+
+        const auto maybeRepairKitData = repairKit["data"].get<sol::optional<sol::table>>();
+        if (!maybeRepairKitData)
+        {
+            ShowError("LoadAutomatonStats: Missing xi.automaton.repairKit.data");
+            return;
+        }
+
+        const auto& repairKitData = *maybeRepairKitData;
+
+        uint8 repairKitTier = 0;
+
+        for (const auto& repairKitDataEntry : repairKitData)
+        {
+            if (!repairKitDataEntry.second.is<sol::table>())
+            {
+                ShowError("LoadAutomatonStats: Invalid xi.automaton.repairKit.data entry");
+                return;
+            }
+
+            const auto repairKitEntry = repairKitDataEntry.second.as<sol::table>();
+
+            const auto maybeId = repairKitEntry["id"].get<sol::optional<uint8>>();
+            if (!maybeId)
+            {
+                ShowError("LoadAutomatonStats: Missing id in xi.automaton.repairKit.data");
+                return;
+            }
+
+            const auto maybeHPBoost = repairKitEntry["hpBoost"].get<sol::optional<uint8>>();
+            if (!maybeHPBoost)
+            {
+                ShowErrorFmt("LoadAutomatonStats: Missing hpBoost for attachment {} in xi.automaton.repairKit.data", *maybeId);
+                return;
+            }
+
+            if (PMaster->hasAutomatonAttachment(*maybeId))
+            {
+                repairKitTier += *maybeHPBoost;
+            }
+        }
+
+        const auto maybeFrameDivisors = repairKit["frameDivisors"].get<sol::optional<sol::table>>();
+        if (!maybeFrameDivisors)
+        {
+            ShowError("LoadAutomatonStats: Missing xi.automaton.repairKit.frameDivisors");
+            return;
+        }
+
+        const auto& frameDivisors = *maybeFrameDivisors;
+
+        const auto maybeDivisor = frameDivisors[frame].get<sol::optional<uint16>>();
+        if (!maybeDivisor || *maybeDivisor == 0)
+        {
+            ShowErrorFmt("LoadAutomatonStats: Missing Auto-Repair Kit divisor for frame {}", static_cast<uint16>(frame));
+            return;
+        }
+
+        tempHealth.maxhp += tempHealth.maxhp * repairKitTier / *maybeDivisor;
+        tempHealth.hp = tempHealth.maxhp;
+    }
+
+    // Handle Mana Tanks, MP boost provided is shown in the automaton equipment menu, which means it needs to be calculated here.
+    const bool hasManaTank    = PMaster->hasAutomatonAttachment(static_cast<uint8>(AutomatonAttachment::ManaTank));
+    const bool hasManaTankII  = PMaster->hasAutomatonAttachment(static_cast<uint8>(AutomatonAttachment::ManaTankII));
+    const bool hasManaTankIII = PMaster->hasAutomatonAttachment(static_cast<uint8>(AutomatonAttachment::ManaTankIII));
+    const bool hasManaTankIV  = PMaster->hasAutomatonAttachment(static_cast<uint8>(AutomatonAttachment::ManaTankIV));
+
+    // Only calculate if the automaton has a mana pool to boost, even if the attachment is equipped.
+    if ((hasManaTank || hasManaTankII || hasManaTankIII || hasManaTankIV) && tempHealth.maxmp > 0)
+    {
+        const auto maybeManaTank = lua["xi"]["automaton"]["manaTank"].get<sol::optional<sol::table>>();
+        if (!maybeManaTank)
+        {
+            ShowError("LoadAutomatonStats: Missing xi.automaton.manaTank");
+            return;
+        }
+
+        const auto& manaTank = *maybeManaTank;
+
+        const auto maybeManaTankData = manaTank["data"].get<sol::optional<sol::table>>();
+        if (!maybeManaTankData)
+        {
+            ShowError("LoadAutomatonStats: Missing xi.automaton.manaTank.data");
+            return;
+        }
+
+        const auto& manaTankData = *maybeManaTankData;
+
+        uint8 manaTankTier = 0;
+
+        for (const auto& manaTankDataEntry : manaTankData)
+        {
+            if (!manaTankDataEntry.second.is<sol::table>())
+            {
+                ShowError("LoadAutomatonStats: Invalid xi.automaton.manaTank.data entry");
+                return;
+            }
+
+            const auto manaTankEntry = manaTankDataEntry.second.as<sol::table>();
+
+            const auto maybeId = manaTankEntry["id"].get<sol::optional<uint8>>();
+            if (!maybeId)
+            {
+                ShowError("LoadAutomatonStats: Missing id in xi.automaton.manaTank.data");
+                return;
+            }
+
+            const auto maybeMPBoost = manaTankEntry["mpBoost"].get<sol::optional<uint8>>();
+            if (!maybeMPBoost)
+            {
+                ShowErrorFmt("LoadAutomatonStats: Missing mpBoost for attachment {} in xi.automaton.manaTank.data", *maybeId);
+                return;
+            }
+
+            if (PMaster->hasAutomatonAttachment(*maybeId))
+            {
+                manaTankTier += *maybeMPBoost;
+            }
+        }
+
+        const auto maybeFrameDivisors = manaTank["frameDivisors"].get<sol::optional<sol::table>>();
+        if (!maybeFrameDivisors)
+        {
+            ShowError("LoadAutomatonStats: Missing xi.automaton.manaTank.frameDivisors");
+            return;
+        }
+
+        const auto& frameDivisors = *maybeFrameDivisors;
+
+        const auto maybeDivisor = frameDivisors[frame].get<sol::optional<uint16>>();
+        if (!maybeDivisor || *maybeDivisor == 0)
+        {
+            ShowErrorFmt("LoadAutomatonStats: Missing Mana Tank divisor for frame {}", static_cast<uint16>(frame));
+            return;
+        }
+
+        tempHealth.maxmp += tempHealth.maxmp * manaTankTier / *maybeDivisor;
+        tempHealth.mp = tempHealth.maxmp;
+    }
+
     tempStats = {
         getLevelStat("STR"),
         getLevelStat("DEX"),

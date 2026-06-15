@@ -448,7 +448,7 @@ xi.pets.automaton.skillCaps =
 
         [xi.automaton.frame.STORMWAKER] =
         {
-            [xi.skill.AUTOMATON_MELEE] = xi.skillRank.C,
+            [xi.skill.AUTOMATON_MELEE] = xi.skillRank.C_PLUS,
             [xi.skill.AUTOMATON_MAGIC] = xi.skillRank.B_PLUS,
         },
     },

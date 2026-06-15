@@ -112,14 +112,10 @@ local attachmentModifiers =
     ['armor_plate_ii']      = { { xi.mod.DMGPHYS,                     { -1000, -1500, -2000, -2500 }, true  }, },
     ['armor_plate_iii']     = { { xi.mod.DMGPHYS,                     { -1500, -2000, -2500, -3000 }, true  }, },
     ['armor_plate_iv']      = { { xi.mod.DMGPHYS,                     { -2000, -2500, -3000, -4000 }, true  }, },
-    ['auto-repair_kit']     = { { xi.mod.HPP,                         {     5,     5,     5,     5 }, false },
-                                { xi.mod.REGEN,                       {   nil,   nil,   nil,   nil }, true  }, },
-    ['auto-repair_kit_ii']  = { { xi.mod.HPP,                         {    10,    10,    10,    10 }, false },
-                                { xi.mod.REGEN,                       {   nil,   nil,   nil,   nil }, true  }, },
-    ['auto-repair_kit_iii'] = { { xi.mod.HPP,                         {    15,    15,    15,    15 }, false },
-                                { xi.mod.REGEN,                       {   nil,   nil,   nil,   nil }, true  }, },
-    ['auto-repair_kit_iv']  = { { xi.mod.HPP,                         {    20,    20,    20,    20 }, false },
-                                { xi.mod.REGEN,                       {   nil,   nil,   nil,   nil }, true  }, },
+    ['auto-repair_kit']     = { { xi.mod.REGEN,                       {   nil,   nil,   nil,   nil }, true  }, },
+    ['auto-repair_kit_ii']  = { { xi.mod.REGEN,                       {   nil,   nil,   nil,   nil }, true  }, },
+    ['auto-repair_kit_iii'] = { { xi.mod.REGEN,                       {   nil,   nil,   nil,   nil }, true  }, },
+    ['auto-repair_kit_iv']  = { { xi.mod.REGEN,                       {   nil,   nil,   nil,   nil }, true  }, },
     ['barrier_module']      = { { xi.mod.SHIELDBLOCKRATE,             {     0,     5,    10,    15 }, true  },
                                 { xi.mod.AUTO_SHIELD_BASH_DELAY,      {     0,     5,    10,    15 }, false }, },
     ['barrier_module_ii']   = { { xi.mod.SHIELDBLOCKRATE,             {     0,    10,    20,    30 }, true  },
@@ -162,14 +158,10 @@ local attachmentModifiers =
     ['mana_jammer_ii']      = { { xi.mod.MDEF,                        {    20,    30,    40,    50 }, true  }, },
     ['mana_jammer_iii']     = { { xi.mod.MDEF,                        {    30,    40,    50,    60 }, true  }, },
     ['mana_jammer_iv']      = { { xi.mod.MDEF,                        {    40,    50,    60,    70 }, true  }, },
-    ['mana_tank']           = { { xi.mod.MPP,                         {     5,     5,     5,     5 }, false },
-                                { xi.mod.REFRESH,                     {   nil,   nil,   nil,   nil }, true  }, },
-    ['mana_tank_ii']        = { { xi.mod.MPP,                         {    10,    10,    10,    10 }, false },
-                                { xi.mod.REFRESH,                     {   nil,   nil,   nil,   nil }, true  }, },
-    ['mana_tank_iii']       = { { xi.mod.MPP,                         {    15,    15,    15,    15 }, false },
-                                { xi.mod.REFRESH,                     {   nil,   nil,   nil,   nil }, true  }, },
-    ['mana_tank_iv']        = { { xi.mod.MPP,                         {    20,    20,    20,    20 }, false },
-                                { xi.mod.REFRESH,                     {   nil,   nil,   nil,   nil }, true  }, },
+    ['mana_tank']           = { { xi.mod.REFRESH,                     {   nil,   nil,   nil,   nil }, true  }, },
+    ['mana_tank_ii']        = { { xi.mod.REFRESH,                     {   nil,   nil,   nil,   nil }, true  }, },
+    ['mana_tank_iii']       = { { xi.mod.REFRESH,                     {   nil,   nil,   nil,   nil }, true  }, },
+    ['mana_tank_iv']        = { { xi.mod.REFRESH,                     {   nil,   nil,   nil,   nil }, true  }, },
     ['optic_fiber']         = { { xi.mod.AUTO_PERFORMANCE_BOOST,      {    10,    20,    25,    30 }, false }, },
     ['optic_fiber_ii']      = { { xi.mod.AUTO_PERFORMANCE_BOOST,      {    15,    30,    37,    45 }, false }, },
     ['percolator']          = { { xi.mod.COMBAT_SKILLUP_RATE,         {     5,    10,    15,    20 }, true  }, },
@@ -222,31 +214,64 @@ local attachmentModifiers =
                                 { xi.mod.ENSPELL_CHANCE,              {     20,   35,    50,    65 }, false }, },
 }
 
--- Auto Repair Kits and Mana Tanks use a formula based on Max HP/MP in the form of
--- <baseValue> + <X% of Max HP/MP>.  This table represents those two variables.
-local regenRefreshFormulas =
+-- The HP Boost from Repair Kit I/II/III/IV is calculated on a per frame basis based on a divsor. Example : 4 (Repair Kit IV) / 20 (Harlequin) = .2 or a 20% HP Boost.
+xi.automaton.repairKit =
 {
-    -- Attachment               BaseValue          Multiplier (%)
-    ['auto-repair_kit']     = { { 0,  1,  2,  3 }, { 0, 0.125, 0.225, 0.375 } },
-    ['auto-repair_kit_ii']  = { { 0,  3,  6,  9 }, { 0,   0.6,   1.2,   1.8 } },
-    ['auto-repair_kit_iii'] = { { 0,  9, 12, 15 }, { 0,   1.8,   2.4,   3.0 } },
-    ['auto-repair_kit_iv']  = { { 0, 15, 18, 21 }, { 0,   3.0,   3.6,   4.2 } },
-    ['mana_tank']           = { { 0,  1,  2,  3 }, { 0,   0.2,   0.4,   0.6 } },
-    ['mana_tank_ii']        = { { 0,  2,  3,  4 }, { 0,   0.4,   0.6,   0.8 } },
-    ['mana_tank_iii']       = { { 0,  3,  4,  5 }, { 0,   0.6,   0.8,   1.0 } },
-    ['mana_tank_iv']        = { { 0,  4,  5,  6 }, { 0,   0.8,   1.0,   1.2 } },
+    frameDivisors =
+    {
+        [xi.automaton.frame.HARLEQUIN ] = 20,
+        [xi.automaton.frame.VALOREDGE ] = 24,
+        [xi.automaton.frame.SHARPSHOT ] = 18,
+        [xi.automaton.frame.STORMWAKER] = 16,
+    },
+
+    data =
+    {
+        ['auto-repair_kit'    ] = { id = 193, hpBoost = 1, regenBase = { 0,  1,  2,  3 }, regenMultiplier = { 0, 0.125, 0.225, 0.375 } },
+        ['auto-repair_kit_ii' ] = { id = 196, hpBoost = 2, regenBase = { 0,  3,  6,  9 }, regenMultiplier = { 0, 0.600, 1.200, 1.800 } },
+        ['auto-repair_kit_iii'] = { id = 202, hpBoost = 3, regenBase = { 0,  9, 12, 15 }, regenMultiplier = { 0, 1.800, 2.400, 3.000 } },
+        ['auto-repair_kit_iv' ] = { id = 205, hpBoost = 4, regenBase = { 0, 15, 18, 21 }, regenMultiplier = { 0, 3.000, 3.600, 4.200 } },
+    },
 }
 
-local function getRegenModValue(pet, attachmentName, numManeuvers)
-    local petMaxHP = pet:getMaxHP()
+-- The MP Boost from Mana Tank I/II/III/IV is calculated on a per frame basis based on a divisor. Example : 4 (Mana Tank IV) / 20 (Harlequin) = .2 or a 20% MP Boost.
+xi.automaton.manaTank =
+{
+    frameDivisors =
+    {
+        [xi.automaton.frame.HARLEQUIN ] = 20,
+        [xi.automaton.frame.STORMWAKER] = 24,
+    },
 
-    return regenRefreshFormulas[attachmentName][1][numManeuvers + 1] + petMaxHP * (regenRefreshFormulas[attachmentName][2][numManeuvers + 1] / 100)
+    data =
+    {
+        ['mana_tank'    ] = { id = 225, mpBoost = 1, refreshBase = { 0, 1, 2, 3 }, refreshMultiplier = { 0, 0.2, 0.4, 0.6 } },
+        ['mana_tank_ii' ] = { id = 228, mpBoost = 2, refreshBase = { 0, 2, 3, 4 }, refreshMultiplier = { 0, 0.4, 0.6, 0.8 } },
+        ['mana_tank_iii'] = { id = 233, mpBoost = 3, refreshBase = { 0, 3, 4, 5 }, refreshMultiplier = { 0, 0.6, 0.8, 1.0 } },
+        ['mana_tank_iv' ] = { id = 235, mpBoost = 4, refreshBase = { 0, 4, 5, 6 }, refreshMultiplier = { 0, 0.8, 1.0, 1.2 } },
+    },
+}
+
+local function getRegenModValue(pet, attachment, numManeuvers)
+    local petMaxHP = pet:getMaxHP()
+    local repairKitData = xi.automaton.repairKit.data[attachment:getName()]
+
+    if repairKitData then
+        return repairKitData.regenBase[numManeuvers + 1] + petMaxHP * (repairKitData.regenMultiplier[numManeuvers + 1] / 100)
+    end
+
+    return 0
 end
 
-local function getRefreshModValue(pet, attachmentName, numManeuvers)
+local function getRefreshModValue(pet, attachment, numManeuvers)
     local petMaxMP = pet:getMaxMP()
+    local manaTankData = xi.automaton.manaTank.data[attachment:getName()]
 
-    return regenRefreshFormulas[attachmentName][1][numManeuvers + 1] + petMaxMP * (regenRefreshFormulas[attachmentName][2][numManeuvers + 1] / 100)
+    if manaTankData then
+        return manaTankData.refreshBase[numManeuvers + 1] + petMaxMP * (manaTankData.refreshMultiplier[numManeuvers + 1] / 100)
+    end
+
+    return 0
 end
 
 local function isOpticFiber(attachmentName)
@@ -351,9 +376,9 @@ xi.automaton.updateAttachmentModifier = function(pet, attachment, maneuvers)
 
         -- Get base modifier value
         if modList[1] == xi.mod.REGEN then
-            modValue = getRegenModValue(pet, attachmentName, maneuvers)
+            modValue = getRegenModValue(pet, attachment, maneuvers)
         elseif modList[1] == xi.mod.REFRESH then
-            modValue = getRefreshModValue(pet, attachmentName, maneuvers)
+            modValue = getRefreshModValue(pet, attachment, maneuvers)
         else
             modValue = modList[2][maneuvers + 1]
         end
