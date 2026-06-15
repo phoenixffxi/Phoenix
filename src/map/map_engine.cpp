@@ -157,7 +157,8 @@ auto MapEngine::init() -> Task<void>
     zlib_init();
 
     ShowInfo("do_init: starting ZMQ thread");
-    message::init(networking());
+    ipcClient_ = std::make_unique<IPCClient>(networking(), application_.zmqService());
+    message::init(*ipcClient_);
 
     ShowInfo("do_init: loading items");
     itemutils::Initialize();

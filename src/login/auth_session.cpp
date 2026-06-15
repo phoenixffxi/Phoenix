@@ -249,7 +249,7 @@ void auth_session::read_func()
                 .accountId = accountID,
             });
 
-            zmqDealerWrapper_.outgoingQueue_.enqueue(zmq::message_t(payload.data(), payload.size()));
+            dealerChannel_.send(zmq::message_t(payload.data(), payload.size()));
 
             // set Satchel to the same size as inventory on all chars on their account if character has OTP
             // Note: Upgrades happen in-game with gobbiebag

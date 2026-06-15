@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-  Copyright (c) 2022 LandSandBoat Dev Teams
+  Copyright (c) 2026 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,36 +19,11 @@
 ===========================================================================
 */
 
-#include "world_application.h"
+#include <common/zmq/endpoint.h>
 
-#include "common/application.h"
-#include "common/logging.h"
+ZmqEndpoint::~ZmqEndpoint() = default;
 
-#include "ipc_server.h"
-#include "world_engine.h"
-
-namespace
+auto ZmqEndpoint::opened() const -> bool
 {
-
-auto appConfig() -> ApplicationConfig
-{
-    return ApplicationConfig{
-        .serverName = "world",
-        .arguments  = {},
-    };
-}
-
-} // namespace
-
-WorldApplication::WorldApplication(const int argc, char** argv)
-: Application(appConfig(), argc, argv)
-{
-}
-
-WorldApplication::~WorldApplication() = default;
-
-auto WorldApplication::createEngine() -> std::unique_ptr<Engine>
-{
-    const auto httpEnabled = settings::get<bool>("network.ENABLE_HTTP");
-    return std::make_unique<WorldEngine>(scheduler_, zmqService_, WorldEngine::EnableHTTPServer{ httpEnabled });
+    return opened_.load(std::memory_order_acquire);
 }

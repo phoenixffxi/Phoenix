@@ -48,7 +48,7 @@ ConnectApplication::~ConnectApplication() = default;
 auto ConnectApplication::createEngine() -> std::unique_ptr<Engine>
 {
     certificateHelpers::generateSelfSignedCert();
-    return std::make_unique<ConnectEngine>(scheduler_);
+    return std::make_unique<ConnectEngine>(scheduler_, zmqService_);
 }
 
 void ConnectApplication::registerCommands(ConsoleService& console)

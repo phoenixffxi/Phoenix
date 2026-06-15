@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-  Copyright (c) 2022 LandSandBoat Dev Teams
+  Copyright (c) 2026 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,36 +19,31 @@
 ===========================================================================
 */
 
-#include "world_application.h"
+#pragma once
 
-#include "common/application.h"
-#include "common/logging.h"
+#include <common/ipp_message.h>
+#include <common/zmq/endpoint.h>
 
-#include "ipc_server.h"
-#include "world_engine.h"
+#include <string>
 
-namespace
+#include <concurrentqueue.h>
+#include <zmq.hpp>
+
+class RouterEndpoint final : public ZmqEndpoint
 {
+public:
+    explicit RouterEndpoint(std::string endpoint);
 
-auto appConfig() -> ApplicationConfig
-{
-    return ApplicationConfig{
-        .serverName = "world",
-        .arguments  = {},
-    };
-}
+    auto open(zmq::context_t& ctx) -> bool override;
+    auto close() -> void override;
+    auto socketHandle() -> void* override;
+    auto onReadable() -> void override;
+    auto flushOutbound() -> void override;
 
-} // namespace
+    moodycamel::ConcurrentQueue<IPPMessage> incomingQueue_;
+    moodycamel::ConcurrentQueue<IPPMessage> outgoingQueue_;
 
-WorldApplication::WorldApplication(const int argc, char** argv)
-: Application(appConfig(), argc, argv)
-{
-}
-
-WorldApplication::~WorldApplication() = default;
-
-auto WorldApplication::createEngine() -> std::unique_ptr<Engine>
-{
-    const auto httpEnabled = settings::get<bool>("network.ENABLE_HTTP");
-    return std::make_unique<WorldEngine>(scheduler_, zmqService_, WorldEngine::EnableHTTPServer{ httpEnabled });
-}
+private:
+    std::string   endpoint_;
+    zmq::socket_t socket_;
+};

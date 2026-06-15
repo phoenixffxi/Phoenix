@@ -38,14 +38,18 @@ namespace
 
 auto getZMQEndpointString() -> std::string
 {
-    return fmt::format("tcp://{}:{}", settings::get<std::string>("network.ZMQ_IP"), settings::get<uint16>("network.ZMQ_PORT"));
+    return fmt::format(
+        "{}://{}:{}",
+        settings::get<std::string>("network.ZMQ_TRANSPORT"),
+        settings::get<std::string>("network.ZMQ_IP"),
+        settings::get<uint16>("network.ZMQ_PORT"));
 }
 
 } // namespace
 
-IPCServer::IPCServer(WorldEngine& worldServer)
+IPCServer::IPCServer(WorldEngine& worldServer, ZMQService& zmqService)
 : worldServer_(worldServer)
-, zmqRouterWrapper_(getZMQEndpointString())
+, channel_(zmqService.registerRouter(getZMQEndpointString()))
 {
     TracyZoneScoped;
 }
@@ -365,9 +369,9 @@ void IPCServer::handleIncomingMessages()
 {
     TracyZoneScoped;
 
-    // TODO: Can we stop more messages appearing on the queue while we're processing?
+    // TODO: Should we stop more messages appearing on the queue while we're processing?
     IPPMessage message;
-    while (zmqRouterWrapper_.incomingQueue_.try_dequeue(message))
+    while (channel_.tryReceive(message))
     {
         const auto firstByte = message.payload[0];
         const auto msgType   = ipc::toString(static_cast<ipc::MessageType>(firstByte));

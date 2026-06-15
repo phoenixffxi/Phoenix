@@ -35,6 +35,7 @@
 //
 
 class IPP;
+class IPCClient;
 class MapNetworking;
 class MapStatistics;
 class CZone;
@@ -100,6 +101,7 @@ private:
 
     std::unique_ptr<MapStatistics> mapStatistics_;
     std::unique_ptr<MapNetworking> networking_;
+    std::unique_ptr<IPCClient>     ipcClient_;
     std::atomic<timer::time_point> watchdogLastUpdate_;
     MapConfig&                     config_;
 };

@@ -30,17 +30,19 @@
 #include "view_session.h"
 
 #include "common/scheduler.h"
-#include "common/zmq_dealer_wrapper.h"
+#include "common/zmq/channel.h"
+
+#include <zmq.hpp>
 
 template <typename T>
 class handler
 {
 public:
-    handler(Scheduler& scheduler, unsigned int port, ZMQDealerWrapper& zmqDealerWrapper)
+    handler(Scheduler& scheduler, unsigned int port, ipc::Channel<zmq::message_t> dealerChannel)
     : scheduler_(scheduler)
     , acceptor_(scheduler_.mainContext(), asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port))
     , sslContext_(asio::ssl::context::tls_server)
-    , zmqDealerWrapper_(zmqDealerWrapper)
+    , dealerChannel_(dealerChannel)
     {
         acceptor_.set_option(asio::socket_base::reuse_address(true));
 
@@ -62,7 +64,7 @@ private:
 
             if (!ec)
             {
-                const auto sessionHandler = std::make_shared<T>(asio::ssl::stream<asio::ip::tcp::socket>(std::move(socket), sslContext_), zmqDealerWrapper_);
+                const auto sessionHandler = std::make_shared<T>(asio::ssl::stream<asio::ip::tcp::socket>(std::move(socket), sslContext_), dealerChannel_);
                 scheduler_.postToWorkerThread(
                     [sessionHandler]
                     {
@@ -80,5 +82,5 @@ private:
     asio::ip::tcp::acceptor acceptor_;
     asio::ssl::context      sslContext_;
 
-    ZMQDealerWrapper& zmqDealerWrapper_;
+    ipc::Channel<zmq::message_t> dealerChannel_;
 };

@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-  Copyright (c) 2022 LandSandBoat Dev Teams
+  Copyright (c) 2026 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,36 +19,15 @@
 ===========================================================================
 */
 
-#include "world_application.h"
+#pragma once
 
-#include "common/application.h"
-#include "common/logging.h"
+#include <common/ipp.h>
 
-#include "ipc_server.h"
-#include "world_engine.h"
+#include <vector>
 
-namespace
+// An IP+Port-addressed message: a routing id plus an opaque payload.
+struct IPPMessage
 {
-
-auto appConfig() -> ApplicationConfig
-{
-    return ApplicationConfig{
-        .serverName = "world",
-        .arguments  = {},
-    };
-}
-
-} // namespace
-
-WorldApplication::WorldApplication(const int argc, char** argv)
-: Application(appConfig(), argc, argv)
-{
-}
-
-WorldApplication::~WorldApplication() = default;
-
-auto WorldApplication::createEngine() -> std::unique_ptr<Engine>
-{
-    const auto httpEnabled = settings::get<bool>("network.ENABLE_HTTP");
-    return std::make_unique<WorldEngine>(scheduler_, zmqService_, WorldEngine::EnableHTTPServer{ httpEnabled });
-}
+    IPP                ipp;
+    std::vector<uint8> payload;
+};

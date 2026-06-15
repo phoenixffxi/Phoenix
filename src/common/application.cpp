@@ -295,6 +295,11 @@ auto Application::scheduler() -> Scheduler&
     return scheduler_;
 }
 
+auto Application::zmqService() -> ZMQService&
+{
+    return zmqService_;
+}
+
 auto Application::args() const -> Arguments&
 {
     return *args_;

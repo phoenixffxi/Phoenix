@@ -54,33 +54,44 @@
 #include "utils/serverutils.h"
 #include "utils/zoneutils.h"
 
-// TODO: Don't do this
-std::unique_ptr<IPCClient> ipcClient_;
-
-void message::init(MapNetworking& networking)
+namespace
 {
-    TracyZoneScoped;
 
-    ipcClient_ = std::make_unique<IPCClient>(networking);
+IPCClient* sClient = nullptr;
+
+} // namespace
+
+void message::init(IPCClient& client)
+{
+    sClient = &client;
+}
+
+auto message::detail::client() -> IPCClient&
+{
+    return *sClient;
 }
 
 void message::handle_incoming()
 {
     TracyZoneScoped;
 
-    ipcClient_->handleIncomingMessages();
+    sClient->handleIncomingMessages();
 }
 
-IPCClient::IPCClient(MapNetworking& networking)
+IPCClient::IPCClient(MapNetworking& networking, ZMQService& zmqService)
 : networking_(networking)
-, zmqDealerWrapper_(getZMQEndpointString(), getZMQRoutingId())
+, channel_(zmqService.registerDealer(getZMQEndpointString(), getZMQRoutingId()))
 {
     TracyZoneScoped;
 }
 
 auto IPCClient::getZMQEndpointString() -> std::string
 {
-    return fmt::format("tcp://{}:{}", settings::get<std::string>("network.ZMQ_IP"), settings::get<uint16>("network.ZMQ_PORT"));
+    return fmt::format(
+        "{}://{}:{}",
+        settings::get<std::string>("network.ZMQ_TRANSPORT"),
+        settings::get<std::string>("network.ZMQ_IP"),
+        settings::get<uint16>("network.ZMQ_PORT"));
 }
 
 auto IPCClient::getZMQRoutingId() -> uint64
@@ -115,7 +126,7 @@ void IPCClient::handleIncomingMessages()
 
     // TODO: Can we stop more messages appearing on the queue while we're processing?
     zmq::message_t out;
-    while (zmqDealerWrapper_.incomingQueue_.try_dequeue(out))
+    while (channel_.tryReceive(out))
     {
         const auto firstByte = out.data<uint8>()[0];
         const auto msgType   = ipc::toString(static_cast<ipc::MessageType>(firstByte));

@@ -25,7 +25,7 @@
 #include "common/ipc.h"
 #include "common/lua.h"
 #include "common/mmo.h"
-#include "common/zmq_dealer_wrapper.h"
+#include "common/zmq/zmq_service.h"
 
 #include <atomic>
 #include <thread>
@@ -38,7 +38,7 @@ class MapNetworking;
 class IPCClient final : public ipc::IPCMessageHandlerBase<IPCClient>
 {
 public:
-    IPCClient(MapNetworking& networking);
+    IPCClient(MapNetworking& networking, ZMQService& zmqService);
 
     auto getZMQEndpointString() -> std::string;
     auto getZMQRoutingId() -> uint64;
@@ -93,8 +93,9 @@ public:
     void handleUnknownMessage(const IPP& ipp, const std::span<uint8_t> message);
 
 private:
-    MapNetworking&   networking_;
-    ZMQDealerWrapper zmqDealerWrapper_;
+    MapNetworking& networking_;
+
+    ipc::Channel<zmq::message_t> channel_;
 };
 
 //
@@ -111,25 +112,31 @@ void IPCClient::sendMessage(const T& message)
     DebugIPCFmt("Sending message: {}", ipc::toStringV<T>);
 
     const auto bytes = ipc::toBytesWithHeader<T>(message);
-    zmqDealerWrapper_.outgoingQueue_.enqueue(zmq::message_t(bytes));
+    channel_.send(zmq::message_t(bytes));
 }
 
 //
 // Convenience namespace
 //
 
-// TODO: Don't do this
-extern std::unique_ptr<IPCClient> ipcClient_;
-
 namespace message
 {
 
-void init(MapNetworking& networking);
+// TODO: For convenience, we bind the IPCClient to this global namespace, but we should
+// pipe things properly through to the places that want them.
+void init(IPCClient& client);
+
+namespace detail
+{
+
+auto client() -> IPCClient&;
+
+} // namespace detail
 
 template <typename T>
 void send(const T& message)
 {
-    ipcClient_->sendMessage(message);
+    detail::client().sendMessage(message);
 }
 
 void handle_incoming();

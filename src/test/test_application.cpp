@@ -22,7 +22,11 @@
 #include "test_application.h"
 #include "test_engine.h"
 
+#include "common/settings.h"
+
 #include <spdlog/async.h>
+
+#include <string>
 
 namespace
 {
@@ -108,15 +112,22 @@ void TestApplication::run()
     scheduler_.postToMainThread(
         [&]() -> Task<void>
         {
+            // The test harness embeds both the world and map servers in this one process. Route their
+            // IPC over inproc:// (a shared, in-process transport) instead of a TCP port.
+            settings::set("network.ZMQ_TRANSPORT", std::string("inproc"));
+
+            //
+            // Prepare WorldEngine
+            //
+
+            auto worldEngine = std::make_unique<WorldEngine>(scheduler_, zmqService_, WorldEngine::EnableHTTPServer::No);
+
+            worldEngine->onInitialize();
+
             //
             // Prepare MapEngine
             //
 
-            // Without a world server actively pumping the queues,
-            // the embedded map server deadlocks on exit
-            //
-            // We will need this to work to support multiprocess tests and validating systems that rely on world server.
-            // However, that requires deeper rework to the IPP logic so we can smartly route messages during tests.
             MapConfig mapConfig{
                 .isTestServer      = true,
                 .lazyZones         = true,
@@ -129,14 +140,6 @@ void TestApplication::run()
             scheduler_.blockOnMainThread(mapEngine->init());
 
             mapEngine->onInitialize();
-
-            //
-            // Prepare WorldEngine
-            //
-
-            auto worldEngine = std::make_unique<WorldEngine>(scheduler_, WorldEngine::EnableHTTPServer::No);
-
-            worldEngine->onInitialize();
 
             //
             // Prepare TestEngine with MapEngine and WorldEngine
