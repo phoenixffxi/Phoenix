@@ -30,7 +30,7 @@ PacketRateLimiter::PacketRateLimiter()
 {
     rateLimits_[0x017] = 1s;    // Invalid NPC Information Response
     rateLimits_[0x03B] = 1s;    // Mannequin Equip
-    rateLimits_[0x05D] = 2s;    // Emotes
+    rateLimits_[0x05D] = 1s;    // Emotes
     rateLimits_[0x083] = 250ms; // Vendor Shop Purchase
     rateLimits_[0x0AA] = 250ms; // Guild Shop Purchase
     rateLimits_[0x0B7] = 1s;    // Assist Channel
