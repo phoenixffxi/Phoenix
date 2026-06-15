@@ -320,17 +320,17 @@ INSERT INTO `mob_groups` VALUES (37,3944,7,'Tomb_Warrior',300,1,678,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (38,2770,7,'Mummy',300,1,678,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (39,2407,7,'Lich',300,1,958,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (40,801,7,'Corse',300,1,517,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (41,733,7,'Citipati',0,33,475,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (41,733,7,'Citipati',0,32,475,8000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (42,4396,7,'Xolotl',1,1,2683,20000,20000,0,NULL);
-INSERT INTO `mob_groups` VALUES (43,4397,7,'Xolotls_Hound_Warrior',0,128,0,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (44,4398,7,'Xolotls_Sacrifice',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (43,4397,7,'Xolotls_Hound_Warrior',0,128,0,4200,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (44,4398,7,'Xolotls_Sacrifice',0,128,0,4500,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (45,225,7,'Arch_Corse',300,1,162,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (46,3916,7,'Tiamat',0,128,2416,100000,100000,0,NULL);
 INSERT INTO `mob_groups` VALUES (47,7339,7,'Bifrons',300,8,268,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (48,662,7,'Cave_Antlion',300,0,434,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (49,1318,7,'Feeler_Antlion',0,128,0,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (50,1269,7,'Executioner_Antlion',0,128,0,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (51,80,7,'Alastor_Antlion',0,128,45,50000,10000,0,NULL);
+INSERT INTO `mob_groups` VALUES (49,1318,7,'Feeler_Antlion',0,128,0,6000,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (50,1269,7,'Executioner_Antlion',0,128,0,7700,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (51,80,7,'Alastor_Antlion',0,128,45,20000,10000,0,NULL);
 INSERT INTO `mob_groups` VALUES (52,104,7,'Ambusher_Antlion',0,32,61,0,0,0,NULL);
 -- 53 free
 -- 54 free
