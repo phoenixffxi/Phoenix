@@ -177,6 +177,38 @@ if (NOT IPC_EXIT_CODE EQUAL 0)
     message(FATAL_ERROR "Failed to generate IPC stubs")
 endif()
 
+execute_process(
+    COMMAND ${Python_EXECUTABLE} -c "import jinja2, jsonschema, yaml"
+    RESULT_VARIABLE CODEGEN_DEPS_EXIT_CODE
+    OUTPUT_QUIET
+    ERROR_QUIET
+)
+if(NOT CODEGEN_DEPS_EXIT_CODE EQUAL 0)
+    message(FATAL_ERROR "Run: ${Python_EXECUTABLE} -m pip install -r tools/requirements.txt")
+endif()
+
+add_custom_target(data_codegen
+    COMMAND ${Python_EXECUTABLE} -m tools.codegen ${CMAKE_BINARY_DIR}
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    BYPRODUCTS
+        ${CMAKE_BINARY_DIR}/generated/.codegen.stamp
+        ${CMAKE_BINARY_DIR}/generated/data/all.h
+    USES_TERMINAL
+    VERBATIM
+)
+
+if(NOT EXISTS ${CMAKE_BINARY_DIR}/generated/.codegen.stamp)
+    message(STATUS "Bootstrapping data codegen")
+    execute_process(
+        COMMAND ${Python_EXECUTABLE} -m tools.codegen ${CMAKE_BINARY_DIR}
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        RESULT_VARIABLE CODEGEN_EXIT_CODE
+    )
+    if(NOT CODEGEN_EXIT_CODE EQUAL 0)
+        message(FATAL_ERROR "Bootstrap codegen failed")
+    endif()
+endif()
+
 include_directories(${CMAKE_BINARY_DIR}/generated) # Globally include the build/generated directory
 
 add_subdirectory(src)

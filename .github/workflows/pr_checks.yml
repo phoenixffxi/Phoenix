@@ -29,7 +29,7 @@ jobs:
       # $GITHUB_WORKSPACE is the workspace in the container (/__w/server/server)
       - run: git config --global --add safe.directory $GITHUB_WORKSPACE
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -82,7 +82,7 @@ jobs:
 
       - run: git config --global --add safe.directory $GITHUB_WORKSPACE
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         if: ${{ steps.check-changes.outputs.lua_changes == 'true' }}
         with:
           fetch-depth: 0
@@ -92,6 +92,10 @@ jobs:
         run: |
           python -m pip install --upgrade pip setuptools wheel
           python -m pip install --upgrade -r ./tools/requirements.txt
+
+      - name: Generate codegen Lua enums
+        if: ${{ steps.check-changes.outputs.lua_changes == 'true' }}
+        run: python -m tools.codegen "$RUNNER_TEMP/codegen-out"
 
       - name: Run Lua Language Server
         id: run_lls
@@ -127,6 +131,110 @@ jobs:
         if: ${{ steps.check-changes.outputs.lua_changes == 'true' && (steps.run_lls.outcome == 'failure' || steps.summarize_run.outputs.issues_found == 'true') }}
         run: |
           echo "Lua Language Server failed. See summary for details."
+          exit 1
+
+  Schema_Validation:
+    needs: Sanity_Checks
+    name: Data validation
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Download Changed Files
+        uses: actions/download-artifact@v4
+        with:
+          name: changed-files
+
+      - name: Check for data/ or codegen changes
+        id: changed
+        run: |
+          mapfile -t changed_files < changed-files.txt
+          touched=false
+          for f in "${changed_files[@]}"; do
+            if [[ $f == data/* || $f == tools/codegen/* ]]; then
+              touched=true
+              break
+            fi
+          done
+          echo "touched=$touched" >> "$GITHUB_OUTPUT"
+          echo "Touched: $touched"
+
+      - uses: actions/checkout@v6
+        if: steps.changed.outputs.touched == 'true'
+
+      - name: Setup Python
+        if: steps.changed.outputs.touched == 'true'
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
+
+      - name: Install Python dependencies
+        if: steps.changed.outputs.touched == 'true'
+        run: python -m pip install jinja2 jsonschema pyyaml
+
+      - name: Run codegen --validate
+        if: steps.changed.outputs.touched == 'true'
+        run: |
+          mkdir -p "$RUNNER_TEMP/codegen-out"
+          python -m tools.codegen "$RUNNER_TEMP/codegen-out" --validate
+
+  Formatting:
+    needs: Sanity_Checks
+    name: Data formatting
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Download Changed Files
+        uses: actions/download-artifact@v4
+        with:
+          name: changed-files
+
+      - name: Filter data/ changed files
+        id: changed
+        run: |
+          mapfile -t changed_files < changed-files.txt
+          data_files=()
+          for f in "${changed_files[@]}"; do
+            if [[ $f == data/* ]]; then
+              data_files+=("$f")
+            fi
+          done
+          echo "files=${data_files[*]}" >> "$GITHUB_OUTPUT"
+          echo "Changed data files: ${data_files[*]}"
+
+      - uses: actions/checkout@v6
+        if: steps.changed.outputs.files != ''
+
+      - name: Cache prettier results
+        if: steps.changed.outputs.files != ''
+        uses: actions/cache@v5
+        with:
+          path: /tmp/prettier-cache
+          key: prettier-cache-${{ hashFiles('data/**/*.yaml', 'data/**/*.json') }}
+          restore-keys: prettier-cache-
+
+      - name: Run prettier
+        if: steps.changed.outputs.files != ''
+        run: |
+          set +e
+          FAILED=$(npx --yes prettier@3 --cache --cache-strategy content --cache-location /tmp/prettier-cache --list-different ${{ steps.changed.outputs.files }})
+          set -e
+          if [ -z "$FAILED" ]; then
+            echo "All files use Prettier code style!"
+            exit 0
+          fi
+          echo "::group::Files needing reformat"
+          echo "$FAILED"
+          echo "::endgroup::"
+          echo "::group::Diff"
+          for f in $FAILED; do
+            diff -u "$f" <(npx --yes prettier@3 "$f") || true
+          done
+          echo "::endgroup::"
+          echo "Run \`npx prettier --write data\` locally to fix."
           exit 1
 
   Clang_Tidy:

@@ -126,6 +126,9 @@ jobs:
           echo "${{ runner.os == 'Windows' && '.venv/Scripts' || '.venv/bin' }}" >> $GITHUB_PATH
           echo "VIRTUAL_ENV=$(pwd)/.venv" >> $GITHUB_ENV
 
+      - name: Generate codegen Lua enums
+        run: python -m tools.codegen "$RUNNER_TEMP/codegen-out"
+
       - name: Download artifact
         if: ${{ github.event_name == 'pull_request' }}
         uses: actions/download-artifact@v4

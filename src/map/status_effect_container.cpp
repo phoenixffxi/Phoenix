@@ -35,6 +35,7 @@ When a status effect is gained twice on a player. It can do one or more of the f
 #include <array>
 #include <cstring>
 
+#include "data/loader.h"
 #include "lua/luautils.h"
 
 #include "ai/ai_container.h"
@@ -88,30 +89,26 @@ void LoadEffectsParameters()
         EffectsParams[i].Flag = 0;
     }
 
-    const auto rset = db::preparedStmt("SELECT id, name, flags, type, "
-                                       "negative_id, overwrite, block_id, remove_id, "
-                                       "element, min_duration, sort_key, wear_off_message_id "
-                                       "FROM status_effects "
-                                       "WHERE id < ?",
-                                       MAX_EFFECTID);
-    FOR_DB_MULTIPLE_RESULTS(rset)
+    for (const auto& [id, data] : LoadStatusEffects())
     {
-        const auto EffectID = rset->get<uint16>("id");
+        if (id >= MAX_EFFECTID)
+        {
+            continue;
+        }
 
-        EffectsParams[EffectID].Name             = rset->get<std::string>("name");
-        EffectsParams[EffectID].Flag             = rset->get<uint32>("flags");
-        EffectsParams[EffectID].Type             = rset->get<uint16>("type");
-        EffectsParams[EffectID].NegativeId       = rset->get<EFFECT>("negative_id");
-        EffectsParams[EffectID].Overwrite        = rset->get<EFFECTOVERWRITE>("overwrite");
-        EffectsParams[EffectID].BlockId          = rset->get<EFFECT>("block_id");
-        EffectsParams[EffectID].RemoveId         = rset->get<EFFECT>("remove_id");
-        EffectsParams[EffectID].Element          = rset->get<uint16>("element");
-        EffectsParams[EffectID].MinDuration      = std::chrono::seconds(rset->get<uint32>("min_duration"));
-        const auto sortKey                       = rset->get<uint16>("sort_key");
-        EffectsParams[EffectID].SortKey          = sortKey == 0 ? 10000 : sortKey; // default to high number to such that effects without a sort key aren't first
-        EffectsParams[EffectID].WearOffMessageId = rset->getOrDefault<MsgStd>("wear_off_message_id", MsgStd::EffectWearsOff);
+        EffectsParams[id].Name             = data.Name;
+        EffectsParams[id].Flag             = static_cast<uint32>(data.Flags);
+        EffectsParams[id].Type             = static_cast<uint16>(data.ExclusionGroup);
+        EffectsParams[id].NegativeId       = static_cast<EFFECT>(data.Negative);
+        EffectsParams[id].Overwrite        = static_cast<EFFECTOVERWRITE>(data.Overwrite);
+        EffectsParams[id].BlockId          = static_cast<EFFECT>(data.Block);
+        EffectsParams[id].RemoveId         = static_cast<EFFECT>(data.Remove);
+        EffectsParams[id].Element          = static_cast<uint8>(data.Element);
+        EffectsParams[id].MinDuration      = std::chrono::seconds(data.MinDuration);
+        EffectsParams[id].SortKey          = data.SortKey == 0 ? 10000 : data.SortKey;
+        EffectsParams[id].WearOffMessageId = data.WearOffMessageId == 0 ? MsgStd::EffectWearsOff : static_cast<MsgStd>(data.WearOffMessageId);
 
-        auto filename = fmt::format("./scripts/effects/{}.lua", EffectsParams[EffectID].Name);
+        auto filename = fmt::format("./scripts/effects/{}.lua", EffectsParams[id].Name);
         luautils::CacheLuaObjectFromFile(filename);
     }
 }

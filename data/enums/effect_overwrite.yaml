@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=../schemas/enums/_enum.schema.json
+
+meta:
+  cpp:
+    underlying: uint8_t
+  lua:
+    table: xi.effectOverwrite
+
+values:
+  equal_higher: 0 # only overwrite if equal or higher (tier, power)
+  higher: 1 # only overwrite if strictly higher
+  never: 2
+  always: 3
+  ignore_duplicate: 4
+  tier_higher: 5 # only overwrite if tier is higher (regardless of power)

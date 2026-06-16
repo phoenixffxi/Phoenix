@@ -1276,6 +1276,19 @@ def dump_all_tables(silent=False):
         print_green(f"Replaced values in all .sql files with data from the database.")
 
 
+def validate_yaml_data():
+    import tempfile
+    with tempfile.TemporaryDirectory() as tmp:
+        rc = subprocess.call(
+            [sys.executable, "-m", "tools.codegen", tmp, "--validate"],
+            cwd=server_dir_path,
+        )
+    if rc == 0:
+        print_green("YAML data validates clean.")
+    else:
+        print_red("YAML validation failed.")
+
+
 def tasks_menu():
     present_menu(
         "Maintenance Tasks",
@@ -1288,6 +1301,7 @@ def tasks_menu():
             #     "Offload historical auction data to auction_house_history",
             #     offload_to_auction_house_history,
             # ],
+            "v": ["Validate YAML data", validate_yaml_data],
             "l": [
                 "Configure single-process server",
                 configure_single_process,

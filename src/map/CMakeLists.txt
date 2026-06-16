@@ -1,5 +1,6 @@
 add_subdirectory(action)
 add_subdirectory(ai)
+add_subdirectory(data)
 add_subdirectory(entities)
 add_subdirectory(enums)
 add_subdirectory(items)
@@ -15,6 +16,7 @@ set(SOURCES
     ${COMMON_SOURCES}
     ${ACTION_SOURCES}
     ${AI_SOURCES}
+    ${DATA_SOURCES}
     ${ENTITY_SOURCES}
     ${ENUMS_SOURCES}
     ${ITEM_SOURCES}
@@ -222,6 +224,8 @@ set(MAP_LIB_SOURCES ${SOURCES})
 add_library(xi_map_lib
     STATIC
         ${MAP_LIB_SOURCES})
+
+add_dependencies(xi_map_lib data_codegen)
 
 foreach(entry ${cmakelist_include_paths})
     if (${entry} STREQUAL "")
