@@ -172,13 +172,13 @@ void GP_CLI_COMMAND_ACTION::process(MapSession* PSession, CCharEntity* PChar) co
         {
             // Monstrosity: Can't really do anything while under Gestation until you click it off.
             //            : MONs can trigger doors, so we'll handle that later.
-            if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_GESTATION))
+            if (PChar->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Gestation))
             {
                 return;
             }
 
             // Talking to an NPC cancels /heal
-            PChar->StatusEffectContainer->DelStatusEffectSilent(EFFECT_HEALING);
+            PChar->StatusEffectContainer->DelStatusEffectSilent(xi::StatusEffect::Healing);
 
             // Talking to an NPC force disengages
             if (PChar->PAI->IsEngaged())
@@ -266,7 +266,7 @@ void GP_CLI_COMMAND_ACTION::process(MapSession* PSession, CCharEntity* PChar) co
         {
             if (PChar->isMounted())
             {
-                PChar->StatusEffectContainer->DelStatusEffectSilent(EFFECT_MOUNTED);
+                PChar->StatusEffectContainer->DelStatusEffectSilent(xi::StatusEffect::Mounted);
             }
 
             PChar->PAI->Engage(this->ActIndex);
@@ -456,7 +456,7 @@ void GP_CLI_COMMAND_ACTION::process(MapSession* PSession, CCharEntity* PChar) co
         {
             PChar->animation = ANIMATION_NONE;
             PChar->updatemask |= UPDATE_HP;
-            PChar->StatusEffectContainer->DelStatusEffectSilent(EFFECT_MOUNTED);
+            PChar->StatusEffectContainer->DelStatusEffectSilent(xi::StatusEffect::Mounted);
         }
         break;
         case GP_CLI_COMMAND_ACTION_ACTIONID::TractorMenu:
@@ -496,7 +496,7 @@ void GP_CLI_COMMAND_ACTION::process(MapSession* PSession, CCharEntity* PChar) co
             break;
         case GP_CLI_COMMAND_ACTION_ACTIONID::Blockaid:
         {
-            if (!PChar->StatusEffectContainer->HasStatusEffect(EFFECT_ALLIED_TAGS))
+            if (!PChar->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::AlliedTags))
             {
                 if (this->BlockAid.StatusId == GP_CLI_COMMAND_ACTION_BLOCKAID::Disable && PChar->getBlockingAid())
                 {
@@ -560,8 +560,8 @@ void GP_CLI_COMMAND_ACTION::process(MapSession* PSession, CCharEntity* PChar) co
 
                 PChar->m_mountId = this->Mount.MountId ? this->Mount.MountId + 1 : 0;
                 PChar->StatusEffectContainer->AddStatusEffect(new CStatusEffect(
-                                                                  EFFECT_MOUNTED,
-                                                                  EFFECT_MOUNTED,
+                                                                  xi::StatusEffect::Mounted,
+                                                                  static_cast<uint16>(xi::StatusEffect::Mounted),
                                                                   this->Mount.MountId ? this->Mount.MountId + 1 : 0,
                                                                   0s,
                                                                   30min,

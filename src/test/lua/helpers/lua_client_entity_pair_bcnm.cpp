@@ -170,7 +170,7 @@ void CLuaClientEntityPairBCNM::enter(const sol::object& npcQuery, const uint16 b
         std::ignore = parent_->entities().gotoAndTrigger(npcQuery, expectedEvent);
     }
 
-    if (!parent_->hasStatusEffect(EFFECT_BATTLEFIELD, sol::lua_nil))
+    if (!parent_->hasStatusEffect(xi::StatusEffect::Battlefield, sol::lua_nil))
     {
         TestError("Battlefield effect not found.");
         return;

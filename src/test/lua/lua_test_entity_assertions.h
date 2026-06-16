@@ -25,11 +25,12 @@
 #include "common/lua.h"
 #include <string>
 
+#include "data/enums/status_effect.h"
+
 enum class QuestLog : uint8_t;
 enum class MissionLog : uint8_t;
 enum class KeyItem : uint16_t;
 enum ZONEID : uint16;
-enum EFFECT : uint16;
 enum class Mod;
 class CLuaTestEntity;
 
@@ -41,7 +42,7 @@ public:
 
     auto inZone(ZONEID expectedZone) -> CLuaTestEntityAssertions&;
     auto hasLocalVar(const std::string& varName, uint32 expectedValue) -> CLuaTestEntityAssertions&;
-    auto hasEffect(EFFECT effectId) -> CLuaTestEntityAssertions&;
+    auto hasEffect(xi::StatusEffect effectId) -> CLuaTestEntityAssertions&;
     auto hasAnimation(uint8 animation) -> CLuaTestEntityAssertions&;
     auto hasNationRank(uint8 expectedRank) -> CLuaTestEntityAssertions&;
     auto hasKI(KeyItem keyItemId) -> CLuaTestEntityAssertions&;

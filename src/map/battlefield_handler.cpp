@@ -92,7 +92,7 @@ void CBattlefieldHandler::HandleBattlefields(timer::time_point tick)
         if (PChar)
         {
             luautils::OnBattlefieldKick(PChar);
-            PChar->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_CONFRONTATION, EffectNotice::Silent);
+            PChar->StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::Confrontation, EffectNotice::Silent);
             m_PZone->updateCharLevelRestriction(PChar);
         }
         iter = m_orphanedPlayers.erase(iter);
@@ -153,10 +153,10 @@ uint8 CBattlefieldHandler::LoadBattlefield(CCharEntity* PChar, const Battlefield
     m_Battlefields.insert(std::make_pair(area, std::move(battlefield)));
     auto* PBattlefield = m_Battlefields[area].get();
 
-    if (!PChar->StatusEffectContainer->GetStatusEffect(EFFECT_BATTLEFIELD))
+    if (!PChar->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Battlefield))
     {
         PChar->StatusEffectContainer->AddStatusEffect(
-            new CStatusEffect(EFFECT_BATTLEFIELD, EFFECT_BATTLEFIELD, PBattlefield->GetID(), 0s, 0s, PChar->id, PBattlefield->GetArea()), EffectNotice::Silent);
+            new CStatusEffect(xi::StatusEffect::Battlefield, static_cast<uint16>(xi::StatusEffect::Battlefield), PBattlefield->GetID(), 0s, 0s, PChar->id, PBattlefield->GetArea()), EffectNotice::Silent);
     }
 
     luautils::OnBattlefieldRegister(PChar, PBattlefield);
@@ -235,7 +235,7 @@ uint8 CBattlefieldHandler::RegisterBattlefield(CCharEntity* PChar, const Battlef
         if (!PBattlefield)
         {
             // ...but they do have the BCNM Status Effect somehow (This should not happen, but keeping to be safe)
-            if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_BATTLEFIELD))
+            if (PChar->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Battlefield))
             {
                 // Do not allow them to attain a new registration
                 return BATTLEFIELD_RETURN_CODE_REQS_NOT_MET;
@@ -250,7 +250,7 @@ uint8 CBattlefieldHandler::RegisterBattlefield(CCharEntity* PChar, const Battlef
         }
     }
     // If they have a Registered Battlefield -AND- they have the Battlefield Status Effect
-    if (PBattlefield && PChar->StatusEffectContainer->HasStatusEffect(EFFECT_BATTLEFIELD))
+    if (PBattlefield && PChar->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Battlefield))
     {
         // Reset their progress var to 0 and proceed to attempt to enter them into the BCNM
         PChar->SetLocalVar("[BCNM]EnterExisting", 0);

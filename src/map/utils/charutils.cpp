@@ -2248,7 +2248,7 @@ void UnequipItem(CCharEntity* PChar, uint8 equipSlotID, Recalculate recalculate)
                 PChar->look.sub            = 0;
                 PChar->m_Weapons[SLOT_SUB] = xi::items::unarmed(); // << equips "nothing" in the sub slot to prevent multi attack exploit
                 PChar->health.tp           = 0;
-                PChar->StatusEffectContainer->DelStatusEffect(EFFECT_AFTERMATH);
+                PChar->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Aftermath);
                 BuildingCharWeaponSkills(PChar);
                 UpdateWeaponStyle(PChar, equipSlotID, nullptr);
             }
@@ -2273,7 +2273,7 @@ void UnequipItem(CCharEntity* PChar, uint8 equipSlotID, Recalculate recalculate)
                 if (((CItemWeapon*)PItem)->getSkillType() != SKILL_STRING_INSTRUMENT && ((CItemWeapon*)PItem)->getSkillType() != SKILL_WIND_INSTRUMENT)
                 {
                     PChar->health.tp = 0;
-                    PChar->StatusEffectContainer->DelStatusEffect(EFFECT_AFTERMATH);
+                    PChar->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Aftermath);
                 }
                 BuildingCharWeaponSkills(PChar);
                 UpdateWeaponStyle(PChar, equipSlotID, nullptr);
@@ -2311,7 +2311,7 @@ void UnequipItem(CCharEntity* PChar, uint8 equipSlotID, Recalculate recalculate)
                 }
 
                 PChar->health.tp = 0;
-                PChar->StatusEffectContainer->DelStatusEffect(EFFECT_AFTERMATH);
+                PChar->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Aftermath);
                 BuildingCharWeaponSkills(PChar);
                 UpdateWeaponStyle(PChar, equipSlotID, nullptr);
             }
@@ -3418,7 +3418,7 @@ void EquipItem(CCharEntity* PChar, uint8 slotID, uint8 equipSlotID, uint8 contai
         {
             // If the weapon ISN'T a wind based instrument or a string based instrument
             PChar->health.tp = 0;
-            PChar->StatusEffectContainer->DelStatusEffect(EFFECT_AFTERMATH);
+            PChar->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Aftermath);
         }
 
         if (!PChar->getEquip(SLOT_MAIN) || !PChar->getEquip(SLOT_MAIN)->isType(ITEM_EQUIPMENT) ||
@@ -3739,9 +3739,9 @@ void BuildingCharAbilityTable(CCharEntity* PChar)
 bool isArtsBonusActive(CCharEntity* PChar, SKILLTYPE SkillID)
 {
     return (SkillID >= SKILL_DIVINE_MAGIC && SkillID <= SKILL_ENFEEBLING_MAGIC &&
-            PChar->StatusEffectContainer->HasStatusEffect({ EFFECT_LIGHT_ARTS, EFFECT_ADDENDUM_WHITE })) ||
+            PChar->StatusEffectContainer->HasStatusEffect({ xi::StatusEffect::LightArts, xi::StatusEffect::AddendumWhite })) ||
            (SkillID >= SKILL_ENFEEBLING_MAGIC && SkillID <= SKILL_DARK_MAGIC &&
-            PChar->StatusEffectContainer->HasStatusEffect({ EFFECT_DARK_ARTS, EFFECT_ADDENDUM_BLACK }));
+            PChar->StatusEffectContainer->HasStatusEffect({ xi::StatusEffect::DarkArts, xi::StatusEffect::AddendumBlack }));
 }
 
 // calculates the bonus skill based on active sch arts
@@ -3799,7 +3799,7 @@ int16 ArtsBonusSkill(CCharEntity* PChar, SKILLTYPE SkillID)
         skillBonus += std::max(artsSkill - currentSkill, 0);
     }
 
-    if (PChar->StatusEffectContainer->HasStatusEffect({ EFFECT_LIGHT_ARTS, EFFECT_ADDENDUM_WHITE }))
+    if (PChar->StatusEffectContainer->HasStatusEffect({ xi::StatusEffect::LightArts, xi::StatusEffect::AddendumWhite }))
     {
         skillBonus += PChar->getMod(Mod::LIGHT_ARTS_SKILL);
     }
@@ -5010,12 +5010,12 @@ void DistributeExperiencePoints(CCharEntity* PChar, CMobEntity* PMob)
                     }
 
                     bool isInSignetZone =
-                        PMember->StatusEffectContainer->HasStatusEffect(EFFECT_SIGNET) &&
+                        PMember->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Signet) &&
                         region >= REGION_TYPE::RONFAURE &&
                         region <= REGION_TYPE::JEUNO;
 
                     bool isInSanctionZone =
-                        PMember->StatusEffectContainer->HasStatusEffect(EFFECT_SANCTION) &&
+                        PMember->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Sanction) &&
                         region >= REGION_TYPE::WEST_AHT_URHGAN &&
                         region <= REGION_TYPE::ALZADAAL;
 
@@ -5397,9 +5397,9 @@ uint16 AddCapacityBonus(CCharEntity* PChar, uint16 capacityPoints)
 
     // COMMITMENT from Capacity Bands
 
-    if (PChar->StatusEffectContainer->GetStatusEffect(EFFECT_COMMITMENT) && PChar->loc.zone->GetRegionID() != REGION_TYPE::ABYSSEA)
+    if (PChar->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Commitment) && PChar->loc.zone->GetRegionID() != REGION_TYPE::ABYSSEA)
     {
-        CStatusEffect* commitment = PChar->StatusEffectContainer->GetStatusEffect(EFFECT_COMMITMENT);
+        CStatusEffect* commitment = PChar->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Commitment);
         int16          percentage = commitment->GetPower();
         int16          cap        = commitment->GetSubPower();
         rawBonus += std::clamp<int32>(((capacityPoints * percentage) / 100), 0, cap);
@@ -5407,7 +5407,7 @@ uint16 AddCapacityBonus(CCharEntity* PChar, uint16 capacityPoints)
 
         if (cap <= 0)
         {
-            PChar->StatusEffectContainer->DelStatusEffect(EFFECT_COMMITMENT);
+            PChar->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Commitment);
         }
     }
 
@@ -5714,14 +5714,14 @@ void AddExperiencePoints(bool expFromRaise, bool awardRegionPoints, bool fromScr
         REGION_TYPE region = PChar->loc.zone->GetRegionID();
 
         // Should this user be awarded conquest points..
-        if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SIGNET) && (region >= REGION_TYPE::RONFAURE && region <= REGION_TYPE::JEUNO))
+        if (PChar->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Signet) && (region >= REGION_TYPE::RONFAURE && region <= REGION_TYPE::JEUNO))
         {
             // Add influence for the players region..
             conquest::AddConquestPoints(PChar, exp);
         }
 
         // Should this user be awarded imperial standing..
-        if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SANCTION) && (region >= REGION_TYPE::WEST_AHT_URHGAN && region <= REGION_TYPE::ALZADAAL))
+        if (PChar->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Sanction) && (region >= REGION_TYPE::WEST_AHT_URHGAN && region <= REGION_TYPE::ALZADAAL))
         {
             charutils::AddPoints(PChar, "imperial_standing", (int32)(exp * 0.1f));
             PChar->pushPacket<GP_SERV_COMMAND_CONQUEST>(PChar);
@@ -6736,9 +6736,9 @@ float AddExpBonus(CCharEntity* PChar, float exp)
     TracyZoneScoped;
 
     int32 bonus = 0;
-    if (PChar->StatusEffectContainer->GetStatusEffect(EFFECT_DEDICATION) && PChar->loc.zone->GetRegionID() != REGION_TYPE::ABYSSEA)
+    if (PChar->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Dedication) && PChar->loc.zone->GetRegionID() != REGION_TYPE::ABYSSEA)
     {
-        CStatusEffect* dedication = PChar->StatusEffectContainer->GetStatusEffect(EFFECT_DEDICATION);
+        CStatusEffect* dedication = PChar->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Dedication);
         int16          percentage = dedication->GetPower();
         int16          cap        = dedication->GetSubPower();
         bonus += std::clamp<int32>((int32)((exp * percentage) / 100), 0, cap);
@@ -6746,7 +6746,7 @@ float AddExpBonus(CCharEntity* PChar, float exp)
 
         if (cap <= 0)
         {
-            PChar->StatusEffectContainer->DelStatusEffect(EFFECT_DEDICATION);
+            PChar->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Dedication);
         }
     }
 
@@ -6894,7 +6894,7 @@ auto CheckAbilityAddtype(CCharEntity* PChar, const CAbility* PAbility) -> bool
     }
     if (PAbility->getAddType() & ADDTYPE_ASTRAL_FLOW)
     {
-        if (!PChar->StatusEffectContainer->HasStatusEffect(EFFECT_ASTRAL_FLOW))
+        if (!PChar->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::AstralFlow))
         {
             return false;
         }
@@ -6908,14 +6908,14 @@ auto CheckAbilityAddtype(CCharEntity* PChar, const CAbility* PAbility) -> bool
     }
     if (PAbility->getAddType() & ADDTYPE_LIGHT_ARTS)
     {
-        if (!PChar->StatusEffectContainer->HasStatusEffect({ EFFECT_LIGHT_ARTS, EFFECT_ADDENDUM_WHITE }))
+        if (!PChar->StatusEffectContainer->HasStatusEffect({ xi::StatusEffect::LightArts, xi::StatusEffect::AddendumWhite }))
         {
             return false;
         }
     }
     if (PAbility->getAddType() & ADDTYPE_DARK_ARTS)
     {
-        if (!PChar->StatusEffectContainer->HasStatusEffect({ EFFECT_DARK_ARTS, EFFECT_ADDENDUM_BLACK }))
+        if (!PChar->StatusEffectContainer->HasStatusEffect({ xi::StatusEffect::DarkArts, xi::StatusEffect::AddendumBlack }))
         {
             return false;
         }
@@ -6970,7 +6970,7 @@ void RemoveInvisible(const CCharEntity* PChar)
 {
     if (PChar && PChar->StatusEffectContainer)
     {
-        PChar->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_INVISIBLE);
+        PChar->StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::Invisible);
     }
 }
 
@@ -6979,31 +6979,31 @@ void RemoveStratagems(CCharEntity* PChar, CSpell* PSpell)
     if (PSpell->getSpellGroup() == SPELLGROUP_WHITE)
     {
         // rapture to be deleted in applicable scripts
-        PChar->StatusEffectContainer->DelStatusEffect(EFFECT_PENURY);
-        PChar->StatusEffectContainer->DelStatusEffect(EFFECT_CELERITY);
-        PChar->StatusEffectContainer->DelStatusEffect(EFFECT_ENLIGHTENMENT);
-        PChar->StatusEffectContainer->DelStatusEffect(EFFECT_ALTRUISM);
-        PChar->StatusEffectContainer->DelStatusEffect(EFFECT_TRANQUILITY);
+        PChar->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Penury);
+        PChar->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Celerity);
+        PChar->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Enlightenment);
+        PChar->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Altruism);
+        PChar->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Tranquility);
         if (PSpell->getAOE() == SPELLAOE_RADIAL_ACCE)
         {
-            PChar->StatusEffectContainer->DelStatusEffect(EFFECT_ACCESSION);
+            PChar->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Accession);
         }
         if (PSpell->getSkillType() == SKILL_ENHANCING_MAGIC)
         {
-            PChar->StatusEffectContainer->DelStatusEffect(EFFECT_PERPETUANCE);
+            PChar->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Perpetuance);
         }
     }
     else if (PSpell->getSpellGroup() == SPELLGROUP_BLACK)
     {
         // ebullience to be deleted in applicable scripts
-        PChar->StatusEffectContainer->DelStatusEffect(EFFECT_PARSIMONY);
-        PChar->StatusEffectContainer->DelStatusEffect(EFFECT_ALACRITY);
-        PChar->StatusEffectContainer->DelStatusEffect(EFFECT_ENLIGHTENMENT);
-        PChar->StatusEffectContainer->DelStatusEffect(EFFECT_FOCALIZATION);
-        PChar->StatusEffectContainer->DelStatusEffect(EFFECT_EQUANIMITY);
+        PChar->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Parsimony);
+        PChar->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Alacrity);
+        PChar->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Enlightenment);
+        PChar->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Focalization);
+        PChar->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Equanimity);
         if (PSpell->getAOE() == SPELLAOE_RADIAL_MANI)
         {
-            PChar->StatusEffectContainer->DelStatusEffect(EFFECT_MANIFESTATION);
+            PChar->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Manifestation);
         }
     }
 }
@@ -7104,13 +7104,13 @@ void ReloadParty(CCharEntity* PChar)
         }
 
         CBattleEntity* PSyncTarget = PChar->PParty->GetSyncTarget();
-        if (PSyncTarget && PChar->getZone() == PSyncTarget->getZone() && !(PChar->StatusEffectContainer->HasStatusEffect(EFFECT_LEVEL_SYNC)) &&
-            PSyncTarget->StatusEffectContainer->HasStatusEffect(EFFECT_LEVEL_SYNC) &&
-            PSyncTarget->StatusEffectContainer->GetStatusEffect(EFFECT_LEVEL_SYNC)->GetDuration() == 0s)
+        if (PSyncTarget && PChar->getZone() == PSyncTarget->getZone() && !(PChar->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::LevelSync)) &&
+            PSyncTarget->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::LevelSync) &&
+            PSyncTarget->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::LevelSync)->GetDuration() == 0s)
         {
             PChar->pushPacket<GP_SERV_COMMAND_BATTLE_MESSAGE>(PChar, PChar, 0, PSyncTarget->GetMLevel(), MsgBasic::LevelSyncActivated);
-            PChar->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DISPELABLE);
-            PChar->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_LEVEL_SYNC, EFFECT_LEVEL_SYNC, PSyncTarget->GetMLevel(), 0s, 0s), EffectNotice::Silent);
+            PChar->StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::Dispelable);
+            PChar->StatusEffectContainer->AddStatusEffect(new CStatusEffect(xi::StatusEffect::LevelSync, static_cast<uint16>(xi::StatusEffect::LevelSync), PSyncTarget->GetMLevel(), 0s, 0s), EffectNotice::Silent);
         }
 
         if (allianceid != 0)
@@ -7441,8 +7441,8 @@ auto HomePoint(CCharEntity* PChar, bool resetHPMP) -> bool
     if (resetHPMP)
     {
         // remove weakness on homepoint
-        PChar->StatusEffectContainer->DelStatusEffectSilent(EFFECT_WEAKNESS);
-        PChar->StatusEffectContainer->DelStatusEffectSilent(EFFECT_LEVEL_SYNC);
+        PChar->StatusEffectContainer->DelStatusEffectSilent(xi::StatusEffect::Weakness);
+        PChar->StatusEffectContainer->DelStatusEffectSilent(xi::StatusEffect::LevelSync);
 
         PChar->SetDeathTime(timer::time_point::min());
 

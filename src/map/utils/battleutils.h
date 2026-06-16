@@ -218,7 +218,7 @@ int32 CheckAndApplyDamageCap(int32 damage, CBattleEntity* PDefender);
 
 void HandleIssekiganEnmityBonus(CBattleEntity* PDefender, CBattleEntity* PAttacker);
 auto HandleSevereDamage(CBattleEntity* PDefender, int32 damage, bool isPhysical) -> int32;
-auto HandleSevereDamageEffect(CBattleEntity* PDefender, EFFECT effect, int32 damage, bool removeEffect) -> int32;
+auto HandleSevereDamageEffect(CBattleEntity* PDefender, xi::StatusEffect effect, int32 damage, bool removeEffect) -> int32;
 void HandleTacticalParry(CBattleEntity* PEntity);
 void HandleTacticalGuard(CBattleEntity* PEntity);
 
@@ -265,8 +265,8 @@ int32           GetMeritValue(CBattleEntity*, MERIT_TYPE);
 int32       GetScaledItemModifier(CBattleEntity*, CItemEquipment*, Mod);
 auto        GetSpikesDamageType(ActionReactKind spikesType) -> DAMAGE_TYPE;
 DAMAGE_TYPE GetEnspellDamageType(ENSPELL enspellType);
-DAMAGE_TYPE GetRuneEnhancementDamageType(EFFECT runeEffect);
-ELEMENT     GetRuneEnhancementElement(EFFECT runeEffect);
+auto        GetRuneEnhancementDamageType(xi::StatusEffect runeEffect) -> DAMAGE_TYPE;
+auto        GetRuneEnhancementElement(xi::StatusEffect runeEffect) -> ELEMENT;
 
 CBattleEntity* GetCoverAbilityUser(CBattleEntity* PCoverAbilityTarget, CBattleEntity* PMob);
 bool           IsMagicCovered(CCharEntity* PCoverAbilityUser);

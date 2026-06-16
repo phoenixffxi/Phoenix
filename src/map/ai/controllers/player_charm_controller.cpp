@@ -48,7 +48,7 @@ auto CPlayerCharmController::Tick(timer::time_point tick) -> Task<void>
 
     if (POwner->PMaster == nullptr || !POwner->PMaster->isAlive())
     {
-        POwner->StatusEffectContainer->DelStatusEffect(EFFECT_CHARM);
+        POwner->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::CharmI);
         co_return;
     }
 

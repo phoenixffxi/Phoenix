@@ -35,7 +35,7 @@ auto GP_CLI_COMMAND_REQLOGOUT::validate(MapSession* PSession, const CCharEntity*
 
 void GP_CLI_COMMAND_REQLOGOUT::process(MapSession* PSession, CCharEntity* PChar) const
 {
-    auto* existingEffect = PChar->StatusEffectContainer->GetStatusEffect(EFFECT_LEAVEGAME);
+    auto* existingEffect = PChar->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Leavegame);
 
     auto applyLeaveGame = [&](GP_CLI_COMMAND_REQLOGOUT_KIND kind)
     {
@@ -47,7 +47,7 @@ void GP_CLI_COMMAND_REQLOGOUT::process(MapSession* PSession, CCharEntity* PChar)
         else
         {
             // Apply new LeaveGame and store the kind as the power.
-            const auto leaveEffect = new CStatusEffect(EFFECT_LEAVEGAME, 0, static_cast<uint16>(kind), 5s, 0s);
+            const auto leaveEffect = new CStatusEffect(xi::StatusEffect::Leavegame, 0, static_cast<uint16>(kind), 5s, 0s);
             PChar->StatusEffectContainer->AddStatusEffect(leaveEffect);
         }
     };
@@ -56,7 +56,7 @@ void GP_CLI_COMMAND_REQLOGOUT::process(MapSession* PSession, CCharEntity* PChar)
     {
         if (existingEffect)
         {
-            PChar->StatusEffectContainer->DelStatusEffectSilent(EFFECT_LEAVEGAME);
+            PChar->StatusEffectContainer->DelStatusEffectSilent(xi::StatusEffect::Leavegame);
         }
     };
 

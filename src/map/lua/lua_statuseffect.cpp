@@ -40,7 +40,7 @@ CLuaStatusEffect::CLuaStatusEffect(CStatusEffect* StatusEffect)
 
 uint32 CLuaStatusEffect::getEffectType()
 {
-    return m_PLuaStatusEffect->GetStatusID();
+    return static_cast<uint32>(m_PLuaStatusEffect->GetStatusID());
 }
 
 //======================================================//
@@ -222,27 +222,27 @@ void CLuaStatusEffect::addMod(uint16 mod, int16 amount)
 
 uint32 CLuaStatusEffect::getEffectFlags()
 {
-    return m_PLuaStatusEffect->GetEffectFlags();
+    return static_cast<uint32>(m_PLuaStatusEffect->GetEffectFlags());
 }
 
 void CLuaStatusEffect::setEffectFlags(uint32 flags)
 {
-    m_PLuaStatusEffect->SetEffectFlags(flags);
+    m_PLuaStatusEffect->SetEffectFlags(static_cast<xi::StatusEffectFlag>(flags));
 }
 
 void CLuaStatusEffect::addEffectFlag(uint32 flag)
 {
-    m_PLuaStatusEffect->AddEffectFlag(flag);
+    m_PLuaStatusEffect->AddEffectFlag(static_cast<xi::StatusEffectFlag>(flag));
 }
 
 void CLuaStatusEffect::delEffectFlag(uint32 flag)
 {
-    m_PLuaStatusEffect->DelEffectFlag(flag);
+    m_PLuaStatusEffect->DelEffectFlag(static_cast<xi::StatusEffectFlag>(flag));
 }
 
 bool CLuaStatusEffect::hasEffectFlag(uint32 flag)
 {
-    return m_PLuaStatusEffect->HasEffectFlag(flag);
+    return m_PLuaStatusEffect->HasEffectFlag(static_cast<xi::StatusEffectFlag>(flag));
 }
 
 uint16 CLuaStatusEffect::getIcon()
@@ -312,7 +312,7 @@ void CLuaStatusEffect::Register()
 
 std::ostream& operator<<(std::ostream& os, const CLuaStatusEffect& effect)
 {
-    std::string id = effect.GetStatusEffect() ? std::to_string(effect.GetStatusEffect()->GetStatusID()) : "nullptr";
+    std::string id = effect.GetStatusEffect() ? std::to_string(static_cast<uint16>(effect.GetStatusEffect()->GetStatusID())) : "nullptr";
     return os << "CLuaStatusEffect(" << id << ")";
 }
 

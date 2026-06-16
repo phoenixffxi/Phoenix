@@ -332,20 +332,20 @@ void monstrosity::HandleZoneIn(CCharEntity* PChar)
     {
         auto duration = PChar->m_PMonstrosity->Belligerency ? 1min : 18h;
 
-        CStatusEffect* PEffect = new CStatusEffect(EFFECT::EFFECT_GESTATION, EFFECT::EFFECT_GESTATION, 0, 0s, duration);
+        CStatusEffect* PEffect = new CStatusEffect(xi::StatusEffect::Gestation, static_cast<uint16>(xi::StatusEffect::Gestation), 0, 0s, duration);
 
         // TODO: Move these into the db
-        PEffect->AddEffectFlag(EFFECTFLAG_INVISIBLE);
-        PEffect->AddEffectFlag(EFFECTFLAG_DEATH);
-        PEffect->AddEffectFlag(EFFECTFLAG_ATTACK);
-        PEffect->AddEffectFlag(EFFECTFLAG_MAGIC_BEGIN);
-        PEffect->AddEffectFlag(EFFECTFLAG_DETECTABLE);
-        PEffect->AddEffectFlag(EFFECTFLAG_ON_ZONE);
+        PEffect->AddEffectFlag(xi::StatusEffectFlag::Invisible);
+        PEffect->AddEffectFlag(xi::StatusEffectFlag::Death);
+        PEffect->AddEffectFlag(xi::StatusEffectFlag::Attack);
+        PEffect->AddEffectFlag(xi::StatusEffectFlag::MagicBegin);
+        PEffect->AddEffectFlag(xi::StatusEffectFlag::Detectable);
+        PEffect->AddEffectFlag(xi::StatusEffectFlag::OnZone);
 
-        // PEffect->AddEffectFlag(EFFECTFLAG_LOGOUT);
+        // PEffect->AddEffectFlag(xi::StatusEffectFlag::Logout);
 
         // NOTE: It DOES say the effect wears off
-        // PEffect->AddEffectFlag(EFFECTFLAG_NO_LOSS_MESSAGE);
+        // PEffect->AddEffectFlag(xi::StatusEffectFlag::NoLossMessage);
 
         PChar->StatusEffectContainer->AddStatusEffect(PEffect, EffectNotice::Silent);
     }

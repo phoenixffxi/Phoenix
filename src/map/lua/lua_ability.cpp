@@ -121,7 +121,7 @@ void CLuaAbility::setRange(float range)
     m_PLuaAbility->setRange(range);
 }
 
-void CLuaAbility::setPostActionCleanupEffect(EFFECT effectToCleanup)
+void CLuaAbility::setPostActionCleanupEffect(xi::StatusEffect effectToCleanup)
 {
     m_PLuaAbility->setPostActionEffectCleanup(effectToCleanup);
 }

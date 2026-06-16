@@ -144,7 +144,7 @@ float CEnmityContainer::CalculateEnmityBonus(CBattleEntity* PEntity)
     {
         enmityBonus += PChar->PMeritPoints->GetMeritValue(MERIT_ENMITY_INCREASE, PChar) - PChar->PMeritPoints->GetMeritValue(MERIT_ENMITY_DECREASE, PChar);
 
-        if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SOULEATER))
+        if (PChar->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Souleater))
         {
             enmityBonus -= PChar->PMeritPoints->GetMeritValue(MERIT_MUTED_SOUL, PChar);
         }
