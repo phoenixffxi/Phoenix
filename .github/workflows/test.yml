@@ -51,6 +51,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Generate codegen Lua enums
+        run: python -m tools.codegen "$RUNNER_TEMP/codegen-out"
+
       - name: Run Lua Language Server
         id: run_lls
         run: python ./tools/ci/lua_lang_server.py
