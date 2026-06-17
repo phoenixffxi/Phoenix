@@ -539,3 +539,31 @@ xi.automaton.handleAttuner = function(actor, target)
 
     return 0
 end
+
+---@param actor CBaseEntity
+---@param damage integer
+---@return integer
+xi.automaton.handleEqualizer = function(actor, damage)
+    local equalizerModifier = actor:getMod(xi.mod.AUTO_EQUALIZER)
+    local maxHP             = actor:getMaxHP()
+
+    -- No Equalizer Equipped, return unmodified damage.
+    if equalizerModifier == 0 then
+        return damage
+    end
+
+    -- No Damage to reduce, return unmodified damage.
+    if damage <= 0 then
+        return damage
+    end
+
+    -- Equalizer damage reduction becomes more effective the higher the damage is in relation to the automatons max HP.
+    local reductionRate = damage / maxHP * (equalizerModifier / 100)
+
+    reductionRate = math.floor(reductionRate * 100) / 100
+
+    -- Damage reduction is capped at 90%.
+    reductionRate = math.min(reductionRate, 0.90)
+
+    return math.floor(damage * (1 - reductionRate))
+end
