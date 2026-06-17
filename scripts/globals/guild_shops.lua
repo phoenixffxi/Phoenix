@@ -7,14 +7,9 @@ xi.guildShops = xi.guildShops or {}
 xi.guildShops.state = xi.guildShops.state or {} -- In-memory shop state, keyed by NPC name.
 
 --- Buy-curve divisor for an item.
-local priceFloorOf = function(shop, cfg)
-    local floorRatio = 3 / 4 -- By default the price floor occurs at 3 / 4 of max stock
-    if shop.priceFloor == xi.guildPriceFloor.TARGET_STOCK then
-        -- Some NPCs use target stock instead
-        return cfg.targetStock
-    end
-
-    return cfg.maxStock * floorRatio
+local priceFloorOf = function(cfg)
+    -- Buy-curve floor defaults to 3/4 of max stock; items can override per-item.
+    return cfg.priceFloor or (cfg.maxStock * 3 / 4)
 end
 
 --- Calculate buy price of an item at open
@@ -106,7 +101,7 @@ local rollShopDay = function(npc, shop)
         state.items[cfg.id] =
         {
             stock     = stock,
-            buyPrice  = calcBuyPrice(cfg.buyMax, priceFloorOf(shop, cfg), cfg.maxStock, stock),
+            buyPrice  = calcBuyPrice(cfg.buyMax, priceFloorOf(cfg), cfg.maxStock, stock),
             sellPrice = calcSellPrice(GetReadOnlyItem(cfg.id):getBasePrice(), cfg.maxStock, stock),
             offered   = stock > 0, -- locked: 0 at open => not sold today
         }
