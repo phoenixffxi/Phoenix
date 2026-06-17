@@ -1162,7 +1162,7 @@ void CalculateLuopanStats(CBattleEntity* PMaster, CPetEntity* PPet)
     PPet->SetMLevel(PMaster->GetMLevel());
     PPet->health.maxhp = (uint32)floor((250 * PPet->GetMLevel()) / 15);
 
-    if (PMaster->StatusEffectContainer->HasStatusEffect(EFFECT_BOLSTER))
+    if (PMaster->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Bolster))
     {
         uint8 bolsterJPVal = static_cast<CCharEntity*>(PMaster)->PJobPoints->GetJobPointValue(JP_BOLSTER_EFFECT);
         PPet->health.maxhp += (uint32)floor(PPet->health.maxhp * (0.03 * bolsterJPVal));
@@ -1239,17 +1239,17 @@ void SetupPetWithMaster(CBattleEntity* PMaster, CPetEntity* PPet)
         // clang-format on
     }
 
-    if (PMaster->StatusEffectContainer->HasStatusEffect(EFFECT_DEBILITATION))
+    if (PMaster->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Debilitation))
     {
-        PPet->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_DEBILITATION, EFFECT_DEBILITATION, PMaster->StatusEffectContainer->GetStatusEffect(EFFECT_DEBILITATION)->GetPower(), 0s, PMaster->StatusEffectContainer->GetStatusEffect(EFFECT_DEBILITATION)->GetDuration()), EffectNotice::Silent);
+        PPet->StatusEffectContainer->AddStatusEffect(new CStatusEffect(xi::StatusEffect::Debilitation, static_cast<uint16>(xi::StatusEffect::Debilitation), PMaster->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Debilitation)->GetPower(), 0s, PMaster->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Debilitation)->GetDuration()), EffectNotice::Silent);
     }
-    if (PMaster->StatusEffectContainer->HasStatusEffect(EFFECT_OMERTA))
+    if (PMaster->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Omerta))
     {
-        PPet->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_OMERTA, EFFECT_OMERTA, PMaster->StatusEffectContainer->GetStatusEffect(EFFECT_OMERTA)->GetPower(), 0s, PMaster->StatusEffectContainer->GetStatusEffect(EFFECT_OMERTA)->GetDuration()), EffectNotice::Silent);
+        PPet->StatusEffectContainer->AddStatusEffect(new CStatusEffect(xi::StatusEffect::Omerta, static_cast<uint16>(xi::StatusEffect::Omerta), PMaster->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Omerta)->GetPower(), 0s, PMaster->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Omerta)->GetDuration()), EffectNotice::Silent);
     }
-    if (PMaster->StatusEffectContainer->HasStatusEffect(EFFECT_IMPAIRMENT))
+    if (PMaster->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Impairment))
     {
-        PPet->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_IMPAIRMENT, EFFECT_IMPAIRMENT, PMaster->StatusEffectContainer->GetStatusEffect(EFFECT_IMPAIRMENT)->GetPower(), 0s, PMaster->StatusEffectContainer->GetStatusEffect(EFFECT_IMPAIRMENT)->GetDuration()), EffectNotice::Silent);
+        PPet->StatusEffectContainer->AddStatusEffect(new CStatusEffect(xi::StatusEffect::Impairment, static_cast<uint16>(xi::StatusEffect::Impairment), PMaster->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Impairment)->GetPower(), 0s, PMaster->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Impairment)->GetDuration()), EffectNotice::Silent);
     }
 }
 

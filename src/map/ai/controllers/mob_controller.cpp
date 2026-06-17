@@ -130,7 +130,7 @@ auto CMobController::CanPursueTarget(const CBattleEntity* PTarget) const -> bool
     if (PMob->getMobMod(MOBMOD_DETECTION) & DETECT_SCENT)
     {
         // if mob is in water it will instant deaggro if target cannot be detected
-        if (!PMob->PAI->PathFind->InWater() && PTarget && !PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_DEODORIZE))
+        if (!PMob->PAI->PathFind->InWater() && PTarget && !PTarget->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Deodorize))
         {
             // certain weather / deodorize will turn on time deaggro
             return !PMob->m_disableScent;
@@ -143,7 +143,7 @@ auto CMobController::CheckHide(const CBattleEntity* PTarget) const -> bool
 {
     TracyZoneScoped;
 
-    if (PTarget && PTarget->GetMJob() == JOB_THF && PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_HIDE))
+    if (PTarget && PTarget->GetMJob() == JOB_THF && PTarget->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Hide))
     {
         return !CanPursueTarget(PTarget) && !PMob->m_TrueDetection && !(PMob->getMobMod(MOBMOD_DETECTION) & DETECT_HEARING);
     }
@@ -192,7 +192,7 @@ auto CMobController::CheckDetection(CBattleEntity* PTarget) -> bool
     TracyZoneScoped;
 
     if (CanPursueTarget(PTarget) || CanDetectTarget(PTarget) ||
-        PMob->StatusEffectContainer->HasStatusEffect({ EFFECT_BIND, EFFECT_SLEEP, EFFECT_SLEEP_II, EFFECT_LULLABY, EFFECT_PETRIFICATION }))
+        PMob->StatusEffectContainer->HasStatusEffect({ xi::StatusEffect::Bind, xi::StatusEffect::SleepI, xi::StatusEffect::SleepIi, xi::StatusEffect::Lullaby, xi::StatusEffect::Petrification }))
     {
         TapDeaggroTime();
     }
@@ -307,14 +307,14 @@ auto CMobController::CanDetectTarget(CBattleEntity* PTarget, const bool forceSig
 
     if (!PMob->m_TrueDetection)
     {
-        hasInvisible = PTarget->StatusEffectContainer->HasStatusEffectByFlag(EFFECTFLAG_INVISIBLE);
-        hasSneak     = PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_SNEAK);
+        hasInvisible = PTarget->StatusEffectContainer->HasStatusEffectByFlag(xi::StatusEffectFlag::Invisible);
+        hasSneak     = PTarget->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Sneak);
     }
 
     // Illusion effect seems to ignore true detection (true sound Porrogos don't aggro with Illusion up)
     // Additionally, mobs that would normally aggro you via sound that also ignore illusion must also ignore you with illusion if you have sneak up,
     // Fish in Mamook will see you through Illusion but not if you have sneak up
-    if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_ILLUSION))
+    if (PTarget->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Illusion))
     {
         if (!PMob->getMobMod(MOBMOD_SEES_THROUGH_ILLUSION))
         {
@@ -608,7 +608,7 @@ auto CMobController::CanCastSpells(IgnoreRecastsAndCosts ignoreRecastsAndCosts) 
     }
 
     // check for spell blockers e.g. silence
-    if (PMob->StatusEffectContainer->HasStatusEffect({ EFFECT_SILENCE, EFFECT_MUTE }))
+    if (PMob->StatusEffectContainer->HasStatusEffect({ xi::StatusEffect::Silence, xi::StatusEffect::Mute }))
     {
         return false;
     }
@@ -1006,7 +1006,7 @@ void CMobController::HandleEnmity()
     // TODO: do mobs with bind attack players *without* enmity if they are in the same party?
     // TODO: do jug pets do this?
     // TODO: This code is assuming charmed mobs can do this -- they DO keep an enmity table, after all..
-    if (PMob->objtype == TYPE_MOB && PMob->StatusEffectContainer && PMob->StatusEffectContainer->HasStatusEffect(EFFECT::EFFECT_BIND) && PMob->PAI->IsCurrentState<CAttackState>())
+    if (PMob->objtype == TYPE_MOB && PMob->StatusEffectContainer && PMob->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Bind) && PMob->PAI->IsCurrentState<CAttackState>())
     {
         CBattleEntity*                PNewTarget = nullptr;
         std::unique_ptr<CBasicPacket> m_errorMsg; // Ignored
@@ -1636,7 +1636,7 @@ auto CMobController::IsSpecialSkillReady(const float currentDistance) const -> b
         return false;
     }
 
-    if (PMob->StatusEffectContainer->HasStatusEffect(EFFECT_CHAINSPELL))
+    if (PMob->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Chainspell))
     {
         return false;
     }
@@ -1655,7 +1655,7 @@ auto CMobController::IsSpellReady(const float& currentDistance, const float& mel
 {
     TracyZoneScoped;
 
-    if (PMob->StatusEffectContainer->HasStatusEffect({ EFFECT_CHAINSPELL, EFFECT_MANAFONT }))
+    if (PMob->StatusEffectContainer->HasStatusEffect({ xi::StatusEffect::Chainspell, xi::StatusEffect::Manafont }))
     {
         return true;
     }

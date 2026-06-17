@@ -35,7 +35,7 @@ namespace mountutils
 // CustomProperties[1] is used for Noble Chocobo, and is set to 1.
 auto packetDefinition(const CCharEntity* PChar) -> MountPacketDefinition
 {
-    const auto* effect = PChar->StatusEffectContainer->GetStatusEffect(EFFECT_MOUNTED);
+    const auto* effect = PChar->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Mounted);
     if (!effect)
     {
         return MountPacketDefinition{

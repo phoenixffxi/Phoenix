@@ -47,8 +47,8 @@ auto PacketValidator::blockedBy(const magic_enum::containers::bitset<BlockedStat
     CHECK_BLOCKED(BlockedState::Engaged,        PChar_->PAI->IsEngaged())
     CHECK_BLOCKED(BlockedState::AbnormalStatus, PChar_->status != STATUS_TYPE::NORMAL)
     CHECK_BLOCKED(BlockedState::Monstrosity,    PChar_->m_PMonstrosity != nullptr)
-    CHECK_BLOCKED(BlockedState::Healing,        PChar_->StatusEffectContainer->HasStatusEffect(EFFECT_HEALING) || PChar_->animation == ANIMATION_HEALING)
-    CHECK_BLOCKED(BlockedState::Charmed,        PChar_->StatusEffectContainer->HasStatusEffect({ EFFECT_CHARM, EFFECT_CHARM_II }))
+    CHECK_BLOCKED(BlockedState::Healing,        PChar_->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Healing) || PChar_->animation == ANIMATION_HEALING)
+    CHECK_BLOCKED(BlockedState::Charmed,        PChar_->StatusEffectContainer->HasStatusEffect({ xi::StatusEffect::CharmI, xi::StatusEffect::CharmIi }))
     CHECK_BLOCKED(BlockedState::PreventAction,  PChar_->StatusEffectContainer->HasPreventActionEffect())
     // clang-format on
 

@@ -862,10 +862,10 @@ bool CLatentEffectContainer::ProcessLatentEffect(CLatentEffect& latentEffect, bo
                          ((float)m_POwner->health.mp / m_POwner->health.maxmp) * 100 < latentEffect.GetConditionsValue();
             break;
         case LATENT::STATUS_EFFECT_ACTIVE:
-            expression = m_POwner->StatusEffectContainer->HasStatusEffect((EFFECT)latentEffect.GetConditionsValue());
+            expression = m_POwner->StatusEffectContainer->HasStatusEffect(static_cast<xi::StatusEffect>(latentEffect.GetConditionsValue()));
             break;
         case LATENT::NO_FOOD_ACTIVE:
-            expression = !m_POwner->StatusEffectContainer->HasStatusEffect(EFFECT_FOOD);
+            expression = !m_POwner->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Food);
             break;
         case LATENT::PARTY_MEMBERS:
         {
@@ -973,19 +973,19 @@ bool CLatentEffectContainer::ProcessLatentEffect(CLatentEffect& latentEffect, bo
         case LATENT::SYNTH_TRAINEE:
         {
             expression = (uint16)m_POwner->RealSkills.skill[latentEffect.GetConditionsValue()] / 10 < 40 &&
-                         !m_POwner->StatusEffectContainer->HasStatusEffect(EFFECT_FISHING_IMAGERY) &&
-                         !m_POwner->StatusEffectContainer->HasStatusEffect(EFFECT_WOODWORKING_IMAGERY) &&
-                         !m_POwner->StatusEffectContainer->HasStatusEffect(EFFECT_SMITHING_IMAGERY) &&
-                         !m_POwner->StatusEffectContainer->HasStatusEffect(EFFECT_GOLDSMITHING_IMAGERY) &&
-                         !m_POwner->StatusEffectContainer->HasStatusEffect(EFFECT_CLOTHCRAFT_IMAGERY) &&
-                         !m_POwner->StatusEffectContainer->HasStatusEffect(EFFECT_LEATHERCRAFT_IMAGERY) &&
-                         !m_POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BONECRAFT_IMAGERY) &&
-                         !m_POwner->StatusEffectContainer->HasStatusEffect(EFFECT_ALCHEMY_IMAGERY) &&
-                         !m_POwner->StatusEffectContainer->HasStatusEffect(EFFECT_COOKING_IMAGERY);
+                         !m_POwner->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::FishingImagery) &&
+                         !m_POwner->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::WoodworkingImagery) &&
+                         !m_POwner->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::SmithingImagery) &&
+                         !m_POwner->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::GoldsmithingImagery) &&
+                         !m_POwner->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::ClothcraftImagery) &&
+                         !m_POwner->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::LeathercraftImagery) &&
+                         !m_POwner->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::BonecraftImagery) &&
+                         !m_POwner->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::AlchemyImagery) &&
+                         !m_POwner->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::CookingImagery);
             break;
         }
         case LATENT::SONG_ROLL_ACTIVE:
-            expression = m_POwner->StatusEffectContainer->HasStatusEffectByFlag(EFFECTFLAG_ROLL | EFFECTFLAG_SONG);
+            expression = m_POwner->StatusEffectContainer->HasStatusEffectByFlag(xi::StatusEffectFlag::Roll | xi::StatusEffectFlag::Song);
             break;
         case LATENT::TIME_OF_DAY:
         {
@@ -1208,8 +1208,8 @@ bool CLatentEffectContainer::ProcessLatentEffect(CLatentEffect& latentEffect, bo
             expression = m_POwner->isInGarrison() && m_POwner->GetMLevel() >= latentEffect.GetConditionsValue();
             break;
         case LATENT::FOOD_ACTIVE:
-            expression = m_POwner->StatusEffectContainer->HasStatusEffect(EFFECT_FOOD) &&
-                         m_POwner->StatusEffectContainer->GetStatusEffect(EFFECT_FOOD)->GetSourceTypeParam() == latentEffect.GetConditionsValue();
+            expression = m_POwner->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Food) &&
+                         m_POwner->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Food)->GetSourceTypeParam() == latentEffect.GetConditionsValue();
             break;
         case LATENT::JOB_LEVEL_BELOW:
             expression = m_POwner->GetMLevel() < latentEffect.GetConditionsValue();
@@ -1228,9 +1228,9 @@ bool CLatentEffectContainer::ProcessLatentEffect(CLatentEffect& latentEffect, bo
             // playerZoneId represents the player's destination if they're zoning.
             // Otherwise, it represents their current zone.
             auto region                   = zoneutils::GetCurrentRegion(playerZoneID);
-            auto hasSignet                = m_POwner->StatusEffectContainer->HasStatusEffect(EFFECT_SIGNET);
-            auto hasSanction              = m_POwner->StatusEffectContainer->HasStatusEffect(EFFECT_SANCTION);
-            auto hasSigil                 = m_POwner->StatusEffectContainer->HasStatusEffect(EFFECT_SIGIL);
+            auto hasSignet                = m_POwner->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Signet);
+            auto hasSanction              = m_POwner->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Sanction);
+            auto hasSigil                 = m_POwner->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Sigil);
             auto regionAlwaysOutOfControl = zoneutils::IsAlwaysOutOfNationControl(region);
             switch (latentEffect.GetConditionsValue())
             {

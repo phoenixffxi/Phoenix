@@ -697,7 +697,7 @@ void CLuaClientEntityPairActions::skillchain(CLuaBaseEntity* target, sol::variad
 
         if (i >= 1)
         {
-            if (!PMob->StatusEffectContainer->GetStatusEffect(EFFECT_SKILLCHAIN, 0))
+            if (!PMob->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Skillchain, 0))
             {
                 TestError("Skillchain effect not found after weaponskill #{}", i + 1);
             }
@@ -708,7 +708,7 @@ void CLuaClientEntityPairActions::skillchain(CLuaBaseEntity* target, sol::variad
             parent_->simulation()->skipTime(3);
 
             // Backdate skillchain effect to bypass 3s timing window for next WS
-            if (auto* scEffect = PMob->StatusEffectContainer->GetStatusEffect(EFFECT_SKILLCHAIN, 0))
+            if (auto* scEffect = PMob->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Skillchain, 0))
             {
                 scEffect->SetStartTime(timer::now() - 5s);
             }

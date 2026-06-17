@@ -475,7 +475,7 @@ void IPCClient::handleMessage_PartyInvite(const IPP& ipp, const ipc::PartyInvite
             return;
         }
 
-        if (PInvitee->StatusEffectContainer->HasStatusEffect(EFFECT_LEVEL_SYNC))
+        if (PInvitee->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::LevelSync))
         {
             message::send(ipc::MessageStandard{
                 .recipientId = message.inviterId,

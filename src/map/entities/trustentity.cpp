@@ -152,7 +152,7 @@ bool CTrustEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags)
 
     if ((targetFlags & TARGET_PLAYER_PARTY_PIANISSIMO) && PInitiator->allegiance == allegiance && PMaster && PInitiator != this)
     {
-        if (PInitiator->StatusEffectContainer->HasStatusEffect(EFFECT_PIANISSIMO))
+        if (PInitiator->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Pianissimo))
         {
             return true;
         }

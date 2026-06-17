@@ -87,7 +87,7 @@ void CAbility::setActionType(const ActionCategory type)
     m_actionType = type;
 }
 
-void CAbility::setPostActionEffectCleanup(EFFECT effectToCleanup)
+void CAbility::setPostActionEffectCleanup(xi::StatusEffect effectToCleanup)
 {
     m_cleanupEffect = effectToCleanup;
 }
@@ -187,7 +187,7 @@ auto CAbility::getActionType() const -> ActionCategory
     return m_actionType;
 }
 
-EFFECT CAbility::getPostActionEffectCleanup()
+auto CAbility::getPostActionEffectCleanup() -> xi::StatusEffect
 {
     return m_cleanupEffect;
 }

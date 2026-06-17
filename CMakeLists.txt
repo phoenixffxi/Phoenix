@@ -184,7 +184,14 @@ execute_process(
     ERROR_QUIET
 )
 if(NOT CODEGEN_DEPS_EXIT_CODE EQUAL 0)
-    message(FATAL_ERROR "Run: ${Python_EXECUTABLE} -m pip install -r tools/requirements.txt")
+    message(FATAL_ERROR
+        "Codegen requires the Python packages jinja2, jsonschema, and pyyaml, "
+        "but they are not installed for the interpreter CMake selected:\n"
+        "    ${Python_EXECUTABLE}\n"
+        "Install them by running this command exactly as shown (the interpreter path "
+        "matters, so the packages land in the environment this build uses):\n"
+        "    ${Python_EXECUTABLE} -m pip install -r ${CMAKE_SOURCE_DIR}/tools/requirements.txt"
+    )
 endif()
 
 add_custom_target(data_codegen

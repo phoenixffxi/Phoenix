@@ -719,7 +719,7 @@ bool CanUseSpell(CBattleEntity* PCaster, CSpell* spell)
                 usable = true;
                 if (requirements & SPELLREQ_TABULA_RASA)
                 {
-                    if (!PCaster->StatusEffectContainer->HasStatusEffect(EFFECT_TABULA_RASA))
+                    if (!PCaster->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::TabulaRasa))
                     {
                         usable = false;
                     }
@@ -728,14 +728,14 @@ bool CanUseSpell(CBattleEntity* PCaster, CSpell* spell)
                 {
                     if (requirements & SPELLREQ_ADDENDUM_BLACK)
                     {
-                        if (!PCaster->StatusEffectContainer->HasStatusEffect({ EFFECT_ADDENDUM_BLACK, EFFECT_ENLIGHTENMENT }))
+                        if (!PCaster->StatusEffectContainer->HasStatusEffect({ xi::StatusEffect::AddendumBlack, xi::StatusEffect::Enlightenment }))
                         {
                             usable = false;
                         }
                     }
                     else if (requirements & SPELLREQ_ADDENDUM_WHITE)
                     {
-                        if (!PCaster->StatusEffectContainer->HasStatusEffect({ EFFECT_ADDENDUM_WHITE, EFFECT_ENLIGHTENMENT }))
+                        if (!PCaster->StatusEffectContainer->HasStatusEffect({ xi::StatusEffect::AddendumWhite, xi::StatusEffect::Enlightenment }))
                         {
                             usable = false;
                         }
@@ -745,7 +745,7 @@ bool CanUseSpell(CBattleEntity* PCaster, CSpell* spell)
                 {
                     if (requirements & SPELLREQ_UNBRIDLED_LEARNING)
                     {
-                        if (!PCaster->StatusEffectContainer->HasStatusEffect({ EFFECT_UNBRIDLED_LEARNING, EFFECT_UNBRIDLED_WISDOM }))
+                        if (!PCaster->StatusEffectContainer->HasStatusEffect({ xi::StatusEffect::UnbridledLearning, xi::StatusEffect::UnbridledWisdom }))
                         {
                             usable = false;
                         }
@@ -767,7 +767,7 @@ bool CanUseSpell(CBattleEntity* PCaster, CSpell* spell)
                 usable = true;
                 if (requirements & SPELLREQ_TABULA_RASA)
                 {
-                    if (!PCaster->StatusEffectContainer->HasStatusEffect(EFFECT_TABULA_RASA))
+                    if (!PCaster->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::TabulaRasa))
                     {
                         usable = false;
                     }
@@ -776,14 +776,14 @@ bool CanUseSpell(CBattleEntity* PCaster, CSpell* spell)
                 {
                     if (requirements & SPELLREQ_ADDENDUM_BLACK)
                     {
-                        if (!PCaster->StatusEffectContainer->HasStatusEffect({ EFFECT_ADDENDUM_BLACK, EFFECT_ENLIGHTENMENT }))
+                        if (!PCaster->StatusEffectContainer->HasStatusEffect({ xi::StatusEffect::AddendumBlack, xi::StatusEffect::Enlightenment }))
                         {
                             usable = false;
                         }
                     }
                     else if (requirements & SPELLREQ_ADDENDUM_WHITE)
                     {
-                        if (!PCaster->StatusEffectContainer->HasStatusEffect({ EFFECT_ADDENDUM_WHITE, EFFECT_ENLIGHTENMENT }))
+                        if (!PCaster->StatusEffectContainer->HasStatusEffect({ xi::StatusEffect::AddendumWhite, xi::StatusEffect::Enlightenment }))
                         {
                             usable = false;
                         }
@@ -793,7 +793,7 @@ bool CanUseSpell(CBattleEntity* PCaster, CSpell* spell)
                 {
                     if (requirements & SPELLREQ_UNBRIDLED_LEARNING)
                     {
-                        if (!PCaster->StatusEffectContainer->HasStatusEffect({ EFFECT_UNBRIDLED_LEARNING, EFFECT_UNBRIDLED_WISDOM }))
+                        if (!PCaster->StatusEffectContainer->HasStatusEffect({ xi::StatusEffect::UnbridledLearning, xi::StatusEffect::UnbridledWisdom }))
                         {
                             usable = false;
                         }

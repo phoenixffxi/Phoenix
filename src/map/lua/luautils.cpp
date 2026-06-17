@@ -5144,7 +5144,7 @@ void OnBattlefieldKick(CCharEntity* PChar)
 {
     TracyZoneScoped;
 
-    CStatusEffect* status = PChar->StatusEffectContainer->GetStatusEffect(EFFECT_BATTLEFIELD);
+    CStatusEffect* status = PChar->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Battlefield);
 
     if (status != nullptr)
     {

@@ -19,11 +19,11 @@ enum class {{ cls_name }} : {{ underlying }}
     {{ "%-*s"|format(enum_width, cpp_names[key]) }} = {{ "0x%08x"|format(val) if is_flags else val }},
 {% endfor %}
 };
+} // namespace xi
 {% if is_flags %}
 
 using namespace magic_enum::bitwise_operators;
 {% endif %}
-} // namespace xi
 
 namespace xi::data
 {

@@ -648,12 +648,12 @@ void TrySkillUP(CAutomatonEntity* PAutomaton, SKILLTYPE SkillID, uint8 lvl)
     }
 }
 
-void CheckAttachmentsForManeuver(const CCharEntity* PChar, const EFFECT maneuver, const bool gain)
+void CheckAttachmentsForManeuver(const CCharEntity* PChar, const xi::StatusEffect maneuver, const bool gain)
 {
     auto* PAutomaton = dynamic_cast<CAutomatonEntity*>(PChar->PPet);
     if (PAutomaton)
     {
-        uint8 element = maneuver - EFFECT_FIRE_MANEUVER;
+        uint8 element = static_cast<uint8>(static_cast<uint16>(maneuver) - static_cast<uint16>(xi::StatusEffect::FireManeuver));
         for (uint8 i = 0; i < 12; i++)
         {
             if (PAutomaton->getAttachment(i) != 0)
@@ -707,7 +707,7 @@ void UpdateAttachments(const CCharEntity* PChar)
 
                 if (PAttachment)
                 {
-                    int32 maneuver = EFFECT_FIRE_MANEUVER;
+                    int32 maneuver = static_cast<int32>(xi::StatusEffect::FireManeuver);
                     for (int j = 0; j < 8; j++)
                     {
                         if (PAttachment->getElementSlots() >> (j * 4) & 0xF)
@@ -716,7 +716,7 @@ void UpdateAttachments(const CCharEntity* PChar)
                             break;
                         }
                     }
-                    luautils::OnUpdateAttachment(PAutomaton, PAttachment, PChar->StatusEffectContainer->GetEffectsCount(static_cast<EFFECT>(maneuver)));
+                    luautils::OnUpdateAttachment(PAutomaton, PAttachment, PChar->StatusEffectContainer->GetEffectsCount(static_cast<xi::StatusEffect>(maneuver)));
                 }
             }
         }
