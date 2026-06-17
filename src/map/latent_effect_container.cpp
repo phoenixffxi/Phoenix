@@ -832,9 +832,9 @@ bool CLatentEffectContainer::ProcessLatentEffect(CLatentEffect& latentEffect, bo
         {
             CBattleEntity* PTarget = m_POwner->GetBattleTarget();
             expression             = PTarget != nullptr &&
-                         m_POwner->GetMLevel() >= PTarget->GetMLevel() &&
-                         m_POwner->loc.zone != nullptr &&
-                         m_POwner->loc.zone->GetRegionID() < REGION_TYPE::WEST_AHT_URHGAN;
+                                     m_POwner->GetMLevel() >= PTarget->GetMLevel() &&
+                                     m_POwner->loc.zone != nullptr &&
+                                     m_POwner->loc.zone->GetRegionID() < REGION_TYPE::WEST_AHT_URHGAN;
             break;
         }
         case LATENT::SANCTION_REGEN_BONUS:

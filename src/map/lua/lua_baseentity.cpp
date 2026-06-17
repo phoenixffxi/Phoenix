@@ -958,14 +958,14 @@ void CLuaBaseEntity::injectActionPacket(const uint32 inTargetID, uint16 inCatego
         .actionid   = inActionParam,
         .targets    = {
             {
-                   .actorId = inTargetID,
-                   .results = {
+                .actorId = inTargetID,
+                .results = {
                     {
-                           .resolution = reaction,
-                           .animation  = static_cast<ActionAnimation>(inAnimationID),
-                           .info       = info,
-                           .param      = inParam,
-                           .messageID  = static_cast<MsgBasic>(inMessage),
+                        .resolution = reaction,
+                        .animation  = static_cast<ActionAnimation>(inAnimationID),
+                        .info       = info,
+                        .param      = inParam,
+                        .messageID  = static_cast<MsgBasic>(inMessage),
                     },
                 },
             },
@@ -19287,12 +19287,12 @@ void CLuaBaseEntity::restoreFromChest(CLuaBaseEntity* PLuaBaseEntity, uint32 res
                 .actiontype = ActionCategory::MobSkillFinish,
                 .targets    = {
                     {
-                           .actorId = PChar->id,
-                           .results = {
+                        .actorId = PChar->id,
+                        .results = {
                             {
-                                   .animation = animationID,
-                                   .param     = messageParam,
-                                   .messageID = messageID,
+                                .animation = animationID,
+                                .param     = messageParam,
+                                .messageID = messageID,
                             },
                         },
                     },

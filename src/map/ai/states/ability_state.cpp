@@ -131,12 +131,12 @@ CAbilityState::CAbilityState(CBattleEntity* PEntity, uint16 targid, uint16 abili
             .actiontype = ActionCategory::AbilityStart,
             .targets    = {
                 {
-                       .actorId = PTarget->id,
-                       .results = {
+                    .actorId = PTarget->id,
+                    .results = {
                         {
-                               .animation = ActionAnimation::SkillStart,
-                               .param     = PAbility->getID(),
-                               .messageID = MsgBasic::ReadiesSkill,
+                            .animation = ActionAnimation::SkillStart,
+                            .param     = PAbility->getID(),
+                            .messageID = MsgBasic::ReadiesSkill,
                         },
                     },
                 },

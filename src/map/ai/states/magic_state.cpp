@@ -103,11 +103,11 @@ CMagicState::CMagicState(CBattleEntity* PEntity, uint16 targid, SpellID spellid,
         .spellgroup = m_PSpell->getSpellGroup(),
         .targets    = {
             {
-                   .actorId = PTarget->id,
-                   .results = {
+                .actorId = PTarget->id,
+                .results = {
                     {
-                           .param     = static_cast<int32_t>(m_PSpell->getID()),
-                           .messageID = PEntity->objtype != TYPE_PC ? MsgBasic::StartsCastingSelf : MsgBasic::StartsCastingTarget,
+                        .param     = static_cast<int32_t>(m_PSpell->getID()),
+                        .messageID = PEntity->objtype != TYPE_PC ? MsgBasic::StartsCastingSelf : MsgBasic::StartsCastingTarget,
                     },
                 },
             },

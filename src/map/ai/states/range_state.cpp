@@ -126,8 +126,8 @@ CRangeState::CRangeState(CBattleEntity* PEntity, uint16 targid)
         .actionid   = static_cast<uint32_t>(FourCC::RangedStart),
         .targets    = {
             {
-                   .actorId = m_PEntity->id,
-                   .results = {
+                .actorId = m_PEntity->id,
+                .results = {
                     {
                         // Empty result
                     },

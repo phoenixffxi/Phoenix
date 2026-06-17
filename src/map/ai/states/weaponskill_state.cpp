@@ -70,11 +70,11 @@ CWeaponSkillState::CWeaponSkillState(CBattleEntity* PEntity, uint16 targid, uint
         .actionid   = static_cast<uint32_t>(FourCC::SkillUse),
         .targets    = {
             {
-                   .actorId = PTarget->id,
-                   .results = {
+                .actorId = PTarget->id,
+                .results = {
                     {
-                           .param     = m_PSkill->getID(),
-                           .messageID = MsgBasic::ReadiesWeaponskill,
+                        .param     = m_PSkill->getID(),
+                        .messageID = MsgBasic::ReadiesWeaponskill,
                     },
                 },
             },

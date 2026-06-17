@@ -1,4 +1,4 @@
-/*
+﻿/*
 ===========================================================================
 
   Copyright (c) 2025 LandSandBoat Dev Teams
@@ -37,53 +37,53 @@ auto appConfig() -> ApplicationConfig
         .serverName = "test",
         .arguments  = {
             ArgumentDefinition{
-                 .name        = "--keep-going",
-                 .description = "Continue as much as possible after an error or failure.",
-                 .type        = ArgumentType::Flag,
+                .name        = "--keep-going",
+                .description = "Continue as much as possible after an error or failure.",
+                .type        = ArgumentType::Flag,
             },
             ArgumentDefinition{
-                 .name        = "--verbose",
-                 .description = "Verbose output of errors.",
-                 .type        = ArgumentType::Flag,
+                .name        = "--verbose",
+                .description = "Verbose output of errors.",
+                .type        = ArgumentType::Flag,
             },
             ArgumentDefinition{
-                 .name        = "--watch",
-                 .description = "Watch files for changes and re-run tests. (Not yet implemented)",
-                 .type        = ArgumentType::Flag,
+                .name        = "--watch",
+                .description = "Watch files for changes and re-run tests. (Not yet implemented)",
+                .type        = ArgumentType::Flag,
             },
             ArgumentDefinition{
-                 .name        = "--tag",
-                 .description = "Only run tests with these #tags.",
-                 .type        = ArgumentType::Multiple,
+                .name        = "--tag",
+                .description = "Only run tests with these #tags.",
+                .type        = ArgumentType::Multiple,
             },
             ArgumentDefinition{
-                 .name        = "--no-tag",
-                 .description = "Do not run tests with these #tags, takes precedence over tags.",
-                 .type        = ArgumentType::Multiple,
+                .name        = "--no-tag",
+                .description = "Do not run tests with these #tags, takes precedence over tags.",
+                .type        = ArgumentType::Multiple,
             },
             ArgumentDefinition{
-                 .name        = "--file",
-                 .description = "Only run test files matching the regex pattern.",
-                 .type        = ArgumentType::Multiple,
+                .name        = "--file",
+                .description = "Only run test files matching the regex pattern.",
+                .type        = ArgumentType::Multiple,
             },
             ArgumentDefinition{
-                 .name        = "--no-file",
-                 .description = "Do not run test files matching the regex pattern, takes precedence over file.",
-                 .type        = ArgumentType::Multiple,
+                .name        = "--no-file",
+                .description = "Do not run test files matching the regex pattern, takes precedence over file.",
+                .type        = ArgumentType::Multiple,
             },
             ArgumentDefinition{
-                 .name        = "--filter",
-                 .description = "Only run test names matching the regex pattern.",
-                 .type        = ArgumentType::Multiple,
+                .name        = "--filter",
+                .description = "Only run test names matching the regex pattern.",
+                .type        = ArgumentType::Multiple,
             },
             ArgumentDefinition{
-                 .name        = "--no-filter",
-                 .description = "Do not run test names matching the regex pattern, takes precedence over filter.",
-                 .type        = ArgumentType::Multiple,
+                .name        = "--no-filter",
+                .description = "Do not run test names matching the regex pattern, takes precedence over filter.",
+                .type        = ArgumentType::Multiple,
             },
             ArgumentDefinition{
-                 .name        = "--output",
-                 .description = "Output file for test results. Use .json extension for CTRF format.",
+                .name        = "--output",
+                .description = "Output file for test results. Use .json extension for CTRF format.",
             },
         },
     };
@@ -152,12 +152,12 @@ void TestApplication::run()
                 .keepGoing  = args().get<bool>("--keep-going"),
                 .watch      = args().get<bool>("--watch"),
                 .filters    = {
-                       .includePatterns = args().get<std::vector<std::string>>("--file"),
-                       .excludePatterns = args().get<std::vector<std::string>>("--no-file"),
-                       .includeFilters  = args().get<std::vector<std::string>>("--filter"),
-                       .excludeFilters  = args().get<std::vector<std::string>>("--no-filter"),
-                       .includeTags     = args().get<std::vector<std::string>>("--tag"),
-                       .excludeTags     = args().get<std::vector<std::string>>("--no-tag"),
+                    .includePatterns = args().get<std::vector<std::string>>("--file"),
+                    .excludePatterns = args().get<std::vector<std::string>>("--no-file"),
+                    .includeFilters  = args().get<std::vector<std::string>>("--filter"),
+                    .excludeFilters  = args().get<std::vector<std::string>>("--no-filter"),
+                    .includeTags     = args().get<std::vector<std::string>>("--tag"),
+                    .excludeTags     = args().get<std::vector<std::string>>("--no-tag"),
                 },
             };
 

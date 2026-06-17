@@ -15,12 +15,12 @@ from pathlib import Path
 
 def find_clang_format():
     """Find clang-format executable."""
-    # Check paths for clang-format-20 only
+    # Check paths for clang-format-22 only
     paths = [
-        "clang-format-20",
-        "/usr/bin/clang-format-20",
-        "/usr/local/bin/clang-format-20",
-        "/opt/homebrew/bin/clang-format-20",
+        "clang-format-22",
+        "/usr/bin/clang-format-22",
+        "/usr/local/bin/clang-format-22",
+        "/opt/homebrew/bin/clang-format-22",
         "clang-format",
         "/usr/bin/clang-format",
         "/usr/local/bin/clang-format",
@@ -31,23 +31,23 @@ def find_clang_format():
         executable = shutil.which(path) if "/" not in path else path
         if executable and os.path.isfile(executable):
             try:
-                # Verify it's exactly version 20
+                # Verify it's exactly version 22
                 result = subprocess.run(
                     [executable, "--version"], capture_output=True, text=True, timeout=5
                 )
                 if result.returncode == 0:
-                    # Extract version number from output like "clang-format version 20.0.0"
+                    # Extract version number from output like "clang-format version 22.0.0"
                     import re
 
                     version_match = re.search(r"version (\d+)\.", result.stdout)
                     if version_match:
                         major_version = int(version_match.group(1))
-                        if major_version == 20:
+                        if major_version == 22:
                             return executable
             except:
                 continue
 
-    print("Error: clang-format version 20 not found!")
+    print("Error: clang-format version 22 not found!")
     sys.exit(1)
 
 

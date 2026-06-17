@@ -99,11 +99,11 @@ CMobSkillState::CMobSkillState(CBattleEntity* PEntity, uint16 targid, uint16 wsi
             .actionid   = static_cast<uint32_t>(FourCC::SkillUse),
             .targets    = {
                 {
-                       .actorId = PActionTarget ? PActionTarget->id : m_PEntity->id,
-                       .results = {
+                    .actorId = PActionTarget ? PActionTarget->id : m_PEntity->id,
+                    .results = {
                         {
-                               .param     = m_PSkill->getID(),
-                               .messageID = m_PSkill->getFlag() & SKILLFLAG_NO_START_MSG ? MsgBasic::None : MsgBasic::ReadiesWeaponskill,
+                            .param     = m_PSkill->getID(),
+                            .messageID = m_PSkill->getFlag() & SKILLFLAG_NO_START_MSG ? MsgBasic::None : MsgBasic::ReadiesWeaponskill,
                         },
                     },
                 },

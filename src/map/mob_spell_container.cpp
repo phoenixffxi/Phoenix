@@ -130,12 +130,12 @@ Maybe<SpellID> CMobSpellContainer::GetAvailable(SpellID spellId)
 {
     auto* spell    = spell::GetSpell(spellId);
     bool  enoughMP = spell->getMPCost() <= m_PMob->health.mp ||
-                    spell->getSkillType() == SKILL_NINJUTSU ||
-                    spell->getSkillType() == SKILL_SINGING ||
-                    spell->getSkillType() == SKILL_WIND_INSTRUMENT ||
-                    spell->getSkillType() == SKILL_STRING_INSTRUMENT ||
-                    spell->getSkillType() == SKILL_GEOMANCY ||
-                    m_PMob->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Manafont);
+                     spell->getSkillType() == SKILL_NINJUTSU ||
+                     spell->getSkillType() == SKILL_SINGING ||
+                     spell->getSkillType() == SKILL_WIND_INSTRUMENT ||
+                     spell->getSkillType() == SKILL_STRING_INSTRUMENT ||
+                     spell->getSkillType() == SKILL_GEOMANCY ||
+                     m_PMob->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Manafont);
 
     bool isNotInRecast = !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<Recast>(spellId));
 
@@ -150,15 +150,15 @@ Maybe<SpellID> CMobSpellContainer::GetBestAvailable(SPELLFAMILY family)
     {
         for (auto id : list)
         {
-            auto* spell      = spell::GetSpell(id);
-            bool  sameFamily = (family == SPELLFAMILY_NONE) ? true : spell->getSpellFamily() == family;
-            bool  enoughMP   = spell->getMPCost() <= m_PMob->health.mp ||
-                            spell->getSkillType() == SKILL_NINJUTSU ||
-                            spell->getSkillType() == SKILL_SINGING ||
-                            spell->getSkillType() == SKILL_WIND_INSTRUMENT ||
-                            spell->getSkillType() == SKILL_STRING_INSTRUMENT ||
-                            spell->getSkillType() == SKILL_GEOMANCY;
-            bool isNotInRecast = !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<Recast>(id));
+            auto* spell         = spell::GetSpell(id);
+            bool  sameFamily    = (family == SPELLFAMILY_NONE) ? true : spell->getSpellFamily() == family;
+            bool  enoughMP      = spell->getMPCost() <= m_PMob->health.mp ||
+                                  spell->getSkillType() == SKILL_NINJUTSU ||
+                                  spell->getSkillType() == SKILL_SINGING ||
+                                  spell->getSkillType() == SKILL_WIND_INSTRUMENT ||
+                                  spell->getSkillType() == SKILL_STRING_INSTRUMENT ||
+                                  spell->getSkillType() == SKILL_GEOMANCY;
+            bool  isNotInRecast = !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<Recast>(id));
             if (sameFamily && enoughMP && isNotInRecast)
             {
                 matches.emplace_back(id);

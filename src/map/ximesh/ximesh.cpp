@@ -470,11 +470,11 @@ auto XiMesh::query(const float x, const float y, const float z) const -> std::op
                 {
                     const auto& meta = block.metas[triIdx];
                     best             = CellHit{
-                                    .type    = static_cast<TerrainType>(meta.material),
-                                    .mapId   = place.mapId,
-                                    .roofed  = place.roofed,
-                                    .barrier = meta.barrier != 0,
-                                    .y       = triY,
+                        .type    = static_cast<TerrainType>(meta.material),
+                        .mapId   = place.mapId,
+                        .roofed  = place.roofed,
+                        .barrier = meta.barrier != 0,
+                        .y       = triY,
                     };
                 }
             }
@@ -879,11 +879,11 @@ auto XiMesh::rayIntersectCellHitInfo(const Vector3& start, const Vector3& end, c
                 {
                     const auto& meta = block.metas[triIdx];
                     closestHit       = RayHitInfo{
-                              .intersection = intersection,
-                              .distanceSq   = distanceSq,
-                              .placement    = &place,
-                              .type         = static_cast<TerrainType>(meta.material),
-                              .barrier      = meta.barrier != 0,
+                        .intersection = intersection,
+                        .distanceSq   = distanceSq,
+                        .placement    = &place,
+                        .type         = static_cast<TerrainType>(meta.material),
+                        .barrier      = meta.barrier != 0,
                     };
                 }
             }
