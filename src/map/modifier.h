@@ -758,6 +758,7 @@ enum class Mod
     AUTO_RANGED_DELAY           = 1001, // Decreases the amount of time between ranged attacks
     AUTO_RANGED_DAMAGEP         = 1002, // Increase automaton ranged weapon damage by a %
     AUTOMATON_LVL_BONUS         = 1044, // Automaton: Lv. (Increases automaton's base level above 99)
+    VOLT_GUN_POTENCY            = 1198, // AE Potency Bonus for Volt Gun (percent)
 
     // Dancer
     FINISHING_MOVES          = 333,  // Tracks # of finishing moves

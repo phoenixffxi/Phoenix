@@ -585,6 +585,18 @@ xi.pets.automaton.onMobSpawn = function(mob)
     mob:addRecast(xi.recast.ABILITY, xi.automaton.abilities.SHOCK_ABSORBER,  180)
 end
 
+xi.pets.automaton.onAdditionalEffectAttack = function(attacker, defender, damage)
+    local pTable =
+    {
+        chance         = 60,
+        attackType     = xi.attackType.MAGICAL,
+        magicalElement = xi.element.THUNDER,
+        basePower      = xi.automaton.calculateVoltGunPotency(attacker, defender),
+    }
+
+    return xi.combat.action.executeAddEffectDamage(attacker, defender, pTable)
+end
+
 xi.pets.automaton.onMobDeath = function(mob)
     mob:removeListener('MANEUVER_DURATION')
 end

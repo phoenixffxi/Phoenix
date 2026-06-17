@@ -2602,6 +2602,10 @@ void OnAdditionalEffect(CBattleEntity* PAttacker, CBattleEntity* PDefender, acti
         auto name          = PAttacker->getName();
         onAdditionalEffect = lua[sol::create_if_nil]["xi"]["zones"][zone]["mobs"][name]["onAdditionalEffect"];
     }
+    else if (PAttacker->objtype == TYPE_PET && static_cast<CPetEntity*>(PAttacker)->getPetType() == PET_TYPE::AUTOMATON)
+    {
+        onAdditionalEffect = lua[sol::create_if_nil]["xi"]["pets"]["automaton"]["onAdditionalEffectAttack"];
+    }
 
     if (!onAdditionalEffect.valid())
     {
