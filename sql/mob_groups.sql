@@ -14092,7 +14092,7 @@ INSERT INTO `mob_groups` VALUES (8,4132,206,'Vangknok_of_Clan_Death',0,128,0,150
 INSERT INTO `mob_groups` VALUES (9,3315,206,'Rallbrog_of_Clan_Death',0,128,0,1500,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (10,4374,206,'Worgbut_of_Clan_Death',0,128,0,1500,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (11,938,206,'Death_Clan_Destroyer',0,128,0,7400,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (12,5408,206,'Maat_pld',0,128,0,3300,1000,0,NULL);
+INSERT INTO `mob_groups` VALUES (12,5408,206,'Maat_pld',0,128,0,2400,1000,0,NULL);
 INSERT INTO `mob_groups` VALUES (13,5409,206,'Maat_drk',0,128,0,3300,1000,0,NULL);
 INSERT INTO `mob_groups` VALUES (14,5413,206,'Maat_brd',0,128,0,2300,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (15,1620,206,'Gladiatorial_Weapon',0,128,0,0,0,0,NULL);
