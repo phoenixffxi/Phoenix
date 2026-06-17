@@ -1,4 +1,4 @@
-/*
+﻿/*
 ===========================================================================
 
   Copyright (c) 2025 LandSandBoat Dev Teams
@@ -36,10 +36,10 @@ const auto auditTrade = [](Scheduler& scheduler, CCharEntity* PChar, CBaseEntity
 {
     if (settings::get<bool>("map.AUDIT_PLAYER_TRADES"))
     {
-        const auto sender       = PChar->id;
-        const auto senderName   = PChar->getName();
-        const auto receiver     = PNpc->id;
-        const auto receiverName = PNpc->getName();
+        const auto  sender       = PChar->id;
+        const auto& senderName   = PChar->getName();
+        const auto  receiver     = PNpc->id;
+        const auto& receiverName = PNpc->getName();
 
         scheduler.postToWorkerThread(
             [itemId, quantity, sender, senderName, receiver, receiverName]()

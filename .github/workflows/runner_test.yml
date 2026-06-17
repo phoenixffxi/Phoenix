@@ -53,7 +53,7 @@ jobs:
       XI_NETWORK_SQL_LOGIN: xiadmin
       XI_NETWORK_SQL_PASSWORD: 'password'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 1
           submodules: recursive # For navmeshes
@@ -109,10 +109,10 @@ jobs:
           ${{ env.MYSQL_CMD }} -e "GRANT ALL PRIVILEGES ON ${{ env.XI_NETWORK_SQL_DATABASE }}.* TO '${{ env.XI_NETWORK_SQL_LOGIN }}'@'%';"
           ${{ env.MYSQL_CMD }} -e "FLUSH PRIVILEGES;"
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         id: setup_python
         with:
-          python-version: '3.12'
+          python-version: '3.14'
 
       - name: Install Python dependencies
         run: |
@@ -131,14 +131,14 @@ jobs:
 
       - name: Download artifact
         if: ${{ github.event_name == 'pull_request' }}
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: ${{ format('LSB_{0}_{1}_{2}', runner.os, inputs.build_type, github.sha) }}
           path: .
 
       - name: Download previous artifact
         if: ${{ github.event_name == 'workflow_run' || github.event_name == 'workflow_dispatch' }}
-        uses: dawidd6/action-download-artifact@v3
+        uses: dawidd6/action-download-artifact@v21
         with:
           run_id: ${{ github.event.workflow_run.id }}
           name: ${{ format('LSB_{0}_{1}_{2}', runner.os, inputs.build_type, github.sha) }}
@@ -188,7 +188,7 @@ jobs:
       - name: Startup checks
         if: ${{ inputs.startup_checks }}
         id: startup_checks
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@v4
         with:
           timeout_minutes: 10
           max_attempts: 3

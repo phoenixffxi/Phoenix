@@ -1,4 +1,4 @@
-/*
+﻿/*
 ===========================================================================
 
   Copyright (c) 2025 LandSandBoat Dev Teams
@@ -63,9 +63,9 @@ const auto auditUnity = [](Scheduler& scheduler, CCharEntity* PChar, const std::
 {
     if (settings::get<bool>("map.AUDIT_CHAT") && settings::get<uint8>("map.AUDIT_UNITY"))
     {
-        const auto name        = PChar->getName();
-        const auto zoneId      = PChar->getZone();
-        const auto unityLeader = PChar->PUnityChat->getLeader();
+        const auto& name        = PChar->getName();
+        const auto  zoneId      = PChar->getZone();
+        const auto  unityLeader = PChar->PUnityChat->getLeader();
 
         scheduler.postToWorkerThread(
             [name, zoneId, unityLeader, rawMessage]()

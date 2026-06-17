@@ -120,6 +120,8 @@ auto CTrustController::Tick(timer::time_point tick) -> Task<void>
     {
         co_await DoRoamTick(tick);
     }
+
+    co_return;
 }
 
 auto CTrustController::DoCombatTick(timer::time_point tick) -> Task<void>
@@ -251,6 +253,8 @@ auto CTrustController::DoCombatTick(timer::time_point tick) -> Task<void>
 
         PTrust->PAI->EventHandler.triggerListener("COMBAT_TICK", PTrust, PMaster, PTarget);
     }
+
+    co_return;
 }
 
 auto CTrustController::DoNonCombatTick(timer::time_point tick) -> Task<void>

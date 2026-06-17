@@ -1,4 +1,4 @@
-/*
+﻿/*
 ===========================================================================
 
   Copyright (c) 2025 LandSandBoat Dev Teams
@@ -133,7 +133,7 @@ void CLuaClientEntityPairEvents::expect(sol::table expectedEvent) const
 
     if (updates.has_value())
     {
-        const sol::table updateTable = updates.value();
+        const sol::table& updateTable = updates.value();
         for (const auto& pair : updateTable)
         {
             if (pair.second.is<uint32>())

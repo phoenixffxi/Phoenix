@@ -25,7 +25,7 @@ jobs:
         shell: bash
     steps:
       - run: git config --global --add safe.directory $GITHUB_WORKSPACE
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -47,9 +47,12 @@ jobs:
         shell: bash
     steps:
       - run: git config --global --add safe.directory $GITHUB_WORKSPACE
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
+
+      - name: Generate codegen Lua enums
+        run: python -m tools.codegen "$RUNNER_TEMP/codegen-out"
 
       - name: Run Lua Language Server
         id: run_lls

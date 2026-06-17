@@ -54,7 +54,7 @@ public:
     auto getElementCapacity(uint8 element) const -> uint8;
 
     void burdenTick();
-    auto getBurden() const -> std::array<uint8, 8>;
+    auto getBurden() const -> const std::array<uint8, 8>&;
     void setAllBurden(uint8 burden);
     void setBurdenArray(std::array<uint8, 8> burdenArray);
     auto addBurden(uint8 element, int8 burden) -> uint8;

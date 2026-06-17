@@ -172,6 +172,8 @@ auto CPetController::DoRoamTick(timer::time_point tick) -> Task<void>
     }
 
     PPet->PAI->PathFind->FollowPath(m_Tick);
+
+    co_return;
 }
 
 bool CPetController::PetIsHealing()

@@ -1157,6 +1157,8 @@ auto CCharEntity::Tick(timer::time_point tick) -> Task<void>
     {
         gardenutils::UpdateGardening(this, SendPacket::Yes);
     }
+
+    co_return;
 }
 
 void CCharEntity::PostTick()
