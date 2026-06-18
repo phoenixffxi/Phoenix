@@ -1037,34 +1037,6 @@ INSERT INTO `guild_shops` VALUES (531,13783,81084,162345,60,0,0);  -- iron_scale
 -- INSERT INTO `guild_shops` VALUES (531,13785,20240,45600,60,0,0);   -- steel_scale_mail TODO: missing min_price and max_price
 -- INSERT INTO `guild_shops` VALUES (531,12306,20240,45600,60,0,0);   -- kite_shield TODO: missing min_price and max_price
 
--- Akamafula (Lower Jeuno) Tenshodo Merchent -- TODO: Audit and update Akamafula.lua. Converted from a guild merchant to a standard shop as of April 2018.
-INSERT INTO `guild_shops` VALUES (60417,16896,517,884,20,10,20);     -- kunai
-INSERT INTO `guild_shops` VALUES (60417,16900,1404,2160,20,7,15);    -- wakizashi
-INSERT INTO `guild_shops` VALUES (60417,16960,3121,3575,20,5,10);    -- uchigatana
--- INSERT INTO `guild_shops` VALUES (60417,16974,224510,697840,60,0,0); -- dotanuki TODO: missing min_price and max_price
-INSERT INTO `guild_shops` VALUES (60417,16975,11583,19800,20,5,10);  -- kanesada
-INSERT INTO `guild_shops` VALUES (60417,16966,1836,2103,20,10,20);   -- tachi
-INSERT INTO `guild_shops` VALUES (60417,16982,4752,15760,20,0,10);   -- nodachi
-INSERT INTO `guild_shops` VALUES (60417,16987,12253,14033,20,5,10);  -- okanehira
-INSERT INTO `guild_shops` VALUES (60417,17265,14428,35251,20,5,10);  -- tanegashima
-INSERT INTO `guild_shops` VALUES (60417,17301,29,87,2970,594,1188);  -- shuriken
-INSERT INTO `guild_shops` VALUES (60417,12456,552,858,20,10,20);     -- hachimaki
-INSERT INTO `guild_shops` VALUES (60417,12457,3272,5079,20,7,15);    -- cotton_hachimaki
-INSERT INTO `guild_shops` VALUES (60417,12458,8972,13927,20,5,10);   -- soil_hachimaki
-INSERT INTO `guild_shops` VALUES (60417,13111,20061,29942,20,5,10);  -- nodowa
-INSERT INTO `guild_shops` VALUES (60417,12584,833,1294,20,10,20);    -- kenpogi
-INSERT INTO `guild_shops` VALUES (60417,12585,4931,7654,20,7,15);    -- cotton_dogi
-INSERT INTO `guild_shops` VALUES (60417,12586,13266,17820,20,5,10);  -- soil_gi
-INSERT INTO `guild_shops` VALUES (60417,12712,458,712,20,10,20);     -- tekko
-INSERT INTO `guild_shops` VALUES (60417,12713,2713,4212,20,7,15);    -- cotton_tekko
-INSERT INTO `guild_shops` VALUES (60417,12714,2713,9979,20,5,10);    -- soil_tekko
-INSERT INTO `guild_shops` VALUES (60417,12840,666,1034,20,10,20);    -- sitabaki
-INSERT INTO `guild_shops` VALUES (60417,12841,2713,6133,20,7,15);    -- cotton_sitabaki
-INSERT INTO `guild_shops` VALUES (60417,12842,10805,14515,20,5,10);  -- soil_sitabaki
-INSERT INTO `guild_shops` VALUES (60417,12968,424,660,20,10,20);     -- kyahan
-INSERT INTO `guild_shops` VALUES (60417,12969,2528,3924,20,7,15);    -- cotton_kyahan
-INSERT INTO `guild_shops` VALUES (60417,12970,11071,12393,20,5,10);  -- soil_kyahan
-
 -- Blabbivix (Port Bastok) / Gaudylox (Northern San dOria) / Scavnix (Windurst Walls) (Chip Vendors pseudo guild shop)
 INSERT INTO `guild_shops` VALUES (60418,474,21000,84000,200,50,150); -- Red Chip
 INSERT INTO `guild_shops` VALUES (60418,475,21000,84000,200,50,150); -- Blue Chip
