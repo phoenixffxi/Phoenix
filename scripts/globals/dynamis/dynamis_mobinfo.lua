@@ -15,6 +15,7 @@ xi.dynamis.mobType = xi.dynamis.mobType or
     STATUE    = 2,
     BOSS      = 3,
     NIGHTMARE = 4,
+    MASTER    = 5,
 }
 
 -- Debug control
@@ -95,6 +96,9 @@ xi.dynamis.onSharedInitialize = function(mob)
     mob:addMod(xi.mod.INT, 10)
     mob:addMod(xi.mod.MND, 10)
     mob:addMod(xi.mod.CHR, 10)
+
+    mob:setMobMod(xi.mobMod.GIL_BONUS, -100)
+    mob:setMobMod(xi.mobMod.EXP_BONUS, -100)
 end
 
 xi.dynamis.generalInfo = function(mob, modelSize)
@@ -104,8 +108,6 @@ xi.dynamis.generalInfo = function(mob, modelSize)
     mob:setMobMod(xi.mobMod.CHECK_AS_NM, 1)
     mob:setMobMod(xi.mobMod.NO_DESPAWN, 1)
     mob:setMobMod(xi.mobMod.CLAIM_TYPE, xi.claimType.NON_EXCLUSIVE)
-    mob:setMobMod(xi.mobMod.GIL_BONUS, -100)
-    mob:setMobMod(xi.mobMod.EXP_BONUS, -100)
     mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 150)
     mob:setRoamFlags(xi.roamFlag.SCRIPTED)
 
@@ -114,22 +116,17 @@ xi.dynamis.generalInfo = function(mob, modelSize)
     mob:setMobMod(xi.mobMod.SOUND_RANGE, 4)
 
     mob:setModelSize(modelSize)
-    -- TODO: figure out DRG wyvern calls later
-    local job = mob:getMainJob()
-    if
-        job == xi.job.BST or
-        job == xi.job.SMN
-    then
-        xi.mob.callPets(mob, mob:getID() + 1)
-    end
 end
 
 -- ---------------------------
 -- Shared Event Handlers
 -- ---------------------------
 xi.dynamis.onSharedEngage = function(mob, target)
+    local mobID   = mob:getID()
+    local mobName = mob:getName()
+
     debugPrint('Mob engaged, checking for spawns...')
-    debugPrint('Engaged mob ID: ' .. mob:getID() .. ' isSpawned: ' .. tostring(mob:isSpawned()))
+    debugPrint('Engaged mob ID: ' .. mobID .. ' (' .. mobName .. ') isSpawned: ' .. tostring(mob:isSpawned()))
 
     -- Stop the spawning if the mob is re-engaged after a wipe
     if mob:getLocalVar('engageCheck') == 1 then
@@ -138,7 +135,6 @@ xi.dynamis.onSharedEngage = function(mob, target)
 
     mob:setLocalVar('engageCheck', 1)
     local zoneId = mob:getZoneID()
-    local mobID  = mob:getID()
 
     mob:setMobMod(xi.mobMod.MAGIC_DELAY, math.random(5, 15)) -- Random magic delay to make the casts delayed
 
@@ -167,12 +163,17 @@ xi.dynamis.onSharedEngage = function(mob, target)
         return
     end
 
-    local count = xi.dynamis.spawnTable[zoneId][mobID][1]
+    local zoneSpawnTable = xi.dynamis.spawnTable and xi.dynamis.spawnTable[zoneId]
+    local spawnEntry     = zoneSpawnTable and zoneSpawnTable[mobID]
+    if not spawnEntry then
+        debugPrint('No spawn table entry for engaged mob ID: ' .. mobID .. ' (' .. mobName .. ') in zone ID: ' .. zoneId)
+        return
+    end
+
+    local count = spawnEntry[1]
     debugPrint('Spawn count from onSharedEngage: ' .. count)
     if count > 0 then
-        local checkForceSpawn = xi.dynamis.spawnTable[zoneId][mobID][2]
-        debugPrint('Checking force spawn conditions. EngageCheck: ' .. mob:getLocalVar('engageCheck') .. ' CheckForceSpawn: ' .. tostring(checkForceSpawn))
-        xi.dynamis.spawnNextMobsOnce(mob, count, target, checkForceSpawn)
+        xi.dynamis.spawnNextMobsOnce(mob, count, target)
     end
 end
 
@@ -183,8 +184,13 @@ xi.dynamis.statueOnSpawn = function(mob, modelSize)
     -- Apply the general stats to from dynamis mobs
     xi.dynamis.generalInfo(mob, modelSize)
     mob:setSpawnAnimation(0)
-    mob:setBaseSpeed(15)
     mob:setMobMod(xi.mobMod.NO_STANDBACK, 1) -- Statues do not stand back
+
+    if mob:getName() == 'Vanguard_Eye' then
+        mob:setBaseSpeed(35)
+    else
+        mob:setBaseSpeed(15)
+    end
 
     local mobId  = mob:getID()
     local zoneId = mob:getZoneID()
@@ -248,15 +254,18 @@ xi.dynamis.spawnAggroStatues = function(mob, target)
             debugPrint('Aggressive Spawn Mob ID: ' .. mobId)
             if mobToSpawn and not mobToSpawn:isSpawned() then
                 mobToSpawn:spawn()
-                setTimerTarget(mobToSpawn, target)
-                mobToSpawn:timer(500, function(mobArg)
-                    if mobArg then
-                        local timerTarget = getTimerTarget(mobArg)
-                        if timerTarget then
-                            mobArg:updateEnmity(timerTarget)
+
+                if target then
+                    setTimerTarget(mobToSpawn, target)
+                    mobToSpawn:timer(500, function(mobArg)
+                        if mobArg then
+                            local timerTarget = getTimerTarget(mobArg)
+                            if timerTarget then
+                                mobArg:updateEnmity(timerTarget)
+                            end
                         end
-                    end
-                end)
+                    end)
+                end
             end
         end
     end
@@ -327,21 +336,17 @@ xi.dynamis.onStatueDeath = function(mob, player, optParams)
 
     -- If the statue gets 1 shotted we need to force spawn the statues for aggro conditions
     if mob:getLocalVar('engageCheck') == 0 then
-        xi.dynamis.spawnAggroStatues(mob, player)
+        xi.dynamis.spawnAggroStatues(mob, nil)
     end
 
-    -- Force spawn check for NMs
+    -- If the mob is one shotted we need to force spawn configured adds.
     local zoneId   = mob:getZoneID()
     local statueId = mob:getID()
 
-    -- If the mob is one shotted we need to force spawn the NM mobs
-    -- This means it has NOT been engaged yet
-    local checkForceSpawn = xi.dynamis.spawnTable[zoneId][statueId][2]
-    debugPrint('StatueDeath: Checking force spawn conditions. EngageCheck: ' .. mob:getLocalVar('engageCheck') .. ' CheckForceSpawn: ' .. tostring(checkForceSpawn))
-    if mob:getLocalVar('engageCheck') == 0 and checkForceSpawn then
+    if mob:getLocalVar('engageCheck') == 0 then
         local count    = xi.dynamis.spawnTable[zoneId][statueId][1]
         if count > 0 then
-            xi.dynamis.spawnNextMobsOnce(mob, count, nil, checkForceSpawn) -- Spawn the next X amount of IDs from that statue
+            xi.dynamis.spawnNextMobsOnce(mob, count, nil) -- Spawn the next X amount of IDs from that statue
         end
     end
 
@@ -508,7 +513,6 @@ end
 -- Boss functions
 -- ---------------------
 xi.dynamis.onBossInitialize = function(mob)
-    xi.dynamis.onSharedInitialize(mob)
     mob:addImmunity(xi.immunity.LIGHT_SLEEP)
     mob:addImmunity(xi.immunity.DARK_SLEEP)
     mob:addImmunity(xi.immunity.PETRIFY)
@@ -516,7 +520,6 @@ xi.dynamis.onBossInitialize = function(mob)
 end
 
 xi.dynamis.onBossSpawn = function(mob, modelSize)
-    xi.dynamis.generalInfo(mob, modelSize)
     mob:setSpawnAnimation(0)
 end
 
@@ -677,7 +680,7 @@ local function calculateLineSpawnPosition(statuePos, lineSpawnConfig, spawnedCou
     return statuePos.x, statuePos.y, statuePos.z, false, false
 end
 
-xi.dynamis.spawnNextMobsOnce = function(statue, count, target, checkForceSpawn)
+xi.dynamis.spawnNextMobsOnce = function(statue, count, target)
     debugPrint('Spawning next mobs once...')
     if
         count <= 0 or
@@ -694,6 +697,7 @@ xi.dynamis.spawnNextMobsOnce = function(statue, count, target, checkForceSpawn)
     local zoneId          = statue:getZoneID()
     local zoneSpawnTable  = xi.dynamis.spawnTable and xi.dynamis.spawnTable[zoneId]
     local lineSpawnConfig = xi.dynamis.lineSpawns and xi.dynamis.lineSpawns[zoneId] and xi.dynamis.lineSpawns[zoneId][statueId]
+    local isAnimatedMob   = statue:getName():find('^Animated') ~= nil
     local spawnedCount    = 0
     local i               = 1
 
@@ -718,7 +722,20 @@ xi.dynamis.spawnNextMobsOnce = function(statue, count, target, checkForceSpawn)
             -- mobToSpawn:setMobMod(xi.mobMod.SUPERLINK, statue:getTargID())
             mobToSpawn:setRoamFlags(xi.roamFlag.SCRIPTED)
 
-            local spawnX, spawnY, spawnZ, shouldSetSpawn, spawnOnTop = calculateLineSpawnPosition(statuePos, lineSpawnConfig, spawnedCount, mobToSpawn:getSpawnPos())
+            local spawnX, spawnY, spawnZ, shouldSetSpawn, spawnOnTop
+            if isAnimatedMob then
+                local angle = (spawnedCount / count) * 2 * math.pi
+                local radius = 3
+
+                spawnX         = statuePos.x + math.cos(angle) * radius
+                spawnY         = statuePos.y
+                spawnZ         = statuePos.z + math.sin(angle) * radius
+                shouldSetSpawn = true
+                spawnOnTop     = false
+            else
+                spawnX, spawnY, spawnZ, shouldSetSpawn, spawnOnTop = calculateLineSpawnPosition(statuePos, lineSpawnConfig, spawnedCount, mobToSpawn:getSpawnPos())
+            end
+
             if spawnOnTop then
                 setSpawnPosition(mobToSpawn, statuePos.x, statuePos.y, statuePos.z, statuePos.rot)
             elseif shouldSetSpawn then
@@ -785,14 +802,6 @@ xi.dynamis.spawnNextMobsOnce = function(statue, count, target, checkForceSpawn)
 
             spawnedCount = spawnedCount + 1
             i = i + 1
-
-            -- BST and SMN spawn a pet at mob:getID() + 1 via callPets inside onMobSpawn.
-            -- That callback runs async, so the pet has no master yet when the loop reaches it.
-            -- Pre-skip the pet slot here so it isn't counted as a regular mob.
-            local job = mobToSpawn:getMainJob()
-            if job == xi.job.BST or job == xi.job.SMN then
-                i = i + 1
-            end
         end
     end
 end

@@ -1256,7 +1256,7 @@ xi.dynamis.enedinTable[xi.zone.DYNAMIS_BUBURIMU] =
 
 xi.dynamis.enedinTable[xi.zone.DYNAMIS_QUFIM] =
 {
-    -- ID = { # to spawn, force spawn mobs }
+    -- Enedin index = mob ID
     [1]   = 16945213, -- (001-Q) | MNK, BLM, THF
     [2]   = 16945209, -- (002-Q) | WAR, RDM, NIN
     [3]   = 16945218, -- (003-Q) | PLD, WHM
@@ -1399,7 +1399,7 @@ xi.dynamis.enedinTable[xi.zone.DYNAMIS_QUFIM] =
 
 xi.dynamis.enedinTable[xi.zone.DYNAMIS_TAVNAZIA] =
 {
-    -- ID = { # to spawn, force spawn mobs }
+    -- Enedin index = mob ID
     [1]   = 16949249, -- (001-Nightmare Bugard(15)) |
     [2]   = 16949250, -- (002-Nightmare Worm) |
     [3]   = 16949255, -- (003-Nightmare Antlion(30)) |

@@ -40,7 +40,7 @@ INSERT INTO `mob_spawn_points` VALUES (17535002,0,'Vanguard_Trooper','Vanguard T
 INSERT INTO `mob_spawn_points` VALUES (17535003,0,'Vanguard_Neckchopper','Vanguard Neckchopper',11,75,77,95.796,4.000,69.034,225);
 INSERT INTO `mob_spawn_points` VALUES (17535004,0,'Serjeant_Tombstone','Serjeant Tombstone',22,65,65,93.749,4.000,56.914,255);
 INSERT INTO `mob_spawn_points` VALUES (17535005,0,'Vanguard_Footsoldier','Vanguard Footsoldier',4,75,77,94.043,4.000,60.509,255);
-INSERT INTO `mob_spawn_points` VALUES (17535006,0,'Vanguard_Footsoldier','Vanguard Footsoldier',4,75,77,93.749,4.000,56.914,255);
+INSERT INTO `mob_spawn_points` VALUES (17535006,0,'Vanguard_Footsoldier','Vanguard Footsoldier',4,75,77,94.645,4.000,53.358,255);
 INSERT INTO `mob_spawn_points` VALUES (17535007,0,'Warchief_Tombstone','Warchief Tombstone',24,65,65,101.250,4.000,50.091,160);
 INSERT INTO `mob_spawn_points` VALUES (17535008,0,'Vanguard_Vexer','Vanguard Vexer',7,75,77,101.500,4.000,53.277,131);
 INSERT INTO `mob_spawn_points` VALUES (17535009,0,'Vanguard_Vexer','Vanguard Vexer',7,75,77,101.404,4.000,45.324,131);
@@ -2897,7 +2897,7 @@ INSERT INTO `mob_spawn_points` VALUES (17330357,0,'Kindred_Ranger','Kindred Rang
 INSERT INTO `mob_spawn_points` VALUES (17330358,0,'Vanguard_Eye','Vanguard Eye',38,70,70,195.000,-16.133,-239.000,0);
 INSERT INTO `mob_spawn_points` VALUES (17330359,0,'Kindred_Black_Mage','Kindred Black Mage',30,77,80,200.000,-16.000,-239.000,0);
 INSERT INTO `mob_spawn_points` VALUES (17330360,0,'Kindred_Ranger','Kindred Ranger',19,77,80,205.000,-15.883,-239.000,0);
-INSERT INTO `mob_spawn_points` VALUES (17330361,0,'Vanguard_Eye','Vanguard Eye',38,70,70,210.000,-14.793,-239.000,128);
+INSERT INTO `mob_spawn_points` VALUES (17330361,0,'Vanguard_Eye','Vanguard Eye',38,70,70,210.000,-14.793,-239.000,192);
 INSERT INTO `mob_spawn_points` VALUES (17330362,0,'Kindred_Black_Mage','Kindred Black Mage',30,77,80,210.000,-15.546,-234.000,0);
 INSERT INTO `mob_spawn_points` VALUES (17330363,0,'Kindred_Ranger','Kindred Ranger',19,77,80,210.000,-16.302,-229.000,0);
 INSERT INTO `mob_spawn_points` VALUES (17330364,0,'Vanguard_Eye','Vanguard Eye',38,70,70,276.829,-5.616,-177.122,15);
@@ -2933,7 +2933,7 @@ INSERT INTO `mob_spawn_points` VALUES (17330393,0,'Kindreds_Vouivre','Kindred\'s
 INSERT INTO `mob_spawn_points` VALUES (17330394,0,'Kindred_White_Mage','Kindred White Mage',29,77,80,-16.000,-15.616,34.000,128);
 INSERT INTO `mob_spawn_points` VALUES (17330395,0,'Vanguard_Eye','Vanguard Eye',38,70,70,194.000,-7.753,12.559,79);
 INSERT INTO `mob_spawn_points` VALUES (17330396,0,'Kindred_Paladin','Kindred Paladin',15,77,80,192.411,-7.788,8.469,79);
-INSERT INTO `mob_spawn_points` VALUES (17330397,0,'Kindred_Thief','Kindred Thief',34,77,80,19.864,-8.355,4.487,79);
+INSERT INTO `mob_spawn_points` VALUES (17330397,0,'Kindred_Thief','Kindred Thief',34,77,80,190.864,-8.355,4.487,79);
 INSERT INTO `mob_spawn_points` VALUES (17330398,0,'Kindred_Summoner','Kindred Summoner',24,77,80,190.037,-8.529,14.601,79);
 INSERT INTO `mob_spawn_points` VALUES (17330399,0,'Kindreds_Avatar','Kindred\'s Avatar',25,77,80,1.000,1.000,1.000,1);
 INSERT INTO `mob_spawn_points` VALUES (17330400,0,'Vanguard_Eye','Vanguard Eye',38,70,70,204.000,-7.852,7.000,79);
