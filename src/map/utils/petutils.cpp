@@ -181,7 +181,7 @@ void LoadPetList()
         Pet->cmbDelay       = rset->get<uint16>("cmbDelay");
         Pet->name_prefix    = rset->get<uint8>("name_prefix");
         Pet->m_MobSkillList = rset->get<uint16>("skill_list_id");
-        Pet->m_dmgType      = rset->get<DAMAGE_TYPE>("damageType");
+        Pet->m_dmgType      = rset->get<xi::DamageType>("damageType");
 
         g_PPetList.emplace_back(Pet);
     }
@@ -677,7 +677,7 @@ void LoadAutomatonStats(CCharEntity* PMaster, CPetEntity* PPet, Pet_t* petStats,
 
         static_cast<CItemWeapon*>(PPet->m_Weapons[SLOT_RANGED])->setSkillType(SKILL_AUTOMATON_RANGED);
         static_cast<CItemWeapon*>(PPet->m_Weapons[SLOT_RANGED])->setDamage(static_cast<uint16>(std::floor((PPet->GetSkill(SKILL_AUTOMATON_RANGED) / 8.7f) * 2.0f + 3.0f)));
-        static_cast<CItemWeapon*>(PPet->m_Weapons[SLOT_RANGED])->setDmgType(DAMAGE_TYPE::PIERCING);
+        static_cast<CItemWeapon*>(PPet->m_Weapons[SLOT_RANGED])->setDmgType(xi::DamageType::Piercing);
 
         // Automatons are hard to interrupt
         PPet->addModifier(Mod::SPELLINTERRUPT, 85);

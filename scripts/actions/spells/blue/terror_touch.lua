@@ -32,7 +32,7 @@ spellObject.onSpellCast = function(caster, target, spell)
     end
 
     params.attackType = xi.attackType.PHYSICAL
-    params.damageType = xi.damageType.HTH
+    params.damageType = xi.damageType.HAND_TO_HAND
     params.scattr     = xi.skillchainType.COMPRESSION
     params.scattr2    = xi.skillchainType.REVERBERATION
     params.numhits    = 1

@@ -833,9 +833,9 @@ int32 CalculateEnspellDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender,
  *                                                                       *
  ************************************************************************/
 
-int32 CalculateSpikeDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, action_result_t* Action, uint16 damageTaken)
+auto CalculateSpikeDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, action_result_t* Action, uint16 damageTaken) -> int32
 {
-    auto  spikeElement = static_cast<ELEMENT>(static_cast<uint8>(GetSpikesDamageType(Action->spikesEffect)) - (uint8)DAMAGE_TYPE::ELEMENTAL);
+    auto  spikeElement = static_cast<ELEMENT>(static_cast<uint8>(GetSpikesDamageType(Action->spikesEffect)) - (uint8)xi::DamageType::Elemental);
     int32 damage       = Action->spikesParam;
 
     if (PDefender->getMod(Mod::SPIKES_DMG_BONUS) > 0)
@@ -994,14 +994,14 @@ auto HandleSpikesDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, acti
                                 PDefender->addHP(spikesDamage);
                             }
                         }
-                        PAttacker->takeDamage(spikesDamage, PDefender, ATTACK_TYPE::MAGICAL, DAMAGE_TYPE::DARK);
+                        PAttacker->takeDamage(spikesDamage, PDefender, ATTACK_TYPE::MAGICAL, xi::DamageType::Dark);
                     }
                     break;
 
                 case SPIKE_REPRISAL:
                     if (Action->resolution == ActionResolution::Block)
                     {
-                        PAttacker->takeDamage(spikesDamage, PDefender, ATTACK_TYPE::MAGICAL, DAMAGE_TYPE::LIGHT);
+                        PAttacker->takeDamage(spikesDamage, PDefender, ATTACK_TYPE::MAGICAL, xi::DamageType::Light);
                     }
                     else
                     {
@@ -1453,8 +1453,8 @@ void HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, action_re
             xi::StatusEffect newestRuneEffect  = PAttacker->StatusEffectContainer->GetNewestRuneEffect();
             int              highestRuneCount  = PAttacker->StatusEffectContainer->GetEffectsCount(highestRuneEffect);
 
-            DAMAGE_TYPE damageType = DAMAGE_TYPE::NONE;
-            int         element    = 0;
+            xi::DamageType damageType = xi::DamageType::None;
+            int            element    = 0;
 
             if (highestRuneCount == 1) // only have unique or one rune, set element to newest.
             {
@@ -1991,15 +1991,15 @@ bool TryInterruptSpell(CBattleEntity* PAttacker, CBattleEntity* PDefender, CSpel
  *                                                                       *
  ************************************************************************/
 
-int32 TakePhysicalDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, PHYSICAL_ATTACK_TYPE physicalAttackType, int32 damage, bool isBlocked, uint8 slot, uint16 tpMultiplier, CBattleEntity* taChar, bool giveTPtoVictim, bool giveTPtoAttacker, bool isCounter, bool isCovered, CBattleEntity* POriginalTarget)
+auto TakePhysicalDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, PHYSICAL_ATTACK_TYPE physicalAttackType, int32 damage, bool isBlocked, uint8 slot, uint16 tpMultiplier, CBattleEntity* taChar, bool giveTPtoVictim, bool giveTPtoAttacker, bool isCounter, bool isCovered, CBattleEntity* POriginalTarget) -> int32
 {
-    auto* weapon           = GetEntityWeapon(PAttacker, (SLOTTYPE)slot);
-    giveTPtoAttacker       = giveTPtoAttacker && !PAttacker->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::MeikyoShisui);
-    giveTPtoVictim         = giveTPtoVictim && physicalAttackType != PHYSICAL_ATTACK_TYPE::DAKEN;
-    bool        isRanged   = (slot == SLOT_AMMO || slot == SLOT_RANGED);
-    int32       baseDamage = damage;
-    ATTACK_TYPE attackType = ATTACK_TYPE::PHYSICAL;
-    DAMAGE_TYPE damageType = DAMAGE_TYPE::NONE;
+    auto* weapon              = GetEntityWeapon(PAttacker, (SLOTTYPE)slot);
+    giveTPtoAttacker          = giveTPtoAttacker && !PAttacker->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::MeikyoShisui);
+    giveTPtoVictim            = giveTPtoVictim && physicalAttackType != PHYSICAL_ATTACK_TYPE::DAKEN;
+    bool           isRanged   = (slot == SLOT_AMMO || slot == SLOT_RANGED);
+    int32          baseDamage = damage;
+    ATTACK_TYPE    attackType = ATTACK_TYPE::PHYSICAL;
+    xi::DamageType damageType = xi::DamageType::None;
     if (PAttacker->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::FormlessStrikes) && !isCounter)
     {
         attackType        = ATTACK_TYPE::SPECIAL;
@@ -2046,7 +2046,7 @@ int32 TakePhysicalDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, PHY
     }
     else
     {
-        damageType = weapon ? weapon->getDmgType() : DAMAGE_TYPE::NONE;
+        damageType = weapon ? weapon->getDmgType() : xi::DamageType::None;
 
         if (isRanged)
         {
@@ -2070,16 +2070,16 @@ int32 TakePhysicalDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, PHY
         {
             switch (damageType)
             {
-                case DAMAGE_TYPE::PIERCING:
+                case xi::DamageType::Piercing:
                     damage = damage * (1 + PDefender->getMod(Mod::PIERCE_SDT) / 10000.0f);
                     break;
-                case DAMAGE_TYPE::SLASHING:
+                case xi::DamageType::Slashing:
                     damage = damage * (1 + PDefender->getMod(Mod::SLASH_SDT) / 10000.0f);
                     break;
-                case DAMAGE_TYPE::IMPACT:
+                case xi::DamageType::Blunt:
                     damage = damage * (1 + PDefender->getMod(Mod::IMPACT_SDT) / 10000.0f);
                     break;
-                case DAMAGE_TYPE::HTH:
+                case xi::DamageType::HandToHand:
                     damage = damage * (1 + PDefender->getMod(Mod::HTH_SDT) / 10000.0f);
                     break;
                 default:
@@ -2285,7 +2285,7 @@ int32 TakePhysicalDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, PHY
  *                                                                       *
  ************************************************************************/
 
-int32 TakeWeaponskillDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, int32 damage, ATTACK_TYPE attackType, DAMAGE_TYPE damageType, uint8 slot, bool primary, float tpMultiplier, uint16 bonusTP, float targetTPMultiplier)
+auto TakeWeaponskillDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, int32 damage, ATTACK_TYPE attackType, xi::DamageType damageType, uint8 slot, bool primary, float tpMultiplier, uint16 bonusTP, float targetTPMultiplier) -> int32
 {
     bool isRanged = (slot == SLOT_AMMO || slot == SLOT_RANGED);
 
@@ -2421,7 +2421,7 @@ int32 TakeWeaponskillDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, 
  *                                                                       *
  ************************************************************************/
 
-void TakeSpellDamage(CBattleEntity* PDefender, CBattleEntity* PAttacker, CSpell* PSpell, int32 damage, ATTACK_TYPE attackType, DAMAGE_TYPE damageType)
+void TakeSpellDamage(CBattleEntity* PDefender, CBattleEntity* PAttacker, CSpell* PSpell, int32 damage, ATTACK_TYPE attackType, xi::DamageType damageType)
 {
     // Scarlet Delirium: Updates status effect power with damage bonus
     battleutils::HandleScarletDelirium(PDefender, damage);
@@ -2458,7 +2458,7 @@ void TakeSpellDamage(CBattleEntity* PDefender, CBattleEntity* PAttacker, CSpell*
  *                                                                       *
  ************************************************************************/
 
-int32 TakeSwipeLungeDamage(CBattleEntity* PDefender, CBattleEntity* PAttacker, int32 damage, ATTACK_TYPE attackType, DAMAGE_TYPE damageType)
+auto TakeSwipeLungeDamage(CBattleEntity* PDefender, CBattleEntity* PAttacker, int32 damage, ATTACK_TYPE attackType, xi::DamageType damageType) -> int32
 {
     damage = CheckAndApplyDamageCap(damage, PDefender);
 
@@ -3667,7 +3667,7 @@ Mod GetResistanceRankModFromElement(ELEMENT& element)
     return elementToMod.at(element);
 }
 
-int32 TakeSkillchainDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, int32 lastSkillDamage, CBattleEntity* taChar)
+auto TakeSkillchainDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, int32 lastSkillDamage, CBattleEntity* taChar) -> int32
 {
     if (PAttacker == nullptr || PDefender == nullptr)
     {
@@ -3737,8 +3737,8 @@ int32 TakeSkillchainDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, i
     }
     damage = std::clamp(damage, -99999, 99999);
 
-    uint16 elementOffset = static_cast<uint16>(DAMAGE_TYPE::ELEMENTAL) + static_cast<uint16>(appliedEle);
-    PDefender->takeDamage(damage, PAttacker, ATTACK_TYPE::SPECIAL, appliedEle == ELEMENT_NONE ? DAMAGE_TYPE::NONE : static_cast<DAMAGE_TYPE>(elementOffset), true);
+    uint16 elementOffset = static_cast<uint16>(xi::DamageType::Elemental) + static_cast<uint16>(appliedEle);
+    PDefender->takeDamage(damage, PAttacker, ATTACK_TYPE::SPECIAL, appliedEle == ELEMENT_NONE ? xi::DamageType::None : static_cast<xi::DamageType>(elementOffset), true);
 
     battleutils::ClaimMob(PDefender, PAttacker);
     PDefender->updatemask |= UPDATE_STATUS;
@@ -4619,12 +4619,12 @@ int32 CheckAndApplyDamageCap(int32 damage, CBattleEntity* PDefender)
 }
 
 // TODO: Study using lua functions.
-int32 MagicDmgTaken(CBattleEntity* PDefender, int32 damage, ELEMENT element)
+auto MagicDmgTaken(CBattleEntity* PDefender, int32 damage, ELEMENT element) -> int32
 {
     Mod absorb[8]    = { Mod::FIRE_ABSORB, Mod::ICE_ABSORB, Mod::WIND_ABSORB, Mod::EARTH_ABSORB, Mod::LTNG_ABSORB, Mod::WATER_ABSORB, Mod::LIGHT_ABSORB, Mod::DARK_ABSORB };
     Mod nullarray[8] = { Mod::FIRE_NULL, Mod::ICE_NULL, Mod::WIND_NULL, Mod::EARTH_NULL, Mod::LTNG_NULL, Mod::WATER_NULL, Mod::LIGHT_NULL, Mod::DARK_NULL };
 
-    DAMAGE_TYPE damageType = (DAMAGE_TYPE)((uint8)DAMAGE_TYPE::ELEMENTAL + (uint8)element);
+    xi::DamageType damageType = static_cast<xi::DamageType>((uint8)xi::DamageType::Elemental + (uint8)element);
 
     // Liement here
     float liement = CheckLiementAbsorb(PDefender, damageType);
@@ -4669,7 +4669,7 @@ int32 MagicDmgTaken(CBattleEntity* PDefender, int32 damage, ELEMENT element)
     return damage;
 }
 
-int32 PhysicalDmgTaken(CBattleEntity* PDefender, int32 damage, DAMAGE_TYPE damageType, bool IsCovered)
+auto PhysicalDmgTaken(CBattleEntity* PDefender, int32 damage, xi::DamageType damageType, bool IsCovered) -> int32
 {
     float resist = 1.0f + PDefender->getMod(Mod::UDMGPHYS) / 10000.0f;
     resist       = std::max(resist, 0.0f);
@@ -4714,7 +4714,7 @@ int32 PhysicalDmgTaken(CBattleEntity* PDefender, int32 damage, DAMAGE_TYPE damag
     return damage;
 }
 
-int32 RangedDmgTaken(CBattleEntity* PDefender, int32 damage, DAMAGE_TYPE damageType, bool IsCovered)
+auto RangedDmgTaken(CBattleEntity* PDefender, int32 damage, xi::DamageType damageType, bool IsCovered) -> int32
 {
     float resist = 1.0f + PDefender->getMod(Mod::UDMGRANGE) / 10000.0f;
     resist       = std::max(resist, 0.0f);
@@ -6233,91 +6233,91 @@ int32 GetScaledItemModifier(CBattleEntity* PEntity, CItemEquipment* PItem, Mod m
     }
 }
 
-auto GetSpikesDamageType(const ActionReactKind spikesType) -> DAMAGE_TYPE
+auto GetSpikesDamageType(const ActionReactKind spikesType) -> xi::DamageType
 {
     switch (spikesType)
     {
         // Action packet animation string order
         case ActionReactKind::BlazeSpikes:
-            return DAMAGE_TYPE::FIRE;
+            return xi::DamageType::Fire;
         case ActionReactKind::IceSpikes:
-            return DAMAGE_TYPE::ICE;
+            return xi::DamageType::Ice;
         case ActionReactKind::DreadSpikes:
-            return DAMAGE_TYPE::DARK;
+            return xi::DamageType::Dark;
         case ActionReactKind::CurseSpikes:
-            return DAMAGE_TYPE::NONE;
+            return xi::DamageType::None;
         case ActionReactKind::ShockSpikes:
-            return DAMAGE_TYPE::LIGHTNING;
+            return xi::DamageType::Thunder;
         case ActionReactKind::ReprisalSpikes:
-            return DAMAGE_TYPE::LIGHT;
+            return xi::DamageType::Light;
         case ActionReactKind::WindSpikes:
-            return DAMAGE_TYPE::WIND;
+            return xi::DamageType::Wind;
         case ActionReactKind::EarthSpikes:
-            return DAMAGE_TYPE::EARTH;
+            return xi::DamageType::Earth;
         case ActionReactKind::WaterSpikes:
-            return DAMAGE_TYPE::WATER;
+            return xi::DamageType::Water;
         case ActionReactKind::DeathSpikes:
-            return DAMAGE_TYPE::DARK;
+            return xi::DamageType::Dark;
         default:
-            return DAMAGE_TYPE::NONE;
+            return xi::DamageType::None;
     }
 }
 
-DAMAGE_TYPE GetEnspellDamageType(ENSPELL enspellType)
+auto GetEnspellDamageType(ENSPELL enspellType) -> xi::DamageType
 {
     switch (enspellType)
     {
         case ENSPELL_I_FIRE:
         case ENSPELL_II_FIRE:
-            return DAMAGE_TYPE::FIRE;
+            return xi::DamageType::Fire;
         case ENSPELL_I_ICE:
         case ENSPELL_II_ICE:
-            return DAMAGE_TYPE::ICE;
+            return xi::DamageType::Ice;
         case ENSPELL_I_WIND:
         case ENSPELL_II_WIND:
-            return DAMAGE_TYPE::WIND;
+            return xi::DamageType::Wind;
         case ENSPELL_I_EARTH:
         case ENSPELL_II_EARTH:
-            return DAMAGE_TYPE::EARTH;
+            return xi::DamageType::Earth;
         case ENSPELL_I_THUNDER:
         case ENSPELL_II_THUNDER:
-            return DAMAGE_TYPE::LIGHTNING;
+            return xi::DamageType::Thunder;
         case ENSPELL_I_WATER:
         case ENSPELL_II_WATER:
-            return DAMAGE_TYPE::WATER;
+            return xi::DamageType::Water;
         case ENSPELL_I_LIGHT:
         case ENSPELL_II_LIGHT:
-            return DAMAGE_TYPE::LIGHT;
+            return xi::DamageType::Light;
         case ENSPELL_I_DARK:
         case ENSPELL_II_DARK:
-            return DAMAGE_TYPE::DARK;
+            return xi::DamageType::Dark;
         default:
-            return DAMAGE_TYPE::NONE;
+            return xi::DamageType::None;
     }
 }
 
-auto GetRuneEnhancementDamageType(xi::StatusEffect runeEffect) -> DAMAGE_TYPE
+auto GetRuneEnhancementDamageType(xi::StatusEffect runeEffect) -> xi::DamageType
 {
     switch (runeEffect)
     {
         case xi::StatusEffect::Ignis:
-            return DAMAGE_TYPE::FIRE;
+            return xi::DamageType::Fire;
         case xi::StatusEffect::Gelus:
-            return DAMAGE_TYPE::ICE;
+            return xi::DamageType::Ice;
         case xi::StatusEffect::Flabra:
-            return DAMAGE_TYPE::WIND;
+            return xi::DamageType::Wind;
         case xi::StatusEffect::Tellus:
-            return DAMAGE_TYPE::EARTH;
+            return xi::DamageType::Earth;
         case xi::StatusEffect::Sulpor:
-            return DAMAGE_TYPE::LIGHTNING;
+            return xi::DamageType::Thunder;
         case xi::StatusEffect::Unda:
-            return DAMAGE_TYPE::WATER;
+            return xi::DamageType::Water;
         case xi::StatusEffect::Lux:
-            return DAMAGE_TYPE::LIGHT;
+            return xi::DamageType::Light;
         case xi::StatusEffect::Tenebrae:
-            return DAMAGE_TYPE::DARK;
+            return xi::DamageType::Dark;
         default:
-            return DAMAGE_TYPE::NONE;
+            return xi::DamageType::None;
     }
 }
 
@@ -6411,7 +6411,7 @@ void ConvertDmgToMP(CBattleEntity* PDefender, int32 damage, bool IsCovered)
     }
 }
 
-float CheckLiementAbsorb(CBattleEntity* PBattleEntity, DAMAGE_TYPE DamageType)
+auto CheckLiementAbsorb(CBattleEntity* PBattleEntity, xi::DamageType DamageType) -> float
 {
     if (PBattleEntity)
     {
@@ -6427,7 +6427,7 @@ float CheckLiementAbsorb(CBattleEntity* PBattleEntity, DAMAGE_TYPE DamageType)
 
             for (int i = 0; i < numBits / 4; i++) // unpacking is limited to the size of the return value of GetPower/GetSubPower. If this ever expands more Runes can be packed.
             {
-                DAMAGE_TYPE packedDamageType = (DAMAGE_TYPE)((absorbTypeBits >> i * 4) & 0xF); // unpack damage type 4 bits at a time
+                xi::DamageType packedDamageType = static_cast<xi::DamageType>((absorbTypeBits >> i * 4) & 0xF); // unpack damage type 4 bits at a time
 
                 if (packedDamageType == DamageType)
                 {
