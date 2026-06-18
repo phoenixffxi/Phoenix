@@ -397,6 +397,10 @@ xi.dynamis.zoneOnZoneInEra = function(player, prevZone)
     local ID             = zones[zoneId]
 
     xi.dynamis.debugPrint(string.format('------------xi.dynamis.zoneOnZoneInEra------------'))
+    if xi.dynamis.resetEjectState then
+        xi.dynamis.resetEjectState(player)
+    end
+
     -- usually happens when zoning in with !zone command
     -- If player is in void, move player to entry.
     if
