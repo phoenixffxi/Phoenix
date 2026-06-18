@@ -38,6 +38,7 @@ entity.onMobInitialize = function(mob)
 end
 
 entity.onMobSpawn = function(mob)
+    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 125)
     mob:setMobMod(xi.mobMod.SPECIAL_SKILL, 0)
     mob:setUnkillable(true)
     mob:setBaseSpeed(60)
@@ -50,6 +51,7 @@ entity.onMobSpawn = function(mob)
     mob:setLocalVar('miniEnrage', 0)
     mob:setLocalVar('enrageTime', 0)
     mob:setLocalVar('alreadyEnraged', 0)
+    mob:setLocalVar('finalWord', 0)
 
     -- Maat summons his pet 10 seconds after spawning.
     mob:timer(10000, function(mobArg)
@@ -145,7 +147,6 @@ entity.onMobFight = function(mob, target)
         GetSystemTime() >= mob:getLocalVar('enrageTime')
     then
         mob:setLocalVar('alreadyEnraged', 1)
-        mob:showText(mob, ID.text.LOOKS_LIKE_YOU_WERENT_READY)
         mob:setMod(xi.mod.REGAIN, 3000)
     end
 
@@ -199,6 +200,14 @@ entity.onMobWeaponSkill = function(mob, target, skill, action)
         return
     end
 
+    if
+        skillID == xi.mobSkill.ASURAN_FISTS_MAAT and
+        mob:getLocalVar('finalWord') == 0
+    then
+        mob:showText(mob, ID.text.LOOKS_LIKE_YOU_WERENT_READY)
+        mob:setLocalVar('finalWord', 1)
+    end
+
     if mob:getLocalVar('alreadyEnraged') == 1 then
         return
     end
@@ -213,7 +222,7 @@ entity.onMobWeaponSkill = function(mob, target, skill, action)
 end
 
 entity.onMobDisengage = function(mob)
-    if mob:getLocalVar('alreadyEnraged') == 0 then
+    if mob:getLocalVar('finalWord') == 0 then
         mob:showText(mob, ID.text.LOOKS_LIKE_YOU_WERENT_READY)
     end
 end
