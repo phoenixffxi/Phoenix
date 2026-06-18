@@ -57,7 +57,7 @@ CPetEntity::CPetEntity(PET_TYPE petType)
     TracyZoneScoped;
 
     objtype                     = TYPE_PET;
-    m_EcoSystem                 = ECOSYSTEM::UNCLASSIFIED;
+    m_EcoSystem                 = xi::Ecosystem::Unclassified;
     allegiance                  = ALLEGIANCE_TYPE::PLAYER;
     m_MobSkillList              = 0;
     m_bReleaseTargIDOnDisappear = true;
@@ -258,7 +258,7 @@ void CPetEntity::Die()
 void CPetEntity::Spawn()
 {
     // we need to skip CMobEntity's spawn because it calculates stats (and our stats are already calculated)
-    if (PMaster && PMaster->objtype == TYPE_PC && m_EcoSystem == ECOSYSTEM::ELEMENTAL)
+    if (PMaster && PMaster->objtype == TYPE_PC && m_EcoSystem == xi::Ecosystem::Elemental)
     {
         this->defaultMobMod(MOBMOD_MAGIC_DELAY, 12);
         this->defaultMobMod(MOBMOD_MAGIC_COOL, 48);

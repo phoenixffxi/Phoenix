@@ -30,6 +30,8 @@
 #include "baseentity.h"
 #include "enums/msg_basic.h"
 #include "modifier.h"
+
+#include "data/enums/ecosystem.h"
 #include "party.h"
 #include "trait.h"
 
@@ -43,33 +45,6 @@ enum class DEATH_TYPE : uint8
 };
 DECLARE_FORMAT_AS_UNDERLYING(DEATH_TYPE);
 
-enum class ECOSYSTEM : uint8
-{
-    UNCLASSIFIED   = 0,
-    AMORPH         = 1,
-    AQUAN          = 2,
-    ARCANA         = 3,
-    ARCHAICMACHINE = 4,
-    BEAST          = 5,
-    BEASTMAN       = 6, // Resolve conflict with conquest_system.h BEASTMEN definition
-    BIRD           = 7,
-    DEMON          = 8,
-    DRAGON         = 9,
-    ELEMENTAL      = 10,
-    EMPTY          = 11,
-    HUMANOID       = 12,
-    LIZARD         = 13,
-    LUMINIAN       = 14,
-    LUMINION       = 15,
-    PLANTOID       = 16,
-    SUPREMEBEINGS  = 17,
-    UNDEAD         = 18,
-    VERMIN         = 19,
-    VORAGEAN       = 20,
-    STRUCTURES     = 21,
-    WEAPONS        = 22,
-};
-DECLARE_FORMAT_AS_UNDERLYING(ECOSYSTEM);
 
 enum JOBTYPE : uint8
 {
@@ -539,7 +514,7 @@ public:
     timer::time_point charmTime; // to hold the time entity is charmed
     bool              isCharmed; // is the battle entity charmed?
 
-    ECOSYSTEM       m_EcoSystem{};  // Entity eco system
+    xi::Ecosystem   m_EcoSystem{};  // Entity eco system
     CItemEquipment* m_Weapons[4]{}; // Four main slots used to store weapons (weapons only)
     bool            m_dualWield;    // True/false depending on if the entity is using two weapons
     DEATH_TYPE      m_DeathType;

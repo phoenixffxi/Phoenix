@@ -161,10 +161,10 @@ enum PETID
 
 struct Pet_t
 {
-    uint16      PetID; // ID in pet_list.sql
-    look_t      look;
-    std::string name;
-    ECOSYSTEM   EcoSystem;
+    uint16        PetID; // ID in pet_list.sql
+    look_t        look;
+    std::string   name;
+    xi::Ecosystem EcoSystem;
 
     uint8 minLevel;
     uint8 maxLevel;
@@ -240,7 +240,7 @@ struct Pet_t
 
     Pet_t()
     : PetID(0)
-    , EcoSystem(ECOSYSTEM::UNCLASSIFIED)
+    , EcoSystem(xi::Ecosystem::Unclassified)
     , minLevel(-1)
     , maxLevel(99)
     , name_prefix(0)

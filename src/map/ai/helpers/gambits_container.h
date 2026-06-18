@@ -307,7 +307,7 @@ public:
     uint16                    tp_value;
 
 private:
-    bool CheckTrigger(const CBattleEntity* triggerTarget, const Gambit_t& gambit, size_t predicateGroupIndex, PredicateGroup_t& predicateGroup);
+    auto CheckTrigger(const CBattleEntity* triggerTarget, const Gambit_t& gambit, size_t predicateGroupIndex, PredicateGroup_t& predicateGroup) -> bool;
     bool TryTrustSkill();
     bool PartyHasHealer();
     bool PartyHasTank();

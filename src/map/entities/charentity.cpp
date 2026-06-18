@@ -114,7 +114,7 @@ CCharEntity::CCharEntity()
     TracyZoneScoped;
 
     objtype     = TYPE_PC;
-    m_EcoSystem = ECOSYSTEM::HUMANOID;
+    m_EcoSystem = xi::Ecosystem::Humanoid;
 
     eventPreparation = new EventPrep();
     currentEvent     = new EventInfo();

@@ -960,7 +960,7 @@ auto HandleSpikesDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, acti
                     break;
 
                 case SPIKE_DREAD:
-                    if (PAttacker->m_EcoSystem == ECOSYSTEM::UNDEAD)
+                    if (PAttacker->m_EcoSystem == xi::Ecosystem::Undead)
                     {
                         // is undead no effect
                         Action->spikesEffect = ActionReactKind::None;
@@ -1301,7 +1301,7 @@ void HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, action_re
     xi::StatusEffect previous_daze       = xi::StatusEffect::None;
     uint16           previous_daze_power = 0;
 
-    if (PAttacker->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::DrainSamba) && PDefender->m_EcoSystem != ECOSYSTEM::UNDEAD)
+    if (PAttacker->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::DrainSamba) && PDefender->m_EcoSystem != xi::Ecosystem::Undead)
     {
         previous_daze       = xi::StatusEffect::DrainDaze;
         previous_daze_power = PAttacker->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::DrainSamba)->GetPower();
@@ -1352,7 +1352,7 @@ void HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, action_re
         }
         else
         {
-            if (previous_daze == xi::StatusEffect::DrainDaze && PDefender->m_EcoSystem != ECOSYSTEM::UNDEAD)
+            if (previous_daze == xi::StatusEffect::DrainDaze && PDefender->m_EcoSystem != xi::Ecosystem::Undead)
             {
                 PDefender->StatusEffectContainer->AddStatusEffect(new CStatusEffect(xi::StatusEffect::DrainDaze, 0, previous_daze_power, 0s, 10s, PAttacker->id), EffectNotice::Silent);
             }
@@ -1427,7 +1427,7 @@ void HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, action_re
 
         uint8 enspell = (uint8)PAttacker->getMod(Mod::ENSPELL);
 
-        if (enspell == ENSPELL_BLOOD_WEAPON && PDefender->m_EcoSystem != ECOSYSTEM::UNDEAD)
+        if (enspell == ENSPELL_BLOOD_WEAPON && PDefender->m_EcoSystem != xi::Ecosystem::Undead)
         {
             Action->additionalEffect = ActionProcAddEffect::HPDrain;
             Action->addEffectMessage = MsgBasic::AddEffectHPDrained;
@@ -3136,7 +3136,7 @@ bool IsAbsorbByShadow(CBattleEntity* PDefender, CBattleEntity* PAttacker)
  *                                                                       *
  ************************************************************************/
 
-bool IsIntimidated(CBattleEntity* PAttacker, CBattleEntity* PDefender)
+auto IsIntimidated(CBattleEntity* PAttacker, CBattleEntity* PDefender) -> bool
 {
     // cannot intimidate yourself!
     if (PAttacker == PDefender)
@@ -3148,49 +3148,49 @@ bool IsIntimidated(CBattleEntity* PAttacker, CBattleEntity* PDefender)
 
     switch (PAttacker->m_EcoSystem)
     {
-        case ECOSYSTEM::AMORPH:
+        case xi::Ecosystem::Amorph:
             KillerEffect = PDefender->getMod(Mod::AMORPH_KILLER);
             break;
-        case ECOSYSTEM::AQUAN:
+        case xi::Ecosystem::Aquan:
             KillerEffect = PDefender->getMod(Mod::AQUAN_KILLER);
             break;
-        case ECOSYSTEM::ARCANA:
+        case xi::Ecosystem::Arcana:
             KillerEffect = PDefender->getMod(Mod::ARCANA_KILLER);
             break;
-        case ECOSYSTEM::BEAST:
+        case xi::Ecosystem::Beast:
             KillerEffect = PDefender->getMod(Mod::BEAST_KILLER);
             break;
-        case ECOSYSTEM::BIRD:
+        case xi::Ecosystem::Bird:
             KillerEffect = PDefender->getMod(Mod::BIRD_KILLER);
             break;
-        case ECOSYSTEM::DEMON:
+        case xi::Ecosystem::Demon:
             KillerEffect = PDefender->getMod(Mod::DEMON_KILLER);
             break;
-        case ECOSYSTEM::DRAGON:
+        case xi::Ecosystem::Dragon:
             KillerEffect = PDefender->getMod(Mod::DRAGON_KILLER);
             break;
-        case ECOSYSTEM::EMPTY:
+        case xi::Ecosystem::Empty:
             KillerEffect = PDefender->getMod(Mod::EMPTY_KILLER);
             break;
-        case ECOSYSTEM::HUMANOID:
+        case xi::Ecosystem::Humanoid:
             KillerEffect = PDefender->getMod(Mod::HUMANOID_KILLER);
             break;
-        case ECOSYSTEM::LIZARD:
+        case xi::Ecosystem::Lizard:
             KillerEffect = PDefender->getMod(Mod::LIZARD_KILLER);
             break;
-        case ECOSYSTEM::LUMINION:
+        case xi::Ecosystem::Luminion:
             KillerEffect = PDefender->getMod(Mod::LUMINION_KILLER);
             break;
-        case ECOSYSTEM::LUMINIAN:
+        case xi::Ecosystem::Luminian:
             KillerEffect = PDefender->getMod(Mod::LUMINIAN_KILLER);
             break;
-        case ECOSYSTEM::PLANTOID:
+        case xi::Ecosystem::Plantoid:
             KillerEffect = PDefender->getMod(Mod::PLANTOID_KILLER);
             break;
-        case ECOSYSTEM::UNDEAD:
+        case xi::Ecosystem::Undead:
             KillerEffect = PDefender->getMod(Mod::UNDEAD_KILLER);
             break;
-        case ECOSYSTEM::VERMIN:
+        case xi::Ecosystem::Vermin:
             KillerEffect = PDefender->getMod(Mod::VERMIN_KILLER);
             break;
         default:
@@ -6452,43 +6452,43 @@ void addEcosystemKillerEffects(CBattleEntity* PBattleEntity)
     // Killer Effect
     switch (PBattleEntity->m_EcoSystem)
     {
-        case ECOSYSTEM::AMORPH:
+        case xi::Ecosystem::Amorph:
             PBattleEntity->addModifier(Mod::BIRD_KILLER, 5);
             break;
-        case ECOSYSTEM::AQUAN:
+        case xi::Ecosystem::Aquan:
             PBattleEntity->addModifier(Mod::AMORPH_KILLER, 5);
             break;
-        case ECOSYSTEM::ARCANA:
+        case xi::Ecosystem::Arcana:
             PBattleEntity->addModifier(Mod::UNDEAD_KILLER, 5);
             break;
-        case ECOSYSTEM::BEAST:
+        case xi::Ecosystem::Beast:
             PBattleEntity->addModifier(Mod::LIZARD_KILLER, 5);
             break;
-        case ECOSYSTEM::BIRD:
+        case xi::Ecosystem::Bird:
             PBattleEntity->addModifier(Mod::AQUAN_KILLER, 5);
             break;
-        case ECOSYSTEM::DEMON:
+        case xi::Ecosystem::Demon:
             PBattleEntity->addModifier(Mod::DRAGON_KILLER, 5);
             break;
-        case ECOSYSTEM::DRAGON:
+        case xi::Ecosystem::Dragon:
             PBattleEntity->addModifier(Mod::DEMON_KILLER, 5);
             break;
-        case ECOSYSTEM::LIZARD:
+        case xi::Ecosystem::Lizard:
             PBattleEntity->addModifier(Mod::VERMIN_KILLER, 5);
             break;
-        case ECOSYSTEM::LUMINION:
+        case xi::Ecosystem::Luminion:
             PBattleEntity->addModifier(Mod::LUMINIAN_KILLER, 5);
             break;
-        case ECOSYSTEM::LUMINIAN:
+        case xi::Ecosystem::Luminian:
             PBattleEntity->addModifier(Mod::LUMINION_KILLER, 5);
             break;
-        case ECOSYSTEM::PLANTOID:
+        case xi::Ecosystem::Plantoid:
             PBattleEntity->addModifier(Mod::BEAST_KILLER, 5);
             break;
-        case ECOSYSTEM::UNDEAD:
+        case xi::Ecosystem::Undead:
             PBattleEntity->addModifier(Mod::ARCANA_KILLER, 5);
             break;
-        case ECOSYSTEM::VERMIN:
+        case xi::Ecosystem::Vermin:
             PBattleEntity->addModifier(Mod::PLANTOID_KILLER, 5);
             break;
         default:

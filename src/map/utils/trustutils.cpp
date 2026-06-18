@@ -67,13 +67,13 @@ static std::unordered_set<SpellID> passiveTrustIDs = {
 
 struct TrustData
 {
-    uint32      trustID{};
-    bool        isPassiveTrust{};
-    uint32      pool{};
-    look_t      look;        // appearance data
-    std::string name;        // script name string
-    std::string packet_name; // packet name string
-    ECOSYSTEM   EcoSystem{}; // ecosystem
+    uint32        trustID{};
+    bool          isPassiveTrust{};
+    uint32        pool{};
+    look_t        look;        // appearance data
+    std::string   name;        // script name string
+    std::string   packet_name; // packet name string
+    xi::Ecosystem EcoSystem{}; // ecosystem
 
     uint8  name_prefix{};
     uint8  modelSize{ 0 };
@@ -289,7 +289,7 @@ void BuildTrustData(uint32 TrustID)
 
             data->modelSize       = rset->getOrDefault<uint8>("modelSize", 0);
             data->modelHitboxSize = std::max<float>(0.0f, rset->getOrDefault<float>("modelHitboxSize", 0) / 10.f);
-            data->EcoSystem       = rset->get<ECOSYSTEM>("ecosystemID");
+            data->EcoSystem       = rset->get<xi::Ecosystem>("ecosystemID");
             data->HPscale         = rset->get<float>("HP");
             data->MPscale         = rset->get<float>("MP");
 

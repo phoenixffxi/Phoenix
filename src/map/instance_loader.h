@@ -33,7 +33,7 @@ public:
     CInstanceLoader(uint32 instanceid, CCharEntity* PRequester);
     ~CInstanceLoader();
 
-    CInstance* LoadInstance() const;
+    auto LoadInstance() const -> CInstance*;
 
 private:
     CInstance*   m_PInstance;
