@@ -178,4 +178,86 @@ describe('Guild shop price curves', function()
             end)
         end
     end)
+
+    describe('Yabby Tanmikey', function()
+        ---@type CClientEntityPair
+        local player
+        before_each(function()
+            player = xi.test.world:spawnPlayer({ zone = xi.zone.MHAURA })
+            player.entities:gotoAndTrigger('Yabby_Tanmikey')
+        end)
+
+        local curves =
+            {
+                {
+                    side   = 'buy',
+                    label  = 'Chunk of Silver Ore',
+                    item   = xi.item.CHUNK_OF_SILVER_ORE,
+                    points =
+                    {
+                        { 10,  1965 },
+                        { 11,  1948 },
+                        { 20,  1831 },
+                        { 30,  1680 },
+                        { 50,  1411 },
+                        { 70,  1125 },
+                        { 90,  840 },
+                        { 100, 705 },
+                    },
+                },
+                {
+                    side   = 'buy',
+                    label  = 'Chunk of Mythril Ore',
+                    item   = xi.item.CHUNK_OF_MYTHRIL_ORE,
+                    points =
+                    {
+                        { 1,   9200 },
+                        { 10,  2000 },
+                        { 28,  1910 },
+                        { 100, 1530 },
+                    },
+                },
+                {
+                    side   = 'buy',
+                    label  = 'Chunk of Gold Ore',
+                    item   = xi.item.CHUNK_OF_GOLD_ORE,
+                    points =
+                    {
+                        { 1, 21252 }, { 2, 19404 },
+                    },
+                },
+                {
+                    side   = 'buy',
+                    label  = 'Brass Ingot',
+                    item   = xi.item.BRASS_INGOT,
+                    points =
+                    {
+                        { 1, 920 }, { 2, 840 },
+                    },
+                },
+                {
+                    side   = 'buy',
+                    label  = 'Red Rock',
+                    item   = xi.item.RED_ROCK,
+                    points =
+                    {
+                        { 1,  6832 },
+                        { 2,  6664 },
+                        { 3,  6440 },
+                        { 5,  6104 },
+                        { 10, 5152 },
+                        { 15, 4200 },
+                        { 20, 3304 },
+                        { 22, 2912 },
+                        { 35, 1288 },
+                    },
+                },
+            }
+
+        for _, curve in ipairs(curves) do
+            it(curve.side .. ' -- ' .. curve.label, function()
+                checkCurve(player, 'Yabby_Tanmikey', curve)
+            end)
+        end
+    end)
 end)

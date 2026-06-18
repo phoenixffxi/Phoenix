@@ -858,35 +858,6 @@ INSERT INTO `guild_shops` VALUES (5272,13196,52284,52284,24,0,0);   -- silver_be
 -- INSERT INTO `guild_shops` VALUES (5272,13082,3631,15487,24,0,0);    -- chain_gorget TODO: missing min_price and max_price
 INSERT INTO `guild_shops` VALUES (5272,1588,20400,20400,240,3,180); -- slab_of_tufa
 
--- Yabby Tanmikey (Goldsmith Guild) Mhaura (S)
-INSERT INTO `guild_shops` VALUES (528,736,315,1260,200,48,100);  -- chunk_of_silver_ore
-INSERT INTO `guild_shops` VALUES (528,644,1500,9800,200,0,0);    -- chunk_of_mythril_ore
--- INSERT INTO `guild_shops` VALUES (528,737,1500,9200,200,0,0);    -- chunk_of_gold_ore TODO: missing min_price and max_price
-INSERT INTO `guild_shops` VALUES (528,738,6000,58032,200,0,0);   -- chunk_of_platinum_ore TODO: verify min_price and max_price
--- INSERT INTO `guild_shops` VALUES (528,648,6000,58032,200,0,0);   -- copper_ingot TODO: missing min_price and max_price
--- INSERT INTO `guild_shops` VALUES (528,650,6000,58032,200,0,0);   -- brass_ingot TODO: missing min_price and max_price
-INSERT INTO `guild_shops` VALUES (528,744,4095,9996,200,0,0);    -- silver_ingot
-INSERT INTO `guild_shops` VALUES (528,653,19900,36400,200,0,0);  -- mythril_ingot
--- INSERT INTO `guild_shops` VALUES (528,745,6000,58032,200,0,0);   -- gold_ingot TODO: missing min_price and max_price
--- INSERT INTO `guild_shops` VALUES (528,746,6000,58032,200,0,0);   -- platinum_ingot TODO: missing min_price and max_price
-INSERT INTO `guild_shops` VALUES (528,661,1171,1171,200,0,0);    -- brass_sheet
-INSERT INTO `guild_shops` VALUES (528,663,20240,45600,200,0,0);  -- mythril_sheet
--- INSERT INTO `guild_shops` VALUES (528,752,20240,45600,200,0,0);  -- gold_sheet TODO: missing min_price and max_price
--- INSERT INTO `guild_shops` VALUES (528,754,20240,45600,200,0,0);  -- platinum_sheet TODO: missing min_price and max_price
-INSERT INTO `guild_shops` VALUES (528,673,210,1388,200,0,0);     -- brass_scales
-INSERT INTO `guild_shops` VALUES (528,760,29172,74880,200,0,0);  -- silver_chain
-INSERT INTO `guild_shops` VALUES (528,681,10500,67760,200,0,0);  -- mythril_chain
--- INSERT INTO `guild_shops` VALUES (528,761,10500,30800,200,0,0);  -- gold_chain TODO: missing min_price and max_price
--- INSERT INTO `guild_shops` VALUES (528,762,10500,30800,200,0,0);  -- platinum_chain TODO: missing min_price and max_price
-INSERT INTO `guild_shops` VALUES (528,769,1400,4200,60,33,5);    -- red_rock
-INSERT INTO `guild_shops` VALUES (528,770,1400,4200,60,33,5);    -- blue_rock
-INSERT INTO `guild_shops` VALUES (528,771,1400,4200,60,33,5);    -- yellow_rock
-INSERT INTO `guild_shops` VALUES (528,772,1400,4200,60,33,5);    -- green_rock
-INSERT INTO `guild_shops` VALUES (528,773,1400,4200,60,33,5);    -- translucent_rock
-INSERT INTO `guild_shops` VALUES (528,774,1400,4200,60,33,5);    -- purple_rock
-INSERT INTO `guild_shops` VALUES (528,775,1400,4200,60,33,5);    -- black_rock
-INSERT INTO `guild_shops` VALUES (528,776,1400,4200,60,33,5);    -- white_rock
-
 -- Kueh Igunahmori (Leathercraft Guild) Southern San d'Oria (S)
 INSERT INTO `guild_shops` VALUES (529,857,1290,4760,120,0,0);     -- dhalmel_hide
 INSERT INTO `guild_shops` VALUES (529,858,483,2967,120,33,18);    -- wolf_hide
