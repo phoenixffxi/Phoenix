@@ -102,7 +102,7 @@ local rollShopDay = function(npc, shop)
         {
             stock     = stock,
             buyPrice  = calcBuyPrice(cfg.buyMax, priceFloorOf(cfg), cfg.maxStock, stock),
-            sellPrice = calcSellPrice(GetReadOnlyItem(cfg.id):getBasePrice(), cfg.maxStock, stock),
+            sellPrice = cfg.sellPrice or calcSellPrice(GetReadOnlyItem(cfg.id):getBasePrice(), cfg.maxStock, stock),
             offered   = stock > 0, -- locked: 0 at open => not sold today
         }
     end

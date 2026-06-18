@@ -13,6 +13,7 @@ xi.data = xi.data or {}
 ---@field restockRate integer   -- items restocked per day, up to targetStock
 ---@field hidden?     boolean   -- sell-list row hidden from the client
 ---@field noSell?     boolean   -- item can be bought but not sold back to the shop
+---@field sellPrice?  integer   -- flat sell-back price override; defaults to the stock-scaled curve
 ---@field priceFloor? integer   -- buy-curve floor override; defaults to 3/4 of maxStock
 
 ---@class GuildShop
@@ -145,6 +146,15 @@ xi.data.guildShops =
             { id = xi.item.BLACK_CHIP,  initial = 150, maxStock = 200, targetStock = 150, buyMax = 140000, restockRate = 50, noSell = true },
         },
     },
+    ['Ilita'] =
+    {
+        hours = { 12, 20 },
+        stock =
+        {
+            { id = xi.item.NEW_LINKSHELL,   initial = 75,  maxStock = 100, targetStock = 75,  buyMax = 6000, restockRate = 0, priceFloor = 0, sellPrice = 2250 }, -- Not a typo, they do not restock on retail.
+            { id = xi.item.PENDANT_COMPASS, initial = 150, maxStock = 200, targetStock = 150, buyMax = 375,  restockRate = 0, priceFloor = 0, noSell = true },
+        },
+    },
     ['Kamilah'] =
     {
         hours = { 8, 23 },
@@ -169,6 +179,15 @@ xi.data.guildShops =
             { id = xi.item.CHAIN_MITTENS,            initial = 0,   maxStock = 60,  targetStock = 45,  buyMax = 42300,  restockRate = 0 },
             { id = xi.item.SCALE_FINGER_GAUNTLETS,   initial = 0,   maxStock = 60,  targetStock = 45,  buyMax = 5950,   restockRate = 0 }, -- targetStock assumed
             { id = xi.item.IRON_MITTENS,             initial = 0,   maxStock = 60,  targetStock = 45,  buyMax = 86400,  restockRate = 0 },
+        },
+    },
+    ['Khel_Pahlhama'] =
+    {
+        hours = { 12, 20 },
+        stock =
+        {
+            { id = xi.item.NEW_LINKSHELL,   initial = 75,  maxStock = 100, targetStock = 75,  buyMax = 6000, restockRate = 0, priceFloor = 0, sellPrice = 2250 }, -- Not a typo, they do not restock on retail.
+            { id = xi.item.PENDANT_COMPASS, initial = 150, maxStock = 200, targetStock = 150, buyMax = 375,  restockRate = 0, priceFloor = 0, noSell = true },
         },
     },
     ['Kopopo'] =
@@ -299,6 +318,15 @@ xi.data.guildShops =
             { id = xi.item.BIBIKI_URCHIN,           initial = 150, maxStock = 200, targetStock = 150, buyMax = 22500, restockRate = 100 },
             { id = xi.item.CLUMP_OF_PAMTAM_KELP,    initial = 150, maxStock = 200, targetStock = 150, buyMax = 160,   restockRate = 100 },
             { id = xi.item.COBALT_JELLYFISH,        initial = 150, maxStock = 200, targetStock = 150, buyMax = 160,   restockRate = 100 },
+        },
+    },
+    ['Paunelie'] =
+    {
+        hours = { 12, 20 },
+        stock =
+        {
+            { id = xi.item.NEW_LINKSHELL,   initial = 75,  maxStock = 100, targetStock = 75,  buyMax = 6000, restockRate = 0, priceFloor = 0, sellPrice = 2250 }, -- Not a typo, they do not restock on retail.
+            { id = xi.item.PENDANT_COMPASS, initial = 150, maxStock = 200, targetStock = 150, buyMax = 375,  restockRate = 0, priceFloor = 0, noSell = true },
         },
     },
     ['Scavnix'] =

@@ -1952,10 +1952,6 @@ INSERT INTO `guild_shops` VALUES (60431,5164,1945,10899,200,48,150);  -- jar_of_
 INSERT INTO `guild_shops` VALUES (60431,1652,150,704,200,48,150);     -- bottle_of_rice_vinegar
 INSERT INTO `guild_shops` VALUES (60431,5235,187,1350,200,48,150);    -- head_of_napa
 
--- Ilita (Port Bastok) / Paunelie (Southern San dOria) / Khel Pahlhama (Port Windurst) (Linkshells pseudo guild shop)
-INSERT INTO `guild_shops` VALUES (60432,512,6000,14400,100,10,75); -- New Linkshell
-INSERT INTO `guild_shops` VALUES (60432,16285,375,375,200,50,150); -- Pendant Compass
-
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
