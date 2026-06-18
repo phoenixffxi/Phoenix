@@ -14712,8 +14712,8 @@ void CLuaBaseEntity::addLatent(uint16 condID, uint16 conditionValue, uint16 mID,
         return;
     }
 
-    LATENT conditionID = static_cast<LATENT>(condID);
-    Mod    modID       = static_cast<Mod>(mID);
+    xi::Latent conditionID = static_cast<xi::Latent>(condID);
+    Mod        modID       = static_cast<Mod>(mID);
 
     static_cast<CCharEntity*>(m_PBaseEntity)->PLatentEffectContainer->AddLatentEffect(conditionID, conditionValue, modID, modValue);
 }
@@ -14725,7 +14725,7 @@ void CLuaBaseEntity::addLatent(uint16 condID, uint16 conditionValue, uint16 mID,
  *  Notes   :
  ************************************************************************/
 
-bool CLuaBaseEntity::delLatent(uint16 condID, uint16 conditionValue, uint16 mID, int16 modValue)
+auto CLuaBaseEntity::delLatent(uint16 condID, uint16 conditionValue, uint16 mID, int16 modValue) -> bool
 {
     if (m_PBaseEntity->objtype != TYPE_PC)
     {
@@ -14733,8 +14733,8 @@ bool CLuaBaseEntity::delLatent(uint16 condID, uint16 conditionValue, uint16 mID,
         return false;
     }
 
-    LATENT conditionID = static_cast<LATENT>(condID);
-    Mod    modID       = static_cast<Mod>(mID);
+    xi::Latent conditionID = static_cast<xi::Latent>(condID);
+    Mod        modID       = static_cast<Mod>(mID);
 
     return static_cast<CCharEntity*>(m_PBaseEntity)->PLatentEffectContainer->DelLatentEffect(conditionID, conditionValue, modID, modValue);
 }

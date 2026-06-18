@@ -722,7 +722,7 @@ public:
     int16 getGearModFromSlot(uint8 slot, Mod modId);
 
     void addLatent(uint16 condID, uint16 conditionValue, uint16 mID, int16 modValue);
-    bool delLatent(uint16 condID, uint16 conditionValue, uint16 mID, int16 modValue);
+    auto delLatent(uint16 condID, uint16 conditionValue, uint16 mID, int16 modValue) -> bool;
     bool hasAllLatentsActive(uint8 slot);
 
     void   fold();

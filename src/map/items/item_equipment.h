@@ -52,10 +52,10 @@ public:
 
     struct itemLatent
     {
-        LATENT ConditionsID;
-        uint16 ConditionsValue;
-        Mod    ModValue;
-        int16  ModPower;
+        xi::Latent ConditionsID;
+        uint16     ConditionsValue;
+        Mod        ModValue;
+        int16      ModPower;
     };
 
     uint8  getReqLvl() const;
@@ -104,7 +104,7 @@ public:
     {
         return addPetModifier(CPetModifier(mod, petType, modValue));
     };
-    void addLatent(LATENT ConditionsID, uint16 ConditionsValue, Mod ModValue, int16 ModPower);
+    void addLatent(xi::Latent ConditionsID, uint16 ConditionsValue, Mod ModValue, int16 ModPower);
 
     bool delModifier(Mod mod, int16 modValue);
     bool delPetModifier(Mod mod, PetModType petType, int16 modValue);

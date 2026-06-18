@@ -334,7 +334,7 @@ void CItemEquipment::addPetModifier(CPetModifier modifier)
     petModList.emplace_back(modifier);
 }
 
-void CItemEquipment::addLatent(LATENT ConditionsID, uint16 ConditionsValue, Mod ModValue, int16 ModPower)
+void CItemEquipment::addLatent(xi::Latent ConditionsID, uint16 ConditionsValue, Mod ModValue, int16 ModPower)
 {
     itemLatent latent{ ConditionsID, ConditionsValue, ModValue, ModPower };
     latentList.emplace_back(latent);
