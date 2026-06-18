@@ -1007,17 +1007,6 @@ INSERT INTO `guild_shops` VALUES (531,14245,52785,166096,60,0,0);  -- steel_cuis
 INSERT INTO `guild_shops` VALUES (531,13783,81084,162345,60,0,0);  -- iron_scale_mail
 -- INSERT INTO `guild_shops` VALUES (531,13785,20240,45600,60,0,0);   -- steel_scale_mail TODO: missing min_price and max_price
 -- INSERT INTO `guild_shops` VALUES (531,12306,20240,45600,60,0,0);   -- kite_shield TODO: missing min_price and max_price
-
--- Blabbivix (Port Bastok) / Gaudylox (Northern San dOria) / Scavnix (Windurst Walls) (Chip Vendors pseudo guild shop)
-INSERT INTO `guild_shops` VALUES (60418,474,21000,84000,200,50,150); -- Red Chip
-INSERT INTO `guild_shops` VALUES (60418,475,21000,84000,200,50,150); -- Blue Chip
-INSERT INTO `guild_shops` VALUES (60418,476,21000,84000,200,50,150); -- Yellow Chip
-INSERT INTO `guild_shops` VALUES (60418,477,21000,84000,200,50,150); -- Green Chip
-INSERT INTO `guild_shops` VALUES (60418,478,21000,84000,200,50,150); -- Clear Chip
-INSERT INTO `guild_shops` VALUES (60418,479,21000,84000,200,50,150); -- Purple Chip
-INSERT INTO `guild_shops` VALUES (60418,480,21000,84000,200,50,150); -- White Chip
-INSERT INTO `guild_shops` VALUES (60418,481,21000,84000,200,50,150); -- Black Chip
-
 -- Jabbar (Port Bastok) Tenshodo Merchant
 INSERT INTO `guild_shops` VALUES (60419,704,96,673,60,48,50);        -- bamboo_stick
 INSERT INTO `guild_shops` VALUES (60419,915,2700,16120,60,0,0);      -- jar_of_toad_oil

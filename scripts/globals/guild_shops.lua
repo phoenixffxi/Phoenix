@@ -234,9 +234,9 @@ xi.guildShops.onPlayerSell = function(player, npc, itemId, quantity)
         return rejected(-4)
     end
 
-    -- Invalid item
+    -- Invalid item, or one the shop refuses to buy back
     local cfg = shopConfig(shop, itemId)
-    if cfg == nil then
+    if cfg == nil or cfg.noSell then
         return rejected(-4)
     end
 
@@ -288,20 +288,22 @@ xi.guildShops.onSellList = function(player, npc)
 
     local items = {}
     for _, cfg in ipairs(shop.stock) do
-        local item  = state.items[cfg.id]
-        local price = item.sellPrice
-        if cfg.hidden then
-            -- When MSB is set in packet, the client hides the item from the initial sell menu
-            price = bit.bor(price, 0x80000000)
-        end
+        if not cfg.noSell then
+            local item  = state.items[cfg.id]
+            local price = item.sellPrice
+            if cfg.hidden then
+                -- When MSB is set in packet, the client hides the item from the initial sell menu
+                price = bit.bor(price, 0x80000000)
+            end
 
-        items[#items + 1] =
-        {
-            id    = cfg.id,
-            count = item.stock,
-            price = price,
-            max   = cfg.maxStock,
-        }
+            items[#items + 1] =
+            {
+                id    = cfg.id,
+                count = item.stock,
+                price = price,
+                max   = cfg.maxStock,
+            }
+        end
     end
 
     return items
