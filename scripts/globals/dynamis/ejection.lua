@@ -2,7 +2,14 @@
 -----------------------------------
 --   Dynamis Eject Functions
 -----------------------------------
-local ejectWarningTimer = 2000
+local ejectWarningTimer      = 2000
+local ejectWarningVar        = 'Received_Eject_Warning'
+local ejectCutsceneQueuedVar = '[DYNA]EjectCutsceneQueued'
+
+xi.dynamis.resetEjectState = function(player)
+    player:setLocalVar(ejectWarningVar, 0)
+    player:setLocalVar(ejectCutsceneQueuedVar, 0)
+end
 
 -- Send eject warning message with delay
 xi.dynamis.sendEjectWarning = function(player, zoneId, delayMs, isForceEject)
@@ -14,10 +21,17 @@ end
 
 -- Eject actions (charvar reset, disengage, cutscene)
 xi.dynamis.performEjectActions = function(player, zoneId, cutsceneDelayMs)
+    if player:getLocalVar(ejectCutsceneQueuedVar) == 1 then
+        return
+    end
+
+    player:setLocalVar(ejectCutsceneQueuedVar, 1)
     player:setCharVar(string.format('[DYNA]EjectPlayer_%s', zoneId), -1)
     player:disengage()
     player:timer(cutsceneDelayMs, function(playerArg)
-        playerArg:startCutscene(100)
+        if playerArg:getCurrentRegion() == xi.region.DYNAMIS then
+            playerArg:startCutscene(100)
+        end
     end)
 end
 
@@ -25,7 +39,6 @@ end
 xi.dynamis.executeGracePeriodEject = function(player, zoneId)
     local ejectGracePeriodMs = 30000 -- 30 seconds
     xi.dynamis.sendEjectWarning(player, zoneId, ejectWarningTimer, false)
-    player:setLocalVar('Received_Eject_Warning', 1)
     player:timer(ejectGracePeriodMs, function(playerArgTwo)
         xi.dynamis.performEjectActions(playerArgTwo, zoneId, ejectWarningTimer)
     end)
@@ -39,13 +52,17 @@ xi.dynamis.ejectPlayer = function(player, forceEject)
         forceEject = false
     end
 
+    -- Only run in dynamis please
     if player:getCurrentRegion() ~= xi.region.DYNAMIS then
         return
     end
 
-    if player:getLocalVar('Received_Eject_Warning') == 1 then
+    -- Do not run this twice if they already got the warning
+    if player:getLocalVar(ejectWarningVar) == 1 then
         return
     end
+
+    player:setLocalVar(ejectWarningVar, 1)
 
     if forceEject then
         xi.dynamis.sendEjectWarning(player, zoneId, ejectWarningTimer, true)
