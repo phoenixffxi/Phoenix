@@ -1,5 +1,7 @@
 -----------------------------------
--- Poison Nails  M=3? guess
+-- Poison Nails
+-- Family: Avatar (Carbuncle)
+-- Description: Delivers a Piercing attack to a target. Additional Effect: Poison
 -----------------------------------
 ---@type TAbilityPet
 local abilityObject = {}
@@ -9,26 +11,36 @@ abilityObject.onAbilityCheck = function(player, target, ability)
 end
 
 abilityObject.onPetAbility = function(target, pet, petskill, summoner, action)
-    local numhits = 1
-    local accmod = 1
-    local dmgmod = 2.5
-
-    local info = xi.summon.avatarPhysicalMove(pet, target, petskill, numhits, accmod, dmgmod, 0, xi.mobskills.magicalTpBonus.NO_EFFECT, 1, 2, 3)
-    local totaldamage = xi.summon.avatarFinalAdjustments(info, pet, petskill, target, xi.attackType.PHYSICAL, xi.damageType.PIERCING, numhits)
-
     xi.job_utils.summoner.onUseBloodPact(target, petskill, summoner, action)
 
-    target:takeDamage(totaldamage, pet, xi.attackType.PHYSICAL, xi.damageType.PIERCING)
-    target:updateEnmityFromDamage(pet, totaldamage)
+    local params = {}
 
-    if
-        xi.summon.avatarPhysicalHit(petskill, totaldamage) and
-        not target:hasStatusEffect(xi.effect.POISON)
-    then
-        target:addStatusEffect(xi.effect.POISON, { power = 1, duration = 60, origin = pet, tick = 3 })
+    params.baseDamage        = pet:getWeaponDmg()
+    params.numHits           = 1
+    params.fTP               = { 2.0, 2.0, 2.0 }
+    params.fTPSubsequentHits = { 2.0, 2.0, 2.0 }
+    params.dex_wSC           = 0.30
+    params.attackType        = xi.attackType.PHYSICAL
+    params.damageType        = xi.damageType.PIERCING
+    params.shadowBehavior    = xi.mobskills.shadowBehavior.NUMSHADOWS_1
+    params.attackMultiplier  = { 2.0, 2.0, 2.0 }
+    -- params.accuracyModifier   = { 0, 0, 0 } TODO: Capture accuracy
+    params.primaryMessage    = xi.msg.basic.USES_JA_TAKE_DAMAGE
+
+    local info = xi.mobskills.mobPhysicalMove(pet, target, petskill, action, params)
+
+    if xi.mobskills.processDamage(pet, target, petskill, action, info) then
+        target:takeDamage(info.damage, pet, info.attackType, info.damageType)
+
+        local effectTable =
+        {
+            [1] = { effectId = xi.effect.POISON, power = 1, tick = 3, duration = 90, tier = 1, origin = pet },
+        }
+
+        xi.combat.action.executeMobskillStatusEffect(pet, target, petskill, effectTable, { messageBypass = true })
     end
 
-    return totaldamage
+    return info.damage
 end
 
 return abilityObject

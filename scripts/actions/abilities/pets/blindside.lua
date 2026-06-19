@@ -1,5 +1,7 @@
 -----------------------------------
--- Punch M=3.5
+-- Blindside
+-- Family: Avatar (Diabolos)
+-- Description: Deals Physical damage to a single target.
 -----------------------------------
 ---@type TAbilityPet
 local abilityObject = {}
@@ -15,14 +17,13 @@ abilityObject.onPetAbility = function(target, pet, petskill, summoner, action)
 
     params.baseDamage        = pet:getWeaponDmg()
     params.numHits           = 1
-    params.fTP               = { 2.0, 2.0, 2.0 }
+    params.fTP               = { 2.0, 2.0, 2.0 } -- TODO: Capture fTPs
     params.fTPSubsequentHits = { 2.0, 2.0, 2.0 }
-    params.str_wSC           = 0.30
+    -- params.str_wSC           = 0.20 -- TODO: Capture wSCs
+    -- params.mnd_wSC           = 0.20
     params.attackType        = xi.attackType.PHYSICAL
     params.damageType        = xi.damageType.BLUNT
     params.shadowBehavior    = xi.mobskills.shadowBehavior.NUMSHADOWS_1
-    params.attackMultiplier  = { 2.0, 2.0, 2.0 }
-    -- params.accuracyModifier   = { 0, 0, 0 } TODO: Capture accuracy
     params.primaryMessage    = xi.msg.basic.USES_JA_TAKE_DAMAGE
 
     local info = xi.mobskills.mobPhysicalMove(pet, target, petskill, action, params)

@@ -9,23 +9,35 @@ abilityObject.onAbilityCheck = function(player, target, ability)
 end
 
 abilityObject.onPetAbility = function(target, pet, petskill, summoner, action)
-    local numhits = 1
-    local accmod = 1
-    local dmgmod = 6
-
     xi.job_utils.summoner.onUseBloodPact(target, petskill, summoner, action)
 
-    local info = xi.summon.avatarPhysicalMove(pet, target, petskill, numhits, accmod, dmgmod, 0, xi.mobskills.magicalTpBonus.NO_EFFECT, 1, 2, 3)
-    local totaldamage = xi.summon.avatarFinalAdjustments(info, pet, petskill, target, xi.attackType.PHYSICAL, xi.damageType.PIERCING, numhits)
+    local params = {}
 
-    if info.hitslanded > 0 then
-        target:addStatusEffect(xi.effect.PARALYSIS, { power = 22.5, duration = 90, origin = pet })
+    params.baseDamage        = pet:getWeaponDmg()
+    params.numHits           = 1
+    params.fTP               = { 1.50, 3.75, 6.00 } -- TODO: Capture 2000 fTP. Using 3.75 for now (Linear scaling).
+    params.fTPSubsequentHits = { 1.50, 3.75, 6.00 }
+    params.str_wSC           = 0.30
+    params.attackType        = xi.attackType.PHYSICAL
+    params.damageType        = xi.damageType.PIERCING
+    params.shadowBehavior    = xi.mobskills.shadowBehavior.NUMSHADOWS_1
+    params.attackMultiplier  = { 2.0, 2.0, 2.0 }
+    params.primaryMessage    = xi.msg.basic.USES_JA_TAKE_DAMAGE
+
+    local info = xi.mobskills.mobPhysicalMove(pet, target, petskill, action, params)
+
+    if xi.mobskills.processDamage(pet, target, petskill, action, info) then
+        target:takeDamage(info.damage, pet, info.attackType, info.damageType)
+
+        local effectTable =
+        {
+            [1] = { effectId = xi.effect.PARALYSIS, power = 22, duration = 60, origin = pet }, -- TODO: Capture power
+        }
+
+        xi.combat.action.executeMobskillStatusEffect(pet, target, petskill, effectTable, { messageBypass = true })
     end
 
-    target:takeDamage(totaldamage, pet, xi.attackType.PHYSICAL, xi.damageType.PIERCING)
-    target:updateEnmityFromDamage(pet, totaldamage)
-
-    return totaldamage
+    return info.damage
 end
 
 return abilityObject
