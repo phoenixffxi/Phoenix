@@ -77,7 +77,9 @@ xi.combat.behavior.chooseAction = function(actor, mainTarget, optionalTargets, a
             end,
 
             [xi.action.type.DAMAGE_TARGET] = function()
-                table.insert(actionList, { actionId, actionTarget, actionWeight })
+                if actor:isEngaged() then
+                    table.insert(actionList, { actionId, actionTarget, actionWeight })
+                end
             end,
 
             [xi.action.type.DAMAGE_FORCE_SELF] = function()
@@ -205,6 +207,7 @@ xi.combat.behavior.chooseAction = function(actor, mainTarget, optionalTargets, a
 
             [xi.action.type.ENFEEBLING_TARGET] = function()
                 if
+                    actor:isEngaged() and
                     not actionTarget:hasStatusEffect(actionCondition) and
                     not xi.data.statusEffect.isEffectNullified(actionTarget, actionCondition, effectTier)
                 then
@@ -273,7 +276,10 @@ xi.combat.behavior.chooseAction = function(actor, mainTarget, optionalTargets, a
             end,
 
             [xi.action.type.DRAIN_HP] = function()
-                if not actionTarget:isUndead() then
+                if
+                    actor:isEngaged() and
+                    not actionTarget:isUndead()
+                then
                     if
                         actionCondition == nil or
                         (actionCondition and actor:getHPP() <= actionCondition)
@@ -285,6 +291,7 @@ xi.combat.behavior.chooseAction = function(actor, mainTarget, optionalTargets, a
 
             [xi.action.type.DRAIN_MP] = function()
                 if
+                    actor:isEngaged() and
                     not actionTarget:isUndead() and
                     actionTarget:getMP() > 0
                 then

@@ -110,7 +110,7 @@ void GP_CLI_COMMAND_GROUP_SOLICIT_REQ::process(MapSession* PSession, CCharEntity
                         break;
                     }
 
-                    if (PInvitee->StatusEffectContainer->HasStatusEffect(EFFECT_LEVEL_SYNC))
+                    if (PInvitee->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::LevelSync))
                     {
                         ShowDebug("%s has level sync, unable to send invite", PInvitee->getName());
                         PInviter->pushPacket<GP_SERV_COMMAND_MESSAGE>(PInviter, 0, 0, MsgStd::CannotInviteLevelSync);
@@ -196,7 +196,7 @@ void GP_CLI_COMMAND_GROUP_SOLICIT_REQ::process(MapSession* PSession, CCharEntity
                         break;
                     }
 
-                    if (PInvitee->StatusEffectContainer->HasStatusEffect(EFFECT_LEVEL_SYNC))
+                    if (PInvitee->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::LevelSync))
                     {
                         ShowDebug("%s has level sync, unable to send invite", PInvitee->getName());
                         PInviter->pushPacket<GP_SERV_COMMAND_MESSAGE>(PInviter, 0, 0, MsgStd::CannotInviteLevelSync);

@@ -59,14 +59,14 @@ endif(TRACY_ENABLE)
 CPMAddPackage(
     NAME fmt
     GITHUB_REPOSITORY fmtlib/fmt
-    GIT_TAG 11.2.0
+    GIT_TAG 12.1.0
     SYSTEM ON
 ) # defines: fmt::fmt
 
 CPMAddPackage(
     NAME spdlog
     GITHUB_REPOSITORY gabime/spdlog
-    GIT_TAG v1.15.3
+    GIT_TAG v1.17.0
     SYSTEM ON
     OPTIONS
         "SPDLOG_ENABLE_PCH ON"
@@ -76,11 +76,9 @@ CPMAddPackage(
 CPMAddPackage(
     NAME recastnavigation
     GITHUB_REPOSITORY recastnavigation/recastnavigation
-    GIT_TAG bd98d84c274ee06842bf51a4088ca82ac71f8c2d
+    GIT_TAG 1078bfe346d9bb560faa748c8fde2e7aae73a3ab
     SYSTEM ON
     OPTIONS
-        # TODO: Remove this once recast is updated to use CMake 3.5+, it's currently set to what we use in the root CMakeLists.txt
-        "CMAKE_POLICY_VERSION_MINIMUM 3.20"
         "RECASTNAVIGATION_DEMO OFF"
         "RECASTNAVIGATION_TESTS OFF"
         "RECASTNAVIGATION_EXAMPLES OFF"
@@ -127,8 +125,8 @@ CPMAddPackage(
 
 CPMAddPackage(
     NAME efsw
-    GITHUB_REPOSITORY zach2good/efsw
-    GIT_TAG c37c7e0fc6bbd63659edeba458273c35a51513da # master
+    GITHUB_REPOSITORY SpartanJ/efsw
+    GIT_TAG 22f17a0bcdf3a4edf61f8b14328391463389e548 # master
     SYSTEM ON
     OPTIONS
         "VERBOSE OFF"

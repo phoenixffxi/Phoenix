@@ -1,10 +1,43 @@
 -----------------------------------
 -- Zone: Phanauet_Channel
 -----------------------------------
+local ID = zones[xi.zone.PHANAUET_CHANNEL]
+-----------------------------------
 ---@type TZone
 local zoneObject = {}
 
 zoneObject.onInitialize = function(zone)
+end
+
+zoneObject.onZoneTick = function(zone)
+    -- Stubborn Dredvodd has a chance to appear at any point during the barge ride
+    -- once its 21-24 hour window has elapsed. The cooldown is set when it spawns
+    -- (see the mob script), so a pop nobody sticks around to kill still burns the window.
+    local dredvodd = GetMobByID(ID.mob.STUBBORN_DREDVODD)
+
+    if
+        not dredvodd or
+        dredvodd:isSpawned() or
+        GetSystemTime() < dredvodd:getLocalVar('cooldown')
+    then
+        return
+    end
+
+    -- He only rides the South Landing -> North Landing barge, which is the active
+    -- vessel in the channel from 10:10 to 16:00 Vana'diel time.
+    -- Times below let him spawn only when that barge is active.
+    local vanaMinutes = VanadielHour() * 60 + VanadielMinute()
+    if
+        vanaMinutes < utils.timeStringToMinutes('10:30') or
+        vanaMinutes >= utils.timeStringToMinutes('15:50')
+    then
+        return
+    end
+
+    -- Per-tick chance so the appearance is spread randomly across the ride.
+    if math.random(1, 100) <= 5 then
+        SpawnMob(ID.mob.STUBBORN_DREDVODD)
+    end
 end
 
 zoneObject.onZoneIn = function(player, prevZone)

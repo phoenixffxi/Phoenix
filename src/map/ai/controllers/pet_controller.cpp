@@ -140,7 +140,7 @@ auto CPetController::DoRoamTick(timer::time_point tick) -> Task<void>
             }
         }
 
-        if (isBstPet && PPet->StatusEffectContainer->GetStatusEffect(EFFECT_HEALING))
+        if (isBstPet && PPet->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Healing))
         {
             co_return;
         }
@@ -172,6 +172,8 @@ auto CPetController::DoRoamTick(timer::time_point tick) -> Task<void>
     }
 
     PPet->PAI->PathFind->FollowPath(m_Tick);
+
+    co_return;
 }
 
 bool CPetController::PetIsHealing()
@@ -183,7 +185,7 @@ bool CPetController::PetIsHealing()
     {
         // Animation down
         PPet->animation = ANIMATION_HEALING;
-        PPet->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_HEALING, 0, 0, std::chrono::seconds(settings::get<uint8>("map.HEALING_TICK_DELAY")), 0s));
+        PPet->StatusEffectContainer->AddStatusEffect(new CStatusEffect(xi::StatusEffect::Healing, 0, 0, std::chrono::seconds(settings::get<uint8>("map.HEALING_TICK_DELAY")), 0s));
         PPet->updatemask |= UPDATE_HP;
         return true;
     }
@@ -191,7 +193,7 @@ bool CPetController::PetIsHealing()
     {
         // Animation up
         PPet->animation = ANIMATION_NONE;
-        PPet->StatusEffectContainer->DelStatusEffect(EFFECT_HEALING);
+        PPet->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Healing);
         PPet->updatemask |= UPDATE_HP;
         return false;
     }

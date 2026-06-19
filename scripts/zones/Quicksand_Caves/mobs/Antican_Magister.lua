@@ -17,11 +17,7 @@ entity.spawnPoints =
 
 entity.phList =
 {
-    -- Antican Magister is a lottery of various Antica at (C-6).
-    --
-    [ID.mob.ANTICAN_MAGISTER - 1] = ID.mob.ANTICAN_MAGISTER, -- Antican_Signifer
-    [ID.mob.ANTICAN_MAGISTER - 2] = ID.mob.ANTICAN_MAGISTER, -- Antican_Princeps
-    [ID.mob.ANTICAN_MAGISTER - 3] = ID.mob.ANTICAN_MAGISTER, -- Antican_Hastatus
+    [ID.mob.ANTICAN_MAGISTER - 3] = ID.mob.ANTICAN_MAGISTER, -- Confirmed on retail
 }
 
 entity.onMobInitialize = function(mob)

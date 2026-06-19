@@ -15,9 +15,9 @@ jobs:
     name: Clang Tidy
     uses: ./.github/workflows/runner_build.yml
     with:
-      runner: ubuntu-24.04
+      runner: ubuntu-26.04
       compiler: clang
-      compiler_version: 20
+      compiler_version: 22
       build_type: Debug
       tracy: false
       build_modules: false
@@ -64,9 +64,9 @@ jobs:
             upload_artifact: false
             clang_tidy: false
           - build_type: Debug
-            runner: ubuntu-24.04
+            runner: ubuntu-26.04
             compiler: gcc
-            compiler_version: 14
+            compiler_version: 15
             tracy: false
             build_modules: false
             save_cache: true
@@ -93,8 +93,8 @@ jobs:
           - build_type: Release
             os: ubuntu
             compiler: gcc
-            compiler_version: 14
-            clang_format_version: 20
+            compiler_version: 15
+            clang_format_version: 22
             tracy: false
             build_modules: false
             save_cache: false
@@ -110,8 +110,8 @@ jobs:
           - build_type: Release
             os: alpine
             compiler: clang
-            compiler_version: 20
-            clang_format_version: 20
+            compiler_version: 22
+            clang_format_version: 22
             tracy: false
             build_modules: false
             save_cache: false

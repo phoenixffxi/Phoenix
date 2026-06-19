@@ -47,7 +47,7 @@ bool CInactiveState::Update(timer::time_point tick)
         }
 
         if (!PBattleEntity->StatusEffectContainer->HasPreventActionEffect() ||
-            (PBattleEntity->StatusEffectContainer->HasStatusEffect({ EFFECT_CHARM, EFFECT_CHARM_II }) && !PBattleEntity->StatusEffectContainer->HasPreventActionEffect(true)))
+            (PBattleEntity->StatusEffectContainer->HasStatusEffect({ xi::StatusEffect::CharmI, xi::StatusEffect::CharmIi }) && !PBattleEntity->StatusEffectContainer->HasPreventActionEffect(true)))
         {
             return true;
         }

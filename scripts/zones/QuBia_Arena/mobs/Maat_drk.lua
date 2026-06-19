@@ -39,6 +39,7 @@ entity.onMobSpawn = function(mob)
     mob:setLocalVar('initialTaunt', 0)
     mob:setLocalVar('enrageTime', 0)
     mob:setLocalVar('alreadyEnraged', 0)
+    mob:setLocalVar('finalWord', 0)
 end
 
 entity.onMobRoam = function(mob)
@@ -126,7 +127,6 @@ entity.onMobFight = function(mob, target)
         xi.combat.behavior.disableAllActions(mob)
         mob:showText(mob, ID.text.YOUVE_COME_A_LONG_WAY)
         players[1]:disengage()
-        players[1]:addTitle(xi.title.MAAT_MASHER)
         battlefield:win()
         return
     end
@@ -153,7 +153,6 @@ entity.onMobFight = function(mob, target)
         currentTime >= mob:getLocalVar('enrageTime')
     then
         mob:setLocalVar('alreadyEnraged', 1)
-        mob:showText(mob, ID.text.LOOKS_LIKE_YOU_WERENT_READY)
         mob:setMod(xi.mod.REGAIN, 3000)
     end
 
@@ -190,6 +189,14 @@ entity.onMobWeaponSkill = function(mob, target, skill, action)
         return
     end
 
+    if
+        skillID == xi.mobSkill.ASURAN_FISTS_MAAT and
+        mob:getLocalVar('finalWord') == 0
+    then
+        mob:showText(mob, ID.text.LOOKS_LIKE_YOU_WERENT_READY)
+        mob:setLocalVar('finalWord', 1)
+    end
+
     if skillID == xi.mobSkill.MAATS_BASH then
         return
     end
@@ -208,7 +215,7 @@ entity.onMobWeaponSkill = function(mob, target, skill, action)
 end
 
 entity.onMobDisengage = function(mob)
-    if mob:getLocalVar('alreadyEnraged') == 0 then
+    if mob:getLocalVar('finalWord') == 0 then
         mob:showText(mob, ID.text.LOOKS_LIKE_YOU_WERENT_READY)
     end
 end

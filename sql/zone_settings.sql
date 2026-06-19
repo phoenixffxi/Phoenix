@@ -223,7 +223,7 @@ INSERT INTO `zone_settings` VALUES (178,4,'127.0.0.1',54230,'The_Shrine_of_RuAvi
 INSERT INTO `zone_settings` VALUES (179,0,'127.0.0.1',54230,'Stellar_Fulcrum',0,0,193,193,0,0.00,6297);
 INSERT INTO `zone_settings` VALUES (180,0,'127.0.0.1',54230,'LaLoff_Amphitheater',0,0,196,196,0,0.00,6297);
 INSERT INTO `zone_settings` VALUES (181,0,'127.0.0.1',54230,'The_Celestial_Nexus',0,0,198,198,0,0.00,6297);
-INSERT INTO `zone_settings` VALUES (182,0,'127.0.0.1',54230,'Walk_of_Echoes',0,0,215,215,0,0.00,4096);
+INSERT INTO `zone_settings` VALUES (182,0,'127.0.0.1',54230,'Walk_of_Echoes',0,0,215,215,0,0.00,4224);
 INSERT INTO `zone_settings` VALUES (183,256,'127.0.0.1',54230,'Maquette_Abdhaljs-Legion_A',0,0,143,143,0,0.00,6298);
 INSERT INTO `zone_settings` VALUES (184,4,'127.0.0.1',54230,'Lower_Delkfutts_Tower',0,0,115,102,0,0.00,6299);
 INSERT INTO `zone_settings` VALUES (185,128,'127.0.0.1',54230,'Dynamis-San_dOria',121,121,121,121,0,0.00,6296);
@@ -263,7 +263,7 @@ INSERT INTO `zone_settings` VALUES (218,2,'127.0.0.1',54230,'Abyssea-Altepa',51,
 INSERT INTO `zone_settings` VALUES (219,1,'127.0.0.1',54230,'Residential_Area',0,0,0,0,0,0.00,4128);
 INSERT INTO `zone_settings` VALUES (220,0,'127.0.0.1',54230,'Ship_bound_for_Selbina',106,106,101,103,0,0.00,2200);
 INSERT INTO `zone_settings` VALUES (221,0,'127.0.0.1',54230,'Ship_bound_for_Mhaura',106,106,101,103,0,0.00,2200);
-INSERT INTO `zone_settings` VALUES (222,0,'127.0.0.1',54230,'Provenance',56,56,56,56,0,0.00,4096);
+INSERT INTO `zone_settings` VALUES (222,0,'127.0.0.1',54230,'Provenance',56,56,56,56,0,0.00,4224);
 INSERT INTO `zone_settings` VALUES (223,2,'127.0.0.1',54230,'San_dOria-Jeuno_Airship',128,128,128,128,0,0.00,8);
 INSERT INTO `zone_settings` VALUES (224,2,'127.0.0.1',54230,'Bastok-Jeuno_Airship',128,128,128,128,0,0.00,8);
 INSERT INTO `zone_settings` VALUES (225,2,'127.0.0.1',54230,'Windurst-Jeuno_Airship',128,128,128,128,0,0.00,8);
@@ -320,7 +320,7 @@ INSERT INTO `zone_settings` VALUES (275,0,'127.0.0.1',54230,'Outer_RaKaznar_[U1]
 INSERT INTO `zone_settings` VALUES (276,0,'127.0.0.1',54230,'RaKaznar_Inner_Court',73,73,57,57,0,0.00,2202);
 INSERT INTO `zone_settings` VALUES (277,0,'127.0.0.1',54230,'RaKaznar_Turris',0,0,0,0,0,0.00,0);
 INSERT INTO `zone_settings` VALUES (278,0,'127.0.0.1',54230,'Gwora-Corridor',0,0,0,0,0,0.00,0);
-INSERT INTO `zone_settings` VALUES (279,0,'127.0.0.1',54230,'Walk_of_Echoes_[P2]',0,0,0,0,0,0.00,2048);
+INSERT INTO `zone_settings` VALUES (279,0,'127.0.0.1',54230,'Walk_of_Echoes_[P2]',0,0,0,0,0,0.00,2176);
 INSERT INTO `zone_settings` VALUES (280,1,'127.0.0.1',54230,'Mog_Garden',67,67,67,67,0,0.00,4128);
 INSERT INTO `zone_settings` VALUES (281,0,'127.0.0.1',54230,'Leafallia',0,0,0,0,0,0.00,0);
 INSERT INTO `zone_settings` VALUES (282,0,'127.0.0.1',54230,'Mount_Kamihr',0,0,0,0,0,0.00,0);
@@ -339,7 +339,7 @@ INSERT INTO `zone_settings` VALUES (294,128,'127.0.0.1',54230,'Dynamis-San_dOria
 INSERT INTO `zone_settings` VALUES (295,128,'127.0.0.1',54230,'Dynamis-Bastok_[D]',88,88,88,88,0,0.00,6544);
 INSERT INTO `zone_settings` VALUES (296,128,'127.0.0.1',54230,'Dynamis-Windurst_[D]',88,88,88,88,0,0.00,6544);
 INSERT INTO `zone_settings` VALUES (297,128,'127.0.0.1',54230,'Dynamis-Jeuno_[D]',88,88,88,88,0,0.00,6544);
-INSERT INTO `zone_settings` VALUES (298,0,'127.0.0.1',54230,'Walk_of_Echoes_[P1]',186,186,186,186,0,0.00,2048);
+INSERT INTO `zone_settings` VALUES (298,0,'127.0.0.1',54230,'Walk_of_Echoes_[P1]',186,186,186,186,0,0.00,2176);
 INSERT INTO `zone_settings` VALUES (299,0,'127.0.0.1',54230,'Gwora-Throne_Room',0,0,0,0,0,0.00,0);
 
 -- NOTE: To disable a zone, you must set the zoneip and zoneport to '' and 0 respectively!

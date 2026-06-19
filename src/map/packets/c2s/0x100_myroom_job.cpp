@@ -116,13 +116,13 @@ void GP_CLI_COMMAND_MYROOM_JOB::process(MapSession* PSession, CCharEntity* PChar
             blueutils::UnequipAllBlueSpells(PChar);
         }
 
-        DAMAGE_TYPE subType = DAMAGE_TYPE::NONE;
+        xi::DamageType subType = xi::DamageType::None;
         if (auto* weapon = dynamic_cast<CItemWeapon*>(PChar->m_Weapons[SLOT_SUB]))
         {
             subType = weapon->getDmgType();
         }
 
-        if (subType > DAMAGE_TYPE::NONE && subType < DAMAGE_TYPE::HTH)
+        if (subType > xi::DamageType::None && subType < xi::DamageType::HandToHand)
         {
             charutils::UnequipItem(PChar, SLOT_SUB);
         }
@@ -143,12 +143,12 @@ void GP_CLI_COMMAND_MYROOM_JOB::process(MapSession* PSession, CCharEntity* PChar
 
     // If the player has a teleport effect and they change jobs, cancel the teleport/warps you
     // Retail does cancel your teleport/warp if you change subs if someone else ports/warps
-    if (auto PTeleportEffect = PChar->StatusEffectContainer->GetStatusEffect(EFFECT::EFFECT_TELEPORT))
+    if (auto PTeleportEffect = PChar->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Teleport))
     {
         PTeleportEffect->SetPower(0);
     }
 
-    PChar->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DISPELABLE | EFFECTFLAG_ROLL | EFFECTFLAG_ON_JOBCHANGE);
+    PChar->StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::Dispelable | xi::StatusEffectFlag::Roll | xi::StatusEffectFlag::OnJobchange);
 
     // clang-format off
     PChar->ForParty([](CBattleEntity* PMember)

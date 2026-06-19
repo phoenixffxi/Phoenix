@@ -26,8 +26,8 @@ entity.spawnPoints =
 
 entity.phList =
 {
-    [ID.mob.BLACK_TRIPLE_STARS[1] - 4] = ID.mob.BLACK_TRIPLE_STARS[1], -- 4 -16 -119 (north)
-    [ID.mob.BLACK_TRIPLE_STARS[2] - 4] = ID.mob.BLACK_TRIPLE_STARS[2], -- 76 -15 -209 (south)
+    [ID.mob.BLACK_TRIPLE_STARS[1] - 4] = ID.mob.BLACK_TRIPLE_STARS[1], -- Confirmed on retail (north)
+    [ID.mob.BLACK_TRIPLE_STARS[2] - 4] = ID.mob.BLACK_TRIPLE_STARS[2], -- Confirmed on retail (south)
 }
 
 entity.onMobRoam = function(mob)

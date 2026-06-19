@@ -45,7 +45,7 @@ CMobSkillState::CMobSkillState(CBattleEntity* PEntity, uint16 targid, uint16 wsi
         throw CStateInitException(nullptr);
     }
 
-    if (m_PEntity->StatusEffectContainer->HasStatusEffect({ EFFECT_AMNESIA, EFFECT_IMPAIRMENT }))
+    if (m_PEntity->StatusEffectContainer->HasStatusEffect({ xi::StatusEffect::Amnesia, xi::StatusEffect::Impairment }))
     {
         throw CStateInitException(nullptr);
     }
@@ -99,11 +99,11 @@ CMobSkillState::CMobSkillState(CBattleEntity* PEntity, uint16 targid, uint16 wsi
             .actionid   = static_cast<uint32_t>(FourCC::SkillUse),
             .targets    = {
                 {
-                       .actorId = PActionTarget ? PActionTarget->id : m_PEntity->id,
-                       .results = {
+                    .actorId = PActionTarget ? PActionTarget->id : m_PEntity->id,
+                    .results = {
                         {
-                               .param     = m_PSkill->getID(),
-                               .messageID = m_PSkill->getFlag() & SKILLFLAG_NO_START_MSG ? MsgBasic::None : MsgBasic::ReadiesWeaponskill,
+                            .param     = m_PSkill->getID(),
+                            .messageID = m_PSkill->getFlag() & SKILLFLAG_NO_START_MSG ? MsgBasic::None : MsgBasic::ReadiesWeaponskill,
                         },
                     },
                 },
@@ -135,12 +135,12 @@ void CMobSkillState::SpendCost()
 {
     if (!m_PSkill->isTpFreeSkill())
     {
-        if (m_PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_SEKKANOKI))
+        if (m_PEntity->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Sekkanoki))
         {
             m_spentTP = m_PEntity->addTP(-1000);
-            m_PEntity->StatusEffectContainer->DelStatusEffect(EFFECT_SEKKANOKI);
+            m_PEntity->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Sekkanoki);
         }
-        else if (m_PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_MEIKYO_SHISUI) &&
+        else if (m_PEntity->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::MeikyoShisui) &&
                  m_PEntity->GetLocalVar("[MeikyoShisui]MobSkillCount") > 0)
         {
             auto currentCount = m_PEntity->GetLocalVar("[MeikyoShisui]MobSkillCount");
@@ -172,7 +172,7 @@ bool CMobSkillState::Update(timer::time_point tick)
     if (m_PEntity && m_PEntity->isAlive() && (tick >= GetEntryTime() + m_castTime && !IsCompleted()))
     {
         // Check for stun/sleep/hysteria/etc at the moment of skill completion - Cleanup handles the interrupt
-        if (m_PEntity->StatusEffectContainer->HasPreventActionEffect() || m_PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_HYSTERIA))
+        if (m_PEntity->StatusEffectContainer->HasPreventActionEffect() || m_PEntity->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Hysteria))
         {
             return true;
         }
@@ -218,13 +218,13 @@ bool CMobSkillState::Update(timer::time_point tick)
         if (m_PEntity->objtype == TYPE_PET && m_PEntity->PMaster && m_PEntity->PMaster->objtype == TYPE_PC && (m_PSkill->isBloodPactRage() || m_PSkill->isBloodPactWard()))
         {
             CCharEntity* PSummoner = dynamic_cast<CCharEntity*>(m_PEntity->PMaster);
-            if (PSummoner && PSummoner->StatusEffectContainer->HasStatusEffect(EFFECT_AVATARS_FAVOR))
+            if (PSummoner && PSummoner->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::AvatarsFavor))
             {
-                auto power = PSummoner->StatusEffectContainer->GetStatusEffect(EFFECT_AVATARS_FAVOR)->GetPower();
+                auto power = PSummoner->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::AvatarsFavor)->GetPower();
                 // Retail: Power is gained for BP use
                 auto levelGained = m_PSkill->isBloodPactRage() ? 3 : 2;
                 power += levelGained;
-                PSummoner->StatusEffectContainer->GetStatusEffect(EFFECT_AVATARS_FAVOR)->SetPower(power > 11 ? power : 11);
+                PSummoner->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::AvatarsFavor)->SetPower(power > 11 ? power : 11);
             }
         }
 

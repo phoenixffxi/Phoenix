@@ -11,12 +11,7 @@ local entity = {}
 
 entity.phList =
 {
-    [ID.mob.ZORAAL_JAS_PKUUCHA - 6] = ID.mob.ZORAAL_JAS_PKUUCHA, -- 181.000 -18.000 -63.000
-    [ID.mob.ZORAAL_JAS_PKUUCHA - 5] = ID.mob.ZORAAL_JAS_PKUUCHA, -- 181.000 -19.000 -77.000
-    [ID.mob.ZORAAL_JAS_PKUUCHA - 4] = ID.mob.ZORAAL_JAS_PKUUCHA, -- 195.000 -18.000 -95.000
-    [ID.mob.ZORAAL_JAS_PKUUCHA - 3] = ID.mob.ZORAAL_JAS_PKUUCHA, -- 220.000 -19.000 -80.000
-    [ID.mob.ZORAAL_JAS_PKUUCHA - 2] = ID.mob.ZORAAL_JAS_PKUUCHA, -- 219.000 -18.000 -59.000
-    [ID.mob.ZORAAL_JAS_PKUUCHA - 1] = ID.mob.ZORAAL_JAS_PKUUCHA, -- 203.000 -16.000 -74.000
+    [ID.mob.ZORAAL_JAS_PKUUCHA - 1] = ID.mob.ZORAAL_JAS_PKUUCHA, -- Confirmed on retail
 }
 
 entity.spawnPoints =

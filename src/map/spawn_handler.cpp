@@ -223,7 +223,7 @@ void SpawnHandler::onWeatherChange(Weather weather) const
     zone_->ForEachMob(
         [weather, element](CMobEntity* PMob)
         {
-            if (PMob->m_EcoSystem == ECOSYSTEM::ELEMENTAL && PMob->PMaster == nullptr && PMob->m_SpawnType & SPAWNTYPE_WEATHER)
+            if (PMob->m_EcoSystem == xi::Ecosystem::Elemental && PMob->PMaster == nullptr && PMob->m_SpawnType & SPAWNTYPE_WEATHER)
             {
                 if (PMob->m_Element != element)
                 {
@@ -283,7 +283,7 @@ auto SpawnHandler::canSpawnNow(const CMobEntity* PMob) const -> bool
     if (PMob->m_SpawnType & SPAWNTYPE_WEATHER)
     {
         // Only for elementals without a master
-        if (PMob->m_EcoSystem == ECOSYSTEM::ELEMENTAL && PMob->PMaster == nullptr)
+        if (PMob->m_EcoSystem == xi::Ecosystem::Elemental && PMob->PMaster == nullptr)
         {
             if (PMob->m_Element != zoneutils::GetWeatherElement(zone_->GetWeather()))
             {

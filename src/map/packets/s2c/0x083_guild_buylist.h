@@ -25,6 +25,8 @@
 
 #include "base.h"
 
+#include <vector>
+
 class CCharEntity;
 class CItemContainer;
 
@@ -49,4 +51,5 @@ public:
     };
 
     GP_SERV_COMMAND_GUILD_BUYLIST(CCharEntity* PChar, const CItemContainer* PGuild);
+    GP_SERV_COMMAND_GUILD_BUYLIST(CCharEntity* PChar, const std::vector<GP_GUILD_ITEM>& items);
 };

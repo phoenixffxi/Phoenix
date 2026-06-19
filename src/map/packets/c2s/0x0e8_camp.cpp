@@ -53,12 +53,12 @@ void GP_CLI_COMMAND_CAMP::process(MapSession* PSession, CCharEntity* PChar) cons
             PChar->PPet->PAI->Disengage();
         }
 
-        PChar->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_HEALING, 0, 0, std::chrono::seconds(settings::get<uint8>("map.HEALING_TICK_DELAY")), 0s));
+        PChar->StatusEffectContainer->AddStatusEffect(new CStatusEffect(xi::StatusEffect::Healing, 0, 0, std::chrono::seconds(settings::get<uint8>("map.HEALING_TICK_DELAY")), 0s));
     };
 
     auto disableHealing = [&]()
     {
-        PChar->StatusEffectContainer->DelStatusEffectSilent(EFFECT_HEALING);
+        PChar->StatusEffectContainer->DelStatusEffectSilent(xi::StatusEffect::Healing);
     };
 
     // Note: The status effect lua takes care of changing the animation.

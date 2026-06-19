@@ -1,8 +1,6 @@
 -----------------------------------
 -- Zone: Ceizak Battlegrounds (261)
 -----------------------------------
-local ID = zones[xi.zone.CEIZAK_BATTLEGROUNDS]
------------------------------------
 ---@type TZone
 local zoneObject = {}
 
@@ -28,35 +26,6 @@ zoneObject.onZoneIn = function(player, prevZone)
     end
 
     return cs
-end
-
--- Cutscene for Dances with Luopans.
-local function triggerUncannySensationMessage(player)
-    if
-        player:getQuestStatus(xi.questLog.ADOULIN, xi.quest.id.adoulin.DANCES_WITH_LUOPANS) == xi.questStatus.QUEST_ACCEPTED and
-        player:hasKeyItem(xi.ki.LUOPAN) and
-        player:getCharVar('GEO_DWL_Luopan') == 0
-    then
-        player:messageSpecial(ID.text.UNCANNY_SENSATION)
-        player:setLocalVar('GEO_DWL_Locus_Area', 1)
-    end
-end
-
-zoneObject.onTriggerAreaEnter = function(player, triggerArea)
-    switch (triggerArea:getTriggerAreaID()): caseof
-    {
-        [1] = function(x)
-            triggerUncannySensationMessage(player)
-        end,
-
-        [2] = function(x)
-            triggerUncannySensationMessage(player)
-        end,
-    }
-end
-
-zoneObject.onTriggerAreaLeave = function(player, triggerArea)
-    player:setLocalVar('GEO_DWL_Locus_Area', 0)
 end
 
 zoneObject.onEventUpdate = function(player, csid, option, npc)

@@ -70,11 +70,11 @@ CWeaponSkillState::CWeaponSkillState(CBattleEntity* PEntity, uint16 targid, uint
         .actionid   = static_cast<uint32_t>(FourCC::SkillUse),
         .targets    = {
             {
-                   .actorId = PTarget->id,
-                   .results = {
+                .actorId = PTarget->id,
+                .results = {
                     {
-                           .param     = m_PSkill->getID(),
-                           .messageID = MsgBasic::ReadiesWeaponskill,
+                        .param     = m_PSkill->getID(),
+                        .messageID = MsgBasic::ReadiesWeaponskill,
                     },
                 },
             },
@@ -92,14 +92,14 @@ CWeaponSkill* CWeaponSkillState::GetSkill()
 void CWeaponSkillState::SpendCost()
 {
     auto tp = 0;
-    if (m_PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_MEIKYO_SHISUI))
+    if (m_PEntity->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::MeikyoShisui))
     {
         tp = m_PEntity->addTP(-1000);
     }
-    else if (m_PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_SEKKANOKI))
+    else if (m_PEntity->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Sekkanoki))
     {
         tp = m_PEntity->addTP(-1000);
-        m_PEntity->StatusEffectContainer->DelStatusEffect(EFFECT_SEKKANOKI);
+        m_PEntity->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Sekkanoki);
     }
     else
     {
@@ -144,11 +144,11 @@ bool CWeaponSkillState::Update(timer::time_point tick)
             }
 
             // Reset Restraint bonus and trackers on weaponskill use
-            if (m_PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_RESTRAINT))
+            if (m_PEntity->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Restraint))
             {
-                uint16 WSBonus = m_PEntity->StatusEffectContainer->GetStatusEffect(EFFECT_RESTRAINT)->GetPower();
-                m_PEntity->StatusEffectContainer->GetStatusEffect(EFFECT_RESTRAINT)->SetPower(0);
-                m_PEntity->StatusEffectContainer->GetStatusEffect(EFFECT_RESTRAINT)->SetSubPower(0);
+                uint16 WSBonus = m_PEntity->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Restraint)->GetPower();
+                m_PEntity->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Restraint)->SetPower(0);
+                m_PEntity->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Restraint)->SetSubPower(0);
                 m_PEntity->delModifier(Mod::ALL_WSDMG_FIRST_HIT, WSBonus);
             }
 

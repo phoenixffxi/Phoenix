@@ -282,19 +282,19 @@ void CBattlefield::ApplyLevelRestrictions(CCharEntity* PChar) const
             cap = settings::get<uint8>("main.MAX_LEVEL"); // Cap to server max level to strip buffs - this is the retail diff between uncapped and capped to max lv.
         }
 
-        PChar->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DISPELABLE, EffectNotice::Silent);
-        PChar->StatusEffectContainer->DelStatusEffectSilent(EFFECT_RERAISE);
-        PChar->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_LEVEL_RESTRICTION, EFFECT_LEVEL_RESTRICTION, cap, 0s, 0s));
+        PChar->StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::Dispelable, EffectNotice::Silent);
+        PChar->StatusEffectContainer->DelStatusEffectSilent(xi::StatusEffect::Reraise);
+        PChar->StatusEffectContainer->AddStatusEffect(new CStatusEffect(xi::StatusEffect::LevelRestriction, static_cast<uint16>(xi::StatusEffect::LevelRestriction), cap, 0s, 0s));
     }
     else
     {
-        PChar->StatusEffectContainer->DelStatusEffect(EFFECT_LEVEL_RESTRICTION);
+        PChar->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::LevelRestriction);
     }
 
     // Check if we should remove SJ, whether or not there is a lv cap.
     if (!(m_Rules & BCRULES::RULES_ALLOW_SUBJOBS))
     {
-        PChar->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_SJ_RESTRICTION, EFFECT_SJ_RESTRICTION, 0, 0s, 0s));
+        PChar->StatusEffectContainer->AddStatusEffect(new CStatusEffect(xi::StatusEffect::SjRestriction, static_cast<uint16>(xi::StatusEffect::SjRestriction), 0, 0s, 0s));
     }
 }
 
@@ -421,7 +421,7 @@ bool CBattlefield::InsertEntity(CBaseEntity* PEntity, bool enter, BATTLEFIELDMOB
     // mob, initiator or ally
     if (entity)
     {
-        CStatusEffect* PBattlefieldEffect = entity->StatusEffectContainer->GetStatusEffect(EFFECT_BATTLEFIELD);
+        CStatusEffect* PBattlefieldEffect = entity->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Battlefield);
         // Update battlefield ID if battlefield effect exists
         // Tango with a Tracker/Requiem of Sin corner case where NPC IDs are shared between BCs as per retail caps
         if (PBattlefieldEffect)
@@ -431,7 +431,7 @@ bool CBattlefield::InsertEntity(CBaseEntity* PEntity, bool enter, BATTLEFIELDMOB
         else
         {
             entity->StatusEffectContainer->AddStatusEffect(
-                new CStatusEffect(EFFECT_BATTLEFIELD, EFFECT_BATTLEFIELD, this->GetID(), 0s, 0s, m_Initiator.id, this->GetArea()), EffectNotice::Silent);
+                new CStatusEffect(xi::StatusEffect::Battlefield, static_cast<uint16>(xi::StatusEffect::Battlefield), this->GetID(), 0s, 0s, m_Initiator.id, this->GetArea()), EffectNotice::Silent);
         }
     }
 
@@ -549,7 +549,7 @@ bool CBattlefield::RemoveEntity(CBaseEntity* PEntity, uint8 leavecode)
 
         if (!(m_Rules & BCRULES::RULES_ALLOW_SUBJOBS))
         {
-            PChar->StatusEffectContainer->DelStatusEffect(EFFECT_SJ_RESTRICTION);
+            PChar->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::SjRestriction);
         }
 
         // Release charmed pet when master leaves battlefield
@@ -565,18 +565,18 @@ bool CBattlefield::RemoveEntity(CBaseEntity* PEntity, uint8 leavecode)
             {
                 if (PTrust && PTrust->StatusEffectContainer)
                 {
-                    PTrust->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_CONFRONTATION, EffectNotice::Silent);
+                    PTrust->StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::Confrontation, EffectNotice::Silent);
                 }
             }
         }
 
         m_Zone->updateCharLevelRestriction(PChar);
 
-        if (leavecode == BATTLEFIELD_LEAVE_CODE_EXIT && PChar->StatusEffectContainer->HasStatusEffectByFlag(EFFECTFLAG_CONFRONTATION))
+        if (leavecode == BATTLEFIELD_LEAVE_CODE_EXIT && PChar->StatusEffectContainer->HasStatusEffectByFlag(xi::StatusEffectFlag::Confrontation))
         {
             if (GetStatus() == BATTLEFIELD_STATUS_LOCKED)
             {
-                PChar->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_CONFRONTATION, EffectNotice::Silent);
+                PChar->StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::Confrontation, EffectNotice::Silent);
             }
             else
             {
@@ -820,7 +820,7 @@ bool CBattlefield::Cleanup(timer::time_point time, bool force)
         auto* PChar = GetZone()->GetCharByID(id);
         if (PChar)
         {
-            PChar->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_CONFRONTATION, EffectNotice::Silent);
+            PChar->StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::Confrontation, EffectNotice::Silent);
             m_Zone->updateCharLevelRestriction(PChar);
 
             // Remove allies from player's spawn list
@@ -835,7 +835,7 @@ bool CBattlefield::Cleanup(timer::time_point time, bool force)
 
             if (PChar->PPet)
             {
-                PChar->PPet->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_CONFRONTATION, EffectNotice::Silent);
+                PChar->PPet->StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::Confrontation, EffectNotice::Silent);
             }
         }
     }
@@ -1010,7 +1010,7 @@ void CBattlefield::handleDeath(CBaseEntity* PEntity)
 
 void CBattlefield::setPlayerEntered(CCharEntity* PChar, bool entered)
 {
-    CStatusEffect* effect = PChar->StatusEffectContainer->GetStatusEffect(EFFECT_BATTLEFIELD);
+    CStatusEffect* effect = PChar->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Battlefield);
 
     if (effect == nullptr)
     {
@@ -1023,15 +1023,15 @@ void CBattlefield::setPlayerEntered(CCharEntity* PChar, bool entered)
 
 bool CBattlefield::hasPlayerEntered(CCharEntity* PChar)
 {
-    if (!PChar->StatusEffectContainer->HasStatusEffect(EFFECT_BATTLEFIELD))
+    if (!PChar->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Battlefield))
     {
         return false;
     }
 
-    return PChar->StatusEffectContainer->GetStatusEffect(EFFECT_BATTLEFIELD)->GetTier() == 1;
+    return PChar->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Battlefield)->GetTier() == 1;
 }
 
 uint16 CBattlefield::getBattlefieldArea(CCharEntity* PChar)
 {
-    return PChar->StatusEffectContainer->GetStatusEffect(EFFECT_BATTLEFIELD)->GetSubPower();
+    return PChar->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Battlefield)->GetSubPower();
 }

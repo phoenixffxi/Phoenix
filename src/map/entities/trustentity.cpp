@@ -51,7 +51,7 @@ CTrustEntity::CTrustEntity(CCharEntity* PChar)
 : CMobEntity()
 {
     objtype                     = TYPE_TRUST;
-    m_EcoSystem                 = ECOSYSTEM::UNCLASSIFIED;
+    m_EcoSystem                 = xi::Ecosystem::Unclassified;
     allegiance                  = ALLEGIANCE_TYPE::PLAYER;
     m_MobSkillList              = 0;
     PMaster                     = PChar;
@@ -152,7 +152,7 @@ bool CTrustEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags)
 
     if ((targetFlags & TARGET_PLAYER_PARTY_PIANISSIMO) && PInitiator->allegiance == allegiance && PMaster && PInitiator != this)
     {
-        if (PInitiator->StatusEffectContainer->HasStatusEffect(EFFECT_PIANISSIMO))
+        if (PInitiator->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Pianissimo))
         {
             return true;
         }

@@ -10,7 +10,7 @@ local ID = zones[xi.zone.NORTHERN_SAN_DORIA]
 local entity = {}
 
 entity.onTrigger = function(player, npc)
-    if player:sendGuild(60418, 11, 22, 0) then
+    if xi.guildShops.onTrigger(player, npc) then
         player:showText(npc, ID.text.GAUDYLOX_SHOP_DIALOG)
     end
 end

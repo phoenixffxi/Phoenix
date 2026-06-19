@@ -93,7 +93,7 @@ void CAttack::SetCritical(bool value)
 
         if (m_attacker->StatusEffectContainer)
         {
-            const CStatusEffect* sangeEffect = m_attacker->StatusEffectContainer->GetStatusEffect(EFFECT_SANGE);
+            const CStatusEffect* sangeEffect = m_attacker->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Sange);
             CCharEntity*         PChar       = dynamic_cast<CCharEntity*>(m_attacker);
 
             if (sangeEffect && PChar && PChar->PMeritPoints)
@@ -111,7 +111,7 @@ void CAttack::SetCritical(bool value)
         float attBonus = 1.0f;
         if (m_attackType == PHYSICAL_ATTACK_TYPE::KICK)
         {
-            if (CStatusEffect* footworkEffect = m_attacker->StatusEffectContainer->GetStatusEffect(EFFECT_FOOTWORK))
+            if (CStatusEffect* footworkEffect = m_attacker->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Footwork))
             {
                 attBonus += (footworkEffect->GetSubPower() / 256.0f); // Mod is out of 256
             }
@@ -207,12 +207,12 @@ bool CAttack::IsAnticipated() const
 
 bool CAttack::IsDeflected() const
 {
-    if (!m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_DEFENSE_BOOST))
+    if (!m_victim->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::DefenseBoost))
     {
         return false;
     }
 
-    uint16 subpower = m_victim->StatusEffectContainer->GetStatusEffect(EFFECT_DEFENSE_BOOST)->GetSubPower();
+    uint16 subpower = m_victim->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::DefenseBoost)->GetSubPower();
     if (subpower == 0)
     {
         return false;
@@ -315,7 +315,7 @@ uint8 CAttack::GetHitRate()
 
         if (m_attacker->StatusEffectContainer)
         {
-            const CStatusEffect* sangeEffect = m_attacker->StatusEffectContainer->GetStatusEffect(EFFECT_SANGE);
+            const CStatusEffect* sangeEffect = m_attacker->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Sange);
             CCharEntity*         PChar       = dynamic_cast<CCharEntity*>(m_attacker);
             if (sangeEffect && PChar && PChar->PMeritPoints)
             {
@@ -386,7 +386,7 @@ bool CAttack::CheckAnticipated()
     }
 
     // bail out before hitting lua if we dont have TE
-    CStatusEffect* thirdEyeEffect = m_victim->StatusEffectContainer->GetStatusEffect(EFFECT_THIRD_EYE, 0);
+    CStatusEffect* thirdEyeEffect = m_victim->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::ThirdEye, 0);
     if (thirdEyeEffect == nullptr)
     {
         return false;
@@ -462,7 +462,7 @@ bool CAttack::CheckCounter()
         auto* PChar              = static_cast<CCharEntity*>(m_victim);
         auto* weapon             = dynamic_cast<CItemWeapon*>(PChar->m_Weapons[SLOT_MAIN]);
         bool  isValid2HandWeapon = weapon && weapon->isTwoHanded();
-        bool  hasValidSeigan     = isValid2HandWeapon && PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SEIGAN, 0);
+        bool  hasValidSeigan     = isValid2HandWeapon && PChar->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Seigan, 0);
 
         if (hasValidSeigan)
         {
@@ -473,7 +473,7 @@ bool CAttack::CheckCounter()
     }
 
     // Do not counter if PD is up
-    if (!m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_PERFECT_DODGE))
+    if (!m_attacker->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::PerfectDodge))
     {
         if ((xirand::GetRandomNumber(100) < std::clamp<uint16>(m_victim->getMod(Mod::COUNTER) + meritCounter, 0, 80) ||
              xirand::GetRandomNumber(100) < seiganChance) &&
@@ -489,7 +489,7 @@ bool CAttack::CheckCounter()
                 m_attacker->PAI->EventHandler.triggerListener("MELEE_SWING_MISS", m_attacker, m_victim, this);
             }
         }
-        else if (m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_PERFECT_COUNTER))
+        else if (m_victim->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::PerfectCounter))
         {
             // Perfect Counter only counters hits that normal counter misses, always critical, can counter 1-3 times before wearing
             // TODO: Perfect Counter can negate an attack even if it misses (No accuracy check yet)
@@ -497,7 +497,7 @@ bool CAttack::CheckCounter()
             m_isCritical  = true;
 
             // TODO: Implement VIT-based formula for Perfect Counter wearing off, and add JP bonus
-            m_victim->StatusEffectContainer->DelStatusEffect(EFFECT_PERFECT_COUNTER);
+            m_victim->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::PerfectCounter);
         }
     }
     return m_isCountered;
@@ -534,9 +534,9 @@ void CAttack::ProcessDamage()
     if (settings::get<bool>("map.ENABLE_AUTO_ATTACK_LUA"))
     {
         // Sneak attack.
-        if (m_attacker->GetMJob() == JOB_THF && m_isFirstSwing && m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_SNEAK_ATTACK) &&
-            (behind(m_attacker->loc.p, m_victim->loc.p, 64) || m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_HIDE) ||
-             m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_DOUBT)))
+        if (m_attacker->GetMJob() == JOB_THF && m_isFirstSwing && m_attacker->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::SneakAttack) &&
+            (behind(m_attacker->loc.p, m_victim->loc.p, 64) || m_attacker->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Hide) ||
+             m_victim->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Doubt)))
         {
             m_isSA = true;
         }
@@ -548,9 +548,9 @@ void CAttack::ProcessDamage()
         }
 
         // Set attack type to Samba if the attack type is normal.  Don't overwrite other types.  Used for Samba double damage.
-        if (m_attackType == PHYSICAL_ATTACK_TYPE::NORMAL && (m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_DRAIN_SAMBA) ||
-                                                             m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_ASPIR_SAMBA) ||
-                                                             m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_HASTE_SAMBA)))
+        if (m_attackType == PHYSICAL_ATTACK_TYPE::NORMAL && (m_attacker->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::DrainSamba) ||
+                                                             m_attacker->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::AspirSamba) ||
+                                                             m_attacker->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::HasteSamba)))
         {
             SetAttackType(PHYSICAL_ATTACK_TYPE::SAMBA);
         }
@@ -595,9 +595,9 @@ void CAttack::ProcessDamage()
     }
 
     // Sneak attack.
-    if (m_attacker->GetMJob() == JOB_THF && m_isFirstSwing && m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_SNEAK_ATTACK) &&
-        (behind(m_attacker->loc.p, m_victim->loc.p, 64) || m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_HIDE) ||
-         m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_DOUBT)))
+    if (m_attacker->GetMJob() == JOB_THF && m_isFirstSwing && m_attacker->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::SneakAttack) &&
+        (behind(m_attacker->loc.p, m_victim->loc.p, 64) || m_attacker->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Hide) ||
+         m_victim->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Doubt)))
     {
         m_bonusBasePhysicalDamage += static_cast<float>(m_attacker->DEX()) * (1.0f + std::max(m_attacker->getMod(Mod::SNEAK_ATK_DEX) / 100.0f, 0.f));
         m_isSA = true;
@@ -691,10 +691,10 @@ void CAttack::ProcessDamage()
     }
 
     // Apply Scarlet Delirium damage bonus
-    // EFFECT_SCARLET_DELIRIUM_1 is only active after damage has been dealt to the DRK and EFFECT_SCARLET_DELIRIUM has been removed.
-    if (m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_SCARLET_DELIRIUM_1))
+    // xi::StatusEffect::ScarletDelirium1 is only active after damage has been dealt to the DRK and xi::StatusEffect::ScarletDelirium has been removed.
+    if (m_attacker->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::ScarletDelirium1))
     {
-        float effectPower = 1.0f + static_cast<float>(m_attacker->StatusEffectContainer->GetStatusEffect(EFFECT_SCARLET_DELIRIUM_1)->GetPower()) / 1000.0f;
+        float effectPower = 1.0f + static_cast<float>(m_attacker->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::ScarletDelirium1)->GetPower()) / 1000.0f;
 
         m_damage = std::floor<uint32>(m_damage * std::max(effectPower, 0.f));
     }
@@ -716,9 +716,9 @@ void CAttack::ProcessDamage()
     }
 
     // Set attack type to Samba if the attack type is normal.  Don't overwrite other types.  Used for Samba double damage.
-    if (m_attackType == PHYSICAL_ATTACK_TYPE::NORMAL && (m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_DRAIN_SAMBA) ||
-                                                         m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_ASPIR_SAMBA) ||
-                                                         m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_HASTE_SAMBA)))
+    if (m_attackType == PHYSICAL_ATTACK_TYPE::NORMAL && (m_attacker->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::DrainSamba) ||
+                                                         m_attacker->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::AspirSamba) ||
+                                                         m_attacker->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::HasteSamba)))
     {
         SetAttackType(PHYSICAL_ATTACK_TYPE::SAMBA);
     }
@@ -730,13 +730,13 @@ void CAttack::ProcessDamage()
     }
 
     // Apply Sneak Attack Augment Mod
-    if (m_attacker->getMod(Mod::AUGMENTS_SA) > 0 && IsSneakAttack() && m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_SNEAK_ATTACK))
+    if (m_attacker->getMod(Mod::AUGMENTS_SA) > 0 && IsSneakAttack() && m_attacker->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::SneakAttack))
     {
         m_damage = std::floor<uint32>(m_damage * (1.0f + std::max(m_attacker->getMod(Mod::AUGMENTS_SA) / 100.0f, 0.f)));
     }
 
     // Apply Trick Attack Augment Mod
-    if (m_attacker->getMod(Mod::AUGMENTS_TA) > 0 && IsTrickAttack() && m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_TRICK_ATTACK))
+    if (m_attacker->getMod(Mod::AUGMENTS_TA) > 0 && IsTrickAttack() && m_attacker->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::TrickAttack))
     {
         m_damage = std::floor<uint32>(m_damage * (1.0f + std::max(m_attacker->getMod(Mod::AUGMENTS_TA) / 100.0f, 0.f)));
     }
@@ -776,9 +776,9 @@ void CAttack::ProcessDamage()
     // Apply Restraint Weaponskill Damage Modifier
     // Effect power tracks the total bonus
     // Effect sub power tracks remainder left over from whole percentage flooring
-    if (m_isFirstSwing && m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_RESTRAINT))
+    if (m_isFirstSwing && m_attacker->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Restraint))
     {
-        CStatusEffect* effect = m_attacker->StatusEffectContainer->GetStatusEffect(EFFECT_RESTRAINT);
+        CStatusEffect* effect = m_attacker->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Restraint);
 
         if (effect == nullptr)
         {

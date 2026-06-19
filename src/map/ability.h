@@ -329,7 +329,7 @@ enum ABILITY
     ABILITY_COMPANIONS_ROLL    = 304,
     ABILITY_AVENGERS_ROLL      = 305,
     ABILITY_COOLDOWN           = 309,
-    ABILITY_DEUX_EX_AUTOMATA   = 310,
+    ABILITY_DEUS_EX_AUTOMATA   = 310,
     ABILITY_CURING_WALTZ_V     = 311,
     ABILITY_FEATHER_STEP       = 312,
     ABILITY_STRIKING_FLOURISH  = 313,
@@ -720,7 +720,7 @@ public:
     int32           getVE() const;
     uint16          getMeritModID() const;
     auto            getActionType() const -> ActionCategory;
-    EFFECT          getPostActionEffectCleanup();
+    auto            getPostActionEffectCleanup() -> xi::StatusEffect;
 
     void setID(uint16 id);
     void setJob(JOBTYPE Job);
@@ -740,32 +740,32 @@ public:
     void setVE(int32 VE);
     void setMeritModID(uint16 value);
     void setActionType(ActionCategory type);
-    void setPostActionEffectCleanup(EFFECT effectToCleanup);
+    void setPostActionEffectCleanup(xi::StatusEffect effectToCleanup);
 
     const std::string& getName();
     void               setName(const std::string& name);
 
 private:
-    uint16          m_ID;
-    JOBTYPE         m_Job;
-    uint8           m_level;
-    uint16          m_animationID;
-    timer::duration m_animationTime{};
-    timer::duration m_castTime{};
-    float           m_range;
-    uint8           m_aoe;
-    uint8           m_radius{ 0 };
-    uint16          m_validTarget;
-    uint16          m_addType;
-    MsgBasic        m_message;
-    timer::duration m_recastTime{};
-    Recast          m_recastId;
-    int32           m_CE;
-    int32           m_VE;
-    uint16          m_meritModID;
-    std::string     m_name;
-    ActionCategory  m_actionType{};
-    EFFECT          m_cleanupEffect{};
+    uint16           m_ID;
+    JOBTYPE          m_Job;
+    uint8            m_level;
+    uint16           m_animationID;
+    timer::duration  m_animationTime{};
+    timer::duration  m_castTime{};
+    float            m_range;
+    uint8            m_aoe;
+    uint8            m_radius{ 0 };
+    uint16           m_validTarget;
+    uint16           m_addType;
+    MsgBasic         m_message;
+    timer::duration  m_recastTime{};
+    Recast           m_recastId;
+    int32            m_CE;
+    int32            m_VE;
+    uint16           m_meritModID;
+    std::string      m_name;
+    ActionCategory   m_actionType{};
+    xi::StatusEffect m_cleanupEffect{};
 };
 
 /************************************************************************

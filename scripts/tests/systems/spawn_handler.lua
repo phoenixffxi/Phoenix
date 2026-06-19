@@ -272,7 +272,6 @@ describe('Spawn Handler', function()
 
             -- Next night it should spawn
             xi.test.world:setVanaTime(22, 0)
-            xolotl:setRespawnTime(1)
             xi.test.world:tick(xi.tick.SPAWN)
 
             xolotl.assert:isSpawned()

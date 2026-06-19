@@ -431,7 +431,7 @@ auto CGambitsContainer::Tick(timer::time_point tick) -> Task<void>
             }
             else if (action.select == G_SELECT::MB_ELEMENT)
             {
-                CStatusEffect* PSCEffect = resolvedTarget->StatusEffectContainer->GetStatusEffect(EFFECT_SKILLCHAIN, 0);
+                CStatusEffect* PSCEffect = resolvedTarget->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Skillchain, 0);
                 if (PSCEffect == nullptr)
                 {
                     return std::nullopt;
@@ -701,7 +701,7 @@ auto CGambitsContainer::Tick(timer::time_point tick) -> Task<void>
                     }
                     else if (action.select == G_SELECT::MB_ELEMENT)
                     {
-                        CStatusEffect* PSCEffect = target->StatusEffectContainer->GetStatusEffect(EFFECT_SKILLCHAIN, 0);
+                        CStatusEffect* PSCEffect = target->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Skillchain, 0);
 
                         if (PSCEffect == nullptr)
                         {
@@ -1015,7 +1015,7 @@ auto CGambitsContainer::Tick(timer::time_point tick) -> Task<void>
     }
 }
 
-bool CGambitsContainer::CheckTrigger(const CBattleEntity* triggerTarget, const Gambit_t& gambit, size_t predicateGroupIndex, PredicateGroup_t& predicateGroup)
+auto CGambitsContainer::CheckTrigger(const CBattleEntity* triggerTarget, const Gambit_t& gambit, size_t predicateGroupIndex, PredicateGroup_t& predicateGroup) -> bool
 {
     TracyZoneScoped;
 
@@ -1070,12 +1070,12 @@ bool CGambitsContainer::CheckTrigger(const CBattleEntity* triggerTarget, const G
             }
             case G_CONDITION::STATUS:
             {
-                predicateResults.push_back(triggerTarget->StatusEffectContainer->HasStatusEffect(static_cast<EFFECT>(predicate.condition_arg)));
+                predicateResults.push_back(triggerTarget->StatusEffectContainer->HasStatusEffect(static_cast<xi::StatusEffect>(predicate.condition_arg)));
                 continue;
             }
             case G_CONDITION::NOT_STATUS:
             {
-                predicateResults.push_back(!triggerTarget->StatusEffectContainer->HasStatusEffect(static_cast<EFFECT>(predicate.condition_arg)));
+                predicateResults.push_back(!triggerTarget->StatusEffectContainer->HasStatusEffect(static_cast<xi::StatusEffect>(predicate.condition_arg)));
                 continue;
             }
             case G_CONDITION::TIMER:
@@ -1158,8 +1158,8 @@ bool CGambitsContainer::CheckTrigger(const CBattleEntity* triggerTarget, const G
             case G_CONDITION::NO_SAMBA:
             {
                 bool noSamba = true;
-                if (triggerTarget->StatusEffectContainer->HasStatusEffect(EFFECT_DRAIN_SAMBA) ||
-                    triggerTarget->StatusEffectContainer->HasStatusEffect(EFFECT_HASTE_SAMBA))
+                if (triggerTarget->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::DrainSamba) ||
+                    triggerTarget->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::HasteSamba))
                 {
                     noSamba = false;
                 }
@@ -1172,22 +1172,22 @@ bool CGambitsContainer::CheckTrigger(const CBattleEntity* triggerTarget, const G
                 // clang-format off
                     if (triggerTarget->StatusEffectContainer->HasStatusEffect(
                     {
-                        EFFECT_FIRESTORM,
-                        EFFECT_HAILSTORM,
-                        EFFECT_WINDSTORM,
-                        EFFECT_SANDSTORM,
-                        EFFECT_THUNDERSTORM,
-                        EFFECT_RAINSTORM,
-                        EFFECT_AURORASTORM,
-                        EFFECT_VOIDSTORM,
-                        EFFECT_FIRESTORM_II,
-                        EFFECT_HAILSTORM_II,
-                        EFFECT_WINDSTORM_II,
-                        EFFECT_SANDSTORM_II,
-                        EFFECT_THUNDERSTORM_II,
-                        EFFECT_RAINSTORM_II,
-                        EFFECT_AURORASTORM_II,
-                        EFFECT_VOIDSTORM_II,
+                        xi::StatusEffect::Firestorm,
+                        xi::StatusEffect::Hailstorm,
+                        xi::StatusEffect::Windstorm,
+                        xi::StatusEffect::Sandstorm,
+                        xi::StatusEffect::Thunderstorm,
+                        xi::StatusEffect::Rainstorm,
+                        xi::StatusEffect::Aurorastorm,
+                        xi::StatusEffect::Voidstorm,
+                        xi::StatusEffect::FirestormIi,
+                        xi::StatusEffect::HailstormIi,
+                        xi::StatusEffect::WindstormIi,
+                        xi::StatusEffect::SandstormIi,
+                        xi::StatusEffect::ThunderstormIi,
+                        xi::StatusEffect::RainstormIi,
+                        xi::StatusEffect::AurorastormIi,
+                        xi::StatusEffect::VoidstormIi,
                     }))
                     {
                         noStorm = false;
@@ -1208,7 +1208,7 @@ bool CGambitsContainer::CheckTrigger(const CBattleEntity* triggerTarget, const G
             }
             case G_CONDITION::STATUS_FLAG:
             {
-                predicateResults.push_back(triggerTarget->StatusEffectContainer->HasStatusEffectByFlag(static_cast<EFFECTFLAG>(predicate.condition_arg)));
+                predicateResults.push_back(triggerTarget->StatusEffectContainer->HasStatusEffectByFlag(static_cast<xi::StatusEffectFlag>(predicate.condition_arg)));
                 continue;
             }
             case G_CONDITION::HAS_TOP_ENMITY:
@@ -1223,25 +1223,25 @@ bool CGambitsContainer::CheckTrigger(const CBattleEntity* triggerTarget, const G
             }
             case G_CONDITION::SC_AVAILABLE:
             {
-                auto* PSCEffect = triggerTarget->StatusEffectContainer->GetStatusEffect(EFFECT_SKILLCHAIN);
+                auto* PSCEffect = triggerTarget->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Skillchain);
                 predicateResults.push_back(PSCEffect && PSCEffect->GetStartTime() + 3s < timer::now() && PSCEffect->GetTier() == 0);
                 continue;
             }
             case G_CONDITION::NOT_SC_AVAILABLE:
             {
-                auto* PSCEffect = triggerTarget->StatusEffectContainer->GetStatusEffect(EFFECT_SKILLCHAIN);
+                auto* PSCEffect = triggerTarget->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Skillchain);
                 predicateResults.push_back(PSCEffect == nullptr);
                 continue;
             }
             case G_CONDITION::MB_AVAILABLE:
             {
-                auto* PSCEffect = triggerTarget->StatusEffectContainer->GetStatusEffect(EFFECT_SKILLCHAIN);
+                auto* PSCEffect = triggerTarget->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Skillchain);
                 predicateResults.push_back(PSCEffect && PSCEffect->GetStartTime() + 3s < timer::now() && PSCEffect->GetTier() > 0);
                 continue;
             }
             case G_CONDITION::LUNGE_MB_AVAILABLE:
             {
-                auto* PSCEffect     = triggerTarget->StatusEffectContainer->GetStatusEffect(EFFECT_SKILLCHAIN);
+                auto* PSCEffect     = triggerTarget->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Skillchain);
                 bool  maybeUseLunge = false;
 
                 if (PSCEffect && PSCEffect->GetStartTime() + 3s < timer::now() && PSCEffect->GetTier() > 0)
@@ -1259,10 +1259,10 @@ bool CGambitsContainer::CheckTrigger(const CBattleEntity* triggerTarget, const G
                             {
                                 if (POwner->StatusEffectContainer->HasStatusEffect(
                                         {
-                                            EFFECT_LUX,
-                                            EFFECT_IGNIS,
-                                            EFFECT_FLABRA,
-                                            EFFECT_SULPOR,
+                                            xi::StatusEffect::Lux,
+                                            xi::StatusEffect::Ignis,
+                                            xi::StatusEffect::Flabra,
+                                            xi::StatusEffect::Sulpor,
                                         }))
                                 {
                                     maybeUseLunge = true;
@@ -1272,10 +1272,10 @@ bool CGambitsContainer::CheckTrigger(const CBattleEntity* triggerTarget, const G
                             {
                                 if (POwner->StatusEffectContainer->HasStatusEffect(
                                         {
-                                            EFFECT_TENEBRAE,
-                                            EFFECT_TELLUS,
-                                            EFFECT_UNDA,
-                                            EFFECT_GELUS,
+                                            xi::StatusEffect::Tenebrae,
+                                            xi::StatusEffect::Tellus,
+                                            xi::StatusEffect::Unda,
+                                            xi::StatusEffect::Gelus,
                                         }))
                                 {
                                     maybeUseLunge = true;
@@ -1377,22 +1377,22 @@ bool CGambitsContainer::CheckTrigger(const CBattleEntity* triggerTarget, const G
                     switch (spellElement)
                     {
                         case ELEMENT_FIRE:
-                            needBarEffect = !POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BARFIRE);
+                            needBarEffect = !POwner->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Barfire);
                             break;
                         case ELEMENT_ICE:
-                            needBarEffect = !POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BARBLIZZARD);
+                            needBarEffect = !POwner->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Barblizzard);
                             break;
                         case ELEMENT_WIND:
-                            needBarEffect = !POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BARAERO);
+                            needBarEffect = !POwner->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Baraero);
                             break;
                         case ELEMENT_EARTH:
-                            needBarEffect = !POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BARSTONE);
+                            needBarEffect = !POwner->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Barstone);
                             break;
                         case ELEMENT_THUNDER:
-                            needBarEffect = !POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BARTHUNDER);
+                            needBarEffect = !POwner->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Barthunder);
                             break;
                         case ELEMENT_WATER:
-                            needBarEffect = !POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BARWATER);
+                            needBarEffect = !POwner->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Barwater);
                             break;
                         default:
                             needBarEffect = false;
@@ -1406,7 +1406,7 @@ bool CGambitsContainer::CheckTrigger(const CBattleEntity* triggerTarget, const G
             }
             case G_CONDITION::IS_ECOSYSTEM:
             {
-                predicateResults.push_back(triggerTarget->m_EcoSystem == ECOSYSTEM(predicate.condition_arg));
+                predicateResults.push_back(triggerTarget->m_EcoSystem == static_cast<xi::Ecosystem>(predicate.condition_arg));
                 continue;
             }
             case G_CONDITION::RANDOM:
@@ -1581,7 +1581,7 @@ bool CGambitsContainer::TryTrustSkill()
             }
             case G_TP_TRIGGER::CLOSER: // Hold TP indefinitely to close a SC.
             {
-                auto* PSCEffect = target->StatusEffectContainer->GetStatusEffect(EFFECT_SKILLCHAIN);
+                auto* PSCEffect = target->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Skillchain);
 
                 // TODO: ...and has a valid WS...
 
@@ -1598,7 +1598,7 @@ bool CGambitsContainer::TryTrustSkill()
                 {
                     return true; // Time to WS!
                 }
-                auto* PSCEffect = target->StatusEffectContainer->GetStatusEffect(EFFECT_SKILLCHAIN);
+                auto* PSCEffect = target->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Skillchain);
 
                 // TODO: ...and has a valid WS...
 
@@ -1621,7 +1621,7 @@ bool CGambitsContainer::TryTrustSkill()
         {
             case G_SELECT::RANDOM:
             {
-                auto* PSCEffect = target->StatusEffectContainer->GetStatusEffect(EFFECT_SKILLCHAIN);
+                auto* PSCEffect = target->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Skillchain);
 
                 if (!PSCEffect) // Opener, if no skillchain available select a random ws
                 {
@@ -1658,7 +1658,7 @@ bool CGambitsContainer::TryTrustSkill()
             }
             case G_SELECT::HIGHEST: // Form the best possible skillchain
             {
-                auto* PSCEffect = target->StatusEffectContainer->GetStatusEffect(EFFECT_SKILLCHAIN);
+                auto* PSCEffect = target->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Skillchain);
 
                 if (!PSCEffect) // Opener
                 {

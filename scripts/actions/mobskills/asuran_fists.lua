@@ -25,7 +25,7 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     --params.vit_wSC        = 0.1 -- TODO: Capture if mobskill weaponskills have wSC.
     params.accuracyModifier = { 0, 30, 60 }
     params.attackType       = xi.attackType.PHYSICAL
-    params.damageType       = xi.damageType.HTH
+    params.damageType       = xi.damageType.HAND_TO_HAND
     params.shadowBehavior   = xi.mobskills.shadowBehavior.NUMSHADOWS_8
 
     local info = xi.mobskills.mobPhysicalMove(mob, target, skill, action, params)

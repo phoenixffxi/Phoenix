@@ -22,9 +22,10 @@
 #pragma once
 
 #include <common/application.h>
+#include <common/ipp_message.h>
 #include <common/scheduler.h>
 #include <common/types/flag.h>
-#include <common/zmq_router_wrapper.h>
+#include <common/zmq/zmq_service.h>
 
 #include "http_server.h"
 
@@ -44,7 +45,7 @@ class WorldEngine final : public Engine
 public:
     using EnableHTTPServer = xi::Flag<struct EnableHTTPServerTag>;
 
-    WorldEngine(Scheduler& scheduler, EnableHTTPServer enableHTTPServer);
+    WorldEngine(Scheduler& scheduler, ZMQService& zmqService, EnableHTTPServer enableHTTPServer);
     ~WorldEngine() override;
 
     // TODO: Make all of these members private

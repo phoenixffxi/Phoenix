@@ -466,76 +466,70 @@ auto getSkillCap(const CCharEntity* PChar, const SKILLTYPE skill, const uint8 le
         return 0;
     }
 
-    int8 rank = 0;
     if (skill < SKILL_AUTOMATON_MELEE || skill > SKILL_AUTOMATON_MAGIC)
     {
         return 0;
     }
-    switch (PChar->getAutomatonFrame())
+
+    const auto frame    = static_cast<uint8>(PChar->getAutomatonFrame());
+    const auto head     = static_cast<uint8>(PChar->getAutomatonHead());
+    const auto skillKey = static_cast<uint8>(skill);
+
+    const auto maybeSkillCaps = lua["xi"]["pets"]["automaton"]["skillCaps"].get<sol::optional<sol::table>>();
+    if (!maybeSkillCaps)
     {
-        default: // case Harlequin:
-            rank = 5;
-            break;
-        case AutomatonFrame::Valoredge:
-            if (skill == SKILL_AUTOMATON_MELEE)
-            {
-                rank = 2;
-            }
-            break;
-        case AutomatonFrame::Sharpshot:
-            if (skill == SKILL_AUTOMATON_MELEE)
-            {
-                rank = 6;
-            }
-            else if (skill == SKILL_AUTOMATON_RANGED)
-            {
-                rank = 3;
-            }
-            break;
-        case AutomatonFrame::Stormwaker:
-            if (skill == SKILL_AUTOMATON_MELEE)
-            {
-                rank = 7;
-            }
-            else if (skill == SKILL_AUTOMATON_MAGIC)
-            {
-                rank = 3;
-            }
-            break;
+        ShowError("puppetutils::getSkillCap() - Missing xi.pets.automaton.skillCaps");
+        return 0;
     }
 
-    switch (PChar->getAutomatonHead())
+    const auto& skillCaps = *maybeSkillCaps;
+
+    const auto maybeFrames = skillCaps["frames"].get<sol::optional<sol::table>>();
+    if (!maybeFrames)
     {
-        case AutomatonHead::Valoredge:
-            if (skill == SKILL_AUTOMATON_MELEE)
-            {
-                rank -= 1;
-            }
-            break;
-        case AutomatonHead::Sharpshot:
-            if (skill == SKILL_AUTOMATON_RANGED)
-            {
-                rank -= 1;
-            }
-            break;
-        case AutomatonHead::Stormwaker:
-            if (skill == SKILL_AUTOMATON_MELEE || skill == SKILL_AUTOMATON_MAGIC)
-            {
-                rank -= 1;
-            }
-            break;
-        case AutomatonHead::Soulsoother:
-        case AutomatonHead::Spiritreaver:
-            if (skill == SKILL_AUTOMATON_MAGIC)
-            {
-                rank -= 2;
-            }
-            break;
-        default:
-            break;
+        ShowError("puppetutils::getSkillCap() - Missing xi.pets.automaton.skillCaps.frames");
+        return 0;
     }
 
-    // only happens if a head gives bonus to a rank of 0 - making it G or F rank
+    const auto& frames = *maybeFrames;
+
+    const auto maybeFrameCaps = frames[frame].get<sol::optional<sol::table>>();
+    if (!maybeFrameCaps)
+    {
+        ShowErrorFmt("puppetutils::getSkillCap() - Missing automaton skill caps for frame {}", static_cast<uint16>(frame));
+        return 0;
+    }
+
+    const auto& frameCaps = *maybeFrameCaps;
+
+    // Grab the skill cap for the frame, then apply the bonus from the head if applicable.
+    int8 rank = 0;
+
+    const auto maybeFrameRank = frameCaps[skillKey].get<sol::optional<int8>>();
+    if (maybeFrameRank)
+    {
+        rank = *maybeFrameRank;
+    }
+
+    const auto maybeHeads = skillCaps["heads"].get<sol::optional<sol::table>>();
+    if (maybeHeads)
+    {
+        const auto& heads = *maybeHeads;
+
+        const auto maybeHeadCaps = heads[head].get<sol::optional<sol::table>>();
+        if (maybeHeadCaps)
+        {
+            const auto& headCaps = *maybeHeadCaps;
+
+            const auto maybeHeadRank = headCaps[skillKey].get<sol::optional<int8>>();
+            if (maybeHeadRank)
+            {
+                rank += *maybeHeadRank;
+            }
+        }
+    }
+
+    // Handle automaton frames with no native skill being combined with heads that give a bonus to that rank.
     if (rank < 0)
     {
         rank = 13 + rank;
@@ -654,12 +648,12 @@ void TrySkillUP(CAutomatonEntity* PAutomaton, SKILLTYPE SkillID, uint8 lvl)
     }
 }
 
-void CheckAttachmentsForManeuver(const CCharEntity* PChar, const EFFECT maneuver, const bool gain)
+void CheckAttachmentsForManeuver(const CCharEntity* PChar, const xi::StatusEffect maneuver, const bool gain)
 {
     auto* PAutomaton = dynamic_cast<CAutomatonEntity*>(PChar->PPet);
     if (PAutomaton)
     {
-        uint8 element = maneuver - EFFECT_FIRE_MANEUVER;
+        uint8 element = static_cast<uint8>(static_cast<uint16>(maneuver) - static_cast<uint16>(xi::StatusEffect::FireManeuver));
         for (uint8 i = 0; i < 12; i++)
         {
             if (PAutomaton->getAttachment(i) != 0)
@@ -713,7 +707,7 @@ void UpdateAttachments(const CCharEntity* PChar)
 
                 if (PAttachment)
                 {
-                    int32 maneuver = EFFECT_FIRE_MANEUVER;
+                    int32 maneuver = static_cast<int32>(xi::StatusEffect::FireManeuver);
                     for (int j = 0; j < 8; j++)
                     {
                         if (PAttachment->getElementSlots() >> (j * 4) & 0xF)
@@ -722,7 +716,7 @@ void UpdateAttachments(const CCharEntity* PChar)
                             break;
                         }
                     }
-                    luautils::OnUpdateAttachment(PAutomaton, PAttachment, PChar->StatusEffectContainer->GetEffectsCount(static_cast<EFFECT>(maneuver)));
+                    luautils::OnUpdateAttachment(PAutomaton, PAttachment, PChar->StatusEffectContainer->GetEffectsCount(static_cast<xi::StatusEffect>(maneuver)));
                 }
             }
         }

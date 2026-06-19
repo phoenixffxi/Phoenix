@@ -25,6 +25,7 @@
 #include "common/logging.h"
 #include "common/timer.h"
 #include "common/utils.h"
+#include "enums/packet_s2c.h"
 #include "lua/helpers/lua_client_entity_pair_entities.h"
 #include "lua/helpers/lua_client_entity_pair_events.h"
 #include "lua/helpers/lua_client_entity_pair_packets.h"
@@ -48,6 +49,10 @@
 #include "map/packets/c2s/0x06e_group_solicit_req.h"
 #include "map/packets/c2s/0x074_group_solicit_res.h"
 #include "map/packets/c2s/0x096_combine_ask.h"
+#include "map/packets/c2s/0x0aa_guild_buy.h"
+#include "map/packets/c2s/0x0ab_guild_buylist.h"
+#include "map/packets/c2s/0x0ac_guild_sell.h"
+#include "map/packets/c2s/0x0ad_guild_selllist.h"
 #include "map/packets/c2s/0x102_extended_job.h"
 #include "map/spell.h"
 #include "map/status_effect_container.h"
@@ -284,6 +289,72 @@ void CLuaClientEntityPairActions::trigger(CLuaBaseEntity* target, sol::optional<
     {
         parent_->events().expect(expectedEvent.value());
     }
+}
+
+/************************************************************************
+ *  Function: guildBuy()
+ *  Purpose : Emits packet to buy an item from a guild shop.
+ *  Example : player.actions:guildBuy(xi.item.CHUNK_OF_TIN_ORE, 1)
+ ************************************************************************/
+
+void CLuaClientEntityPairActions::guildBuy(uint16 itemId, uint8 quantity) const
+{
+    const auto packet      = parent_->packets().createPacket<GP_CLI_COMMAND_GUILD_BUY>();
+    auto*      buy         = packet->as<GP_CLI_COMMAND_GUILD_BUY>();
+    buy->ItemNo            = itemId;
+    buy->PropertyItemIndex = 0;
+    buy->ItemNum           = quantity;
+
+    parent_->packets().sendBasicPacket(*packet);
+}
+
+/************************************************************************
+ *  Function: guildSell()
+ *  Purpose : Emits packet to sell an item to a guild shop.
+ *  Example : player.actions:guildSell(xi.item.CHUNK_OF_TIN_ORE, 1)
+ ************************************************************************/
+
+void CLuaClientEntityPairActions::guildSell(uint16 itemId, uint8 quantity) const
+{
+    const auto packet       = parent_->packets().createPacket<GP_CLI_COMMAND_GUILD_SELL>();
+    auto*      sell         = packet->as<GP_CLI_COMMAND_GUILD_SELL>();
+    sell->ItemNo            = itemId;
+    sell->PropertyItemIndex = 0;
+    sell->ItemNum           = quantity;
+
+    parent_->packets().sendBasicPacket(*packet);
+}
+
+/************************************************************************
+ *  Function: guildBuyList()
+ *  Purpose : Requests a guild shop's buy list and returns it decoded
+ *  Example : local list = player.actions:guildBuyList()
+ ************************************************************************/
+
+auto CLuaClientEntityPairActions::guildBuyList() const -> sol::table
+{
+    parent_->packets().clear();
+
+    const auto packet = parent_->packets().createPacket<GP_CLI_COMMAND_GUILD_BUYLIST>();
+    parent_->packets().sendBasicPacket(*packet);
+
+    return parent_->packets().guildList(static_cast<uint16>(PacketS2C::GP_SERV_COMMAND_GUILD_BUYLIST));
+}
+
+/************************************************************************
+ *  Function: guildSellList()
+ *  Purpose : Requests a guild shop's sell list and returns it decoded
+ *  Example : local list = player.actions:guildSellList()
+ ************************************************************************/
+
+auto CLuaClientEntityPairActions::guildSellList() const -> sol::table
+{
+    parent_->packets().clear();
+
+    const auto packet = parent_->packets().createPacket<GP_CLI_COMMAND_GUILD_SELLLIST>();
+    parent_->packets().sendBasicPacket(*packet);
+
+    return parent_->packets().guildList(static_cast<uint16>(PacketS2C::GP_SERV_COMMAND_GUILD_SELLLIST));
 }
 
 /************************************************************************
@@ -626,7 +697,7 @@ void CLuaClientEntityPairActions::skillchain(CLuaBaseEntity* target, sol::variad
 
         if (i >= 1)
         {
-            if (!PMob->StatusEffectContainer->GetStatusEffect(EFFECT_SKILLCHAIN, 0))
+            if (!PMob->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Skillchain, 0))
             {
                 TestError("Skillchain effect not found after weaponskill #{}", i + 1);
             }
@@ -637,7 +708,7 @@ void CLuaClientEntityPairActions::skillchain(CLuaBaseEntity* target, sol::variad
             parent_->simulation()->skipTime(3);
 
             // Backdate skillchain effect to bypass 3s timing window for next WS
-            if (auto* scEffect = PMob->StatusEffectContainer->GetStatusEffect(EFFECT_SKILLCHAIN, 0))
+            if (auto* scEffect = PMob->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Skillchain, 0))
             {
                 scEffect->SetStartTime(timer::now() - 5s);
             }
@@ -774,6 +845,10 @@ void CLuaClientEntityPairActions::Register()
     SOL_REGISTER("rangedAttack", CLuaClientEntityPairActions::rangedAttack);
     SOL_REGISTER("useItem", CLuaClientEntityPairActions::useItem);
     SOL_REGISTER("trigger", CLuaClientEntityPairActions::trigger);
+    SOL_REGISTER("guildBuy", CLuaClientEntityPairActions::guildBuy);
+    SOL_REGISTER("guildSell", CLuaClientEntityPairActions::guildSell);
+    SOL_REGISTER("guildBuyList", CLuaClientEntityPairActions::guildBuyList);
+    SOL_REGISTER("guildSellList", CLuaClientEntityPairActions::guildSellList);
     SOL_REGISTER("inviteToParty", CLuaClientEntityPairActions::inviteToParty);
     SOL_REGISTER("formAlliance", CLuaClientEntityPairActions::formAlliance);
     SOL_REGISTER("acceptPartyInvite", CLuaClientEntityPairActions::acceptPartyInvite);

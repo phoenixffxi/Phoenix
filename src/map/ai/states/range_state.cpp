@@ -126,8 +126,8 @@ CRangeState::CRangeState(CBattleEntity* PEntity, uint16 targid)
         .actionid   = static_cast<uint32_t>(FourCC::RangedStart),
         .targets    = {
             {
-                   .actorId = m_PEntity->id,
-                   .results = {
+                .actorId = m_PEntity->id,
+                .results = {
                     {
                         // Empty result
                     },
@@ -242,7 +242,7 @@ bool CRangeState::CanUseRangedAttack(CBattleEntity* PTarget, bool isEndOfAttack)
             case SKILL_THROWING:
             {
                 // remove barrage, doesn't work here
-                PChar->StatusEffectContainer->DelStatusEffect(EFFECT_BARRAGE);
+                PChar->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Barrage);
                 break;
             }
             case SKILL_ARCHERY:

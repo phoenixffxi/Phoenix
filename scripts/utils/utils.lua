@@ -515,24 +515,24 @@ end
 -- Values: 1 == Bonus, -1 == Weakness, 0 == Default (No Weakness or Bonus)
 local systemStrengthTable =
 {
-    [xi.eco.BEAST   ] = { [xi.eco.LIZARD  ] = 1, [xi.eco.PLANTOID] = -1, },
-    [xi.eco.LIZARD  ] = { [xi.eco.VERMIN  ] = 1, [xi.eco.BEAST   ] = -1, },
-    [xi.eco.VERMIN  ] = { [xi.eco.PLANTOID] = 1, [xi.eco.LIZARD  ] = -1, },
-    [xi.eco.PLANTOID] = { [xi.eco.BEAST   ] = 1, [xi.eco.VERMIN  ] = -1, },
-    [xi.eco.AQUAN   ] = { [xi.eco.AMORPH  ] = 1, [xi.eco.BIRD    ] = -1, },
-    [xi.eco.AMORPH  ] = { [xi.eco.BIRD    ] = 1, [xi.eco.AQUAN   ] = -1, },
-    [xi.eco.BIRD    ] = { [xi.eco.AQUAN   ] = 1, [xi.eco.AMORPH  ] = -1, },
-    [xi.eco.UNDEAD  ] = { [xi.eco.ARCANA  ] = 1, },
-    [xi.eco.ARCANA  ] = { [xi.eco.UNDEAD  ] = 1, },
-    [xi.eco.DRAGON  ] = { [xi.eco.DEMON   ] = 1, },
-    [xi.eco.DEMON   ] = { [xi.eco.DRAGON  ] = 1, },
-    [xi.eco.LUMINIAN] = { [xi.eco.LUMINION] = 1, },
-    [xi.eco.LUMINION] = { [xi.eco.LUMINIAN] = 1, },
+    [xi.ecosystem.BEAST   ] = { [xi.ecosystem.LIZARD  ] = 1, [xi.ecosystem.PLANTOID] = -1, },
+    [xi.ecosystem.LIZARD  ] = { [xi.ecosystem.VERMIN  ] = 1, [xi.ecosystem.BEAST   ] = -1, },
+    [xi.ecosystem.VERMIN  ] = { [xi.ecosystem.PLANTOID] = 1, [xi.ecosystem.LIZARD  ] = -1, },
+    [xi.ecosystem.PLANTOID] = { [xi.ecosystem.BEAST   ] = 1, [xi.ecosystem.VERMIN  ] = -1, },
+    [xi.ecosystem.AQUAN   ] = { [xi.ecosystem.AMORPH  ] = 1, [xi.ecosystem.BIRD    ] = -1, },
+    [xi.ecosystem.AMORPH  ] = { [xi.ecosystem.BIRD    ] = 1, [xi.ecosystem.AQUAN   ] = -1, },
+    [xi.ecosystem.BIRD    ] = { [xi.ecosystem.AQUAN   ] = 1, [xi.ecosystem.AMORPH  ] = -1, },
+    [xi.ecosystem.UNDEAD  ] = { [xi.ecosystem.ARCANA  ] = 1, },
+    [xi.ecosystem.ARCANA  ] = { [xi.ecosystem.UNDEAD  ] = 1, },
+    [xi.ecosystem.DRAGON  ] = { [xi.ecosystem.DEMON   ] = 1, },
+    [xi.ecosystem.DEMON   ] = { [xi.ecosystem.DRAGON  ] = 1, },
+    [xi.ecosystem.LUMINIAN] = { [xi.ecosystem.LUMINION] = 1, },
+    [xi.ecosystem.LUMINION] = { [xi.ecosystem.LUMINIAN] = 1, },
 }
 
 ---@nodiscard
----@param attackerSystem xi.eco
----@param defenderSystem xi.eco
+---@param attackerSystem xi.ecosystem
+---@param defenderSystem xi.ecosystem
 ---@return integer
 function utils.getEcosystemStrengthBonus(attackerSystem, defenderSystem)
     for k, v in pairs(systemStrengthTable) do

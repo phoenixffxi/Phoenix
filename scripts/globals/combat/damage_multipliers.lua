@@ -7,7 +7,7 @@ xi.combat.damage = xi.combat.damage or {}
 xi.combat.damage.physicalElementSDT = function(target, physicalElement)
     if
         physicalElement < xi.damageType.PIERCING or
-        physicalElement > xi.damageType.HTH
+        physicalElement > xi.damageType.HAND_TO_HAND
     then
         return 1
     end
@@ -17,7 +17,7 @@ xi.combat.damage.physicalElementSDT = function(target, physicalElement)
         [xi.damageType.PIERCING] = xi.mod.PIERCE_SDT,
         [xi.damageType.SLASHING] = xi.mod.SLASH_SDT,
         [xi.damageType.BLUNT   ] = xi.mod.IMPACT_SDT,
-        [xi.damageType.HTH     ] = xi.mod.HTH_SDT,
+        [xi.damageType.HAND_TO_HAND     ] = xi.mod.HTH_SDT,
     }
 
     local sdt = 1 + target:getMod(physicalElementSDTModifier[physicalElement]) / 10000

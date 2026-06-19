@@ -16,7 +16,7 @@ entity.spawnPoints =
 
 entity.phList =
 {
-    [ID.mob.AMBUSHER_ANTLION - 78] = ID.mob.AMBUSHER_ANTLION, -- -433.309 -4.3 113.841
+    [ID.mob.AMBUSHER_ANTLION - 78] = ID.mob.AMBUSHER_ANTLION, -- Confirmed on retail
 }
 
 entity.onMobDeath = function(mob, player, optParams)

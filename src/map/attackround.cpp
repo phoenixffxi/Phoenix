@@ -94,7 +94,7 @@ CAttackRound::CAttackRound(CBattleEntity* attacker, CBattleEntity* defender)
     m_attackSwings[0].SetAsFirstSwing();
 
     // Delete the haste samba effect.
-    attacker->StatusEffectContainer->DelStatusEffect(EFFECT_HASTE_SAMBA_HASTE);
+    attacker->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::HasteSambaHaste);
 }
 
 /************************************************************************
@@ -319,7 +319,7 @@ void CAttackRound::CreateAttacks(CItemWeapon* PWeapon, PHYSICAL_ATTACK_DIRECTION
     // Daken is handled separately in CreateDakenAttack() and Zanshin in src/map/entities/battleentity.cpp#L1768
 
     // Checking Mikage Effect - Hits Vary With Num of Utsusemi Shadows for Main Weapon
-    if (m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_MIKAGE) && m_attacker->m_Weapons[SLOT_MAIN] && m_attacker->m_Weapons[SLOT_MAIN]->getID() == PWeapon->getID())
+    if (m_attacker->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Mikage) && m_attacker->m_Weapons[SLOT_MAIN] && m_attacker->m_Weapons[SLOT_MAIN]->getID() == PWeapon->getID())
     {
         auto shadows = (uint8)m_attacker->getMod(Mod::UTSUSEMI);
         AddAttackSwing(PHYSICAL_ATTACK_TYPE::NORMAL, direction, shadows);

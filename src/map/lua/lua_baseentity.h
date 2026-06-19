@@ -180,6 +180,9 @@ public:
     void changeMusic(MusicSlot slotId, uint16 trackId) const;                             // Sets the specified music Track for specified music block.
     void sendMenu(uint32 menu);                                                           // Displays a menu (AH,Raise,Tractor,MH etc)
     auto sendGuild(uint16 guildId, uint8 open, uint8 close, uint8 holiday) const -> bool; // Sends guild shop menu
+    auto openGuildShop(CLuaBaseEntity* PNpc, uint8 open, uint8 close) const -> bool;      // Opens a lua guild shop and remembers the NPC the PC opened it with
+    void clearGuildShop() const;                                                          // Clears the PC's open guild shop handle
+    void sendGuildClose(uint8 open, uint8 close) const;                                   // Sends the guild-open packet with a Close status
     void openSendBox() const;                                                             // Opens send box (to deliver items)
     void leaveGame();
     void sendEmote(const CLuaBaseEntity* target, uint8 emID, uint8 emMode, bool othersOnly) const;
@@ -664,7 +667,7 @@ public:
     auto   getBaseDelay() -> uint16;        // get base delay of entity, melee only
     auto   getBaseRangedDelay() -> uint16;  // get base delay of entity, ranged only
 
-    float checkLiementAbsorb(uint16 damageType); // return 1.0 if did not absorb, return >= -1.0 if did absorb
+    auto checkLiementAbsorb(xi::DamageType damageType) -> float; // return 1.0 if did not absorb, return >= -1.0 if did absorb
 
     // Enmity
     int32 getCE(const CLuaBaseEntity* target);
@@ -688,22 +691,22 @@ public:
     void  clearEnmityForEntity(CLuaBaseEntity* PEntity);
 
     // Status Effects
-    auto  addStatusEffect(EFFECT effectId, sol::table params) const -> bool;
+    auto  addStatusEffect(xi::StatusEffect effectId, sol::table params) const -> bool;
     auto  copyStatusEffect(const CLuaStatusEffect* PStatusEffect) const -> bool;
-    auto  getStatusEffect(uint16 StatusID, const sol::object& SubType, const sol::object& SourceType, const sol::object& SourceTypeParam) -> CStatusEffect*;
-    auto  getStatusEffectBySource(uint16 StatusID, EffectSourceType SourceType, uint16 SourceTypeParam) -> CStatusEffect*;
+    auto  getStatusEffect(xi::StatusEffect StatusID, const sol::object& SubType, const sol::object& SourceType, const sol::object& SourceTypeParam) -> CStatusEffect*;
+    auto  getStatusEffectBySource(xi::StatusEffect StatusID, EffectSourceType SourceType, uint16 SourceTypeParam) -> CStatusEffect*;
     auto  getStatusEffects() -> sol::table;
     int16 getStatusEffectElement(uint16 statusId);
-    bool  canGainStatusEffect(uint16 effect, const sol::object& powerObj);
-    bool  hasStatusEffect(uint16 StatusID, const sol::object& SubType);
+    auto  canGainStatusEffect(xi::StatusEffect effect, const sol::object& powerObj) -> bool;
+    auto  hasStatusEffect(xi::StatusEffect StatusID, const sol::object& SubType) -> bool;
     bool  hasStatusEffectByFlag(uint16 StatusID);
-    uint8 countEffect(uint16 StatusID);     // Gets the number of effects of a specific type on the entity
-    uint8 countEffectWithFlag(uint32 flag); // Gets the number of effects with a flag on the entity
+    auto  countEffect(xi::StatusEffect StatusID) -> uint8; // Gets the number of effects of a specific type on the entity
+    uint8 countEffectWithFlag(uint32 flag);                // Gets the number of effects with a flag on the entity
 
-    bool   delStatusEffect(uint16 StatusID, const sol::object& SubType, const sol::object& SourceType, const sol::object& SourceTypeParam);
+    auto   delStatusEffect(xi::StatusEffect StatusID, const sol::object& SubType, const sol::object& SourceType, const sol::object& SourceTypeParam) -> bool;
     void   delStatusEffectsByFlag(uint32 flag, const sol::object& silent);
     void   delStatusEffectsByType(uint16 type);
-    bool   delStatusEffectSilent(uint16 StatusID); // Removes Status Effect, suppresses message
+    auto   delStatusEffectSilent(xi::StatusEffect StatusID) -> bool; // Removes Status Effect, suppresses message
     uint16 eraseStatusEffect();
     uint8  eraseAllStatusEffect();
     int32  dispelStatusEffect(const sol::object& flagObj);
@@ -719,7 +722,7 @@ public:
     int16 getGearModFromSlot(uint8 slot, Mod modId);
 
     void addLatent(uint16 condID, uint16 conditionValue, uint16 mID, int16 modValue);
-    bool delLatent(uint16 condID, uint16 conditionValue, uint16 mID, int16 modValue);
+    auto delLatent(uint16 condID, uint16 conditionValue, uint16 mID, int16 modValue) -> bool;
     bool hasAllLatentsActive(uint8 slot);
 
     void   fold();
@@ -730,7 +733,7 @@ public:
     bool   hasBustEffect(uint16 id); // Checks to see if a character has a specified busted corsair roll
     uint8  numBustEffects();         // Gets the number of bust effects on the player
     uint16 healingWaltz();
-    bool   addBardSong(CLuaBaseEntity* PEntity, uint16 effectID, uint16 power, uint16 tick, uint16 duration, uint16 SubType, uint16 subPower, uint16 tier);
+    auto   addBardSong(CLuaBaseEntity* PEntity, xi::StatusEffect effectID, uint16 power, uint16 tick, uint16 duration, uint16 SubType, uint16 subPower, uint16 tier) -> bool;
 
     void charm(const CLuaBaseEntity* target, const sol::object& p0);
     void uncharm();
@@ -751,9 +754,9 @@ public:
     uint16 getILvlSkill();
     uint16 getILvlParry();
 
-    int32 physicalDmgTaken(double damage, sol::variadic_args va);
-    int32 rangedDmgTaken(double damage, sol::variadic_args va);
-    void  handleAfflatusMiseryDamage(double damage);
+    auto physicalDmgTaken(double damage, sol::variadic_args va) -> int32;
+    auto rangedDmgTaken(double damage, sol::variadic_args va) -> int32;
+    void handleAfflatusMiseryDamage(double damage);
 
     bool   isWeaponTwoHanded();
     uint16 getWeaponDmg();                  // gets the current equipped weapons' DMG rating
@@ -774,10 +777,10 @@ public:
     uint8  getWeaponSubSkillType(uint8 slotID);                      // gets the subskill of weapon equipped
     auto   getWSSkillchainProp() -> std::tuple<uint8, uint8, uint8>; // returns weapon skill's skillchain properties (up to 3)
 
-    int32 takeWeaponskillDamage(CLuaBaseEntity* attacker, int32 damage, uint8 atkType, uint8 dmgType, uint8 slot, bool primary, float tpMultiplier, uint16 bonusTP, float targetTPMultiplier);
+    auto takeWeaponskillDamage(CLuaBaseEntity* attacker, int32 damage, uint8 atkType, xi::DamageType dmgType, uint8 slot, bool primary, float tpMultiplier, uint16 bonusTP, float targetTPMultiplier) -> int32;
 
     void  takeSpellDamage(CLuaBaseEntity* caster, CLuaSpell* spell, int32 damage, uint8 atkType, uint8 dmgType);
-    int32 takeSwipeLungeDamage(CLuaBaseEntity* caster, int32 damage, uint8 atkType, uint8 dmgType);
+    auto  takeSwipeLungeDamage(CLuaBaseEntity* caster, int32 damage, uint8 atkType, xi::DamageType dmgType) -> int32;
     int32 checkDamageCap(int32 damage);
     auto  handleSevereDamage(int32 damage, bool isPhysical) -> int32;
 
@@ -853,7 +856,7 @@ public:
     uint16 getFamily();
     uint16 getSpecies();
     auto   isMobType(uint8 mobType) const -> bool; // True if mob is of type passed to function
-    bool   isUndead();
+    auto   isUndead() -> bool;
     bool   isNM();
 
     uint8  getModelSize();

@@ -89,8 +89,8 @@ NavMeshBuilder::NavMeshBuilder(const IXiMesh& xiMesh)
 
             const auto& rot = place.rotation;
             const auto  det = rot[0] * (rot[4] * rot[8] - rot[5] * rot[7]) -
-                             rot[3] * (rot[1] * rot[8] - rot[2] * rot[7]) +
-                             rot[6] * (rot[1] * rot[5] - rot[2] * rot[4]);
+                              rot[3] * (rot[1] * rot[8] - rot[2] * rot[7]) +
+                              rot[6] * (rot[1] * rot[5] - rot[2] * rot[4]);
 
             auto ptb = PreTransformedBlock{
                 .worldVerts  = std::vector<float>(block.vertices.size()),

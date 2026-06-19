@@ -35,9 +35,9 @@
 #include "party_system.h"
 #include "time_server.h"
 
-WorldEngine::WorldEngine(Scheduler& scheduler, EnableHTTPServer enableHTTPServer)
+WorldEngine::WorldEngine(Scheduler& scheduler, ZMQService& zmqService, EnableHTTPServer enableHTTPServer)
 : scheduler_(scheduler)
-, ipcServer_(std::make_unique<IPCServer>(*this))
+, ipcServer_(std::make_unique<IPCServer>(*this, zmqService))
 , partySystem_(std::make_unique<PartySystem>(*this))
 , conquestSystem_(std::make_unique<ConquestSystem>(*this))
 , besiegedSystem_(std::make_unique<BesiegedSystem>(*this))

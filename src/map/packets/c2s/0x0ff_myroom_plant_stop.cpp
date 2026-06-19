@@ -48,7 +48,7 @@ auto GP_CLI_COMMAND_MYROOM_PLANT_STOP::validate(MapSession* PSession, const CCha
 void GP_CLI_COMMAND_MYROOM_PLANT_STOP::process(MapSession* PSession, CCharEntity* PChar) const
 {
     CItemContainer* PItemContainer = PChar->getStorage(this->MyroomPlantCategory);
-    CItemFlowerpot* PItem          = static_cast<CItemFlowerpot*>(PItemContainer->GetItem(this->MyroomPlantItemIndex));
+    CItemFlowerpot* PItem          = dynamic_cast<CItemFlowerpot*>(PItemContainer->GetItem(this->MyroomPlantItemIndex));
 
     if (PItem != nullptr && PItem->isPlanted() && PItem->getStage() > FLOWERPOT_STAGE_INITIAL && PItem->getStage() < FLOWERPOT_STAGE_WILTED && !PItem->isDried())
     {

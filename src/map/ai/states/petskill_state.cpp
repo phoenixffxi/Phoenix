@@ -42,7 +42,7 @@ CPetSkillState::CPetSkillState(CPetEntity* PEntity, uint16 targid, uint16 wsid)
         throw CStateInitException(nullptr);
     }
 
-    if (m_PEntity->StatusEffectContainer->HasStatusEffect({ EFFECT_AMNESIA, EFFECT_IMPAIRMENT }))
+    if (m_PEntity->StatusEffectContainer->HasStatusEffect({ xi::StatusEffect::Amnesia, xi::StatusEffect::Impairment }))
     {
         throw CStateInitException(nullptr);
     }
@@ -73,11 +73,11 @@ CPetSkillState::CPetSkillState(CPetEntity* PEntity, uint16 targid, uint16 wsid)
             .actionid   = static_cast<uint32_t>(FourCC::SkillUse),
             .targets    = {
                 {
-                       .actorId = PTarget->id,
-                       .results = {
+                    .actorId = PTarget->id,
+                    .results = {
                         {
-                               .param     = m_PSkill->getMobSkillID() > 0 ? m_PSkill->getMobSkillID() : m_PSkill->getID(),
-                               .messageID = m_PSkill->getMobSkillID() > 0 ? MsgBasic::ReadiesWeaponskill : MsgBasic::ReadiesSkill,
+                            .param     = m_PSkill->getMobSkillID() > 0 ? m_PSkill->getMobSkillID() : m_PSkill->getID(),
+                            .messageID = m_PSkill->getMobSkillID() > 0 ? MsgBasic::ReadiesWeaponskill : MsgBasic::ReadiesSkill,
                         },
                     },
                 },
@@ -150,13 +150,13 @@ bool CPetSkillState::Update(timer::time_point tick)
         if (m_PEntity->objtype == TYPE_PET && m_PEntity->PMaster && m_PEntity->PMaster->objtype == TYPE_PC && (m_PSkill->isBloodPactRage() || m_PSkill->isBloodPactWard()))
         {
             CCharEntity* PSummoner = dynamic_cast<CCharEntity*>(m_PEntity->PMaster);
-            if (PSummoner && PSummoner->StatusEffectContainer->HasStatusEffect(EFFECT_AVATARS_FAVOR))
+            if (PSummoner && PSummoner->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::AvatarsFavor))
             {
-                auto power = PSummoner->StatusEffectContainer->GetStatusEffect(EFFECT_AVATARS_FAVOR)->GetPower();
+                auto power = PSummoner->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::AvatarsFavor)->GetPower();
                 // Retail: Power is gained for BP use
                 auto levelGained = m_PSkill->isBloodPactRage() ? 3 : 2;
                 power += levelGained;
-                PSummoner->StatusEffectContainer->GetStatusEffect(EFFECT_AVATARS_FAVOR)->SetPower(power > 11 ? power : 11);
+                PSummoner->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::AvatarsFavor)->SetPower(power > 11 ? power : 11);
             }
 
             if (PTarget && m_PEntity->getPetType() == PET_TYPE::AVATAR && (m_PEntity->m_PetID != PETID_ALEXANDER && m_PEntity->m_PetID != PETID_ATOMOS))

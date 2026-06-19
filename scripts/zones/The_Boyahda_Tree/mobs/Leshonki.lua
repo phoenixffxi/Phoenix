@@ -10,11 +10,11 @@ local entity = {}
 
 entity.phList =
 {
-    [ID.mob.LESHONKI - 7] = ID.mob.LESHONKI, -- -222.0 14.380 25.724
-    [ID.mob.LESHONKI - 6] = ID.mob.LESHONKI, -- -223.5 14.430 23.877
-    [ID.mob.LESHONKI - 5] = ID.mob.LESHONKI, -- -215.2 13.585 68.666
-    [ID.mob.LESHONKI - 4] = ID.mob.LESHONKI, -- -216.4 14.317 56.532
-    [ID.mob.LESHONKI + 2] = ID.mob.LESHONKI, -- -223.8 14.267 96.920
+    [ID.mob.LESHONKI - 8] = ID.mob.LESHONKI, -- Confirmed on retail
+    [ID.mob.LESHONKI - 6] = ID.mob.LESHONKI, -- Confirmed on retail
+    [ID.mob.LESHONKI - 4] = ID.mob.LESHONKI, -- Confirmed on retail
+    [ID.mob.LESHONKI + 1] = ID.mob.LESHONKI, -- Confirmed on retail
+    [ID.mob.LESHONKI + 4] = ID.mob.LESHONKI, -- Confirmed on retail
 }
 
 entity.spawnPoints =

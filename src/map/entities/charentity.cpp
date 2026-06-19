@@ -114,7 +114,7 @@ CCharEntity::CCharEntity()
     TracyZoneScoped;
 
     objtype     = TYPE_PC;
-    m_EcoSystem = ECOSYSTEM::HUMANOID;
+    m_EcoSystem = xi::Ecosystem::Humanoid;
 
     eventPreparation = new EventPrep();
     currentEvent     = new EventInfo();
@@ -340,8 +340,8 @@ CCharEntity::~CCharEntity()
                 }
             }
         }
-        StatusEffectContainer->DelStatusEffectSilent(EFFECT_LEVEL_SYNC);
-        StatusEffectContainer->DelStatusEffectSilent(EFFECT_LEVEL_RESTRICTION);
+        StatusEffectContainer->DelStatusEffectSilent(xi::StatusEffect::LevelSync);
+        StatusEffectContainer->DelStatusEffectSilent(xi::StatusEffect::LevelRestriction);
     }
 
     if (PParty && loc.destination != 0 && !inMogHouse())
@@ -1157,6 +1157,8 @@ auto CCharEntity::Tick(timer::time_point tick) -> Task<void>
     {
         gardenutils::UpdateGardening(this, SendPacket::Yes);
     }
+
+    co_return;
 }
 
 void CCharEntity::PostTick()
@@ -1327,8 +1329,8 @@ bool CCharEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags)
     bool isSoloPetMaster  = PParty == nullptr && PInitiator->PMaster == this;
     bool targetsParty     = targetFlags & TARGET_PLAYER_PARTY;
     bool targetsAlliance  = targetFlags & TARGET_PLAYER_ALLIANCE;
-    bool hasPianissimo    = (targetFlags & TARGET_PLAYER_PARTY_PIANISSIMO) && PInitiator->StatusEffectContainer->HasStatusEffect(EFFECT_PIANISSIMO);
-    bool hasEntrust       = (targetFlags & TARGET_PLAYER_PARTY_ENTRUST) && PInitiator->StatusEffectContainer->HasStatusEffect(EFFECT_ENTRUST);
+    bool hasPianissimo    = (targetFlags & TARGET_PLAYER_PARTY_PIANISSIMO) && PInitiator->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Pianissimo);
+    bool hasEntrust       = (targetFlags & TARGET_PLAYER_PARTY_ENTRUST) && PInitiator->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Entrust);
     bool isDifferentChar  = PInitiator != this;
     bool isTrust          = PInitiator->objtype == TYPE_TRUST;
 
@@ -1412,7 +1414,7 @@ bool CCharEntity::CanAttack(CBattleEntity* PTarget, std::unique_ptr<CBasicPacket
         PAI->Disengage();
         return false;
     }
-    else if (!this->StatusEffectContainer->HasStatusEffect({ EFFECT_CHARM, EFFECT_CHARM_II }) && dist > 30)
+    else if (!this->StatusEffectContainer->HasStatusEffect({ xi::StatusEffect::CharmI, xi::StatusEffect::CharmIi }) && dist > 30)
     {
         errMsg = std::make_unique<GP_SERV_COMMAND_BATTLE_MESSAGE>(this, PTarget, 0, 0, MsgBasic::LoseSight);
         PAI->Disengage();
@@ -1453,7 +1455,7 @@ void CCharEntity::OnCastFinished(CMagicState& state, action_t& action)
     // Only blue spells that act as a physical WS can TA.
     CBattleEntity* taChar = nullptr;
 
-    if (StatusEffectContainer->HasStatusEffect(EFFECT_TRICK_ATTACK) &&
+    if (StatusEffectContainer->HasStatusEffect(xi::StatusEffect::TrickAttack) &&
         PSpell->getSpellGroup() == SPELLGROUP_BLUE &&
         PSpell->dealsDamage())
     {
@@ -1472,7 +1474,7 @@ void CCharEntity::OnCastFinished(CMagicState& state, action_t& action)
             if (actionResult.param > 0 &&
                 PSpell->dealsDamage() &&
                 PSpell->getSpellGroup() == SPELLGROUP_BLUE &&
-                (StatusEffectContainer->HasStatusEffect(EFFECT_CHAIN_AFFINITY) || StatusEffectContainer->HasStatusEffect(EFFECT_AZURE_LORE)) &&
+                (StatusEffectContainer->HasStatusEffect(xi::StatusEffect::ChainAffinity) || StatusEffectContainer->HasStatusEffect(xi::StatusEffect::AzureLore)) &&
                 static_cast<CBlueSpell*>(PSpell)->getPrimarySkillchain() != 0)
             {
                 auto*      PBlueSpell = static_cast<CBlueSpell*>(PSpell);
@@ -1482,7 +1484,7 @@ void CCharEntity::OnCastFinished(CMagicState& state, action_t& action)
                     actionResult.recordSkillchain(effect, battleutils::TakeSkillchainDamage(this, PTarget, actionResult.param, taChar));
                 }
 
-                if (StatusEffectContainer->HasStatusEffect({ EFFECT_SEKKANOKI, EFFECT_MEIKYO_SHISUI }))
+                if (StatusEffectContainer->HasStatusEffect({ xi::StatusEffect::Sekkanoki, xi::StatusEffect::MeikyoShisui }))
                 {
                     health.tp = (health.tp > 1000 ? health.tp - 1000 : 0);
                 }
@@ -1491,7 +1493,7 @@ void CCharEntity::OnCastFinished(CMagicState& state, action_t& action)
                     health.tp = 0;
                 }
 
-                StatusEffectContainer->DelStatusEffectSilent(EFFECT_CHAIN_AFFINITY);
+                StatusEffectContainer->DelStatusEffectSilent(xi::StatusEffect::ChainAffinity);
             }
 
             // Immanence will create or extend a skillchain for elemental spells
@@ -1499,7 +1501,7 @@ void CCharEntity::OnCastFinished(CMagicState& state, action_t& action)
                 actionResult.param >= 0 &&
                 PSpell->dealsDamage() &&
                 PSpell->getSpellGroup() == SPELLGROUP_BLACK &&
-                (StatusEffectContainer->HasStatusEffect(EFFECT_IMMANENCE)))
+                (StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Immanence)))
             {
                 auto immanenceApplies = true;
                 auto isHelix          = false;
@@ -1557,7 +1559,7 @@ void CCharEntity::OnCastFinished(CMagicState& state, action_t& action)
 
                 if (immanenceApplies)
                 {
-                    StatusEffectContainer->DelStatusEffect(EFFECT_IMMANENCE);
+                    StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Immanence);
                 }
 
                 if (effect != ActionProcSkillChain::None)
@@ -1565,7 +1567,7 @@ void CCharEntity::OnCastFinished(CMagicState& state, action_t& action)
                     actionResult.recordSkillchain(effect, battleutils::TakeSkillchainDamage(this, PTarget, actionResult.param, nullptr));
 
                     // Closing a skillchain with an immanence Helix will make the magic burst window longer
-                    auto scEffect = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_SKILLCHAIN, 0);
+                    auto scEffect = PTarget->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Skillchain, 0);
                     if (isHelix && scEffect)
                     {
                         scEffect->SetDuration(scEffect->GetDuration() + 2s);
@@ -1769,7 +1771,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
         pushPacket<GP_SERV_COMMAND_BATTLE_MESSAGE>(this, this, 0, 0, MsgBasic::WaitLonger);
         return;
     }
-    if (this->StatusEffectContainer->HasStatusEffect(EFFECT_AMNESIA))
+    if (this->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Amnesia))
     {
         pushPacket<GP_SERV_COMMAND_BATTLE_MESSAGE>(this, this, 0, 0, MsgBasic::UnableToUseJobAbility2);
         return;
@@ -1832,7 +1834,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
 
         if (PAbility->getID() == ABILITY_LIGHT_ARTS || PAbility->getID() == ABILITY_DARK_ARTS || PAbility->getRecastId() == Recast::Strategems)
         {
-            if (this->StatusEffectContainer->HasStatusEffect(EFFECT_TABULA_RASA))
+            if (this->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::TabulaRasa))
             {
                 action.recast  = 0s;
                 baseChargeTime = 0s;
@@ -1845,7 +1847,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
             uint16 bloodPact_II_Reduction  = std::min<int16>(getMod(Mod::BP_DELAY_II), 15);
             uint16 bloodPact_III_Reduction = 0; // std::min<int16>(getMod(Mod::BP_DELAY_III, 10); TODO: BP Delay III (SMN JP gift) not implemented
 
-            CStatusEffect* avatarsFavor = this->StatusEffectContainer->GetStatusEffect(EFFECT_AVATARS_FAVOR);
+            CStatusEffect* avatarsFavor = this->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::AvatarsFavor);
             if (avatarsFavor)
             {
                 favorReduction = std::min<int16>(avatarsFavor->GetPower(), 10);
@@ -1887,15 +1889,15 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                 // generic aggressive action
                 else
                 {
-                    StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
+                    StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::Detectable);
                 }
-                StatusEffectContainer->DelStatusEffect(EFFECT_ILLUSION);
+                StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Illusion);
             }
             else if (PAbility->getID() != ABILITY_TRICK_ATTACK)
             {
                 // remove invisible only
                 charutils::RemoveInvisible(this);
-                StatusEffectContainer->DelStatusEffect(EFFECT_ILLUSION);
+                StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Illusion);
             }
         }
 
@@ -2141,7 +2143,7 @@ void CCharEntity::OnRaise()
                 weaknessTime = 3min;
             }
 
-            CStatusEffect* PWeaknessEffect = new CStatusEffect(EFFECT_WEAKNESS, EFFECT_WEAKNESS, m_weaknessLvl, 0s, weaknessTime);
+            CStatusEffect* PWeaknessEffect = new CStatusEffect(xi::StatusEffect::Weakness, static_cast<uint16>(xi::StatusEffect::Weakness), m_weaknessLvl, 0s, weaknessTime);
             StatusEffectContainer->AddStatusEffect(PWeaknessEffect);
         }
 
@@ -2206,7 +2208,7 @@ void CCharEntity::OnRaise()
         // If Arise was used then apply a reraise 3 effect on the target
         if (m_hasArise)
         {
-            CStatusEffect* PReraiseEffect = new CStatusEffect(EFFECT_RERAISE, EFFECT_RERAISE, 3, 0s, 1h);
+            CStatusEffect* PReraiseEffect = new CStatusEffect(xi::StatusEffect::Reraise, static_cast<uint16>(xi::StatusEffect::Reraise), 3, 0s, 1h);
             StatusEffectContainer->AddStatusEffect(PReraiseEffect);
         }
 
@@ -2412,10 +2414,10 @@ void CCharEntity::Die(timer::duration _duration)
 
     this->ClearTrusts();
 
-    if (StatusEffectContainer->HasStatusEffect(EFFECT_WEAKNESS))
+    if (StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Weakness))
     {
         // Remove weakness effect as per retail but keep track of weakness
-        StatusEffectContainer->DelStatusEffectSilent(EFFECT_WEAKNESS);
+        StatusEffectContainer->DelStatusEffectSilent(xi::StatusEffect::Weakness);
         // Increase the weakness counter if previously weakened
         m_weaknessLvl++;
     }
@@ -2975,7 +2977,7 @@ void CCharEntity::tryStartNextEvent()
         updatemask |= UPDATE_POS; // TODO: decouple from this. We want the 250ms post-tick processing
 
         // Chocobo NPC (outside, gives you a mount) edge case
-        if (auto PStatusEffect = StatusEffectContainer->GetStatusEffect(EFFECT_MOUNTED))
+        if (auto PStatusEffect = StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Mounted))
         {
             switch (PStatusEffect->GetPower())
             {
@@ -3007,7 +3009,7 @@ void CCharEntity::tryStartNextEvent()
     m_Substate = CHAR_SUBSTATE::SUBSTATE_IN_CS;
     if (animation == ANIMATION_HEALING)
     {
-        StatusEffectContainer->DelStatusEffect(EFFECT_HEALING);
+        StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Healing);
     }
 
     if (PPet)

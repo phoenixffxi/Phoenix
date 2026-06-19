@@ -49,6 +49,7 @@ return {
     ['Safrick']          = { event = 551 },
     ['Shipilolo']        = { event = 526 },
     ['Sunrise_Beacon']   = { messageSpecial = ID.text.NOTHING_OUT_OF_ORDINARY },
+    ['Sylvie']           = { event = 38 },
     ['Terwok']           = { event = 532 },
     ['Vaulois']          = { event = 520 },
     ['Virsaint']         = { event = 540 },

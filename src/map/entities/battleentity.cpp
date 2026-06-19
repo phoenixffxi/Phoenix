@@ -438,7 +438,7 @@ uint8 CBattleEntity::UpdateSpeed(bool run)
 
 bool CBattleEntity::CanRest()
 {
-    return !getMod(Mod::REGEN_DOWN) && !StatusEffectContainer->HasStatusEffectByFlag(EFFECTFLAG_NO_REST);
+    return !getMod(Mod::REGEN_DOWN) && !StatusEffectContainer->HasStatusEffectByFlag(xi::StatusEffectFlag::NoRest);
 }
 
 bool CBattleEntity::Rest(float rate)
@@ -465,7 +465,7 @@ bool CBattleEntity::Rest(float rate)
     return didRest;
 }
 
-uint32 CBattleEntity::GetWeaponDelay(bool tp)
+auto CBattleEntity::GetWeaponDelay(bool tp) -> uint32
 {
     TracyZoneScoped;
 
@@ -492,14 +492,14 @@ uint32 CBattleEntity::GetWeaponDelay(bool tp)
 
         // Sub-weapon
         else if (auto* subweapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_SUB]);
-                 subweapon && subweapon->getDmgType() > DAMAGE_TYPE::NONE && subweapon->getDmgType() < DAMAGE_TYPE::HTH)
+                 subweapon && subweapon->getDmgType() > xi::DamageType::None && subweapon->getDmgType() < xi::DamageType::HandToHand)
         {
             weaponDelay         = weaponDelay + subweapon->getDelay();
             dualWieldMultiplier = 1.0f - getMod(Mod::DUAL_WIELD) / 100.0f;
         }
 
         // Handle Hundred Fists directly.
-        if (!tp && StatusEffectContainer->HasStatusEffect(EFFECT_HUNDRED_FISTS))
+        if (!tp && StatusEffectContainer->HasStatusEffect(xi::StatusEffect::HundredFists))
         {
             finalDelay = std::clamp<uint16>(weaponDelay - martialArts, 1600, 8000);
             finalDelay = finalDelay * 0.25f;
@@ -629,8 +629,7 @@ uint16 CBattleEntity::GetMainWeaponDmg()
 
         if (PPetEntity->getPetType() == PET_TYPE::AUTOMATON)
         {
-            // Unsure of the accuracy of this, but it's what we have in petutils
-            return std::floor(GetSkill(SKILL_AUTOMATON_MELEE) / 9 * 2) + 3 + getMod(Mod::MAIN_DMG_RATING);
+            return std::floor((GetSkill(SKILL_AUTOMATON_MELEE) / 8.7f) * 2.0f + 3.0f) + getMod(Mod::MAIN_DMG_RATING);
         }
         else if (PPetEntity->getPetType() == PET_TYPE::WYVERN)
         {
@@ -724,8 +723,7 @@ uint16 CBattleEntity::GetRangedWeaponDmg()
 
         if (PPetEntity->getPetType() == PET_TYPE::AUTOMATON)
         {
-            // Unsure of the accuracy of this, but it's what we have in petutils
-            return std::floor(GetSkill(SKILL_AUTOMATON_RANGED) / 9 * 2) + 3 + getMod(Mod::RANGED_DMG_RATING);
+            return std::floor((GetSkill(SKILL_AUTOMATON_RANGED) / 8.7f) * 2.0f + 3.0f) + getMod(Mod::RANGED_DMG_RATING);
         }
         else if (PPetEntity->getPetType() == PET_TYPE::WYVERN)
         {
@@ -937,7 +935,7 @@ int32 CBattleEntity::addMP(int32 mp)
     return abs(mp);
 }
 
-int32 CBattleEntity::takeDamage(int32 amount, CBattleEntity* attacker /* = nullptr*/, ATTACK_TYPE attackType /* = ATTACK_NONE*/, DAMAGE_TYPE damageType /* = DAMAGE_NONE*/, bool isSkillchainDamage /* = false */)
+auto CBattleEntity::takeDamage(int32 amount, CBattleEntity* attacker /* = nullptr*/, ATTACK_TYPE attackType /* = ATTACK_NONE*/, xi::DamageType damageType /* = DAMAGE_NONE*/, bool isSkillchainDamage /* = false */) -> int32
 {
     TracyZoneScoped;
 
@@ -1077,7 +1075,7 @@ uint16 CBattleEntity::ATT(SLOTTYPE slot)
 
     ATT += STR() * strMultiplier;
 
-    if (this->StatusEffectContainer->HasStatusEffect(EFFECT_ENDARK))
+    if (this->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Endark))
     {
         ATT += this->getMod(Mod::ENSPELL_DMG);
     }
@@ -1121,9 +1119,9 @@ uint16 CBattleEntity::ATT(SLOTTYPE slot)
     return std::max(1, ATT + (ATT * ATTP / 100) + std::min<int16>((ATT * m_modStat[Mod::FOOD_ATTP] / 100), m_modStat[Mod::FOOD_ATT_CAP]));
 }
 
-uint16 CBattleEntity::RATT(uint16 bonusAtt)
+auto CBattleEntity::RATT(uint16 bonusAtt) -> uint16
 {
-    auto* PWeakness = StatusEffectContainer->GetStatusEffect(EFFECT_WEAKNESS);
+    auto* PWeakness = StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Weakness);
     if (PWeakness && PWeakness->GetPower() >= 2)
     {
         return 0;
@@ -1152,7 +1150,7 @@ uint16 CBattleEntity::RATT(uint16 bonusAtt)
         if (weapon)
         {
             // non-damaging weapon
-            if (weapon->getDmgType() == DAMAGE_TYPE::NONE || weapon->getSkillType() == SKILL_NONE)
+            if (weapon->getDmgType() == xi::DamageType::None || weapon->getSkillType() == SKILL_NONE)
             {
                 return 0;
             }
@@ -1210,11 +1208,11 @@ inline uint32 GetAccFromSkill(uint32 skill)
     return accuracy;
 }
 
-uint16 CBattleEntity::RACC(uint16 bonusAcc)
+auto CBattleEntity::RACC(uint16 bonusAcc) -> uint16
 {
     TracyZoneScoped;
 
-    auto* PWeakness = StatusEffectContainer->GetStatusEffect(EFFECT_WEAKNESS);
+    auto* PWeakness = StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Weakness);
     if (PWeakness && PWeakness->GetPower() >= 2)
     {
         return 1;
@@ -1243,7 +1241,7 @@ uint16 CBattleEntity::RACC(uint16 bonusAcc)
         if (weapon)
         {
             // non-damaging weapon
-            if (weapon->getDmgType() == DAMAGE_TYPE::NONE || weapon->getSkillType() == SKILL_NONE)
+            if (weapon->getDmgType() == xi::DamageType::None || weapon->getSkillType() == SKILL_NONE)
             {
                 return 0;
             }
@@ -1405,7 +1403,7 @@ uint16 CBattleEntity::ACC(uint8 attackNumber, uint16 offsetAccuracy)
         }
         ACC = (ACC + m_modStat[Mod::ACC] + offsetAccuracy);
 
-        if (this->StatusEffectContainer->HasStatusEffect(EFFECT_ENLIGHT))
+        if (this->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Enlight))
         {
             ACC += this->getMod(Mod::ENSPELL_DMG);
         }
@@ -1432,7 +1430,7 @@ uint16 CBattleEntity::ACC(uint8 attackNumber, uint16 offsetAccuracy)
         ACC += std::floor(DEX() * 0.5);
         ACC += m_modStat[Mod::ACC] + offsetAccuracy;
 
-        if (this->StatusEffectContainer->HasStatusEffect(EFFECT_ENLIGHT))
+        if (this->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Enlight))
         {
             ACC += this->getMod(Mod::ENSPELL_DMG);
         }
@@ -1449,7 +1447,7 @@ uint16 CBattleEntity::ACC(uint8 attackNumber, uint16 offsetAccuracy)
     {
         ACC = m_modStat[Mod::ACC] + offsetAccuracy;
 
-        if (this->StatusEffectContainer->HasStatusEffect(EFFECT_ENLIGHT))
+        if (this->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Enlight))
         {
             ACC += this->getMod(Mod::ENSPELL_DMG);
         }
@@ -1531,7 +1529,7 @@ uint16 CBattleEntity::DEF()
     DEF += m_modStat[Mod::DEF];
 
     // TODO: support old style counterstance
-    if (this->StatusEffectContainer->HasStatusEffect(EFFECT_COUNTERSTANCE, 0))
+    if (this->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Counterstance, 0))
     {
         return DEF / 2;
     }
@@ -1578,7 +1576,7 @@ uint8 CBattleEntity::GetMLevel() const
 
 JOBTYPE CBattleEntity::GetSJob(bool ignoreRestriction) const
 {
-    if (!ignoreRestriction && StatusEffectContainer->HasStatusEffect({ EFFECT_OBLIVISCENCE, EFFECT_SJ_RESTRICTION }))
+    if (!ignoreRestriction && StatusEffectContainer->HasStatusEffect({ xi::StatusEffect::Obliviscence, xi::StatusEffect::SjRestriction }))
     {
         return JOB_NON;
     }
@@ -1588,7 +1586,7 @@ JOBTYPE CBattleEntity::GetSJob(bool ignoreRestriction) const
 
 uint8 CBattleEntity::GetSLevel() const
 {
-    if (StatusEffectContainer->HasStatusEffect({ EFFECT_OBLIVISCENCE, EFFECT_SJ_RESTRICTION }))
+    if (StatusEffectContainer->HasStatusEffect({ xi::StatusEffect::Obliviscence, xi::StatusEffect::SjRestriction }))
     {
         return 0;
     }
@@ -2297,11 +2295,11 @@ void CBattleEntity::processActionEffectFlags(const action_t& action) const
             if (isMainTarget)
             {
                 // Main hostile target loses DETECTABLE
-                PTarget->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
+                PTarget->StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::Detectable);
             }
 
             // Every hostile target loses ON_ATTACK
-            PTarget->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ON_ATTACK);
+            PTarget->StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::OnAttack);
 
             // Hostile action cancels fishing on PC targets
             if (auto* PChar = dynamic_cast<CCharEntity*>(PTarget); PChar && PChar->isFishing())
@@ -2316,7 +2314,7 @@ void CBattleEntity::processActionEffectFlags(const action_t& action) const
     if (emittedHostile)
     {
         // Hostile emit drops actor's ON_ATTACK
-        this->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ON_ATTACK);
+        this->StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::OnAttack);
 
         // ATTACK drops on physical hostile actions: melee/WS confirmed; mobskill/petskill unverified
         if (action.actiontype == ActionCategory::BasicAttack ||
@@ -2324,7 +2322,7 @@ void CBattleEntity::processActionEffectFlags(const action_t& action) const
             action.actiontype == ActionCategory::MobSkillFinish ||
             action.actiontype == ActionCategory::PetSkillFinish)
         {
-            this->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK);
+            this->StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::Attack);
         }
     }
 }
@@ -2348,15 +2346,15 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
     state.SpendCost();
 
     // remove effects based on spell cast first
-    int16 effectFlags = EFFECTFLAG_INVISIBLE | EFFECTFLAG_MAGIC_BEGIN;
+    auto effectFlags = xi::StatusEffectFlag::Invisible | xi::StatusEffectFlag::MagicBegin;
 
     if (PSpell->canTargetEnemy())
     {
-        effectFlags |= EFFECTFLAG_DETECTABLE;
+        effectFlags |= xi::StatusEffectFlag::Detectable;
     }
 
     StatusEffectContainer->DelStatusEffectsByFlag(effectFlags);
-    StatusEffectContainer->DelStatusEffect(EFFECT_ILLUSION);
+    StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Illusion);
 
     PAI->TargetFind->reset();
 
@@ -2430,8 +2428,8 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
         // Take all shadows
         if (PSpell->canTargetEnemy() && (aoeType > SPELLAOE_NONE || (PSpell->getFlag() & SPELLFLAG_WIPE_SHADOWS)))
         {
-            PTarget->StatusEffectContainer->DelStatusEffect(EFFECT_BLINK);
-            PTarget->StatusEffectContainer->DelStatusEffect(EFFECT_COPY_IMAGE);
+            PTarget->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Blink);
+            PTarget->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::CopyImage);
         }
 
         // TODO: this is really hacky and should eventually be moved into lua, and spellFlags should probably be in the spells table..
@@ -2451,7 +2449,7 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
             // Remove Saboteur
             if (PSpell->getSkillType() == SKILLTYPE::SKILL_ENFEEBLING_MAGIC)
             {
-                StatusEffectContainer->DelStatusEffect(EFFECT_SABOTEUR);
+                StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Saboteur);
             }
 
             if (msg == MsgBasic::None)
@@ -2603,7 +2601,7 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
 
     this->processActionEffectFlags(action);
 
-    StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_MAGIC_END);
+    StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::MagicEnd);
 
     PRecastContainer->Add(RECAST_MAGIC, static_cast<Recast>(PSpell->getID()), action.recast);
 }
@@ -3128,8 +3126,8 @@ void CBattleEntity::OnRangedAttack(CRangeState& state, action_t& action)
     auto  ammoConsumed = 0;
     bool  hitOccured   = false; // Track if there was a successful hit
     bool  wasCritical  = false; // Track if the hit was critical
-    bool  isBarrage    = StatusEffectContainer->HasStatusEffect(EFFECT_BARRAGE, 0);
-    bool  isSange      = isChar && StatusEffectContainer->HasStatusEffect(EFFECT_SANGE) && getMod(Mod::SANGE_MULTI_HIT) > 0; // Pre-SoA Sange logic check, applied in SoA module
+    bool  isBarrage    = StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Barrage, 0);
+    bool  isSange      = isChar && StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Sange) && getMod(Mod::SANGE_MULTI_HIT) > 0; // Pre-SoA Sange logic check, applied in SoA module
 
     // Player Barrage check
     if (isChar && !ammoThrowing && !rangedThrowing && isBarrage)
@@ -3143,7 +3141,7 @@ void CBattleEntity::OnRangedAttack(CRangeState& state, action_t& action)
     else if (isChar && ammoThrowing && isSange)
     {
         int32 shadows = std::clamp<int32>(getMod(Mod::UTSUSEMI), 0, 7);
-        StatusEffectContainer->DelStatusEffect(EFFECT_COPY_IMAGE);
+        StatusEffectContainer->DelStatusEffect(xi::StatusEffect::CopyImage);
 
         hitCount += static_cast<uint8>(shadows);
 
@@ -3152,11 +3150,11 @@ void CBattleEntity::OnRangedAttack(CRangeState& state, action_t& action)
             hitCount = PAmmo->getQuantity();
         }
     }
-    else if ((isChar || isTrust) && StatusEffectContainer->HasStatusEffect(EFFECT_TRIPLE_SHOT) && xirand::GetRandomNumber(100) < getMod(Mod::TRIPLE_SHOT_RATE))
+    else if ((isChar || isTrust) && StatusEffectContainer->HasStatusEffect(xi::StatusEffect::TripleShot) && xirand::GetRandomNumber(100) < getMod(Mod::TRIPLE_SHOT_RATE))
     {
         hitCount = 3;
     }
-    else if ((isChar || isTrust) && StatusEffectContainer->HasStatusEffect(EFFECT_DOUBLE_SHOT) && xirand::GetRandomNumber(100) < getMod(Mod::DOUBLE_SHOT_RATE))
+    else if ((isChar || isTrust) && StatusEffectContainer->HasStatusEffect(xi::StatusEffect::DoubleShot) && xirand::GetRandomNumber(100) < getMod(Mod::DOUBLE_SHOT_RATE))
     {
         hitCount = 2;
     }
@@ -3221,17 +3219,17 @@ void CBattleEntity::OnRangedAttack(CRangeState& state, action_t& action)
 
             recycleChance += PChar->PJobPoints->GetJobPointValue(JP_AMMO_CONSUMPTION);
 
-            if (StatusEffectContainer->HasStatusEffect(EFFECT_UNLIMITED_SHOT))
+            if (StatusEffectContainer->HasStatusEffect(xi::StatusEffect::UnlimitedShot))
             {
                 recycleChance = 100;
                 if (hitOccured || getMod(Mod::RETAIN_UNLIMITED_SHOT) <= 0)
                 {
-                    StatusEffectContainer->DelStatusEffect(EFFECT_UNLIMITED_SHOT);
+                    StatusEffectContainer->DelStatusEffect(xi::StatusEffect::UnlimitedShot);
                 }
             }
 
-            StatusEffectContainer->DelStatusEffect(EFFECT_FLASHY_SHOT);
-            StatusEffectContainer->DelStatusEffect(EFFECT_STEALTH_SHOT);
+            StatusEffectContainer->DelStatusEffect(xi::StatusEffect::FlashyShot);
+            StatusEffectContainer->DelStatusEffect(xi::StatusEffect::StealthShot);
 
             if (PAmmo != nullptr && xirand::GetRandomNumber(100) > recycleChance)
             {
@@ -3380,12 +3378,12 @@ void CBattleEntity::OnRangedAttack(CRangeState& state, action_t& action)
     // Remove barrage/sange effects after firing
     if (isBarrage)
     {
-        StatusEffectContainer->DelStatusEffectSilent(EFFECT_BARRAGE);
+        StatusEffectContainer->DelStatusEffectSilent(xi::StatusEffect::Barrage);
     }
 
     if (isSange)
     {
-        StatusEffectContainer->DelStatusEffectSilent(EFFECT_SANGE);
+        StatusEffectContainer->DelStatusEffectSilent(xi::StatusEffect::Sange);
     }
 
     if (isChar || isTrust)
@@ -3456,25 +3454,25 @@ void CBattleEntity::OnRangedAttack(CRangeState& state, action_t& action)
 
             if (xirand::GetRandomNumber(100) > retainChance)
             {
-                StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
+                StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::Detectable);
             }
             else
             {
-                StatusEffectContainer->DelStatusEffect(EFFECT_SNEAK);
-                StatusEffectContainer->DelStatusEffect(EFFECT_DEODORIZE);
-                StatusEffectContainer->DelStatusEffect(EFFECT_ILLUSION);
+                StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Sneak);
+                StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Deodorize);
+                StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Illusion);
             }
         }
         else
         {
             // Camouflage not up, so remove all detectable status effects
-            StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
+            StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::Detectable);
         }
     }
     else
     {
         // Mob or trust
-        StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
+        StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::Detectable);
         PTarget->LastAttacked = timer::now();
     }
     this->processActionEffectFlags(action);
@@ -3551,7 +3549,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
             list.actorId = PTarget->id;
         }
 
-        if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PERFECT_DODGE, 0))
+        if (PTarget->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::PerfectDodge, 0))
         {
             actionResult.messageID  = MsgBasic::TargetDodges;
             actionResult.resolution = ActionResolution::Miss;
@@ -3562,7 +3560,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
             actionResult.resolution = ActionResolution::Parry;
         }
         else if ((xirand::GetRandomNumber(100) < attack.GetHitRate() || attackRound.GetSATAOccured()) &&
-                 !PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_ALL_MISS))
+                 !PTarget->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::AllMiss))
         {
             // Check parry.
             if (attack.CheckParried())
@@ -3643,7 +3641,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                         // Needs verification, as there appears to be conflicting information regarding an attack bonus based on DEX
                         // vs a base damage increase.
                         float attBonus = 1.0f;
-                        if (PTarget->objtype == TYPE_PC && PTarget->GetMJob() == JOB_MNK && PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_COUNTERSTANCE))
+                        if (PTarget->objtype == TYPE_PC && PTarget->GetMJob() == JOB_MNK && PTarget->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Counterstance))
                         {
                             auto* PChar        = static_cast<CCharEntity*>(PTarget);
                             float csJpModifier = static_cast<float>(PChar->PJobPoints->GetJobPointValue(JP_COUNTERSTANCE_EFFECT) * 2);
@@ -3714,16 +3712,16 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                 }
 
                 // Apply Feint
-                if (CStatusEffect* PFeintEffect = StatusEffectContainer->GetStatusEffect(EFFECT_FEINT))
+                if (CStatusEffect* PFeintEffect = StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Feint))
                 {
-                    if (PTarget->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_EVASION_DOWN, EFFECT_EVASION_DOWN, PFeintEffect->GetPower(), 3s, 30s)))
+                    if (PTarget->StatusEffectContainer->AddStatusEffect(new CStatusEffect(xi::StatusEffect::EvasionDown, static_cast<uint16>(xi::StatusEffect::EvasionDown), PFeintEffect->GetPower(), 3s, 30s)))
                     {
-                        auto PEffect = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_EVASION_DOWN);
+                        auto PEffect = PTarget->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::EvasionDown);
 
                         // When Feint's evasion down effect is on, the target can get "debuffed" with TREASURE_HUNTER_PROC +25% * level above first on Feint
                         PEffect->addMod(Mod::TREASURE_HUNTER_PROC, PFeintEffect->GetSubPower());
                     }
-                    StatusEffectContainer->DelStatusEffect(EFFECT_FEINT);
+                    StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Feint);
                 }
 
                 // Process damage.
@@ -3798,7 +3796,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
         }
 
         // if we parried, run battuta check if applicable
-        if (actionResult.resolution == ActionResolution::Parry && PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_BATTUTA))
+        if (actionResult.resolution == ActionResolution::Parry && PTarget->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Battuta))
         {
             battleutils::HandleParrySpikesDamage(this, PTarget, &actionResult, attack.GetDamage());
         }
@@ -3814,7 +3812,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
             const bool missedOrCountered = actionResult.resolution != ActionResolution::Hit || actionResult.spikesEffect == ActionReactKind::Counter;
             const bool normalZanshinProc = missedOrCountered && xirand::GetRandomNumber(100) < zanshinChance;
 
-            const bool isSamWithHasso   = this->getMod(Mod::HASSO_ZANSHIN_BONUS) > 0 && this->StatusEffectContainer->HasStatusEffect(EFFECT_HASSO);
+            const bool isSamWithHasso   = this->getMod(Mod::HASSO_ZANSHIN_BONUS) > 0 && this->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Hasso);
             const bool hassoZanshinProc = isSamWithHasso && xirand::GetRandomNumber(100) < zanshinChance / 4;
 
             if (normalZanshinProc || hassoZanshinProc)
@@ -3826,7 +3824,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
         // Remove shuriken if Daken proc and Sange is up
         if (currentAttackType == PHYSICAL_ATTACK_TYPE::DAKEN)
         {
-            if (StatusEffectContainer && StatusEffectContainer->HasStatusEffect(EFFECT_SANGE))
+            if (StatusEffectContainer && StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Sange))
             {
                 auto* PChar = dynamic_cast<CCharEntity*>(this);
                 if (PChar)
@@ -3855,7 +3853,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
     // End of attack loop
     /////////////////////////////////////////////////////////////////////////////////////////////
 
-    this->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
+    this->StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::Detectable);
     this->processActionEffectFlags(action);
 
     return true;

@@ -63,7 +63,7 @@ entity.spawnPoints =
 
 entity.phList =
 {
-    [ID.mob.CACTUAR_CANTAUTOR - 1] = ID.mob.CACTUAR_CANTAUTOR, -- -458.944 0.018 -557.266
+    [ID.mob.CACTUAR_CANTAUTOR - 1] = ID.mob.CACTUAR_CANTAUTOR, -- Confirmed on retail
 }
 
 entity.onMobDeath = function(mob, player, optParams)

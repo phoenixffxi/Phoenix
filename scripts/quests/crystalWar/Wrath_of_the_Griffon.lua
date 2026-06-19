@@ -1,9 +1,10 @@
 -----------------------------------
--- Boy and the Beast
+-- Wrath of the Griffon
 -----------------------------------
 -- !addquest 7 25
 -- Rholont : !pos -168 -2 56 80
 -- qm8     : !pos -6 0 -295 82
+-- Wyatt   : !pos 124 0 84 80
 -----------------------------------
 local jugnerSID = zones[xi.zone.JUGNER_FOREST_S]
 -----------------------------------
@@ -106,6 +107,26 @@ quest.sections =
 
                 [206] = function(player, csid, option, npc)
                     quest:setVar(player, 'Prog', 3)
+                end,
+            },
+        },
+    },
+
+    {
+        check = function(player, status, vars)
+            return status == xi.questStatus.QUEST_COMPLETED and
+                player:hasKeyItem(xi.ki.MILITARY_SCRIP)
+        end,
+
+        [xi.zone.SOUTHERN_SAN_DORIA_S] =
+        {
+            ['Wyatt'] = quest:progressEvent(66):setPriority(1005),
+
+            onEventFinish =
+            {
+                [66] = function(player, csid, option, npc)
+                    player:delKeyItem(xi.ki.MILITARY_SCRIP)
+                    npcUtil.giveCurrency(player, 'gil', 20147)
                 end,
             },
         },

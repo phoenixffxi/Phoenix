@@ -1012,15 +1012,15 @@ void OnEntityLoad(CBaseEntity* PEntity)
                 return;
             }
 
-            const auto zoneName = PEntity->loc.zone->getName();
-            const auto name     = PEntity->getName();
+            const auto  zoneName = PEntity->loc.zone->getName();
+            const auto& name     = PEntity->getName();
             CacheLuaObjectFromFile(fmt::format("./scripts/zones/{}/npcs/{}.lua", zoneName, name));
         }
         break;
         case TYPE_MOB:
         {
-            const auto zoneName = PEntity->loc.zone->getName();
-            const auto name     = PEntity->getName();
+            const auto  zoneName = PEntity->loc.zone->getName();
+            const auto& name     = PEntity->getName();
             CacheLuaObjectFromFile(fmt::format("./scripts/zones/{}/mobs/{}.lua", zoneName, name));
         }
         break;
@@ -1109,8 +1109,8 @@ void PopulateIDLookups(uint16 zoneId, const std::string& zoneName)
         const auto rset           = db::preparedStmt("SELECT mobname, mobid FROM mob_spawn_points "
                                                      "WHERE mobid BETWEEN ? AND ? "
                                                      "ORDER BY mobid ASC",
-                                           idMin,
-                                           idMax);
+                                                     idMin,
+                                                     idMax);
         FOR_DB_MULTIPLE_RESULTS(rset)
         {
             const auto name = rset->get<std::string>("mobname");
@@ -1127,8 +1127,8 @@ void PopulateIDLookups(uint16 zoneId, const std::string& zoneName)
         const auto rset           = db::preparedStmt("SELECT name, npcid FROM npc_list "
                                                      "WHERE npcid BETWEEN ? AND ? "
                                                      "ORDER BY npcid ASC",
-                                           idMin,
-                                           idMax);
+                                                     idMin,
+                                                     idMax);
         FOR_DB_MULTIPLE_RESULTS(rset)
         {
             const auto name = rset->get<std::string>("name");
@@ -1706,7 +1706,7 @@ auto LoadLinkshellConciergeSlots(uint16 zoneId) -> sol::table
                                          "FROM linkshell_concierge lc "
                                          "JOIN linkshells ls ON ls.linkshellid = lc.linkshellid "
                                          "WHERE lc.zone_id = ? AND ls.broken = 0",
-                                       zoneId);
+                                         zoneId);
     if (!rset)
     {
         return result;
@@ -2601,6 +2601,10 @@ void OnAdditionalEffect(CBattleEntity* PAttacker, CBattleEntity* PDefender, acti
         auto zone          = PAttacker->loc.zone->getName();
         auto name          = PAttacker->getName();
         onAdditionalEffect = lua[sol::create_if_nil]["xi"]["zones"][zone]["mobs"][name]["onAdditionalEffect"];
+    }
+    else if (PAttacker->objtype == TYPE_PET && static_cast<CPetEntity*>(PAttacker)->getPetType() == PET_TYPE::AUTOMATON)
+    {
+        onAdditionalEffect = lua[sol::create_if_nil]["xi"]["pets"]["automaton"]["onAdditionalEffectAttack"];
     }
 
     if (!onAdditionalEffect.valid())
@@ -5144,7 +5148,7 @@ void OnBattlefieldKick(CCharEntity* PChar)
 {
     TracyZoneScoped;
 
-    CStatusEffect* status = PChar->StatusEffectContainer->GetStatusEffect(EFFECT_BATTLEFIELD);
+    CStatusEffect* status = PChar->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Battlefield);
 
     if (status != nullptr)
     {
@@ -6061,7 +6065,7 @@ auto GetSynergyRecipeByID(uint32 id) -> sol::table
     {
         return sol::lua_nil;
     }
-    const auto result = *maybeResult;
+    const auto& result = *maybeResult;
 
     sol::table table = lua.create_table();
 
@@ -6132,7 +6136,7 @@ auto GetSynergyRecipeByTrade(CLuaTradeContainer luaTradeContainer) -> sol::table
     {
         return sol::lua_nil;
     }
-    const auto result = *maybeResult;
+    const auto& result = *maybeResult;
 
     sol::table table = lua.create_table();
 

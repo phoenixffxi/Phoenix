@@ -391,7 +391,7 @@ void CEntityUpdatePacket::updateWith(CBaseEntity* PEntity, ENTITYUPDATE type, ui
                 {
                     ref<uint8>(0x27) |= 0x08;
                 }
-                ref<uint8>(0x28) |= PMob->StatusEffectContainer->HasStatusEffect(EFFECT_TERROR) ? 0x10 : 0x00;
+                ref<uint8>(0x28) |= PMob->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Terror) ? 0x10 : 0x00;
 
                 // Giga hack -- mobs in Pso'Xja for some reason are less "visible"
                 // Set CliPriorityFlag to force them to render on the client if they receive 0x00Es

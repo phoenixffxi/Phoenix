@@ -11,9 +11,14 @@ local entity = {}
 
 entity.onMobInitialize = function(mob)
     mob:setMobMod(xi.mobMod.IDLE_DESPAWN, 120)
-end
 
-entity.onMobDeath = function(mob, player, optParams)
+    mob:addImmunity(xi.immunity.BIND)
+    mob:addImmunity(xi.immunity.GRAVITY)
+    mob:addImmunity(xi.immunity.SLOW)
+    mob:addImmunity(xi.immunity.ELEGY)
+    mob:addImmunity(xi.immunity.STUN)
+    mob:addImmunity(xi.immunity.PETRIFY)
+    mob:addImmunity(xi.immunity.PLAGUE)
 end
 
 entity.onMobDespawn = function(mob)

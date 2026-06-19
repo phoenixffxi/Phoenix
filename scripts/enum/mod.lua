@@ -898,6 +898,7 @@ xi.mod =
     AUTO_ANALYZER                   = 943, -- Causes the Automaton to mitigate damage from a special attack a number of times
     AUTO_RANGED_DELAY               = 1001, -- Decreases the amount of time between ranged attacks
     AUTO_RANGED_DAMAGEP             = 1002, -- Increases Automaton Ranged Weapon damage by a %
+    VOLT_GUN_POTENCY                = 1198, -- AE Potency Bonus for Volt Gun (percent)
 
     -- Mythic Weapon Mods
     AUGMENTS_ABSORB_LIBERATOR       = 521, -- Direct Absorb spell increase while Liberator is equipped (percentage based) (Augments "Absorb" spells)

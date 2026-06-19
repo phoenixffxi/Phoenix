@@ -9,7 +9,7 @@
 local abilityObject = {}
 
 abilityObject.onAbilityCheck = function(player, target, ability)
-    xi.job_utils.ninja.checkSange(player, target, ability)
+    return xi.job_utils.ninja.checkSange(player, target, ability)
 end
 
 abilityObject.onUseAbility = function(player, target, ability, action)

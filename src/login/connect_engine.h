@@ -22,7 +22,7 @@
 #pragma once
 
 #include "common/application.h"
-#include "common/zmq_dealer_wrapper.h"
+#include "common/zmq/zmq_service.h"
 
 #ifndef _WIN32
 #include <sys/resource.h>
@@ -38,7 +38,7 @@
 class ConnectEngine final : public Engine
 {
 public:
-    ConnectEngine(Scheduler& scheduler);
+    ConnectEngine(Scheduler& scheduler, ZMQService& zmqService);
     ~ConnectEngine() override;
 
 private:
@@ -52,7 +52,7 @@ private:
 
     Scheduler& scheduler_;
 
-    ZMQDealerWrapper zmqDealerWrapper_;
+    ipc::Channel<zmq::message_t> dealerChannel_;
 
     handler<auth_session> m_authHandler;
     handler<data_session> m_dataHandler;

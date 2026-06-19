@@ -34,6 +34,7 @@
 #include "items/item_weapon.h"
 #include "job_points.h"
 #include "latent_effect_container.h"
+#include "lua/luautils.h"
 #include "mob_spell_list.h"
 #include "notoriety_container.h"
 #include "petutils.h"
@@ -115,7 +116,7 @@ void LoadPetList()
         Pet->time            = std::chrono::seconds(rset->get<uint32>("time"));
         Pet->modelSize       = rset->getOrDefault<uint8>("modelSize", 0);
         Pet->modelHitboxSize = std::max<float>(0.0f, rset->getOrDefault<float>("modelHitboxSize", 0) / 10.f);
-        Pet->EcoSystem       = rset->get<ECOSYSTEM>("ecosystemID");
+        Pet->EcoSystem       = rset->get<xi::Ecosystem>("ecosystemID");
         Pet->m_Species       = rset->get<uint16>("speciesid");
         Pet->mJob            = rset->get<uint8>("mJob");
         Pet->sJob            = rset->get<uint8>("sJob");
@@ -180,7 +181,7 @@ void LoadPetList()
         Pet->cmbDelay       = rset->get<uint16>("cmbDelay");
         Pet->name_prefix    = rset->get<uint8>("name_prefix");
         Pet->m_MobSkillList = rset->get<uint16>("skill_list_id");
-        Pet->m_dmgType      = rset->get<DAMAGE_TYPE>("damageType");
+        Pet->m_dmgType      = rset->get<xi::DamageType>("damageType");
 
         g_PPetList.emplace_back(Pet);
     }
@@ -401,7 +402,7 @@ void LoadJugStats(CPetEntity* PMob, Pet_t* petStats)
     PMob->stats.CHR = (uint16)((fCHR + mCHR) * 0.9f);
 }
 
-void LoadAutomatonStats(CCharEntity* PMaster, CPetEntity* PPet, Pet_t* petStats, uint8 mlvl, JOBTYPE mjob, JOBTYPE sjob)
+void LoadAutomatonStats(CCharEntity* PMaster, CPetEntity* PPet, Pet_t* petStats, uint8 mlvl)
 {
     skills_t& tempSkills = PMaster->automatonInfo.automatonSkills;
     stats_t&  tempStats  = PMaster->automatonInfo.automatonStats;
@@ -449,122 +450,212 @@ void LoadAutomatonStats(CCharEntity* PMaster, CPetEntity* PPet, Pet_t* petStats,
         tempSkills.dark            = meritbonus + modBonus;
     }
 
-    // Declaration of variables needed for calculation.
-    float raceStat          = 0; // Final HP for level based on race.
-    float jobStat           = 0; // Final number of HP for the level based on the primary profession.
-    float sJobStat          = 0; // Finite number of HP for the level based on the secondary profession.
-    int32 bonusStat         = 0; // Bonus number of HP that is added under certain conditions.
-    int32 baseValueColumn   = 0; // Number of the column with the base amount of HP
-    int32 scaleTo60Column   = 1; // Column number with modifier up to level 60
-    int32 scaleOver30Column = 2; // Column number with modifier after level 30
-    int32 scaleOver60Column = 3; // Column number with modifier after level 60
-    int32 scaleOver75Column = 4; // Column number with modifier after level 75
-    int32 scaleOver60       = 2; // Column number with a modifier for calculating MP after level 60
-    // int32 scaleOver75       = 3; // Column number with a modifier for calculating Stats after level 75
+    const auto frame      = static_cast<uint8>(PMaster->getAutomatonFrame());
+    const auto statsLevel = std::min<uint8>(mlvl, 99);
 
-    uint8 grade = 0;
+    const auto maybeFrameStats = lua["xi"]["pets"]["automaton"]["frameStats"].get<sol::optional<sol::table>>();
+    if (!maybeFrameStats)
+    {
+        ShowError("LoadAutomatonStats: Missing xi.pets.automaton.frameStats");
+        return;
+    }
 
-    // Calculate HP gain from main job
-    int32 mainLevelOver30     = std::clamp(mlvl - 30, 0, 30); // Calculate condition +1HP every lvl after level 30
-    int32 mainLevelUpTo60     = (mlvl < 60 ? mlvl - 1 : 59);  // First calculation mode up to level 60 (Used the same for MP)
-    int32 mainLevelOver60To75 = std::clamp(mlvl - 60, 0, 15); // Second calculation mode after level 60
-    int32 mainLevelOver75     = (mlvl < 75 ? 0 : mlvl - 75);  // Third calculation mode after level 75
+    const auto& frameStats = *maybeFrameStats;
 
-    // Calculate the bonus amount of HP
-    int32 mainLevelOver10           = (mlvl < 10 ? 0 : mlvl - 10);  // +2HP on every level after 10
-    int32 mainLevelOver50andUnder60 = std::clamp(mlvl - 50, 0, 10); // +2HP at each level between level 50 and 60
-    int32 mainLevelOver60           = (mlvl < 60 ? 0 : mlvl - 60);
+    const auto maybeFrameData = frameStats[frame].get<sol::optional<sol::table>>();
+    if (!maybeFrameData)
+    {
+        ShowErrorFmt("LoadAutomatonStats: Missing automaton frame stats for frame {}", static_cast<uint16>(frame));
+        return;
+    }
 
-    // Calculate raceStat jobStat bonusStat sJobStat
-    // Calculate by race
+    const auto& frameData = *maybeFrameData;
 
-    grade = 4;
+    const auto maybeLevelData = frameData[statsLevel].get<sol::optional<sol::table>>();
+    if (!maybeLevelData)
+    {
+        ShowErrorFmt("LoadAutomatonStats: Missing automaton frame stats for frame {} level {}", static_cast<uint16>(frame), static_cast<uint16>(statsLevel));
+        return;
+    }
 
-    raceStat = grade::GetHPScale(grade, baseValueColumn) + (grade::GetHPScale(grade, scaleTo60Column) * mainLevelUpTo60) +
-               (grade::GetHPScale(grade, scaleOver30Column) * mainLevelOver30) + (grade::GetHPScale(grade, scaleOver60Column) * mainLevelOver60To75) +
-               (grade::GetHPScale(grade, scaleOver75Column) * mainLevelOver75);
+    const auto& levelData = *maybeLevelData;
 
-    // raceStat = (int32)(statScale[grade][baseValueColumn] + statScale[grade][scaleTo60Column] * (mlvl - 1));
+    const auto getLevelStat = [&levelData](const char* key) -> uint16
+    {
+        return levelData[key].get<uint16>();
+    };
 
-    // Calculation by main job
-    grade = grade::GetJobGrade(mjob, 0);
-
-    jobStat = grade::GetHPScale(grade, baseValueColumn) + (grade::GetHPScale(grade, scaleTo60Column) * mainLevelUpTo60) +
-              (grade::GetHPScale(grade, scaleOver30Column) * mainLevelOver30) + (grade::GetHPScale(grade, scaleOver60Column) * mainLevelOver60To75) +
-              (grade::GetHPScale(grade, scaleOver75Column) * mainLevelOver75);
-
-    // Calculate Bonus HP
-    bonusStat        = (mainLevelOver10 + mainLevelOver50andUnder60) * 2;
-    tempHealth.maxhp = (int32)((raceStat + jobStat + bonusStat + sJobStat) * petStats->HPscale);
+    tempHealth.maxhp = getLevelStat("maxHP");
     tempHealth.hp    = tempHealth.maxhp;
-
-    // Start MP calculation
-    raceStat = 0;
-    jobStat  = 0;
-    sJobStat = 0;
-
-    // Calculate the MP for the race.
-    grade = 4;
-
-    // If the main job doesn't have an MP rating, calculate the racial bonus based on the level of the subjob's level (assuming it has an MP rating)
-    if (!(grade::GetJobGrade(mjob, 1) == 0 && grade::GetJobGrade(sjob, 1) == 0))
-    {
-        // calculate normal racial bonus
-        raceStat = grade::GetMPScale(grade, 0) + grade::GetMPScale(grade, scaleTo60Column) * mainLevelUpTo60 +
-                   grade::GetMPScale(grade, scaleOver60) * mainLevelOver60;
-    }
-
-    // For the main profession
-    grade = grade::GetJobGrade(mjob, 1);
-    if (grade > 0)
-    {
-        jobStat = grade::GetMPScale(grade, 0) + grade::GetMPScale(grade, scaleTo60Column) * mainLevelUpTo60 +
-                  grade::GetMPScale(grade, scaleOver60) * mainLevelOver60;
-    }
-
-    grade = grade::GetJobGrade(sjob, 1);
-    if (grade > 0)
-    {
-        sJobStat = grade::GetMPScale(grade, 0) + grade::GetMPScale(grade, scaleTo60Column) * mainLevelUpTo60 +
-                   grade::GetMPScale(grade, scaleOver60) * mainLevelOver60;
-    }
-
-    tempHealth.maxmp = (int32)((raceStat + jobStat + sJobStat) * petStats->MPscale);
+    tempHealth.maxmp = getLevelStat("maxMP");
     tempHealth.mp    = tempHealth.maxmp;
 
-    uint16 slvl = std::floor<uint16>(mlvl / 2);
+    // Handle Auto-Repair Kits, HP boost provided is shown in the automaton equipment menu, which means it needs to be calculated here.
+    const bool hasAutoRepairKit    = PMaster->hasAutomatonAttachment(static_cast<uint8>(AutomatonAttachment::AutoRepairKit));
+    const bool hasAutoRepairKitII  = PMaster->hasAutomatonAttachment(static_cast<uint8>(AutomatonAttachment::AutoRepairKitII));
+    const bool hasAutoRepairKitIII = PMaster->hasAutomatonAttachment(static_cast<uint8>(AutomatonAttachment::AutoRepairKitIII));
+    const bool hasAutoRepairKitIV  = PMaster->hasAutomatonAttachment(static_cast<uint8>(AutomatonAttachment::AutoRepairKitIV));
 
-    uint16 fSTR = GetBaseToRank(petStats->strRank, mlvl);
-    uint16 fDEX = GetBaseToRank(petStats->dexRank, mlvl);
-    uint16 fVIT = GetBaseToRank(petStats->vitRank, mlvl);
-    uint16 fAGI = GetBaseToRank(petStats->agiRank, mlvl);
-    uint16 fINT = GetBaseToRank(petStats->intRank, mlvl);
-    uint16 fMND = GetBaseToRank(petStats->mndRank, mlvl);
-    uint16 fCHR = GetBaseToRank(petStats->chrRank, mlvl);
+    if (hasAutoRepairKit || hasAutoRepairKitII || hasAutoRepairKitIII || hasAutoRepairKitIV)
+    {
+        const auto maybeRepairKit = lua["xi"]["automaton"]["repairKit"].get<sol::optional<sol::table>>();
+        if (!maybeRepairKit)
+        {
+            ShowError("LoadAutomatonStats: Missing xi.automaton.repairKit");
+            return;
+        }
 
-    uint16 mSTR = GetBaseToRank(grade::GetJobGrade(mjob, 2), mlvl);
-    uint16 mDEX = GetBaseToRank(grade::GetJobGrade(mjob, 3), mlvl);
-    uint16 mVIT = GetBaseToRank(grade::GetJobGrade(mjob, 4), mlvl);
-    uint16 mAGI = GetBaseToRank(grade::GetJobGrade(mjob, 5), mlvl);
-    uint16 mINT = GetBaseToRank(grade::GetJobGrade(mjob, 6), mlvl);
-    uint16 mMND = GetBaseToRank(grade::GetJobGrade(mjob, 7), mlvl);
-    uint16 mCHR = GetBaseToRank(grade::GetJobGrade(mjob, 8), mlvl);
+        const auto& repairKit = *maybeRepairKit;
 
-    uint16 sSTR = GetBaseToRank(grade::GetJobGrade(sjob, 2), slvl);
-    uint16 sDEX = GetBaseToRank(grade::GetJobGrade(sjob, 3), slvl);
-    uint16 sVIT = GetBaseToRank(grade::GetJobGrade(sjob, 4), slvl);
-    uint16 sAGI = GetBaseToRank(grade::GetJobGrade(sjob, 5), slvl);
-    uint16 sINT = GetBaseToRank(grade::GetJobGrade(sjob, 6), slvl);
-    uint16 sMND = GetBaseToRank(grade::GetJobGrade(sjob, 7), slvl);
-    uint16 sCHR = GetBaseToRank(grade::GetJobGrade(sjob, 8), slvl);
+        const auto maybeRepairKitData = repairKit["data"].get<sol::optional<sol::table>>();
+        if (!maybeRepairKitData)
+        {
+            ShowError("LoadAutomatonStats: Missing xi.automaton.repairKit.data");
+            return;
+        }
 
-    tempStats.STR = fSTR + mSTR + sSTR;
-    tempStats.DEX = fDEX + mDEX + sDEX;
-    tempStats.VIT = fVIT + mVIT + sVIT;
-    tempStats.AGI = fAGI + mAGI + sAGI;
-    tempStats.INT = fINT + mINT + sINT;
-    tempStats.MND = fMND + mMND + sMND;
-    tempStats.CHR = fCHR + mCHR + sCHR;
+        const auto& repairKitData = *maybeRepairKitData;
+
+        uint8 repairKitTier = 0;
+
+        for (const auto& repairKitDataEntry : repairKitData)
+        {
+            if (!repairKitDataEntry.second.is<sol::table>())
+            {
+                ShowError("LoadAutomatonStats: Invalid xi.automaton.repairKit.data entry");
+                return;
+            }
+
+            const auto repairKitEntry = repairKitDataEntry.second.as<sol::table>();
+
+            const auto maybeId = repairKitEntry["id"].get<sol::optional<uint8>>();
+            if (!maybeId)
+            {
+                ShowError("LoadAutomatonStats: Missing id in xi.automaton.repairKit.data");
+                return;
+            }
+
+            const auto maybeHPBoost = repairKitEntry["hpBoost"].get<sol::optional<uint8>>();
+            if (!maybeHPBoost)
+            {
+                ShowErrorFmt("LoadAutomatonStats: Missing hpBoost for attachment {} in xi.automaton.repairKit.data", *maybeId);
+                return;
+            }
+
+            if (PMaster->hasAutomatonAttachment(*maybeId))
+            {
+                repairKitTier += *maybeHPBoost;
+            }
+        }
+
+        const auto maybeFrameDivisors = repairKit["frameDivisors"].get<sol::optional<sol::table>>();
+        if (!maybeFrameDivisors)
+        {
+            ShowError("LoadAutomatonStats: Missing xi.automaton.repairKit.frameDivisors");
+            return;
+        }
+
+        const auto& frameDivisors = *maybeFrameDivisors;
+
+        const auto maybeDivisor = frameDivisors[frame].get<sol::optional<uint16>>();
+        if (!maybeDivisor || *maybeDivisor == 0)
+        {
+            ShowErrorFmt("LoadAutomatonStats: Missing Auto-Repair Kit divisor for frame {}", static_cast<uint16>(frame));
+            return;
+        }
+
+        tempHealth.maxhp += tempHealth.maxhp * repairKitTier / *maybeDivisor;
+        tempHealth.hp = tempHealth.maxhp;
+    }
+
+    // Handle Mana Tanks, MP boost provided is shown in the automaton equipment menu, which means it needs to be calculated here.
+    const bool hasManaTank    = PMaster->hasAutomatonAttachment(static_cast<uint8>(AutomatonAttachment::ManaTank));
+    const bool hasManaTankII  = PMaster->hasAutomatonAttachment(static_cast<uint8>(AutomatonAttachment::ManaTankII));
+    const bool hasManaTankIII = PMaster->hasAutomatonAttachment(static_cast<uint8>(AutomatonAttachment::ManaTankIII));
+    const bool hasManaTankIV  = PMaster->hasAutomatonAttachment(static_cast<uint8>(AutomatonAttachment::ManaTankIV));
+
+    // Only calculate if the automaton has a mana pool to boost, even if the attachment is equipped.
+    if ((hasManaTank || hasManaTankII || hasManaTankIII || hasManaTankIV) && tempHealth.maxmp > 0)
+    {
+        const auto maybeManaTank = lua["xi"]["automaton"]["manaTank"].get<sol::optional<sol::table>>();
+        if (!maybeManaTank)
+        {
+            ShowError("LoadAutomatonStats: Missing xi.automaton.manaTank");
+            return;
+        }
+
+        const auto& manaTank = *maybeManaTank;
+
+        const auto maybeManaTankData = manaTank["data"].get<sol::optional<sol::table>>();
+        if (!maybeManaTankData)
+        {
+            ShowError("LoadAutomatonStats: Missing xi.automaton.manaTank.data");
+            return;
+        }
+
+        const auto& manaTankData = *maybeManaTankData;
+
+        uint8 manaTankTier = 0;
+
+        for (const auto& manaTankDataEntry : manaTankData)
+        {
+            if (!manaTankDataEntry.second.is<sol::table>())
+            {
+                ShowError("LoadAutomatonStats: Invalid xi.automaton.manaTank.data entry");
+                return;
+            }
+
+            const auto manaTankEntry = manaTankDataEntry.second.as<sol::table>();
+
+            const auto maybeId = manaTankEntry["id"].get<sol::optional<uint8>>();
+            if (!maybeId)
+            {
+                ShowError("LoadAutomatonStats: Missing id in xi.automaton.manaTank.data");
+                return;
+            }
+
+            const auto maybeMPBoost = manaTankEntry["mpBoost"].get<sol::optional<uint8>>();
+            if (!maybeMPBoost)
+            {
+                ShowErrorFmt("LoadAutomatonStats: Missing mpBoost for attachment {} in xi.automaton.manaTank.data", *maybeId);
+                return;
+            }
+
+            if (PMaster->hasAutomatonAttachment(*maybeId))
+            {
+                manaTankTier += *maybeMPBoost;
+            }
+        }
+
+        const auto maybeFrameDivisors = manaTank["frameDivisors"].get<sol::optional<sol::table>>();
+        if (!maybeFrameDivisors)
+        {
+            ShowError("LoadAutomatonStats: Missing xi.automaton.manaTank.frameDivisors");
+            return;
+        }
+
+        const auto& frameDivisors = *maybeFrameDivisors;
+
+        const auto maybeDivisor = frameDivisors[frame].get<sol::optional<uint16>>();
+        if (!maybeDivisor || *maybeDivisor == 0)
+        {
+            ShowErrorFmt("LoadAutomatonStats: Missing Mana Tank divisor for frame {}", static_cast<uint16>(frame));
+            return;
+        }
+
+        tempHealth.maxmp += tempHealth.maxmp * manaTankTier / *maybeDivisor;
+        tempHealth.mp = tempHealth.maxmp;
+    }
+
+    tempStats = {
+        getLevelStat("STR"),
+        getLevelStat("DEX"),
+        getLevelStat("VIT"),
+        getLevelStat("AGI"),
+        getLevelStat("INT"),
+        getLevelStat("MND"),
+        getLevelStat("CHR"),
+    };
 
     if (PPet)
     {
@@ -582,11 +673,11 @@ void LoadAutomatonStats(CCharEntity* PMaster, CPetEntity* PPet, Pet_t* petStats,
         static_cast<CItemWeapon*>(PPet->m_Weapons[SLOT_MAIN])->setSkillType(SKILL_AUTOMATON_MELEE);
         static_cast<CItemWeapon*>(PPet->m_Weapons[SLOT_MAIN])->setDelay(petStats->cmbDelay); // every pet should use this eventually
         static_cast<CItemWeapon*>(PPet->m_Weapons[SLOT_MAIN])->setBaseDelay(petStats->cmbDelay);
-        static_cast<CItemWeapon*>(PPet->m_Weapons[SLOT_MAIN])->setDamage((PPet->GetSkill(SKILL_AUTOMATON_MELEE) / 9) * 2 + 3);
+        static_cast<CItemWeapon*>(PPet->m_Weapons[SLOT_MAIN])->setDamage(static_cast<uint16>(std::floor((PPet->GetSkill(SKILL_AUTOMATON_MELEE) / 8.7f) * 2.0f + 3.0f)));
 
         static_cast<CItemWeapon*>(PPet->m_Weapons[SLOT_RANGED])->setSkillType(SKILL_AUTOMATON_RANGED);
-        static_cast<CItemWeapon*>(PPet->m_Weapons[SLOT_RANGED])->setDamage((PPet->GetSkill(SKILL_AUTOMATON_RANGED) / 9) * 2 + 3);
-        static_cast<CItemWeapon*>(PPet->m_Weapons[SLOT_RANGED])->setDmgType(DAMAGE_TYPE::PIERCING);
+        static_cast<CItemWeapon*>(PPet->m_Weapons[SLOT_RANGED])->setDamage(static_cast<uint16>(std::floor((PPet->GetSkill(SKILL_AUTOMATON_RANGED) / 8.7f) * 2.0f + 3.0f)));
+        static_cast<CItemWeapon*>(PPet->m_Weapons[SLOT_RANGED])->setDmgType(xi::DamageType::Piercing);
 
         // Automatons are hard to interrupt
         PPet->addModifier(Mod::SPELLINTERRUPT, 85);
@@ -1015,29 +1106,7 @@ void CalculateAutomatonStats(CBattleEntity* PMaster, CBattleEntity* PPet)
     // TODO: should CBattleEntity be able to load a real automaton?
     if (CCharEntity* PChar = dynamic_cast<CCharEntity*>(PMaster))
     {
-        JOBTYPE mjob = JOBTYPE::JOB_NON;
-        JOBTYPE sjob = JOBTYPE::JOB_NON;
-
-        switch (PChar->getAutomatonFrame())
-        {
-            default: // case AutomatonFrame::Harlequin:
-                mjob = JOB_WAR;
-                sjob = JOB_RDM;
-                break;
-            case AutomatonFrame::Valoredge:
-                mjob = JOB_PLD;
-                sjob = JOB_WAR;
-                break;
-            case AutomatonFrame::Sharpshot:
-                mjob = JOB_RNG;
-                sjob = JOB_PUP;
-                break;
-            case AutomatonFrame::Stormwaker:
-                mjob = JOB_RDM;
-                sjob = JOB_WHM;
-                break;
-        }
-
+        // TODO: AUTOMATON_LEVEL_BONUS will raise the level of the automaton, but stats will be capped to 99. Needs retail captures.
         uint8 mainLevel = PMaster->GetMJob() == JOB_PUP ? PMaster->GetMLevel() + PMaster->getMod(Mod::AUTOMATON_LVL_BONUS) : PMaster->GetSLevel();
 
         uint32 petID = 0;
@@ -1068,7 +1137,7 @@ void CalculateAutomatonStats(CBattleEntity* PMaster, CBattleEntity* PPet)
             }
         }
 
-        LoadAutomatonStats(PChar, PAutomaton, g_PPetList.at(petID), mainLevel, mjob, sjob); // temp
+        LoadAutomatonStats(PChar, PAutomaton, g_PPetList.at(petID), mainLevel);
 
         if (PAutomaton)
         {
@@ -1093,7 +1162,7 @@ void CalculateLuopanStats(CBattleEntity* PMaster, CPetEntity* PPet)
     PPet->SetMLevel(PMaster->GetMLevel());
     PPet->health.maxhp = (uint32)floor((250 * PPet->GetMLevel()) / 15);
 
-    if (PMaster->StatusEffectContainer->HasStatusEffect(EFFECT_BOLSTER))
+    if (PMaster->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Bolster))
     {
         uint8 bolsterJPVal = static_cast<CCharEntity*>(PMaster)->PJobPoints->GetJobPointValue(JP_BOLSTER_EFFECT);
         PPet->health.maxhp += (uint32)floor(PPet->health.maxhp * (0.03 * bolsterJPVal));
@@ -1170,17 +1239,17 @@ void SetupPetWithMaster(CBattleEntity* PMaster, CPetEntity* PPet)
         // clang-format on
     }
 
-    if (PMaster->StatusEffectContainer->HasStatusEffect(EFFECT_DEBILITATION))
+    if (PMaster->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Debilitation))
     {
-        PPet->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_DEBILITATION, EFFECT_DEBILITATION, PMaster->StatusEffectContainer->GetStatusEffect(EFFECT_DEBILITATION)->GetPower(), 0s, PMaster->StatusEffectContainer->GetStatusEffect(EFFECT_DEBILITATION)->GetDuration()), EffectNotice::Silent);
+        PPet->StatusEffectContainer->AddStatusEffect(new CStatusEffect(xi::StatusEffect::Debilitation, static_cast<uint16>(xi::StatusEffect::Debilitation), PMaster->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Debilitation)->GetPower(), 0s, PMaster->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Debilitation)->GetDuration()), EffectNotice::Silent);
     }
-    if (PMaster->StatusEffectContainer->HasStatusEffect(EFFECT_OMERTA))
+    if (PMaster->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Omerta))
     {
-        PPet->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_OMERTA, EFFECT_OMERTA, PMaster->StatusEffectContainer->GetStatusEffect(EFFECT_OMERTA)->GetPower(), 0s, PMaster->StatusEffectContainer->GetStatusEffect(EFFECT_OMERTA)->GetDuration()), EffectNotice::Silent);
+        PPet->StatusEffectContainer->AddStatusEffect(new CStatusEffect(xi::StatusEffect::Omerta, static_cast<uint16>(xi::StatusEffect::Omerta), PMaster->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Omerta)->GetPower(), 0s, PMaster->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Omerta)->GetDuration()), EffectNotice::Silent);
     }
-    if (PMaster->StatusEffectContainer->HasStatusEffect(EFFECT_IMPAIRMENT))
+    if (PMaster->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Impairment))
     {
-        PPet->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_IMPAIRMENT, EFFECT_IMPAIRMENT, PMaster->StatusEffectContainer->GetStatusEffect(EFFECT_IMPAIRMENT)->GetPower(), 0s, PMaster->StatusEffectContainer->GetStatusEffect(EFFECT_IMPAIRMENT)->GetDuration()), EffectNotice::Silent);
+        PPet->StatusEffectContainer->AddStatusEffect(new CStatusEffect(xi::StatusEffect::Impairment, static_cast<uint16>(xi::StatusEffect::Impairment), PMaster->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Impairment)->GetPower(), 0s, PMaster->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Impairment)->GetDuration()), EffectNotice::Silent);
     }
 }
 
@@ -1265,7 +1334,7 @@ void SpawnMobPet(CBattleEntity* PMaster, uint32 PetID)
         PMaster->StatusEffectContainer->CopyConfrontationEffect(PPet);
 
         // TODO: Lets not do this here.
-        if (PPet->m_EcoSystem == ECOSYSTEM::ELEMENTAL)
+        if (PPet->m_EcoSystem == xi::Ecosystem::Elemental)
         {
             // assuming elemental spawn
             PPet->setModifier(Mod::DMGPHYS, -5000); //-50% PDT

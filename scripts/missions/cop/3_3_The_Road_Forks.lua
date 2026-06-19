@@ -135,7 +135,7 @@ mission.sections =
                         if mission:getLocalVar(player, 'ivyDefeated') == 1 then
                             local isSanDorian = player:getNation() == xi.nation.SANDORIA and 1 or 0
 
-                            return mission:progressEvent(0, isSanDorian)
+                            return mission:progressCutscene(0, isSanDorian)
                         elseif not GetMobByID(carpentersLandingID.mob.OVERGROWN_IVY):isSpawned() then
                             player:messageText(npc, carpentersLandingID.text.YOU_WISH_TO_KNOW_MISTALLE)
                             player:messageText(npc, carpentersLandingID.text.SQUASH_ANOTHER_WORM)

@@ -27,7 +27,7 @@
 #include "status_effect_container.h"
 #include <utility>
 
-CStatusEffect::CStatusEffect(EFFECT id, uint16 icon, uint16 power, timer::duration tick, timer::duration duration, uint32 subid, uint16 subPower, uint16 subIcon, uint16 tier, uint32 flags, uint16 sourceType, uint32 sourceTypeParam, uint32 originID)
+CStatusEffect::CStatusEffect(xi::StatusEffect id, uint16 icon, uint16 power, timer::duration tick, timer::duration duration, uint32 subid, uint16 subPower, uint16 subIcon, uint16 tier, xi::StatusEffectFlag flags, uint16 sourceType, uint32 sourceTypeParam, uint32 originID)
 : m_StatusID(id)
 , m_SubID(subid)
 , m_Icon(icon)
@@ -44,7 +44,7 @@ CStatusEffect::CStatusEffect(EFFECT id, uint16 icon, uint16 power, timer::durati
 {
     if (m_TickTime < 3s && m_TickTime != 0s)
     {
-        ShowWarning("Status Effect tick time less than 3s is no longer supported.  Effect ID: %d", id);
+        ShowWarning("Status Effect tick time less than 3s is no longer supported.  Effect ID: %d", static_cast<uint16>(id));
     }
 }
 
@@ -60,7 +60,7 @@ void CStatusEffect::SetOwner(CBattleEntity* Owner)
     m_POwner = Owner;
 }
 
-EFFECT CStatusEffect::GetStatusID()
+auto CStatusEffect::GetStatusID() -> xi::StatusEffect
 {
     return m_StatusID;
 }
@@ -125,7 +125,7 @@ uint16 CStatusEffect::GetTier() const
     return m_Tier;
 }
 
-uint32 CStatusEffect::GetEffectFlags() const
+auto CStatusEffect::GetEffectFlags() const -> xi::StatusEffectFlag
 {
     return m_Flags;
 }
@@ -150,28 +150,24 @@ timer::time_point CStatusEffect::GetStartTime()
     return m_StartTime;
 }
 
-void CStatusEffect::SetEffectFlags(uint32 Flags)
+void CStatusEffect::SetEffectFlags(xi::StatusEffectFlag Flags)
 {
     m_Flags = Flags;
 }
 
-void CStatusEffect::AddEffectFlag(uint32 Flag)
+void CStatusEffect::AddEffectFlag(xi::StatusEffectFlag Flag)
 {
     m_Flags |= Flag;
 }
 
-void CStatusEffect::DelEffectFlag(uint32 flag)
+void CStatusEffect::DelEffectFlag(xi::StatusEffectFlag flag)
 {
     m_Flags &= ~flag;
 }
 
-bool CStatusEffect::HasEffectFlag(uint32 Flag)
+auto CStatusEffect::HasEffectFlag(xi::StatusEffectFlag Flag) -> bool
 {
-    if (m_Flags & Flag)
-    {
-        return true;
-    }
-    return false;
+    return (m_Flags & Flag) != xi::StatusEffectFlag::None;
 }
 
 void CStatusEffect::SetIcon(uint16 Icon)

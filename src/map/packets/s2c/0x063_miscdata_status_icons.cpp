@@ -44,7 +44,7 @@ GP_SERV_COMMAND_MISCDATA::STATUS_ICONS::STATUS_ICONS(const CCharEntity* PChar)
             if (PEffect->GetIcon() != 0)
             {
                 uint32 timestamp = NO_TIMER;
-                if (PEffect->GetDuration() > 0s && !PEffect->HasEffectFlag(EFFECTFLAG_HIDE_TIMER))
+                if (PEffect->GetDuration() > 0s && !PEffect->HasEffectFlag(xi::StatusEffectFlag::HideTimer))
                 {
                     // this value overflows, but the client expects the overflowed timestamp and corrects it
                     uint32 seconds = timer::count_seconds(PEffect->GetStartTime() - timer::now() + PEffect->GetDuration());

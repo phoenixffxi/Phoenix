@@ -10,7 +10,7 @@ local entity = {}
 
 entity.phList =
 {
-    [ID.mob.MAHISHASURA - 10] = ID.mob.MAHISHASURA, -- 215.000 -18.000 372.000
+    [ID.mob.MAHISHASURA - 1] = ID.mob.MAHISHASURA, -- Confirmed on retail
 }
 
 entity.spawnPoints =

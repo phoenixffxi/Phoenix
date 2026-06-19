@@ -172,14 +172,14 @@ auto CAutomatonController::GetCurrentManeuvers() const -> CurrentManeuvers
 {
     const auto& statuses = PAutomaton->PMaster->StatusEffectContainer;
     return {
-        statuses->GetEffectsCount(EFFECT_FIRE_MANEUVER),
-        statuses->GetEffectsCount(EFFECT_ICE_MANEUVER),
-        statuses->GetEffectsCount(EFFECT_WIND_MANEUVER),
-        statuses->GetEffectsCount(EFFECT_EARTH_MANEUVER),
-        statuses->GetEffectsCount(EFFECT_THUNDER_MANEUVER),
-        statuses->GetEffectsCount(EFFECT_WATER_MANEUVER),
-        statuses->GetEffectsCount(EFFECT_LIGHT_MANEUVER),
-        statuses->GetEffectsCount(EFFECT_DARK_MANEUVER),
+        statuses->GetEffectsCount(xi::StatusEffect::FireManeuver),
+        statuses->GetEffectsCount(xi::StatusEffect::IceManeuver),
+        statuses->GetEffectsCount(xi::StatusEffect::WindManeuver),
+        statuses->GetEffectsCount(xi::StatusEffect::EarthManeuver),
+        statuses->GetEffectsCount(xi::StatusEffect::ThunderManeuver),
+        statuses->GetEffectsCount(xi::StatusEffect::WaterManeuver),
+        statuses->GetEffectsCount(xi::StatusEffect::LightManeuver),
+        statuses->GetEffectsCount(xi::StatusEffect::DarkManeuver),
     };
 }
 
@@ -735,7 +735,7 @@ auto CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers) -> boo
             {
                 if (!dispel && PStatus->GetDuration() > 0s)
                 {
-                    if (PStatus->HasEffectFlag(EFFECTFLAG_DISPELABLE))
+                    if (PStatus->HasEffectFlag(xi::StatusEffectFlag::Dispelable))
                     {
                         dispel = true;
                         return;
@@ -751,7 +751,7 @@ auto CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers) -> boo
         }
         default:
         {
-            if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_DIA))
+            if (!PTarget->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Dia))
             {
                 if (maneuvers.dark) // Dark -> Bio
                 {
@@ -763,7 +763,7 @@ auto CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers) -> boo
                 }
             }
 
-            if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_BIO))
+            if (!PTarget->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Bio))
             {
                 if (maneuvers.light)
                 {
@@ -775,7 +775,7 @@ auto CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers) -> boo
                 }
             }
 
-            if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_DIA))
+            if (!PTarget->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Dia))
             {
                 if (maneuvers.dark) // Dark -> Bio
                 {
@@ -787,7 +787,7 @@ auto CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers) -> boo
                 }
             }
 
-            if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_BIO))
+            if (!PTarget->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Bio))
             {
                 if (maneuvers.light)
                 {
@@ -864,26 +864,26 @@ auto CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers) -> boo
                 castPriority.emplace_back(SpellID::Aspir);
             }
 
-            if (PAutomaton->GetHPP() < 75 && PTarget->m_EcoSystem != ECOSYSTEM::UNDEAD)
+            if (PAutomaton->GetHPP() < 75 && PTarget->m_EcoSystem != xi::Ecosystem::Undead)
             { // HPP <= 75 -> Drain
                 castPriority.emplace_back(SpellID::Drain);
             }
 
             if (maneuvers.dark) // Dark -> Access to Enfeebles
             {
-                if (!PAutomaton->StatusEffectContainer->HasStatusEffect(EFFECT_INT_BOOST))
+                if (!PAutomaton->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::IntBoost))
                 { // Use it ASAP
                     defaultPriority.emplace_back(SpellID::Absorb_INT);
                 }
 
                 // Not prioritizable since it requires 1 Dark to access Enfeebles and requires 2 of another element to prioritize another
                 defaultPriority.emplace_back(SpellID::Blind);
-                if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_DIA))
+                if (!PTarget->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Dia))
                 {
                     defaultPriority.emplace_back(SpellID::Bio_II);
                 }
 
-                if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_BIO))
+                if (!PTarget->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Bio))
                 {
                     if (maneuvers.light >= 2) // 2 Light -> Dia
                     {
@@ -894,12 +894,12 @@ auto CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers) -> boo
                         defaultPriority.emplace_back(SpellID::Dia_II);
                     }
                 }
-                if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_DIA))
+                if (!PTarget->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Dia))
                 {
                     defaultPriority.emplace_back(SpellID::Bio);
                 }
 
-                if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_BIO))
+                if (!PTarget->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Bio))
                 {
                     if (maneuvers.light >= 2) // 2 Light -> Dia
                     {
@@ -985,7 +985,7 @@ auto CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers) -> boo
             if (maneuvers.dark) // Dark -> Blind > Bio
             {
                 castPriority.emplace_back(SpellID::Blind);
-                if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_DIA))
+                if (!PTarget->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Dia))
                 {
                     castPriority.emplace_back(SpellID::Bio_II);
                 }
@@ -993,13 +993,13 @@ auto CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers) -> boo
             else
             {
                 defaultPriority.emplace_back(SpellID::Blind);
-                if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_DIA))
+                if (!PTarget->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Dia))
                 {
                     defaultPriority.emplace_back(SpellID::Bio_II);
                 }
             }
 
-            if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_BIO))
+            if (!PTarget->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Bio))
             {
                 if (maneuvers.light) // Light -> Dia
                 {
@@ -1011,7 +1011,7 @@ auto CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers) -> boo
                 }
             }
 
-            if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_DIA))
+            if (!PTarget->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Dia))
             {
                 if (maneuvers.dark) // Dark -> Blind > Bio
                 {
@@ -1023,7 +1023,7 @@ auto CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers) -> boo
                 }
             }
 
-            if (!PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_BIO))
+            if (!PTarget->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Bio))
             {
                 if (maneuvers.light) // Light -> Dia
                 {
@@ -1229,29 +1229,29 @@ auto CAutomatonController::TryEnhance() -> bool
             {
                 if (PStatus->GetDuration() > 0s)
                 {
-                    if (PStatus->GetStatusID() == EFFECT_PROTECT)
+                    if (PStatus->GetStatusID() == xi::StatusEffect::Protect)
                     {
                         protect = true;
                         ++protectcount;
                     }
 
-                    if (PStatus->GetStatusID() == EFFECT_SHELL)
+                    if (PStatus->GetStatusID() == xi::StatusEffect::Shell)
                     {
                         shell = true;
                         ++shellcount;
                     }
 
-                    if (PStatus->GetStatusID() == EFFECT_HASTE || PStatus->GetStatusID() == EFFECT_GEO_HASTE)
+                    if (PStatus->GetStatusID() == xi::StatusEffect::Haste || PStatus->GetStatusID() == xi::StatusEffect::GeoHaste)
                     {
                         haste = true;
                     }
 
-                    if (PStatus->GetStatusID() == EFFECT_STONESKIN)
+                    if (PStatus->GetStatusID() == xi::StatusEffect::Stoneskin)
                     {
                         stoneskin = true;
                     }
 
-                    if (PStatus->GetStatusID() == EFFECT_PHALANX)
+                    if (PStatus->GetStatusID() == xi::StatusEffect::Phalanx)
                     {
                         phalanx = true;
                     }
@@ -1309,17 +1309,17 @@ auto CAutomatonController::TryEnhance() -> bool
         {
             if (PStatus->GetDuration() > 0s)
             {
-                if (PStatus->GetStatusID() == EFFECT_PROTECT)
+                if (PStatus->GetStatusID() == xi::StatusEffect::Protect)
                 {
                     protect = true;
                 }
 
-                if (PStatus->GetStatusID() == EFFECT_SHELL)
+                if (PStatus->GetStatusID() == xi::StatusEffect::Shell)
                 {
                     shell = true;
                 }
 
-                if (PStatus->GetStatusID() == EFFECT_HASTE || PStatus->GetStatusID() == EFFECT_GEO_HASTE)
+                if (PStatus->GetStatusID() == xi::StatusEffect::Haste || PStatus->GetStatusID() == xi::StatusEffect::GeoHaste)
                 {
                     haste = true;
                 }
@@ -1381,19 +1381,19 @@ auto CAutomatonController::TryEnhance() -> bool
                 {
                     if (PStatus->GetDuration() > 0s)
                     {
-                        if (PStatus->GetStatusID() == EFFECT_PROTECT)
+                        if (PStatus->GetStatusID() == xi::StatusEffect::Protect)
                         {
                             protect = true;
                             ++protectcount;
                         }
 
-                        if (PStatus->GetStatusID() == EFFECT_SHELL)
+                        if (PStatus->GetStatusID() == xi::StatusEffect::Shell)
                         {
                             shell = true;
                             ++shellcount;
                         }
 
-                        if (PStatus->GetStatusID() == EFFECT_HASTE || PStatus->GetStatusID() == EFFECT_GEO_HASTE)
+                        if (PStatus->GetStatusID() == xi::StatusEffect::Haste || PStatus->GetStatusID() == xi::StatusEffect::GeoHaste)
                         {
                             haste = true;
                         }
@@ -1435,7 +1435,7 @@ auto CAutomatonController::TryEnhance() -> bool
     }
 
     if (PRegenTarget &&
-        !(PRegenTarget->StatusEffectContainer->HasStatusEffect(EFFECT_REGEN) || PRegenTarget->StatusEffectContainer->HasStatusEffect(EFFECT_GEO_REGEN)))
+        !(PRegenTarget->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Regen) || PRegenTarget->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::GeoRegen)))
     {
         if (Cast(PRegenTarget->targid, SpellID::Regen_III) || Cast(PRegenTarget->targid, SpellID::Regen_II) || Cast(PRegenTarget->targid, SpellID::Regen))
         {
@@ -1523,7 +1523,7 @@ auto CAutomatonController::TryTPMove() -> bool
 
         if (attemptChain)
         {
-            CStatusEffect* PSCEffect = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_SKILLCHAIN, 0);
+            CStatusEffect* PSCEffect = PTarget->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Skillchain, 0);
             if (PSCEffect && PSCEffect->GetStartTime() + 3s < timer::now())
             {
                 std::list<SKILLCHAIN_ELEMENT> resonanceProperties;
@@ -1613,7 +1613,7 @@ auto CAutomatonController::TryAttachment() -> bool
 auto CAutomatonController::CanCastSpells(IgnoreRecastsAndCosts ignoreRecastsAndCosts) -> bool
 {
     // Check for spell blockers e.g. silence
-    if (PAutomaton->StatusEffectContainer->HasStatusEffect({ EFFECT_SILENCE, EFFECT_MUTE }))
+    if (PAutomaton->StatusEffectContainer->HasStatusEffect({ xi::StatusEffect::Silence, xi::StatusEffect::Mute }))
     {
         return false;
     }
@@ -1675,7 +1675,7 @@ void LoadAutomatonSpellList()
             AutomatonSpell PSpell{
                 .skilllevel = rset->get<uint16>("skilllevel"),
                 .heads      = rset->get<uint8>("heads"),
-                .enfeeble   = rset->get<EFFECT>("enfeeble"),
+                .enfeeble   = rset->get<xi::StatusEffect>("enfeeble"),
                 .immunity   = rset->get<IMMUNITY>("immunity"),
                 .removes    = {}, // Will handle in a moment
             };
@@ -1683,7 +1683,7 @@ void LoadAutomatonSpellList()
             uint32 removes = rset->get<uint32>("removes");
             while (removes > 0)
             {
-                PSpell.removes.emplace_back(static_cast<EFFECT>(removes & 0xFF));
+                PSpell.removes.emplace_back(static_cast<xi::StatusEffect>(removes & 0xFF));
                 removes = removes >> 8;
             }
 
@@ -1721,7 +1721,7 @@ Maybe<SpellID> FindNaSpell(CStatusEffect* PStatus)
         }
     }
 
-    if (PStatus->HasEffectFlag(EFFECTFLAG_ERASABLE))
+    if (PStatus->HasEffectFlag(xi::StatusEffectFlag::Erasable))
     {
         return SpellID::Erase;
     }

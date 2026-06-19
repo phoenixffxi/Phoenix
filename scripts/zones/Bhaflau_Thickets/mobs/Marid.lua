@@ -13,7 +13,7 @@ entity.onMobDeath = function(mob, player, optParams)
 end
 
 entity.onMobDespawn = function(mob)
-    xi.mob.phOnDespawn(mob, ID.mob.MAHISHASURA, 5, 10800) -- 3 hours
+    xi.mob.phOnDespawn(mob, ID.mob.MAHISHASURA, 15, 10800) -- 3 hours
 end
 
 return entity

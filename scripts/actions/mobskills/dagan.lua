@@ -11,8 +11,10 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
 end
 
 mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
-    local hp = math.floor(mob:getMaxHP() * xi.mobskills.calculateDuration(skill:getTP(), 22, 52) / 100)
-    local mp = math.floor(mob:getMaxMP() * xi.mobskills.calculateDuration(skill:getTP(), 15, 35) / 100)
+    local hpPercent = xi.combat.physical.calculateTPfactor(skill:getTP(), { 22, 33, 52 })
+    local mpPercent = xi.combat.physical.calculateTPfactor(skill:getTP(), { 15, 22, 35 })
+    local hp        = math.floor(mob:getMaxHP() * hpPercent / 100)
+    local mp        = math.floor(mob:getMaxMP() * mpPercent / 100)
 
     mob:addHP(hp)
     mob:addMP(mp)

@@ -130,12 +130,12 @@ Maybe<SpellID> CMobSpellContainer::GetAvailable(SpellID spellId)
 {
     auto* spell    = spell::GetSpell(spellId);
     bool  enoughMP = spell->getMPCost() <= m_PMob->health.mp ||
-                    spell->getSkillType() == SKILL_NINJUTSU ||
-                    spell->getSkillType() == SKILL_SINGING ||
-                    spell->getSkillType() == SKILL_WIND_INSTRUMENT ||
-                    spell->getSkillType() == SKILL_STRING_INSTRUMENT ||
-                    spell->getSkillType() == SKILL_GEOMANCY ||
-                    m_PMob->StatusEffectContainer->HasStatusEffect(EFFECT_MANAFONT);
+                     spell->getSkillType() == SKILL_NINJUTSU ||
+                     spell->getSkillType() == SKILL_SINGING ||
+                     spell->getSkillType() == SKILL_WIND_INSTRUMENT ||
+                     spell->getSkillType() == SKILL_STRING_INSTRUMENT ||
+                     spell->getSkillType() == SKILL_GEOMANCY ||
+                     m_PMob->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Manafont);
 
     bool isNotInRecast = !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<Recast>(spellId));
 
@@ -150,15 +150,15 @@ Maybe<SpellID> CMobSpellContainer::GetBestAvailable(SPELLFAMILY family)
     {
         for (auto id : list)
         {
-            auto* spell      = spell::GetSpell(id);
-            bool  sameFamily = (family == SPELLFAMILY_NONE) ? true : spell->getSpellFamily() == family;
-            bool  enoughMP   = spell->getMPCost() <= m_PMob->health.mp ||
-                            spell->getSkillType() == SKILL_NINJUTSU ||
-                            spell->getSkillType() == SKILL_SINGING ||
-                            spell->getSkillType() == SKILL_WIND_INSTRUMENT ||
-                            spell->getSkillType() == SKILL_STRING_INSTRUMENT ||
-                            spell->getSkillType() == SKILL_GEOMANCY;
-            bool isNotInRecast = !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<Recast>(id));
+            auto* spell         = spell::GetSpell(id);
+            bool  sameFamily    = (family == SPELLFAMILY_NONE) ? true : spell->getSpellFamily() == family;
+            bool  enoughMP      = spell->getMPCost() <= m_PMob->health.mp ||
+                                  spell->getSkillType() == SKILL_NINJUTSU ||
+                                  spell->getSkillType() == SKILL_SINGING ||
+                                  spell->getSkillType() == SKILL_WIND_INSTRUMENT ||
+                                  spell->getSkillType() == SKILL_STRING_INSTRUMENT ||
+                                  spell->getSkillType() == SKILL_GEOMANCY;
+            bool  isNotInRecast = !m_PMob->PRecastContainer->Has(RECAST_MAGIC, static_cast<Recast>(id));
             if (sameFamily && enoughMP && isNotInRecast)
             {
                 matches.emplace_back(id);
@@ -893,31 +893,31 @@ Maybe<SpellID> CMobSpellContainer::GetNaSpell()
     }
 
     // paralyna
-    if (HasNaSpell(SpellID::Paralyna) && m_PMob->StatusEffectContainer->HasStatusEffect(EFFECT_PARALYSIS))
+    if (HasNaSpell(SpellID::Paralyna) && m_PMob->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Paralysis))
     {
         return SpellID::Paralyna;
     }
 
     // cursna
-    if (HasNaSpell(SpellID::Cursna) && m_PMob->StatusEffectContainer->HasStatusEffect({ EFFECT_CURSE, EFFECT_CURSE_II }))
+    if (HasNaSpell(SpellID::Cursna) && m_PMob->StatusEffectContainer->HasStatusEffect({ xi::StatusEffect::CurseI, xi::StatusEffect::CurseIi }))
     {
         return SpellID::Cursna;
     }
 
     // erase
-    if (HasNaSpell(SpellID::Erase) && m_PMob->StatusEffectContainer->HasStatusEffectByFlag(EFFECTFLAG_ERASABLE))
+    if (HasNaSpell(SpellID::Erase) && m_PMob->StatusEffectContainer->HasStatusEffectByFlag(xi::StatusEffectFlag::Erasable))
     {
         return SpellID::Erase;
     }
 
     // blindna
-    if (HasNaSpell(SpellID::Blindna) && m_PMob->StatusEffectContainer->HasStatusEffect(EFFECT_BLINDNESS))
+    if (HasNaSpell(SpellID::Blindna) && m_PMob->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Blindness))
     {
         return SpellID::Blindna;
     }
 
     // poisona
-    if (HasNaSpell(SpellID::Poisona) && m_PMob->StatusEffectContainer->HasStatusEffect(EFFECT_POISON))
+    if (HasNaSpell(SpellID::Poisona) && m_PMob->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Poison))
     {
         return SpellID::Poisona;
     }

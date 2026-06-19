@@ -3,7 +3,7 @@
 ########
 # Base #
 ########
-ARG BASE_TAG=3.22
+ARG BASE_TAG=3.24
 FROM --platform=$BUILDPLATFORM alpine:$BASE_TAG AS base
 
 # Install runtime dependencies.
@@ -56,7 +56,7 @@ SHELL ["/bin/bash", "-c"]
 ###########
 FROM base AS staging
 
-ARG LLVM_VERSION=20
+ARG LLVM_VERSION=22
 
 # Install build dependencies.
 RUN --mount=type=cache,target=/var/cache/apk,id=cache-apk,sharing=locked <<EOF
@@ -139,7 +139,6 @@ COPY --chown=$UNAME:$UGROUP \
     --exclude=.git \
     --exclude=navmeshes/** \
     --exclude=ximeshes/** \
-    --exclude=scripts \
     --exclude=sql \
     . /server
 
@@ -152,7 +151,6 @@ ENV CCACHE_DIR=/xiadmin/.ccache
 RUN --mount=type=cache,target=/xiadmin/build,uid=$UID,gid=$GID,id=build-alpine-$COMPILER-$CMAKE_BUILD_TYPE-tracy$TRACY_ENABLE-pch$PCH_ENABLE \
     --mount=type=cache,target=/xiadmin/.ccache,uid=$UID,gid=$GID,id=ccache-alpine-$COMPILER-$CMAKE_BUILD_TYPE-tracy$TRACY_ENABLE-pch$PCH_ENABLE \
     --mount=type=bind,source=.git,target=/server/.git \
-    --mount=type=bind,source=scripts,target=/server/scripts \
     --mount=type=bind,source=sql,target=/server/sql <<EOF
 set -eo pipefail
 cp -p /xiadmin/build/version.cpp /server/src/common/ 2> /dev/null || true
@@ -188,13 +186,14 @@ USER $UNAME
 
 COPY --chown=$UNAME:$UGROUP LICENSE /server/LICENSE
 COPY --chown=$UNAME:$UGROUP res/compress.dat res/decompress.dat /server/res/
-COPY --chown=$UNAME:$UGROUP scripts /server/scripts
 COPY --chown=$UNAME:$UGROUP sql /server/sql
 COPY --chown=$UNAME:$UGROUP tools /server/tools
 COPY --chown=$UNAME:$UGROUP modules /server/modules
 COPY --chown=$UNAME:$UGROUP settings /server/settings
 
 COPY --chown=$UNAME:$UGROUP --from=staging $VIRTUAL_ENV $VIRTUAL_ENV
+COPY --chown=$UNAME:$UGROUP --from=build /server/data /server/data
+COPY --chown=$UNAME:$UGROUP --from=build /server/scripts /server/scripts
 COPY --chown=$UNAME:$UGROUP --from=build /server/xi_* /server/
 COPY --chown=$UNAME:$UGROUP --from=build /server/build.log /server/build.log
 

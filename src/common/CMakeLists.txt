@@ -1,4 +1,13 @@
 set(COMMON_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/zmq/channel.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/zmq/endpoint.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/zmq/endpoint.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/zmq/router_endpoint.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/zmq/router_endpoint.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/zmq/dealer_endpoint.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/zmq/dealer_endpoint.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/zmq/zmq_service.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/zmq/zmq_service.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/application.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/application.h
     ${CMAKE_CURRENT_SOURCE_DIR}/arguments.cpp
@@ -19,6 +28,7 @@ set(COMMON_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/engine.h
     ${CMAKE_CURRENT_SOURCE_DIR}/filewatcher.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/filewatcher.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/ipp_message.h
     ${CMAKE_CURRENT_SOURCE_DIR}/ipp.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/ipp.h
     ${CMAKE_CURRENT_SOURCE_DIR}/logging.cpp

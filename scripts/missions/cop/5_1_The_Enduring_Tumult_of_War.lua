@@ -155,9 +155,9 @@ mission.sections =
                         return mission:noAction()
                     elseif missionStatus == 4 then
                         if player:getZPos() < 318 then
-                            return mission:progressEvent(69)
+                            return mission:progressOptionalCutscene(69, { cs_option = 0, canSkip = true })
                         else
-                            return mission:progressEvent(70)
+                            return mission:progressOptionalCutscene(70, { cs_option = 0, canSkip = true })
                         end
                     end
                 end,

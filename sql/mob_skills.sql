@@ -1055,14 +1055,14 @@ INSERT INTO `mob_skills` VALUES (1023,724,'astral_flow_2',0,0.0,7.0,2000,0,1,2,0
 -- INSERT INTO `mob_skills` VALUES (1024,725,'warp_out',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1025,726,'warp_in',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1026,727,'arbor_storm',1,0.0,10.0,2000,1500,4,0,0,2,0,0,0); -- TODO: Capture Animation (TP move itself is finished)
-INSERT INTO `mob_skills` VALUES (1027,728,'combo',0,0.0,7.0,1916,0,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1028,729,'tackle',0,0.0,7.0,1833,0,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1029,730,'one-ilm_punch',0,0.0,7.0,2000,0,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1030,731,'backhand_blow',0,0.0,7.0,1333,0,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1031,732,'spinning_attack',0,0.0,7.0,1833,0,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1032,733,'howling_fist',0,0.0,7.0,1833,0,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1033,734,'dragon_kick',0,0.0,10.0,2166,0,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1034,735,'asuran_fists',0,0.0,7.0,2833,0,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1027,728,'combo',0,0.0,7.0,1916,0,4,0,0,0,8,0,0);
+INSERT INTO `mob_skills` VALUES (1028,729,'tackle',0,0.0,7.0,1833,0,4,0,0,0,5,8,0);
+INSERT INTO `mob_skills` VALUES (1029,730,'one-ilm_punch',0,0.0,7.0,2000,0,4,0,0,0,2,0,0);
+INSERT INTO `mob_skills` VALUES (1030,731,'backhand_blow',0,0.0,7.0,1333,0,4,0,0,0,6,0,0);
+INSERT INTO `mob_skills` VALUES (1031,732,'spinning_attack',0,0.0,7.0,1833,0,4,0,0,0,3,8,0);
+INSERT INTO `mob_skills` VALUES (1032,733,'howling_fist',0,0.0,7.0,1833,0,4,0,0,0,1,8,0);
+INSERT INTO `mob_skills` VALUES (1033,734,'dragon_kick',0,0.0,10.0,2166,0,4,0,0,0,12,0,0);
+INSERT INTO `mob_skills` VALUES (1034,735,'asuran_fists',0,0.0,7.0,2833,0,4,0,0,0,9,3,0);
 INSERT INTO `mob_skills` VALUES (1035,736,'heavy_strike_ulli',0,0.0,7.0,2000,1500,4,0,0,1,0,0,0); -- Ullikummi knockback heavy strike
 INSERT INTO `mob_skills` VALUES (1036,737,'maats_bash',0,0.0,7.0,2000,0,4,4,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1037,781,'fireball_1',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
@@ -2035,7 +2035,7 @@ INSERT INTO `mob_skills` VALUES (2003,1181,'grating_tantara',1,0.0,10.0,2000,150
 INSERT INTO `mob_skills` VALUES (2004,1182,'stifling_tantara',1,0.0,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2005,1157,'reward',0,0.0,30.0,100,0,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2006,142,'azure_lore',0,0.0,7.0,2000,0,1,4,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (2007,135,'wild_card',0,0.0,7.0,2000,0,1,4,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (2007,135,'wild_card_qultada',0,0.0,7.0,2000,0,1,4,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2008,143,'overdrive',0,0.0,7.0,2000,0,1,4,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2009,125,'fire_shot',0,0.0,22.0,2000,0,4,4,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2010,126,'ice_shot',0,0.0,22.0,2000,0,4,4,0,0,0,0,0);
@@ -3530,7 +3530,7 @@ INSERT INTO `mob_skills` VALUES (3496,2505,'hollow_smite',0,0.0,7.0,2000,1500,4,
 -- INSERT INTO `mob_skills` VALUES (3499,3243,'soturis_fury',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (3500,3244,'celidons_torment',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (3501,3245,'tachi_mudo',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (3502,89,'nott',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (3502,89,'nott',0,0.0,7.0,2000,0,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3503,3247,'justicebreaker',0,0.0,7.0,2000,0,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (3504,3248,'rancid_breath',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (3505,3249,'geotic_spin',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);

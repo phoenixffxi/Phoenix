@@ -223,12 +223,10 @@ void GP_CLI_COMMAND_EXTENDED_JOB::process(MapSession* PSession, CCharEntity* PCh
             if (pupData.Slots[static_cast<uint8_t>(AutomatonSlot::Head)] != 0)
             {
                 puppetutils::setHead(PChar, static_cast<AutomatonHead>(pupData.Slots[static_cast<uint8_t>(AutomatonSlot::Head)]));
-                petutils::CalculateAutomatonStats(PChar, PChar->PPet);
             }
             else if (pupData.Slots[static_cast<uint8_t>(AutomatonSlot::Frame)] != 0)
             {
                 puppetutils::setFrame(PChar, static_cast<AutomatonFrame>(pupData.Slots[static_cast<uint8_t>(AutomatonSlot::Frame)]));
-                petutils::CalculateAutomatonStats(PChar, PChar->PPet);
             }
             else
             {
@@ -243,6 +241,7 @@ void GP_CLI_COMMAND_EXTENDED_JOB::process(MapSession* PSession, CCharEntity* PCh
             }
         }
 
+        petutils::CalculateAutomatonStats(PChar, PChar->PPet);
         charutils::SendExtendedJobPackets(PChar);
         puppetutils::SaveAutomaton(PChar);
     }

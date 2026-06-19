@@ -127,9 +127,9 @@ GP_SERV_COMMAND_LOGIN::GP_SERV_COMMAND_LOGIN(CCharEntity* PChar, const EventInfo
     uint32_t   flags2        = 0;
 
     // Mount sub power in byte 0 (bits 0-7)
-    if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_MOUNTED))
+    if (PChar->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Mounted))
     {
-        flags2 |= static_cast<uint8>(PChar->StatusEffectContainer->GetStatusEffect(EFFECT_MOUNTED)->GetSubPower());
+        flags2 |= static_cast<uint8>(PChar->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Mounted)->GetSubPower());
     }
 
     // Gender and size in byte 1 (bits 8-15)

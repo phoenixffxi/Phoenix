@@ -104,12 +104,12 @@ auto TestSuite::sourceFile() const -> const std::string&
     return sourceFile_;
 }
 
-auto TestSuite::fullName() const -> std::string
+auto TestSuite::fullName() const -> const std::string&
 {
     return fullPath_;
 }
 
-auto TestSuite::name() const -> std::string
+auto TestSuite::name() const -> const std::string&
 {
     return name_;
 }

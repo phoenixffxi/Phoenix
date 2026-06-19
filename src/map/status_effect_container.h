@@ -50,40 +50,40 @@ public:
     bool ApplyBardEffect(CStatusEffect* PStatusEffect, uint8 maxSongs);
     bool CanGainStatusEffect(CStatusEffect* PStatusEffect); // returns true if the status effect will take effect
     bool AddStatusEffect(CStatusEffect* StatusEffect, EffectNotice = EffectNotice::ShowMessage);
-    bool DelStatusEffect(EFFECT StatusID);
-    bool DelStatusEffectSilent(EFFECT StatusID);
-    bool DelStatusEffect(EFFECT StatusID, uint16 SubID);
-    bool DelStatusEffectBySource(EFFECT StatusID, EffectSourceType EffectSourceType, uint16 SourceTypeParam);
-    void DelStatusEffectsByFlag(uint32 flag, EffectNotice notice = EffectNotice::ShowMessage); // Remove all the status effects with the specified type
-    void DelStatusEffectsByIcon(uint16 BuffNo);                                                // Remove all effects with the specified icon
+    auto DelStatusEffect(xi::StatusEffect StatusID) -> bool;
+    auto DelStatusEffectSilent(xi::StatusEffect StatusID) -> bool;
+    auto DelStatusEffect(xi::StatusEffect StatusID, uint16 SubID) -> bool;
+    auto DelStatusEffectBySource(xi::StatusEffect StatusID, EffectSourceType EffectSourceType, uint16 SourceTypeParam) -> bool;
+    void DelStatusEffectsByFlag(xi::StatusEffectFlag flag, EffectNotice notice = EffectNotice::ShowMessage); // Remove all the status effects with the specified type
+    void DelStatusEffectsByIcon(uint16 BuffNo);                                                              // Remove all effects with the specified icon
     void DelStatusEffectsByType(uint16 Type);
-    bool DelStatusEffectByTier(EFFECT StatusID, uint16 power);
+    auto DelStatusEffectByTier(xi::StatusEffect StatusID, uint16 power) -> bool;
     void KillAllStatusEffect();
     void ApplyStateAlteringEffects(CStatusEffect* StatusEffect);
 
-    bool HasStatusEffect(EFFECT StatusID);               // We check the presence of the effect
-    bool HasStatusEffect(EFFECT StatusID, uint16 SubID); // Check the presence of an effect with a unique Subid
-    bool HasStatusEffect(std::initializer_list<EFFECT>);
-    bool HasStatusEffectByFlag(uint32 flag);
+    auto HasStatusEffect(xi::StatusEffect StatusID) -> bool;               // We check the presence of the effect
+    auto HasStatusEffect(xi::StatusEffect StatusID, uint16 SubID) -> bool; // Check the presence of an effect with a unique Subid
+    auto HasStatusEffect(std::initializer_list<xi::StatusEffect>) -> bool;
+    auto HasStatusEffectByFlag(xi::StatusEffectFlag flag) -> bool;
 
-    EFFECT         EraseStatusEffect();                                     // We delete the first negative effect
-    EFFECT         HealingWaltz();                                          // dancers healing waltz
-    uint8          EraseAllStatusEffect();                                  // erases all status effects
-    EFFECT         DispelStatusEffect(EFFECTFLAG flag);                     // We delete the first positive effect
-    uint8          DispelAllStatusEffect(EFFECTFLAG flag);                  // dispels all status effects
-    CStatusEffect* StealStatusEffect(EFFECTFLAG flag, EffectNotice notice); // dispels one effect and returns it
+    auto  EraseStatusEffect() -> xi::StatusEffect;                                             // We delete the first negative effect
+    auto  HealingWaltz() -> xi::StatusEffect;                                                  // dancers healing waltz
+    uint8 EraseAllStatusEffect();                                                              // erases all status effects
+    auto  DispelStatusEffect(xi::StatusEffectFlag flag) -> xi::StatusEffect;                   // We delete the first positive effect
+    auto  DispelAllStatusEffect(xi::StatusEffectFlag flag) -> uint8;                           // dispels all status effects
+    auto  StealStatusEffect(xi::StatusEffectFlag flag, EffectNotice notice) -> CStatusEffect*; // dispels one effect and returns it
 
-    CStatusEffect* GetStatusEffect(EFFECT StatusID);
-    CStatusEffect* GetStatusEffect(EFFECT StatusID, uint32 SubID);
-    CStatusEffect* GetStatusEffectBySource(EFFECT StatusID, EffectSourceType Sourcetype, uint16 SourceTypeParam);
+    auto GetStatusEffect(xi::StatusEffect StatusID) -> CStatusEffect*;
+    auto GetStatusEffect(xi::StatusEffect StatusID, uint32 SubID) -> CStatusEffect*;
+    auto GetStatusEffectBySource(xi::StatusEffect StatusID, EffectSourceType Sourcetype, uint16 SourceTypeParam) -> CStatusEffect*;
 
-    std::vector<EFFECT> GetStatusEffectsInIDRange(EFFECT start, EFFECT end);
+    auto GetStatusEffectsInIDRange(xi::StatusEffect start, xi::StatusEffect end) -> std::vector<xi::StatusEffect>;
 
-    uint8  GetStatusEffectCountInIDRange(EFFECT start, EFFECT end);
-    EFFECT GetNewestStatusEffectInIDRange(EFFECT start, EFFECT end);
-    void   RemoveOldestStatusEffectInIDRange(EFFECT start, EFFECT end);
-    void   RemoveNewestStatusEffectInIDRange(EFFECT start, EFFECT end);
-    void   RemoveAllStatusEffectsInIDRange(EFFECT start, EFFECT end);
+    auto GetStatusEffectCountInIDRange(xi::StatusEffect start, xi::StatusEffect end) -> uint8;
+    auto GetNewestStatusEffectInIDRange(xi::StatusEffect start, xi::StatusEffect end) -> xi::StatusEffect;
+    void RemoveOldestStatusEffectInIDRange(xi::StatusEffect start, xi::StatusEffect end);
+    void RemoveNewestStatusEffectInIDRange(xi::StatusEffect start, xi::StatusEffect end);
+    void RemoveAllStatusEffectsInIDRange(xi::StatusEffect start, xi::StatusEffect end);
 
     void UpdateStatusIcons(); // We recall the effects of the effects
     void CheckEffectsExpiry(timer::time_point tick);
@@ -93,9 +93,9 @@ public:
     void LoadStatusEffects();                    // We load the character effects
     void SaveStatusEffects(bool logout = false); // We keep the character effects
 
-    uint8 GetEffectsCount(EFFECT ID);               // We get the number of effects with the specified ID
-    uint8 GetEffectsCountWithFlag(EFFECTFLAG flag); // We get the number of effects with the specified flag
-    uint8 GetLowestFreeSlot();                      // returns the lowest free slot for songs/rolls
+    auto  GetEffectsCount(xi::StatusEffect ID) -> uint8;               // We get the number of effects with the specified ID
+    auto  GetEffectsCountWithFlag(xi::StatusEffectFlag flag) -> uint8; // We get the number of effects with the specified flag
+    uint8 GetLowestFreeSlot();                                         // returns the lowest free slot for songs/rolls
 
     auto ApplyCorsairEffect(CStatusEffect* PStatusEffect, uint8 maxRolls, uint8 bustDuration) -> bool;
     bool CheckForElevenRoll();
@@ -107,14 +107,14 @@ public:
     void  RemoveOldestManeuver();
     void  RemoveAllManeuvers();
 
-    std::vector<EFFECT> GetAllRuneEffects();
+    auto GetAllRuneEffects() -> std::vector<xi::StatusEffect>;
 
-    uint8  GetActiveRuneCount();
-    EFFECT GetHighestRuneEffect();
-    EFFECT GetNewestRuneEffect();
-    void   RemoveOldestRune();
-    void   RemoveNewestRune();
-    void   RemoveAllRunes();
+    uint8 GetActiveRuneCount();
+    auto  GetHighestRuneEffect() -> xi::StatusEffect;
+    auto  GetNewestRuneEffect() -> xi::StatusEffect;
+    void  RemoveOldestRune();
+    void  RemoveNewestRune();
+    void  RemoveAllRunes();
 
     void WakeUp(); // remove sleep effects
     bool IsAsleep();
@@ -138,7 +138,7 @@ public:
 private:
     CBattleEntity* m_POwner = nullptr;
 
-    // void ReplaceStatusEffect(EFFECT effect); //this needs to be implemented
+    // void ReplaceStatusEffect(xi::StatusEffect effect); //this needs to be implemented
     void RemoveStatusEffect(CStatusEffect* PStatusEffect, EffectNotice notice = EffectNotice::ShowMessage); // We remove the effect by its number in the container
     void DeleteStatusEffects();
     auto SetEffectParams(CStatusEffect* StatusEffect) -> void; // We set the effect of the effect

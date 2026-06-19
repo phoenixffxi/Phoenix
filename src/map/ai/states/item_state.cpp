@@ -130,11 +130,11 @@ CItemState::CItemState(CCharEntity* PEntity, const uint16 targid, const uint8 lo
         .actionid   = static_cast<uint32_t>(FourCC::ItemUse),
         .targets    = {
             {
-                   .actorId = PTarget->id,
-                   .results = {
+                .actorId = PTarget->id,
+                .results = {
                     {
-                           .param     = m_PItem->getID(),
-                           .messageID = MsgBasic::ItemUse,
+                        .param     = m_PItem->getID(),
+                        .messageID = MsgBasic::ItemUse,
                     },
                 },
             },

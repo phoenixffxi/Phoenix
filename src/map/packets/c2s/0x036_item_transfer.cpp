@@ -1,4 +1,4 @@
-/*
+﻿/*
 ===========================================================================
 
   Copyright (c) 2025 LandSandBoat Dev Teams
@@ -36,10 +36,10 @@ const auto auditTrade = [](Scheduler& scheduler, CCharEntity* PChar, CBaseEntity
 {
     if (settings::get<bool>("map.AUDIT_PLAYER_TRADES"))
     {
-        const auto sender       = PChar->id;
-        const auto senderName   = PChar->getName();
-        const auto receiver     = PNpc->id;
-        const auto receiverName = PNpc->getName();
+        const auto  sender       = PChar->id;
+        const auto& senderName   = PChar->getName();
+        const auto  receiver     = PNpc->id;
+        const auto& receiverName = PNpc->getName();
 
         scheduler.postToWorkerThread(
             [itemId, quantity, sender, senderName, receiver, receiverName]()
@@ -66,7 +66,7 @@ auto GP_CLI_COMMAND_ITEM_TRANSFER::validate(MapSession* PSession, const CCharEnt
 void GP_CLI_COMMAND_ITEM_TRANSFER::process(MapSession* PSession, CCharEntity* PChar) const
 {
     // If PChar is invisible don't allow the trade
-    if (PChar->StatusEffectContainer->HasStatusEffectByFlag(EFFECTFLAG_INVISIBLE))
+    if (PChar->StatusEffectContainer->HasStatusEffectByFlag(xi::StatusEffectFlag::Invisible))
     {
         PChar->pushPacket<GP_SERV_COMMAND_SYSTEMMES>(0, 0, MsgStd::CannotWhileInvisible);
         return;

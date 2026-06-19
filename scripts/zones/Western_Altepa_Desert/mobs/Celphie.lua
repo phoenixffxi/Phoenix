@@ -65,7 +65,7 @@ entity.spawnPoints =
 
 entity.phList =
 {
-    [ID.mob.CELPHIE - 1] = ID.mob.CELPHIE, -- 50.014 0.256 7.088
+    [ID.mob.CELPHIE - 1] = ID.mob.CELPHIE, -- Confirmed on retail
 }
 
 entity.onMobWeaponSkill = function(mob, target, skill, action)

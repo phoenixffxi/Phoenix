@@ -1008,7 +1008,7 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
     SetupRoaming(PMob);
 
     // All beastmen drop gil
-    if (PMob->m_EcoSystem == ECOSYSTEM::BEASTMAN)
+    if (PMob->m_EcoSystem == xi::Ecosystem::Beastmen)
     {
         PMob->defaultMobMod(MOBMOD_GIL_BONUS, 100);
     }
@@ -1150,7 +1150,7 @@ void SetupJob(CMobEntity* PMob)
     {
         case JOB_THF:
             // thfs drop more gil
-            if (PMob->m_EcoSystem == ECOSYSTEM::BEASTMAN)
+            if (PMob->m_EcoSystem == xi::Ecosystem::Beastmen)
             {
                 // 50% bonus
                 PMob->defaultMobMod(MOBMOD_GIL_BONUS, 150);
@@ -1246,7 +1246,7 @@ void SetupRoaming(CMobEntity* PMob)
     uint16 cool     = 20;
     uint16 rate     = 15;
 
-    if (PMob->m_EcoSystem == ECOSYSTEM::BEASTMAN)
+    if (PMob->m_EcoSystem == xi::Ecosystem::Beastmen)
     {
         distance = 20;
         turns    = 5;
@@ -1772,7 +1772,7 @@ auto InstantiateAlly(uint32 groupid, uint16 zoneID, CInstance* instance) -> CMob
         PMob->m_Link      = rset->get<uint8>("links");
         PMob->m_Type      = rset->get<uint8>("mobType");
         PMob->m_Immunity  = rset->get<IMMUNITY>("immunity");
-        PMob->m_EcoSystem = rset->get<ECOSYSTEM>("ecosystemID");
+        PMob->m_EcoSystem = rset->get<xi::Ecosystem>("ecosystemID");
 
         PMob->baseSpeed      = rset->get<uint8>("speed"); // Overwrites baseentity.cpp's defined baseSpeed
         PMob->animationSpeed = rset->get<uint8>("speed"); // Overwrites baseentity.cpp's defined animationSpeed
@@ -1942,7 +1942,7 @@ auto InstantiateDynamicMob(uint32 groupid, uint16 groupZoneId, uint16 targetZone
         PMob->m_Link      = rset->get<uint8>("links");
         PMob->m_Type      = rset->get<uint8>("mobType");
         PMob->m_Immunity  = rset->get<IMMUNITY>("immunity");
-        PMob->m_EcoSystem = rset->get<ECOSYSTEM>("ecosystemID");
+        PMob->m_EcoSystem = rset->get<xi::Ecosystem>("ecosystemID");
 
         PMob->baseSpeed      = rset->get<uint8>("speed"); // Overwrites baseentity.cpp's defined baseSpeed
         PMob->animationSpeed = rset->get<uint8>("speed"); // Overwrites baseentity.cpp's defined animationSpeed
@@ -2040,11 +2040,11 @@ void WeaknessTrigger(CBaseEntity* PTarget, WeaknessType level)
         .actiontype = ActionCategory::MobSkillFinish,
         .targets    = {
             {
-                   .actorId = PTarget->id,
-                   .results = {
+                .actorId = PTarget->id,
+                .results = {
                     {
-                           .animation = animationID,
-                           .param     = 2582,
+                        .animation = animationID,
+                        .param     = 2582,
                     },
                 },
             },

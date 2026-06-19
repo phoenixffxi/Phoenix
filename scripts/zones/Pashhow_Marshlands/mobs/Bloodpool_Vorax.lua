@@ -14,7 +14,7 @@ entity.spawnPoints =
 
 entity.phList =
 {
-    [ID.mob.BLOODPOOL_VORAX - 5] = ID.mob.BLOODPOOL_VORAX, -- -351.884 24.014 513.531
+    [ID.mob.BLOODPOOL_VORAX - 5] = ID.mob.BLOODPOOL_VORAX, -- Confirmed on retail
 }
 
 entity.onMobDeath = function(mob, player, optParams)

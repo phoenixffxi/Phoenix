@@ -28,7 +28,9 @@
 #include "handler_session.h"
 #include "login_helpers.h"
 
-#include "common/zmq_dealer_wrapper.h"
+#include "common/zmq/channel.h"
+
+#include <zmq.hpp>
 
 enum class login_cmd : uint8_t
 {
@@ -106,9 +108,9 @@ DECLARE_FORMAT_AS_UNDERLYING(ACCOUNT_PRIVILEGE_CODE);
 class auth_session : public handler_session
 {
 public:
-    auth_session(asio::ssl::stream<asio::ip::tcp::socket> socket, ZMQDealerWrapper& zmqDealerWrapper)
+    auth_session(asio::ssl::stream<asio::ip::tcp::socket> socket, ipc::Channel<zmq::message_t> dealerChannel)
     : handler_session(std::move(socket))
-    , zmqDealerWrapper_(zmqDealerWrapper)
+    , dealerChannel_(dealerChannel)
     {
         DebugSockets(fmt::format("auth_session from {}", ipAddress));
     }
@@ -135,7 +137,7 @@ protected:
     void do_write(std::size_t length);
 
 private:
-    ZMQDealerWrapper& zmqDealerWrapper_;
+    ipc::Channel<zmq::message_t> dealerChannel_;
 
     Maybe<std::pair<uint32, uint32>> validatePassword(std::string username, std::string password);
 };

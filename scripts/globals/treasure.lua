@@ -1784,6 +1784,18 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
     end
 
     -----------------------------------
+    -- Handle Illusion.
+    -----------------------------------
+    if
+        bypassType == 0 and
+        GetSystemTime() < npc:getLocalVar('illusionCooldown')
+    then
+        player:messageSpecial(ID.text.CHEST_UNLOCKED + 6)
+        moveTreasure(npc, respawnType.REGULAR)
+        return 0
+    end
+
+    -----------------------------------
     -- Handle failure states.
     -----------------------------------
     local outcome      = 0
@@ -1938,18 +1950,6 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
         end)
 
         return treasureMap
-    end
-
-    -----------------------------------
-    -- Handle Illusion.
-    -----------------------------------
-    if GetSystemTime() < npc:getLocalVar('illusionCooldown') then
-        player:timer(2000, function(playerEntity)
-            playerEntity:messageSpecial(ID.text.CHEST_UNLOCKED + 6)
-            moveTreasure(npc, respawnType.REGULAR)
-        end)
-
-        return 0
     end
 
     -----------------------------------

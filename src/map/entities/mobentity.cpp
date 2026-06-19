@@ -156,7 +156,7 @@ CMobEntity::CMobEntity()
 
     objtype     = ENTITYTYPE::TYPE_MOB;
     allegiance  = ALLEGIANCE_TYPE::MOB;
-    m_EcoSystem = ECOSYSTEM::UNCLASSIFIED;
+    m_EcoSystem = xi::Ecosystem::Unclassified;
 
     m_SpellListContainer = nullptr;
     PEnmityContainer     = new CEnmityContainer(this);
@@ -484,7 +484,7 @@ bool CMobEntity::shouldUseTPMove(uint16 tpThreshold)
     }
 
     // mobs use three mob skills in a row under Meikyo Shisui
-    if (StatusEffectContainer->HasStatusEffect(EFFECT_MEIKYO_SHISUI) && GetLocalVar("[MeikyoShisui]MobSkillCount") > 0)
+    if (StatusEffectContainer->HasStatusEffect(xi::StatusEffect::MeikyoShisui) && GetLocalVar("[MeikyoShisui]MobSkillCount") > 0)
     {
         return true;
     }
@@ -780,7 +780,7 @@ void CMobEntity::DistributeRewards()
             });
             // clang-format on
 
-            if (m_giveExp && !PChar->StatusEffectContainer->HasStatusEffect(EFFECT_BATTLEFIELD))
+            if (m_giveExp && !PChar->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Battlefield))
             {
                 charutils::DistributeExperiencePoints(PChar, this);
                 charutils::DistributeCapacityPoints(PChar, this);
@@ -1062,8 +1062,8 @@ void CMobEntity::DropItems(CCharEntity* PChar)
         // Begin Adding Crystals
         if (m_Element > 0)
         {
-            REGION_TYPE regionID       = PChar->loc.zone->GetRegionID();
-            EFFECT      requiredEffect = EFFECT_NONE;
+            REGION_TYPE      regionID       = PChar->loc.zone->GetRegionID();
+            xi::StatusEffect requiredEffect = xi::StatusEffect::None;
 
             switch (regionID)
             {
@@ -1073,7 +1073,7 @@ void CMobEntity::DropItems(CCharEntity* PChar)
                 case REGION_TYPE::HALVUNG:
                 case REGION_TYPE::ARRAPAGO:
                 case REGION_TYPE::ALZADAAL:
-                    requiredEffect = EFFECT_SANCTION;
+                    requiredEffect = xi::StatusEffect::Sanction;
                     break;
 
                 // Sigil Regions
@@ -1085,25 +1085,25 @@ void CMobEntity::DropItems(CCharEntity* PChar)
                 case REGION_TYPE::ARAGONEAU_FRONT:
                 case REGION_TYPE::FAUREGANDI_FRONT:
                 case REGION_TYPE::VALDEAUNIA_FRONT:
-                    requiredEffect = EFFECT_SIGIL;
+                    requiredEffect = xi::StatusEffect::Sigil;
                     break;
 
                 // Ionis Regions
                 case REGION_TYPE::ADOULIN_ISLANDS:
                 case REGION_TYPE::EAST_ULBUKA:
-                    requiredEffect = EFFECT_IONIS;
+                    requiredEffect = xi::StatusEffect::Ionis;
                     break;
 
                 // Signet Regions
                 default:
                     if (regionID < REGION_TYPE::TAVNAZIA && conquest::GetRegionOwner(regionID) <= 2)
                     {
-                        requiredEffect = EFFECT_SIGNET;
+                        requiredEffect = xi::StatusEffect::Signet;
                     }
                     break;
             }
 
-            if (requiredEffect == EFFECT_NONE)
+            if (requiredEffect == xi::StatusEffect::None)
             {
                 return;
             }
@@ -1130,11 +1130,11 @@ void CMobEntity::DropItems(CCharEntity* PChar)
             // Sanction regions: 30%
             // Others leave at 20% - TODO: need more info on WOTG+
             uint8 crystalRate = 20;
-            if (requiredEffect == EFFECT_SIGNET)
+            if (requiredEffect == xi::StatusEffect::Signet)
             {
                 crystalRate = (playersNearby == 1) ? 55 : 45;
             }
-            else if (requiredEffect == EFFECT_SANCTION)
+            else if (requiredEffect == xi::StatusEffect::Sanction)
             {
                 crystalRate = 30;
             }

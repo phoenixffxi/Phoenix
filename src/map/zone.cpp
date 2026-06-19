@@ -637,31 +637,31 @@ void CZone::updateCharLevelRestriction(CCharEntity* PChar)
 {
     TracyZoneScoped;
 
-    if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_LEVEL_RESTRICTION))
+    if (PChar->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::LevelRestriction))
     {
         // If the level restriction is already the same then no need to change it
-        CStatusEffect* statusEffect = PChar->StatusEffectContainer->GetStatusEffect(EFFECT_LEVEL_RESTRICTION);
+        CStatusEffect* statusEffect = PChar->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::LevelRestriction);
         if (statusEffect == nullptr || statusEffect->GetPower() == m_levelRestriction)
         {
             return;
         }
 
-        PChar->StatusEffectContainer->DelStatusEffect(EFFECT_LEVEL_RESTRICTION);
+        PChar->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::LevelRestriction);
     }
 
     if (m_levelRestriction != 0)
     {
         // remove buffs in level cap zones as well (such as riverne sites)
-        PChar->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DISPELABLE, EffectNotice::Silent);
-        PChar->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ERASABLE, EffectNotice::Silent);
-        PChar->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ATTACK, EffectNotice::Silent);
-        PChar->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ON_ZONE, EffectNotice::Silent);
-        PChar->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_SONG, EffectNotice::Silent);
-        PChar->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ROLL, EffectNotice::Silent);
-        PChar->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_SYNTH_SUPPORT, EffectNotice::Silent);
-        PChar->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_BLOODPACT, EffectNotice::Silent);
-        PChar->StatusEffectContainer->DelStatusEffectSilent(EFFECT_RERAISE);
-        PChar->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_LEVEL_RESTRICTION, EFFECT_LEVEL_RESTRICTION, m_levelRestriction, 0s, 0s));
+        PChar->StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::Dispelable, EffectNotice::Silent);
+        PChar->StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::Erasable, EffectNotice::Silent);
+        PChar->StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::Attack, EffectNotice::Silent);
+        PChar->StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::OnZone, EffectNotice::Silent);
+        PChar->StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::Song, EffectNotice::Silent);
+        PChar->StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::Roll, EffectNotice::Silent);
+        PChar->StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::SynthSupport, EffectNotice::Silent);
+        PChar->StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::Bloodpact, EffectNotice::Silent);
+        PChar->StatusEffectContainer->DelStatusEffectSilent(xi::StatusEffect::Reraise);
+        PChar->StatusEffectContainer->AddStatusEffect(new CStatusEffect(xi::StatusEffect::LevelRestriction, static_cast<uint16>(xi::StatusEffect::LevelRestriction), m_levelRestriction, 0s, 0s));
     }
 }
 
@@ -846,7 +846,7 @@ void CZone::IncreaseZoneCounter(CCharEntity* PChar)
         createZoneTimers();
     }
 
-    PChar->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_ON_ZONE_PATHOS, EffectNotice::Silent);
+    PChar->StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::OnZonePathos, EffectNotice::Silent);
 
     CharZoneIn(PChar);
 }
@@ -1091,17 +1091,17 @@ void CZone::CharZoneIn(CCharEntity* PChar)
     if (PChar->isMounted() && !CanUseMisc(MISC_MOUNT))
     {
         PChar->animation = ANIMATION_NONE;
-        PChar->StatusEffectContainer->DelStatusEffectSilent(EFFECT_MOUNTED);
+        PChar->StatusEffectContainer->DelStatusEffectSilent(xi::StatusEffect::Mounted);
     }
 
-    if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_COSTUME))
+    if (PChar->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Costume))
     {
-        PChar->StatusEffectContainer->DelStatusEffectSilent(EFFECT_COSTUME);
+        PChar->StatusEffectContainer->DelStatusEffectSilent(xi::StatusEffect::Costume);
     }
 
-    if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_ILLUSION))
+    if (PChar->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Illusion))
     {
-        PChar->StatusEffectContainer->DelStatusEffectSilent(EFFECT_ILLUSION);
+        PChar->StatusEffectContainer->DelStatusEffectSilent(xi::StatusEffect::Illusion);
     }
 
     PChar->ReloadPartyInc();
@@ -1134,11 +1134,11 @@ void CZone::CharZoneIn(CCharEntity* PChar)
     if (m_BattlefieldHandler)
     {
         auto* PBattlefield = m_BattlefieldHandler->GetBattlefield(PChar, true);
-        if (PBattlefield != nullptr && PChar->StatusEffectContainer->HasStatusEffectByFlag(EFFECTFLAG_CONFRONTATION))
+        if (PBattlefield != nullptr && PChar->StatusEffectContainer->HasStatusEffectByFlag(xi::StatusEffectFlag::Confrontation))
         {
             PBattlefield->InsertEntity(PChar, CBattlefield::hasPlayerEntered(PChar));
         }
-        else if (PChar->StatusEffectContainer->HasStatusEffectByFlag(EFFECTFLAG_CONFRONTATION))
+        else if (PChar->StatusEffectContainer->HasStatusEffectByFlag(xi::StatusEffectFlag::Confrontation))
         {
             // Player is in a zone with a battlefield but they are not part of one.
             if (CBattlefield::hasPlayerEntered(PChar))
@@ -1150,31 +1150,31 @@ void CZone::CharZoneIn(CCharEntity* PChar)
             else
             {
                 // Is not inside of a battlefield arena so remove the battlefield effect
-                PChar->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_CONFRONTATION, EffectNotice::Silent);
+                PChar->StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::Confrontation, EffectNotice::Silent);
                 updateCharLevelRestriction(PChar);
                 if (PChar->PPet)
                 {
-                    PChar->PPet->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_CONFRONTATION, EffectNotice::Silent);
+                    PChar->PPet->StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::Confrontation, EffectNotice::Silent);
                 }
             }
         }
     }
-    else if (PChar->StatusEffectContainer->HasStatusEffectByFlag(EFFECTFLAG_CONFRONTATION))
+    else if (PChar->StatusEffectContainer->HasStatusEffectByFlag(xi::StatusEffectFlag::Confrontation))
     {
         // Player is zoning into a zone that does not have a battlefield but the player has a confrontation effect - remove it
-        PChar->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_CONFRONTATION, EffectNotice::Silent);
+        PChar->StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::Confrontation, EffectNotice::Silent);
         if (PChar->PPet)
         {
-            PChar->PPet->StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_CONFRONTATION, EffectNotice::Silent);
+            PChar->PPet->StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::Confrontation, EffectNotice::Silent);
         }
     }
-    else if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_LEVEL_SYNC))
+    else if (PChar->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::LevelSync))
     {
         // Logging in with no party and a level sync status = bad.
         if (!PChar->PParty)
         {
-            PChar->StatusEffectContainer->DelStatusEffectSilent(EFFECT_LEVEL_SYNC);
-            PChar->StatusEffectContainer->DelStatusEffectSilent(EFFECT_LEVEL_RESTRICTION);
+            PChar->StatusEffectContainer->DelStatusEffectSilent(xi::StatusEffect::LevelSync);
+            PChar->StatusEffectContainer->DelStatusEffectSilent(xi::StatusEffect::LevelRestriction);
         }
     }
 
@@ -1269,8 +1269,8 @@ void CZone::CharZoneOut(CCharEntity* PChar)
                 }
             }
         }
-        PChar->StatusEffectContainer->DelStatusEffectSilent(EFFECT_LEVEL_SYNC);
-        PChar->StatusEffectContainer->DelStatusEffectSilent(EFFECT_LEVEL_RESTRICTION);
+        PChar->StatusEffectContainer->DelStatusEffectSilent(xi::StatusEffect::LevelSync);
+        PChar->StatusEffectContainer->DelStatusEffectSilent(xi::StatusEffect::LevelRestriction);
     }
 
     if (PChar->PTreasurePool != nullptr) // TODO: Condition for eliminating problems with MobHouse, we need to solve it once and for all!

@@ -131,12 +131,12 @@ CAbilityState::CAbilityState(CBattleEntity* PEntity, uint16 targid, uint16 abili
             .actiontype = ActionCategory::AbilityStart,
             .targets    = {
                 {
-                       .actorId = PTarget->id,
-                       .results = {
+                    .actorId = PTarget->id,
+                    .results = {
                         {
-                               .animation = ActionAnimation::SkillStart,
-                               .param     = PAbility->getID(),
-                               .messageID = MsgBasic::ReadiesSkill,
+                            .animation = ActionAnimation::SkillStart,
+                            .param     = PAbility->getID(),
+                            .messageID = MsgBasic::ReadiesSkill,
                         },
                     },
                 },
@@ -253,8 +253,8 @@ bool CAbilityState::CanUseAbility()
             return false;
         }
 
-        if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_AMNESIA) ||
-            (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_IMPAIRMENT) && (PChar->StatusEffectContainer->GetStatusEffect(EFFECT_IMPAIRMENT)->GetPower() == 0x01 || PChar->StatusEffectContainer->GetStatusEffect(EFFECT_IMPAIRMENT)->GetPower() == 0x03)) ||
+        if (PChar->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Amnesia) ||
+            (PChar->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Impairment) && (PChar->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Impairment)->GetPower() == 0x01 || PChar->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Impairment)->GetPower() == 0x03)) ||
             (!PAbility->isPetAbility() && !charutils::hasAbility(PChar, PAbility->getID())) ||
             (PAbility->isPetAbility() && PAbility->getID() >= ABILITY_HEALING_RUBY && !charutils::hasPetAbility(PChar, PAbility->getID() - ABILITY_HEALING_RUBY)))
         {
@@ -300,9 +300,9 @@ bool CAbilityState::CanUseAbility()
     else
     {
         bool   cancelAbility   = false;
-        bool   hasAmnesia      = m_PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_AMNESIA);
-        bool   hasImpairment   = m_PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_IMPAIRMENT);
-        uint16 impairmentPower = hasImpairment ? m_PEntity->StatusEffectContainer->GetStatusEffect(EFFECT_IMPAIRMENT)->GetPower() : 0;
+        bool   hasAmnesia      = m_PEntity->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Amnesia);
+        bool   hasImpairment   = m_PEntity->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Impairment);
+        uint16 impairmentPower = hasImpairment ? m_PEntity->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Impairment)->GetPower() : 0;
 
         if (!PTarget)
         {

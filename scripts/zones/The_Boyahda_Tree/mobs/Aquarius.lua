@@ -9,9 +9,9 @@ local entity = {}
 
 entity.phList =
 {
-    [ID.mob.AQUARIUS - 5] = ID.mob.AQUARIUS,
-    [ID.mob.AQUARIUS - 1] = ID.mob.AQUARIUS,
-    [ID.mob.AQUARIUS + 4] = ID.mob.AQUARIUS,
+    [ID.mob.AQUARIUS - 5] = ID.mob.AQUARIUS, -- Confirmed on retail
+    [ID.mob.AQUARIUS - 1] = ID.mob.AQUARIUS, -- Confirmed on retail
+    [ID.mob.AQUARIUS + 4] = ID.mob.AQUARIUS, -- Confirmed on retail
 }
 
 entity.spawnPoints =
