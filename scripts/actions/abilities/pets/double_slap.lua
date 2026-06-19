@@ -1,5 +1,7 @@
 -----------------------------------
--- Double Slap M=6, 2 (still guessing here)
+-- Double Slap
+-- Family: Avatar (Shiva)
+-- Description: Delivers a two fold attack to a target.
 -----------------------------------
 ---@type TAbilityPet
 local abilityObject = {}
@@ -9,19 +11,28 @@ abilityObject.onAbilityCheck = function(player, target, ability)
 end
 
 abilityObject.onPetAbility = function(target, pet, petskill, summoner, action)
-    local numhits = 2
-    local accmod = 1
-    local dmgmod = 6
-    local dmgmodsubsequent = 2
-
     xi.job_utils.summoner.onUseBloodPact(target, petskill, summoner, action)
 
-    local info = xi.summon.avatarPhysicalMove(pet, target, petskill, numhits, accmod, dmgmod, dmgmodsubsequent, xi.mobskills.magicalTpBonus.NO_EFFECT, 1, 2, 3)
-    local totaldamage = xi.summon.avatarFinalAdjustments(info, pet, petskill, target, xi.attackType.PHYSICAL, xi.damageType.HAND_TO_HAND, numhits)
-    target:takeDamage(totaldamage, pet, xi.attackType.PHYSICAL, xi.damageType.HAND_TO_HAND)
-    target:updateEnmityFromDamage(pet, totaldamage)
+    local params = {}
 
-    return totaldamage
+    params.baseDamage        = pet:getWeaponDmg()
+    params.numHits           = 2
+    params.fTP               = { 6.328125, 6.328125, 6.328125 }
+    params.fTPSubsequentHits = { 6.328125, 6.328125, 6.328125 }
+    params.str_wSC           = 0.30
+    params.attackType        = xi.attackType.PHYSICAL
+    params.damageType        = xi.damageType.BLUNT
+    params.shadowBehavior    = xi.mobskills.shadowBehavior.NUMSHADOWS_2
+    -- params.accuracyModifier   = { 0, 0, 0 } TODO: Capture accuracy
+    params.primaryMessage    = xi.msg.basic.USES_JA_TAKE_DAMAGE
+
+    local info = xi.mobskills.mobPhysicalMove(pet, target, petskill, action, params)
+
+    if xi.mobskills.processDamage(pet, target, petskill, action, info) then
+        target:takeDamage(info.damage, pet, info.attackType, info.damageType)
+    end
+
+    return info.damage
 end
 
 return abilityObject

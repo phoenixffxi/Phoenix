@@ -1,5 +1,7 @@
 -----------------------------------
 -- Regal Scratch
+-- Family: Avatar (Cait Sith)
+-- Description: Delivers a threefold attack.
 -----------------------------------
 ---@type TAbilityPet
 local abilityObject = {}
@@ -11,21 +13,30 @@ end
 abilityObject.onPetAbility = function(target, pet, petskill, summoner, action)
     xi.job_utils.summoner.onUseBloodPact(target, petskill, summoner, action)
 
-    -- local params = {}
-    -- params.str_wsc = 0.0 params.dex_wsc = 0.3 params.vit_wsc = 0.0 params.agi_wsc = 0.0 params.int_wsc = 0.0 params.mnd_wsc = 0.0 params.chr_wsc = 0.0
-    -- params.ele = xi.element.LIGHT
-    local numhits          = 3
-    local accmod           = -5
-    local dmgmod           = 3
-    local dmgmodsubsequent = 1
+    local params = {}
 
-    local info        = xi.summon.avatarPhysicalMove(pet, target, petskill, numhits, accmod, dmgmod, dmgmodsubsequent, xi.mobskills.physicalTpBonus.NO_EFFECT, 1, 2, 3)
-    local totaldamage = xi.summon.avatarFinalAdjustments(info, pet, petskill, target, xi.attackType.PHYSICAL, xi.damageType.SLASHING, numhits)
+    -- https://wiki.ffo.jp/html/26384.html
+    -- JP Wiki states that this skill was excluded from carrying first hit fTP to subsequent hits.
+    -- (See Patch note history for November 10th, 2016 in above link.)
 
-    target:takeDamage(totaldamage, pet, xi.attackType.PHYSICAL, xi.damageType.SLASHING)
-    target:updateEnmityFromDamage(pet, totaldamage)
+    params.baseDamage        = pet:getWeaponDmg()
+    params.numHits           = 3
+    params.fTP               = { 3.00, 3.00, 3.00 } -- TODO: Capture fTPs
+    params.fTPSubsequentHits = { 1.00, 1.00, 1.00 }
+    -- params.dex_wSC           = 0.30
+    params.attackType        = xi.attackType.PHYSICAL
+    params.damageType        = xi.damageType.SLASHING
+    params.shadowBehavior    = xi.mobskills.shadowBehavior.NUMSHADOWS_3
+    -- params.accuracyModifier   = { 0, 0, 0 } TODO: Capture accuracy
+    params.primaryMessage    = xi.msg.basic.USES_JA_TAKE_DAMAGE
 
-    return totaldamage
+    local info = xi.mobskills.mobPhysicalMove(pet, target, petskill, action, params)
+
+    if xi.mobskills.processDamage(pet, target, petskill, action, info) then
+        target:takeDamage(info.damage, pet, info.attackType, info.damageType)
+    end
+
+    return info.damage
 end
 
 return abilityObject
