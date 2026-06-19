@@ -14,8 +14,7 @@ entity.onTrigger = function(player, npc)
 end
 
 entity.onEventFinish = function(player, csid, option, npc)
-    xi.assault.instanceOnEventFinish(player, csid, xi.zone.CAEDARVA_MIRE)
-    xi.assault.runeReleaseFinish(player, csid, option, npc)
+    xi.assault.runeReleaseFinish(player, csid, option, npc, xi.zone.CAEDARVA_MIRE)
 end
 
 return entity

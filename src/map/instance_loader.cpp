@@ -81,7 +81,7 @@ auto CInstanceLoader::LoadInstance() const -> CInstance*
                                  "paralyze_res_rank, bind_res_rank, silence_res_rank, slow_res_rank, poison_res_rank, light_sleep_res_rank, dark_sleep_res_rank, blind_res_rank, "
                                  "Element, mob_pools.speciesid, name_prefix, entityFlags, animationsub, "
                                  "(mob_species_system.HP / 100) AS hp_scale, (mob_species_system.MP / 100) AS mp_scale, hasSpellScript, spellList, mob_groups.poolid, "
-                                 "allegiance, namevis, aggro, mob_pools.skill_list_id, mob_pools.true_detection, detects, "
+                                 "allegiance, namevis, aggro, mob_pools.roamflag, mob_pools.skill_list_id, mob_pools.true_detection, detects, "
                                  "mob_species_system.charmable, mob_pools.modelSize, mob_pools.modelHitboxSize "
                                  "FROM instance_entities "
                                  "INNER JOIN mob_spawn_points ON instance_entities.id = mob_spawn_points.mobid "
@@ -211,6 +211,7 @@ auto CInstanceLoader::LoadInstance() const -> CInstance*
 
             PMob->allegiance      = rset->get<ALLEGIANCE_TYPE>("allegiance");
             PMob->namevis         = rset->get<uint8>("namevis");
+            PMob->m_roamFlags     = rset->get<uint16>("roamflag");
             PMob->modelHitboxSize = std::max<float>(0.0f, rset->getOrDefault<float>("modelHitboxSize", 0) / 10.f);
             PMob->modelSize       = rset->getOrDefault<uint8>("modelSize", 0);
             const auto aggro      = rset->get<uint32>("aggro");
