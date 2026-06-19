@@ -179,7 +179,7 @@ xi.additionalEffect.calcPhysDamage = function(attacker, defender, item, params)
             params.damage = params.damage * (1 + defender:getMod(xi.mod.IMPACT_SDT) / 10000)
         end,
 
-        [xi.damageType.HTH] = function()
+        [xi.damageType.HAND_TO_HAND] = function()
             params.damage = params.damage * (1 + defender:getMod(xi.mod.HTH_SDT) / 10000)
         end,
     }

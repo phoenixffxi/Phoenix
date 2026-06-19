@@ -69,8 +69,8 @@ public:
     void DelLatentEffects(uint8 reqLvl, uint8 slot);
     bool HasAllLatentsActive(uint8 slot);
 
-    void AddLatentEffect(LATENT conditionID, uint16 conditionValue, Mod modID, int16 modValue);
-    bool DelLatentEffect(LATENT conditionID, uint16 conditionValue, Mod modID, int16 modValue);
+    void AddLatentEffect(xi::Latent conditionID, uint16 conditionValue, Mod modID, int16 modValue);
+    auto DelLatentEffect(xi::Latent conditionID, uint16 conditionValue, Mod modID, int16 modValue) -> bool;
 
     CLatentEffectContainer(CCharEntity* PEntity);
 
@@ -79,7 +79,7 @@ private:
     std::vector<CLatentEffect> m_LatentEffectList;
 
     void ProcessLatentEffects(const std::function<bool(CLatentEffect&)>& logic);
-    bool ProcessLatentEffect(CLatentEffect& latentEffect, bool isDuringWs = false);
+    auto ProcessLatentEffect(CLatentEffect& latentEffect, bool isDuringWs = false) -> bool;
     bool ApplyLatentEffect(CLatentEffect& effect, bool expression);
 };
 

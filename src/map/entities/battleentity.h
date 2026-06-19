@@ -30,6 +30,9 @@
 #include "baseentity.h"
 #include "enums/msg_basic.h"
 #include "modifier.h"
+
+#include "data/enums/damage_type.h"
+#include "data/enums/ecosystem.h"
 #include "party.h"
 #include "trait.h"
 
@@ -42,34 +45,6 @@ enum class DEATH_TYPE : uint8
     WS_MAGICAL  = 4,
 };
 DECLARE_FORMAT_AS_UNDERLYING(DEATH_TYPE);
-
-enum class ECOSYSTEM : uint8
-{
-    UNCLASSIFIED   = 0,
-    AMORPH         = 1,
-    AQUAN          = 2,
-    ARCANA         = 3,
-    ARCHAICMACHINE = 4,
-    BEAST          = 5,
-    BEASTMAN       = 6, // Resolve conflict with conquest_system.h BEASTMEN definition
-    BIRD           = 7,
-    DEMON          = 8,
-    DRAGON         = 9,
-    ELEMENTAL      = 10,
-    EMPTY          = 11,
-    HUMANOID       = 12,
-    LIZARD         = 13,
-    LUMINIAN       = 14,
-    LUMINION       = 15,
-    PLANTOID       = 16,
-    SUPREMEBEINGS  = 17,
-    UNDEAD         = 18,
-    VERMIN         = 19,
-    VORAGEAN       = 20,
-    STRUCTURES     = 21,
-    WEAPONS        = 22,
-};
-DECLARE_FORMAT_AS_UNDERLYING(ECOSYSTEM);
 
 enum JOBTYPE : uint8
 {
@@ -208,25 +183,6 @@ enum class ATTACK_TYPE : uint8
 };
 DECLARE_FORMAT_AS_UNDERLYING(ATTACK_TYPE);
 
-enum class DAMAGE_TYPE : uint16
-{
-    NONE      = 0,
-    PIERCING  = 1,
-    SLASHING  = 2,
-    IMPACT    = 3,
-    HTH       = 4,
-    ELEMENTAL = 5,
-    FIRE      = 6,
-    ICE       = 7,
-    WIND      = 8,
-    EARTH     = 9,
-    LIGHTNING = 10,
-    WATER     = 11,
-    LIGHT     = 12,
-    DARK      = 13,
-};
-DECLARE_FORMAT_AS_UNDERLYING(DAMAGE_TYPE);
-
 enum TARGETTYPE : uint16
 {
     TARGET_NONE                    = 0x0000,
@@ -343,8 +299,8 @@ public:
     uint16 ATT(SLOTTYPE slot);
     uint16 ACC(uint8 attackNumber, uint16 offsetAccuracy);
     uint16 EVA();
-    uint16 RATT(uint16 bonusAtt = 0);
-    uint16 RACC(uint16 bonusAcc = 0);
+    auto   RATT(uint16 bonusAtt = 0) -> uint16;
+    auto   RACC(uint16 bonusAcc = 0) -> uint16;
 
     auto isDead() const -> bool;
     bool isAlive();
@@ -380,7 +336,7 @@ public:
     uint8 UpdateSpeed(bool run = false) override;
 
     bool          IsDualWielding();
-    uint32        GetWeaponDelay(bool tp);                          // returns delay of combined weapons
+    auto          GetWeaponDelay(bool tp) -> uint32;                // returns delay of combined weapons
     float         GetMeleeRange(const CBattleEntity* Target) const; // returns the distance considered to be within melee range of the entity
     virtual float GetRangedAttackRange();                           // returns the maximum valid distance for a ranged attack
     int16         GetRangedWeaponDelay(bool forTPCalc);             // returns delay of ranged weapon + ammo where applicable
@@ -399,7 +355,7 @@ public:
     virtual int32 addMP(int32 mp); // increase/decrease the amount of mp
 
     // Deals damage and updates the last attacker which is used when sending a player death message
-    virtual int32 takeDamage(int32 amount, CBattleEntity* attacker = nullptr, ATTACK_TYPE attackType = ATTACK_TYPE::NONE, DAMAGE_TYPE damageType = DAMAGE_TYPE::NONE, bool isSkillchainDamage = false);
+    virtual auto takeDamage(int32 amount, CBattleEntity* attacker = nullptr, ATTACK_TYPE attackType = ATTACK_TYPE::NONE, xi::DamageType damageType = xi::DamageType::None, bool isSkillchainDamage = false) -> int32;
 
     int16 getMod(Mod modID);
     int16 getMaxGearMod(Mod modID);
@@ -539,7 +495,7 @@ public:
     timer::time_point charmTime; // to hold the time entity is charmed
     bool              isCharmed; // is the battle entity charmed?
 
-    ECOSYSTEM       m_EcoSystem{};  // Entity eco system
+    xi::Ecosystem   m_EcoSystem{};  // Entity eco system
     CItemEquipment* m_Weapons[4]{}; // Four main slots used to store weapons (weapons only)
     bool            m_dualWield;    // True/false depending on if the entity is using two weapons
     DEATH_TYPE      m_DeathType;

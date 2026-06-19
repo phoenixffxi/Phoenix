@@ -18,7 +18,7 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     params.numHits          = 1
     params.fTP              = { 1.0, 1.0, 1.0 }
     params.attackType       = xi.attackType.PHYSICAL
-    params.damageType       = xi.damageType.HTH
+    params.damageType       = xi.damageType.HAND_TO_HAND
     params.shadowBehavior   = xi.mobskills.shadowBehavior.NUMSHADOWS_1
     params.attackMultiplier = { 2.0, 2.0, 2.0 }
 

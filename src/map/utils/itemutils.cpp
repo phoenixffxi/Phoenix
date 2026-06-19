@@ -355,7 +355,7 @@ void LoadItemList()
                 static_cast<CItemWeapon*>(PItem)->setBaseDelay(rset->get<uint16>("delay"));
                 static_cast<CItemWeapon*>(PItem)->setDelay(rset->get<uint16>("delay"));
                 static_cast<CItemWeapon*>(PItem)->setDamage(rset->get<uint16>("dmg"));
-                static_cast<CItemWeapon*>(PItem)->setDmgType(rset->get<DAMAGE_TYPE>("dmgType"));
+                static_cast<CItemWeapon*>(PItem)->setDmgType(rset->get<xi::DamageType>("dmgType"));
                 static_cast<CItemWeapon*>(PItem)->setMaxHit(rset->get<uint8>("hit"));
                 static_cast<CItemWeapon*>(PItem)->setTotalUnlockPointsNeeded(rset->get<uint16>("unlock_points"));
 
@@ -464,7 +464,7 @@ void LoadItemList()
         const auto ItemID      = rset->get<uint16>("itemId");
         const auto modID       = rset->get<Mod>("modId");
         const auto value       = rset->get<int16>("value");
-        const auto latentId    = rset->get<LATENT>("latentId");
+        const auto latentId    = rset->get<xi::Latent>("latentId");
         const auto latentParam = rset->get<uint16>("latentParam");
 
         if (auto* tpl = itemTemplates[ItemID].get(); tpl != nullptr && tpl->isType(ITEM_EQUIPMENT))
@@ -535,12 +535,12 @@ void Initialize()
     LoadDropList();
 
     unarmedItem = std::make_unique<CItemWeapon>(0);
-    unarmedItem->setDmgType(DAMAGE_TYPE::NONE);
+    unarmedItem->setDmgType(xi::DamageType::None);
     unarmedItem->setSkillType(SKILL_NONE);
     unarmedItem->setDamage(3);
 
     unarmedH2HItem = std::make_unique<CItemWeapon>(0);
-    unarmedH2HItem->setDmgType(DAMAGE_TYPE::HTH);
+    unarmedH2HItem->setDmgType(xi::DamageType::HandToHand);
     unarmedH2HItem->setSkillType(SKILL_HAND_TO_HAND);
     unarmedH2HItem->setDamage(0);
 

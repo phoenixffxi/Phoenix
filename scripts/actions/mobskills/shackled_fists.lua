@@ -21,7 +21,7 @@ mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     params.numHits        = 5
     params.fTP            = { 0.5, 0.5, 0.5 }
     params.attackType     = xi.attackType.PHYSICAL
-    params.damageType     = xi.damageType.HTH
+    params.damageType     = xi.damageType.HAND_TO_HAND
     params.shadowBehavior = xi.mobskills.shadowBehavior.NUMSHADOWS_5
 
     local info = xi.mobskills.mobPhysicalMove(mob, target, skill, action, params)

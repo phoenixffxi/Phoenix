@@ -51,7 +51,7 @@ CTrustEntity::CTrustEntity(CCharEntity* PChar)
 : CMobEntity()
 {
     objtype                     = TYPE_TRUST;
-    m_EcoSystem                 = ECOSYSTEM::UNCLASSIFIED;
+    m_EcoSystem                 = xi::Ecosystem::Unclassified;
     allegiance                  = ALLEGIANCE_TYPE::PLAYER;
     m_MobSkillList              = 0;
     PMaster                     = PChar;
