@@ -37,6 +37,20 @@ commandObj.onTrigger = function(player, jobId, level)
         end
     end
 
+    if jobId == xi.job.PUP then
+        if player:getAutomatonName() == '' then
+            player:setPetName(xi.petType.AUTOMATON, xi.petName.MK_IV)
+        end
+
+        if not player:hasAttachment(xi.item.HARLEQUIN_FRAME) then
+            player:unlockAttachment(xi.item.HARLEQUIN_FRAME)
+        end
+
+        if not player:hasAttachment(xi.item.HARLEQUIN_HEAD) then
+            player:unlockAttachment(xi.item.HARLEQUIN_HEAD)
+        end
+    end
+
     -- change job and (optionally) level
     player:changesJob(jobId)
     if level ~= nil then
