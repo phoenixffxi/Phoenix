@@ -8284,4 +8284,34 @@ void ApplyAbilityRecast(CCharEntity* PChar, const CAbility* PAbility, const Char
     PChar->pushPacket<GP_SERV_COMMAND_ABIL_RECAST>(PChar);
 }
 
+void TrackArrowUsageForScavenge(CCharEntity* PChar, CItemWeapon* PAmmo)
+{
+    TracyZoneScoped;
+
+    // Check if local has been set yet
+    if (PChar->GetLocalVar("ArrowsUsed") == 0)
+    {
+        // Local not set yet so set
+        PChar->SetLocalVar("ArrowsUsed", PAmmo->getID() * 10000 + 1);
+    }
+    else
+    {
+        // Local exists now check if arrow used is same as last time
+        if ((floor(PChar->GetLocalVar("ArrowsUsed") / 10000)) == PAmmo->getID())
+        {
+            // Same arrow used as last time now check that arrows used do not go above 1980
+            if (!(floor(PChar->GetLocalVar("ArrowsUsed") % 10000) >= 1980))
+            {
+                // Safe to increment arrows used
+                PChar->SetLocalVar("ArrowsUsed", PChar->GetLocalVar("ArrowsUsed") + 1);
+            }
+        }
+        else
+        {
+            // Different arrow is being used so remake local
+            PChar->SetLocalVar("ArrowsUsed", PAmmo->getID() * 10000 + 1);
+        }
+    }
+}
+
 }; // namespace charutils

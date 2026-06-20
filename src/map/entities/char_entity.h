@@ -295,8 +295,6 @@ constexpr uint8 EquipSlotCount = 18;
 
 class CCharEntity final : public CBattleEntity
 {
-    friend class CBattleEntity;
-
 public:
     uint32 accid{}; // Account ID associated with the character.
 
@@ -765,7 +763,6 @@ public:
 
 protected:
     void changeMoghancement(uint16 moghancementID, bool isAdding);
-    void TrackArrowUsageForScavenge(CItemWeapon* PAmmo);
 
 private:
     CCraftState                               craftState_{};

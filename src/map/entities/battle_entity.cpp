@@ -3234,7 +3234,7 @@ void CBattleEntity::OnRangedAttack(CRangeState& state, action_t& action)
             if (PAmmo != nullptr && xirand::GetRandomNumber(100) > recycleChance)
             {
                 ++ammoConsumed;
-                PChar->TrackArrowUsageForScavenge(PAmmo);
+                charutils::TrackArrowUsageForScavenge(PChar, PAmmo);
                 if (PAmmo->getQuantity() == i)
                 {
                     hitCount = i;

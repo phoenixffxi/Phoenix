@@ -2866,36 +2866,6 @@ void CCharEntity::changeMoghancement(uint16 moghancementID, bool isAdding)
     }
 }
 
-void CCharEntity::TrackArrowUsageForScavenge(CItemWeapon* PAmmo)
-{
-    TracyZoneScoped;
-
-    // Check if local has been set yet
-    if (this->GetLocalVar("ArrowsUsed") == 0)
-    {
-        // Local not set yet so set
-        this->SetLocalVar("ArrowsUsed", PAmmo->getID() * 10000 + 1);
-    }
-    else
-    {
-        // Local exists now check if arrow used is same as last time
-        if ((floor(this->GetLocalVar("ArrowsUsed") / 10000)) == PAmmo->getID())
-        {
-            // Same arrow used as last time now check that arrows used do not go above 1980
-            if (!(floor(this->GetLocalVar("ArrowsUsed") % 10000) >= 1980))
-            {
-                // Safe to increment arrows used
-                this->SetLocalVar("ArrowsUsed", this->GetLocalVar("ArrowsUsed") + 1);
-            }
-        }
-        else
-        {
-            // Different arrow is being used so remake local
-            this->SetLocalVar("ArrowsUsed", PAmmo->getID() * 10000 + 1);
-        }
-    }
-}
-
 bool CCharEntity::OnAttackError(CAttackState& state)
 {
     TracyZoneScoped;
