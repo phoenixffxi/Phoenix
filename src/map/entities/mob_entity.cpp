@@ -844,7 +844,7 @@ auto CMobEntity::GetEligibleGeodes() const -> std::vector<uint16>
     uint8 element = 0;
 
     // Set element by weather
-    if (const Weather weather = loc.zone->GetWeather(); weather >= Weather::HotSpell && weather <= Weather::Darkness)
+    if (const Weather weather = loc.zone->weather().current(); weather >= Weather::HotSpell && weather <= Weather::Darkness)
     {
         /*
         element = zoneutils::GetWeatherElement(weather);

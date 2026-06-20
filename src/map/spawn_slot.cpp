@@ -42,7 +42,7 @@ auto SpawnSlot::TrySpawn(const Maybe<uint32> specificMobId) -> bool
     SpawnHandler* spawnHandler = nullptr;
     if (!entries.empty() && entries[0].mob->loc.zone)
     {
-        spawnHandler = entries[0].mob->loc.zone->spawnHandler();
+        spawnHandler = &entries[0].mob->loc.zone->spawnHandler();
     }
 
     // Check if a specific mob should respawn (deaggro case)

@@ -33,8 +33,8 @@ auto GP_CLI_COMMAND_SWITCH_VOTE::validate(MapSession* PSession, const CCharEntit
 
 void GP_CLI_COMMAND_SWITCH_VOTE::process(MapSession* PSession, CCharEntity* PChar) const
 {
-    if (auto* manager = PChar->loc.zone ? PChar->loc.zone->nominateManager() : nullptr)
+    if (PChar->loc.zone)
     {
-        manager->onVote(PChar, *this);
+        PChar->loc.zone->nominateManager().onVote(PChar, *this);
     }
 }

@@ -8052,10 +8052,7 @@ void removeCharFromZone(CCharEntity* PChar)
 
     if (PChar->loc.zone != nullptr)
     {
-        if (auto* manager = PChar->loc.zone->nominateManager())
-        {
-            manager->onCharLeavingZone(PChar);
-        }
+        PChar->loc.zone->nominateManager().onCharLeavingZone(PChar);
     }
 
     PChar->WideScanTarget = std::nullopt;

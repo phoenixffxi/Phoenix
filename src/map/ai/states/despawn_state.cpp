@@ -39,7 +39,7 @@ CDespawnState::CDespawnState(CBaseEntity* _PEntity, bool instantDespawn)
 
     if (auto* PMob = dynamic_cast<CMobEntity*>(_PEntity); PMob && PMob->m_AllowRespawn && PMob->loc.zone != nullptr)
     {
-        PMob->loc.zone->spawnHandler()->registerForRespawn(PMob);
+        PMob->loc.zone->spawnHandler().registerForRespawn(PMob);
     }
 }
 

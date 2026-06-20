@@ -2631,7 +2631,7 @@ auto CLuaBaseEntity::getWeather(const sol::object& ignoreScholar) const -> uint8
     }
     else
     {
-        weather = zoneutils::GetZone(m_PBaseEntity->getZone())->GetWeather();
+        weather = zoneutils::GetZone(m_PBaseEntity->getZone())->weather().current();
     }
 
     return static_cast<uint8>(weather);
@@ -12266,7 +12266,7 @@ auto CLuaBaseEntity::registerBattlefield(const sol::object& arg0, const sol::obj
         return BATTLEFIELD_RETURN_CODE_BATTLEFIELD_FULL;
     }
 
-    if (m_PBaseEntity->loc.zone->m_BattlefieldHandler == nullptr)
+    if (m_PBaseEntity->loc.zone->battlefieldHandler() == nullptr)
     {
         ShowWarning("m_BattlefieldHandler was null for %s.", m_PBaseEntity->getName());
         return BATTLEFIELD_RETURN_CODE_BATTLEFIELD_FULL;
@@ -12317,7 +12317,7 @@ auto CLuaBaseEntity::registerBattlefield(const sol::object& arg0, const sol::obj
         registration.rules |= battlefield.get<bool>("canLoseExp") ? RULES_LOSE_EXP : 0;
     }
 
-    return PZone->m_BattlefieldHandler->RegisterBattlefield(PChar, registration);
+    return PZone->battlefieldHandler()->RegisterBattlefield(PChar, registration);
 }
 
 auto CLuaBaseEntity::battlefieldAtCapacity(const int battlefieldID) const -> bool
@@ -12328,7 +12328,7 @@ auto CLuaBaseEntity::battlefieldAtCapacity(const int battlefieldID) const -> boo
         return true;
     }
 
-    if (m_PBaseEntity->loc.zone->m_BattlefieldHandler == nullptr)
+    if (m_PBaseEntity->loc.zone->battlefieldHandler() == nullptr)
     {
         ShowWarning("m_BattlefieldHandler was null for %s.", m_PBaseEntity->getName());
         return true;
@@ -12343,14 +12343,14 @@ auto CLuaBaseEntity::battlefieldAtCapacity(const int battlefieldID) const -> boo
     auto* PChar = static_cast<CCharEntity*>(m_PBaseEntity);
     auto* PZone = PChar->loc.zone == nullptr ? zoneutils::GetZone(PChar->loc.destination) : PChar->loc.zone;
 
-    if (!PZone || PZone->m_BattlefieldHandler == nullptr)
+    if (!PZone || PZone->battlefieldHandler() == nullptr)
     {
         ShowWarning("CLuaBaseEntity::battlefieldAtCapacity() - Battlefield Handler is null.");
         return true; // NOTE: We were previously breaking here, so return full in this case.
     }
 
     bool full = false;
-    if (PZone->m_BattlefieldHandler->ReachedMaxCapacity(battlefieldID))
+    if (PZone->battlefieldHandler()->ReachedMaxCapacity(battlefieldID))
     {
         full = true;
     }
@@ -12373,7 +12373,7 @@ auto CLuaBaseEntity::enterBattlefield(const sol::object& area) const -> bool
         return false;
     }
 
-    if (m_PBaseEntity->objtype != TYPE_PC || m_PBaseEntity->loc.zone->m_BattlefieldHandler == nullptr)
+    if (m_PBaseEntity->objtype != TYPE_PC || m_PBaseEntity->loc.zone->battlefieldHandler() == nullptr)
     {
         ShowWarning("CLuaBaseEntity::enterBattlefield() - Non-PC calling function, or Battlefield Handler is null.");
         return false;
@@ -12382,11 +12382,11 @@ auto CLuaBaseEntity::enterBattlefield(const sol::object& area) const -> bool
     CBattlefield* PBattlefield = nullptr;
     if (area == sol::lua_nil)
     {
-        PBattlefield = m_PBaseEntity->loc.zone->m_BattlefieldHandler->GetBattlefield(m_PBaseEntity, true);
+        PBattlefield = m_PBaseEntity->loc.zone->battlefieldHandler()->GetBattlefield(m_PBaseEntity, true);
     }
     else
     {
-        PBattlefield = m_PBaseEntity->loc.zone->m_BattlefieldHandler->GetBattlefieldByArea(area.as<uint8>());
+        PBattlefield = m_PBaseEntity->loc.zone->battlefieldHandler()->GetBattlefieldByArea(area.as<uint8>());
     }
 
     return PBattlefield ? PBattlefield->InsertEntity(m_PBaseEntity, true) : false;
@@ -12407,13 +12407,13 @@ auto CLuaBaseEntity::leaveBattlefield(const uint8 leavecode) const -> bool
         return false;
     }
 
-    if (m_PBaseEntity->objtype == TYPE_NPC || m_PBaseEntity->loc.zone->m_BattlefieldHandler == nullptr)
+    if (m_PBaseEntity->objtype == TYPE_NPC || m_PBaseEntity->loc.zone->battlefieldHandler() == nullptr)
     {
         ShowWarning("CLuaBaseEntity::leaveBattlefield() - NPC calling function, or Battlefield Handler is null.");
         return false;
     }
 
-    return m_PBaseEntity->loc.zone->m_BattlefieldHandler->RemoveFromBattlefield(m_PBaseEntity, m_PBaseEntity->PBattlefield, leavecode);
+    return m_PBaseEntity->loc.zone->battlefieldHandler()->RemoveFromBattlefield(m_PBaseEntity, m_PBaseEntity->PBattlefield, leavecode);
 }
 
 /************************************************************************
@@ -18009,7 +18009,7 @@ auto CLuaBaseEntity::getRespawnTime() const -> uint32
 
     if (auto* PMob = static_cast<CMobEntity*>(m_PBaseEntity); PMob->loc.zone)
     {
-        if (const auto remaining = PMob->loc.zone->spawnHandler()->getRemainingRespawnTime(PMob))
+        if (const auto remaining = PMob->loc.zone->spawnHandler().getRemainingRespawnTime(PMob))
         {
             return static_cast<uint32>(timer::count_seconds(*remaining));
         }
@@ -18041,7 +18041,7 @@ void CLuaBaseEntity::setRespawnTime(const uint32 seconds) const
 
         if (PMob->loc.zone != nullptr)
         {
-            PMob->loc.zone->spawnHandler()->unregister(PMob);
+            PMob->loc.zone->spawnHandler().unregister(PMob);
         }
 
         return;
@@ -18053,7 +18053,7 @@ void CLuaBaseEntity::setRespawnTime(const uint32 seconds) const
     // If mob is not currently spawned, update its pending respawn time in SpawnHandler
     if (!PMob->PAI->IsSpawned() && PMob->loc.zone != nullptr)
     {
-        PMob->loc.zone->spawnHandler()->registerForRespawn(PMob, std::chrono::seconds(seconds));
+        PMob->loc.zone->spawnHandler().registerForRespawn(PMob, std::chrono::seconds(seconds));
     }
 }
 

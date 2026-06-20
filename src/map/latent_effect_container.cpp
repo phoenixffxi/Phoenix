@@ -702,7 +702,7 @@ void CLatentEffectContainer::CheckLatentsWeather()
         return;
     }
 
-    CheckLatentsWeather(PZone->GetWeather());
+    CheckLatentsWeather(PZone->weather().current());
 }
 
 void CLatentEffectContainer::CheckLatentsWeather(Weather weather)

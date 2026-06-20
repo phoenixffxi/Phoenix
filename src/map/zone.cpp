@@ -79,13 +79,11 @@ CZone::CZone(Scheduler& scheduler, MapConfig config, ZONEID ZoneID, REGION_TYPE 
 , m_regionID(RegionID)
 , m_continentID(ContinentID)
 , m_levelRestriction(levelRestriction)
-, m_WeatherChangeTime(0)
 {
     TracyZoneScoped;
 
     m_TreasurePool       = nullptr;
     m_BattlefieldHandler = nullptr;
-    m_Weather            = Weather::None;
     m_zoneEntities       = new CZoneEntities(scheduler_, config_, this);
     m_CampaignHandler    = new CCampaignHandler(this);
     m_spawnHandler       = std::make_unique<SpawnHandler>(this);
@@ -107,7 +105,7 @@ CZone::CZone(Scheduler& scheduler, MapConfig config, ZONEID ZoneID, REGION_TYPE 
         kSpawnHandlerInterval,
         [this]() -> Task<void>
         {
-            this->spawnHandler()->Tick(timer::now());
+            this->spawnHandler().Tick(timer::now());
             co_return;
         });
 }
@@ -174,24 +172,34 @@ uint16 CZone::GetTax() const
     return m_tax;
 }
 
-auto CZone::GetWeather() const -> Weather
+auto CZone::weather() -> WeatherContainer&
 {
-    return m_Weather;
+    return weather_;
 }
 
-auto CZone::GetWeatherChangeTime() const -> uint32
+auto CZone::weather() const -> const WeatherContainer&
 {
-    return m_WeatherChangeTime;
+    return weather_;
 }
 
-auto CZone::spawnHandler() const -> SpawnHandler*
+auto CZone::spawnHandler() const -> SpawnHandler&
 {
-    return m_spawnHandler.get();
+    return *m_spawnHandler;
 }
 
-auto CZone::nominateManager() const -> NominateManager*
+auto CZone::nominateManager() const -> NominateManager&
 {
-    return nominateManager_.get();
+    return *nominateManager_;
+}
+
+auto CZone::campaignHandler() const -> CCampaignHandler*
+{
+    return m_CampaignHandler;
+}
+
+auto CZone::battlefieldHandler() const -> CBattlefieldHandler*
+{
+    return m_BattlefieldHandler;
 }
 
 const std::string& CZone::getName()
@@ -312,11 +320,6 @@ bool CZone::CanUseMisc(uint16 misc) const
     return (m_miscMask & misc) == misc;
 }
 
-bool CZone::IsWeatherStatic() const
-{
-    return m_WeatherVector.empty() || m_WeatherVector.size() == 1;
-}
-
 zoneLine_t* CZone::GetZoneLine(uint32 zoneLineID)
 {
     for (const auto& zoneLine : m_zoneLineList)
@@ -410,10 +413,10 @@ void CZone::LoadZoneWeather()
         {
             if (weatherBlob[i])
             {
-                const auto w_normal = static_cast<uint8>(weatherBlob[i] >> 10);
-                const auto w_common = static_cast<uint8>((weatherBlob[i] >> 5) & 0x1F);
-                const auto w_rare   = static_cast<uint8>(weatherBlob[i] & 0x1F);
-                m_WeatherVector.insert(std::make_pair(i, zoneWeather_t(w_normal, w_common, w_rare)));
+                const auto w_normal = static_cast<Weather>(weatherBlob[i] >> 10);
+                const auto w_common = static_cast<Weather>((weatherBlob[i] >> 5) & 0x1F);
+                const auto w_rare   = static_cast<Weather>(weatherBlob[i] & 0x1F);
+                weather_.addEntry(i, ZoneWeather(w_normal, w_common, w_rare));
             }
         }
     }
@@ -675,17 +678,17 @@ void CZone::SetWeather(const Weather weather)
         return;
     }
 
-    if (m_Weather == weather)
+    if (weather_.current() == weather)
     {
         return;
     }
 
     m_zoneEntities->WeatherChange(weather);
 
-    m_Weather           = weather;
-    m_WeatherChangeTime = earth_time::vanadiel_timestamp();
+    const uint32 changeTime = earth_time::vanadiel_timestamp();
+    weather_.set(weather, changeTime);
 
-    m_zoneEntities->PushPacket(nullptr, CHAR_INZONE, std::make_unique<GP_SERV_COMMAND_WEATHER>(m_WeatherChangeTime, m_Weather, xirand::GetRandomNumber(4, 28)));
+    m_zoneEntities->PushPacket(nullptr, CHAR_INZONE, std::make_unique<GP_SERV_COMMAND_WEATHER>(changeTime, weather, xirand::GetRandomNumber(4, 28)));
 }
 
 void CZone::UpdateWeather()
@@ -712,16 +715,7 @@ void CZone::UpdateWeather()
     // Get a random number to determine which weather effect we will use
     WeatherChance = xirand::GetRandomNumber(100);
 
-    zoneWeather_t&& weatherType = zoneWeather_t(0, 0, 0);
-
-    for (auto& weather : m_WeatherVector)
-    {
-        if (weather.first > WeatherDay)
-        {
-            break;
-        }
-        weatherType = weather.second;
-    }
+    const ZoneWeather weatherType = weather_.entryForDay(static_cast<uint16>(WeatherDay));
 
     auto selectedWeather = Weather::None;
 
@@ -729,15 +723,15 @@ void CZone::UpdateWeather()
     // * Percentages were generated from a 6 hour sample and rounded down to closest multiple of 5*
     if (WeatherChance < 15) // 15% chance to have the weather_rare
     {
-        selectedWeather = static_cast<Weather>(weatherType.rare);
+        selectedWeather = weatherType.rare;
     }
     else if (WeatherChance < 50) // 35% chance to have weather_common
     {
-        selectedWeather = static_cast<Weather>(weatherType.common);
+        selectedWeather = weatherType.common;
     }
     else
     {
-        selectedWeather = static_cast<Weather>(weatherType.normal);
+        selectedWeather = weatherType.normal;
     }
 
     // This check is incorrect, fog is not simply a time of day, though it may consistently happen in SOME zones
@@ -759,7 +753,7 @@ void CZone::UpdateWeather()
         [this, duration = std::chrono::duration_cast<earth_time::duration>(WeatherNextUpdate)]() -> Task<void>
         {
             co_await scheduler_.yieldFor(duration);
-            if (!this->IsWeatherStatic())
+            if (!this->weather().isStatic())
             {
                 this->UpdateWeather();
             }

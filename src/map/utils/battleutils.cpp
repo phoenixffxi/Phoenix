@@ -5039,7 +5039,7 @@ auto GetWeather(CBattleEntity* PEntity, bool ignoreScholar) -> Weather
         return Weather::None;
     }
 
-    return GetWeather(PEntity, ignoreScholar, zoneutils::GetZone(PEntity->getZone())->GetWeather());
+    return GetWeather(PEntity, ignoreScholar, zoneutils::GetZone(PEntity->getZone())->weather().current());
 }
 
 auto GetWeather(CBattleEntity* PEntity, bool ignoreScholar, Weather zoneWeather) -> Weather

@@ -330,7 +330,7 @@ void CLuaBattlefield::addGroups(const sol::table& groups, bool hasMultipleArenas
 
         if (!entityIds.empty())
         {
-            uint32 stride = uint32(entityIds.size()) / m_PLuaBattlefield->GetZone()->m_BattlefieldHandler->MaxBattlefieldAreas();
+            uint32 stride = uint32(entityIds.size()) / m_PLuaBattlefield->GetZone()->battlefieldHandler()->MaxBattlefieldAreas();
 
             // Look to see if there's an Armoury Crate within the group of monsters
             static const std::string ARMOURY_CRATE = "Armoury_Crate";

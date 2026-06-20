@@ -453,7 +453,7 @@ void CZoneEntities::WeatherChange(Weather weather)
         }
     }
 
-    m_zone->spawnHandler()->onWeatherChange(weather);
+    m_zone->spawnHandler().onWeatherChange(weather);
 
     FOR_EACH_PAIR_CAST_SECOND(CCharEntity*, PCurrentChar, m_charList)
     {
@@ -543,9 +543,9 @@ void CZoneEntities::DecreaseZoneCounter(CCharEntity* PChar)
     PChar->ClearTrusts();
     PChar->SpawnTRUSTList.clear();
 
-    if (m_zone->m_BattlefieldHandler)
+    if (m_zone->battlefieldHandler())
     {
-        m_zone->m_BattlefieldHandler->RemoveFromBattlefield(PChar, PChar->PBattlefield, BATTLEFIELD_LEAVE_CODE_WARPDC);
+        m_zone->battlefieldHandler()->RemoveFromBattlefield(PChar, PChar->PBattlefield, BATTLEFIELD_LEAVE_CODE_WARPDC);
     }
 
     FOR_EACH_PAIR_CAST_SECOND(CMobEntity*, PCurrentMob, m_mobList)
@@ -1351,7 +1351,7 @@ void CZoneEntities::TOTDChange(vanadiel_time::TOTD TOTD)
 {
     TracyZoneScoped;
 
-    m_zone->spawnHandler()->onTOTDChange(TOTD);
+    m_zone->spawnHandler().onTOTDChange(TOTD);
 }
 
 void CZoneEntities::SavePlayTime()

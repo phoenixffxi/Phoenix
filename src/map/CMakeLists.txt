@@ -159,6 +159,8 @@ set(MAP_CORE_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/universal_container.h
     ${CMAKE_CURRENT_SOURCE_DIR}/weapon_skill.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/weapon_skill.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/weather_container.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/weather_container.h
     ${CMAKE_CURRENT_SOURCE_DIR}/ximesh/transformation_matrix.h
     ${CMAKE_CURRENT_SOURCE_DIR}/ximesh/vector3.h
     ${CMAKE_CURRENT_SOURCE_DIR}/ximesh/ximesh_structs.h

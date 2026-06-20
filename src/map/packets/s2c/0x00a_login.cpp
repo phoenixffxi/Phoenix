@@ -151,8 +151,8 @@ GP_SERV_COMMAND_LOGIN::GP_SERV_COMMAND_LOGIN(CCharEntity* PChar, const EventInfo
     };
 
     // TODO: Previous weather
-    packet.WeatherNumber = static_cast<uint16>(PChar->loc.zone->GetWeather());
-    packet.WeatherTime   = PChar->loc.zone->GetWeatherChangeTime();
+    packet.WeatherNumber = static_cast<uint16>(PChar->loc.zone->weather().current());
+    packet.WeatherTime   = PChar->loc.zone->weather().changeTime();
     packet.ZoneNo        = PChar->getZone();
     packet.ZoneSubNo     = PChar->PInstance ? PChar->PInstance->overlayId() : 0;
     packet.MapNumber     = PChar->getZone();

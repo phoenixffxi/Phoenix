@@ -34,8 +34,8 @@ auto GP_CLI_COMMAND_SWITCH_PROPOSAL::validate(MapSession* PSession, const CCharE
 
 void GP_CLI_COMMAND_SWITCH_PROPOSAL::process(MapSession* PSession, CCharEntity* PChar) const
 {
-    if (auto* manager = PChar->loc.zone ? PChar->loc.zone->nominateManager() : nullptr)
+    if (PChar->loc.zone)
     {
-        manager->onProposal(PChar, *this);
+        PChar->loc.zone->nominateManager().onProposal(PChar, *this);
     }
 }

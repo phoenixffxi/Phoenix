@@ -1178,7 +1178,7 @@ auto CMobController::DoRoamTick(timer::time_point tick) -> Task<void>
                 {
                     PMob->PAI->Despawn();
                     // Override respawn timer set by CDespawnState for deaggro (60s instead of default)
-                    PMob->loc.zone->spawnHandler()->registerForRespawn(PMob, 60s);
+                    PMob->loc.zone->spawnHandler().registerForRespawn(PMob, 60s);
                     co_return;
                 }
             }

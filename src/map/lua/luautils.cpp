@@ -3589,7 +3589,7 @@ void OnMobDisengage(CBaseEntity* PMob)
         return;
     }
 
-    auto weather = PMob->loc.zone->GetWeather();
+    auto weather = PMob->loc.zone->weather().current();
 
     auto result = onMobDisengage(PMob, weather);
     if (!result.valid())

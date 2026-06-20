@@ -188,16 +188,16 @@ ZONE_TYPE CLuaZone::getTypeMask()
 
 auto CLuaZone::getBattlefieldByInitiator(uint32 charID) -> CBattlefield*
 {
-    if (m_pLuaZone->m_BattlefieldHandler)
+    if (m_pLuaZone->battlefieldHandler())
     {
-        return m_pLuaZone->m_BattlefieldHandler->GetBattlefieldByInitiator(charID);
+        return m_pLuaZone->battlefieldHandler()->GetBattlefieldByInitiator(charID);
     }
     return nullptr;
 }
 
 auto CLuaZone::getWeather() const -> Weather
 {
-    return m_pLuaZone->GetWeather();
+    return m_pLuaZone->weather().current();
 }
 
 uint32 CLuaZone::getUptime()
