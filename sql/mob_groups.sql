@@ -438,7 +438,7 @@ INSERT INTO `mob_groups` VALUES (61,975,9,'Demonic_Millstone',960,0,606,0,0,0,NU
 INSERT INTO `mob_groups` VALUES (62,1432,9,'Frost_Lizard',960,0,913,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (63,1042,9,'Diremite_Dominator',900,0,659,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (64,217,9,'Archaic_Chest',0,128,153,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (65,1750,9,'Golden-Tongued_Culberry',0,128,0,20000,30000,0,NULL);
+INSERT INTO `mob_groups` VALUES (65,1750,9,'Golden-Tongued_Culberry',0,128,0,30000,30000,0,NULL);
 
 -- ------------------------------------------------------------
 -- The_Shrouded_Maw (Zone 10)
