@@ -169,7 +169,7 @@ void CTransportHandler::InitializeTransport(IPP mapIPP)
             continue;
         }
 
-        static_cast<CNpcEntity*>(zoneTown.ship.npc)->m_alwaysRelevant = true;
+        static_cast<CNpcEntity*>(zoneTown.ship.npc)->setAlwaysRelevant(true);
 
         zoneTown.ship.animationArrive = rset->get<uint8>("anim_arrive");
         zoneTown.ship.animationDepart = rset->get<uint8>("anim_depart");
@@ -455,7 +455,7 @@ void CTransportHandler::insertElevator(Elevator_t elevator)
         return;
     }
 
-    elevator.Elevator->m_alwaysRelevant = true;
+    elevator.Elevator->setAlwaysRelevant(true);
 
     // check to see if this elevator already exists
     for (auto& i : ElevatorList)

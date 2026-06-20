@@ -19,7 +19,7 @@
 ===========================================================================
 */
 
-#include "trust_entity.h"
+#include <map/entities/trust_entity.h>
 
 #include "action/action.h"
 #include "action/interrupts.h"
@@ -55,8 +55,10 @@ constexpr int8 kTrustDefaultShieldSize = 3;
 
 } // namespace
 
-CTrustEntity::CTrustEntity(CCharEntity* PChar)
+CTrustEntity::CTrustEntity(CCharEntity* PChar, uint32 trustId, IsPassiveTrust isPassiveTrust)
 : CMobEntity()
+, trustID_(trustId)
+, passiveTrust_(isPassiveTrust)
 {
     objtype                     = TYPE_TRUST;
     m_EcoSystem                 = xi::Ecosystem::Unclassified;
@@ -82,35 +84,25 @@ auto CTrustEntity::trustID() -> uint32
     return trustID_;
 }
 
-void CTrustEntity::setTrustID(uint32 trustID)
-{
-    trustID_ = trustID;
-}
-
 auto CTrustEntity::shieldSize() -> int8
 {
     const auto shieldSizeMod = static_cast<int8>(getMobMod(MOBMOD_TRUST_SHIELD_SIZE));
     return shieldSizeMod > 0 ? shieldSizeMod : kTrustDefaultShieldSize;
 }
 
-auto CTrustEntity::isReleased() -> bool
+auto CTrustEntity::released() -> bool
 {
-    return isReleased_;
+    return released_;
 }
 
-void CTrustEntity::setReleased(bool isReleased)
+void CTrustEntity::setReleased(bool released)
 {
-    isReleased_ = isReleased;
+    released_ = released;
 }
 
-auto CTrustEntity::isPassiveTrust() -> bool
+auto CTrustEntity::passiveTrust() -> IsPassiveTrust
 {
-    return isPassiveTrust_;
-}
-
-void CTrustEntity::setPassiveTrust(bool isPassive)
-{
-    isPassiveTrust_ = isPassive;
+    return passiveTrust_;
 }
 
 void CTrustEntity::PostTick()
@@ -178,7 +170,7 @@ void CTrustEntity::Spawn()
 bool CTrustEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags)
 {
     // Passive GEO trusts like Sakura etc are basically walking indicolures and cant be targeted
-    if (isPassiveTrust_)
+    if (passiveTrust_)
     {
         return false;
     }
@@ -339,7 +331,7 @@ void CTrustEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& act
 bool CTrustEntity::GetUntargetable() const
 {
     // Passive GEO trusts like Sakura etc are basically walking indicolures and cant be targeted
-    if (isPassiveTrust_)
+    if (passiveTrust_)
     {
         return true;
     }

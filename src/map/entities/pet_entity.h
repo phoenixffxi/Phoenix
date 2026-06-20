@@ -19,8 +19,7 @@
 ===========================================================================
 */
 
-#ifndef _CPETENTITY_H
-#define _CPETENTITY_H
+#pragma once
 
 #include "mob_entity.h"
 
@@ -49,9 +48,10 @@ enum class WYVERN_TYPE : uint8
 class CPetEntity : public CMobEntity
 {
 public:
-    CPetEntity(PET_TYPE petType);
+    CPetEntity(PET_TYPE petType, uint32 petID);
     ~CPetEntity() override;
 
+    uint32            petID() const;
     PET_TYPE          getPetType() const;
     uint8             getSpawnLevel();
     void              setSpawnLevel(uint8 level);
@@ -59,21 +59,28 @@ public:
     timer::duration   getJugDuration();                        // duration of this jug pet in seconds
     void              setJugDuration(timer::duration seconds); // sets the duration of this jug pet in seconds
     bool              isBstPet() const;
-    uint32            m_PetID;
     const std::string GetScriptName();
     WYVERN_TYPE       getWyvernType();
-    virtual void      PostTick() override;
-    virtual void      FadeOut() override;
-    virtual void      Die() override;
-    virtual void      Spawn() override;
-    bool              shouldPersistThroughZone(); // if true, zoning should not cause a currently active pet to despawn
-    void              loadPetZoningInfo();        // loads info from previous zone (hp / mp / tp / spawn time). This MUST be called after Spawn()
-    virtual void      OnAbility(CAbilityState&, action_t&) override;
-    virtual bool      ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags) override;
-    void              OnPetSkillFinished(CPetSkillState& state, action_t& action);
-    virtual bool      CanAttack(CBattleEntity* PTarget, std::unique_ptr<CBasicPacket>& errMsg) override;
+
+    bool shouldPersistThroughZone(); // if true, zoning should not cause a currently active pet to despawn
+    void loadPetZoningInfo();        // loads info from previous zone (hp / mp / tp / spawn time). This MUST be called after Spawn()
+
+    void OnPetSkillFinished(CPetSkillState& state, action_t& action);
+
+    //
+    // CMobEntity, CBattleEntity, etc.
+    //
+
+    void PostTick() override;
+    void FadeOut() override;
+    void Die() override;
+    void Spawn() override;
+    void OnAbility(CAbilityState&, action_t&) override;
+    bool ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags) override;
+    bool CanAttack(CBattleEntity* PTarget, std::unique_ptr<CBasicPacket>& errMsg) override;
 
 private:
+    uint32            petID_;
     PET_TYPE          m_PetType;      // the type of pet e.g. avatar/wyvern/jugpet etc
     uint8             m_spawnLevel;   // The level the pet was spawned at
     timer::time_point m_jugSpawnTime; // original spawn time of a jug pet
@@ -81,5 +88,3 @@ private:
 
     void setJugSpawnTime(timer::time_point spawnTime); // sets the initial spawn time of this pet
 };
-
-#endif

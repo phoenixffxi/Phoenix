@@ -204,7 +204,7 @@ void GP_CLI_COMMAND_ACTION::process(MapSession* PSession, CCharEntity* PChar) co
             }
 
             // Releasing a trust
-            if (auto* PTrust = dynamic_cast<CTrustEntity*>(PNpc); PTrust && !PTrust->isReleased())
+            if (auto* PTrust = dynamic_cast<CTrustEntity*>(PNpc); PTrust && !PTrust->released())
             {
                 uint32_t trustTargId = PTrust->targid;
 

@@ -19,8 +19,7 @@
 ===========================================================================
 */
 
-#ifndef _NPCENTITY_H
-#define _NPCENTITY_H
+#pragma once
 
 #include "common/cbasetypes.h"
 
@@ -29,18 +28,31 @@
 class CNpcEntity final : public CBaseEntity
 {
 public:
-    uint32       m_flags;
-    uint8        name_prefix;
-    uint8        widescan;
-    bool         m_triggerable    = false;
-    bool         m_alwaysRelevant = false;           // Spawn this NPC in for players at all times, used for port bastok bridge, "moving" objects elevators/maybe airships, major zone elements like la theine rainbow, altepa gate pillars, etc.
-    uint32       getEntityFlags() const;             // Returns the current value in m_flags
-    void         setEntityFlags(uint32 EntityFlags); // Change the current value in m_flags
-    void         HideHP(bool hide);
-    bool         IsHPHidden() const;
-    void         SetUntargetable(bool untargetable);
-    bool         GetUntargetable() const override;
-    bool         IsTriggerable() const;
+    CNpcEntity();
+    ~CNpcEntity() override;
+
+    uint32 entityFlags() const;                // Returns the current value in m_flags
+    void   setEntityFlags(uint32 EntityFlags); // Change the current value in m_flags
+
+    void hideHP(bool hide);
+    bool hpHidden() const;
+
+    void setUntargetable(bool untargetable);
+    bool GetUntargetable() const override;
+
+    bool triggerable() const;
+    void setTriggerable(bool triggerable);
+
+    auto widescan() const -> uint8;
+    void setWidescan(uint8 widescan);
+
+    bool alwaysRelevant() const;
+    void setAlwaysRelevant(bool alwaysRelevant);
+
+    //
+    // CBaseEntity
+    //
+
     bool isWideScannable() override;
     void PostTick() override;
 
@@ -49,10 +61,18 @@ public:
         co_return;
     }
 
-    CNpcEntity();
-    ~CNpcEntity() override;
+    //
+    // Public NPC data still referenced directly across the codebase.
+    //
+
+    uint32 m_flags{};
+    uint8  name_prefix{};
 
 private:
-};
+    uint8 widescan_    = 1;
+    bool  triggerable_ = false;
 
-#endif
+    // Spawn this NPC in for players at all times, used for port bastok bridge, "moving" objects (elevators / maybe
+    // airships), major zone elements like la theine rainbow, altepa gate pillars, etc.
+    bool alwaysRelevant_ = false;
+};

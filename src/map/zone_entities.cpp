@@ -915,25 +915,29 @@ void CZoneEntities::SpawnNPCs(CCharEntity* PChar)
         }
     };
 
-    syncSpawn(m_npcList, [&](CBaseEntity* PEntity)
-              {
-                  const auto inRange       = isWithinDistance(PChar->loc.p, PEntity->loc.p, ENTITY_RENDER_DISTANCE);
-                  const auto visibleStatus = PEntity->status == STATUS_TYPE::NORMAL || PEntity->status == STATUS_TYPE::UPDATE;
-                  const auto alwaysRel     = PEntity->objtype == TYPE_NPC && static_cast<CNpcEntity*>(PEntity)->m_alwaysRelevant;
-                  return visibleStatus && (inRange || alwaysRel);
-              });
+    syncSpawn(
+        m_npcList,
+        [&](CBaseEntity* PEntity)
+        {
+            const auto inRange       = isWithinDistance(PChar->loc.p, PEntity->loc.p, ENTITY_RENDER_DISTANCE);
+            const auto visibleStatus = PEntity->status == STATUS_TYPE::NORMAL || PEntity->status == STATUS_TYPE::UPDATE;
+            const auto alwaysRel     = PEntity->objtype == TYPE_NPC && static_cast<CNpcEntity*>(PEntity)->alwaysRelevant();
+            return visibleStatus && (inRange || alwaysRel);
+        });
 
     // Registered transports are broadcast at zone-in by SpawnTransport and driven by TransportTimer; everything else
     // in m_TransportList is a static SubKind=4 prop that gets proximity-spawned regardless of status.
-    syncSpawn(m_TransportList, [&](CBaseEntity* PEntity)
-              {
-                  if (static_cast<CNpcEntity*>(PEntity)->m_alwaysRelevant)
-                  {
-                      return false;
-                  }
+    syncSpawn(
+        m_TransportList,
+        [&](CBaseEntity* PEntity)
+        {
+            if (static_cast<CNpcEntity*>(PEntity)->alwaysRelevant())
+            {
+                return false;
+            }
 
-                  return isWithinDistance(PChar->loc.p, PEntity->loc.p, ENTITY_RENDER_DISTANCE);
-              });
+            return isWithinDistance(PChar->loc.p, PEntity->loc.p, ENTITY_RENDER_DISTANCE);
+        });
 }
 
 void CZoneEntities::SpawnTRUSTs(CCharEntity* PChar)
@@ -1247,7 +1251,7 @@ void CZoneEntities::SpawnTransport(CCharEntity* PChar)
 
     FOR_EACH_PAIR_CAST_SECOND(CNpcEntity*, PEntity, m_TransportList)
     {
-        if (!PEntity->m_alwaysRelevant)
+        if (!PEntity->alwaysRelevant())
         {
             continue;
         }

@@ -642,7 +642,7 @@ uint16 CBattleEntity::GetMainWeaponDmg()
             // In a 2014 update SE updated Avatar base damage
             // Based on testing this value appears to be Level now instead of Level * 0.74f
             uint16 weaponDamage = 1 + GetMLevel();
-            if (PPetEntity->m_PetID == PETID_CARBUNCLE || PPetEntity->m_PetID == PETID_CAIT_SITH)
+            if (PPetEntity->petID() == PETID_CARBUNCLE || PPetEntity->petID() == PETID_CAIT_SITH)
             {
                 weaponDamage = static_cast<uint16>(floor(GetMLevel() * 0.9f));
             }
@@ -736,7 +736,7 @@ uint16 CBattleEntity::GetRangedWeaponDmg()
             // In a 2014 update SE updated Avatar base damage
             // Based on testing this value appears to be Level now instead of Level * 0.74f
             uint16 weaponDamage = 1 + GetMLevel();
-            if (PPetEntity->m_PetID == PETID_CARBUNCLE || PPetEntity->m_PetID == PETID_CAIT_SITH)
+            if (PPetEntity->petID() == PETID_CARBUNCLE || PPetEntity->petID() == PETID_CAIT_SITH)
             {
                 weaponDamage = static_cast<uint16>(floor(GetMLevel() * 0.9f));
             }

@@ -10464,7 +10464,7 @@ void CLuaBaseEntity::hideHP(bool value)
     }
     else if (m_PBaseEntity->objtype == TYPE_NPC)
     {
-        static_cast<CNpcEntity*>(m_PBaseEntity)->HideHP(value);
+        static_cast<CNpcEntity*>(m_PBaseEntity)->hideHP(value);
     }
     m_PBaseEntity->updatemask |= UPDATE_HP;
 }
@@ -11395,7 +11395,7 @@ void CLuaBaseEntity::recalculateAbilitiesTable()
     {
         auto* PPetEntity = static_cast<CPetEntity*>(PChar->PPet);
 
-        charutils::BuildingCharPetAbilityTable(PChar, PPetEntity, PPetEntity->m_PetID);
+        charutils::BuildingCharPetAbilityTable(PChar, PPetEntity, PPetEntity->petID());
     }
 
     PChar->pushPacket<GP_SERV_COMMAND_COMMAND_DATA>(PChar);
@@ -15153,7 +15153,7 @@ uint8 CLuaBaseEntity::getOverloadChance(uint8 element)
 {
     if (((CBattleEntity*)m_PBaseEntity)->PPet && ((CPetEntity*)((CBattleEntity*)m_PBaseEntity)->PPet)->getPetType() == PET_TYPE::AUTOMATON)
     {
-        return ((CAutomatonEntity*)((CBattleEntity*)m_PBaseEntity)->PPet)->getOverloadChance(element);
+        return ((CAutomatonEntity*)((CBattleEntity*)m_PBaseEntity)->PPet)->overloadChance(element);
     }
 
     return 0;
@@ -16434,7 +16434,7 @@ uint32 CLuaBaseEntity::getPetID()
 {
     if (m_PBaseEntity->objtype == TYPE_PET)
     {
-        return static_cast<CPetEntity*>(m_PBaseEntity)->m_PetID;
+        return static_cast<CPetEntity*>(m_PBaseEntity)->petID();
     }
 
     return 0;
@@ -16451,7 +16451,7 @@ bool CLuaBaseEntity::isAutomaton()
 {
     if (m_PBaseEntity->objtype == TYPE_PET)
     {
-        uint32 petID = static_cast<CPetEntity*>(m_PBaseEntity)->m_PetID;
+        uint32 petID = static_cast<CPetEntity*>(m_PBaseEntity)->petID();
         if (petID >= PETID_HARLEQUINFRAME && petID <= PETID_STORMWAKERFRAME)
         {
             return true;
@@ -16472,7 +16472,7 @@ bool CLuaBaseEntity::isAvatar()
 {
     if (m_PBaseEntity->objtype == TYPE_PET)
     {
-        uint32 petID = static_cast<CPetEntity*>(m_PBaseEntity)->m_PetID;
+        uint32 petID = static_cast<CPetEntity*>(m_PBaseEntity)->petID();
         if ((petID >= PETID_CARBUNCLE && petID <= PETID_CAIT_SITH) || petID == PETID_SIREN)
         {
             return true;
@@ -16493,7 +16493,7 @@ auto CLuaBaseEntity::isJugPet() -> bool
 {
     if (m_PBaseEntity->objtype == TYPE_PET)
     {
-        uint32 petID = static_cast<CPetEntity*>(m_PBaseEntity)->m_PetID;
+        uint32 petID = static_cast<CPetEntity*>(m_PBaseEntity)->petID();
         if ((petID >= PETID_SHEEP_FAMILIAR && petID <= PETID_TURBID_TOLOI) ||
             (petID >= PETID_SWEET_CAROLINE && petID <= PETID_ENERGIZED_SEFINA))
         {
@@ -16571,7 +16571,7 @@ uint8 CLuaBaseEntity::getMinimumPetLevel()
 
     if (PPet)
     {
-        Pet_t* petInfo = petutils::GetPetInfo(PPet->m_PetID);
+        Pet_t* petInfo = petutils::GetPetInfo(PPet->petID());
         if (petInfo)
         {
             return petInfo->minLevel;
@@ -16932,7 +16932,7 @@ auto CLuaBaseEntity::getAutomatonFrame() const -> Maybe<AutomatonFrame>
 
     if (m_PBaseEntity->objtype == TYPE_PET && static_cast<CPetEntity*>(m_PBaseEntity)->getPetType() == PET_TYPE::AUTOMATON)
     {
-        return static_cast<CAutomatonEntity*>(m_PBaseEntity)->getFrame();
+        return static_cast<CAutomatonEntity*>(m_PBaseEntity)->frame();
     }
 
     ShowWarning("CLuaBaseEntity::getAutomatonFrame() - Entity is not a PC or an Automaton.");
@@ -16983,7 +16983,7 @@ auto CLuaBaseEntity::getAutomatonHead() const -> Maybe<AutomatonHead>
 
     if (m_PBaseEntity->objtype == TYPE_PET && static_cast<CPetEntity*>(m_PBaseEntity)->getPetType() == PET_TYPE::AUTOMATON)
     {
-        return static_cast<CAutomatonEntity*>(m_PBaseEntity)->getHead();
+        return static_cast<CAutomatonEntity*>(m_PBaseEntity)->head();
     }
 
     ShowWarning("CLuaBaseEntity::getAutomatonHead() - Entity is not a PC or an Automaton.");
@@ -17128,7 +17128,7 @@ auto CLuaBaseEntity::getAttachments() const -> sol::table
     auto attachmentTable = lua.create_table();
     for (uint8 attachmentSlot = 0; attachmentSlot < 12; ++attachmentSlot)
     {
-        uint8 attachmentItemId = PAutomaton->getAttachment(attachmentSlot);
+        uint8 attachmentItemId = PAutomaton->attachment(attachmentSlot);
 
         if (attachmentItemId != 0)
         {
@@ -17195,7 +17195,7 @@ void CLuaBaseEntity::reduceBurden(const float percentReduction, const sol::objec
         return;
     }
 
-    std::array<uint8, 8> burden = PAutomaton->getBurden();
+    std::array<uint8, 8> burden = PAutomaton->burden();
     for (int i = 0; i < 8; i++)
     {
         uint8 intReduction = (intReductionObj != sol::lua_nil) ? intReductionObj.as<uint8>() : 0;
@@ -17873,7 +17873,7 @@ void CLuaBaseEntity::setNpcAlwaysRelevant(bool alwaysRelevant)
 
     if (PNpc != nullptr)
     {
-        PNpc->m_alwaysRelevant = alwaysRelevant;
+        PNpc->setAlwaysRelevant(alwaysRelevant);
     }
 }
 
@@ -18216,7 +18216,7 @@ void CLuaBaseEntity::setUntargetable(bool untargetable)
     }
     else if (m_PBaseEntity->objtype == TYPE_NPC)
     {
-        static_cast<CNpcEntity*>(m_PBaseEntity)->SetUntargetable(untargetable);
+        static_cast<CNpcEntity*>(m_PBaseEntity)->setUntargetable(untargetable);
     }
 
     m_PBaseEntity->updatemask |= UPDATE_HP;

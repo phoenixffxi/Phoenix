@@ -587,7 +587,7 @@ void CCharEntity::setPetZoningInfo()
     {
         return;
     }
-    petZoningInfo.petID = PPetEntity->m_PetID;
+    petZoningInfo.petID = PPetEntity->petID();
 
     switch (PPetEntity->getPetType())
     {
@@ -600,7 +600,7 @@ void CCharEntity::setPetZoningInfo()
             petZoningInfo.jugDuration  = PPetEntity->getJugDuration();
             [[fallthrough]];
         case PET_TYPE::AVATAR:
-            if (PPetEntity->m_PetID == PETID_ALEXANDER || PPetEntity->m_PetID == PETID_ODIN || PPetEntity->m_PetID == PETID_ATOMOS)
+            if (PPetEntity->petID() == PETID_ALEXANDER || PPetEntity->petID() == PETID_ODIN || PPetEntity->petID() == PETID_ATOMOS)
             {
                 // Alexander, Odin and Atomos cannot persist through zoning.
                 break;

@@ -684,18 +684,18 @@ public:
     bool PersistData(timer::time_point tick);
 
     auto Tick(timer::time_point) -> Task<void> override;
-    void         PostTick() override;
+    void PostTick() override;
 
     void addTrait(CTrait*) override;
     void delTrait(CTrait*) override;
 
     bool ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags) override;
     bool CanUseSpell(CSpell*) override;
-    bool         IsMobOwner(CBattleEntity* PTarget);
+    bool IsMobOwner(CBattleEntity* PTarget);
 
     void Die() override;
-    void         Die(timer::duration _duration);
-    void         Raise();
+    void Die(timer::duration _duration);
+    void Raise();
 
     static constexpr timer::duration death_duration         = 60min;
     static constexpr timer::duration death_update_frequency = 16s;

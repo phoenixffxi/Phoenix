@@ -359,7 +359,7 @@ auto LoadTrust(CCharEntity* PMaster, uint32 TrustID) -> CTrustEntity*
 
     auto* trustData = itr->second.get();
 
-    auto* PTrust = new CTrustEntity(PMaster);
+    auto* PTrust = new CTrustEntity(PMaster, trustData->trustID, IsPassiveTrust{ trustData->isPassiveTrust });
 
     PTrust->loc              = PMaster->loc;
     PTrust->m_OwnerID.id     = PMaster->id;
@@ -379,13 +379,13 @@ auto LoadTrust(CCharEntity* PMaster, uint32 TrustID) -> CTrustEntity*
     PTrust->MPscale        = trustData->MPscale;
     PTrust->baseSpeed      = trustData->baseSpeed;
     PTrust->animationSpeed = trustData->animationSpeed;
+
     PTrust->UpdateSpeed();
-    PTrust->setTrustID(trustData->trustID);
-    PTrust->setPassiveTrust(trustData->isPassiveTrust);
-    PTrust->status           = STATUS_TYPE::NORMAL;
-    PTrust->modelSize        = trustData->modelSize;
-    PTrust->modelHitboxSize  = trustData->modelHitboxSize;
-    PTrust->m_EcoSystem      = trustData->EcoSystem;
+
+    PTrust->status          = STATUS_TYPE::NORMAL;
+    PTrust->modelSize       = trustData->modelSize;
+    PTrust->modelHitboxSize = trustData->modelHitboxSize;
+    PTrust->m_EcoSystem     = trustData->EcoSystem;
 
     PTrust->SetMJob(trustData->mJob);
     PTrust->SetSJob(trustData->sJob);

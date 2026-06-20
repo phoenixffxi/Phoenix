@@ -19,35 +19,34 @@
 ===========================================================================
 */
 
-#ifndef _CTRUSTENTITY_H
-#define _CTRUSTENTITY_H
+#pragma once
 
-#include "mob_entity.h"
+#include <map/entities/mob_entity.h>
+
+#include <common/types/flag.h>
 
 class CCharEntity;
-class CAbilityState;
-class CRangeState;
 class CDespawnState;
 class CMagicState;
 class CMobSkillState;
 class CWeaponSkillState;
 
+using IsPassiveTrust = xi::Flag<struct IsPassiveTrustTag>;
+
 class CTrustEntity final : public CMobEntity
 {
 public:
-    explicit CTrustEntity(CCharEntity*);
+    CTrustEntity(CCharEntity* PMaster, uint32 trustId, IsPassiveTrust isPassiveTrust);
     ~CTrustEntity() override;
 
     auto trustID() -> uint32;
-    void setTrustID(uint32 trustID);
 
     auto shieldSize() -> int8;
 
-    auto isReleased() -> bool;
-    void setReleased(bool isReleased);
+    auto released() -> bool;
+    void setReleased(bool released);
 
-    auto isPassiveTrust() -> bool;
-    void setPassiveTrust(bool isPassive);
+    auto passiveTrust() -> IsPassiveTrust;
 
     //
     // CMobEntity, CBattleEntity, etc.
@@ -67,9 +66,7 @@ public:
     bool GetUntargetable() const override;
 
 private:
-    uint32 trustID_{};
-    bool   isReleased_{};
-    bool   isPassiveTrust_{};
+    uint32         trustID_{};
+    bool           released_{};
+    IsPassiveTrust passiveTrust_ = IsPassiveTrust::No;
 };
-
-#endif

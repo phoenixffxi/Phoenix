@@ -6951,7 +6951,7 @@ auto CheckAbilityAddtype(CCharEntity* PChar, const CAbility* PAbility) -> bool
 
         // Alexander, Odin and Atomos grant no abilities (Assault, Release...) to the master.
         const auto* petEntity = static_cast<CPetEntity*>(PChar->PPet);
-        if (petEntity->m_PetID == PETID_ALEXANDER || petEntity->m_PetID == PETID_ODIN || petEntity->m_PetID == PETID_ATOMOS)
+        if (petEntity->petID() == PETID_ALEXANDER || petEntity->petID() == PETID_ODIN || petEntity->petID() == PETID_ATOMOS)
         {
             return false;
         }

@@ -720,7 +720,7 @@ void CLuaBattlefield::addGroups(const sol::table& groups, bool hasMultipleArenas
         if (auto* entity = dynamic_cast<CNpcEntity*>(zoneutils::GetEntity(m_PLuaBattlefield->GetArmouryCrate(), TYPE_NPC)))
         {
             m_PLuaBattlefield->InsertEntity(entity, true, CONDITION_DISAPPEAR_AT_START);
-            entity->SetUntargetable(true);
+            entity->setUntargetable(true);
             entity->ResetLocalVars();
             entity->PAI->EventHandler.removeListener("TRIGGER_CRATE");
         }

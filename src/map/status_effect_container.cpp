@@ -2198,7 +2198,7 @@ void CStatusEffectContainer::TickRegen(timer::time_point tick)
                 {
                     ShowWarning("CStatusEffectContainer::TickRegen() - Pet %s (PetID %u) has invalid element %u for avatar perpetuation. Check pet_list.sql.",
                                 PPet->getName(),
-                                PPet->m_PetID,
+                                PPet->petID(),
                                 PPet->m_Element);
                 }
                 else
@@ -2214,7 +2214,7 @@ void CStatusEffectContainer::TickRegen(timer::time_point tick)
                 bool weatherMatch = elementValid && (weather == weatherStrong[petElementIdx] || weather == static_cast<Weather>(static_cast<uint16_t>(weatherStrong[petElementIdx]) + 1));
 
                 // Halve perpetuation cost before all regular reductions.
-                bool halfFromCarby   = PChar->getMod(Mod::HALF_PERPETUATION_CARBUNCLE) != 0 && PPet->m_PetID == PETID_CARBUNCLE;
+                bool halfFromCarby   = PChar->getMod(Mod::HALF_PERPETUATION_CARBUNCLE) != 0 && PPet->petID() == PETID_CARBUNCLE;
                 bool halfFromDay     = PChar->getMod(Mod::HALF_PERPETUATION_DAY) != 0 && dayMatch;
                 bool halfFromWeather = PChar->getMod(Mod::HALF_PERPETUATION_WEATHER) != 0 && weatherMatch;
 
@@ -2246,7 +2246,7 @@ void CStatusEffectContainer::TickRegen(timer::time_point tick)
 
                 // Avatar's Favor multiplier after all regular reductions.
                 if (PChar->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::AvatarsFavor) &&
-                    ((PPet->m_PetID >= PETID_CARBUNCLE && PPet->m_PetID <= PETID_CAIT_SITH) || PPet->m_PetID == PETID_SIREN))
+                    ((PPet->petID() >= PETID_CARBUNCLE && PPet->petID() <= PETID_CAIT_SITH) || PPet->petID() == PETID_SIREN))
                 {
                     perpetuationCost = static_cast<int16>(perpetuationCost * 1.2); // Confirmed it's floored.
                 }

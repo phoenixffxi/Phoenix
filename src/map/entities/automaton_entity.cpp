@@ -35,8 +35,8 @@
 #include "utils/mobutils.h"
 #include "utils/puppetutils.h"
 
-CAutomatonEntity::CAutomatonEntity()
-: CPetEntity(PET_TYPE::AUTOMATON)
+CAutomatonEntity::CAutomatonEntity(uint32 petID)
+: CPetEntity(PET_TYPE::AUTOMATON, petID)
 {
     TracyZoneScoped;
 
@@ -48,24 +48,24 @@ CAutomatonEntity::~CAutomatonEntity()
     TracyZoneScoped;
 }
 
-auto CAutomatonEntity::getFrame() const -> AutomatonFrame
+auto CAutomatonEntity::frame() const -> AutomatonFrame
 {
-    return m_Equip.frame;
+    return equip_.frame;
 }
 
-auto CAutomatonEntity::getHead() const -> AutomatonHead
+auto CAutomatonEntity::head() const -> AutomatonHead
 {
-    return m_Equip.head;
+    return equip_.head;
 }
 
-uint8 CAutomatonEntity::getAttachment(const uint8 slotid) const
+uint8 CAutomatonEntity::attachment(const uint8 slotid) const
 {
-    return m_Equip.attachments[slotid];
+    return equip_.attachments[slotid];
 }
 
 auto CAutomatonEntity::hasAttachment(const uint8 attachment) const -> bool
 {
-    for (auto&& attachmentid : m_Equip.attachments)
+    for (auto&& attachmentid : equip_.attachments)
     {
         if (attachmentid == attachment)
         {
@@ -75,14 +75,19 @@ auto CAutomatonEntity::hasAttachment(const uint8 attachment) const -> bool
     return false;
 }
 
-auto CAutomatonEntity::getElementMax(const uint8 element) const -> uint8
+void CAutomatonEntity::setEquip(const AutomatonEquip& equip)
 {
-    return m_ElementMax[element];
+    equip_ = equip;
 }
 
-auto CAutomatonEntity::getElementCapacity(const uint8 element) const -> uint8
+auto CAutomatonEntity::elementMax(const uint8 element) const -> uint8
 {
-    return m_ElementEquip[element];
+    return elementMax_[element];
+}
+
+auto CAutomatonEntity::elementCapacity(const uint8 element) const -> uint8
+{
+    return elementEquip_[element];
 }
 
 void CAutomatonEntity::burdenTick()
@@ -96,7 +101,7 @@ void CAutomatonEntity::burdenTick()
     }
 }
 
-auto CAutomatonEntity::getBurden() const -> const std::array<uint8, 8>&
+auto CAutomatonEntity::burden() const -> const std::array<uint8, 8>&
 {
     return burden_;
 }
@@ -138,7 +143,7 @@ auto CAutomatonEntity::addBurden(const uint8 element, int8 burden) -> uint8
     return 0;
 }
 
-auto CAutomatonEntity::getOverloadChance(const uint8 element) const -> uint8
+auto CAutomatonEntity::overloadChance(const uint8 element) const -> uint8
 {
     const int16 thresh = 30 + PMaster->getMod(Mod::OVERLOAD_THRESH);
 

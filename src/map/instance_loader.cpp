@@ -283,7 +283,7 @@ auto CInstanceLoader::LoadInstance() const -> CInstance*
             PNpc->look = look_t(sqlModelID);
 
             PNpc->name_prefix = rset->get<uint8>("name_prefix");
-            PNpc->widescan    = rset->get<uint8>("widescan");
+            PNpc->setWidescan(rset->get<uint8>("widescan"));
 
             PNpc->PInstance = m_PInstance;
 

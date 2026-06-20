@@ -5866,7 +5866,7 @@ CBaseEntity* GenerateDynamicEntity(CZone* PZone, CInstance* PInstance, sol::tabl
         PNpc->name_prefix = 32;
 
         // TODO: Does this even work?
-        PNpc->widescan = table.get_or<uint8>("widescan", 1);
+        PNpc->setWidescan(table.get_or<uint8>("widescan", 1));
 
         uint32 flags  = table.get_or<uint32>("entityFlags", 0);
         PNpc->m_flags = flags == 0 ? PNpc->m_flags : flags;
@@ -5875,7 +5875,7 @@ CBaseEntity* GenerateDynamicEntity(CZone* PZone, CInstance* PInstance, sol::tabl
         auto onTrigger = table["onTrigger"].get_or<sol::function>(sol::lua_nil);
         if (onTrigger.valid())
         {
-            PNpc->m_triggerable = true;
+            PNpc->setTriggerable(true);
         }
 
         PZone->InsertNPC(PNpc);

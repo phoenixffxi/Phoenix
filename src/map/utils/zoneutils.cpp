@@ -353,7 +353,7 @@ auto LoadNPCList(Scheduler& scheduler, const std::vector<uint16>& zoneIds) -> Ta
                                     db::extractFromBlob(rset, "look", PNpc->look);
 
                                     PNpc->name_prefix = rset->get<uint8>("name_prefix");
-                                    PNpc->widescan    = rset->get<uint8>("widescan");
+                                    PNpc->setWidescan(rset->get<uint8>("widescan"));
 
                                     PZone->InsertNPC(PNpc);
                                 }

@@ -47,9 +47,9 @@
 #include "action/interrupts.h"
 #include "packets/s2c/0x029_battle_message.h"
 
-CPetEntity::CPetEntity(PET_TYPE petType)
+CPetEntity::CPetEntity(PET_TYPE petType, uint32 petID)
 : CMobEntity()
-, m_PetID(0)
+, petID_(petID)
 , m_PetType(petType)
 , m_spawnLevel(0)
 , m_jugSpawnTime(timer::time_point{})
@@ -70,6 +70,11 @@ CPetEntity::CPetEntity(PET_TYPE petType)
 CPetEntity::~CPetEntity()
 {
     TracyZoneScoped;
+}
+
+uint32 CPetEntity::petID() const
+{
+    return petID_;
 }
 
 PET_TYPE CPetEntity::getPetType() const

@@ -219,9 +219,9 @@ void CMobController::TryLink()
         {
             const auto PPetEntity = static_cast<CPetEntity*>(PTarget->PPet);
             if (PPetEntity->getPetType() == PET_TYPE::AVATAR &&
-                PPetEntity->m_PetID != PETID_ALEXANDER &&
-                PPetEntity->m_PetID != PETID_ODIN &&
-                PPetEntity->m_PetID != PETID_ATOMOS)
+                PPetEntity->petID() != PETID_ALEXANDER &&
+                PPetEntity->petID() != PETID_ODIN &&
+                PPetEntity->petID() != PETID_ATOMOS)
             {
                 if (PTarget->objtype == TYPE_PC)
                 {

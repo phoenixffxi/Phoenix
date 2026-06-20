@@ -53,11 +53,11 @@ CAutomatonController::CAutomatonController(CAutomatonEntity* PPet)
 
 void CAutomatonController::setCooldowns()
 {
-    switch (PAutomaton->getFrame())
+    switch (PAutomaton->frame())
     {
         case AutomatonFrame::Sharpshot:
         {
-            switch (PAutomaton->getHead())
+            switch (PAutomaton->head())
             {
                 case AutomatonHead::Sharpshot:
                     m_rangedCooldown = 20s;
@@ -90,7 +90,7 @@ void CAutomatonController::setCooldowns()
 // New retail Automaton magic AI (Needs more information to accurately recreate)
 void CAutomatonController::setMagicCooldowns()
 {
-    switch (PAutomaton->getHead())
+    switch (PAutomaton->head())
     {
         case AutomatonHead::Harlequin:
         {
@@ -156,11 +156,11 @@ auto CAutomatonController::shouldStandBack() const -> bool
             return true;
         }
     }
-    else if (PAutomaton->getFrame() == AutomatonFrame::Valoredge)
+    else if (PAutomaton->frame() == AutomatonFrame::Valoredge)
     {
         return false;
     }
-    else if (PAutomaton->getHead() >= AutomatonHead::Sharpshot)
+    else if (PAutomaton->head() >= AutomatonHead::Sharpshot)
     {
         return true;
     }
@@ -278,7 +278,7 @@ auto CAutomatonController::TrySpellcast(const CurrentManeuvers& maneuvers) -> bo
         return false;
     }
 
-    switch (PAutomaton->getHead())
+    switch (PAutomaton->head())
     {
         case AutomatonHead::Valoredge:
         {
@@ -508,7 +508,7 @@ auto CAutomatonController::TryHeal(const CurrentManeuvers& maneuvers) -> bool
         }
     }
 
-    if (maneuvers.light && !PCastTarget && PAutomaton->getHead() == AutomatonHead::Soulsoother && PAutomaton->PMaster->PParty) // Light + Soulsoother head -> Heal party
+    if (maneuvers.light && !PCastTarget && PAutomaton->head() == AutomatonHead::Soulsoother && PAutomaton->PMaster->PParty) // Light + Soulsoother head -> Heal party
     {
         // clang-format off
         if (PMob)
@@ -632,7 +632,7 @@ auto CAutomatonController::TryElemental(const CurrentManeuvers& maneuvers) -> bo
             castPriority.emplace_back(res.first);
         }
     }
-    else if (PAutomaton->getHead() == AutomatonHead::Spiritreaver)
+    else if (PAutomaton->head() == AutomatonHead::Spiritreaver)
     {
         if (maneuvers.thunder)
         { // Thunder -> Thunder spells
@@ -725,7 +725,7 @@ auto CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers) -> boo
     std::vector<SpellID> castPriority;
     std::vector<SpellID> defaultPriority;
 
-    switch (PAutomaton->getHead())
+    switch (PAutomaton->head())
     {
         case AutomatonHead::Stormwaker:
         {
@@ -1137,7 +1137,7 @@ auto CAutomatonController::TryStatusRemoval(const CurrentManeuvers& maneuvers) -
         }
     }
 
-    if (maneuvers.water && PAutomaton->getHead() == AutomatonHead::Soulsoother && PAutomaton->PMaster->PParty) // Water + Soulsoother head -> Remove party's statuses
+    if (maneuvers.water && PAutomaton->head() == AutomatonHead::Soulsoother && PAutomaton->PMaster->PParty) // Water + Soulsoother head -> Remove party's statuses
     {
         for (auto member : PAutomaton->PMaster->PParty->members)
         {
@@ -1179,7 +1179,7 @@ auto CAutomatonController::TryEnhance() -> bool
         return false;
     }
 
-    if (PAutomaton->getHead() == AutomatonHead::Spiritreaver)
+    if (PAutomaton->head() == AutomatonHead::Spiritreaver)
     {
         return Cast(PAutomaton->targid, SpellID::Dread_Spikes);
     }
@@ -1500,7 +1500,7 @@ auto CAutomatonController::TryTPMove() -> bool
         // load the skills that the automaton has access to with it's skill
         SKILLTYPE skilltype = SKILL_AUTOMATON_MELEE;
 
-        if (PAutomaton->getFrame() == AutomatonFrame::Sharpshot)
+        if (PAutomaton->frame() == AutomatonFrame::Sharpshot)
         {
             skilltype = SKILL_AUTOMATON_RANGED;
         }
@@ -1584,9 +1584,9 @@ auto CAutomatonController::TryTPMove() -> bool
 
 auto CAutomatonController::TryRangedAttack() -> bool // TODO: Find the animation for its ranged attack
 {
-    if (PAutomaton->getFrame() == AutomatonFrame::Sharpshot)
+    if (PAutomaton->frame() == AutomatonFrame::Sharpshot)
     {
-        timer::duration minDelay   = PAutomaton->getHead() == AutomatonHead::Sharpshot ? 5s : 10s;
+        timer::duration minDelay   = PAutomaton->head() == AutomatonHead::Sharpshot ? 5s : 10s;
         timer::duration attackTime = m_rangedCooldown - std::chrono::seconds(PAutomaton->getMod(Mod::AUTO_RANGED_DELAY));
 
         if (m_rangedCooldown > 0s && m_Tick > m_LastRangedTime + std::max(attackTime, minDelay))
@@ -1700,7 +1700,7 @@ void LoadAutomatonSpellList()
 bool CanUseSpell(CAutomatonEntity* PCaster, SpellID spellid)
 {
     const AutomatonSpell& PSpell = autoSpellList[spellid];
-    return ((PCaster->GetSkill(SKILL_AUTOMATON_MAGIC) >= PSpell.skilllevel) && (PSpell.heads & (1 << ((uint8)PCaster->getHead() - 1))));
+    return ((PCaster->GetSkill(SKILL_AUTOMATON_MAGIC) >= PSpell.skilllevel) && (PSpell.heads & (1 << ((uint8)PCaster->head() - 1))));
 }
 
 bool CanUseEnfeeble(CBattleEntity* PTarget, SpellID spell)

@@ -654,9 +654,9 @@ void CheckAttachmentsForManeuver(const CCharEntity* PChar, const xi::StatusEffec
         uint8 element = static_cast<uint8>(static_cast<uint16>(maneuver) - static_cast<uint16>(xi::StatusEffect::FireManeuver));
         for (uint8 i = 0; i < 12; i++)
         {
-            if (PAutomaton->getAttachment(i) != 0)
+            if (PAutomaton->attachment(i) != 0)
             {
-                auto* PAttachment = xi::items::lookup<CItemPuppet>(0x2100 + PAutomaton->getAttachment(i));
+                auto* PAttachment = xi::items::lookup<CItemPuppet>(0x2100 + PAutomaton->attachment(i));
 
                 if (PAttachment && (PAttachment->getElementSlots() >> (element * 4)) & 0xF)
                 {
@@ -680,9 +680,9 @@ void EquipAttachments(CAutomatonEntity* PAutomaton)
     {
         for (uint8 i = 0; i < 12; i++)
         {
-            if (PAutomaton->getAttachment(i) != 0)
+            if (PAutomaton->attachment(i) != 0)
             {
-                auto* PAttachment = xi::items::lookup<CItemPuppet>(0x2100 + PAutomaton->getAttachment(i));
+                auto* PAttachment = xi::items::lookup<CItemPuppet>(0x2100 + PAutomaton->attachment(i));
                 if (PAttachment)
                 {
                     luautils::OnAttachmentEquip(PAutomaton, PAttachment);
@@ -699,9 +699,9 @@ void UpdateAttachments(const CCharEntity* PChar)
     {
         for (uint8 i = 0; i < 12; i++)
         {
-            if (PAutomaton->getAttachment(i) != 0)
+            if (PAutomaton->attachment(i) != 0)
             {
-                auto* PAttachment = xi::items::lookup<CItemPuppet>(0x2100 + PAutomaton->getAttachment(i));
+                auto* PAttachment = xi::items::lookup<CItemPuppet>(0x2100 + PAutomaton->attachment(i));
 
                 if (PAttachment)
                 {
@@ -728,7 +728,7 @@ void PreLevelRestriction(const CCharEntity* PChar)
     {
         for (int i = 0; i < 12; i++)
         {
-            uint8 attachment = PAutomaton->getAttachment(i);
+            uint8 attachment = PAutomaton->attachment(i);
 
             if (attachment != 0)
             {
@@ -753,7 +753,7 @@ void PostLevelRestriction(const CCharEntity* PChar)
     {
         for (int i = 0; i < 12; i++)
         {
-            const uint8 attachment = PAutomaton->getAttachment(i);
+            const uint8 attachment = PAutomaton->attachment(i);
             if (attachment != 0)
             {
                 auto* PAttachment = xi::items::lookup<CItemPuppet>(0x2100 + attachment);

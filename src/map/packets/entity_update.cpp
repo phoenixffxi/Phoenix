@@ -348,7 +348,7 @@ void CEntityUpdatePacket::updateWith(CBaseEntity* PEntity, ENTITYUPDATE type, ui
                 ref<uint32>(0x21) = PNpc->m_flags;
                 ref<uint8>(0x27)  = PNpc->name_prefix; // gender and something else
 
-                if (PNpc->IsTriggerable())
+                if (PNpc->triggerable())
                 {
                     ref<uint8>(0x28) |= 0x40;
                 }
