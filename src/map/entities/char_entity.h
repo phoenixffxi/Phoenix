@@ -46,12 +46,14 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "automatonentity.h"
-#include "battleentity.h"
+#include "automaton_entity.h"
+#include "battle_entity.h"
 #include "linkshell.h"
 #include "maze.h"
 #include "packets/s2c/base.h"
-#include "petentity.h"
+#include "pet_entity.h"
+
+#include <map/entities/types/automaton_info.h>
 
 #include "utils/fishingutils.h"
 
@@ -291,10 +293,8 @@ struct ItemLocation
 
 constexpr uint8 EquipSlotCount = 18;
 
-class CCharEntity : public CBattleEntity
+class CCharEntity final : public CBattleEntity
 {
-    friend class CBattleEntity;
-
 public:
     uint32 accid{}; // Account ID associated with the character.
 
@@ -372,22 +372,8 @@ public:
     uint32 m_claimedDeeds[5]{};
     uint32 m_uniqueEvents[5]{};
 
-    struct automatonInfo_t
-    {
-        // Store a copy of calculated stats to use when automaton is deactivated for the job info packet (automaton menu)
-        skills_t automatonSkills{};
-        stats_t  automatonStats{};
-        health_t automatonHealth{};
-        look_t   automatonLook{};
-
-        automaton_equip_t    m_Equip{};
-        std::array<uint8, 8> m_ElementMax{};
-        std::array<uint8, 8> m_ElementEquip{};
-        uint8                m_elementalCapacityBonus = 0;
-
-        std::string m_automatonName = "Automaton";
-    };
-    automatonInfo_t automatonInfo{};
+    // Store a copy of calculated stats to use when automaton is deactivated for the job info packet (automaton menu)
+    AutomatonInfo automatonInfo_{};
 
     auto getAutomatonAttachment(uint8 slotid) const -> uint8;
     auto hasAutomatonAttachment(uint8 attachment) const -> bool;
@@ -496,7 +482,7 @@ public:
     bool         sendServerStatus_ = false;
     Maybe<int32> servmesLastOffset_; // Last /servmes fragment offset we responded to
 
-    virtual void HandleErrorMessage(std::unique_ptr<CBasicPacket>&) override;
+    void HandleErrorMessage(std::unique_ptr<CBasicPacket>&) override;
 
     CLinkshell*                   PLinkshell1;
     CLinkshell*                   PLinkshell2;
@@ -697,19 +683,19 @@ public:
     bool PersistData();
     bool PersistData(timer::time_point tick);
 
-    virtual auto Tick(timer::time_point) -> Task<void> override;
-    void         PostTick() override;
+    auto Tick(timer::time_point) -> Task<void> override;
+    void PostTick() override;
 
-    virtual void addTrait(CTrait*) override;
-    virtual void delTrait(CTrait*) override;
+    void addTrait(CTrait*) override;
+    void delTrait(CTrait*) override;
 
-    virtual bool ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags) override;
-    virtual bool CanUseSpell(CSpell*) override;
-    bool         IsMobOwner(CBattleEntity* PTarget);
+    bool ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags) override;
+    bool CanUseSpell(CSpell*) override;
+    bool IsMobOwner(CBattleEntity* PTarget);
 
-    virtual void Die() override;
-    void         Die(timer::duration _duration);
-    void         Raise();
+    void Die() override;
+    void Die(timer::duration _duration);
+    void Raise();
 
     static constexpr timer::duration death_duration         = 60min;
     static constexpr timer::duration death_update_frequency = 16s;
@@ -740,21 +726,21 @@ public:
     void SetMoghancement(uint16 moghancementID);
 
     /* State callbacks */
-    virtual bool           CanAttack(CBattleEntity* PTarget, std::unique_ptr<CBasicPacket>& errMsg) override;
-    virtual bool           OnAttack(CAttackState&, action_t&) override;
-    virtual bool           OnAttackError(CAttackState&) override;
-    virtual CBattleEntity* IsValidTarget(uint16 targid, uint16 validTargetFlags, std::unique_ptr<CBasicPacket>& errMsg) override;
-    virtual void           OnChangeTarget(CBattleEntity* PNewTarget) override;
-    virtual void           OnEngage(CAttackState&) override;
-    virtual void           OnDisengage(CAttackState&) override;
-    virtual void           OnCastFinished(CMagicState&, action_t&) override;
-    virtual void           OnCastInterrupted(CMagicState&, action_t&, MsgBasic msg, bool blockedCast) override;
-    virtual void           OnWeaponSkillFinished(CWeaponSkillState&, action_t&) override;
-    virtual void           OnAbility(CAbilityState&, action_t&) override;
-    virtual void           OnDeathTimer() override;
-    virtual void           OnRaise() override;
+    bool           CanAttack(CBattleEntity* PTarget, std::unique_ptr<CBasicPacket>& errMsg) override;
+    bool           OnAttack(CAttackState&, action_t&) override;
+    bool           OnAttackError(CAttackState&) override;
+    CBattleEntity* IsValidTarget(uint16 targid, uint16 validTargetFlags, std::unique_ptr<CBasicPacket>& errMsg) override;
+    void           OnChangeTarget(CBattleEntity* PNewTarget) override;
+    void           OnEngage(CAttackState&) override;
+    void           OnDisengage(CAttackState&) override;
+    void           OnCastFinished(CMagicState&, action_t&) override;
+    void           OnCastInterrupted(CMagicState&, action_t&, MsgBasic msg, bool blockedCast) override;
+    void           OnWeaponSkillFinished(CWeaponSkillState&, action_t&) override;
+    void           OnAbility(CAbilityState&, action_t&) override;
+    void           OnDeathTimer() override;
+    void           OnRaise() override;
 
-    virtual auto OnItemFinish(CItemState&, action_t&) -> bool;
+    auto OnItemFinish(CItemState&, action_t&) -> bool;
 
     auto getCharVar(const std::string& varName) const -> int32;
     auto getCharVarsWithPrefix(const std::string& prefix) -> std::vector<std::pair<std::string, int32>>;
@@ -773,11 +759,10 @@ public:
     bool startSynth(SKILLTYPE synthSkill);
 
     CCharEntity();
-    ~CCharEntity();
+    ~CCharEntity() override;
 
 protected:
     void changeMoghancement(uint16 moghancementID, bool isAdding);
-    void TrackArrowUsageForScavenge(CItemWeapon* PAmmo);
 
 private:
     CCraftState                               craftState_{};

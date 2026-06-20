@@ -21,7 +21,7 @@
 
 #include "0x0c3_group_comlink_make.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "items.h"
 #include "items/item_linkshell.h"
 #include "utils/charutils.h"

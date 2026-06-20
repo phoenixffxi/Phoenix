@@ -21,7 +21,7 @@
 
 #include "0x082_guild_buy.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 GP_SERV_COMMAND_GUILD_BUY::GP_SERV_COMMAND_GUILD_BUY(const CCharEntity* PChar, const uint8 stock, const uint16 itemId, const uint8 quantity)
 {

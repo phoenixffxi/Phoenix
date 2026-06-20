@@ -24,7 +24,7 @@
 #include <unordered_map>
 
 #include "common/cbasetypes.h"
-#include "entities/mobentity.h"
+#include "entities/mob_entity.h"
 #include "modifier.h"
 
 struct ModsList_t

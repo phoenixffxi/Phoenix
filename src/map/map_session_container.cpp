@@ -29,7 +29,7 @@
 #include "common/scheduler.h"
 #include "common/xi.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 #include "utils/charutils.h"
 #include "utils/petutils.h"

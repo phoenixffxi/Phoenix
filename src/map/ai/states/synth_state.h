@@ -22,7 +22,7 @@
 #ifndef _CSYNTH_STATE_H
 #define _CSYNTH_STATE_H
 
-#include "entities/battleentity.h"
+#include "entities/battle_entity.h"
 #include "state.h"
 
 class CSynthState : public CState

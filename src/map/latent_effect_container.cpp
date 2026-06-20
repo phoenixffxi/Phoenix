@@ -23,9 +23,9 @@
 
 #include "ai/ai_container.h"
 #include "conquest_system.h"
-#include "entities/battleentity.h"
-#include "entities/charentity.h"
-#include "entities/trustentity.h"
+#include "entities/battle_entity.h"
+#include "entities/char_entity.h"
+#include "entities/trust_entity.h"
 #include "items/item_weapon.h"
 #include "latent_effect.h"
 #include "modifier.h"
@@ -820,7 +820,7 @@ auto CLatentEffectContainer::ProcessLatentEffect(CLatentEffect& latentEffect, bo
             break;
         case xi::Latent::PetId:
             expression =
-                m_POwner->PPet != nullptr && m_POwner->PPet->objtype == TYPE_PET && ((CPetEntity*)m_POwner->PPet)->m_PetID == latentEffect.GetConditionsValue();
+                m_POwner->PPet != nullptr && m_POwner->PPet->objtype == TYPE_PET && ((CPetEntity*)m_POwner->PPet)->petID() == latentEffect.GetConditionsValue();
             break;
         case xi::Latent::WeaponDrawn:
             expression = m_POwner->animation == ANIMATION_ATTACK;
@@ -914,8 +914,8 @@ auto CLatentEffectContainer::ProcessLatentEffect(CLatentEffect& latentEffect, bo
                     {
                         auto* PPet = static_cast<CPetEntity*>(member->PPet);
                         if (
-                            !PPet->isDead() && PPet->m_PetID < 21 && // is a live avatar
-                            (PPet->m_PetID == latentEffect.GetConditionsValue() || latentEffect.GetConditionsValue() == 21))
+                            !PPet->isDead() && PPet->petID() < 21 && // is a live avatar
+                            (PPet->petID() == latentEffect.GetConditionsValue() || latentEffect.GetConditionsValue() == 21))
                         {
                             expression = true;
                             break;
@@ -927,8 +927,8 @@ auto CLatentEffectContainer::ProcessLatentEffect(CLatentEffect& latentEffect, bo
             {
                 auto* PPet = (CPetEntity*)m_POwner->PPet;
                 if (
-                    !PPet->isDead() && PPet->m_PetID < 21 && // is a live avatar
-                    (PPet->m_PetID == latentEffect.GetConditionsValue() || latentEffect.GetConditionsValue() == 21))
+                    !PPet->isDead() && PPet->petID() < 21 && // is a live avatar
+                    (PPet->petID() == latentEffect.GetConditionsValue() || latentEffect.GetConditionsValue() == 21))
                 {
                     expression = true;
                 }

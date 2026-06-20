@@ -21,7 +21,7 @@
 
 #include "0x09b_chocobo_race_req.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "packets/basic.h"
 
 auto GP_CLI_COMMAND_CHOCOBO_RACE_REQ::validate(MapSession* PSession, const CCharEntity* PChar) const -> PacketValidationResult

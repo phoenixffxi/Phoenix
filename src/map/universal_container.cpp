@@ -21,7 +21,7 @@
 
 #include <cstring>
 
-#include "entities/baseentity.h"
+#include "entities/base_entity.h"
 #include "universal_container.h"
 #include "utils/itemutils.h"
 

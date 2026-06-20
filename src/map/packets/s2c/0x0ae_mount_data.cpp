@@ -21,7 +21,7 @@
 
 #include "0x0ae_mount_data.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 GP_SERV_COMMAND_MOUNT_DATA::GP_SERV_COMMAND_MOUNT_DATA(const CCharEntity* PChar)
 {

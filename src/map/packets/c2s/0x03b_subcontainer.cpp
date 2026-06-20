@@ -21,7 +21,7 @@
 
 #include "0x03b_subcontainer.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "enums/item_lockflg.h"
 #include "items/item_furnishing.h"
 #include "packets/s2c/0x01d_item_same.h"

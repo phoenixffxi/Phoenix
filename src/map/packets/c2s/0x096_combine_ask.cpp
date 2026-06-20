@@ -21,7 +21,7 @@
 
 #include "0x096_combine_ask.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "enums/msg_std.h"
 #include "items.h"
 #include "items/transactions/synth.h"

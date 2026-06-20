@@ -21,7 +21,7 @@
 
 #include "0x04b_fragments.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "enums/chat_message_type.h"
 #include "fishingcontest.h"
 #include "lua/luautils.h"

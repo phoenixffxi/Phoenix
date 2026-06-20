@@ -34,18 +34,18 @@ SOL_BIND_DEF(CLuaAction, action_t);
 #include "lua_attack.h"
 SOL_BIND_DEF(CLuaAttack, CAttack);
 
-#include "entities/baseentity.h"
-#include "lua_baseentity.h"
+#include "entities/base_entity.h"
+#include "lua_base_entity.h"
 SOL_BIND_DEF(CLuaBaseEntity, CBaseEntity);
 
-#include "entities/automatonentity.h"
-#include "entities/battleentity.h"
-#include "entities/charentity.h"
-#include "entities/fellowentity.h"
-#include "entities/mobentity.h"
-#include "entities/npcentity.h"
-#include "entities/petentity.h"
-#include "entities/trustentity.h"
+#include "entities/automaton_entity.h"
+#include "entities/battle_entity.h"
+#include "entities/char_entity.h"
+#include "entities/fellow_entity.h"
+#include "entities/mob_entity.h"
+#include "entities/npc_entity.h"
+#include "entities/pet_entity.h"
+#include "entities/trust_entity.h"
 SOL_BIND_DEF_SUB(CLuaBaseEntity, CBaseEntity, CBattleEntity);
 SOL_BIND_DEF_SUB(CLuaBaseEntity, CBaseEntity, CNpcEntity);
 SOL_BIND_DEF_SUB(CLuaBaseEntity, CBaseEntity, CCharEntity);

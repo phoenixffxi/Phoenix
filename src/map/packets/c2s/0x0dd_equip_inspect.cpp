@@ -21,8 +21,8 @@
 
 #include "0x0dd_equip_inspect.h"
 
-#include "entities/charentity.h"
-#include "entities/mobentity.h"
+#include "entities/char_entity.h"
+#include "entities/mob_entity.h"
 #include "enums/msg_std.h"
 #include "items/item_weapon.h"
 #include "mob_modifier.h"

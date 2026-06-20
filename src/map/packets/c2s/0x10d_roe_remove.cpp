@@ -21,7 +21,7 @@
 
 #include "0x10d_roe_remove.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "packets/s2c/0x110_unity.h"
 #include "roe.h"
 

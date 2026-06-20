@@ -21,7 +21,7 @@
 
 #include "0x022_item_trade_res.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 GP_SERV_COMMAND_ITEM_TRADE_RES::GP_SERV_COMMAND_ITEM_TRADE_RES(const CCharEntity* PChar, const GP_ITEM_TRADE_RES_KIND action)
 {

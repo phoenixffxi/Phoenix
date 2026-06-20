@@ -43,7 +43,7 @@ extern sol::state lua;
 #include "lua_ability.h"
 #include "lua_action.h"
 #include "lua_attack.h"
-#include "lua_baseentity.h"
+#include "lua_base_entity.h"
 #include "lua_battlefield.h"
 #include "lua_instance.h"
 #include "lua_item.h"

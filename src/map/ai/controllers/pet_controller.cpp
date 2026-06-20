@@ -23,7 +23,7 @@
 
 #include "ai/ai_container.h"
 #include "common/utils.h"
-#include "entities/petentity.h"
+#include "entities/pet_entity.h"
 #include "status_effect_container.h"
 #include "utils/petutils.h"
 
@@ -109,7 +109,7 @@ auto CPetController::DoRoamTick(timer::time_point tick) -> Task<void>
         {
             const auto petType             = PPetEntity->getPetType();
             const auto isWyvernOrAutomaton = petType == PET_TYPE::WYVERN || petType == PET_TYPE::AUTOMATON;
-            const auto isLightSpirit       = PPetEntity->m_PetID == PETID_LIGHTSPIRIT;
+            const auto isLightSpirit       = PPetEntity->petID() == PETID_LIGHTSPIRIT;
 
             if (isWyvernOrAutomaton)
             {
@@ -134,7 +134,7 @@ auto CPetController::DoRoamTick(timer::time_point tick) -> Task<void>
             }
 
             // Certain pets do not roam
-            if (immobilePets.contains(static_cast<PETID>(PPetEntity->m_PetID)))
+            if (immobilePets.contains(static_cast<PETID>(PPetEntity->petID())))
             {
                 co_return;
             }

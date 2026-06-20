@@ -22,7 +22,7 @@
 #include "zone_instance.h"
 #include "ai/ai_container.h"
 #include "common/timer.h"
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "lua/luautils.h"
 #include "status_effect_container.h"
 #include "utils/charutils.h"

@@ -26,7 +26,7 @@
 #include <cstring>
 
 #include "ability.h"
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "recast_container.h"
 
 GP_SERV_COMMAND_ABIL_RECAST::GP_SERV_COMMAND_ABIL_RECAST(CCharEntity* PChar)

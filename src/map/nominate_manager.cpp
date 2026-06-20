@@ -22,7 +22,7 @@
 #include "nominate_manager.h"
 
 #include "alliance.h"
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "enums/msg_std.h"
 #include "linkshell.h"
 #include "party.h"

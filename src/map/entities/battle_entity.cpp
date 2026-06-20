@@ -19,7 +19,7 @@
 ===========================================================================
 */
 
-#include "battleentity.h"
+#include "battle_entity.h"
 
 #include "common/database.h"
 #include "common/logging.h"
@@ -40,7 +40,7 @@
 #include "ai/states/weaponskill_state.h"
 #include "attack.h"
 #include "attackround.h"
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "items/item_weapon.h"
 #include "job_points.h"
 #include "lua/luautils.h"
@@ -50,7 +50,7 @@
 #include "recast_container.h"
 #include "roe.h"
 #include "status_effect_container.h"
-#include "trustentity.h"
+#include "trust_entity.h"
 #include "utils/battleutils.h"
 #include "utils/charutils.h"
 #include "utils/fishingutils.h"
@@ -642,7 +642,7 @@ uint16 CBattleEntity::GetMainWeaponDmg()
             // In a 2014 update SE updated Avatar base damage
             // Based on testing this value appears to be Level now instead of Level * 0.74f
             uint16 weaponDamage = 1 + GetMLevel();
-            if (PPetEntity->m_PetID == PETID_CARBUNCLE || PPetEntity->m_PetID == PETID_CAIT_SITH)
+            if (PPetEntity->petID() == PETID_CARBUNCLE || PPetEntity->petID() == PETID_CAIT_SITH)
             {
                 weaponDamage = static_cast<uint16>(floor(GetMLevel() * 0.9f));
             }
@@ -736,7 +736,7 @@ uint16 CBattleEntity::GetRangedWeaponDmg()
             // In a 2014 update SE updated Avatar base damage
             // Based on testing this value appears to be Level now instead of Level * 0.74f
             uint16 weaponDamage = 1 + GetMLevel();
-            if (PPetEntity->m_PetID == PETID_CARBUNCLE || PPetEntity->m_PetID == PETID_CAIT_SITH)
+            if (PPetEntity->petID() == PETID_CARBUNCLE || PPetEntity->petID() == PETID_CAIT_SITH)
             {
                 weaponDamage = static_cast<uint16>(floor(GetMLevel() * 0.9f));
             }
@@ -3234,7 +3234,7 @@ void CBattleEntity::OnRangedAttack(CRangeState& state, action_t& action)
             if (PAmmo != nullptr && xirand::GetRandomNumber(100) > recycleChance)
             {
                 ++ammoConsumed;
-                PChar->TrackArrowUsageForScavenge(PAmmo);
+                charutils::TrackArrowUsageForScavenge(PChar, PAmmo);
                 if (PAmmo->getQuantity() == i)
                 {
                     hitCount = i;

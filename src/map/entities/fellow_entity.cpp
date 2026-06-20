@@ -19,10 +19,11 @@
 ===========================================================================
 */
 
-#include "fellowentity.h"
+#include "fellow_entity.h"
 
 namespace
 {
+
 const std::map<CharRace, std::vector<std::string>> fellowNames = {
     { CharRace::HumeMale, { "Feliz", "Ferdinand", "Gunnar", "Massimo", "Oldrich", "Siegward", "Theobald", "Zenji" } },
     { CharRace::HumeFemale, { "Amerita", "Beatrice", "Henrietta", "Jesimae", "Karyn", "Nanako", "Sharlene", "Sieghilde" } },
@@ -33,7 +34,8 @@ const std::map<CharRace, std::vector<std::string>> fellowNames = {
     { CharRace::Mithra, { "Fhig Lahrv", "Khuma Tagyawhan", "Pimy Kettihl", "Raka Maimhov", "Sahyu Banjyao", "Sufhi Uchnouma", "Tsuim Nhomango", "Yoli Kohlpaka" } },
     { CharRace::Galka, { "Durib", "Dzapiwa", "Jugowa", "Mugido", "Voldai", "Wagwei", "Zayag", "Zoldof" } },
 };
-}
+
+} // namespace
 
 CFellowEntity::CFellowEntity(CCharEntity* PChar)
 : CMobEntity()

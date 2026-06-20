@@ -21,7 +21,7 @@
 
 #include "0x063_miscdata_merits.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "enums/key_items.h"
 #include "job_points.h"
 #include "merit.h"

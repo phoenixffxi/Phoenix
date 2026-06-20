@@ -21,7 +21,7 @@
 
 #include "0x00a_login.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "instance.h"
 #include "status_effect_container.h"
 #include "utils/zoneutils.h"

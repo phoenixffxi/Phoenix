@@ -22,7 +22,7 @@
 #include "0x011_zone_transition.h"
 
 #include "ai/ai_container.h"
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "map_session.h"
 #include "packets/s2c/0x050_equip_list.h"
 #include "utils/zoneutils.h"

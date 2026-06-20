@@ -21,7 +21,7 @@
 
 #include "0x0cb_myroom_is.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "enums/msg_std.h"
 #include "utils/charutils.h"
 

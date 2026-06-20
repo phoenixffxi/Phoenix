@@ -22,7 +22,7 @@
 #include "0x020_item_attr.h"
 
 #include "common/vana_time.h"
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "enums/item_lockflg.h"
 #include "items/item_linkshell.h"
 #include "utils/itemutils.h"

@@ -23,7 +23,7 @@
 
 #include <cstring>
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "items/item_weapon.h"
 #include "modifier.h"
 #include "roe.h"

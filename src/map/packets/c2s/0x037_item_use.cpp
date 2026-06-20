@@ -22,7 +22,7 @@
 #include "0x037_item_use.h"
 
 #include "ai/ai_container.h"
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "packets/s2c/0x029_battle_message.h"
 #include "universal_container.h"
 

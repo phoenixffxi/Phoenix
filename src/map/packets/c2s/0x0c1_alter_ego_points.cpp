@@ -21,7 +21,7 @@
 
 #include "0x0c1_alter_ego_points.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "enums/alter_ego_points.h"
 #include "packets/s2c/0x08e_alter_ego_points.h"
 

@@ -21,7 +21,7 @@
 
 #include "char_sync.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "status_effect_container.h"
 #include "utils/mountutils.h"
 

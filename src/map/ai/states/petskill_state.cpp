@@ -24,7 +24,7 @@
 #include "action/interrupts.h"
 #include "ai/ai_container.h"
 #include "enmity_container.h"
-#include "entities/petentity.h"
+#include "entities/pet_entity.h"
 #include "packets/s2c/0x028_battle2.h"
 #include "petskill.h"
 #include "status_effect_container.h"
@@ -88,7 +88,7 @@ CPetSkillState::CPetSkillState(CPetEntity* PEntity, uint16 targid, uint16 wsid)
 
         // Wyverns immediately emit a skill interrupt packet.
         // This looks like a hack but is retail accurate.
-        if (PEntity->m_PetID == PETID_WYVERN && PEntity->getMod(Mod::WYVERN_SHOW_READYING) == 0)
+        if (PEntity->petID() == PETID_WYVERN && PEntity->getMod(Mod::WYVERN_SHOW_READYING) == 0)
         {
             ActionInterrupts::WyvernSkillReady(PEntity);
         }
@@ -159,7 +159,7 @@ bool CPetSkillState::Update(timer::time_point tick)
                 PSummoner->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::AvatarsFavor)->SetPower(power > 11 ? power : 11);
             }
 
-            if (PTarget && m_PEntity->getPetType() == PET_TYPE::AVATAR && (m_PEntity->m_PetID != PETID_ALEXANDER && m_PEntity->m_PetID != PETID_ATOMOS))
+            if (PTarget && m_PEntity->getPetType() == PET_TYPE::AVATAR && (m_PEntity->petID() != PETID_ALEXANDER && m_PEntity->petID() != PETID_ATOMOS))
             {
                 auto* PBattleTarget = dynamic_cast<CBattleEntity*>(PTarget);
                 if (PBattleTarget &&

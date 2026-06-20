@@ -24,7 +24,7 @@
 
 #include "attack.h"
 #include "common/cbasetypes.h"
-#include "entities/battleentity.h"
+#include "entities/battle_entity.h"
 #include "utils/attackutils.h"
 #include "utils/charutils.h"
 #include <vector>

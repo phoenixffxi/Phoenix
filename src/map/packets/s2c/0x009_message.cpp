@@ -21,7 +21,7 @@
 
 #include "0x009_message.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "enums/msg_std.h"
 
 GP_SERV_COMMAND_MESSAGE::GP_SERV_COMMAND_MESSAGE(const MsgStd messageID)

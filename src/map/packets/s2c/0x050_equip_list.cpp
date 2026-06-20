@@ -21,7 +21,7 @@
 
 #include "0x050_equip_list.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 GP_SERV_COMMAND_EQUIP_LIST::GP_SERV_COMMAND_EQUIP_LIST(const uint8 slotId, const SLOTTYPE equipSlot, const CONTAINER_ID containerId)
 {

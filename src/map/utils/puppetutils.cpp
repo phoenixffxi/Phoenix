@@ -22,7 +22,7 @@
 #include "puppetutils.h"
 #include "battleutils.h"
 #include "charutils.h"
-#include "entities/automatonentity.h"
+#include "entities/automaton_entity.h"
 #include "enums/automaton.h"
 #include "items/item_puppet.h"
 #include "itemutils.h"
@@ -132,31 +132,29 @@ void LoadAutomaton(CCharEntity* PChar)
 
         if (PChar->GetMJob() == JOB_PUP || PChar->GetSJob() == JOB_PUP)
         {
-            PChar->automatonInfo.m_automatonName = rset->get<std::string>("name");
-
-            if (PChar->automatonInfo.m_automatonName.empty())
+            if (const auto name = rset->get<std::string>("name"); !name.empty())
             {
-                PChar->automatonInfo.m_automatonName = "Automaton";
+                PChar->automatonInfo_.automatonName = name;
             }
 
-            automaton_equip_t tempEquip{};
+            AutomatonEquip tempEquip{};
             db::extractFromBlob(rset, "equipped_attachments", tempEquip);
 
             // If any of this happens then the Automaton failed to load properly and should just reset (Should only occur with older characters or if DB is
             // missing)
-            if (tempEquip.Head < AutomatonHead::Harlequin ||
-                tempEquip.Head > AutomatonHead::Spiritreaver ||
-                tempEquip.Frame < AutomatonFrame::Harlequin ||
-                tempEquip.Frame > AutomatonFrame::Stormwaker)
+            if (tempEquip.head < AutomatonHead::Harlequin ||
+                tempEquip.head > AutomatonHead::Spiritreaver ||
+                tempEquip.frame < AutomatonFrame::Harlequin ||
+                tempEquip.frame > AutomatonFrame::Stormwaker)
             {
                 PChar->setAutomatonHead(AutomatonHead::Harlequin);
-                tempEquip.Head = AutomatonHead::Harlequin;
+                tempEquip.head = AutomatonHead::Harlequin;
                 PChar->setAutomatonFrame(AutomatonFrame::Harlequin);
-                tempEquip.Frame = AutomatonFrame::Harlequin;
+                tempEquip.frame = AutomatonFrame::Harlequin;
 
                 for (int i = 0; i < 12; i++)
                 {
-                    tempEquip.Attachments[i] = 0;
+                    tempEquip.attachments[i] = 0;
                 }
 
                 for (int i = 0; i < 6; i++)
@@ -169,34 +167,34 @@ void LoadAutomaton(CCharEntity* PChar)
 
                 for (int i = 0; i < 8; i++)
                 {
-                    PChar->automatonInfo.m_ElementEquip[i] = 0;
+                    PChar->automatonInfo_.elementEquip[i] = 0;
                 }
             }
 
             // Add the elemental bonus before we set the head and frame
             PChar->setAutomatonElementalCapacityBonus(PChar->getMod(Mod::AUTO_ELEM_CAPACITY));
 
-            setHead(PChar, tempEquip.Head);
-            setFrame(PChar, tempEquip.Frame);
+            setHead(PChar, tempEquip.head);
+            setFrame(PChar, tempEquip.frame);
 
             petutils::CalculateAutomatonStats(PChar, PChar->PPet);
 
             // Always load Optic Fiber and Optic Fiber II first
             for (int i = 0; i < 12; i++)
             {
-                if (static_cast<AutomatonAttachment>(tempEquip.Attachments[i]) == AutomatonAttachment::OpticFiber ||
-                    static_cast<AutomatonAttachment>(tempEquip.Attachments[i]) == AutomatonAttachment::OpticFiberII)
+                if (static_cast<AutomatonAttachment>(tempEquip.attachments[i]) == AutomatonAttachment::OpticFiber ||
+                    static_cast<AutomatonAttachment>(tempEquip.attachments[i]) == AutomatonAttachment::OpticFiberII)
                 {
-                    setAttachment(PChar, i, tempEquip.Attachments[i]);
+                    setAttachment(PChar, i, tempEquip.attachments[i]);
                 }
             }
 
             for (int i = 0; i < 12; i++)
             {
-                if (static_cast<AutomatonAttachment>(tempEquip.Attachments[i]) != AutomatonAttachment::OpticFiber &&
-                    static_cast<AutomatonAttachment>(tempEquip.Attachments[i]) != AutomatonAttachment::OpticFiberII)
+                if (static_cast<AutomatonAttachment>(tempEquip.attachments[i]) != AutomatonAttachment::OpticFiber &&
+                    static_cast<AutomatonAttachment>(tempEquip.attachments[i]) != AutomatonAttachment::OpticFiberII)
                 {
-                    setAttachment(PChar, i, tempEquip.Attachments[i]);
+                    setAttachment(PChar, i, tempEquip.attachments[i]);
                 }
             }
         }
@@ -219,7 +217,7 @@ void SaveAutomaton(CCharEntity* PChar)
         db::preparedStmt("UPDATE char_pet SET "
                          "equipped_attachments = ? "
                          "WHERE charid = ? LIMIT 1",
-                         PChar->automatonInfo.m_Equip,
+                         PChar->automatonInfo_.equip,
                          PChar->id);
     }
 }
@@ -407,7 +405,7 @@ void setFrame(CCharEntity* PChar, AutomatonFrame frame)
     }
 
     PChar->setAutomatonFrame(frame);
-    PChar->automatonInfo.automatonLook.modelid = calculateAutomatonModel(frame, PChar->getAutomatonHead());
+    PChar->automatonInfo_.automatonLook.modelid = calculateAutomatonModel(frame, PChar->getAutomatonHead());
 
     for (int element = 0; element < 8; element++)
     {
@@ -450,7 +448,7 @@ void setHead(CCharEntity* PChar, AutomatonHead head)
     }
 
     PChar->setAutomatonHead(head);
-    PChar->automatonInfo.automatonLook.modelid = calculateAutomatonModel(PChar->getAutomatonFrame(), head);
+    PChar->automatonInfo_.automatonLook.modelid = calculateAutomatonModel(PChar->getAutomatonFrame(), head);
 
     for (int element = 0; element < 8; element++)
     {
@@ -656,9 +654,9 @@ void CheckAttachmentsForManeuver(const CCharEntity* PChar, const xi::StatusEffec
         uint8 element = static_cast<uint8>(static_cast<uint16>(maneuver) - static_cast<uint16>(xi::StatusEffect::FireManeuver));
         for (uint8 i = 0; i < 12; i++)
         {
-            if (PAutomaton->getAttachment(i) != 0)
+            if (PAutomaton->attachment(i) != 0)
             {
-                auto* PAttachment = xi::items::lookup<CItemPuppet>(0x2100 + PAutomaton->getAttachment(i));
+                auto* PAttachment = xi::items::lookup<CItemPuppet>(0x2100 + PAutomaton->attachment(i));
 
                 if (PAttachment && (PAttachment->getElementSlots() >> (element * 4)) & 0xF)
                 {
@@ -682,9 +680,9 @@ void EquipAttachments(CAutomatonEntity* PAutomaton)
     {
         for (uint8 i = 0; i < 12; i++)
         {
-            if (PAutomaton->getAttachment(i) != 0)
+            if (PAutomaton->attachment(i) != 0)
             {
-                auto* PAttachment = xi::items::lookup<CItemPuppet>(0x2100 + PAutomaton->getAttachment(i));
+                auto* PAttachment = xi::items::lookup<CItemPuppet>(0x2100 + PAutomaton->attachment(i));
                 if (PAttachment)
                 {
                     luautils::OnAttachmentEquip(PAutomaton, PAttachment);
@@ -701,9 +699,9 @@ void UpdateAttachments(const CCharEntity* PChar)
     {
         for (uint8 i = 0; i < 12; i++)
         {
-            if (PAutomaton->getAttachment(i) != 0)
+            if (PAutomaton->attachment(i) != 0)
             {
-                auto* PAttachment = xi::items::lookup<CItemPuppet>(0x2100 + PAutomaton->getAttachment(i));
+                auto* PAttachment = xi::items::lookup<CItemPuppet>(0x2100 + PAutomaton->attachment(i));
 
                 if (PAttachment)
                 {
@@ -730,7 +728,7 @@ void PreLevelRestriction(const CCharEntity* PChar)
     {
         for (int i = 0; i < 12; i++)
         {
-            uint8 attachment = PAutomaton->getAttachment(i);
+            uint8 attachment = PAutomaton->attachment(i);
 
             if (attachment != 0)
             {
@@ -755,7 +753,7 @@ void PostLevelRestriction(const CCharEntity* PChar)
     {
         for (int i = 0; i < 12; i++)
         {
-            const uint8 attachment = PAutomaton->getAttachment(i);
+            const uint8 attachment = PAutomaton->attachment(i);
             if (attachment != 0)
             {
                 auto* PAttachment = xi::items::lookup<CItemPuppet>(0x2100 + attachment);

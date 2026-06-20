@@ -23,7 +23,7 @@
 
 #include <cstring>
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 GP_SERV_COMMAND_MAGIC_DATA::GP_SERV_COMMAND_MAGIC_DATA(const CCharEntity* PChar)
 {

@@ -21,8 +21,8 @@
 
 #include "0x027_talknumwork2.h"
 
-#include "entities/baseentity.h"
-#include "entities/charentity.h"
+#include "entities/base_entity.h"
+#include "entities/char_entity.h"
 
 #include <cstring>
 

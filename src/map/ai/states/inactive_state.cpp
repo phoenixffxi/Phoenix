@@ -21,7 +21,7 @@
 
 #include "inactive_state.h"
 #include "ai/ai_container.h"
-#include "entities/battleentity.h"
+#include "entities/battle_entity.h"
 #include "status_effect_container.h"
 
 CInactiveState::CInactiveState(CBaseEntity* PEntity, timer::duration _duration, bool canChangeState, bool untargetable)

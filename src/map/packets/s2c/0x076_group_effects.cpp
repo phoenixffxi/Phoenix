@@ -21,8 +21,8 @@
 
 #include "0x076_group_effects.h"
 
-#include "entities/battleentity.h"
-#include "entities/charentity.h"
+#include "entities/battle_entity.h"
+#include "entities/char_entity.h"
 #include "status_effect_container.h"
 
 GP_SERV_COMMAND_GROUP_EFFECTS::GP_SERV_COMMAND_GROUP_EFFECTS(const std::vector<CCharEntity*>& membersList)

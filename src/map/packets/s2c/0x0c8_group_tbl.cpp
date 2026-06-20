@@ -27,8 +27,8 @@
 #include "map_engine.h"
 #include "party.h"
 
-#include "entities/charentity.h"
-#include "entities/trustentity.h"
+#include "entities/char_entity.h"
+#include "entities/trust_entity.h"
 #include "enums/party_kind.h"
 #include "utils/zoneutils.h"
 

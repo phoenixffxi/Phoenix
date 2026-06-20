@@ -22,7 +22,7 @@
 #include "attack_state.h"
 
 #include "action/action.h"
-#include "entities/battleentity.h"
+#include "entities/battle_entity.h"
 
 #include "ai/ai_container.h"
 #include "packets/s2c/0x028_battle2.h"

@@ -21,7 +21,7 @@
 
 #include "0x033_eventstr.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "event_info.h"
 
 #include <cstring>

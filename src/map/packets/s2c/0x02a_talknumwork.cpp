@@ -22,7 +22,7 @@
 #include "0x02a_talknumwork.h"
 
 #include "common/utils.h"
-#include "entities/baseentity.h"
+#include "entities/base_entity.h"
 
 GP_SERV_COMMAND_TALKNUMWORK::GP_SERV_COMMAND_TALKNUMWORK(
     const CBaseEntity* PEntity,

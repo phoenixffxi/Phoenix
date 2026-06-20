@@ -24,7 +24,7 @@
 
 #include "common/cbasetypes.h"
 
-#include "entities/battleentity.h"
+#include "entities/battle_entity.h"
 #include "enums/action/animation.h"
 #include "enums/recast.h"
 #include "status_effect.h"

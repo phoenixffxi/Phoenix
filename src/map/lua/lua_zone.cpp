@@ -24,9 +24,9 @@
 #include "common/logging.h"
 #include "common/timer.h"
 
-#include "entities/charentity.h"
-#include "entities/npcentity.h"
-#include "lua_baseentity.h"
+#include "entities/char_entity.h"
+#include "entities/npc_entity.h"
+#include "lua_base_entity.h"
 #include "map/navmesh/navmesh.h"
 #include "trigger_area.h"
 #include "utils/mobutils.h"

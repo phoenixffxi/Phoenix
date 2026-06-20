@@ -58,8 +58,8 @@ constexpr std::uint16_t WeatherCycle = 2160;
 #include "treasure_pool.h"
 #include "zone_entities.h"
 
-#include "entities/npcentity.h"
-#include "entities/petentity.h"
+#include "entities/npc_entity.h"
+#include "entities/pet_entity.h"
 
 #include "lua/luautils.h"
 
@@ -771,7 +771,7 @@ bool CZone::CheckMobsPathedBack()
     bool allMobsHomeAndHealed = true;
     if (m_zoneEntities && m_zoneEntities->GetMobList().size() > 0)
     {
-        EntityList_t mobListMap = m_zoneEntities->GetMobList();
+        const auto& mobListMap = m_zoneEntities->GetMobList();
         for (const auto& pair : mobListMap)
         {
             CMobEntity* mob = dynamic_cast<CMobEntity*>(pair.second);

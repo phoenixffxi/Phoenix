@@ -21,7 +21,7 @@
 
 #include "0x0a0_switch_proposal.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "nominate_manager.h"
 #include "zone.h"
 

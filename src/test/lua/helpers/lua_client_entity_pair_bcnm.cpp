@@ -27,7 +27,7 @@
 #include "lua/lua_client_entity_pair.h"
 #include "lua/lua_simulation.h"
 #include "map/battlefield.h"
-#include "map/entities/mobentity.h"
+#include "map/entities/mob_entity.h"
 #include "map/map_engine.h"
 #include "test_char.h"
 #include "test_common.h"

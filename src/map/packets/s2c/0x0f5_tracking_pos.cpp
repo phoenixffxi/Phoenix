@@ -21,7 +21,7 @@
 
 #include "0x0f5_tracking_pos.h"
 
-#include "entities/baseentity.h"
+#include "entities/base_entity.h"
 
 GP_SERV_COMMAND_TRACKING_POS::GP_SERV_COMMAND_TRACKING_POS(const CBaseEntity* PEntity)
 {

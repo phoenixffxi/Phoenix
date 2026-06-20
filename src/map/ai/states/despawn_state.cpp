@@ -21,8 +21,8 @@
 
 #include "despawn_state.h"
 #include "ai/ai_container.h"
-#include "entities/baseentity.h"
-#include "entities/mobentity.h"
+#include "entities/base_entity.h"
+#include "entities/mob_entity.h"
 #include "enums/four_cc.h"
 #include "packets/s2c/0x038_schedulor.h"
 #include "spawn_handler.h"

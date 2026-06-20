@@ -24,7 +24,7 @@
 
 #include "common/cbasetypes.h"
 #include "common/mmo.h"
-#include "entities/mobentity.h"
+#include "entities/mob_entity.h"
 #include "enums/action/animation.h"
 #include "enums/action/knockback.h"
 

@@ -21,7 +21,7 @@
 
 #include "0x04e_auc.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "utils/auctionutils.h"
 #include "utils/jailutils.h"
 

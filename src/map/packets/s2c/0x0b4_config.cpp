@@ -21,7 +21,7 @@
 
 #include "0x0b4_config.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 GP_SERV_COMMAND_CONFIG::GP_SERV_COMMAND_CONFIG(const CCharEntity* PChar)
 {

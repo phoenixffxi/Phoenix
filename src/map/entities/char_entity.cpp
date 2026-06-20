@@ -19,6 +19,8 @@
 ===========================================================================
 */
 
+#include "char_entity.h"
+
 #include "common/logging.h"
 #include "common/timer.h"
 #include "common/utils.h"
@@ -62,10 +64,9 @@
 #include "ability.h"
 #include "aman.h"
 #include "attack.h"
-#include "automatonentity.h"
+#include "automaton_entity.h"
 #include "battlefield.h"
 #include "char_recast_container.h"
-#include "charentity.h"
 
 #include "action/action.h"
 #include "action/interrupts.h"
@@ -96,7 +97,7 @@
 #include "status_effect_container.h"
 #include "trade_container.h"
 #include "treasure_pool.h"
-#include "trustentity.h"
+#include "trust_entity.h"
 #include "unitychat.h"
 #include "universal_container.h"
 #include "utils/attackutils.h"
@@ -586,7 +587,7 @@ void CCharEntity::setPetZoningInfo()
     {
         return;
     }
-    petZoningInfo.petID = PPetEntity->m_PetID;
+    petZoningInfo.petID = PPetEntity->petID();
 
     switch (PPetEntity->getPetType())
     {
@@ -599,7 +600,7 @@ void CCharEntity::setPetZoningInfo()
             petZoningInfo.jugDuration  = PPetEntity->getJugDuration();
             [[fallthrough]];
         case PET_TYPE::AVATAR:
-            if (PPetEntity->m_PetID == PETID_ALEXANDER || PPetEntity->m_PetID == PETID_ODIN || PPetEntity->m_PetID == PETID_ATOMOS)
+            if (PPetEntity->petID() == PETID_ALEXANDER || PPetEntity->petID() == PETID_ODIN || PPetEntity->petID() == PETID_ATOMOS)
             {
                 // Alexander, Odin and Atomos cannot persist through zoning.
                 break;
@@ -660,62 +661,62 @@ auto CCharEntity::shouldPetPersistThroughZoning() const -> bool
 
 void CCharEntity::setAutomatonFrame(const AutomatonFrame frame)
 {
-    automatonInfo.m_Equip.Frame = frame;
+    automatonInfo_.equip.frame = frame;
 }
 
 void CCharEntity::setAutomatonHead(const AutomatonHead head)
 {
-    automatonInfo.m_Equip.Head = head;
+    automatonInfo_.equip.head = head;
 }
 
 void CCharEntity::setAutomatonAttachment(const uint8 slotid, const uint8 id)
 {
-    automatonInfo.m_Equip.Attachments[slotid] = id;
+    automatonInfo_.equip.attachments[slotid] = id;
 }
 
 void CCharEntity::setAutomatonElementMax(const uint8 element, const uint8 max)
 {
-    automatonInfo.m_ElementMax[element] = max;
+    automatonInfo_.elementMax[element] = max;
 }
 void CCharEntity::addAutomatonElementCapacity(const uint8 element, const int8 value)
 {
-    automatonInfo.m_ElementEquip[element] += value;
+    automatonInfo_.elementEquip[element] += value;
 }
 
 void CCharEntity::setAutomatonElementalCapacityBonus(const uint8 bonus)
 {
-    if (bonus == automatonInfo.m_elementalCapacityBonus)
+    if (bonus == automatonInfo_.elementalCapacityBonus)
     {
         return;
     }
 
-    int8 difference = static_cast<int8>(bonus) - automatonInfo.m_elementalCapacityBonus;
-    for (size_t i = 0; i < automatonInfo.m_ElementMax.size(); ++i)
+    int8 difference = static_cast<int8>(bonus) - automatonInfo_.elementalCapacityBonus;
+    for (size_t i = 0; i < automatonInfo_.elementMax.size(); ++i)
     {
-        automatonInfo.m_ElementMax[i] += difference;
+        automatonInfo_.elementMax[i] += difference;
     }
 
-    automatonInfo.m_elementalCapacityBonus = bonus;
+    automatonInfo_.elementalCapacityBonus = bonus;
 }
 
 auto CCharEntity::getAutomatonFrame() const -> AutomatonFrame
 {
-    return automatonInfo.m_Equip.Frame;
+    return automatonInfo_.equip.frame;
 }
 
 auto CCharEntity::getAutomatonHead() const -> AutomatonHead
 {
-    return automatonInfo.m_Equip.Head;
+    return automatonInfo_.equip.head;
 }
 
 auto CCharEntity::getAutomatonAttachment(const uint8 slotid) const -> uint8
 {
-    return automatonInfo.m_Equip.Attachments[slotid];
+    return automatonInfo_.equip.attachments[slotid];
 }
 
 auto CCharEntity::hasAutomatonAttachment(const uint8 attachment) const -> bool
 {
-    for (auto&& attachmentid : automatonInfo.m_Equip.Attachments)
+    for (auto&& attachmentid : automatonInfo_.equip.attachments)
     {
         if (attachmentid == attachment)
         {
@@ -727,12 +728,12 @@ auto CCharEntity::hasAutomatonAttachment(const uint8 attachment) const -> bool
 
 auto CCharEntity::getAutomatonElementMax(const uint8 element) const -> uint8
 {
-    return automatonInfo.m_ElementMax[element];
+    return automatonInfo_.elementMax[element];
 }
 
 auto CCharEntity::getAutomatonElementCapacity(const uint8 element) const -> uint8
 {
-    return automatonInfo.m_ElementEquip[element];
+    return automatonInfo_.elementEquip[element];
 }
 
 /************************************************************************
@@ -2862,36 +2863,6 @@ void CCharEntity::changeMoghancement(uint16 moghancementID, bool isAdding)
             break;
         default:
             break;
-    }
-}
-
-void CCharEntity::TrackArrowUsageForScavenge(CItemWeapon* PAmmo)
-{
-    TracyZoneScoped;
-
-    // Check if local has been set yet
-    if (this->GetLocalVar("ArrowsUsed") == 0)
-    {
-        // Local not set yet so set
-        this->SetLocalVar("ArrowsUsed", PAmmo->getID() * 10000 + 1);
-    }
-    else
-    {
-        // Local exists now check if arrow used is same as last time
-        if ((floor(this->GetLocalVar("ArrowsUsed") / 10000)) == PAmmo->getID())
-        {
-            // Same arrow used as last time now check that arrows used do not go above 1980
-            if (!(floor(this->GetLocalVar("ArrowsUsed") % 10000) >= 1980))
-            {
-                // Safe to increment arrows used
-                this->SetLocalVar("ArrowsUsed", this->GetLocalVar("ArrowsUsed") + 1);
-            }
-        }
-        else
-        {
-            // Different arrow is being used so remake local
-            this->SetLocalVar("ArrowsUsed", PAmmo->getID() * 10000 + 1);
-        }
     }
 }
 

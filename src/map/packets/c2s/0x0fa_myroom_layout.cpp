@@ -21,7 +21,7 @@
 
 #include "0x0fa_myroom_layout.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "items/item_furnishing.h"
 #include "lua/luautils.h"
 #include "map/enums/furnishing_placement.h"

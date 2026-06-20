@@ -21,7 +21,7 @@
 
 #include "0x036_item_transfer.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "enums/msg_std.h"
 #include "lua/luautils.h"
 #include "packets/s2c/0x053_systemmes.h"

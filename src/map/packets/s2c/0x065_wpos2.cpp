@@ -21,8 +21,8 @@
 
 #include "0x065_wpos2.h"
 
-#include "entities/baseentity.h"
-#include "entities/charentity.h"
+#include "entities/base_entity.h"
+#include "entities/char_entity.h"
 
 GP_SERV_COMMAND_WPOS2::GP_SERV_COMMAND_WPOS2(CBaseEntity* PEntity, const position_t position, POSMODE mode)
 {

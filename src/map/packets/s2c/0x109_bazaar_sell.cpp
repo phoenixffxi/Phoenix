@@ -21,7 +21,7 @@
 
 #include "0x109_bazaar_sell.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 GP_SERV_COMMAND_BAZAAR_SELL::GP_SERV_COMMAND_BAZAAR_SELL(const CCharEntity* PChar, const uint8 slotId, const uint8 quantity)
 {

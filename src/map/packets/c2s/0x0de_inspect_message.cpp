@@ -21,7 +21,7 @@
 
 #include "0x0de_inspect_message.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 auto GP_CLI_COMMAND_INSPECT_MESSAGE::validate(MapSession* PSession, const CCharEntity* PChar) const -> PacketValidationResult
 {

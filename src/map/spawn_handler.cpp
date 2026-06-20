@@ -25,7 +25,7 @@
 
 #include "common/timer.h"
 #include "common/vana_time.h"
-#include "entities/mobentity.h"
+#include "entities/mob_entity.h"
 #include "enums/weather.h"
 #include "lua/luautils.h"
 #include "spawn_slot.h"

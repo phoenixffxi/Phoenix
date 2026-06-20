@@ -27,7 +27,7 @@
 #include "common/logging.h"
 #include "common/vana_time.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "item_container.h"
 #include "items/item_flowerpot.h"
 #include "packets/s2c/0x020_item_attr.h"

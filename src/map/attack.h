@@ -23,7 +23,7 @@
 #define _CATTACK_H
 
 #include "common/cbasetypes.h"
-#include "entities/battleentity.h"
+#include "entities/battle_entity.h"
 #include "utils/attackutils.h"
 #include "utils/battleutils.h"
 #include <vector>

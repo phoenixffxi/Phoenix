@@ -24,7 +24,7 @@
 
 #include "common/cbasetypes.h"
 
-#include "entities/petentity.h"
+#include "entities/pet_entity.h"
 #include "enums/weather.h"
 #include "items/item_equipment.h"
 #include "latent_effect.h"

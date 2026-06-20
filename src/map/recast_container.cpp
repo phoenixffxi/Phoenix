@@ -22,7 +22,7 @@
 #include "common/logging.h"
 #include "common/timer.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "recast_container.h"
 
 #include "enums/recast.h"

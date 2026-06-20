@@ -21,7 +21,7 @@
 
 #include "0x033_trade_res.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "packets/s2c/0x022_item_trade_res.h"
 #include "universal_container.h"
 #include "utils/charutils.h"

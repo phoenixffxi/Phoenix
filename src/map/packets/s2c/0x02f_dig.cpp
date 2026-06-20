@@ -21,7 +21,7 @@
 
 #include "0x02f_dig.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 GP_SERV_COMMAND_DIG::GP_SERV_COMMAND_DIG(const CCharEntity* PChar)
 {

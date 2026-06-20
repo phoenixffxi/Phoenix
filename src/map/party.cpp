@@ -23,7 +23,7 @@
 #include "common/timer.h"
 
 #include "alliance.h"
-#include "entities/battleentity.h"
+#include "entities/battle_entity.h"
 #include "ipc_client.h"
 #include "job_points.h"
 #include "latent_effect_container.h"

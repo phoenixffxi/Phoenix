@@ -29,8 +29,8 @@
 #include "battlefield.h"
 #include "battlefield_handler.h"
 
-#include "entities/battleentity.h"
-#include "entities/charentity.h"
+#include "entities/battle_entity.h"
+#include "entities/char_entity.h"
 
 #include "lua/luautils.h"
 

@@ -24,8 +24,8 @@
 #include "ability.h"
 #include "ai/ai_container.h"
 #include "enmity_container.h"
-#include "entities/charentity.h"
-#include "entities/trustentity.h"
+#include "entities/char_entity.h"
+#include "entities/trust_entity.h"
 #include "enums/msg_std.h"
 #include "items.h"
 #include "latent_effect_container.h"
@@ -204,11 +204,11 @@ void GP_CLI_COMMAND_ACTION::process(MapSession* PSession, CCharEntity* PChar) co
             }
 
             // Releasing a trust
-            if (auto* PTrust = dynamic_cast<CTrustEntity*>(PNpc); PTrust && !PTrust->isReleased)
+            if (auto* PTrust = dynamic_cast<CTrustEntity*>(PNpc); PTrust && !PTrust->released())
             {
                 uint32_t trustTargId = PTrust->targid;
 
-                PTrust->isReleased = true;
+                PTrust->setReleased(true);
 
                 // Emit despawn message
                 // TODO: probably change off OnMobDespawn to a listener or a trust specific OnPartyLeave callback

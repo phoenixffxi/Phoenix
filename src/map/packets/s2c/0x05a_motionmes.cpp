@@ -21,8 +21,8 @@
 
 #include "0x05a_motionmes.h"
 
-#include "entities/charentity.h"
-#include "entities/npcentity.h"
+#include "entities/char_entity.h"
+#include "entities/npc_entity.h"
 #include "item_container.h"
 #include "items/item_weapon.h"
 

@@ -21,7 +21,7 @@
 
 #include "0x111_roe_activelog.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 GP_SERV_COMMAND_ROE_ACTIVELOG::GP_SERV_COMMAND_ROE_ACTIVELOG(const CCharEntity* PChar)
 {

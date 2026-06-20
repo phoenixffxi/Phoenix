@@ -21,7 +21,7 @@
 
 #include "0x0bf_registration.h"
 
-#include "entities/baseentity.h"
+#include "entities/base_entity.h"
 
 GP_SERV_COMMAND_REGISTRATION::GP_SERV_COMMAND_REGISTRATION(const CBaseEntity* PEntrance, const uint32_t response)
 {

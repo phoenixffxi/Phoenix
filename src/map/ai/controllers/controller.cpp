@@ -22,7 +22,7 @@
 #include "controller.h"
 
 #include "ai/ai_container.h"
-#include "entities/battleentity.h"
+#include "entities/battle_entity.h"
 
 CController::CController(CBattleEntity* _POwner)
 : m_Tick(timer::now())

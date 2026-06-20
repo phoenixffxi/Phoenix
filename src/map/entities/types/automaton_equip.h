@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2024 LandSandBoat Dev Teams
+  Copyright (c) 2026 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,14 +21,13 @@
 
 #pragma once
 
-#include "charentity.h"
-#include "mobentity.h"
+#include <map/enums/automaton.h>
 
-class CFellowEntity : public CMobEntity
+#include <array>
+
+struct AutomatonEquip
 {
-public:
-    explicit CFellowEntity(CCharEntity* PChar);
-    ~CFellowEntity() override;
-
-    // TODO
+    AutomatonFrame        frame;
+    AutomatonHead         head;
+    std::array<uint8, 12> attachments;
 };

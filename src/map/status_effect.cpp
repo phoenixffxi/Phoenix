@@ -21,7 +21,7 @@
 
 #include "common/utils.h"
 
-#include "entities/battleentity.h"
+#include "entities/battle_entity.h"
 #include "status_effect.h"
 
 #include "status_effect_container.h"

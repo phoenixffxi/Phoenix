@@ -21,8 +21,8 @@
 
 #include "0x0df_group_attr.h"
 
-#include "entities/charentity.h"
-#include "entities/trustentity.h"
+#include "entities/char_entity.h"
+#include "entities/trust_entity.h"
 #include "monstrosity.h"
 
 GP_SERV_COMMAND_GROUP_ATTR::GP_SERV_COMMAND_GROUP_ATTR(CCharEntity* PChar)

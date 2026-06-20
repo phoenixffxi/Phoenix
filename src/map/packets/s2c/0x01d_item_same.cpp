@@ -21,7 +21,7 @@
 
 #include "0x01d_item_same.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "item_container.h"
 
 GP_SERV_COMMAND_ITEM_SAME::GP_SERV_COMMAND_ITEM_SAME(CCharEntity* PChar)

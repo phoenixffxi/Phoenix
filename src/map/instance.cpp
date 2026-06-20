@@ -25,7 +25,7 @@
 #include "instance.h"
 
 #include "ai/ai_container.h"
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "lua/luautils.h"
 #include "zone.h"
 

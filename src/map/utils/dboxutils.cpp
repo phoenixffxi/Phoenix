@@ -27,7 +27,7 @@
 #include "common/settings.h"
 #include "common/tracy.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 #include "utils/charutils.h"
 #include "utils/itemutils.h"

@@ -21,7 +21,7 @@
 
 #include "0x03c_shop_list.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "trade_container.h"
 
 GP_SERV_COMMAND_SHOP_LIST::GP_SERV_COMMAND_SHOP_LIST(CCharEntity* PChar)

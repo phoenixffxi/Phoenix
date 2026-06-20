@@ -23,7 +23,7 @@
 
 #include "common/lua.h"
 #include "lua_test_entity.h"
-#include "map/entities/charentity.h"
+#include "map/entities/char_entity.h"
 #include "map/modifier.h"
 #include "map/status_effect.h"
 #include "map/zone.h"

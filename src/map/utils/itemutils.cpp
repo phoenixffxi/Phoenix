@@ -33,7 +33,7 @@
 #include "common/logging.h"
 #include "common/sjis.h"
 
-#include "entities/battleentity.h"
+#include "entities/battle_entity.h"
 #include "enums/item_types.h"
 #include "items/item_flowerpot.h"
 #include "items/item_furnishing.h"

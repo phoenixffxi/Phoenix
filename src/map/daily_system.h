@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 namespace daily
 {

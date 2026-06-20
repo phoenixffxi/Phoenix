@@ -21,7 +21,7 @@
 
 #include "0x0e7_reqlogout.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "status_effect_container.h"
 #include "utils/charutils.h"
 

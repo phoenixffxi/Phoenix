@@ -21,7 +21,7 @@
 
 #include "0x00b_logout.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 GP_SERV_COMMAND_LOGOUT::GP_SERV_COMMAND_LOGOUT(const GP_GAME_LOGOUT_STATE zoneType, const IPP zoneIpp)
 {

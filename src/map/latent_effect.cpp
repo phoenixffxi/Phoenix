@@ -19,9 +19,9 @@
 ===========================================================================
 */
 
-#include "entities/battleentity.h"
+#include "entities/battle_entity.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "items/item_weapon.h"
 #include "latent_effect.h"
 #include "packets/s2c/0x0ac_command_data.h"

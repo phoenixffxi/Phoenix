@@ -23,7 +23,7 @@
 #define _CITEMWEAPON_H
 
 #include "common/cbasetypes.h"
-#include "entities/battleentity.h"
+#include "entities/battle_entity.h"
 
 #include "item_equipment.h"
 #include "items/exdata.h"

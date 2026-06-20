@@ -19,7 +19,7 @@
 ===========================================================================
 */
 
-#include "baseentity.h"
+#include "base_entity.h"
 
 #include "common/tracy.h"
 

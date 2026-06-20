@@ -23,7 +23,7 @@
 #include "common/database.h"
 #include "common/ipc_structs.h"
 #include "common/logging.h"
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "ipc_client.h"
 #include "packets/s2c/0x0b6_set_gmmsg.h"
 

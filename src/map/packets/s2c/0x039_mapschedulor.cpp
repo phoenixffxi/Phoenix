@@ -21,7 +21,7 @@
 
 #include "0x039_mapschedulor.h"
 
-#include "entities/baseentity.h"
+#include "entities/base_entity.h"
 
 GP_SERV_COMMAND_MAPSCHEDULOR::GP_SERV_COMMAND_MAPSCHEDULOR(const CBaseEntity* PEntity, const char type[4])
 {

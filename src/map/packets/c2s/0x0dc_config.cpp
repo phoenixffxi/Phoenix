@@ -22,7 +22,7 @@
 #include "0x0dc_config.h"
 
 #include "aman.h"
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "enums/msg_std.h"
 #include "packets/char_status.h"
 #include "packets/char_sync.h"

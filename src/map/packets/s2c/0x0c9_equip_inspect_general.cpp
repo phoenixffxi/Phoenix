@@ -21,7 +21,7 @@
 
 #include "0x0c9_equip_inspect_general.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "items/item_linkshell.h"
 
 GP_SERV_COMMAND_EQUIP_INSPECT::GENERAL::GENERAL(const CCharEntity* PChar, const CCharEntity* PTarget)

@@ -24,9 +24,9 @@
 #include "instance_loader.h"
 #include "zone_instance.h"
 
-#include "entities/charentity.h"
-#include "entities/mobentity.h"
-#include "entities/npcentity.h"
+#include "entities/char_entity.h"
+#include "entities/mob_entity.h"
+#include "entities/npc_entity.h"
 #include "instance.h"
 #include "items/item_weapon.h"
 #include "lua/luautils.h"
@@ -283,7 +283,7 @@ auto CInstanceLoader::LoadInstance() const -> CInstance*
             PNpc->look = look_t(sqlModelID);
 
             PNpc->name_prefix = rset->get<uint8>("name_prefix");
-            PNpc->widescan    = rset->get<uint8>("widescan");
+            PNpc->setWidescan(rset->get<uint8>("widescan"));
 
             PNpc->PInstance = m_PInstance;
 

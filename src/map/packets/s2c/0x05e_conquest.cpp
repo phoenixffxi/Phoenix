@@ -24,7 +24,7 @@
 #include "besieged_system.h"
 #include "conquest_data.h"
 #include "conquest_system.h"
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "utils/charutils.h"
 
 GP_SERV_COMMAND_CONQUEST::GP_SERV_COMMAND_CONQUEST(CCharEntity* PChar)

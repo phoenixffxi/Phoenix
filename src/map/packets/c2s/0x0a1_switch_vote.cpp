@@ -21,7 +21,7 @@
 
 #include "0x0a1_switch_vote.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "nominate_manager.h"
 #include "zone.h"
 

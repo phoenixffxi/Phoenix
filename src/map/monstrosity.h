@@ -25,7 +25,7 @@
 
 #include "packets/basic.h"
 
-#include "entities/battleentity.h"
+#include "entities/battle_entity.h"
 #include "packets/c2s/0x01a_action.h"
 
 #include <array>

@@ -22,8 +22,8 @@
 #include "item_state.h"
 
 #include "ai/ai_container.h"
-#include "entities/battleentity.h"
-#include "entities/charentity.h"
+#include "entities/battle_entity.h"
+#include "entities/char_entity.h"
 
 #include "action/action.h"
 #include "action/interrupts.h"

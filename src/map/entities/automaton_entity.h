@@ -22,54 +22,53 @@
 #pragma once
 
 #include "enums/automaton.h"
-#include "petentity.h"
+#include "pet_entity.h"
+
+#include <map/entities/types/automaton_equip.h>
 
 #include <array>
 
-struct automaton_equip_t
-{
-    AutomatonFrame        Frame;
-    AutomatonHead         Head;
-    std::array<uint8, 12> Attachments;
-};
-
 class CCharEntity;
 
-class CAutomatonEntity : public CPetEntity
+class CAutomatonEntity final : public CPetEntity
 {
 public:
-    CAutomatonEntity();
-    ~CAutomatonEntity();
+    CAutomatonEntity(uint32 petID);
+    ~CAutomatonEntity() override;
 
-    automaton_equip_t    m_Equip{};
-    std::array<uint8, 8> m_ElementMax{};
-    std::array<uint8, 8> m_ElementEquip{};
-
-    auto getFrame() const -> AutomatonFrame;
-    auto getHead() const -> AutomatonHead;
-    auto getAttachment(uint8 slotid) const -> uint8;
+    auto frame() const -> AutomatonFrame;
+    auto head() const -> AutomatonHead;
+    auto attachment(uint8 slotid) const -> uint8;
     auto hasAttachment(uint8 attachment) const -> bool;
+    void setEquip(const AutomatonEquip& equip);
 
-    auto getElementMax(uint8 element) const -> uint8;
-    auto getElementCapacity(uint8 element) const -> uint8;
+    auto elementMax(uint8 element) const -> uint8;
+    auto elementCapacity(uint8 element) const -> uint8;
 
     void burdenTick();
-    auto getBurden() const -> const std::array<uint8, 8>&;
+    auto burden() const -> const std::array<uint8, 8>&;
     void setAllBurden(uint8 burden);
     void setBurdenArray(std::array<uint8, 8> burdenArray);
     auto addBurden(uint8 element, int8 burden) -> uint8;
-    auto getOverloadChance(uint8 element) const -> uint8;
+    auto overloadChance(uint8 element) const -> uint8;
+
+    //
+    // CPetEntity, CMobEntity, etc.
+    //
 
     void PostTick() override;
 
-    virtual void Spawn() override;
-    virtual void Die() override;
+    void Spawn() override;
+    void Die() override;
 
-    virtual auto ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags) -> bool override;
+    auto ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags) -> bool override;
 
-    virtual void OnMobSkillFinished(CMobSkillState&, action_t&) override;
-    virtual void OnCastFinished(CMagicState&, action_t&) override;
+    void OnMobSkillFinished(CMobSkillState&, action_t&) override;
+    void OnCastFinished(CMagicState&, action_t&) override;
 
 private:
-    std::array<uint8, 8> m_Burden{};
+    AutomatonEquip       equip_{};
+    std::array<uint8, 8> elementMax_{};
+    std::array<uint8, 8> elementEquip_{};
+    std::array<uint8, 8> burden_{};
 };

@@ -23,7 +23,7 @@
 
 #include "common/ipc_structs.h"
 #include "common/utils.h"
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 GP_SERV_COMMAND_CHAT_STD::GP_SERV_COMMAND_CHAT_STD(const CCharEntity* PChar, const CHAT_MESSAGE_TYPE MessageType, const std::string& message, const std::string& sender)
 {

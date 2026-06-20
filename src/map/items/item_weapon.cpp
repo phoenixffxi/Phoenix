@@ -18,12 +18,13 @@
 
 ===========================================================================
 */
-#include "entities/battleentity.h"
+
+#include "item_weapon.h"
+
+#include "entities/battle_entity.h"
 #include "utils/battleutils.h"
 #include "utils/charutils.h"
 #include "utils/itemutils.h"
-
-#include "item_weapon.h"
 
 /************************************************************************
  *                                                                       *

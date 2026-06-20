@@ -21,7 +21,7 @@
 
 #include "0x0db_config_language.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "packets/char_status.h"
 #include "packets/s2c/0x0b4_config.h"
 #include "utils/charutils.h"

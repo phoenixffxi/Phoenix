@@ -21,7 +21,7 @@
 
 #include "0x01c_item_max.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "item_container.h"
 #include "utils/charutils.h"
 

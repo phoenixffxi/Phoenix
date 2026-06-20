@@ -21,7 +21,7 @@
 
 #include "0x04c_auc.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "packets/c2s/0x04e_auc.h"
 
 namespace

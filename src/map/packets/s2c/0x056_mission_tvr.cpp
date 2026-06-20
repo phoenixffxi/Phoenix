@@ -21,7 +21,7 @@
 
 #include "0x056_mission_tvr.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 GP_SERV_COMMAND_MISSION::TVR::TVR(CCharEntity* PChar)
 {

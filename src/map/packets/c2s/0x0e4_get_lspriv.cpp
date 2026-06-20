@@ -21,7 +21,7 @@
 
 #include "0x0e4_get_lspriv.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 auto GP_CLI_COMMAND_GET_LSPRIV::validate(MapSession* PSession, const CCharEntity* PChar) const -> PacketValidationResult
 {

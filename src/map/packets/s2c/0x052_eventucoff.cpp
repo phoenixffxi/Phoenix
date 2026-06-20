@@ -20,7 +20,7 @@
 */
 
 #include "0x052_eventucoff.h"
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 GP_SERV_COMMAND_EVENTUCOFF::GP_SERV_COMMAND_EVENTUCOFF(CCharEntity* PChar, const GP_SERV_COMMAND_EVENTUCOFF_MODE mode)
 {

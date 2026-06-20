@@ -19,7 +19,7 @@
 ===========================================================================
 */
 
-#include "mobentity.h"
+#include "mob_entity.h"
 
 #include "ai/ai_container.h"
 #include "ai/controllers/mob_controller.h"
@@ -33,7 +33,7 @@
 #include "common/utils.h"
 #include "conquest_system.h"
 #include "enmity_container.h"
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "enums/loot_recast.h"
 #include "enums/weather.h"
 #include "items.h"

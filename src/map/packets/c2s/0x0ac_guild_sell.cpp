@@ -23,7 +23,7 @@
 
 #include "common/database.h"
 #include "common/settings.h"
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "items/item_shop.h"
 #include "lua/luautils.h"
 #include "packets/s2c/0x01d_item_same.h"

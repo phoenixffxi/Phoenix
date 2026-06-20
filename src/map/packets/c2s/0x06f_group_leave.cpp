@@ -21,7 +21,7 @@
 
 #include "0x06f_group_leave.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "enums/party_kind.h"
 
 auto GP_CLI_COMMAND_GROUP_LEAVE::validate(MapSession* PSession, const CCharEntity* PChar) const -> PacketValidationResult

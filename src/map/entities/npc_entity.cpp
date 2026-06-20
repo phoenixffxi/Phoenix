@@ -19,7 +19,7 @@
 ===========================================================================
 */
 
-#include "npcentity.h"
+#include "npc_entity.h"
 
 #include "ai/ai_container.h"
 
@@ -34,9 +34,6 @@
  ************************************************************************/
 
 CNpcEntity::CNpcEntity()
-: m_flags(0)
-, name_prefix(0)
-, widescan(1)
 {
     TracyZoneScoped;
 
@@ -52,7 +49,7 @@ CNpcEntity::~CNpcEntity()
     TracyZoneScoped;
 }
 
-uint32 CNpcEntity::getEntityFlags() const
+uint32 CNpcEntity::entityFlags() const
 {
     return m_flags;
 }
@@ -62,7 +59,7 @@ void CNpcEntity::setEntityFlags(uint32 EntityFlags)
     m_flags = EntityFlags;
 }
 
-void CNpcEntity::HideHP(bool hide)
+void CNpcEntity::hideHP(bool hide)
 {
     if (hide)
     {
@@ -74,12 +71,12 @@ void CNpcEntity::HideHP(bool hide)
     }
 }
 
-bool CNpcEntity::IsHPHidden() const
+bool CNpcEntity::hpHidden() const
 {
     return (m_flags & 0x800) == 0x800;
 }
 
-void CNpcEntity::SetUntargetable(bool untargetable)
+void CNpcEntity::setUntargetable(bool untargetable)
 {
     if (untargetable)
     {
@@ -96,14 +93,39 @@ bool CNpcEntity::GetUntargetable() const
     return (m_flags & FLAG_UNTARGETABLE) == FLAG_UNTARGETABLE;
 }
 
-bool CNpcEntity::IsTriggerable() const
+bool CNpcEntity::triggerable() const
 {
-    return m_triggerable;
+    return triggerable_;
+}
+
+void CNpcEntity::setTriggerable(bool triggerable)
+{
+    triggerable_ = triggerable;
+}
+
+auto CNpcEntity::widescan() const -> uint8
+{
+    return widescan_;
+}
+
+void CNpcEntity::setWidescan(uint8 widescan)
+{
+    widescan_ = widescan;
+}
+
+bool CNpcEntity::alwaysRelevant() const
+{
+    return alwaysRelevant_;
+}
+
+void CNpcEntity::setAlwaysRelevant(bool alwaysRelevant)
+{
+    alwaysRelevant_ = alwaysRelevant;
 }
 
 bool CNpcEntity::isWideScannable()
 {
-    return widescan == 1 && status == STATUS_TYPE::NORMAL && CBaseEntity::isWideScannable();
+    return widescan_ == 1 && status == STATUS_TYPE::NORMAL && CBaseEntity::isWideScannable();
 }
 
 void CNpcEntity::PostTick()

@@ -25,8 +25,8 @@
 #include "common/cbasetypes.h"
 #include "common/mmo.h"
 
-#include "entities/charentity.h"
-#include "entities/mobentity.h"
+#include "entities/char_entity.h"
+#include "entities/mob_entity.h"
 
 #include "blue_spell.h"
 #include "spell.h"

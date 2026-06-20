@@ -19,26 +19,38 @@
 ===========================================================================
 */
 
-#ifndef _CTRUSTENTITY_H
-#define _CTRUSTENTITY_H
+#pragma once
 
-#include "mobentity.h"
+#include <map/entities/mob_entity.h>
+
+#include <common/types/flag.h>
 
 class CCharEntity;
-class CAbilityState;
-class CRangeState;
 class CDespawnState;
 class CMagicState;
 class CMobSkillState;
 class CWeaponSkillState;
 
-class CTrustEntity : public CMobEntity
+using IsPassiveTrust = xi::Flag<struct IsPassiveTrustTag>;
+
+class CTrustEntity final : public CMobEntity
 {
 public:
-    explicit CTrustEntity(CCharEntity*);
+    CTrustEntity(CCharEntity* PMaster, uint32 trustId, IsPassiveTrust isPassiveTrust);
     ~CTrustEntity() override;
 
-    auto getShieldSize() -> int8;
+    auto trustID() -> uint32;
+
+    auto shieldSize() -> int8;
+
+    auto released() -> bool;
+    void setReleased(bool released);
+
+    auto passiveTrust() -> IsPassiveTrust;
+
+    //
+    // CMobEntity, CBattleEntity, etc.
+    //
 
     void PostTick() override;
     void FadeOut() override;
@@ -53,12 +65,8 @@ public:
 
     bool GetUntargetable() const override;
 
-    uint32 m_TrustID{};
-    bool   isReleased       = false; // Track trust releasing (see c2s 0x01A action)
-    bool   m_isPassiveTrust = false;
-
 private:
-    static constexpr int8 m_defaultShieldSize = 3;
+    uint32         trustID_{};
+    bool           released_{};
+    IsPassiveTrust passiveTrust_ = IsPassiveTrust::No;
 };
-
-#endif

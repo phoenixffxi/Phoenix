@@ -21,8 +21,8 @@
 
 #include "action_queue.h"
 #include "ai/ai_container.h"
-#include "entities/baseentity.h"
-#include "lua/lua_baseentity.h"
+#include "entities/base_entity.h"
+#include "lua/lua_base_entity.h"
 #include "lua/luautils.h"
 
 CAIActionQueue::CAIActionQueue(CBaseEntity* _PEntity)

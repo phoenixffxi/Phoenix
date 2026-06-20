@@ -20,7 +20,7 @@
 */
 
 #include "state.h"
-#include "entities/baseentity.h"
+#include "entities/base_entity.h"
 
 CState::CState(CBaseEntity* PEntity, uint16 _targid)
 : m_PEntity(PEntity)

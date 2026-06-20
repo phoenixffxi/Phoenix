@@ -21,7 +21,7 @@
 
 #include "0x0a2_dice.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "enums/msg_std.h"
 #include "packets/s2c/0x009_message.h"
 

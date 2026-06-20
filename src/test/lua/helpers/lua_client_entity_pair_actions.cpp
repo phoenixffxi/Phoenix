@@ -35,7 +35,7 @@
 #include "map/ability.h"
 #include "map/ai/controllers/player_controller.h"
 #include "map/enums/party_kind.h"
-#include "map/lua/lua_baseentity.h"
+#include "map/lua/lua_base_entity.h"
 #include "map/packets/c2s/0x01a_action.h"
 #include "map/packets/c2s/0x028_item_dump.h"
 #include "map/packets/c2s/0x029_item_move.h"

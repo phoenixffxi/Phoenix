@@ -22,7 +22,7 @@
 #ifndef _MOBENTITY_H
 #define _MOBENTITY_H
 
-#include "battleentity.h"
+#include "battle_entity.h"
 #include <unordered_map>
 
 enum class MsgBasic : uint16_t;
@@ -117,7 +117,7 @@ class CMobEntity : public CBattleEntity
 {
 public:
     CMobEntity();
-    virtual ~CMobEntity();
+    ~CMobEntity() override;
 
     uint32 getEntityFlags() const;             // Returns the current value in m_flags
     void   setEntityFlags(uint32 EntityFlags); // Change the current value in m_flags

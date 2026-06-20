@@ -21,7 +21,7 @@
 
 #include "0x050_equip_set.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "lua/luautils.h"
 #include "utils/charutils.h"
 

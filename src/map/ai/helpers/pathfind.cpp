@@ -25,8 +25,8 @@
 
 #include "common/utils.h"
 
-#include "entities/baseentity.h"
-#include "entities/mobentity.h"
+#include "entities/base_entity.h"
+#include "entities/mob_entity.h"
 
 #include "lua/luautils.h"
 

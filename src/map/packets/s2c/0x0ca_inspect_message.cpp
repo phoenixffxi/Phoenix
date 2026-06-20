@@ -21,7 +21,7 @@
 
 #include "0x0ca_inspect_message.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 GP_SERV_COMMAND_INSPECT_MESSAGE::GP_SERV_COMMAND_INSPECT_MESSAGE(const CCharEntity* PChar)
 {

@@ -21,7 +21,7 @@
 
 #include "0x02d_battle_message2.h"
 
-#include "entities/baseentity.h"
+#include "entities/base_entity.h"
 
 GP_SERV_COMMAND_BATTLE_MESSAGE2::GP_SERV_COMMAND_BATTLE_MESSAGE2(const CBaseEntity* PSender, const CBaseEntity* PTarget, const int32 param0, const int32 param1, const MsgBasic messageID)
 {
