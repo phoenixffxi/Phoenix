@@ -6924,6 +6924,7 @@ void CLuaBaseEntity::changeJob(uint8 newJob)
         PChar->jobs.unlocked |= (1 << newJob);
         PChar->SetMJob(newJob);
         charutils::ApplyAllEquipMods(PChar);
+        puppetutils::LoadAutomaton(PChar);
 
         if (newJob == JOB_BLU)
         {
@@ -6937,7 +6938,6 @@ void CLuaBaseEntity::changeJob(uint8 newJob)
             blueutils::UnequipAllBlueSpells(PChar);
         }
 
-        puppetutils::LoadAutomaton(PChar);
         charutils::SetStyleLock(PChar, false);
         luautils::CheckForGearSet(PChar); // check for gear set on gear change
         jobpointutils::RefreshGiftMods(PChar);
@@ -6970,6 +6970,7 @@ void CLuaBaseEntity::changeJob(uint8 newJob)
         PChar->pushPacket<GP_SERV_COMMAND_ABIL_RECAST>(PChar);
         PChar->pushPacket<GP_SERV_COMMAND_COMMAND_DATA>(PChar);
         PChar->pushPacket<CCharStatusPacket>(PChar);
+        charutils::SendExtendedJobPackets(PChar);
         PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MERITS>(PChar);
         PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MONSTROSITY1>(PChar);
         PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MONSTROSITY2>(PChar);
@@ -7073,6 +7074,7 @@ void CLuaBaseEntity::changesJob(uint8 subJob)
 
     PChar->jobs.unlocked |= (1 << subJob);
     PChar->SetSJob(subJob);
+    puppetutils::LoadAutomaton(PChar);
     charutils::UpdateSubJob(PChar);
 
     if (subJob == JOB_BLU)
@@ -7084,7 +7086,7 @@ void CLuaBaseEntity::changesJob(uint8 subJob)
         blueutils::UnequipAllBlueSpells(PChar);
     }
 
-    puppetutils::LoadAutomaton(PChar);
+    charutils::SendExtendedJobPackets(PChar);
 }
 
 /************************************************************************
