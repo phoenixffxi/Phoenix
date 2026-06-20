@@ -6,35 +6,24 @@
 ---@type TMobEntity
 local entity = {}
 
-local stanceTable =
-{
--- [Stance] = { animationSub, canAutoAttack, canCastSpells, physicalShieldPower, magicalShieldPower }
-    [1] = { 1, false, true,  0, 1 }, -- Magical Stance
-    [2] = { 2, true,  false, 1, 0 }, -- Physical Stance
-}
-
 local function changeStance(mob, stance)
     -- Set behavior.
-    mob:setAnimationSub(stanceTable[stance][1])
-    mob:setAutoAttackEnabled(stanceTable[stance][2])
-    mob:setMagicCastingEnabled(stanceTable[stance][3])
+    mob:setAnimationSub(stance)
+    mob:setAutoAttackEnabled(stance == 2 and true or false)
+    mob:setMagicCastingEnabled(stance == 1 and true or false)
 
     -- Set effects.
-    local physicalShieldPower = stanceTable[stance][3]
-    local magicalShieldPower  = stanceTable[stance][4]
-
-    if physicalShieldPower > 0 then
-        mob:addStatusEffect(xi.effect.PHYSICAL_SHIELD, { power = physicalShieldPower, origin = mob, icon = 0 })
-        mob:addStatusEffect(xi.effect.ARROW_SHIELD, { power = physicalShieldPower, origin = mob, icon = 0 })
+    if stance == 2 then
+        mob:addStatusEffect(xi.effect.PHYSICAL_SHIELD, { power = 1, origin = mob, icon = 0 })
+        mob:addStatusEffect(xi.effect.ARROW_SHIELD, { power = 1, origin = mob, icon = 0 })
         mob:delStatusEffectSilent(xi.effect.MAGIC_SHIELD)
     else
         mob:delStatusEffectSilent(xi.effect.PHYSICAL_SHIELD)
         mob:delStatusEffectSilent(xi.effect.ARROW_SHIELD)
-        mob:addStatusEffect(xi.effect.MAGIC_SHIELD, { power = magicalShieldPower, origin = mob, icon = 0 })
+        mob:addStatusEffect(xi.effect.MAGIC_SHIELD, { power = 1, origin = mob, icon = 0 })
     end
 
     -- Set special modifiers for action delays.
-    mob:setMod(xi.mod.HASTE_GEAR, 0)
     mob:setMobMod(xi.mobMod.MAGIC_COOL, 8)
 
     -- Save data.
@@ -55,7 +44,6 @@ entity.onMobSpawn = function(mob)
     mob:setMagicCastingEnabled(true)
     mob:delStatusEffectSilent(xi.effect.PHYSICAL_SHIELD)
     mob:delStatusEffectSilent(xi.effect.MAGIC_SHIELD)
-    mob:setMod(xi.mod.HASTE_GEAR, 0)
     mob:setMobMod(xi.mobMod.MAGIC_COOL, 20)
     mob:setMod(xi.mod.DESPAWN_TIME_REDUCTION, 14)
 
