@@ -771,7 +771,7 @@ bool CZone::CheckMobsPathedBack()
     bool allMobsHomeAndHealed = true;
     if (m_zoneEntities && m_zoneEntities->GetMobList().size() > 0)
     {
-        EntityList_t mobListMap = m_zoneEntities->GetMobList();
+        const auto& mobListMap = m_zoneEntities->GetMobList();
         for (const auto& pair : mobListMap)
         {
             CMobEntity* mob = dynamic_cast<CMobEntity*>(pair.second);

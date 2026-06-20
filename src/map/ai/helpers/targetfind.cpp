@@ -390,11 +390,13 @@ void CTargetFind::addAllInRange(CBattleEntity* PTarget, float radius, ALLEGIANCE
         if (PTarget->objtype == TYPE_PC)
         {
             CCharEntity* PChar = static_cast<CCharEntity*>(PTarget);
-            for (auto& spawnList : { PChar->SpawnPCList, PChar->SpawnPETList })
+            for (const auto* spawnList : { &PChar->SpawnPCList, &PChar->SpawnPETList })
             {
-                FOR_EACH_PAIR_CAST_SECOND(CBattleEntity*, PBattleEntity, spawnList)
+                FOR_EACH_PAIR_CAST_SECOND(CBattleEntity*, PBattleEntity, *spawnList)
                 {
-                    if (PBattleEntity && isWithinArea(&(PBattleEntity->loc.p)) && !PBattleEntity->isDead() &&
+                    if (PBattleEntity &&
+                        isWithinArea(&(PBattleEntity->loc.p)) &&
+                        !PBattleEntity->isDead() &&
                         PBattleEntity->allegiance == ALLEGIANCE_TYPE::PLAYER)
                     {
                         m_targets.emplace_back(PBattleEntity);
