@@ -41,10 +41,10 @@ public:
     void         SetUntargetable(bool untargetable);
     bool         GetUntargetable() const override;
     bool         IsTriggerable() const;
-    virtual bool isWideScannable() override;
-    virtual void PostTick() override;
+    bool isWideScannable() override;
+    void PostTick() override;
 
-    virtual auto Tick(timer::time_point) -> Task<void> override
+    auto Tick(timer::time_point) -> Task<void> override
     {
         co_return;
     }

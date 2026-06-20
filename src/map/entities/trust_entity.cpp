@@ -48,6 +48,13 @@
 #include "utils/messageutils.h"
 #include "utils/trustutils.h"
 
+namespace
+{
+
+constexpr int8 kTrustDefaultShieldSize = 3;
+
+} // namespace
+
 CTrustEntity::CTrustEntity(CCharEntity* PChar)
 : CMobEntity()
 {
@@ -70,10 +77,40 @@ CTrustEntity::~CTrustEntity()
     TracyZoneScoped;
 }
 
-auto CTrustEntity::getShieldSize() -> int8
+auto CTrustEntity::trustID() -> uint32
+{
+    return trustID_;
+}
+
+void CTrustEntity::setTrustID(uint32 trustID)
+{
+    trustID_ = trustID;
+}
+
+auto CTrustEntity::shieldSize() -> int8
 {
     const auto shieldSizeMod = static_cast<int8>(getMobMod(MOBMOD_TRUST_SHIELD_SIZE));
-    return shieldSizeMod > 0 ? shieldSizeMod : m_defaultShieldSize;
+    return shieldSizeMod > 0 ? shieldSizeMod : kTrustDefaultShieldSize;
+}
+
+auto CTrustEntity::isReleased() -> bool
+{
+    return isReleased_;
+}
+
+void CTrustEntity::setReleased(bool isReleased)
+{
+    isReleased_ = isReleased;
+}
+
+auto CTrustEntity::isPassiveTrust() -> bool
+{
+    return isPassiveTrust_;
+}
+
+void CTrustEntity::setPassiveTrust(bool isPassive)
+{
+    isPassiveTrust_ = isPassive;
 }
 
 void CTrustEntity::PostTick()
@@ -141,7 +178,7 @@ void CTrustEntity::Spawn()
 bool CTrustEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags)
 {
     // Passive GEO trusts like Sakura etc are basically walking indicolures and cant be targeted
-    if (m_isPassiveTrust)
+    if (isPassiveTrust_)
     {
         return false;
     }
@@ -302,7 +339,7 @@ void CTrustEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& act
 bool CTrustEntity::GetUntargetable() const
 {
     // Passive GEO trusts like Sakura etc are basically walking indicolures and cant be targeted
-    if (m_isPassiveTrust)
+    if (isPassiveTrust_)
     {
         return true;
     }

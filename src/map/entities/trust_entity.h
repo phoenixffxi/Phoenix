@@ -38,7 +38,20 @@ public:
     explicit CTrustEntity(CCharEntity*);
     ~CTrustEntity() override;
 
-    auto getShieldSize() -> int8;
+    auto trustID() -> uint32;
+    void setTrustID(uint32 trustID);
+
+    auto shieldSize() -> int8;
+
+    auto isReleased() -> bool;
+    void setReleased(bool isReleased);
+
+    auto isPassiveTrust() -> bool;
+    void setPassiveTrust(bool isPassive);
+
+    //
+    // CMobEntity, CBattleEntity, etc.
+    //
 
     void PostTick() override;
     void FadeOut() override;
@@ -53,12 +66,10 @@ public:
 
     bool GetUntargetable() const override;
 
-    uint32 m_TrustID{};
-    bool   isReleased       = false; // Track trust releasing (see c2s 0x01A action)
-    bool   m_isPassiveTrust = false;
-
 private:
-    static constexpr int8 m_defaultShieldSize = 3;
+    uint32 trustID_{};
+    bool   isReleased_{};
+    bool   isPassiveTrust_{};
 };
 
 #endif

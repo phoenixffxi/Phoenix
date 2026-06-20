@@ -5527,7 +5527,7 @@ int8 CLuaBaseEntity::getShieldSize()
         }
         case TYPE_TRUST:
         {
-            return static_cast<CTrustEntity*>(m_PBaseEntity)->getShieldSize();
+            return static_cast<CTrustEntity*>(m_PBaseEntity)->shieldSize();
         }
         default:
         {
@@ -16080,7 +16080,7 @@ uint32 CLuaBaseEntity::getTrustID()
         return 0;
     }
 
-    return static_cast<CTrustEntity*>(m_PBaseEntity)->m_TrustID;
+    return static_cast<CTrustEntity*>(m_PBaseEntity)->trustID();
 }
 
 /************************************************************************

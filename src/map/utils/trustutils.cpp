@@ -380,8 +380,8 @@ auto LoadTrust(CCharEntity* PMaster, uint32 TrustID) -> CTrustEntity*
     PTrust->baseSpeed      = trustData->baseSpeed;
     PTrust->animationSpeed = trustData->animationSpeed;
     PTrust->UpdateSpeed();
-    PTrust->m_TrustID        = trustData->trustID;
-    PTrust->m_isPassiveTrust = trustData->isPassiveTrust;
+    PTrust->setTrustID(trustData->trustID);
+    PTrust->setPassiveTrust(trustData->isPassiveTrust);
     PTrust->status           = STATUS_TYPE::NORMAL;
     PTrust->modelSize        = trustData->modelSize;
     PTrust->modelHitboxSize  = trustData->modelHitboxSize;

@@ -482,7 +482,7 @@ public:
     bool         sendServerStatus_ = false;
     Maybe<int32> servmesLastOffset_; // Last /servmes fragment offset we responded to
 
-    virtual void HandleErrorMessage(std::unique_ptr<CBasicPacket>&) override;
+    void HandleErrorMessage(std::unique_ptr<CBasicPacket>&) override;
 
     CLinkshell*                   PLinkshell1;
     CLinkshell*                   PLinkshell2;
@@ -683,17 +683,17 @@ public:
     bool PersistData();
     bool PersistData(timer::time_point tick);
 
-    virtual auto Tick(timer::time_point) -> Task<void> override;
+    auto Tick(timer::time_point) -> Task<void> override;
     void         PostTick() override;
 
-    virtual void addTrait(CTrait*) override;
-    virtual void delTrait(CTrait*) override;
+    void addTrait(CTrait*) override;
+    void delTrait(CTrait*) override;
 
-    virtual bool ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags) override;
-    virtual bool CanUseSpell(CSpell*) override;
+    bool ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags) override;
+    bool CanUseSpell(CSpell*) override;
     bool         IsMobOwner(CBattleEntity* PTarget);
 
-    virtual void Die() override;
+    void Die() override;
     void         Die(timer::duration _duration);
     void         Raise();
 
@@ -726,21 +726,21 @@ public:
     void SetMoghancement(uint16 moghancementID);
 
     /* State callbacks */
-    virtual bool           CanAttack(CBattleEntity* PTarget, std::unique_ptr<CBasicPacket>& errMsg) override;
-    virtual bool           OnAttack(CAttackState&, action_t&) override;
-    virtual bool           OnAttackError(CAttackState&) override;
-    virtual CBattleEntity* IsValidTarget(uint16 targid, uint16 validTargetFlags, std::unique_ptr<CBasicPacket>& errMsg) override;
-    virtual void           OnChangeTarget(CBattleEntity* PNewTarget) override;
-    virtual void           OnEngage(CAttackState&) override;
-    virtual void           OnDisengage(CAttackState&) override;
-    virtual void           OnCastFinished(CMagicState&, action_t&) override;
-    virtual void           OnCastInterrupted(CMagicState&, action_t&, MsgBasic msg, bool blockedCast) override;
-    virtual void           OnWeaponSkillFinished(CWeaponSkillState&, action_t&) override;
-    virtual void           OnAbility(CAbilityState&, action_t&) override;
-    virtual void           OnDeathTimer() override;
-    virtual void           OnRaise() override;
+    bool           CanAttack(CBattleEntity* PTarget, std::unique_ptr<CBasicPacket>& errMsg) override;
+    bool           OnAttack(CAttackState&, action_t&) override;
+    bool           OnAttackError(CAttackState&) override;
+    CBattleEntity* IsValidTarget(uint16 targid, uint16 validTargetFlags, std::unique_ptr<CBasicPacket>& errMsg) override;
+    void           OnChangeTarget(CBattleEntity* PNewTarget) override;
+    void           OnEngage(CAttackState&) override;
+    void           OnDisengage(CAttackState&) override;
+    void           OnCastFinished(CMagicState&, action_t&) override;
+    void           OnCastInterrupted(CMagicState&, action_t&, MsgBasic msg, bool blockedCast) override;
+    void           OnWeaponSkillFinished(CWeaponSkillState&, action_t&) override;
+    void           OnAbility(CAbilityState&, action_t&) override;
+    void           OnDeathTimer() override;
+    void           OnRaise() override;
 
-    virtual auto OnItemFinish(CItemState&, action_t&) -> bool;
+    auto OnItemFinish(CItemState&, action_t&) -> bool;
 
     auto getCharVar(const std::string& varName) const -> int32;
     auto getCharVarsWithPrefix(const std::string& prefix) -> std::vector<std::pair<std::string, int32>>;
