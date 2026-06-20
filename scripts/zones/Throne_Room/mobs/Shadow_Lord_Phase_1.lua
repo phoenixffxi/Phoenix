@@ -35,6 +35,23 @@ entity.onMobInitialize = function(mob)
     mob:addImmunity(xi.immunity.DARK_SLEEP)
     mob:addImmunity(xi.immunity.LIGHT_SLEEP)
     mob:addImmunity(xi.immunity.SILENCE)
+
+    -- Counter-attack with "Blind" spell when in magical stance.
+    mob:addListener('TAKE_DAMAGE', 'COUNTER_WITH_BLIND', function(mobArg, amount, attacker, attackType, damageType)
+        if mobArg:getAnimationSub() ~= 1 then
+            return
+        end
+
+        if xi.combat.behavior.isEntityBusy(mobArg) then
+            return
+        end
+
+        if attacker:hasStatusEffect(xi.effect.BLINDNESS) then
+            return
+        end
+
+        mobArg:castSpell(xi.magic.spell.BLIND, attacker) -- Spell is casted on whoever attacked him. Ignores hate.
+    end)
 end
 
 entity.onMobSpawn = function(mob)
@@ -43,31 +60,18 @@ entity.onMobSpawn = function(mob)
     mob:setAutoAttackEnabled(true)
     mob:setMagicCastingEnabled(true)
     mob:delStatusEffectSilent(xi.effect.PHYSICAL_SHIELD)
+    mob:delStatusEffectSilent(xi.effect.ARROW_SHIELD)
     mob:delStatusEffectSilent(xi.effect.MAGIC_SHIELD)
     mob:setMobMod(xi.mobMod.MAGIC_COOL, 20)
     mob:setMod(xi.mod.DESPAWN_TIME_REDUCTION, 14)
-
-    -- Ensure counter-attack.
-    mob:addListener('TAKE_DAMAGE', 'COUNTER_WITH_BLIND', function(mobArg, amount, attacker, attackType, damageType)
-        local animationSub = mobArg:getAnimationSub()
-
-        if
-            animationSub == 1 and                             -- Shadow Lord in magical stance.
-            not xi.combat.behavior.isEntityBusy(mobArg) and   -- Shadow lord ain't busy.
-            not attacker:hasStatusEffect(xi.effect.BLINDNESS) -- Target not blind.
-        then
-            mobArg:castSpell(xi.magic.spell.BLIND, attacker) -- Spell is casted on whoever attacked him. Ignores hate.
-        end
-    end)
 end
 
 entity.onMobFight = function(mob, target)
     -- Once he's under 50% HP, start changing immunities and attack patterns
-    local animationSub = mob:getAnimationSub()
-    local changeTime   = mob:getLocalVar('changeTime')
-    local changeHP     = mob:getLocalVar('changeHP')
+    local changeTime = mob:getLocalVar('changeTime')
+    local changeHP   = mob:getLocalVar('changeHP')
 
-    switch (animationSub): caseof
+    switch (mob:getAnimationSub()): caseof
     {
         -- Initial phase.
         [0] = function()
@@ -150,10 +154,6 @@ entity.onMobSpellChoose = function(mob, target, spellId)
     end
 
     return spellList[math.random(1, #spellList)]
-end
-
-entity.onMobDespawn = function(mob)
-    mob:removeListener('COUNTER_WITH_BLIND')
 end
 
 return entity
