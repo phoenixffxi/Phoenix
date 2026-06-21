@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-  Copyright (c) 2024 LandSandBoat Dev Teams
+  Copyright (c) 2026 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,14 +21,18 @@
 
 #pragma once
 
-// Umbrella header for the database layer.
-//
-// The real implementations live under common/database/. Consumers should keep including
-// <common/database.h>; this pulls in the connector-agnostic public interface: the abstract
-// Database/ResultSet/PreparedStatement, the templated preparedStmt/get<T> binding, the blob
-// helpers and the free functions.
-//
-// The concrete MariaDB Connector/C++ backend is deliberately NOT included here, so the
-// connector header (and its warning workaround) no longer leaks into every translation unit.
+#include <common/database/result_set.h>
 
-#include <common/database/database.h>
+#include <string>
+
+namespace db::detail
+{
+
+// Inspect the leading keyword of a query to classify it as a Select (queryable),
+// Update (rows-affected only), or Invalid query.
+auto validateQueryLeadingKeyword(const std::string& query) -> ResultSetType;
+
+// Sanity-check the body of a query (e.g. reject stray "{}" format holes and ';').
+auto validateQueryContent(const std::string& query) -> bool;
+
+} // namespace db::detail

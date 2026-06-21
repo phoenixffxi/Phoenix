@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-  Copyright (c) 2024 LandSandBoat Dev Teams
+  Copyright (c) 2026 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,14 +21,28 @@
 
 #pragma once
 
-// Umbrella header for the database layer.
-//
-// The real implementations live under common/database/. Consumers should keep including
-// <common/database.h>; this pulls in the connector-agnostic public interface: the abstract
-// Database/ResultSet/PreparedStatement, the templated preparedStmt/get<T> binding, the blob
-// helpers and the free functions.
-//
-// The concrete MariaDB Connector/C++ backend is deliberately NOT included here, so the
-// connector header (and its warning workaround) no longer leaks into every translation unit.
+#include <common/database/bound_value.h>
+#include <common/database/result_set.h>
 
-#include <common/database/database.h>
+#include <memory>
+#include <string>
+
+namespace db
+{
+
+class PreparedStatement
+{
+public:
+    virtual ~PreparedStatement() = default;
+
+    // Bind a single value to the given (1-indexed) parameter slot.
+    virtual auto bind(int index, const BoundValue& value) -> void = 0;
+
+    // Execute as a SELECT-like query, returning a queryable result set.
+    virtual auto executeQuery(const std::string& query) -> std::unique_ptr<ResultSet> = 0;
+
+    // Execute as an UPDATE-like query, returning a rows-affected result set.
+    virtual auto executeUpdate(const std::string& query) -> std::unique_ptr<ResultSet> = 0;
+};
+
+} // namespace db

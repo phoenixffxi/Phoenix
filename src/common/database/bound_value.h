@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-  Copyright (c) 2024 LandSandBoat Dev Teams
+  Copyright (c) 2026 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,14 +21,29 @@
 
 #pragma once
 
-// Umbrella header for the database layer.
-//
-// The real implementations live under common/database/. Consumers should keep including
-// <common/database.h>; this pulls in the connector-agnostic public interface: the abstract
-// Database/ResultSet/PreparedStatement, the templated preparedStmt/get<T> binding, the blob
-// helpers and the free functions.
-//
-// The concrete MariaDB Connector/C++ backend is deliberately NOT included here, so the
-// connector header (and its warning workaround) no longer leaks into every translation unit.
+#include <common/cbasetypes.h>
 
-#include <common/database/database.h>
+#include <common/database/blob.h>
+
+#include <memory>
+#include <string>
+#include <variant>
+
+namespace db
+{
+
+// A single, type-erased prepared-statement parameter.
+using BoundValue = std::variant<
+    int8,
+    uint8,
+    int16,
+    uint16,
+    int32,
+    uint32,
+    bool,
+    float,
+    double,
+    std::string,
+    std::shared_ptr<BlobWrapper>>;
+
+} // namespace db

@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-  Copyright (c) 2024 LandSandBoat Dev Teams
+  Copyright (c) 2026 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,14 +21,15 @@
 
 #pragma once
 
-// Umbrella header for the database layer.
-//
-// The real implementations live under common/database/. Consumers should keep including
-// <common/database.h>; this pulls in the connector-agnostic public interface: the abstract
-// Database/ResultSet/PreparedStatement, the templated preparedStmt/get<T> binding, the blob
-// helpers and the free functions.
-//
-// The concrete MariaDB Connector/C++ backend is deliberately NOT included here, so the
-// connector header (and its warning workaround) no longer leaks into every translation unit.
+// TODO: mariadb-connector-cpp triggers this. Remove once they fix it.
+// 4263 'function': member function does not override any base class member functions
+#ifdef _WIN32
+#pragma warning(push)
+#pragma warning(disable : 4263)
+#endif
 
-#include <common/database/database.h>
+#include <conncpp.hpp>
+
+#ifdef _WIN32
+#pragma warning(pop)
+#endif

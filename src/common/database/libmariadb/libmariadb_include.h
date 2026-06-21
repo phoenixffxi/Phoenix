@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-  Copyright (c) 2024 LandSandBoat Dev Teams
+  Copyright (c) 2026 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,14 +21,13 @@
 
 #pragma once
 
-// Umbrella header for the database layer.
-//
-// The real implementations live under common/database/. Consumers should keep including
-// <common/database.h>; this pulls in the connector-agnostic public interface: the abstract
-// Database/ResultSet/PreparedStatement, the templated preparedStmt/get<T> binding, the blob
-// helpers and the free functions.
-//
-// The concrete MariaDB Connector/C++ backend is deliberately NOT included here, so the
-// connector header (and its warning workaround) no longer leaks into every translation unit.
+#ifdef _WIN32
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#endif
 
-#include <common/database/database.h>
+#include <mysql.h>

@@ -17,8 +17,40 @@ set(COMMON_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/cbasetypes.h
     ${CMAKE_CURRENT_SOURCE_DIR}/console_service.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/console_service.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/database.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/database.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/active_database.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/binding.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/blob.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/blob.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/bound_value.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/caching_database.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/caching_database.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/connection.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/database.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/database.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/prepared_statement.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/query_validation.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/result_set.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/result_set.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/traits.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/mariadb_cpp/mariadb_cpp_include.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/mariadb_cpp/mariadb_cpp_connection.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/mariadb_cpp/mariadb_cpp_connection.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/mariadb_cpp/mariadb_cpp_database.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/mariadb_cpp/mariadb_cpp_database.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/mariadb_cpp/mariadb_cpp_prepared_statement.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/mariadb_cpp/mariadb_cpp_prepared_statement.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/mariadb_cpp/mariadb_cpp_result_set.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/mariadb_cpp/mariadb_cpp_result_set.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/libmariadb/libmariadb_connection.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/libmariadb/libmariadb_connection.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/libmariadb/libmariadb_include.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/libmariadb/libmariadb_database.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/libmariadb/libmariadb_database.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/libmariadb/libmariadb_prepared_statement.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/libmariadb/libmariadb_prepared_statement.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/libmariadb/libmariadb_result_set.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/libmariadb/libmariadb_result_set.h
     ${CMAKE_CURRENT_SOURCE_DIR}/debug.h
     $<$<PLATFORM_ID:Linux>:${CMAKE_CURRENT_SOURCE_DIR}/debug_linux.cpp>
     $<$<PLATFORM_ID:Darwin>:${CMAKE_CURRENT_SOURCE_DIR}/debug_osx.cpp>
