@@ -144,21 +144,24 @@ std::unordered_map<uint32, sol::table> customMenuContext;
 namespace detail
 {
 
-// std::unordered_map<std::string, sol::reference> cachedObjects;
+// Object lookup cache. Currently only populated for status effect script lookups
+// (see getCachedEffectTable); fully cleared on any Lua file reload (see TryReloadFilewatchList).
+std::unordered_map<std::string, sol::reference> cachedObjects;
 
-// auto findCachedObject(const std::string& objName) -> sol::reference
-// {
-//     if (auto it = cachedObjects.find(objName); it != cachedObjects.end())
-//     {
-//         return it->second;
-//     }
-//     return sol::lua_nil;
-// }
+auto findCachedObject(const std::string& objName) -> sol::reference
+{
+    if (auto it = cachedObjects.find(objName); it != cachedObjects.end())
+    {
+        return it->second;
+    }
 
-// void cacheObject(const std::string& objName, sol::reference obj)
-// {
-//     cachedObjects[objName] = obj;
-// }
+    return sol::lua_nil;
+}
+
+void cacheObject(const std::string& objName, sol::reference obj)
+{
+    cachedObjects[objName] = std::move(obj);
+}
 
 // NOTE: Will crash if any intermediate keys look up nil tables
 auto lookupByKeysFast(const std::vector<std::string>& keys) -> sol::object
@@ -219,6 +222,18 @@ auto findGlobalLuaFunction(const std::string& funcName) -> sol::function
     // }
 
     return lookupByKeysSafe(split(funcName, "."));
+}
+
+auto getCachedEffectTable(const std::string& effectName) -> sol::table
+{
+    if (auto cached = findCachedObject(effectName); cached.valid())
+    {
+        return cached;
+    }
+
+    sol::table entry = GetCacheEntryFromFilename(fmt::format("./scripts/{}.lua", effectName));
+    cacheObject(effectName, entry);
+    return entry;
 }
 
 } // namespace detail
@@ -544,6 +559,8 @@ void init(IPP mapIPP, bool isRunningInCI)
 
 void cleanup()
 {
+    detail::cachedObjects.clear();
+
     moduleutils::CleanupLuaModules();
 }
 
@@ -588,9 +605,9 @@ void TryReloadFilewatchList()
         return;
     }
 
-    // For coherency between looking things up by filename and by Lua global
-    // name we need to nuke the whole lookup cache on any file changes.
-    // detail::cachedObjects.clear();
+    // The object cache holds Lua references resolved before the reload (currently status effect
+    // script tables); drop them all so changed scripts take effect immediately.
+    detail::cachedObjects.clear();
 
     for (const auto& [filename, action] : changedFiles)
     {
@@ -2741,9 +2758,7 @@ void OnEffectGain(CBattleEntity* PEntity, CStatusEffect* PStatusEffect)
 {
     TracyZoneScoped;
 
-    std::string filename = fmt::format("./scripts/{}.lua", PStatusEffect->GetName());
-
-    sol::function onEffectGain = GetCacheEntryFromFilename(filename)["onEffectGain"].get<sol::function>();
+    sol::function onEffectGain = detail::getCachedEffectTable(PStatusEffect->GetName())["onEffectGain"].get<sol::function>();
     if (!onEffectGain.valid())
     {
         return;
@@ -2762,9 +2777,7 @@ void OnEffectTick(CBattleEntity* PEntity, CStatusEffect* PStatusEffect)
 {
     TracyZoneScoped;
 
-    std::string filename = fmt::format("./scripts/{}.lua", PStatusEffect->GetName());
-
-    sol::function onEffectTick = GetCacheEntryFromFilename(filename)["onEffectTick"].get<sol::function>();
+    sol::function onEffectTick = detail::getCachedEffectTable(PStatusEffect->GetName())["onEffectTick"].get<sol::function>();
     if (!onEffectTick.valid())
     {
         return;
@@ -2783,9 +2796,7 @@ void OnEffectLose(CBattleEntity* PEntity, CStatusEffect* PStatusEffect)
 {
     TracyZoneScoped;
 
-    std::string filename = fmt::format("./scripts/{}.lua", PStatusEffect->GetName());
-
-    sol::function onEffectLose = GetCacheEntryFromFilename(filename)["onEffectLose"].get<sol::function>();
+    sol::function onEffectLose = detail::getCachedEffectTable(PStatusEffect->GetName())["onEffectLose"].get<sol::function>();
     if (!onEffectLose.valid())
     {
         return;

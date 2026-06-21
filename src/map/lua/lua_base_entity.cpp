@@ -11744,17 +11744,13 @@ void CLuaBaseEntity::addPartyEffect(sol::variadic_args va)
         args[idx++] = v.get<uint16>();
     }
 
-    CStatusEffect* PEffect =
-        new CStatusEffect(static_cast<xi::StatusEffect>(args[0]), args[1], args[2], std::chrono::seconds(args[3]), std::chrono::seconds(args[4]), args[5], args[6]);
-
     CBattleEntity* PEntity = ((CBattleEntity*)m_PBaseEntity);
 
-    // clang-format off
-    PEntity->ForParty([PEffect](CBattleEntity* PMember)
-    {
-        PMember->StatusEffectContainer->AddStatusEffect(PEffect);
-    });
-    // clang-format on
+    PEntity->ForParty(
+        [&](CBattleEntity* PMember)
+        {
+            PMember->StatusEffectContainer->AddStatusEffect(static_cast<xi::StatusEffect>(args[0]), args[1], args[2], std::chrono::seconds(args[3]), std::chrono::seconds(args[4]), args[5], args[6]);
+        });
 }
 
 /************************************************************************
@@ -13967,34 +13963,26 @@ auto CLuaBaseEntity::addStatusEffect(const xi::StatusEffect effectId, sol::table
     const auto sourceTypeParam = params["sourceTypeParam"].get_or(0u);
     const auto silent          = params["silent"].get_or(false);
 
-    auto* PEffect = new CStatusEffect(
-        effectId,
-        icon,
-        power,
-        std::chrono::seconds(tick),
-        std::chrono::milliseconds(static_cast<uint64>(duration * 1000)),
-        subType,
-        subPower,
-        subIcon,
-        tier,
-        static_cast<xi::StatusEffectFlag>(flag));
-
-    if (sourceType != EffectSourceType::SOURCE_NONE && sourceTypeParam > 0)
-    {
-        PEffect->SetSource(sourceType, sourceTypeParam);
-    }
-
-    PEffect->SetOriginID(originEntity.getID());
+    auto effectDuration = std::chrono::milliseconds(static_cast<uint64>(duration * 1000));
 
     if (effectId == xi::StatusEffect::Food)
     {
         if (const auto durationModifier = PBattleEntity->getMod(Mod::FOOD_DURATION))
         {
-            PEffect->SetDuration(PEffect->GetDuration() + std::chrono::floor<std::chrono::milliseconds>(PEffect->GetDuration() * (durationModifier / 100.0f)));
+            effectDuration += std::chrono::floor<std::chrono::milliseconds>(effectDuration * (durationModifier / 100.0f));
         }
     }
 
-    return PBattleEntity->StatusEffectContainer->AddStatusEffect(PEffect, silent ? EffectNotice::Silent : EffectNotice::ShowMessage);
+    auto& PSEC = PBattleEntity->StatusEffectContainer;
+
+    // The CStatusEffect constructor takes sourceType/sourceTypeParam/originID directly, so the
+    // previous SetSource/SetOriginID post-construction steps fold into the call.
+    if (silent)
+    {
+        return PSEC->AddStatusEffectSilent(effectId, icon, power, std::chrono::seconds(tick), effectDuration, subType, subPower, subIcon, tier, static_cast<xi::StatusEffectFlag>(flag), sourceType, sourceTypeParam, originEntity.getID());
+    }
+
+    return PSEC->AddStatusEffect(effectId, icon, power, std::chrono::seconds(tick), effectDuration, subType, subPower, subIcon, tier, static_cast<xi::StatusEffectFlag>(flag), sourceType, sourceTypeParam, originEntity.getID());
 }
 
 /************************************************************************
@@ -14022,7 +14010,7 @@ auto CLuaBaseEntity::copyStatusEffect(const CLuaStatusEffect* PStatusEffect) con
         remainingDuration   = std::max(remainingDuration, 0s);
     }
 
-    auto* PNewEffect = new CStatusEffect(
+    return PBattleEntity->StatusEffectContainer->AddStatusEffect(
         POriginal->GetStatusID(),
         POriginal->GetIcon(),
         POriginal->GetPower(),
@@ -14036,8 +14024,6 @@ auto CLuaBaseEntity::copyStatusEffect(const CLuaStatusEffect* PStatusEffect) con
         POriginal->GetSourceType(),
         POriginal->GetSourceTypeParam(),
         POriginal->GetOriginID());
-
-    return PBattleEntity->StatusEffectContainer->AddStatusEffect(PNewEffect);
 }
 
 /************************************************************************
@@ -14135,13 +14121,13 @@ sol::table CLuaBaseEntity::getStatusEffects()
     }
 
     auto table = lua.create_table();
-    // clang-format off
-    static_cast<CBattleEntity*>(m_PBaseEntity)->StatusEffectContainer->ForEachEffect(
-    [&table](CStatusEffect* PEffect)
+
+    auto func = [&table](CStatusEffect& PEffect)
     {
-        table.add(CLuaStatusEffect(PEffect));
-    });
-    // clang-format on
+        table.add(CLuaStatusEffect(&PEffect));
+    };
+
+    static_cast<CBattleEntity*>(m_PBaseEntity)->StatusEffectContainer->ForEachEffect(func);
 
     return table;
 }
@@ -14557,10 +14543,26 @@ uint16 CLuaBaseEntity::stealStatusEffect(CLuaBaseEntity* PTargetEntity, const so
     uint32 flag          = flagObj.is<uint32>() ? flagObj.as<uint32>() : (uint32)xi::StatusEffectFlag::Dispelable;
     auto   removalNotice = (silentObj.is<bool>() && silentObj.as<bool>()) ? EffectNotice::Silent : EffectNotice::ShowMessage;
 
-    if (CStatusEffect* PStatusEffect = PTargetBattleEntity->StatusEffectContainer->StealStatusEffect(static_cast<xi::StatusEffectFlag>(flag), removalNotice))
+    if (auto PStatusEffect = PTargetBattleEntity->StatusEffectContainer->StealStatusEffect(static_cast<xi::StatusEffectFlag>(flag), removalNotice))
     {
-        PBattleEntity->StatusEffectContainer->AddStatusEffect(PStatusEffect);
-        return static_cast<uint16>(PStatusEffect->GetStatusID());
+        const auto stolenId = static_cast<uint16>(PStatusEffect->GetStatusID());
+
+        PBattleEntity->StatusEffectContainer->AddStatusEffect(
+            PStatusEffect->GetStatusID(),
+            PStatusEffect->GetIcon(),
+            PStatusEffect->GetPower(),
+            PStatusEffect->GetTickTime(),
+            PStatusEffect->GetDuration(),
+            PStatusEffect->GetSubID(),
+            PStatusEffect->GetSubPower(),
+            PStatusEffect->GetSubIcon(),
+            PStatusEffect->GetTier(),
+            PStatusEffect->GetEffectFlags(),
+            PStatusEffect->GetSourceType(),
+            PStatusEffect->GetSourceTypeParam(),
+            PStatusEffect->GetOriginID());
+
+        return stolenId;
     }
     else
     {

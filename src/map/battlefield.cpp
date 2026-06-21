@@ -284,7 +284,7 @@ void CBattlefield::ApplyLevelRestrictions(CCharEntity* PChar) const
 
         PChar->StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::Dispelable, EffectNotice::Silent);
         PChar->StatusEffectContainer->DelStatusEffectSilent(xi::StatusEffect::Reraise);
-        PChar->StatusEffectContainer->AddStatusEffect(new CStatusEffect(xi::StatusEffect::LevelRestriction, static_cast<uint16>(xi::StatusEffect::LevelRestriction), cap, 0s, 0s));
+        PChar->StatusEffectContainer->AddStatusEffect(xi::StatusEffect::LevelRestriction, static_cast<uint16>(xi::StatusEffect::LevelRestriction), cap, 0s, 0s);
     }
     else
     {
@@ -294,7 +294,7 @@ void CBattlefield::ApplyLevelRestrictions(CCharEntity* PChar) const
     // Check if we should remove SJ, whether or not there is a lv cap.
     if (!(m_Rules & BCRULES::RULES_ALLOW_SUBJOBS))
     {
-        PChar->StatusEffectContainer->AddStatusEffect(new CStatusEffect(xi::StatusEffect::SjRestriction, static_cast<uint16>(xi::StatusEffect::SjRestriction), 0, 0s, 0s));
+        PChar->StatusEffectContainer->AddStatusEffect(xi::StatusEffect::SjRestriction, static_cast<uint16>(xi::StatusEffect::SjRestriction), 0, 0s, 0s);
     }
 }
 
@@ -430,8 +430,8 @@ bool CBattlefield::InsertEntity(CBaseEntity* PEntity, bool enter, BATTLEFIELDMOB
         }
         else
         {
-            entity->StatusEffectContainer->AddStatusEffect(
-                new CStatusEffect(xi::StatusEffect::Battlefield, static_cast<uint16>(xi::StatusEffect::Battlefield), this->GetID(), 0s, 0s, m_Initiator.id, this->GetArea()), EffectNotice::Silent);
+            entity->StatusEffectContainer->AddStatusEffectSilent(
+                xi::StatusEffect::Battlefield, static_cast<uint16>(xi::StatusEffect::Battlefield), this->GetID(), 0s, 0s, m_Initiator.id, this->GetArea());
         }
     }
 

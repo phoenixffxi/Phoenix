@@ -155,8 +155,8 @@ uint8 CBattlefieldHandler::LoadBattlefield(CCharEntity* PChar, const Battlefield
 
     if (!PChar->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Battlefield))
     {
-        PChar->StatusEffectContainer->AddStatusEffect(
-            new CStatusEffect(xi::StatusEffect::Battlefield, static_cast<uint16>(xi::StatusEffect::Battlefield), PBattlefield->GetID(), 0s, 0s, PChar->id, PBattlefield->GetArea()), EffectNotice::Silent);
+        PChar->StatusEffectContainer->AddStatusEffectSilent(
+            xi::StatusEffect::Battlefield, static_cast<uint16>(xi::StatusEffect::Battlefield), PBattlefield->GetID(), 0s, 0s, PChar->id, PBattlefield->GetArea());
     }
 
     luautils::OnBattlefieldRegister(PChar, PBattlefield);

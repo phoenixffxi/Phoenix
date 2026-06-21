@@ -1183,7 +1183,7 @@ void HandleSpikesStatusEffect(const CBattleEntity* PAttacker, const CBattleEntit
         {
             if (!PAttacker->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::CurseI))
             {
-                PAttacker->StatusEffectContainer->AddStatusEffect(new CStatusEffect(xi::StatusEffect::CurseI, static_cast<uint16>(xi::StatusEffect::CurseI), 15, 0s, 3min));
+                PAttacker->StatusEffectContainer->AddStatusEffect(xi::StatusEffect::CurseI, static_cast<uint16>(xi::StatusEffect::CurseI), 15, 0s, 3min);
             }
             break;
         }
@@ -1191,7 +1191,7 @@ void HandleSpikesStatusEffect(const CBattleEntity* PAttacker, const CBattleEntit
         {
             if (xirand::GetRandomNumber(100) < 20 + lvlDiff && !PAttacker->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Paralysis))
             {
-                PAttacker->StatusEffectContainer->AddStatusEffect(new CStatusEffect(xi::StatusEffect::Paralysis, static_cast<uint16>(xi::StatusEffect::Paralysis), 20, 0s, 30s));
+                PAttacker->StatusEffectContainer->AddStatusEffect(xi::StatusEffect::Paralysis, static_cast<uint16>(xi::StatusEffect::Paralysis), 20, 0s, 30s);
             }
             break;
         }
@@ -1199,7 +1199,7 @@ void HandleSpikesStatusEffect(const CBattleEntity* PAttacker, const CBattleEntit
         {
             if (xirand::GetRandomNumber(100) < 30 + lvlDiff && !PAttacker->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Stun))
             {
-                PAttacker->StatusEffectContainer->AddStatusEffect(new CStatusEffect(xi::StatusEffect::Stun, static_cast<uint16>(xi::StatusEffect::Stun), 1, 0s, 3s));
+                PAttacker->StatusEffectContainer->AddStatusEffect(xi::StatusEffect::Stun, static_cast<uint16>(xi::StatusEffect::Stun), 1, 0s, 3s);
             }
             break;
         }
@@ -1348,17 +1348,17 @@ void HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, action_re
         }
         if (PDefender->objtype == TYPE_PC)
         {
-            PDefender->StatusEffectContainer->AddStatusEffect(new CStatusEffect(previous_daze, 0, previous_daze_power, 0s, 10s, PAttacker->id), EffectNotice::Silent);
+            PDefender->StatusEffectContainer->AddStatusEffectSilent(previous_daze, 0, previous_daze_power, 0s, 10s, PAttacker->id);
         }
         else
         {
             if (previous_daze == xi::StatusEffect::DrainDaze && PDefender->m_EcoSystem != xi::Ecosystem::Undead)
             {
-                PDefender->StatusEffectContainer->AddStatusEffect(new CStatusEffect(xi::StatusEffect::DrainDaze, 0, previous_daze_power, 0s, 10s, PAttacker->id), EffectNotice::Silent);
+                PDefender->StatusEffectContainer->AddStatusEffectSilent(xi::StatusEffect::DrainDaze, 0, previous_daze_power, 0s, 10s, PAttacker->id);
             }
             else
             {
-                PDefender->StatusEffectContainer->AddStatusEffect(new CStatusEffect(previous_daze, 0, previous_daze_power, 0s, 10s, PAttacker->id), EffectNotice::Silent);
+                PDefender->StatusEffectContainer->AddStatusEffectSilent(previous_daze, 0, previous_daze_power, 0s, 10s, PAttacker->id);
             }
         }
     }
@@ -1702,7 +1702,7 @@ void HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, action_re
             {
                 Action->additionalEffect = ActionProcAddEffect::Haste;
                 // Ability haste added in scripts\globals\effects\haste_samba_haste_effect.lua
-                PAttacker->StatusEffectContainer->AddStatusEffect(new CStatusEffect(xi::StatusEffect::HasteSambaHaste, 0, power, 0s, 10s));
+                PAttacker->StatusEffectContainer->AddStatusEffect(xi::StatusEffect::HasteSambaHaste, 0, power, 0s, 10s);
                 // Status effect removed in CAttackRound constructor (i.e. after next attack round is calculated)
             }
         }
@@ -3356,7 +3356,7 @@ auto GetSkillChainEffect(const CBattleEntity* PDefender, uint8 primary, uint8 se
     if (PSCEffect == nullptr && PCBEffect == nullptr)
     {
         // No effect exists, apply an effect using the weaponskill ID as the power with a tier of 0.
-        PDefender->StatusEffectContainer->AddStatusEffect(new CStatusEffect(xi::StatusEffect::Skillchain, 0, combined_properties, 0s, 10s, 0, 0, 0));
+        PDefender->StatusEffectContainer->AddStatusEffect(xi::StatusEffect::Skillchain, 0, combined_properties, 0s, 10s, 0, 0, 0);
         return ActionProcSkillChain::None;
     }
 
@@ -3386,7 +3386,7 @@ auto GetSkillChainEffect(const CBattleEntity* PDefender, uint8 primary, uint8 se
 
             skillchain = FormSkillchain(resonanceProperties, skillProperties);
         }
-        PDefender->StatusEffectContainer->AddStatusEffect(new CStatusEffect(xi::StatusEffect::Skillchain, 0, combined_properties, 0s, 10s, 0, 0, 0));
+        PDefender->StatusEffectContainer->AddStatusEffect(xi::StatusEffect::Skillchain, 0, combined_properties, 0s, 10s, 0, 0, 0);
         PDefender->StatusEffectContainer->DelStatusEffect(xi::StatusEffect::Chainbound);
         PSCEffect = PDefender->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Skillchain, 0);
     }
@@ -4943,7 +4943,7 @@ void HandleScarletDelirium(CBattleEntity* PDefender, int32 damage)
 
         // Convert status effect from "Absorb damage" mode to "Provide damage bonus" mode
         PDefender->StatusEffectContainer->DelStatusEffectSilent(xi::StatusEffect::ScarletDelirium);
-        PDefender->StatusEffectContainer->AddStatusEffect(new CStatusEffect(xi::StatusEffect::ScarletDelirium1, static_cast<uint16>(xi::StatusEffect::ScarletDelirium1), power, 0s, duration), EffectNotice::Silent);
+        PDefender->StatusEffectContainer->AddStatusEffectSilent(xi::StatusEffect::ScarletDelirium1, static_cast<uint16>(xi::StatusEffect::ScarletDelirium1), power, 0s, duration);
     }
 }
 

@@ -37,21 +37,22 @@ GP_SERV_COMMAND_MISCDATA::STATUS_ICONS::STATUS_ICONS(const CCharEntity* PChar)
     std::ranges::fill(packet.icons, 0x00FF);
 
     constexpr uint32 NO_TIMER = 0x7FFFFFFF;
-    int              i        = 0;
+
+    int i = 0;
     PChar->StatusEffectContainer->ForEachEffect(
-        [&packet, &i](CStatusEffect* PEffect)
+        [&packet, &i](CStatusEffect& PEffect)
         {
-            if (PEffect->GetIcon() != 0)
+            if (PEffect.GetIcon() != 0)
             {
                 uint32 timestamp = NO_TIMER;
-                if (PEffect->GetDuration() > 0s && !PEffect->HasEffectFlag(xi::StatusEffectFlag::HideTimer))
+                if (PEffect.GetDuration() > 0s && !PEffect.HasEffectFlag(xi::StatusEffectFlag::HideTimer))
                 {
                     // this value overflows, but the client expects the overflowed timestamp and corrects it
-                    uint32 seconds = timer::count_seconds(PEffect->GetStartTime() - timer::now() + PEffect->GetDuration());
+                    uint32 seconds = timer::count_seconds(PEffect.GetStartTime() - timer::now() + PEffect.GetDuration());
                     seconds += earth_time::vanadiel_timestamp();
                     timestamp = seconds * 60;
                 }
-                packet.icons[i]      = PEffect->GetIcon();
+                packet.icons[i]      = PEffect.GetIcon();
                 packet.timestamps[i] = timestamp;
                 ++i;
             }

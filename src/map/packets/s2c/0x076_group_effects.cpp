@@ -39,8 +39,8 @@ GP_SERV_COMMAND_GROUP_EFFECTS::GP_SERV_COMMAND_GROUP_EFFECTS(const std::vector<C
 
         packet.Members[idx].UniqueNo = PMember->id;
         packet.Members[idx].ActIndex = PMember->targid;
-        packet.Members[idx].Bits     = PMember->StatusEffectContainer->m_Flags;
+        packet.Members[idx].Bits     = PMember->StatusEffectContainer->statusBits();
 
-        std::memcpy(packet.Members[idx].Buffs, PMember->StatusEffectContainer->m_StatusIcons, sizeof(packet.Members[idx].Buffs));
+        std::memcpy(packet.Members[idx].Buffs, PMember->StatusEffectContainer->statusIcons(), sizeof(packet.Members[idx].Buffs));
     }
 }

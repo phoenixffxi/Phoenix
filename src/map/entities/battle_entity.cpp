@@ -3714,7 +3714,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                 // Apply Feint
                 if (CStatusEffect* PFeintEffect = StatusEffectContainer->GetStatusEffect(xi::StatusEffect::Feint))
                 {
-                    if (PTarget->StatusEffectContainer->AddStatusEffect(new CStatusEffect(xi::StatusEffect::EvasionDown, static_cast<uint16>(xi::StatusEffect::EvasionDown), PFeintEffect->GetPower(), 3s, 30s)))
+                    if (PTarget->StatusEffectContainer->AddStatusEffect(xi::StatusEffect::EvasionDown, static_cast<uint16>(xi::StatusEffect::EvasionDown), PFeintEffect->GetPower(), 3s, 30s))
                     {
                         auto PEffect = PTarget->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::EvasionDown);
 

@@ -559,15 +559,14 @@ void GP_CLI_COMMAND_ACTION::process(MapSession* PSession, CCharEntity* PChar) co
                 }
 
                 PChar->m_mountId = this->Mount.MountId ? this->Mount.MountId + 1 : 0;
-                PChar->StatusEffectContainer->AddStatusEffect(new CStatusEffect(
-                                                                  xi::StatusEffect::Mounted,
-                                                                  static_cast<uint16>(xi::StatusEffect::Mounted),
-                                                                  this->Mount.MountId ? this->Mount.MountId + 1 : 0,
-                                                                  0s,
-                                                                  30min,
-                                                                  0,
-                                                                  0x40), // previously known as nameflag "FLAG_CHOCOBO"
-                                                              EffectNotice::Silent);
+                PChar->StatusEffectContainer->AddStatusEffectSilent(
+                    xi::StatusEffect::Mounted,
+                    static_cast<uint16>(xi::StatusEffect::Mounted),
+                    this->Mount.MountId ? this->Mount.MountId + 1 : 0,
+                    0s,
+                    30min,
+                    0,
+                    0x40); // previously known as nameflag "FLAG_CHOCOBO"
 
                 PChar->PRecastContainer->Add(RECAST_ABILITY, Recast::Mount, 60s);
                 PChar->pushPacket<GP_SERV_COMMAND_ABIL_RECAST>(PChar);

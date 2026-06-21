@@ -1,4 +1,4 @@
-﻿/*
+/*
 ===========================================================================
 
   Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -28,243 +28,261 @@
 #include <utility>
 
 CStatusEffect::CStatusEffect(xi::StatusEffect id, uint16 icon, uint16 power, timer::duration tick, timer::duration duration, uint32 subid, uint16 subPower, uint16 subIcon, uint16 tier, xi::StatusEffectFlag flags, uint16 sourceType, uint32 sourceTypeParam, uint32 originID)
-: m_StatusID(id)
-, m_SubID(subid)
-, m_Icon(icon)
-, m_Power(power)
-, m_SubPower(subPower)
-, m_SubIcon(subIcon)
-, m_Tier(tier)
-, m_Flags(flags)
-, m_OriginID(originID)
-, m_SourceType(sourceType)
-, m_SourceTypeParam(sourceTypeParam)
-, m_TickTime(tick)
-, m_Duration(duration)
+: statusID_(id)
+, subID_(subid)
+, icon_(icon)
+, power_(power)
+, subPower_(subPower)
+, subIcon_(subIcon)
+, tier_(tier)
+, flags_(flags)
+, originID_(originID)
+, sourceType_(sourceType)
+, sourceTypeParam_(sourceTypeParam)
+, tickTime_(tick)
+, duration_(duration)
 {
-    if (m_TickTime < 3s && m_TickTime != 0s)
+    if (tickTime_ < 3s && tickTime_ != 0s)
     {
         ShowWarning("Status Effect tick time less than 3s is no longer supported.  Effect ID: %d", static_cast<uint16>(id));
     }
+
+    // Reserve space in the modlist so we don't risk it growing
+    modList_.reserve(8);
 }
 
 CStatusEffect::~CStatusEffect() = default;
 
-const std::string& CStatusEffect::GetName()
+auto CStatusEffect::modList() -> std::vector<CModifier>&
 {
-    return m_Name;
+    return modList_;
 }
 
-void CStatusEffect::SetOwner(CBattleEntity* Owner)
+auto CStatusEffect::isDeleted() const -> bool
 {
-    m_POwner = Owner;
+    return deleted_;
 }
 
-auto CStatusEffect::GetStatusID() -> xi::StatusEffect
+auto CStatusEffect::markDeleted() -> void
 {
-    return m_StatusID;
+    deleted_ = true;
 }
 
-CBattleEntity* CStatusEffect::GetOwner()
+auto CStatusEffect::GetName() const -> const std::string&
 {
-    return m_POwner;
+    return name_;
 }
 
-uint32 CStatusEffect::GetSubID() const
+auto CStatusEffect::SetOwner(CBattleEntity* owner) -> void
 {
-    return m_SubID;
+    owner_ = owner;
+}
+
+auto CStatusEffect::GetStatusID() const -> xi::StatusEffect
+{
+    return statusID_;
+}
+
+auto CStatusEffect::GetOwner() const -> CBattleEntity*
+{
+    return owner_;
+}
+
+auto CStatusEffect::GetSubID() const -> uint32
+{
+    return subID_;
 }
 
 auto CStatusEffect::GetSourceType() const -> uint16
 {
-    return m_SourceType;
+    return sourceType_;
 }
 
 auto CStatusEffect::GetSourceTypeParam() const -> uint32
 {
-    return m_SourceTypeParam;
+    return sourceTypeParam_;
 }
 
 auto CStatusEffect::GetOriginID() const -> uint32
 {
-    return m_OriginID;
+    return originID_;
 }
 
-uint16 CStatusEffect::GetEffectType() const
+auto CStatusEffect::GetEffectType() const -> uint16
 {
-    return m_Type;
+    return type_;
 }
 
-uint8 CStatusEffect::GetEffectSlot() const
+auto CStatusEffect::GetEffectSlot() const -> uint8
 {
-    return m_Slot;
+    return slot_;
 }
 
-uint16 CStatusEffect::GetIcon() const
+auto CStatusEffect::GetIcon() const -> uint16
 {
-    return m_Icon;
+    return icon_;
 }
 
-uint16 CStatusEffect::GetPower() const
+auto CStatusEffect::GetPower() const -> uint16
 {
-    return m_Power;
+    return power_;
 }
 
-uint16 CStatusEffect::GetSubPower() const
+auto CStatusEffect::GetSubPower() const -> uint16
 {
-    return m_SubPower;
+    return subPower_;
 }
 
-uint16 CStatusEffect::GetSubIcon() const
+auto CStatusEffect::GetSubIcon() const -> uint16
 {
-    return m_SubIcon;
+    return subIcon_;
 }
 
-uint16 CStatusEffect::GetTier() const
+auto CStatusEffect::GetTier() const -> uint16
 {
-    return m_Tier;
+    return tier_;
 }
 
 auto CStatusEffect::GetEffectFlags() const -> xi::StatusEffectFlag
 {
-    return m_Flags;
+    return flags_;
 }
 
-timer::duration CStatusEffect::GetTickTime() const
+auto CStatusEffect::GetTickTime() const -> timer::duration
 {
-    return m_TickTime;
+    return tickTime_;
 }
 
-timer::duration CStatusEffect::GetDuration() const
+auto CStatusEffect::GetDuration() const -> timer::duration
 {
-    return m_Duration;
+    return duration_;
 }
 
-int CStatusEffect::GetElapsedTickCount() const
+auto CStatusEffect::GetElapsedTickCount() const -> int
 {
-    return m_tickCount;
+    return tickCount_;
 }
 
-timer::time_point CStatusEffect::GetStartTime()
+auto CStatusEffect::GetStartTime() const -> timer::time_point
 {
-    return m_StartTime;
+    return startTime_;
 }
 
-void CStatusEffect::SetEffectFlags(xi::StatusEffectFlag Flags)
+auto CStatusEffect::SetEffectFlags(xi::StatusEffectFlag flags) -> void
 {
-    m_Flags = Flags;
+    flags_ = flags;
 }
 
-void CStatusEffect::AddEffectFlag(xi::StatusEffectFlag Flag)
+auto CStatusEffect::AddEffectFlag(xi::StatusEffectFlag flag) -> void
 {
-    m_Flags |= Flag;
+    flags_ |= flag;
 }
 
-void CStatusEffect::DelEffectFlag(xi::StatusEffectFlag flag)
+auto CStatusEffect::DelEffectFlag(xi::StatusEffectFlag flag) -> void
 {
-    m_Flags &= ~flag;
+    flags_ &= ~flag;
 }
 
-auto CStatusEffect::HasEffectFlag(xi::StatusEffectFlag Flag) -> bool
+auto CStatusEffect::HasEffectFlag(xi::StatusEffectFlag flag) const -> bool
 {
-    return (m_Flags & Flag) != xi::StatusEffectFlag::None;
+    return (flags_ & flag) != xi::StatusEffectFlag::None;
 }
 
-void CStatusEffect::SetIcon(uint16 Icon)
+auto CStatusEffect::SetIcon(uint16 icon) -> void
 {
-    if (m_POwner == nullptr)
+    if (owner_ == nullptr)
     {
-        ShowWarning("m_POwner was null.");
+        ShowWarning("owner_ was null.");
         return;
     }
 
-    m_Icon = Icon;
-    m_POwner->StatusEffectContainer->UpdateStatusIcons();
+    icon_ = icon;
+    owner_->StatusEffectContainer->UpdateStatusIcons();
 }
 
-void CStatusEffect::SetSubIcon(uint16 subIcon)
+auto CStatusEffect::SetSubIcon(uint16 subIcon) -> void
 {
-    if (m_POwner == nullptr)
+    if (owner_ == nullptr)
     {
-        ShowWarning("m_POwner was null.");
+        ShowWarning("owner_ was null.");
         return;
     }
-    m_SubIcon = subIcon;
-    m_POwner->StatusEffectContainer->UpdateStatusIcons();
+    subIcon_ = subIcon;
+    owner_->StatusEffectContainer->UpdateStatusIcons();
 }
 
 auto CStatusEffect::SetSource(uint16 sourceType, uint32 sourceTypeParam) -> void
 {
-    m_SourceType      = sourceType;
-    m_SourceTypeParam = sourceTypeParam;
+    sourceType_      = sourceType;
+    sourceTypeParam_ = sourceTypeParam;
 }
 
 auto CStatusEffect::SetOriginID(uint32 originID) -> void
 {
-    m_OriginID = originID;
+    originID_ = originID;
 }
 
-void CStatusEffect::SetEffectType(uint16 Type)
+auto CStatusEffect::SetEffectType(uint16 type) -> void
 {
-    m_Type = Type;
+    type_ = type;
 }
 
-void CStatusEffect::SetEffectSlot(uint8 Slot)
+auto CStatusEffect::SetEffectSlot(uint8 slot) -> void
 {
-    m_Slot = Slot;
+    slot_ = slot;
 }
 
-void CStatusEffect::SetPower(uint16 Power)
+auto CStatusEffect::SetPower(uint16 power) -> void
 {
-    m_Power = Power;
+    power_ = power;
 }
 
-void CStatusEffect::SetSubPower(uint16 subPower)
+auto CStatusEffect::SetSubPower(uint16 subPower) -> void
 {
-    m_SubPower = subPower;
+    subPower_ = subPower;
 }
 
-void CStatusEffect::SetTier(uint16 tier)
+auto CStatusEffect::SetTier(uint16 tier) -> void
 {
-    m_Tier = tier;
+    tier_ = tier;
 }
 
-void CStatusEffect::SetDuration(timer::duration Duration)
+auto CStatusEffect::SetDuration(timer::duration duration) -> void
 {
-    m_Duration = Duration;
+    duration_ = duration;
 }
 
-void CStatusEffect::SetStartTime(timer::time_point StartTime)
+auto CStatusEffect::SetStartTime(timer::time_point startTime) -> void
 {
-    m_tickCount = 0;
-    m_StartTime = StartTime;
+    tickCount_ = 0;
+    startTime_ = startTime;
 }
 
-void CStatusEffect::SetTickTime(timer::duration tick)
+auto CStatusEffect::SetTickTime(timer::duration tick) -> void
 {
-    m_TickTime = tick;
+    tickTime_ = tick;
 }
 
-void CStatusEffect::IncrementElapsedTickCount()
+auto CStatusEffect::IncrementElapsedTickCount() -> void
 {
-    ++m_tickCount;
+    ++tickCount_;
 }
 
-void CStatusEffect::SetEffectName(std::string name)
+auto CStatusEffect::SetEffectName(std::string name) -> void
 {
-    m_Name = std::move(name);
+    name_ = std::move(name);
 }
 
-void CStatusEffect::addMod(Mod modType, int16 amount)
+auto CStatusEffect::addMod(Mod modType, int16 amount) -> void
 {
     // Since an effect's mod list is only applied to entity when adding the effect
     // we need to add the mod to the entity manually if the effect is already applied
-    if (m_POwner)
+    if (owner_)
     {
-        m_POwner->addModifier(modType, amount);
+        owner_->addModifier(modType, amount);
     }
 
-    for (auto& i : modList)
+    for (auto& i : modList_)
     {
         if (i.getModID() == modType)
         {
@@ -272,32 +290,32 @@ void CStatusEffect::addMod(Mod modType, int16 amount)
             return;
         }
     }
-    modList.emplace_back(modType, amount);
+    modList_.emplace_back(modType, amount);
 }
 
-void CStatusEffect::setMod(Mod modType, int16 value)
+auto CStatusEffect::setMod(Mod modType, int16 value) -> void
 {
-    for (auto& i : modList)
+    for (auto& i : modList_)
     {
         if (i.getModID() == modType)
         {
             // Since an effect's mod list is only applied to entity when adding the effect
             // we need to add the mod to the entity manually if the effect is already applied
-            if (m_POwner)
+            if (owner_)
             {
-                m_POwner->addModifier(modType, value - i.getModAmount());
+                owner_->addModifier(modType, value - i.getModAmount());
             }
 
             i.setModAmount(value);
             return;
         }
     }
-    modList.emplace_back(modType, value);
+    modList_.emplace_back(modType, value);
 
     // Since an effect's mod list is only applied to entity when adding the effect
     // we need to add the mod to the entity manually if the effect is already applied
-    if (m_POwner)
+    if (owner_)
     {
-        m_POwner->addModifier(modType, value);
+        owner_->addModifier(modType, value);
     }
 }

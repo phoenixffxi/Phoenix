@@ -2144,8 +2144,7 @@ void CCharEntity::OnRaise()
                 weaknessTime = 3min;
             }
 
-            CStatusEffect* PWeaknessEffect = new CStatusEffect(xi::StatusEffect::Weakness, static_cast<uint16>(xi::StatusEffect::Weakness), m_weaknessLvl, 0s, weaknessTime);
-            StatusEffectContainer->AddStatusEffect(PWeaknessEffect);
+            StatusEffectContainer->AddStatusEffect(xi::StatusEffect::Weakness, static_cast<uint16>(xi::StatusEffect::Weakness), m_weaknessLvl, 0s, weaknessTime);
         }
 
         double ratioReturned = 0.0f;
@@ -2209,8 +2208,7 @@ void CCharEntity::OnRaise()
         // If Arise was used then apply a reraise 3 effect on the target
         if (m_hasArise)
         {
-            CStatusEffect* PReraiseEffect = new CStatusEffect(xi::StatusEffect::Reraise, static_cast<uint16>(xi::StatusEffect::Reraise), 3, 0s, 1h);
-            StatusEffectContainer->AddStatusEffect(PReraiseEffect);
+            StatusEffectContainer->AddStatusEffect(xi::StatusEffect::Reraise, static_cast<uint16>(xi::StatusEffect::Reraise), 3, 0s, 1h);
         }
 
         SetLocalVar("MijinGakure", 0);

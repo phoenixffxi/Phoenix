@@ -730,19 +730,18 @@ auto CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers) -> boo
         case AutomatonHead::Stormwaker:
         {
             bool dispel = false;
-            // clang-format off
-            PTarget->StatusEffectContainer->ForEachEffect([&dispel](CStatusEffect* PStatus)
-            {
-                if (!dispel && PStatus->GetDuration() > 0s)
+            PTarget->StatusEffectContainer->ForEachEffect(
+                [&dispel](CStatusEffect& PStatus)
                 {
-                    if (PStatus->HasEffectFlag(xi::StatusEffectFlag::Dispelable))
+                    if (!dispel && PStatus.GetDuration() > 0s)
                     {
-                        dispel = true;
-                        return;
+                        if (PStatus.HasEffectFlag(xi::StatusEffectFlag::Dispelable))
+                        {
+                            dispel = true;
+                            return;
+                        }
                     }
-                }
-            });
-            // clang-format on
+                });
             if (dispel)
             {
                 castPriority.emplace_back(SpellID::Dispel);
@@ -1094,11 +1093,11 @@ auto CAutomatonController::TryStatusRemoval(const CurrentManeuvers& maneuvers) -
     std::vector<SpellID> castPriority;
 
     PAutomaton->PMaster->StatusEffectContainer->ForEachEffect(
-        [&castPriority](CStatusEffect* PStatus)
+        [&castPriority](CStatusEffect& PStatus)
         {
-            if (PStatus->GetDuration() > 0s)
+            if (PStatus.GetDuration() > 0s)
             {
-                auto id = automaton::FindNaSpell(PStatus);
+                auto id = automaton::FindNaSpell(&PStatus);
                 if (id.has_value())
                 {
                     castPriority.emplace_back(id.value());
@@ -1117,11 +1116,11 @@ auto CAutomatonController::TryStatusRemoval(const CurrentManeuvers& maneuvers) -
     castPriority.clear();
 
     PAutomaton->StatusEffectContainer->ForEachEffect(
-        [&castPriority](CStatusEffect* PStatus)
+        [&castPriority](CStatusEffect& PStatus)
         {
-            if (PStatus->GetDuration() > 0s)
+            if (PStatus.GetDuration() > 0s)
             {
-                auto id = automaton::FindNaSpell(PStatus);
+                auto id = automaton::FindNaSpell(&PStatus);
                 if (id.has_value())
                 {
                     castPriority.emplace_back(id.value());
@@ -1146,11 +1145,11 @@ auto CAutomatonController::TryStatusRemoval(const CurrentManeuvers& maneuvers) -
                 castPriority.clear();
 
                 member->StatusEffectContainer->ForEachEffect(
-                    [&castPriority](CStatusEffect* PStatus)
+                    [&castPriority](CStatusEffect& PStatus)
                     {
-                        if (PStatus->GetDuration() > 0s)
+                        if (PStatus.GetDuration() > 0s)
                         {
-                            auto id = automaton::FindNaSpell(PStatus);
+                            auto id = automaton::FindNaSpell(&PStatus);
                             if (id.has_value())
                             {
                                 castPriority.emplace_back(id.value());
@@ -1225,33 +1224,33 @@ auto CAutomatonController::TryEnhance() -> bool
         }
 
         PAutomaton->PMaster->StatusEffectContainer->ForEachEffect(
-            [&protect, &protectcount, &shell, &shellcount, &haste, &stoneskin, &phalanx](CStatusEffect* PStatus)
+            [&protect, &protectcount, &shell, &shellcount, &haste, &stoneskin, &phalanx](CStatusEffect& PStatus)
             {
-                if (PStatus->GetDuration() > 0s)
+                if (PStatus.GetDuration() > 0s)
                 {
-                    if (PStatus->GetStatusID() == xi::StatusEffect::Protect)
+                    if (PStatus.GetStatusID() == xi::StatusEffect::Protect)
                     {
                         protect = true;
                         ++protectcount;
                     }
 
-                    if (PStatus->GetStatusID() == xi::StatusEffect::Shell)
+                    if (PStatus.GetStatusID() == xi::StatusEffect::Shell)
                     {
                         shell = true;
                         ++shellcount;
                     }
 
-                    if (PStatus->GetStatusID() == xi::StatusEffect::Haste || PStatus->GetStatusID() == xi::StatusEffect::GeoHaste)
+                    if (PStatus.GetStatusID() == xi::StatusEffect::Haste || PStatus.GetStatusID() == xi::StatusEffect::GeoHaste)
                     {
                         haste = true;
                     }
 
-                    if (PStatus->GetStatusID() == xi::StatusEffect::Stoneskin)
+                    if (PStatus.GetStatusID() == xi::StatusEffect::Stoneskin)
                     {
                         stoneskin = true;
                     }
 
-                    if (PStatus->GetStatusID() == xi::StatusEffect::Phalanx)
+                    if (PStatus.GetStatusID() == xi::StatusEffect::Phalanx)
                     {
                         phalanx = true;
                     }
@@ -1305,21 +1304,21 @@ auto CAutomatonController::TryEnhance() -> bool
     }
 
     PAutomaton->StatusEffectContainer->ForEachEffect(
-        [&protect, &shell, &haste](CStatusEffect* PStatus)
+        [&protect, &shell, &haste](CStatusEffect& PStatus)
         {
-            if (PStatus->GetDuration() > 0s)
+            if (PStatus.GetDuration() > 0s)
             {
-                if (PStatus->GetStatusID() == xi::StatusEffect::Protect)
+                if (PStatus.GetStatusID() == xi::StatusEffect::Protect)
                 {
                     protect = true;
                 }
 
-                if (PStatus->GetStatusID() == xi::StatusEffect::Shell)
+                if (PStatus.GetStatusID() == xi::StatusEffect::Shell)
                 {
                     shell = true;
                 }
 
-                if (PStatus->GetStatusID() == xi::StatusEffect::Haste || PStatus->GetStatusID() == xi::StatusEffect::GeoHaste)
+                if (PStatus.GetStatusID() == xi::StatusEffect::Haste || PStatus.GetStatusID() == xi::StatusEffect::GeoHaste)
                 {
                     haste = true;
                 }
@@ -1377,23 +1376,23 @@ auto CAutomatonController::TryEnhance() -> bool
                     isEngaged = true; // Assume everyone is engaged if the target isn't a mob
                 }
 
-                PMember->StatusEffectContainer->ForEachEffect([&protect, &protectcount, &shell, &shellcount, &haste](CStatusEffect* PStatus)
+                PMember->StatusEffectContainer->ForEachEffect([&protect, &protectcount, &shell, &shellcount, &haste](CStatusEffect& PStatus)
                 {
-                    if (PStatus->GetDuration() > 0s)
+                    if (PStatus.GetDuration() > 0s)
                     {
-                        if (PStatus->GetStatusID() == xi::StatusEffect::Protect)
+                        if (PStatus.GetStatusID() == xi::StatusEffect::Protect)
                         {
                             protect = true;
                             ++protectcount;
                         }
 
-                        if (PStatus->GetStatusID() == xi::StatusEffect::Shell)
+                        if (PStatus.GetStatusID() == xi::StatusEffect::Shell)
                         {
                             shell = true;
                             ++shellcount;
                         }
 
-                        if (PStatus->GetStatusID() == xi::StatusEffect::Haste || PStatus->GetStatusID() == xi::StatusEffect::GeoHaste)
+                        if (PStatus.GetStatusID() == xi::StatusEffect::Haste || PStatus.GetStatusID() == xi::StatusEffect::GeoHaste)
                         {
                             haste = true;
                         }
