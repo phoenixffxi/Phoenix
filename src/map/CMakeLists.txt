@@ -324,6 +324,7 @@ set_target_output_directory(xi_map)
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT xi_map)
 
 if(TRACY_ENABLE)
+    target_link_libraries(xi_map PRIVATE TracyClient)
     set_target_properties(xi_map PROPERTIES OUTPUT_NAME xi_map_tracy)
     message(STATUS "TRACY_ENABLE: xi_map will be output as xi_map_tracy")
 endif(TRACY_ENABLE)
