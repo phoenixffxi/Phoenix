@@ -22,6 +22,7 @@ xi.recastID =
     PHANTOM_ROLL   = 193,
     DOUBLE_UP      = 194,
     QUICKDRAW      = 195,
+    ACTIVATE       = 205,
     STRATAGEM      = 231,
     SPECIAL2       = 254, -- Level 96 1HR abilities
 }

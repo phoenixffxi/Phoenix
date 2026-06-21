@@ -609,6 +609,15 @@ xi.pets.automaton.onMobSpawn = function(mob)
         end
     end)
 
+    local master = mob:getMaster()
+
+    if master then
+        -- Automatons spawn with 35 burden in all elements.
+        for element = 0, 7 do
+            master:addBurden(element, 35)
+        end
+    end
+
     -- All Automaton Attachments have their cooldowns applied on spawn.
     mob:addRecast(xi.recast.ABILITY, xi.mobSkill.BARRAGE_TURBINE_AUTOMATON, 180)
     mob:addRecast(xi.recast.ABILITY, xi.mobSkill.DISRUPTOR_AUTOMATON,        60)

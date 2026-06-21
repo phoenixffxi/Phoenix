@@ -24,7 +24,7 @@ attachmentObject.onEquip = function(automaton)
             return
         end
 
-        local thunderManeuvers     = master:countEffect(xi.effect.THUNDER_MANEUVER)
+        local thunderManeuvers     = xi.automaton.getManeuverCount(master, master:countEffect(xi.effect.THUNDER_MANEUVER))
         local storedAccuracyBonus  = pet:getLocalVar('targetMarkerAccuracyBonus')
         local updatedAccuracyBonus = accuracyTable[thunderManeuvers] or 0
 

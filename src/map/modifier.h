@@ -759,6 +759,8 @@ enum class Mod
     AUTO_RANGED_DAMAGEP         = 1002, // Increase automaton ranged weapon damage by a %
     AUTOMATON_LVL_BONUS         = 1044, // Automaton: Lv. (Increases automaton's base level above 99)
     VOLT_GUN_POTENCY            = 1198, // AE Potency Bonus for Volt Gun (percent)
+    TACTICAL_SWITCH_TP_BONUS    = 1199, // TP bonus granted by Tactical Switch (percent)
+    OVERDRIVE_BONUS_DURATION    = 1200, // Extra seconds added to Overdrive
 
     // Dancer
     FINISHING_MOVES          = 333,  // Tracks # of finishing moves
@@ -1153,7 +1155,7 @@ enum class Mod
     // The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
     // 570 through 825 used by WS DMG mods these are not spares.
     //
-    // SPARE IDs: 938, 1198 and onward
+    // SPARE IDs: 938, 1201 and onward
 };
 
 // temporary workaround for using enum class as unordered_map key until compilers support it

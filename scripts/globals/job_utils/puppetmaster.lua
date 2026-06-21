@@ -9,38 +9,95 @@ xi.job_utils = xi.job_utils or {}
 xi.job_utils.puppetmaster = xi.job_utils.puppetmaster or {}
 -----------------------------------
 
-local removableEffectIds =
+local removableEffects =
 {
-    xi.effect.PETRIFICATION,
-    xi.effect.SILENCE,
-    xi.effect.BANE,
-    xi.effect.CURSE_II,
-    xi.effect.CURSE_I,
-    xi.effect.PARALYSIS,
-    xi.effect.PLAGUE,
-    xi.effect.POISON,
-    xi.effect.DISEASE,
+    -- Songs
+    xi.effect.ELEGY,
+    xi.effect.REQUIEM,
+    xi.effect.THRENODY,
+
+    -- Enfeebling
     xi.effect.BLINDNESS,
+    xi.effect.PARALYSIS,
+    xi.effect.SILENCE,
+    xi.effect.CURSE_I,
+    xi.effect.CURSE_II,
+    xi.effect.DISEASE,
+    xi.effect.PLAGUE,
+    xi.effect.WEIGHT,
+    xi.effect.BIND,
+    xi.effect.ADDLE,
+    xi.effect.SLOW,
+    xi.effect.PETRIFICATION,
+
+    -- DoTs
+    xi.effect.BIO,
+    xi.effect.DIA,
+    xi.effect.POISON,
+    xi.effect.BURN,
+    xi.effect.FROST,
+    xi.effect.CHOKE,
+    xi.effect.RASP,
+    xi.effect.SHOCK,
+    xi.effect.DROWN,
+
+    -- Main Stat Downs
+    xi.effect.STR_DOWN,
+    xi.effect.DEX_DOWN,
+    xi.effect.VIT_DOWN,
+    xi.effect.AGI_DOWN,
+    xi.effect.INT_DOWN,
+    xi.effect.MND_DOWN,
+    xi.effect.CHR_DOWN,
+
+    -- Combat Stat Downs
+    xi.effect.ACCURACY_DOWN,
+    xi.effect.ATTACK_DOWN,
+    xi.effect.EVASION_DOWN,
+    xi.effect.DEFENSE_DOWN,
+
+    -- Magic Stat Downs
+    xi.effect.MAGIC_ACC_DOWN,
+    xi.effect.MAGIC_ATK_DOWN,
+    xi.effect.MAGIC_EVASION_DOWN,
+    xi.effect.MAGIC_DEF_DOWN,
+
+    -- HP/MP/TP Stat Downs
+    xi.effect.MAX_TP_DOWN,
+    xi.effect.MAX_MP_DOWN,
+    xi.effect.MAX_HP_DOWN
 }
+
+-- Removes status effects from the pet based on the amount passed to this function.
+local function removeStatusEffects(pet, amountToRemove)
+    local effectsRemoved = 0
+
+    for _, effectId in ipairs(removableEffects) do
+        if effectsRemoved >= amountToRemove then
+            break
+        end
+
+        if pet:delStatusEffect(effectId) then
+            effectsRemoved = effectsRemoved + 1
+        end
+    end
+
+    return effectsRemoved
+end
 
 -- https://www.bg-wiki.com/ffxi/Repair
-local oilType =
+-- https://www.bg-wiki.com/ffxi/Maintenance
+xi.job_utils.puppetmaster.oilData =
 {
---  ItemId                               { Base, %HP, Time(s) }
-    [xi.item.CAN_OF_AUTOMATON_OIL   ] = { 20, 0.1, 15 },
-    [xi.item.CAN_OF_AUTOMATON_OIL_P1] = { 40, 0.2, 30 },
-    [xi.item.CAN_OF_AUTOMATON_OIL_P2] = { 60, 0.3, 45 },
-    [xi.item.CAN_OF_AUTOMATON_OIL_P3] = { 80, 0.4, 60 },
+    [xi.item.CAN_OF_AUTOMATON_OIL   ] = { initialHealPercent = 0.1, statusesRemoved = 1, regen = 20, duration = 15 },
+    [xi.item.CAN_OF_AUTOMATON_OIL_P1] = { initialHealPercent = 0.2, statusesRemoved = 2, regen = 40, duration = 30 },
+    [xi.item.CAN_OF_AUTOMATON_OIL_P2] = { initialHealPercent = 0.3, statusesRemoved = 3, regen = 60, duration = 45 },
+    [xi.item.CAN_OF_AUTOMATON_OIL_P3] = { initialHealPercent = 0.4, statusesRemoved = 4, regen = 80, duration = 60 },
 }
 
--- Removes status effects based on the oil used.
-local idStrengths =
-{
-    [xi.item.CAN_OF_AUTOMATON_OIL   ] = 1, -- Automaton Oil
-    [xi.item.CAN_OF_AUTOMATON_OIL_P1] = 2, -- Automaton Oil + 1
-    [xi.item.CAN_OF_AUTOMATON_OIL_P2] = 3, -- Automaton Oil + 2
-    [xi.item.CAN_OF_AUTOMATON_OIL_P3] = 4  -- Automaton Oil + 3
-}
+-----------------------------------
+-- Overdrive - Augments the fighting ability of your automaton to its maximum level.
+-----------------------------------
 
 -- On Ability Check Overdrive
 xi.job_utils.puppetmaster.onAbilityCheckOverdrive = function(player, target, ability)
@@ -56,11 +113,22 @@ xi.job_utils.puppetmaster.onAbilityCheckOverdrive = function(player, target, abi
 end
 
 -- On Ability Use Overdrive
-xi.job_utils.puppetmaster.onAbilityUseOverdrive = function(player, target, ability)
-    player:addStatusEffect(xi.effect.OVERDRIVE, { duration = 60, origin = player })
+xi.job_utils.puppetmaster.onAbilityUseOverdrive = function(player, target, ability, action)
+    local pet = player:getPet()
+
+    player:addStatusEffect(xi.effect.OVERDRIVE, { duration = 180 + player:getMod(xi.mod.OVERDRIVE_BONUS_DURATION), origin = player })
+
+    if pet then
+        pet:addStatusEffect(xi.effect.OVERDRIVE, { duration = 180 + player:getMod(xi.mod.OVERDRIVE_BONUS_DURATION), origin = pet })
+        action:ID(player:getID(), pet:getID())
+    end
 
     return xi.effect.OVERDRIVE
 end
+
+-----------------------------------
+-- Activate - Calls forth your automaton
+-----------------------------------
 
 -- On Ability Check Activate
 xi.job_utils.puppetmaster.onAbilityCheckActivate = function(player, target, ability)
@@ -92,6 +160,10 @@ xi.job_utils.puppetmaster.onAbilityUseActivate = function(player, target, abilit
         pet:addMP(pet:getMod(xi.mod.MP))
     end
 end
+
+-----------------------------------
+-- Deus Ex Automata - Calls forth your automaton in an unsound state.
+-----------------------------------
 
 -- On Ability Check Deus Ex Automata
 xi.job_utils.puppetmaster.onAbilityCheckDeusExAutomata = function(player, target, ability)
@@ -126,21 +198,9 @@ xi.job_utils.puppetmaster.onAbilityUseDeusExAutomata = function(player, target, 
     end
 end
 
---Repair and Maintenance Function - TODO: verify that this function should be here and not on the items "Enhances Repair"
--- https://www.bg-wiki.com/ffxi/Repair
-local function removeStatus(pet)
-    for _, effectId in ipairs(removableEffectIds) do
-        if pet:delStatusEffect(effectId) then
-            return true
-        end
-    end
-
-    if pet:eraseStatusEffect() ~= xi.effect.NONE then
-        return true
-    end
-
-    return false
-end
+-----------------------------------
+-- Repair - Gradually restores your automaton's HP. Special items required. (Oil)
+-----------------------------------
 
 -- On Ability Check Repair
 xi.job_utils.puppetmaster.onAbilityCheckRepair = function(player, target, ability)
@@ -154,7 +214,7 @@ xi.job_utils.puppetmaster.onAbilityCheckRepair = function(player, target, abilit
     else
         local id = player:getEquipID(xi.slot.AMMO)
 
-        if oilType[id] then
+        if xi.job_utils.puppetmaster.oilData[id] then
             return 0, 0
         else
             return xi.msg.basic.UNABLE_TO_USE_JA, 0
@@ -172,21 +232,16 @@ xi.job_utils.puppetmaster.onAbilityUseRepair = function(player, target, ability,
     -- Self-cast ability but reports on pet
     action:ID(player:getID(), pet:getID())
 
-    local petMaxHP            = pet:getMaxHP()
-    local numRemovableEffects = player:getMod(xi.mod.REPAIR_EFFECT)
+    local petMaxHP = pet:getMaxHP()
 
     -- Need to start to calculate the HP to restore to the pet.
     -- Ref: https://www.bg-wiki.com/ffxi/Repair
-    local oilData      = oilType[player:getEquipID(xi.slot.AMMO)]
-    local regenAmount  = oilData[1]
-    local totalHealing = oilData[2] * petMaxHP
-    local regenTime    = oilData[3]
+    local oilEquipped  = xi.job_utils.puppetmaster.oilData[player:getEquipID(xi.slot.AMMO)]
+    local regenAmount  = oilEquipped.regen
+    local totalHealing = oilEquipped.initialHealPercent * petMaxHP
+    local regenTime    = oilEquipped.duration
 
-    for _ = 1, numRemovableEffects do
-        if not removeStatus(pet) then
-            break
-        end
-    end
+    removeStatusEffects(pet, player:getMod(xi.mod.REPAIR_EFFECT))
 
     local bonus  = 1 + player:getMerit(xi.merit.REPAIR_EFFECT) / 100
     totalHealing = totalHealing * bonus
@@ -204,6 +259,10 @@ xi.job_utils.puppetmaster.onAbilityUseRepair = function(player, target, ability,
     return totalHealing
 end
 
+-----------------------------------
+-- Maintenance - Cures your automaton of status ailments. Special items required.
+-----------------------------------
+
 -- On Ability Check Maintenance
 xi.job_utils.puppetmaster.onAbilityCheckMaintenance = function(player, target, ability)
     local pet = player:getPet()
@@ -213,7 +272,7 @@ xi.job_utils.puppetmaster.onAbilityCheckMaintenance = function(player, target, a
         return xi.msg.basic.NO_EFFECT_ON_PET, 0
     else
         local id = player:getEquipID(xi.slot.AMMO)
-        if idStrengths[id] then
+        if xi.job_utils.puppetmaster.oilData[id] then
             return 0, 0
         else
             return xi.msg.basic.UNABLE_TO_USE_JA, 0
@@ -223,26 +282,20 @@ end
 
 -- On Ability Use Maintenance
 xi.job_utils.puppetmaster.onAbilityUseMaintenance = function(player, target, ability)
-    local id         = player:getEquipID(xi.slot.AMMO)
-    local pet        = player:getPet()
-    local toRemove   = idStrengths[id] or 1
-    local numRemoved = 0
-
-    repeat
-        if not removeStatus(pet) then
-            break
-        end
-
-        toRemove   = toRemove - 1
-        numRemoved = numRemoved + 1
-    until toRemove <= 0
+    local pet            = player:getPet()
+    local oilEquipped    = xi.job_utils.puppetmaster.oilData[player:getEquipID(xi.slot.AMMO)]
+    local effectsRemoved = removeStatusEffects(pet, oilEquipped.statusesRemoved)
 
     player:removeAmmo(1)
 
-    return numRemoved
+    return effectsRemoved
 end
 
--- On Ability Check RoleReversal
+-----------------------------------
+-- Role Reversal - Swaps the Master's current HP with the Automaton's current HP.
+-----------------------------------
+
+-- On Ability Check Role Reversal
 xi.job_utils.puppetmaster.onAbilityCheckRoleReversal = function(player, target, ability)
     local pet = player:getPet()
 
@@ -267,6 +320,10 @@ xi.job_utils.puppetmaster.onAbilityUseRoleReversal = function(player, target, ab
         player:setHP(math.max(petHP * bonus, 1))
     end
 end
+
+-----------------------------------
+-- Ventriloquy - Swaps the enmity of the current target between master and automaton.
+-----------------------------------
 
 -- On Ability Check Ventriloquy
 xi.job_utils.puppetmaster.onAbilityCheckVentriloquy = function(player, target, ability)
@@ -324,15 +381,42 @@ xi.job_utils.puppetmaster.onAbilityUseVentriloquy = function(player, target, abi
     end
 end
 
+-----------------------------------
+-- Tactical Switch - Swaps Master's current TP with Automaton's current TP.
+-----------------------------------
+
 -- On Ability Check Tactical Switch
 xi.job_utils.puppetmaster.onAbilityCheckTacticalSwitch = function(player, target, ability)
-    return 0, 0
+    local pet = player:getPet()
+
+    if not pet then
+        return xi.msg.basic.REQUIRES_A_PET, 0
+    elseif not pet:isAutomaton() then
+        return xi.msg.basic.NO_EFFECT_ON_PET, 0
+    else
+        return 0, 0
+    end
 end
 
 -- On Ability Use Tactical Switch
-xi.job_utils.puppetmaster.onAbilityUseTacticalSwitch = function(player, target, ability)
-    -- target:addStatusEffect(xi.effect.TACTICAL_SWITCH, { power = 18, duration = 1, origin = player, tick = 1 }) -- TODO: implement xi.effect.TACTICAL_SWITCH
+xi.job_utils.puppetmaster.onAbilityUseTacticalSwitch = function(player, target, ability, action)
+    local pet                 = player:getPet()
+    local currentPlayerTP     = player:getTP()
+    local currentPetTP        = pet:getTP()
+    local tacticalSwitchBonus = 1 + player:getMod(xi.mod.TACTICAL_SWITCH_TP_BONUS) / 100
+    local jobPointBonus       = player:getJobPointLevel(xi.jp.TACTICAL_SWITCH_BONUS) * 20
+    local playerNewTP         = math.min(3000, math.floor(currentPetTP * tacticalSwitchBonus) + jobPointBonus)
+    local automatonNewTP      = math.min(3000, math.floor(currentPlayerTP * tacticalSwitchBonus))
+
+    player:setTP(playerNewTP)
+    pet:setTP(automatonNewTP)
+
+    action:ID(player:getID(), pet:getID())
 end
+
+-----------------------------------
+-- Cooldown - Reduces the strain on your automaton.
+-----------------------------------
 
 -- On Ability Check Cooldown
 xi.job_utils.puppetmaster.onAbilityCheckCooldown = function(player, target, ability)
@@ -372,8 +456,12 @@ xi.job_utils.puppetmaster.onAbilityCheckHeadyArtiface = function(player, target,
     end
 end
 
--- On Ability Use Heady Artiface
-xi.job_utils.puppetmaster.onAbilityUseHeadyArtiface = function(player, target, ability, action)
+-----------------------------------
+-- Heady Artifice - Allows automatons to perform a special ability that varies with the head used.
+-----------------------------------
+
+-- On Ability Use Heady Artifice
+xi.job_utils.puppetmaster.onAbilityUseHeadyArtifice = function(player, target, ability, action)
     local pet = player:getPet()
 
     if pet then
@@ -382,6 +470,10 @@ xi.job_utils.puppetmaster.onAbilityUseHeadyArtiface = function(player, target, a
         action:ID(player:getID(), pet:getID())
     end
 end
+
+-----------------------------------
+-- Deploy - Orders your automaton to attack.
+-----------------------------------
 
 -- On Ability Check Deploy
 xi.job_utils.puppetmaster.onAbilityCheckDeploy = function(player, target, ability)
@@ -393,6 +485,10 @@ xi.job_utils.puppetmaster.onAbilityUseDeploy = function(player, target, ability)
     player:petAttack(target)
 end
 
+-----------------------------------
+-- Retrieve - Orders your automaton to return to your side.
+-----------------------------------
+
 -- On Ability Check Retrieve
 xi.job_utils.puppetmaster.onAbilityCheckRetrieve = function(player, target, ability)
     return 0, 0
@@ -402,6 +498,10 @@ end
 xi.job_utils.puppetmaster.onAbilityUseRetrieve = function(player, target, ability)
     player:petRetreat()
 end
+
+-----------------------------------
+-- Deactivate - Deactivates your automaton.
+-----------------------------------
 
 -- On Ability Check Deactivate
 xi.job_utils.puppetmaster.onAbilityCheckDeactivate = function(player, target, ability)
@@ -417,7 +517,7 @@ xi.job_utils.puppetmaster.onAbilityUseDeactivate = function(player, target, abil
         pet and
         pet:getHP() == pet:getMaxHP()
     then
-        player:resetRecast(xi.recast.ABILITY, 205) -- activate
+        player:resetRecast(xi.recast.ABILITY, xi.recastID.ACTIVATE)
     end
 
     target:despawnPet()
