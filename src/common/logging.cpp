@@ -36,12 +36,15 @@
 #include "spdlog/sinks/daily_file_sink.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 
+#include <array>
+#include <cctype>
+
 namespace
 {
 
 std::string ServerName;
 
-CircularBuffer<std::string> BacktraceBuffer(16);
+CircularBuffer<std::string> BacktraceBuffer(32);
 
 bool gSeenWarningOrError = false;
 
@@ -56,9 +59,10 @@ public:
         // on the right, so we have to do it by hand.
         // If longer than length, we pad, if less, then we build a new string of size length.
         // https://fmt.dev/latest/syntax.html
-        std::size_t length      = 32;
-        std::string locationStr = fmt::format("{}:{}", msg.source.funcname, msg.source.line);
-        std::string outStr      = locationStr.size() > length ? std::string(locationStr.end() - length, locationStr.end()) : fmt::format("{:>{}}", locationStr, length);
+        static constexpr std::size_t length = 32;
+
+        const std::string locationStr = fmt::format("{}:{}", msg.source.funcname, msg.source.line);
+        const std::string outStr      = locationStr.size() > length ? std::string(locationStr.end() - length, locationStr.end()) : fmt::format("{:>{}}", locationStr, length);
         dest.append(outStr.data(), outStr.data() + outStr.size());
     }
 
@@ -73,8 +77,8 @@ class ampersand_formatter_flag : public spdlog::custom_flag_formatter
 public:
     void format(const spdlog::details::log_msg&, const std::tm&, spdlog::memory_buf_t& dest) override
     {
-        std::string outStr = ServerName;
-        dest.append(outStr.data(), outStr.data() + outStr.size());
+        // Append directly; no need to copy ServerName into a temporary first.
+        dest.append(ServerName.data(), ServerName.data() + ServerName.size());
     }
 
     std::unique_ptr<custom_flag_formatter> clone() const override
@@ -88,9 +92,13 @@ class underscore_formatter_flag : public spdlog::custom_flag_formatter
 public:
     void format(const spdlog::details::log_msg&, const std::tm&, spdlog::memory_buf_t& dest) override
     {
-        std::string firstChar = std::string(1, ServerName[0]);
-        std::string outStr    = to_upper(firstChar);
-        dest.append(outStr.data(), outStr.data() + outStr.size());
+        if (ServerName.empty())
+        {
+            return;
+        }
+
+        const char initial = static_cast<char>(std::toupper(static_cast<unsigned char>(ServerName[0])));
+        dest.append(&initial, &initial + 1);
     }
 
     std::unique_ptr<custom_flag_formatter> clone() const override
@@ -108,9 +116,10 @@ public:
         // on the right, so we have to do it by hand.
         // If longer than length, we pad, if less, then we build a new string of size length.
         // https://fmt.dev/latest/syntax.html
-        std::size_t length      = 32;
-        std::string locationStr = fmt::format("{}:{}", msg.source.filename, msg.source.line);
-        std::string outStr      = locationStr.size() > 12 ? std::string(locationStr.end() - length, locationStr.end()) : fmt::format("{:>{}}", locationStr, length);
+        static constexpr std::size_t length = 32;
+
+        const std::string locationStr = fmt::format("{}:{}", msg.source.filename, msg.source.line);
+        const std::string outStr      = locationStr.size() > length ? std::string(locationStr.end() - length, locationStr.end()) : fmt::format("{:>{}}", locationStr, length);
         dest.append(outStr.data(), outStr.data() + outStr.size());
     }
 
@@ -120,7 +129,7 @@ public:
     }
 };
 
-const std::vector<std::string> logNames = {
+constexpr std::array<std::string_view, 7> logNames = {
     "critical",
     "error",
     "lua",
@@ -129,6 +138,11 @@ const std::vector<std::string> logNames = {
     "debug",
     "trace",
 };
+
+// Non-owning pointers to the loggers registered under logNames, in the same order.
+// Populated once in InitializeLog (before any worker threads exist) and only read
+// afterward, so loggerFor() needs no synchronization. The registry owns the loggers.
+std::array<spdlog::logger*, logNames.size()> logPointers{};
 
 void logging::InitializeLog(const std::string& serverName, const std::string& logFile, bool appendDate)
 {
@@ -154,15 +168,14 @@ void logging::InitializeLog(const std::string& serverName, const std::string& lo
         sinks.emplace_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>(logFile));
     }
 
-    for (auto& name : logNames)
+    for (std::size_t i = 0; i < logNames.size(); ++i)
     {
-        auto logger = std::make_shared<spdlog::async_logger>(name, sinks.begin(), sinks.end(), spdlog::thread_pool());
+        auto logger = std::make_shared<spdlog::async_logger>(std::string(logNames[i]), sinks.begin(), sinks.end(), spdlog::thread_pool());
         spdlog::register_logger(logger);
+        logPointers[i] = logger.get();
     }
 
     spdlog::set_level(spdlog::level::debug);
-
-    spdlog::enable_backtrace(16);
 }
 
 void logging::ShutDown()
@@ -190,9 +203,29 @@ void logging::SetPattern(const std::string& str)
     spdlog::set_formatter(std::move(formatter));
 }
 
+auto logging::loggerFor(std::string_view name) -> spdlog::logger*
+{
+    for (std::size_t i = 0; i < logNames.size(); ++i)
+    {
+        if (logNames[i] == name)
+        {
+            return logPointers[i];
+        }
+    }
+
+    // Fallback for the (pre-init) edge case: pay the one-off registry lookup.
+    const auto logger = spdlog::get(std::string(name));
+    return logger.get();
+}
+
 void logging::AddBacktrace(const std::string& str)
 {
     BacktraceBuffer.enqueue(str);
+}
+
+void logging::AddBacktrace(std::string&& str)
+{
+    BacktraceBuffer.enqueue(std::move(str));
 }
 
 auto logging::GetBacktrace() -> std::vector<std::string>

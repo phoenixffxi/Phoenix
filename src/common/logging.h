@@ -21,10 +21,10 @@
 
 #pragma once
 
-#include "cbasetypes.h"
-#include "logging_context.h"
-#include "macros.h"
-#include "tracy.h"
+#include <common/cbasetypes.h>
+#include <common/logging_context.h>
+#include <common/macros.h>
+#include <common/tracy.h>
 
 #include <string>
 #include <string_view>
@@ -38,12 +38,15 @@
 
 #include <spdlog/spdlog.h>
 
+//
 // Forward declaration
+//
+
 namespace settings
 {
 
 template <typename T>
-T get(std::string);
+T get(std::string_view);
 
 } // namespace settings
 
@@ -56,7 +59,13 @@ void ShutDown();
 void SetPattern(const std::string& str);
 
 void AddBacktrace(const std::string& str);
+void AddBacktrace(std::string&& str);
 auto GetBacktrace() -> std::vector<std::string>;
+
+// Returns the logger registered under `name` ("debug", "info", "error", ...).
+// Resolved once during InitializeLog and read lock-free afterward, so emit paths avoid
+// spdlog's registry mutex on every log call. Non-owning; valid until ShutDown.
+auto loggerFor(std::string_view name) -> spdlog::logger*;
 
 void tapWarningOrError();
 
@@ -146,13 +155,13 @@ inline auto format_as(type v) \
 #define LOGGER_EMIT(LOG_TYPE_MACRO, LogStringName, File, Line, MsgVar)                                  \
     if (!::logging::detail::gJsonMode)                                                                  \
     {                                                                                                   \
-        LOG_TYPE_MACRO(spdlog::get(LogStringName), MsgVar);                                             \
+        LOG_TYPE_MACRO(::logging::loggerFor(LogStringName), MsgVar);                                    \
     }                                                                                                   \
     else                                                                                                \
     {                                                                                                   \
         fmt::memory_buffer _jbuf;                                                                       \
         ::logging::detail::renderJsonLine(_jbuf, { LogStringName, File, Line, __FUNCTION__, MsgVar }); \
-        LOG_TYPE_MACRO(spdlog::get(LogStringName), std::string_view{ _jbuf.data(), _jbuf.size() });     \
+        LOG_TYPE_MACRO(::logging::loggerFor(LogStringName), std::string_view{ _jbuf.data(), _jbuf.size() }); \
     }                                                                                                   \
     STATEMENT_CLOSE
 
@@ -160,13 +169,13 @@ inline auto format_as(type v) \
     BEGIN_CATCH_HANDLER const auto _msgStr = fmt::sprintf(__VA_ARGS__); TracyZoneScoped; TracyMessageStr(_msgStr); logging::AddBacktrace(_msgStr); LOGGER_EMIT(LOG_TYPE_MACRO, LogStringName, File, Line, _msgStr); END_CATCH_HANDLER(File, Line)
 
 #define LOGGER_BODY_CONDITIONAL(LOG_TYPE_MACRO, LogStringName, LogConditionStr, File, Line, ...) \
-    BEGIN_CATCH_HANDLER const auto _msgStr = fmt::sprintf(__VA_ARGS__); TracyZoneScoped; TracyMessageStr(_msgStr); logging::AddBacktrace(_msgStr); if (settings::get<bool>(LogConditionStr)) { LOGGER_EMIT(LOG_TYPE_MACRO, LogStringName, File, Line, _msgStr); } END_CATCH_HANDLER(File, Line)
+    BEGIN_CATCH_HANDLER if (settings::get<bool>(LogConditionStr)) { const auto _msgStr = fmt::sprintf(__VA_ARGS__); TracyZoneScoped; TracyMessageStr(_msgStr); logging::AddBacktrace(_msgStr); LOGGER_EMIT(LOG_TYPE_MACRO, LogStringName, File, Line, _msgStr); } END_CATCH_HANDLER(File, Line)
 
 #define LOGGER_BODY_FMT(LOG_TYPE_MACRO, LogStringName, File, Line, ...) \
     BEGIN_CATCH_HANDLER const auto _msgStr = fmt::format(__VA_ARGS__); TracyZoneScoped; TracyMessageStr(_msgStr); logging::AddBacktrace(_msgStr); LOGGER_EMIT(LOG_TYPE_MACRO, LogStringName, File, Line, _msgStr); END_CATCH_HANDLER(File, Line)
 
 #define LOGGER_BODY_CONDITIONAL_FMT(LOG_TYPE_MACRO, LogStringName, LogConditionStr, File, Line, ...) \
-    BEGIN_CATCH_HANDLER const auto _msgStr = fmt::format(__VA_ARGS__); TracyZoneScoped; TracyMessageStr(_msgStr); logging::AddBacktrace(_msgStr); if (settings::get<bool>(LogConditionStr)) { LOGGER_EMIT(LOG_TYPE_MACRO, LogStringName, File, Line, _msgStr); } END_CATCH_HANDLER(File, Line)
+    BEGIN_CATCH_HANDLER if (settings::get<bool>(LogConditionStr)) { const auto _msgStr = fmt::format(__VA_ARGS__); TracyZoneScoped; TracyMessageStr(_msgStr); logging::AddBacktrace(_msgStr); LOGGER_EMIT(LOG_TYPE_MACRO, LogStringName, File, Line, _msgStr); } END_CATCH_HANDLER(File, Line)
 
 // Regular Loggers
 // NOTE 1: Trace is not for logging to screen or file; it's for filling the backtrace buffer and reporting to Tracy.
