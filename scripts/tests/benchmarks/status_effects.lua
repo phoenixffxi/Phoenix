@@ -30,12 +30,12 @@ local function envNumber(name, default)
     return (value and value > 0) and math.floor(value) or default
 end
 
-local NUM_ENTITIES        = envNumber('XI_BENCH_ENTITIES', 50)
-local NUM_TICKS           = envNumber('XI_BENCH_TICKS', 100)
-local ROUNDS              = envNumber('XI_BENCH_ROUNDS', 30)
-local DRAIN_US_PER_ENTITY = envNumber('XI_BENCH_DRAIN_US', 25)
+local kNumEntities          = envNumber('XI_BENCH_ENTITIES', 50)
+local kNumTicks             = envNumber('XI_BENCH_TICKS', 100)
+local kRounds               = envNumber('XI_BENCH_ROUNDS', 30)
+local kDrainMicrosPerEntity = envNumber('XI_BENCH_DRAIN_US', 25)
 
-local EFFECTS = {
+local effects = {
     xi.effect.PROTECT,       xi.effect.SHELL,         xi.effect.REGEN,
     xi.effect.REFRESH,       xi.effect.HASTE,         xi.effect.BLINK,
     xi.effect.STONESKIN,     xi.effect.AQUAVEIL,      xi.effect.STR_BOOST,
@@ -50,14 +50,14 @@ describe('#benchmark Status Effect Container', function()
     local entities = {}
 
     -- effect-operations performed by one addAll()/removeAll() pass
-    local opsPerPass = NUM_ENTITIES * #EFFECTS
+    local opsPerPass = kNumEntities * #effects
 
     -- accumulated wall-clock spent in the modelled network drain
     local drainTime = 0
 
     setup(function()
         xi.test.world:tick()
-        for i = 1, NUM_ENTITIES do
+        for i = 1, kNumEntities do
             entities[i] = xi.test.world:spawnPlayer({
                 zone  = xi.zone.WEST_RONFAURE,
                 job   = xi.job.WHM,
@@ -69,7 +69,7 @@ describe('#benchmark Status Effect Container', function()
 
     local function addAll()
         for _, entity in ipairs(entities) do
-            for _, effect in ipairs(EFFECTS) do
+            for _, effect in ipairs(effects) do
                 entity:addStatusEffect(effect, { power = 10, tick = 3, duration = 7200, origin = entity })
             end
         end
@@ -77,7 +77,7 @@ describe('#benchmark Status Effect Container', function()
 
     local function removeAll()
         for _, entity in ipairs(entities) do
-            for _, effect in ipairs(EFFECTS) do
+            for _, effect in ipairs(effects) do
                 entity:delStatusEffect(effect)
             end
         end
@@ -89,11 +89,11 @@ describe('#benchmark Status Effect Container', function()
             entity.packets:clear()
         end
 
-        local target = os.clock() + (NUM_ENTITIES * DRAIN_US_PER_ENTITY) / 1e6
+        local target = os.clock() + (kNumEntities * kDrainMicrosPerEntity) / 1e6
         while os.clock() < target do
             -- busy-wait: model the network tick occupying the main thread
         end
-        drainTime = drainTime + (NUM_ENTITIES * DRAIN_US_PER_ENTITY) / 1e6
+        drainTime = drainTime + (kNumEntities * kDrainMicrosPerEntity) / 1e6
     end
 
     -- Report wall-clock for a measured region, normalised per effect-operation.
@@ -102,11 +102,11 @@ describe('#benchmark Status Effect Container', function()
             label, seconds * 1000, (seconds * 1e6) / ops, ops))
     end
 
-    it(string.format('add / overwrite / remove (%d entities x %d effects, %d rounds)', NUM_ENTITIES, #EFFECTS, ROUNDS), function()
+    it(string.format('add / overwrite / remove (%d entities x %d effects, %d rounds)', kNumEntities, #effects, kRounds), function()
         local addFresh, addOver, remove = 0, 0, 0
         drainTime = 0
 
-        for _ = 1, ROUNDS do
+        for _ = 1, kRounds do
             -- Clear, then tick once (untimed) to force DeleteStatusEffects to actually
             -- erase the tombstones delStatusEffect leaves behind, so the timed addAll
             -- below inserts into a clean container instead of one full of dead entries.
@@ -130,20 +130,20 @@ describe('#benchmark Status Effect Container', function()
             drain() -- network tick
         end
 
-        report('add (fresh)', addFresh, ROUNDS * opsPerPass)
-        report('add (overwrite)', addOver, ROUNDS * opsPerPass)
-        report('remove', remove, ROUNDS * opsPerPass)
-        report('network drain (est)', drainTime, ROUNDS * 4 * NUM_ENTITIES) -- 4 drains per round
+        report('add (fresh)', addFresh, kRounds * opsPerPass)
+        report('add (overwrite)', addOver, kRounds * opsPerPass)
+        report('remove', remove, kRounds * opsPerPass)
+        report('network drain (est)', drainTime, kRounds * 4 * kNumEntities) -- 4 drains per round
     end)
 
-    it(string.format('tick (%d entities x %d effects, %d ticks)', NUM_ENTITIES, #EFFECTS, NUM_TICKS), function()
+    it(string.format('tick (%d entities x %d effects, %d ticks)', kNumEntities, #effects, kNumTicks), function()
         removeAll()
         addAll()
         drain()
 
         local elapsed = 0
         drainTime     = 0
-        for _ = 1, NUM_TICKS do
+        for _ = 1, kNumTicks do
             local t0 = os.clock()
             xi.test.world:tick(xi.tick.EFFECT)
             elapsed = elapsed + (os.clock() - t0)
@@ -152,7 +152,7 @@ describe('#benchmark Status Effect Container', function()
 
         removeAll()
 
-        report('tick', elapsed, NUM_TICKS * opsPerPass)
-        report('network drain (est)', drainTime, NUM_TICKS * NUM_ENTITIES)
+        report('tick', elapsed, kNumTicks * opsPerPass)
+        report('network drain (est)', drainTime, kNumTicks * kNumEntities)
     end)
 end)
