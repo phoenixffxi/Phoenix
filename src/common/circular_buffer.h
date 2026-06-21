@@ -40,7 +40,7 @@ private:
     std::size_t tail{};
     std::size_t max_size{};
     std::size_t mask{};
-    bool        full = false;
+    bool        full{};
 
     T empty_item{};
 

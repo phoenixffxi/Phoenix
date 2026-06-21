@@ -172,8 +172,9 @@ void logging::InitializeLog(const std::string& serverName, const std::string& lo
     {
         auto logger = std::make_shared<spdlog::async_logger>(std::string(logNames[i]), sinks.begin(), sinks.end(), spdlog::thread_pool());
         spdlog::register_logger(logger);
-        logPointers[i] = logger.get();
     }
+
+    logging::RefreshLoggerCache();
 
     spdlog::set_level(spdlog::level::debug);
 }
@@ -201,6 +202,15 @@ void logging::SetPattern(const std::string& str)
     formatter->add_flag<q_formatter_flag>('q');
     formatter->set_pattern(str);
     spdlog::set_formatter(std::move(formatter));
+}
+
+void logging::RefreshLoggerCache()
+{
+    for (std::size_t i = 0; i < logNames.size(); ++i)
+    {
+        const auto logger = spdlog::get(std::string(logNames[i]));
+        logPointers[i]    = logger.get();
+    }
 }
 
 auto logging::loggerFor(std::string_view name) -> spdlog::logger*

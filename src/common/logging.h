@@ -63,9 +63,14 @@ void AddBacktrace(std::string&& str);
 auto GetBacktrace() -> std::vector<std::string>;
 
 // Returns the logger registered under `name` ("debug", "info", "error", ...).
-// Resolved once during InitializeLog and read lock-free afterward, so emit paths avoid
-// spdlog's registry mutex on every log call. Non-owning; valid until ShutDown.
+// Resolved during InitializeLog and read lock-free afterward, so emit paths avoid
+// spdlog's registry mutex on every log call. Non-owning; valid until the next refresh.
 auto loggerFor(std::string_view name) -> spdlog::logger*;
+
+// Re-resolves the lock-free loggerFor cache from the spdlog registry. MUST be called after
+// anything that drops/re-registers loggers (e.g. spdlog::shutdown + re-register), otherwise
+// loggerFor would return dangling pointers. Call when no other thread is logging.
+void RefreshLoggerCache();
 
 void tapWarningOrError();
 
