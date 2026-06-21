@@ -129,6 +129,7 @@ set(MAP_CORE_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/recast_container.h
     ${CMAKE_CURRENT_SOURCE_DIR}/roe.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/roe.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/socket.h
     ${CMAKE_CURRENT_SOURCE_DIR}/spell.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/spell.h
     ${CMAKE_CURRENT_SOURCE_DIR}/status_effect_container.cpp

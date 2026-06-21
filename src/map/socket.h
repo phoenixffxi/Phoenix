@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2025 LandSandBoat Dev Teams
+  Copyright (c) 2026 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,35 +21,20 @@
 
 #pragma once
 
-#include <common/blowfish.h>
 #include <common/cbasetypes.h>
 #include <common/ipp.h>
-#include <common/scheduler.h>
 
-#include <map/map_constants.h>
-#include <map/socket.h>
+#include <functional>
 
-#include <asio/ip/network_v4.hpp>
-#include <asio/ip/udp.hpp>
-#include <asio/ts/buffer.hpp>
-#include <asio/ts/internet.hpp>
-
-class MapSocket final : public Socket
+class Socket
 {
 public:
-    MapSocket(Scheduler& scheduler, uint16 port, ReceiveFn onReceiveFn);
-    ~MapSocket() override;
+    // Called when bytes are received from a client, with the sender's address.
+    using ReceiveFn = std::function<void(ByteSpan, const IPP&)>;
 
-    void send(const IPP& ipp, ByteSpan buffer) override;
+    virtual ~Socket() = default;
 
-private:
-    void receive();
+    virtual void send(const IPP& ipp, ByteSpan buffer) = 0;
 
-    Scheduler&              scheduler_;
-    uint16                  port_;
-    asio::ip::udp::socket   socket_;
-    NetworkBuffer           buffer_; // TODO: Pass in the global buffer, or only use this one
-    asio::ip::udp::endpoint remoteEndpoint_;
-
-    ReceiveFn onReceiveFn_;
+    // TODO: Mockable receive()
 };

@@ -69,7 +69,7 @@ MapNetworking::MapNetworking(Scheduler& scheduler, MapStatistics& mapStatistics,
     try
     {
         const auto udpPort = mapIPP_.getPort() == 0 ? settings::get<uint16>("network.MAP_PORT") : mapIPP_.getPort();
-        mapSocket_         = std::make_unique<MapSocket>(scheduler_, udpPort, std::bind(&MapNetworking::handle_incoming_packet, this, std::placeholders::_1, std::placeholders::_2));
+        socket_            = std::make_unique<MapSocket>(scheduler_, udpPort, std::bind(&MapNetworking::handle_incoming_packet, this, std::placeholders::_1, std::placeholders::_2));
     }
     catch (const std::exception& e)
     {
@@ -151,7 +151,7 @@ void MapNetworking::handle_incoming_packet(ByteSpan buffer, const IPP& ipp)
             PSession->server_packet_id += 1;
         }
 
-        mapSocket_->send(ipp, { PBuff.data(), size });
+        socket_->send(ipp, { PBuff.data(), size });
 
         std::swap(PBuff, PSession->server_packet_data);
         std::swap(size, PSession->server_packet_size);
@@ -771,9 +771,9 @@ auto MapNetworking::scheduler() -> Scheduler&
     return scheduler_;
 }
 
-auto MapNetworking::socket() -> MapSocket&
+auto MapNetworking::socket() -> Socket&
 {
-    return *mapSocket_;
+    return *socket_;
 }
 
 auto MapNetworking::packetSystem() -> PacketSystem&

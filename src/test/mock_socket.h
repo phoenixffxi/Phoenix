@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2025 LandSandBoat Dev Teams
+  Copyright (c) 2026 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,35 +21,45 @@
 
 #pragma once
 
-#include <common/blowfish.h>
 #include <common/cbasetypes.h>
 #include <common/ipp.h>
-#include <common/scheduler.h>
 
-#include <map/map_constants.h>
 #include <map/socket.h>
 
-#include <asio/ip/network_v4.hpp>
-#include <asio/ip/udp.hpp>
-#include <asio/ts/buffer.hpp>
-#include <asio/ts/internet.hpp>
+#include <cstring>
+#include <utility>
+#include <vector>
 
-class MapSocket final : public Socket
+// In-memory Socket for tests/benchmarks.
+class MockSocket final : public Socket
 {
 public:
-    MapSocket(Scheduler& scheduler, uint16 port, ReceiveFn onReceiveFn);
-    ~MapSocket() override;
+    struct Datagram
+    {
+        IPP                ipp;
+        std::vector<uint8> bytes;
+    };
 
-    void send(const IPP& ipp, ByteSpan buffer) override;
+    MockSocket() = default;
+
+    explicit MockSocket(ReceiveFn onReceiveFn)
+    : onReceiveFn_(std::move(onReceiveFn))
+    {
+    }
+
+    void send(const IPP& ipp, ByteSpan buffer) override
+    {
+        auto& datagram = sent.emplace_back();
+        datagram.ipp   = ipp;
+        datagram.bytes.assign(buffer.begin(), buffer.end());
+
+        ++sendCount;
+    }
+
+    // Every datagram passed to send(), in order.
+    std::vector<Datagram> sent;
+    std::size_t           sendCount = 0;
 
 private:
-    void receive();
-
-    Scheduler&              scheduler_;
-    uint16                  port_;
-    asio::ip::udp::socket   socket_;
-    NetworkBuffer           buffer_; // TODO: Pass in the global buffer, or only use this one
-    asio::ip::udp::endpoint remoteEndpoint_;
-
     ReceiveFn onReceiveFn_;
 };

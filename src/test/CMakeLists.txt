@@ -10,6 +10,7 @@ set(SOURCES
     in_memory_sink.h
     mock_manager.cpp
     mock_manager.h
+    mock_socket.h
     test_application.h
     test_application.cpp
     test_case.h
