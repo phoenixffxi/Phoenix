@@ -9,7 +9,7 @@ local attachmentObject = {}
 attachmentObject.onEquip = function(pet)
     pet:addListener('AUTOMATON_ATTACHMENT_CHECK', 'ATTACHMENT_REGULATOR', function(automaton, target)
         -- If Regulator is still on cooldown, do nothing.
-        if automaton:hasRecast(xi.recast.ABILITY, xi.automaton.abilities.REGULATOR) then
+        if automaton:hasRecast(xi.recast.ABILITY, xi.mobSkill.REGULATOR_AUTOMATON) then
             return
         end
 
@@ -29,7 +29,7 @@ attachmentObject.onEquip = function(pet)
             return
         end
 
-        automaton:useMobAbility(xi.automaton.abilities.REGULATOR, target)
+        automaton:useMobAbility(xi.mobSkill.REGULATOR_AUTOMATON, target)
     end)
 end
 

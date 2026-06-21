@@ -8,7 +8,7 @@ local attachmentObject = {}
 attachmentObject.onEquip = function(pet, attachment)
     xi.automaton.onAttachmentEquip(pet, attachment)
     pet:addListener('AUTOMATON_ATTACHMENT_CHECK', 'ATTACHMENT_STROBE', function(automaton, target)
-        if automaton:hasRecast(xi.recast.ABILITY, xi.automaton.abilities.PROVOKE) then
+        if automaton:hasRecast(xi.recast.ABILITY, xi.mobSkill.PROVOKE_AUTOMATON) then
             return
         end
 
@@ -23,7 +23,7 @@ attachmentObject.onEquip = function(pet, attachment)
         end
 
         if automaton:checkDistance(target) <= (16 + target:getHitboxSize() + automaton:getHitboxSize()) then -- Needs Verification
-            automaton:useMobAbility(xi.automaton.abilities.PROVOKE)
+            automaton:useMobAbility(xi.mobSkill.PROVOKE_AUTOMATON)
         end
     end)
 end

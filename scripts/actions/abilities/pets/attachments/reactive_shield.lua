@@ -8,7 +8,7 @@ local attachmentObject = {}
 
 attachmentObject.onEquip = function(pet)
     pet:addListener('AUTOMATON_ATTACHMENT_CHECK', 'ATTACHMENT_REACTIVE_SHIELD', function(automaton, target)
-        if automaton:hasRecast(xi.recast.ABILITY, xi.automaton.abilities.REACTIVE_SHIELD) then
+        if automaton:hasRecast(xi.recast.ABILITY, xi.mobSkill.REACTIVE_SHIELD_AUTOMATON) then
             return
         end
 
@@ -24,7 +24,7 @@ attachmentObject.onEquip = function(pet)
             return
         end
 
-        automaton:useMobAbility(xi.automaton.abilities.REACTIVE_SHIELD, automaton)
+        automaton:useMobAbility(xi.mobSkill.REACTIVE_SHIELD_AUTOMATON, automaton)
     end)
 end
 

@@ -21,7 +21,7 @@ entity.onMobEngage = function(mob, target)
 end
 
 entity.onMobMobskillChoose = function(mob, target, skillId)
-    return xi.mobSkill.SLAPSTICK
+    return xi.mobSkill.SLAPSTICK_AUTOMATON
 end
 
 -- These are all the spells caped below 75, however testing suggest that he only chooses 4-6 of these spells depending on the fight. More testing is needed to understand the behavior.

@@ -360,14 +360,27 @@ end
 
 -- On Ability Check Heady Artiface
 xi.job_utils.puppetmaster.onAbilityCheckHeadyArtiface = function(player, target, ability)
-    ability:setRecast(math.max(0, ability:getRecast() - player:getMod(xi.mod.ONE_HOUR_RECAST) * 60))
+    local pet = player:getPet()
+    if not pet then
+        return xi.msg.basic.REQUIRES_A_PET, 0
+    elseif not pet:isAutomaton() then
+        return xi.msg.basic.NO_EFFECT_ON_PET, 0
+    else
+        ability:setRecast(math.max(0, ability:getRecast() - player:getMod(xi.mod.ONE_HOUR_RECAST) * 60))
 
-    return 0, 0
+        return 0, 0
+    end
 end
 
 -- On Ability Use Heady Artiface
-xi.job_utils.puppetmaster.onAbilityUseHeadyArtiface = function(player, target, ability)
-    -- target:addStatusEffect(xi.effect.HEADY_ARTIFICE, { power = 18, duration = 1, origin = player, tick = 1 }) -- TODO: implement xi.effect.HEADY_ARTIFICE
+xi.job_utils.puppetmaster.onAbilityUseHeadyArtiface = function(player, target, ability, action)
+    local pet = player:getPet()
+
+    if pet then
+        pet:setLocalVar('headyArtificeUsed', 1)
+
+        action:ID(player:getID(), pet:getID())
+    end
 end
 
 -- On Ability Check Deploy

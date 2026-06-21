@@ -29,7 +29,7 @@ attachmentObject.onEquip = function(pet)
         end
 
         -- If Replicator is on cooldown, return.
-        if automaton:hasRecast(xi.recast.ABILITY, xi.automaton.abilities.REPLICATOR) then
+        if automaton:hasRecast(xi.recast.ABILITY, xi.mobSkill.REPLICATOR_AUTOMATON) then
             return
         end
 
@@ -48,7 +48,7 @@ attachmentObject.onEquip = function(pet)
             return
         end
 
-        automaton:useMobAbility(xi.automaton.abilities.REPLICATOR, automaton)
+        automaton:useMobAbility(xi.mobSkill.REPLICATOR_AUTOMATON, automaton)
     end)
 end
 

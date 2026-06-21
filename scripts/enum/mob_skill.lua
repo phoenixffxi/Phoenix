@@ -1047,16 +1047,16 @@ xi.mobSkill =
     WARP_OUT_GESSHO               = 1938,
     WARP_IN_GESSHO                = 1939,
 
-    CHIMERA_RIPPER                = 1940,
-    STRING_CLIPPER                = 1941,
-    ARCUBALLISTA                  = 1942,
-    SLAPSTICK                     = 1943,
-    SHIELD_BASH_AUTOMATON         = 1944, -- Used by the trust Mnejing but may also be used by mobs.
-    PROVOKE_AUTOMATON             = 1945, -- Used by the trust Mnejing but may also be used by mobs.
-    FLASHBULB_AUTOMATON           = 1947, -- Used by the trust Mnejing but may also be used by mobs.
-    DISRUPTOR_AUTOMATON           = 2747, -- Used by the trust Mnejing but may also be used by mobs.
-
-    RANGED_ATTACK_15              = 1949,
+    CHIMERA_RIPPER_AUTOMATON      = 1940,
+    STRING_CLIPPER_AUTOMATON      = 1941,
+    ARCUBALLISTA_AUTOMATON        = 1942,
+    SLAPSTICK_AUTOMATON           = 1943,
+    SHIELD_BASH_AUTOMATON         = 1944,
+    PROVOKE_AUTOMATON             = 1945,
+    SHOCK_ABSORBER_AUTOMATON      = 1946,
+    FLASHBULB_AUTOMATON           = 1947,
+    MANA_CONVERTER_AUTOMATON      = 1948,
+    RANGED_ATTACK_AUTOMATON       = 1949,
 
     WATER_BOMB                    = 1959,
 
@@ -1094,6 +1094,7 @@ xi.mobSkill =
     DARK_SHOT                     = 2016,
 
     -- HUNDRED_FISTS                 = 2020,
+    ERASER_AUTOMATON              = 2021,
 
     TENEBROUS_MIST                = 2022,
     THUNDERSTRIKE                 = 2023,
@@ -1104,9 +1105,12 @@ xi.mobSkill =
     FULMINATION                   = 2028,
 
     ROAR_KHIMAIRA                 = 2030,
+    REACTIVE_SHIELD_AUTOMATON     = 2031,
 
-    DAZE                          = 2066,
-    KNOCKOUT                      = 2067,
+    CANNIBAL_BLADE_AUTOMATON      = 2065,
+    DAZE_AUTOMATON                = 2066,
+    KNOCKOUT_AUTOMATON            = 2067,
+    ECONOMIZER_AUTOMATON          = 2068,
 
     -- MIJIN_GAKURE                  = 2105,
 
@@ -1118,6 +1122,8 @@ xi.mobSkill =
     NECROPURGE                    = 2117,
     BILGESTORM                    = 2118,
     THUNDRIS_SHRIEK               = 2119,
+
+    REPLICATOR_AUTOMATON          = 2132,
 
     RADIANT_SACRAMENT             = 2141,
     MEGA_HOLY                     = 2142,
@@ -1158,6 +1164,10 @@ xi.mobSkill =
     -- OVERDRIVE                     = 2259,
     TRANCE                        = 2260,
     TABULA_RASA                   = 2261,
+
+    BONE_CRUSHER_AUTOMATON        = 2299,
+    ARMOR_PIERCER_AUTOMATON       = 2300,
+    MAGIC_MORTAR_AUTOMATON        = 2301,
 
     DI_HORN_ATTACK                = 2329,
     DI_BITE_ATTACK                = 2330,
@@ -1200,16 +1210,22 @@ xi.mobSkill =
 
     -- TRANCE                        = 2710,
 
+    STRING_SHREDDER_AUTOMATON     = 2743,
+    ARMOR_SHATTERER_AUTOMATON     = 2744,
+    HEAT_CAPACITOR_AUTOMATON      = 2745,
+    BARRAGE_TURBINE_AUTOMATON     = 2746,
+    DISRUPTOR_AUTOMATON           = 2747,
+
     BOOMING_BOMBINATION           = 2770,
 
     -- BENEDICTION                   = 2777,
 
-    -- MIGHTY_STRIKES                = 2939,
-    -- INVINCIBLE                    = 2940,
-    -- EES_?                         = 2941,
-    -- CHAINSPELL                    = 2942,
-    -- BENEDICTION                   = 2943,
-    -- MANAFONT                      = 2944,
+    MIGHTY_STRIKES_AUTOMATON      = 2939,
+    INVINCIBLE_AUTOMATON          = 2940,
+    EES_AUTOMATON                 = 2941,
+    CHAINSPELL_AUTOMATON          = 2942,
+    BENEDICTION_AUTOMATON         = 2943,
+    MANAFONT_AUTOMATON            = 2944,
 
     -- MEIKYO_SHISUI                 = 3175,
 
@@ -1256,6 +1272,7 @@ xi.mobSkill =
 
     -- AZURE_LORE                    = 3481,
     BOLSTER                       = 3482,
+    REGULATOR_AUTOMATON           = 3485,
 
     NOTT                          = 3502,
 

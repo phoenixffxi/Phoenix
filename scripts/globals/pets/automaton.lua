@@ -557,6 +557,34 @@ local function applyAutomatonFrameMods(mob)
     end
 end
 
+local function getHeadyArtificeSkill(mob)
+    local headEquipped  = mob:getAutomatonHead()
+    local maxMP         = mob:getMaxMP()
+    local currentTarget = mob:getTarget()
+
+    if headEquipped == xi.automaton.head.VALOREDGE then
+        if currentTarget and currentTarget:getMainLvl() - mob:getMainLvl() >= 4 then
+            return xi.mobSkill.INVINCIBLE_AUTOMATON
+        end
+    elseif headEquipped == xi.automaton.head.SHARPSHOT then
+        if mob:getAutomatonFrame() == xi.automaton.frame.SHARPSHOT then
+            return xi.mobSkill.EES_AUTOMATON
+        end
+    elseif headEquipped == xi.automaton.head.STORMWAKER then
+        if maxMP > 0 then
+            return xi.mobSkill.CHAINSPELL_AUTOMATON
+        end
+    elseif headEquipped == xi.automaton.head.SOULSOOTHER then
+        return xi.mobSkill.BENEDICTION_AUTOMATON
+    elseif headEquipped == xi.automaton.head.SPIRITREAVER then
+        if maxMP > 0 then
+            return xi.mobSkill.MANAFONT_AUTOMATON
+        end
+    end
+
+    return xi.mobSkill.MIGHTY_STRIKES_AUTOMATON
+end
+
 xi.pets.automaton.onMobSpawn = function(mob)
     mob:setMobMod(xi.mobMod.CAN_PARRY, 1)
     applyAutomatonFrameMods(mob)
@@ -570,19 +598,30 @@ xi.pets.automaton.onMobSpawn = function(mob)
         end
     end)
 
+    mob:addListener('AUTOMATON_AI_TICK', 'HEADY_ARTIFICE_USED', function(mobArg)
+        if mobArg:getLocalVar('headyArtificeUsed') == 1 then
+            if xi.combat.behavior.isEntityBusy(mobArg) then
+                return
+            end
+
+            mobArg:useMobAbility(getHeadyArtificeSkill(mobArg))
+            mobArg:setLocalVar('headyArtificeUsed', 0)
+        end
+    end)
+
     -- All Automaton Attachments have their cooldowns applied on spawn.
-    mob:addRecast(xi.recast.ABILITY, xi.automaton.abilities.BARRAGE_TURBINE, 180)
-    mob:addRecast(xi.recast.ABILITY, xi.automaton.abilities.DISRUPTOR,        60)
-    mob:addRecast(xi.recast.ABILITY, xi.automaton.abilities.ECONOMIZER,       60)
-    mob:addRecast(xi.recast.ABILITY, xi.automaton.abilities.ERASER,           30)
-    mob:addRecast(xi.recast.ABILITY, xi.automaton.abilities.FLASHBULB,        45)
-    mob:addRecast(xi.recast.ABILITY, xi.automaton.abilities.HEAT_CAPACITOR,   90)
-    mob:addRecast(xi.recast.ABILITY, xi.automaton.abilities.MANA_CONVERTER,  180)
-    mob:addRecast(xi.recast.ABILITY, xi.automaton.abilities.PROVOKE,          30)
-    mob:addRecast(xi.recast.ABILITY, xi.automaton.abilities.REACTIVE_SHIELD,  60)
-    mob:addRecast(xi.recast.ABILITY, xi.automaton.abilities.REGULATOR,        60)
-    mob:addRecast(xi.recast.ABILITY, xi.automaton.abilities.REPLICATOR,       60)
-    mob:addRecast(xi.recast.ABILITY, xi.automaton.abilities.SHOCK_ABSORBER,  180)
+    mob:addRecast(xi.recast.ABILITY, xi.mobSkill.BARRAGE_TURBINE_AUTOMATON, 180)
+    mob:addRecast(xi.recast.ABILITY, xi.mobSkill.DISRUPTOR_AUTOMATON,        60)
+    mob:addRecast(xi.recast.ABILITY, xi.mobSkill.ECONOMIZER_AUTOMATON,       60)
+    mob:addRecast(xi.recast.ABILITY, xi.mobSkill.ERASER_AUTOMATON,           30)
+    mob:addRecast(xi.recast.ABILITY, xi.mobSkill.FLASHBULB_AUTOMATON,        45)
+    mob:addRecast(xi.recast.ABILITY, xi.mobSkill.HEAT_CAPACITOR_AUTOMATON,   90)
+    mob:addRecast(xi.recast.ABILITY, xi.mobSkill.MANA_CONVERTER_AUTOMATON,  180)
+    mob:addRecast(xi.recast.ABILITY, xi.mobSkill.PROVOKE_AUTOMATON,          30)
+    mob:addRecast(xi.recast.ABILITY, xi.mobSkill.REACTIVE_SHIELD_AUTOMATON,  60)
+    mob:addRecast(xi.recast.ABILITY, xi.mobSkill.REGULATOR_AUTOMATON,        60)
+    mob:addRecast(xi.recast.ABILITY, xi.mobSkill.REPLICATOR_AUTOMATON,       60)
+    mob:addRecast(xi.recast.ABILITY, xi.mobSkill.SHOCK_ABSORBER_AUTOMATON,  180)
 end
 
 xi.pets.automaton.onAdditionalEffectAttack = function(attacker, defender, damage)

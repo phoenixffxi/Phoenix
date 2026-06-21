@@ -17,18 +17,18 @@ local m = Module:new(moduleName)
 
 local validSkills = set
 {
-    xi.automaton.abilities.ARCUBALLISTA,
-    xi.automaton.abilities.ARMOR_PIERCER,
-    xi.automaton.abilities.ARMOR_SHATTERER,
-    xi.automaton.abilities.BONE_CRUSHER,
-    xi.automaton.abilities.CANNIBAL_BLADE,
-    xi.automaton.abilities.CHIMERA_RIPPER,
-    xi.automaton.abilities.DAZE,
-    xi.automaton.abilities.KNOCKOUT,
-    xi.automaton.abilities.MAGIC_MORTAR,
-    xi.automaton.abilities.SLAPSTICK,
-    xi.automaton.abilities.STRING_CLIPPER,
-    xi.automaton.abilities.STRING_SHREDDER,
+    xi.mobSkill.ARCUBALLISTA_AUTOMATON,
+    xi.mobSkill.ARMOR_PIERCER_AUTOMATON,
+    xi.mobSkill.ARMOR_SHATTERER_AUTOMATON,
+    xi.mobSkill.BONE_CRUSHER_AUTOMATON,
+    xi.mobSkill.CANNIBAL_BLADE_AUTOMATON,
+    xi.mobSkill.CHIMERA_RIPPER_AUTOMATON,
+    xi.mobSkill.DAZE_AUTOMATON,
+    xi.mobSkill.KNOCKOUT_AUTOMATON,
+    xi.mobSkill.MAGIC_MORTAR_AUTOMATON,
+    xi.mobSkill.SLAPSTICK_AUTOMATON,
+    xi.mobSkill.STRING_CLIPPER_AUTOMATON,
+    xi.mobSkill.STRING_SHREDDER_AUTOMATON,
 }
 
 m:addOverride('xi.actions.abilities.pets.attachments.flame_holder.onEquip', function(pet, attachment)
