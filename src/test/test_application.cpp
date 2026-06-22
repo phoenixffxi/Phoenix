@@ -206,5 +206,9 @@ void TestApplication::captureLogger() const
         spdlog::register_logger(logger);
     }
 
+    // The loggers were just dropped and re-created, so the lock-free loggerFor cache now holds
+    // dangling pointers. Re-resolve it before anything logs again.
+    logging::RefreshLoggerCache();
+
     logging::SetPattern(settings::get<std::string>("test.PATTERN"));
 }

@@ -729,30 +729,32 @@ std::vector<std::string> split(const std::string& s, const std::string& delimite
 
 std::string to_lower(const std::string& s)
 {
+    // Branchless ASCII uppercase. Avoids the locale-aware std::tolower (a non-inlined,
+    // table-indirected call per character); all keys/names this is used on are ASCII.
     std::string data = s;
-    std::transform(
-        data.begin(),
-        data.end(),
-        data.begin(),
-        [](unsigned char c)
+    for (char& c : data)
+    {
+        if (c >= 'A' && c <= 'Z')
         {
-            return std::tolower(c);
-        });
+            c += ('a' - 'A');
+        }
+    }
 
     return data;
 }
 
 std::string to_upper(const std::string& s)
 {
+    // Branchless ASCII uppercase. Avoids the locale-aware std::toupper (a non-inlined,
+    // table-indirected call per character); all keys/names this is used on are ASCII.
     std::string data = s;
-    std::transform(
-        data.begin(),
-        data.end(),
-        data.begin(),
-        [](unsigned char c)
+    for (char& c : data)
+    {
+        if (c >= 'a' && c <= 'z')
         {
-            return std::toupper(c);
-        });
+            c -= ('a' - 'A');
+        }
+    }
 
     return data;
 }
