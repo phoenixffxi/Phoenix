@@ -8,8 +8,6 @@
 -----------------------------------
 mixins = { require('scripts/mixins/weapon_break') }
 -----------------------------------
-local ID = zones[xi.zone.ARRAPAGO_REEF]
-
 -- Patrol zones. She spawns in one at random, starts on its first point, walks the list to the end, then back up, and repeats
 local patrolZones =
 {
@@ -63,33 +61,31 @@ local patrolZones =
 ---@type TMobEntity
 local entity = {}
 
--- Tracks deaths she has already handled. Each death gets one reveal chance, evaluated once at the moment of death, so a
--- lingering corpse can't re-trigger. An entry is cleared once that player is alive again (their next death is eligible)
-local rolledDeaths = {}
-
 -- Hide her and (re)start the patrol from the first point of a zone. Pass a zoneIndex to keep her in the zone she just returned to; omit it on first spawn to pick a zone at random
 local function goDormant(mob, zoneIndex)
+    mob:clearPath()
+
     zoneIndex = zoneIndex or math.random(1, #patrolZones)
 
     mob:setLocalVar('patrolZone', zoneIndex)
     mob:setLocalVar('state', 0)
     mob:setLocalVar('appearTime', 0)
-    mob:setLocalVar('wpIndex', 1) -- current patrol point (she starts on point 1)
+    mob:setLocalVar('wpIndex', 1) -- Current patrol point (She starts at point 1)
     mob:setLocalVar('wpDirection', 0)
     mob:setLocalVar('nextMoveTime', GetSystemTime() + 25)
 
     mob:setStatus(xi.status.INVISIBLE)
+    mob:setMagicCastingEnabled(false)
     mob:hideHP(true)
     mob:hideName(true)
     mob:setUntargetable(true)
     mob:setAggressive(false)
-    mob:setMobMod(xi.mobMod.ALWAYS_AGGRO, 0)
     mob:setTrueDetection(false)
+    mob:setMobMod(xi.mobMod.ALWAYS_AGGRO, 0)
     mob:setMobMod(xi.mobMod.NO_MOVE, 0)
 
     -- Start on the zone's first point; movement is driven in onMobRoam
     local point = patrolZones[zoneIndex][1]
-    mob:clearPath()
     mob:setPos(point.x, point.y, point.z) -- Teleports back to first point in her starting patrol zone.
 end
 
@@ -130,65 +126,6 @@ local function startReturningHome(mob)
     mob:pathThrough({ returnPoint.x, returnPoint.y, returnPoint.z })
 end
 
--- Watch for a nearby player death; returns true if she is revealed
-local function checkForDeath(mob)
-    local zone = mob:getZone()
-    if not zone then
-        return false
-    end
-
-    local players = zone:getPlayers()
-    for _, player in pairs(players) do
-        local playerId = player:getID()
-
-        -- Player is alive again; forget the handled death so a later one is eligible for a fresh chance
-        if not player:isDead() then
-            rolledDeaths[playerId] = nil
-
-        -- First tick we have seen this death: it gets exactly one chance, right now.
-        -- Mark it immediately whatever the outcome, so a lingering corpse can never re-trigger.
-        -- She only reacts to a death that happens close to her.
-        elseif not rolledDeaths[playerId] then
-            rolledDeaths[playerId] = true
-
-            -- Death happened within 15 yalms of her
-            if mob:checkDistance(player) <= 15 then
-                -- Show the foreboding message (not spoken by her - just displayed) to everyone near the death.
-                for _, person in pairs(players) do
-                    if person:checkDistance(player) <= 30 then
-                        person:messageSpecial(ID.text.FOREBODING)
-                    end
-                end
-
-                -- 80% chance she answers it (estimate from current captures; needs more data for a precise rate)
-                if math.random(1, 100) <= 80 then
-                    mob:clearPath()
-                    mob:setMobMod(xi.mobMod.NO_MOVE, 1)
-                    mob:setPos(player:getXPos(), player:getYPos(), player:getZPos())
-
-                    mob:setStatus(xi.status.UPDATE)
-                    mob:hideHP(false)
-                    mob:hideName(false)
-                    mob:setUntargetable(false)
-
-                    -- While visible she is always aggressive and has true sight
-                    mob:setAggressive(true)
-                    mob:setMobMod(xi.mobMod.ALWAYS_AGGRO, 1)
-                    mob:setMobMod(xi.mobMod.DETECTION, xi.detects.SIGHT)
-                    mob:setTrueDetection(true)
-
-                    mob:setLocalVar('state', 1)
-                    mob:setLocalVar('appearTime', GetSystemTime())
-
-                    return true
-                end
-            end
-        end
-    end
-
-    return false
-end
-
 entity.onMobInitialize = function(mob)
     mob:addImmunity(xi.immunity.SILENCE)
     mob:addImmunity(xi.immunity.TERROR)
@@ -200,9 +137,10 @@ end
 entity.onMobSpawn = function(mob)
     -- Don't let the engine drag her back to her DB spawn point (with WALLHACK) while she patrols far from it
     mob:setMobMod(xi.mobMod.DONT_ROAM_HOME, 1)
-    goDormant(mob)
-    mob:setMod(xi.mod.POWER_MULTIPLIER_SPELL, 20)
     mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 150)
+    mob:setMod(xi.mod.POWER_MULTIPLIER_SPELL, 20)
+
+    goDormant(mob)
 end
 
 entity.onMobRoam = function(mob)
@@ -211,39 +149,40 @@ entity.onMobRoam = function(mob)
 
     -- Dormant and invisible: Walk the patrol and watch for a nearby death.
     if state == 0 then
-        if not checkForDeath(mob) then
-            if currentTime < mob:getLocalVar('nextMoveTime') then
-                return
-            end
-
-            local pointTable = patrolZones[mob:getLocalVar('patrolZone')]
-            local pointIndex = mob:getLocalVar('wpIndex')
-            local point      = pointTable[pointIndex]
-            if mob:checkDistance(point.x, point.y, point.z) > 3 then
-                return
-            end
-
-            local pathDirection = mob:getLocalVar('wpDirection')
-
-            if pathDirection == 0 then
-                if pointIndex >= #pointTable then
-                    pathDirection = 1 -- Reached the end; Turn around.
-                end
-            else
-                if pointIndex <= 1 then
-                    pathDirection = 0 -- Reached the end; Turn around.
-                end
-            end
-
-            pointIndex = pointIndex + 1 - 2 * pathDirection
-
-            mob:setLocalVar('wpIndex', pointIndex)
-            mob:setLocalVar('wpDirection', pathDirection)
-            mob:setLocalVar('nextMoveTime', currentTime + 25)
-
-            local nextPoint = pointTable[pointIndex]
-            mob:pathThrough({ nextPoint.x, nextPoint.y, nextPoint.z })
+        if currentTime < mob:getLocalVar('nextMoveTime') then
+            return
         end
+
+        local pointTable = patrolZones[mob:getLocalVar('patrolZone')]
+        local pointIndex = mob:getLocalVar('wpIndex')
+        local point      = pointTable[pointIndex]
+
+        -- Early return: Not at destiny yet.
+        if mob:checkDistance(point.x, point.y, point.z) > 3 then
+            return
+        end
+
+        -- At destiny. Choose next point to path to.
+        local pathDirection = mob:getLocalVar('wpDirection')
+
+        if pathDirection == 0 then
+            if pointIndex >= #pointTable then
+                pathDirection = 1 -- Reached the end; Turn around.
+            end
+        else
+            if pointIndex <= 1 then
+                pathDirection = 0 -- Reached the end; Turn around.
+            end
+        end
+
+        pointIndex = pointIndex + (pathDirection == 0 and 1 or -1)
+
+        mob:setLocalVar('wpIndex', pointIndex)
+        mob:setLocalVar('wpDirection', pathDirection)
+        mob:setLocalVar('nextMoveTime', currentTime + 25)
+
+        local nextPoint = pointTable[pointIndex]
+        mob:pathThrough({ nextPoint.x, nextPoint.y, nextPoint.z })
 
     -- Revealed but never engaged: after the idle timer she gives up and walks home
     elseif state == 1 then
@@ -291,6 +230,7 @@ end
 entity.onMobEngage = function(mob, target)
     -- She was holding position: let her move now that she fights
     mob:setMobMod(xi.mobMod.NO_MOVE, 0)
+    mob:setMagicCastingEnabled(true)
 
     -- Summon two Lamia's Skeleton next to her.
     local mobId = mob:getID()
@@ -330,6 +270,7 @@ end
 
 entity.onMobDisengage = function(mob)
     -- Combat ended (the player died fighting her, or she lost her target). She walks back along her zone's points; arrival is handled in onMobRoam
+    mob:setMagicCastingEnabled(false)
     startReturningHome(mob)
 end
 
