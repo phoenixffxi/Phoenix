@@ -286,9 +286,14 @@ xi.mobSkill =
 
     GRAVE_REEL                    =  472,
 
+    HORROR_CLOUD                  =  479,
+
     PETRIFACTIVE_BREATH           =  480,
 
     CHARGED_WHISKER               =  483,
+
+    BLACK_CLOUD                   =  484,
+    BLOOD_SABER                   =  485,
 
     WHIP_TONGUE                   =  486,
     TRANSMOGRIFICATION            =  487, -- Mammet-800
@@ -1014,6 +1019,8 @@ xi.mobSkill =
     GATES_OF_HADES                = 1790,
 
     VAMPIRIC_ROOT                 = 1793,
+
+    MALEDICTION                   = 1795,
 
     BOILING_POINT                 = 1822,
     XENOGLOSSIA                   = 1823,
