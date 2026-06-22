@@ -268,6 +268,13 @@ CPMAddPackage(
     SYSTEM ON
 ) # defines: termcolor::termcolor
 
+CPMAddPackage(
+    NAME unordered_dense
+    GITHUB_REPOSITORY martinus/unordered_dense
+    GIT_TAG v4.4.0
+    SYSTEM ON
+) # defines: unordered_dense::unordered_dense (aliased to FlatHashMap, see src/common/flat_hash_map.h)
+
 set(SHARED_EXTERNAL_LIBS
     fmt::fmt
     spdlog
@@ -283,6 +290,7 @@ set(SHARED_EXTERNAL_LIBS
     alpaca
     magic_enum
     utf8cpp
+    unordered_dense::unordered_dense
 )
 
 if(WIN32)
