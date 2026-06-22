@@ -3120,13 +3120,13 @@ void OnSpellCastStart(CBattleEntity* PCaster, CBattleEntity* PTarget, CSpell* PS
         return;
     }
 
-    sol::function onSpellInterrupted = getEntityCachedFunction(PCaster, "onSpellCastStart");
-    if (!onSpellInterrupted.valid())
+    sol::function onSpellCastStart = getEntityCachedFunction(PCaster, "onSpellCastStart");
+    if (!onSpellCastStart.valid())
     {
         return;
     }
 
-    auto result = onSpellInterrupted(PCaster, PSpell);
+    auto result = onSpellCastStart(PCaster, PTarget, PSpell);
     if (!result.valid())
     {
         sol::error err = result;

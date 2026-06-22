@@ -78,6 +78,12 @@ entity.onMobDeath = function(mob, player, optParams)
             end
         end
 
+        -- Skip NM spawn if the Red Receptacle already died and is ending the battlefield
+        local battlefield = mob:getBattlefield()
+        if not battlefield or battlefield:getLocalVar('endingBattlefield') == 1 then
+            return
+        end
+
         -- Spawn the corresponding Promyvion Mob (Contemplator/Ingurgitator/Repiner)
         local nmMob = GetMobByID(mob:getID() + 3)
         if nmMob and not nmMob:isSpawned() then
