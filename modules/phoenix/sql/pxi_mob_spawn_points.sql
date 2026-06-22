@@ -1,3 +1,119 @@
+-- Module for replcement of OOE mobs
+-- NOTE: THIS REQUIRED DAT EDITS OR IT WILL NOT WORK AND EVERYTHING WILL BE NAMED WRONG
+-- https://github.com/phoenixffxi/Era-DATs
+
+-- Arrapago Reef (Zone 54)
+REPLACE INTO `mob_spawn_points` VALUES (16998602, 0, 'Nipper', 'Nipper', 20, 72, 73, 341.5406, -4.2288, 377.8908, 215);
+REPLACE INTO `mob_spawn_points` VALUES (16998603, 0, 'Nipper', 'Nipper', 20, 72, 73, 343.8515, -3.4907, 360.6572, 11);
+REPLACE INTO `mob_spawn_points` VALUES (16998604, 0, 'Soulflayer', 'Soulflayer', 43, 82, 83, 336.8403, -6.9518, 369.6974, 19);
+REPLACE INTO `mob_spawn_points` VALUES (16998605, 0, 'Nipper', 'Nipper', 20, 72, 73, 330.1178, -3.5529, 295.2823, 39);
+REPLACE INTO `mob_spawn_points` VALUES (16998606, 0, 'Soulflayer', 'Soulflayer', 43, 82, 83, 338.1236, -5.5598, 307.5782, 36);
+REPLACE INTO `mob_spawn_points` VALUES (16998607, 0, 'Nipper', 'Nipper', 20, 72, 73, 273.3258, -3.4856, 335.2846, 104);
+REPLACE INTO `mob_spawn_points` VALUES (16998608, 0, 'Nipper', 'Nipper', 20, 72, 73, 258.8872, -3.8732, 333.9828, 87);
+REPLACE INTO `mob_spawn_points` VALUES (16998609, 0, 'Soulflayer', 'Soulflayer', 43, 82, 83, 282.6903, -6.7322, 343.3832, 98);
+REPLACE INTO `mob_spawn_points` VALUES (16998610, 0, 'Phasma', 'Phasma', 12, 0, 0, 225.7804, -4.2998, 182.0707, 65);
+REPLACE INTO `mob_spawn_points` VALUES (16998611, 0, 'Heraldic_Imp', 'Heraldic Imp', 29, 72, 74, 261.8622, -7.7309, 138.5360, 148);
+REPLACE INTO `mob_spawn_points` VALUES (16998612, 0, 'Heraldic_Imp', 'Heraldic Imp', 29, 72, 74, 260.9121, -7.6336, 127.8855, 79);
+REPLACE INTO `mob_spawn_points` VALUES (16998613, 0, 'Arrapago_Apkallu', 'Arrapago Apkallu', 10, 70, 72, 269.1217, -3.1710, 190.9961, 215);
+REPLACE INTO `mob_spawn_points` VALUES (16998614, 0, 'Arrapago_Apkallu', 'Arrapago Apkallu', 10, 70, 72, 267.1374, -3.0554, 209.1100, 199);
+REPLACE INTO `mob_spawn_points` VALUES (16998615, 0, 'Arrapago_Apkallu', 'Arrapago Apkallu', 10, 70, 72, 254.7452, -7.3571, 203.1879, 148);
+REPLACE INTO `mob_spawn_points` VALUES (16998616, 0, 'Arrapago_Apkallu', 'Arrapago Apkallu', 10, 70, 72, 233.5007, -2.9026, 227.3359, 214);
+REPLACE INTO `mob_spawn_points` VALUES (16998617, 0, 'Arrapago_Apkallu', 'Arrapago Apkallu', 10, 70, 72, 220.9697, -4.4265, 228.6085, 155);
+REPLACE INTO `mob_spawn_points` VALUES (16998618, 0, 'Arrapago_Apkallu', 'Arrapago Apkallu', 10, 70, 72, 220.7657, -4.5294, 236.1665, 189);
+REPLACE INTO `mob_spawn_points` VALUES (16998619, 0, 'Arrapago_Apkallu', 'Arrapago Apkallu', 10, 70, 72, 230.2711, -3.3803, 246.8333, 6);
+REPLACE INTO `mob_spawn_points` VALUES (16998620, 0, 'Reserve_Draugar', 'Reserve Draugar', 17, 72, 73, 303.7688, -3.8613, 151.2982, 25);
+REPLACE INTO `mob_spawn_points` VALUES (16998621, 0, 'Reserve_Draugar', 'Reserve Draugar', 17, 72, 73, 314.2578, -3.3268, 142.8510, 17);
+REPLACE INTO `mob_spawn_points` VALUES (16998622, 0, 'Reserve_Draugar', 'Reserve Draugar', 17, 72, 73, 304.9908, -4.8199, 136.1241, 90);
+REPLACE INTO `mob_spawn_points` VALUES (16998623, 0, 'Purgatory_Bat', 'Purgatory Bat', 25, 72, 73, -596.7172, -9.4975, -82.1554, 138);
+REPLACE INTO `mob_spawn_points` VALUES (16998624, 0, 'Purgatory_Bat', 'Purgatory Bat', 25, 72, 73, -609.7958, -9.7706, -73.0311, 158);
+REPLACE INTO `mob_spawn_points` VALUES (16998625, 0, 'Purgatory_Bat', 'Purgatory Bat', 25, 72, 73, -594.1940, -9.6565, -66.9295, 16);
+REPLACE INTO `mob_spawn_points` VALUES (16998626, 0, 'Purgatory_Bat', 'Purgatory Bat', 25, 72, 73, -582.3611, -8.2538, -23.1429, 166);
+REPLACE INTO `mob_spawn_points` VALUES (16998627, 0, 'Purgatory_Bat', 'Purgatory Bat', 25, 72, 73, -572.8229, -7.9223, -14.6001, 218);
+REPLACE INTO `mob_spawn_points` VALUES (16998628, 0, 'Fallen_Imperial', 'Fallen Imperial', 37, 72, 74, -532.4354, -6.0845, -18.1389, 205);
+REPLACE INTO `mob_spawn_points` VALUES (16998629, 0, 'Fallen_Volunteer', 'Fallen Volunteer', 36, 72, 74, -536.9003, -4.0604, -6.1224, 213);
+REPLACE INTO `mob_spawn_points` VALUES (16998630, 0, 'Fallen_Volunteer', 'Fallen Volunteer', 36, 72, 74, -520.1124, -3.7551, -16.7167, 246);
+REPLACE INTO `mob_spawn_points` VALUES (16998631, 0, 'Fallen_Imperial', 'Fallen Imperial', 37, 72, 74, -548.6924, -2.5783, 68.0630, 203);
+REPLACE INTO `mob_spawn_points` VALUES (16998632, 0, 'Fallen_Imperial', 'Fallen Imperial', 37, 72, 74, -549.2040, -6.1465, 56.6080, 190);
+REPLACE INTO `mob_spawn_points` VALUES (16998633, 0, 'Fallen_Volunteer', 'Fallen Volunteer', 36, 72, 74, -561.7267, -3.0578, 64.9143, 137);
+REPLACE INTO `mob_spawn_points` VALUES (16998634, 0, 'Jnun', 'Jnun', 19, 77, 80, -346.8120, -4.8639, 219.2163, 121);
+REPLACE INTO `mob_spawn_points` VALUES (16998635, 0, 'Jnun', 'Jnun', 19, 77, 80, -305.4676, -4.0039, 205.3261, 59);
+REPLACE INTO `mob_spawn_points` VALUES (16998669, 0, 'Jnun', 'Jnun', 19, 77, 80, -333.5012, -2.9226, 268.1689, 99);
+REPLACE INTO `mob_spawn_points` VALUES (16998670, 0, 'Jnun', 'Jnun', 19, 77, 80, -347.5869, -3.9618, 266.0655, 195);
+REPLACE INTO `mob_spawn_points` VALUES (16998671, 0, 'Jnun', 'Jnun', 19, 77, 80, -371.6005, -2.7028, 292.4640, 121);
+REPLACE INTO `mob_spawn_points` VALUES (16998672, 0, 'Jnun', 'Jnun', 19, 77, 80, -378.1251, -4.2217, 297.6705, 33);
+
+-- Aydeewa Subterrane (Zone 68)
+REPLACE INTO `mob_spawn_points` VALUES (17055868, 0, 'Mycohopper', 'Mycohopper', 16, 68, 71, -153.8861, 8.7083, 34.5618, 166);
+REPLACE INTO `mob_spawn_points` VALUES (17055869, 0, 'Mycohopper', 'Mycohopper', 16, 68, 71, -162.8818, 8.5260, 43.6501, 159);
+REPLACE INTO `mob_spawn_points` VALUES (17055870, 0, 'Mycohopper', 'Mycohopper', 16, 68, 71, -154.7002, 8.6886, 45.2553, 34);
+REPLACE INTO `mob_spawn_points` VALUES (17055871, 0, 'Mycohopper', 'Mycohopper', 16, 68, 71, -168.2960, 8.6760, 34.7315, 195);
+REPLACE INTO `mob_spawn_points` VALUES (17055872, 0, 'Great_Ameretat', 'Great Ameretat', 17, 73, 75, -316.3951, 8.7115, 82.9130, 0);
+REPLACE INTO `mob_spawn_points` VALUES (17055873, 0, 'Great_Ameretat', 'Great Ameretat', 17, 73, 75, -274.9518, 8.9568, 70.9666, 130);
+REPLACE INTO `mob_spawn_points` VALUES (17055874, 0, 'Treant_Sapling', 'Treant Sapling', 5, 66, 69, -281.5219, 8.9041, 86.9719, 102);
+REPLACE INTO `mob_spawn_points` VALUES (17055875, 0, 'Treant_Sapling', 'Treant Sapling', 5, 66, 69, -289.6037, 8.8206, 82.4228, 112);
+REPLACE INTO `mob_spawn_points` VALUES (17055876, 0, 'Aydeewa_Diremite', 'Aydeewa Diremite', 15, 70, 74, -134.3725, 36.4183, -67.8706, 70);
+REPLACE INTO `mob_spawn_points` VALUES (17055877, 0, 'Aydeewa_Diremite', 'Aydeewa Diremite', 15, 70, 74, -117.6992, 36.8339, -30.8220, 112);
+REPLACE INTO `mob_spawn_points` VALUES (17055878, 0, 'Cave_Tiger', 'Cave Tiger', 22, 73, 76, -106.4440, 36.8659, -49.7487, 208);
+REPLACE INTO `mob_spawn_points` VALUES (17055879, 0, 'Cave_Tiger', 'Cave Tiger', 22, 73, 76, -112.6890, 36.8674, -63.8682, 239);
+REPLACE INTO `mob_spawn_points` VALUES (17055880, 0, 'Aydeewa_Diremite', 'Aydeewa Diremite', 15, 70, 74, -96.4907, 36.7037, -63.7336, 49);
+REPLACE INTO `mob_spawn_points` VALUES (17055881, 0, 'Aydeewa_Diremite', 'Aydeewa Diremite', 15, 70, 74, -99.1291, 36.8748, -79.5476, 64);
+REPLACE INTO `mob_spawn_points` VALUES (17056019, 0, 'Aydeewa_Diremite', 'Aydeewa Diremite', 15, 70, 74, -104.1275, 36.6873, -93.9456, 49);
+REPLACE INTO `mob_spawn_points` VALUES (17056020, 0, 'Aydeewa_Diremite', 'Aydeewa Diremite', 15, 70, 74, -74.2440, 36.8703, -90.2908, 222);
+REPLACE INTO `mob_spawn_points` VALUES (17056021, 0, 'Aydeewa_Diremite', 'Aydeewa Diremite', 15, 70, 74, -68.4331, 36.7660, -65.0737, 205);
+REPLACE INTO `mob_spawn_points` VALUES (17056022, 0, 'Cave_Tiger', 'Cave Tiger', 22, 73, 76, -76.0603, 36.9238, -46.6866, 27);
+REPLACE INTO `mob_spawn_points` VALUES (17055967, 0, 'Qiqirn_Archaeologist', 'Qiqirn Archaeologist', 19, 73, 75, -27.2589, 36.0070, -21.0978, 122);
+REPLACE INTO `mob_spawn_points` VALUES (17056023, 0, 'Mycohopper', 'Mycohopper', 16, 68, 71, -354.8100, 8.6769, -190.7382, 93);
+REPLACE INTO `mob_spawn_points` VALUES (17056024, 0, 'Mycohopper', 'Mycohopper', 16, 68, 71, -355.5354, 8.5461, -199.9289, 65);
+REPLACE INTO `mob_spawn_points` VALUES (17056025, 0, 'Mycohopper', 'Mycohopper', 16, 68, 71, -365.6558, 8.6921, -194.9834, 147);
+REPLACE INTO `mob_spawn_points` VALUES (17056026, 0, 'Mycohopper', 'Mycohopper', 16, 68, 71, -359.1505, 8.8074, -188.3463, 236);
+REPLACE INTO `mob_spawn_points` VALUES (17056027, 0, 'Mycohopper', 'Mycohopper', 16, 68, 71, -409.8034, 14.4450, -311.0092, 27);
+REPLACE INTO `mob_spawn_points` VALUES (17056028, 0, 'Mycohopper', 'Mycohopper', 16, 68, 71, -406.0403, 14.7179, -323.8557, 246);
+REPLACE INTO `mob_spawn_points` VALUES (17056029, 0, 'Mycohopper', 'Mycohopper', 16, 68, 71, -395.8454, 14.6689, -324.8374, 12);
+REPLACE INTO `mob_spawn_points` VALUES (17056030, 0, 'Aydeewa_Diremite', 'Aydeewa Diremite', 15, 70, 74, 402.0817, -26.0283, 432.1520, 139);
+REPLACE INTO `mob_spawn_points` VALUES (17056031, 0, 'Aydeewa_Diremite', 'Aydeewa Diremite', 15, 70, 74, 397.8761, -26.1477, 446.4006, 157);
+REPLACE INTO `mob_spawn_points` VALUES (17056032, 0, 'Aydeewa_Diremite', 'Aydeewa Diremite', 15, 70, 74, 378.2408, -25.7855, 446.4068, 140);
+REPLACE INTO `mob_spawn_points` VALUES (17056033, 0, 'Aydeewa_Diremite', 'Aydeewa Diremite', 15, 70, 74, 345.9201, -26.0319, 442.9194, 111);
+REPLACE INTO `mob_spawn_points` VALUES (17056034, 0, 'Aydeewa_Diremite', 'Aydeewa Diremite', 15, 70, 74, 349.5329, -26.5284, 430.0526, 45);
+REPLACE INTO `mob_spawn_points` VALUES (17056035, 0, 'Aydeewa_Diremite', 'Aydeewa Diremite', 15, 70, 74, 369.5156, -26.4082, 426.2679, 16);
+REPLACE INTO `mob_spawn_points` VALUES (17056036, 0, 'Mold_Eater', 'Mold Eater', 21, 69, 71, 341.5533, -26.5022, 498.6981, 104);
+REPLACE INTO `mob_spawn_points` VALUES (17056096, 0, 'Mold_Eater', 'Mold Eater', 21, 69, 71, 338.9324, -26.4791, 494.7912, 223);
+REPLACE INTO `mob_spawn_points` VALUES (17056097, 0, 'Mold_Eater', 'Mold Eater', 21, 69, 71, 383.9000, -26.3959, 502.2145, 139);
+REPLACE INTO `mob_spawn_points` VALUES (17056098, 0, 'Mold_Eater', 'Mold Eater', 21, 69, 71, 380.0381, -26.1967, 492.0866, 60);
+
+-- Caedarva Mire (Zone 79)
+REPLACE INTO `mob_spawn_points` VALUES (17101021, 0, 'Heraldic_Imp', 'Heraldic Imp', 19, 79, 81, -578.5791, -6.3917, -13.3468, 6);
+REPLACE INTO `mob_spawn_points` VALUES (17101022, 0, 'Lamia_Idolater', 'Lamia Idolater', 38, 79, 81, -587.0839, -7.0000, -15.2822, 74);
+REPLACE INTO `mob_spawn_points` VALUES (17101023, 0, 'Lamia_Idolater', 'Lamia Idolater', 38, 79, 81, -573.4034, -5.7185, -6.2042, 217);
+REPLACE INTO `mob_spawn_points` VALUES (17101024, 0, 'Lamia_Idolater', 'Lamia Idolater', 38, 79, 81, -574.1716, -3.9152, -24.1448, 63);
+REPLACE INTO `mob_spawn_points` VALUES (17101025, 0, 'Guard_Bhoot', 'Guard Bhoot', 33, 81, 83, -583.2847, -8.1299, -3.6993, 41);
+REPLACE INTO `mob_spawn_points` VALUES (17101026, 0, 'Lamia_Idolater', 'Lamia Idolater', 38, 79, 81, -576.3129, 1.8238, -40.4751, 78);
+REPLACE INTO `mob_spawn_points` VALUES (17101027, 0, 'Lamia_Idolater', 'Lamia Idolater', 38, 79, 81, -565.7809, 3.7703, -40.7856, 1);
+REPLACE INTO `mob_spawn_points` VALUES (17101028, 0, 'Lamia_Idolater', 'Lamia Idolater', 38, 79, 81, -575.8091, 3.4152, -51.9657, 73);
+REPLACE INTO `mob_spawn_points` VALUES (17101029, 0, 'Lamia_Idolater', 'Lamia Idolater', 38, 79, 81, -586.9039, -0.2500, -43.4761, 118);
+REPLACE INTO `mob_spawn_points` VALUES (17101030, 0, 'Lamia_Idolater', 'Lamia Idolater', 38, 79, 81, -606.5341, 3.7602, -109.1120, 102);
+REPLACE INTO `mob_spawn_points` VALUES (17101031, 0, 'Lamia_Idolater', 'Lamia Idolater', 38, 79, 81, -594.0468, 3.7493, -116.7076, 33);
+REPLACE INTO `mob_spawn_points` VALUES (17100899, 0, 'Caedarva_Leech', 'Caedarva Leech', 10, 63, 65, 140.7518, -6.6115, -256.8494, 60);
+REPLACE INTO `mob_spawn_points` VALUES (17100903, 0, 'Mature_Treant', 'Mature Treant', 15, 70, 72, 169.6210, -11.3932, -214.3786, 165);
+REPLACE INTO `mob_spawn_points` VALUES (17100953, 0, 'Caedarva_Leech', 'Caedarva Leech', 10, 63, 65, 291.6935, -18.4464, -143.2287, 254);
+REPLACE INTO `mob_spawn_points` VALUES (17100961, 0, 'Heraldic_Imp', 'Heraldic Imp', 19, 79, 81, 441.3899, -16.0500, -75.6568, 53);
+REPLACE INTO `mob_spawn_points` VALUES (17100949, 0, 'Heraldic_Imp', 'Heraldic Imp', 19, 79, 81, 399.5091, -8.2321, -194.1741, 58);
+REPLACE INTO `mob_spawn_points` VALUES (17100950, 0, 'Heraldic_Imp', 'Heraldic Imp', 19, 79, 81, 395.5631, -7.8113, -208.5970, 71);
+REPLACE INTO `mob_spawn_points` VALUES (17100951, 0, 'Heraldic_Imp', 'Heraldic Imp', 19, 79, 81, 411.2529, -9.5651, -211.1721, 208);
+REPLACE INTO `mob_spawn_points` VALUES (17100946, 0, 'Heraldic_Imp', 'Heraldic Imp', 19, 79, 81, 397.7280, -8.0000, -239.8087, 176);
+REPLACE INTO `mob_spawn_points` VALUES (17101032, 0, 'Treant_Sapling', 'Treant Sapling', 8, 61, 63, -289.6291, 6.6021, -494.3405, 228);
+REPLACE INTO `mob_spawn_points` VALUES (17101033, 0, 'Heraldic_Imp', 'Heraldic Imp', 19, 79, 81, -282.0024, 8.0000, -482.4798, 218);
+REPLACE INTO `mob_spawn_points` VALUES (17101034, 0, 'Elder_Treant', 'Elder Treant', 23, 80, 82, -264.6230, 6.5185, -466.3022, 250);
+REPLACE INTO `mob_spawn_points` VALUES (17101035, 0, 'Elder_Treant', 'Elder Treant', 23, 80, 82, -270.8261, 4.1576, -456.6651, 88);
+REPLACE INTO `mob_spawn_points` VALUES (17101100, 0, 'Treant_Sapling', 'Treant Sapling', 8, 61, 63, -231.1272, 7.1141, -478.4576, 12);
+REPLACE INTO `mob_spawn_points` VALUES (17101101, 0, 'Heraldic_Imp', 'Heraldic Imp', 19, 79, 81, -231.7959, 7.4470, -491.0883, 53);
+REPLACE INTO `mob_spawn_points` VALUES (17101102, 0, 'Elder_Treant', 'Elder Treant', 23, 80, 82, -223.7006, 6.0000, -499.8919, 47);
+REPLACE INTO `mob_spawn_points` VALUES (17101103, 0, 'Elder_Treant', 'Elder Treant', 23, 80, 82, -217.9120, 4.0843, -483.8942, 139);
+REPLACE INTO `mob_spawn_points` VALUES (17101104, 0, 'Treant_Sapling', 'Treant Sapling', 8, 61, 63, -250.6606, 6.6251, -525.5054, 99);
+REPLACE INTO `mob_spawn_points` VALUES (17101105, 0, 'Elder_Treant', 'Elder Treant', 23, 80, 82, -255.4327, 6.0000, -537.7132, 72);
+REPLACE INTO `mob_spawn_points` VALUES (17101106, 0, 'Elder_Treant', 'Elder Treant', 23, 80, 82, -241.9578, 4.3564, -540.6875, 22);
+REPLACE INTO `mob_spawn_points` VALUES (17101197, 0, 'Khimaira', 'Khimaira', 59, 85, 85, 841.8593, 0.0000, 359.1881, 211);
+
+-- Crawler's Nest (Zone 197)
 REPLACE INTO `mob_spawn_points` VALUES (17584214, 0, 'Worker_Crawler', 'Worker Crawler', 6, 41, 43, 98.2741, -28.0657, -218.6358, 68);
 REPLACE INTO `mob_spawn_points` VALUES (17584215, 0, 'Worker_Crawler', 'Worker Crawler', 6, 41, 43, 122.2749, -23.6800, -220.2118, 253);
 REPLACE INTO `mob_spawn_points` VALUES (17584216, 0, 'Worker_Crawler', 'Worker Crawler', 6, 41, 43, 135.7329, -20.4805, -221.7728, 194);
