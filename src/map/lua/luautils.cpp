@@ -21,6 +21,8 @@
 
 #include "luautils.h"
 
+#include <common/types/flat_hash_map.h>
+
 #include <common/application.h>
 #include <common/filewatcher.h>
 #include <common/ipc.h>
@@ -144,9 +146,8 @@ std::unordered_map<uint32, sol::table> customMenuContext;
 namespace detail
 {
 
-// Object lookup cache. Currently only populated for status effect script lookups
-// (see getCachedEffectTable); fully cleared on any Lua file reload (see TryReloadFilewatchList).
-std::unordered_map<std::string, sol::reference> cachedObjects;
+// TODO: Extract all the Lua caching into a LuaCache object/helper
+FlatHashMap<std::string, sol::reference> cachedObjects;
 
 auto findCachedObject(const std::string& objName) -> sol::reference
 {
@@ -163,43 +164,19 @@ void cacheObject(const std::string& objName, sol::reference obj)
     cachedObjects[objName] = std::move(obj);
 }
 
-// NOTE: Will crash if any intermediate keys look up nil tables
-auto lookupByKeysFast(const std::vector<std::string>& keys) -> sol::object
-{
-    // This looks ugly, but this consistantly outperforms the other methods
-    switch (keys.size())
-    {
-        case 1:
-            return lua[keys[0]];
-        case 2:
-            return lua[keys[0]][keys[1]];
-        case 3:
-            return lua[keys[0]][keys[1]][keys[2]];
-        case 4:
-            return lua[keys[0]][keys[1]][keys[2]][keys[3]];
-        case 5:
-            return lua[keys[0]][keys[1]][keys[2]][keys[3]][keys[4]];
-        case 6:
-            return lua[keys[0]][keys[1]][keys[2]][keys[3]][keys[4]][keys[5]];
-        case 7:
-            return lua[keys[0]][keys[1]][keys[2]][keys[3]][keys[4]][keys[5]][keys[6]];
-        case 8:
-            return lua[keys[0]][keys[1]][keys[2]][keys[3]][keys[4]][keys[5]][keys[6]][keys[7]];
-        default:
-            throw std::runtime_error(fmt::format("lookupByKeysFast: Too many keys: {}", keys.size()));
-    }
-};
+std::string cacheKeyBuffer;
 
 // NOTE: Is safe to call on invalid tables, will ultimately return nil
 auto lookupByKeysSafe(const std::vector<std::string>& keys) -> sol::object
 {
     sol::table table = lua["_G"];
-    for (const auto& part : keys)
+    for (size_t i = 0; i < keys.size(); ++i)
     {
-        if (part == keys.back())
+        const auto& part = keys[i];
+
+        if (i == keys.size() - 1)
         {
-            sol::object obj = table[part];
-            return obj;
+            return table[part];
         }
 
         table = table[part].get_or<sol::table>(sol::lua_nil);
@@ -210,17 +187,11 @@ auto lookupByKeysSafe(const std::vector<std::string>& keys) -> sol::object
     }
 
     return sol::lua_nil;
-};
+}
 
 auto findGlobalLuaFunction(const std::string& funcName) -> sol::function
 {
-    // TODO: Reinstate this level of caching
-
-    // if (const auto cachedFunc = findCachedObject(funcName))
-    // {
-    //     return cachedFunc;
-    // }
-
+    // NOTE: Intentionally NOT cached - would break Mocking/Spy etc.
     return lookupByKeysSafe(split(funcName, "."));
 }
 
@@ -605,8 +576,8 @@ void TryReloadFilewatchList()
         return;
     }
 
-    // The object cache holds Lua references resolved before the reload (currently status effect
-    // script tables); drop them all so changed scripts take effect immediately.
+    // The object/function caches hold Lua references resolved before the reload (status effect
+    // script tables, per-entity script functions); drop them all so changed scripts take effect.
     detail::cachedObjects.clear();
 
     for (const auto& [filename, action] : changedFiles)
@@ -661,53 +632,87 @@ std::vector<std::string> GetContainerFilenamesList()
     return outVec;
 }
 
-sol::function getEntityCachedFunction(CBaseEntity* PEntity, std::string funcName)
+sol::function getEntityCachedFunction(CBaseEntity* PEntity, std::string_view funcName)
 {
     TracyZoneScoped;
-    TracyZoneString(funcName);
     TracyZoneString(PEntity->getName());
 
-    if (PEntity->objtype == TYPE_NPC)
+    // Build a cache key uniquely identifying the resolved function for this entity's script.
+    auto& key = detail::cacheKeyBuffer;
+    key.clear();
+    switch (PEntity->objtype)
     {
-        std::string zone_name = PEntity->loc.zone->getName();
-        std::string npc_name  = PEntity->getName();
-
-        if (auto cached_func = lua["xi"]["zones"][zone_name]["npcs"][npc_name][funcName]; cached_func.valid())
-        {
-            return cached_func;
-        }
+        case TYPE_NPC:
+            key += "n:";
+            key += PEntity->loc.zone->getName();
+            key += ':';
+            key += PEntity->getName();
+            break;
+        case TYPE_MOB:
+            key += "m:";
+            key += PEntity->loc.zone->getName();
+            key += ':';
+            key += PEntity->getName();
+            break;
+        case TYPE_PET:
+            key += "p:";
+            key += static_cast<CPetEntity*>(PEntity)->GetScriptName();
+            break;
+        case TYPE_TRUST:
+            key += "t:";
+            key += PEntity->getName();
+            break;
+        default:
+            return sol::lua_nil;
     }
-    else if (PEntity->objtype == TYPE_MOB)
+    key += ':';
+    key += funcName;
+
+    // Cache hit.
+    if (auto it = detail::cachedObjects.find(key); it != detail::cachedObjects.end())
     {
-        std::string zone_name = PEntity->loc.zone->getName();
-        std::string mob_name  = PEntity->getName();
-
-        if (auto cached_func = lua["xi"]["zones"][zone_name]["mobs"][mob_name][funcName]; cached_func.valid())
+        if (!it->second.valid())
         {
-            return cached_func;
+            return sol::lua_nil;
         }
+        return it->second;
     }
-    else if (PEntity->objtype == TYPE_PET)
+
+    // Miss: walk the Lua tree once, then cache the result (valid or not) so future calls bail fast.
+    sol::function resolved = sol::lua_nil;
+    switch (PEntity->objtype)
     {
-        std::string mob_name = static_cast<CPetEntity*>(PEntity)->GetScriptName();
-
-        if (auto cached_func = lua["xi"]["pets"][mob_name][funcName]; cached_func.valid())
-        {
-            return cached_func;
-        }
+        case TYPE_NPC:
+            if (auto f = lua["xi"]["zones"][PEntity->loc.zone->getName()]["npcs"][PEntity->getName()][funcName]; f.valid())
+            {
+                resolved = f.get<sol::function>();
+            }
+            break;
+        case TYPE_MOB:
+            if (auto f = lua["xi"]["zones"][PEntity->loc.zone->getName()]["mobs"][PEntity->getName()][funcName]; f.valid())
+            {
+                resolved = f.get<sol::function>();
+            }
+            break;
+        case TYPE_PET:
+            if (auto f = lua["xi"]["pets"][static_cast<CPetEntity*>(PEntity)->GetScriptName()][funcName]; f.valid())
+            {
+                resolved = f.get<sol::function>();
+            }
+            break;
+        case TYPE_TRUST:
+            if (auto f = lua["xi"]["actions"]["spells"]["trust"][PEntity->getName()][funcName]; f.valid())
+            {
+                resolved = f.get<sol::function>();
+            }
+            break;
+        default:
+            break;
     }
-    else if (PEntity->objtype == TYPE_TRUST)
-    {
-        std::string mob_name = PEntity->getName();
 
-        if (auto cached_func = lua["xi"]["actions"]["spells"]["trust"][mob_name][funcName]; cached_func.valid())
-        {
-            return cached_func;
-        }
-    }
+    detail::cachedObjects[key] = resolved;
 
-    // Didn't find it
-    return sol::lua_nil;
+    return resolved;
 }
 
 sol::function getSpellCachedFunction(CSpell* PSpell, std::string funcName)
@@ -977,10 +982,10 @@ sol::table GetCacheEntryFromFilename(const std::string& filename)
         return sol::lua_nil;
     }
 
-    // if (auto cached = detail::findCachedObject(filename); cached.valid())
-    // {
-    //     return cached;
-    // }
+    if (auto cached = detail::findCachedObject(filename); cached.valid())
+    {
+        return cached;
+    }
 
     // Handle filename -> path conversion
     std::filesystem::path    path(filename);
@@ -1008,7 +1013,7 @@ sol::table GetCacheEntryFromFilename(const std::string& filename)
         table = table[part].get_or_create<sol::table>();
     }
 
-    // detail::cacheObject(filename, table);
+    detail::cacheObject(filename, table);
 
     return table;
 }

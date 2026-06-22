@@ -25,6 +25,8 @@
 #include <common/cbasetypes.h>
 #include <common/types/maybe.h>
 
+#include <string_view>
+
 #include "common/lua.h"
 extern sol::state lua;
 
@@ -203,7 +205,7 @@ void TryReloadFilewatchList();
 auto GetContainerFilenamesList() -> std::vector<std::string>;
 
 // Cache helpers
-auto getEntityCachedFunction(CBaseEntity* PEntity, std::string funcName) -> sol::function;
+auto getEntityCachedFunction(CBaseEntity* PEntity, std::string_view funcName) -> sol::function;
 void CacheLuaObjectFromFile(const std::string& filename, bool overwriteCurrentEntry = false);
 auto GetCacheEntryFromFilename(const std::string& filename) -> sol::table;
 void OnEntityLoad(CBaseEntity* PEntity);
