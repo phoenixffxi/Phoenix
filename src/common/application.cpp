@@ -43,29 +43,6 @@
 namespace
 {
 
-void handleSignal(const std::error_code& error, int signal)
-{
-    switch (signal)
-    {
-#ifdef _WIN32
-        case SIGBREAK:
-#endif // _WIN32
-        case SIGINT:
-        case SIGTERM:
-            std::exit(0);
-#ifndef _WIN32
-        case SIGABRT:
-        case SIGSEGV:
-        case SIGFPE:
-        case SIGILL:
-            break;
-#endif
-        default:
-            std::cerr << fmt::format("Unhandled signal: {}\n", signal);
-            break;
-    }
-}
-
 #ifdef _WIN32
 unsigned long prevQuickEditMode;
 #endif // _WIN32
@@ -120,6 +97,31 @@ void Application::trySetConsoleTitle()
 #endif
 }
 
+void Application::handleSignal(const std::error_code& error, int signal)
+{
+    switch (signal)
+    {
+#ifdef _WIN32
+        case SIGBREAK:
+#endif // _WIN32
+        case SIGINT:
+        case SIGTERM:
+            // Shut down gracefully so main() unwinds and the engine's destructor runs.
+            requestExit();
+            break;
+#ifndef _WIN32
+        case SIGABRT:
+        case SIGSEGV:
+        case SIGFPE:
+        case SIGILL:
+            break;
+#endif
+        default:
+            std::cerr << fmt::format("Unhandled signal: {}\n", signal);
+            break;
+    }
+}
+
 void Application::registerSignalHandlers()
 {
     signals_.add(SIGINT);
@@ -133,7 +135,11 @@ void Application::registerSignalHandlers()
     signals_.add(SIGXFSZ);
     signals_.add(SIGPIPE);
 #endif
-    signals_.async_wait(&handleSignal);
+    signals_.async_wait(
+        [this](const std::error_code& error, int signal)
+        {
+            handleSignal(error, signal);
+        });
 }
 
 void Application::usercheck() const
