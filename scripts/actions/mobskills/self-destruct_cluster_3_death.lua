@@ -14,8 +14,8 @@ end
 mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
-    params.baseDamage     = skill:getMobHP()
-    params.fTP            = { 0.40, 0.40, 0.40 }
+    params.baseDamage     = math.min(target:getMaxHP() * math.random(0.7, 1.1), mob:getHP())
+    params.fTP            = { 1.00, 1.00, 1.00 }
     params.element        = xi.element.FIRE
     params.attackType     = xi.attackType.BREATH
     params.damageType     = xi.damageType.FIRE
