@@ -494,6 +494,43 @@ REPLACE INTO `mob_spawn_points` VALUES (17563744, 0, 'Goblin_Butcher', 'Goblin B
 REPLACE INTO `mob_spawn_points` VALUES (17563745, 0, 'Goblin_Tinkerer', 'Goblin Tinkerer', 204, 20, 23, -96.2843, 8.5000, -100.3998, 69);
 REPLACE INTO `mob_spawn_points` VALUES (17563746, 0, 'Beady_Beetle', 'Beady Beetle', 200, 11, 16, -62.0112, 8.2146, -95.4203, 102);
 
+-- Outer Horutoto Ruins (Zone 194)
+REPLACE INTO `mob_spawn_points` VALUES (17571874, 0, 'Blade_Bat', 'Blade Bat', 59, 4, 7, -223.6424, -0.9241, 731.5844, 163);
+REPLACE INTO `mob_spawn_points` VALUES (17571875, 0, 'Blade_Bat', 'Blade Bat', 59, 4, 7, -218.4734, 1.3072, 720.3193, 42);
+REPLACE INTO `mob_spawn_points` VALUES (17571876, 0, 'Blade_Bat', 'Blade Bat', 59, 4, 7, -227.1603, -0.0937, 712.7954, 62);
+REPLACE INTO `mob_spawn_points` VALUES (17571877, 0, 'Blade_Bat', 'Blade Bat', 59, 4, 7, -227.2160, -0.3861, 709.8370, 218);
+REPLACE INTO `mob_spawn_points` VALUES (17571878, 0, 'Goblin_Ambusher', 'Goblin Ambusher', 1, 10, 14, -256.5128, 0.4346, 703.9094, 4);
+REPLACE INTO `mob_spawn_points` VALUES (17571879, 0, 'Goblin_Ambusher', 'Goblin Ambusher', 1, 10, 14, -257.7842, 0.5000, 687.2199, 75);
+REPLACE INTO `mob_spawn_points` VALUES (17571880, 0, 'Goblin_Tinkerer', 'Goblin Tinkerer', 2, 10, 14, -256.9073, 0.4897, 676.6885, 187);
+REPLACE INTO `mob_spawn_points` VALUES (17571881, 0, 'Goblin_Butcher', 'Goblin Butcher', 3, 10, 14, -257.6693, 0.3549, 661.5851, 255);
+REPLACE INTO `mob_spawn_points` VALUES (17571882, 0, 'Rotten_Jam', 'Rotten Jam', 6, 12, 15, -217.6884, 0.1952, 655.1454, 142);
+REPLACE INTO `mob_spawn_points` VALUES (17571883, 0, 'Rotten_Jam', 'Rotten Jam', 6, 12, 15, -217.7190, 0.0466, 661.2561, 187);
+REPLACE INTO `mob_spawn_points` VALUES (17571884, 0, 'Goblin_Ambusher', 'Goblin Ambusher', 1, 10, 14, -270.5125, -0.1940, 646.5613, 87);
+REPLACE INTO `mob_spawn_points` VALUES (17571885, 0, 'Goblin_Butcher', 'Goblin Butcher', 3, 10, 14, -273.2369, 0.3910, 636.2476, 175);
+REPLACE INTO `mob_spawn_points` VALUES (17571886, 0, 'Goblin_Butcher', 'Goblin Butcher', 3, 10, 14, -284.3371, 0.0589, 647.0706, 48);
+REPLACE INTO `mob_spawn_points` VALUES (17571887, 0, 'Stink_Bats', 'Stink Bats', 4, 15, 18, -316.4325, -0.0532, 620.9750, 132);
+REPLACE INTO `mob_spawn_points` VALUES (17571888, 0, 'Stink_Bats', 'Stink Bats', 4, 15, 18, -328.1533, -0.2359, 620.0611, 253);
+REPLACE INTO `mob_spawn_points` VALUES (17571889, 0, 'Stink_Bats', 'Stink Bats', 4, 15, 18, -358.7543, -0.0285, 595.4339, 173);
+REPLACE INTO `mob_spawn_points` VALUES (17571890, 0, 'Stink_Bats', 'Stink Bats', 4, 15, 18, -357.7490, -0.1716, 606.4829, 170);
+REPLACE INTO `mob_spawn_points` VALUES (17571904, 0, 'Stink_Bats', 'Stink Bats', 4, 15, 18, -364.4123, 0.5727, 611.3312, 152);
+REPLACE INTO `mob_spawn_points` VALUES (17571905, 0, 'Stink_Bats', 'Stink Bats', 4, 15, 18, -371.0447, -0.2162, 622.3348, 210);
+REPLACE INTO `mob_spawn_points` VALUES (17571906, 0, 'Combat', 'Combat', 12, 20, 23, -357.7461, 0.9705, 624.1315, 239);
+REPLACE INTO `mob_spawn_points` VALUES (17571907, 0, 'Combat', 'Combat', 12, 20, 23, -351.4059, 0.0000, 635.3824, 175);
+REPLACE INTO `mob_spawn_points` VALUES (17571908, 0, 'Combat', 'Combat', 12, 20, 23, -360.0326, 0.0000, 640.1332, 141);
+REPLACE INTO `mob_spawn_points` VALUES (17571909, 0, 'Combat', 'Combat', 12, 20, 23, -372.6857, 0.3855, 644.7058, 160);
+REPLACE INTO `mob_spawn_points` VALUES (17571910, 0, 'Ghoul', 'Ghoul', 11, 23, 26, -381.9051, 0.4793, 674.3820, 123);
+REPLACE INTO `mob_spawn_points` VALUES (17571911, 0, 'Ghoul', 'Ghoul', 11, 23, 26, -381.7771, 0.5000, 689.2505, 230);
+REPLACE INTO `mob_spawn_points` VALUES (17571912, 0, 'Ghoul', 'Ghoul', 68, 23, 26, -382.4368, 0.5000, 707.3110, 80);
+REPLACE INTO `mob_spawn_points` VALUES (17571892, 0, 'Black_Slime', 'Black Slime', 10, 23, 25, -463.7911, -0.2820, 736.0433, 193);
+REPLACE INTO `mob_spawn_points` VALUES (17571913, 0, 'Ghoul', 'Ghoul', 11, 23, 26, -443.2491, -0.4328, 716.4205, 143);
+REPLACE INTO `mob_spawn_points` VALUES (17571914, 0, 'Ghoul', 'Ghoul', 11, 23, 26, -469.1938, 0.5532, 721.5923, 154);
+REPLACE INTO `mob_spawn_points` VALUES (17571915, 0, 'Ghoul', 'Ghoul', 11, 23, 26, -483.0067, -0.0674, 764.6151, 140);
+REPLACE INTO `mob_spawn_points` VALUES (17571916, 0, 'Ghoul', 'Ghoul', 11, 23, 26, -486.6626, 0.1395, 757.3712, 73);
+REPLACE INTO `mob_spawn_points` VALUES (17571917, 0, 'Ghoul', 'Ghoul', 68, 23, 26, -459.1903, 0.5018, 708.8029, 128);
+REPLACE INTO `mob_spawn_points` VALUES (17571918, 0, 'Ghoul', 'Ghoul', 68, 23, 26, -469.4202, 0.4362, 748.7172, 179);
+REPLACE INTO `mob_spawn_points` VALUES (17571919, 0, 'Ghoul', 'Ghoul', 68, 23, 26, -490.7556, -0.0464, 740.3684, 41);
+REPLACE INTO `mob_spawn_points` VALUES (17571920, 0, 'Ghoul', 'Ghoul', 68, 23, 26, -480.4546, 1.0000, 734.6539, 40);
+
 -- Ordelles Caves (Zone 195)
 REPLACE INTO `mob_spawn_points` VALUES (17567835, 0, 'Goblin_Gambler', 'Goblin Gambler', 17, 22, 26, -220.2456, 28.5000, -82.3076, 189);
 REPLACE INTO `mob_spawn_points` VALUES (17567836, 0, 'Goblin_Gambler', 'Goblin Gambler', 17, 22, 26, -172.5788, 32.5101, 30.9258, 206);
