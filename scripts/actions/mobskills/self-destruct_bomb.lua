@@ -13,7 +13,8 @@ end
 mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
-    params.baseDamage     = skill:getMobHP() / 3
+    -- Self Destruct does use the player's HP to determine the max damage it can do.  This means a player at 100% hp has a 25% chance to die if full damage is taken, given the bomb has enough HP.
+    params.baseDamage     = math.min(target:getMaxHP() * math.random(0.7, 1.1), mob:getHP())
     params.fTP            = { 1.00, 1.00, 1.00 }
     params.element        = xi.element.FIRE
     params.attackType     = xi.attackType.BREATH
