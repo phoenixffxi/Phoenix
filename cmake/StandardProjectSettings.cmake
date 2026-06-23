@@ -98,7 +98,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${FLAGS_AND_DEFINES_STR}")
 
 function(set_target_output_directory target)
     # Run from the repo root: data, scripts, settings and the runtime DLLs all live there.
+    # DEBUGGER_WORKING_DIRECTORY (CMake 4.0+): Ninja and other non-VS generators.
+    # VS_DEBUGGER_WORKING_DIRECTORY: Visual Studio generator (takes precedence there).
     set_target_properties(${target} PROPERTIES
+        DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
         VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
 
     message(STATUS "${target}: staging build artifact to ${CMAKE_SOURCE_DIR} after build")
