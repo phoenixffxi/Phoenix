@@ -7,6 +7,7 @@ zones[xi.zone.ATTOHWA_CHASM] =
 {
     text =
     {
+        CANNOT_OBTAIN_ITEM            = 6384, -- You cannot obtain the <item>.
         ITEM_CANNOT_BE_OBTAINED       = 6386, -- You cannot obtain the <item>. Come back after sorting your inventory.
         ITEM_OBTAINED                 = 6394, -- Obtained: <item>.
         GIL_OBTAINED                  = 6395, -- Obtained <number> gil.
@@ -20,7 +21,9 @@ zones[xi.zone.ATTOHWA_CHASM] =
         MEMBERS_LEVELS_ARE_RESTRICTED = 7027, -- Your party is unable to participate because certain members' levels are restricted.
         CONQUEST_BASE                 = 7072, -- Tallying conquest results...
         MINING_IS_POSSIBLE_HERE       = 7231, -- Mining is possible here if you have <item>.
+        MIMEO_STONE_PICKUP            = 7339, -- The <keyitem> is shining brilliantly.
         MIMEO_JEWEL_OFFSET            = 7340, -- The light from the <keyitem> is beginning to fade.
+        MIMEO_STONE_BRIGHTNESS_OFFSET = 7345, -- The <keyitem> is shining brilliantly.
         MUST_MOVE_CLOSER              = 7350, -- You must move a little closer to examine the area.
         GASPONIA_POISON               = 7352, -- The poison of the Gasponia has begun to spread through your body.
         OCCASIONAL_LUMPS              = 7367, -- Occasionally lumps arise in the ground here, then settle down again. It seems that there is something beneath the earth.
@@ -44,6 +47,7 @@ zones[xi.zone.ATTOHWA_CHASM] =
         GASPONIA_OFFSET   = GetFirstID('_07n'),
         EXCAVATION        = GetTableOfIDs('Excavation_Point'),
         QM_FEELER_ANTLION = GetFirstID('qm_feeler_antlion'),
+        LUMINANT          = GetTableOfIDs('Luminant'),
     },
 }
 

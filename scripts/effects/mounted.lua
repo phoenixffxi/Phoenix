@@ -3,6 +3,7 @@
 -----------------------------------
 ---@type TEffect
 local effectObject = {}
+local attohwaChasmGlobal = require('scripts/zones/Attohwa_Chasm/globals')
 
 effectObject.onEffectGain = function(target, effect)
     local mountId = effect:getPower()
@@ -30,6 +31,8 @@ effectObject.onEffectGain = function(target, effect)
     if pet ~= nil and pet:isCharmed() then
         target:despawnPet()
     end
+
+    attohwaChasmGlobal.removeMimeoKIs(target)
 end
 
 effectObject.onEffectTick = function(target, effect)
