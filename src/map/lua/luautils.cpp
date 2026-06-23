@@ -21,8 +21,6 @@
 
 #include "luautils.h"
 
-#include <common/types/flat_hash_map.h>
-
 #include <common/application.h>
 #include <common/filewatcher.h>
 #include <common/ipc.h>
@@ -34,21 +32,22 @@
 #include <common/vana_time.h>
 #include <common/version.h>
 
-#include "lua_action.h"
-#include "lua_battlefield.h"
-#include "lua_instance.h"
-#include "lua_item.h"
-#include "lua_item_puppet.h"
-#include "lua_loot.h"
-#include "lua_mobskill.h"
-#include "lua_petskill.h"
-#include "lua_spell.h"
-#include "lua_statuseffect.h"
-#include "lua_trade_container.h"
-#include "lua_treasure_pool.h"
-#include "lua_trigger_area.h"
-#include "lua_weaponskill.h"
-#include "lua_zone.h"
+#include <map/lua/lua_action.h>
+#include <map/lua/lua_battlefield.h>
+#include <map/lua/lua_cache.h>
+#include <map/lua/lua_instance.h>
+#include <map/lua/lua_item.h>
+#include <map/lua/lua_item_puppet.h>
+#include <map/lua/lua_loot.h>
+#include <map/lua/lua_mobskill.h>
+#include <map/lua/lua_petskill.h>
+#include <map/lua/lua_spell.h>
+#include <map/lua/lua_statuseffect.h>
+#include <map/lua/lua_trade_container.h>
+#include <map/lua/lua_treasure_pool.h>
+#include <map/lua/lua_trigger_area.h>
+#include <map/lua/lua_weaponskill.h>
+#include <map/lua/lua_zone.h>
 
 #include "ai/ai_container.h"
 
@@ -140,31 +139,18 @@ void ReportErrorToPlayer(CBaseEntity* PEntity, const std::string& message = "") 
 namespace luautils
 {
 
+namespace
+{
+
 std::unique_ptr<Filewatcher>           filewatcher;
 std::unordered_map<uint32, sol::table> customMenuContext;
 
+LuaCache luaCache;
+
+} // namespace
+
 namespace detail
 {
-
-// TODO: Extract all the Lua caching into a LuaCache object/helper
-FlatHashMap<std::string, sol::reference> cachedObjects;
-
-auto findCachedObject(const std::string& objName) -> sol::reference
-{
-    if (auto it = cachedObjects.find(objName); it != cachedObjects.end())
-    {
-        return it->second;
-    }
-
-    return sol::lua_nil;
-}
-
-void cacheObject(const std::string& objName, sol::reference obj)
-{
-    cachedObjects[objName] = std::move(obj);
-}
-
-std::string cacheKeyBuffer;
 
 // NOTE: Is safe to call on invalid tables, will ultimately return nil
 auto lookupByKeysSafe(const std::vector<std::string>& keys) -> sol::object
@@ -193,18 +179,6 @@ auto findGlobalLuaFunction(const std::string& funcName) -> sol::function
 {
     // NOTE: Intentionally NOT cached - would break Mocking/Spy etc.
     return lookupByKeysSafe(split(funcName, "."));
-}
-
-auto getCachedEffectTable(const std::string& effectName) -> sol::table
-{
-    if (auto cached = findCachedObject(effectName); cached.valid())
-    {
-        return cached;
-    }
-
-    sol::table entry = GetCacheEntryFromFilename(fmt::format("./scripts/{}.lua", effectName));
-    cacheObject(effectName, entry);
-    return entry;
 }
 
 } // namespace detail
@@ -460,7 +434,7 @@ void init(IPP mapIPP, bool isRunningInCI)
             }
 
             // Strip leading path components up to and including "scripts"
-            // so parts match the format TryApplyLuaModules expects (same as CacheLuaObjectFromFile)
+            // so parts match the format TryApplyLuaModules expects (same as LoadLuaObjectFromFile)
             if (const auto it = std::ranges::find(parts, std::string("scripts")); it != parts.end())
             {
                 parts.erase(parts.begin(), it + 1);
@@ -474,7 +448,7 @@ void init(IPP mapIPP, bool isRunningInCI)
     {
         if (entry.extension() == ".lua")
         {
-            CacheLuaObjectFromFile(entry.relative_path().generic_string());
+            LoadLuaObjectFromFile(entry.relative_path().generic_string());
         }
     }
 
@@ -530,7 +504,7 @@ void init(IPP mapIPP, bool isRunningInCI)
 
 void cleanup()
 {
-    detail::cachedObjects.clear();
+    luaCache.clear();
 
     moduleutils::CleanupLuaModules();
 }
@@ -576,9 +550,9 @@ void TryReloadFilewatchList()
         return;
     }
 
-    // The object/function caches hold Lua references resolved before the reload (status effect
-    // script tables, per-entity script functions); drop them all so changed scripts take effect.
-    detail::cachedObjects.clear();
+    // The cache holds Lua functions resolved before the reload; drop them all so the edited
+    // scripts' new functions take effect.
+    luaCache.clear();
 
     for (const auto& [filename, action] : changedFiles)
     {
@@ -586,7 +560,7 @@ void TryReloadFilewatchList()
         if (action == Filewatcher::Action::Add || action == Filewatcher::Action::Modified)
         {
             ShowInfo("[FileWatcher] %s", pathStr.c_str());
-            CacheLuaObjectFromFile(pathStr, true);
+            LoadLuaObjectFromFile(pathStr, true);
         }
 
         // TODO: Handle moved and deleted files
@@ -632,13 +606,12 @@ std::vector<std::string> GetContainerFilenamesList()
     return outVec;
 }
 
-sol::function getEntityCachedFunction(CBaseEntity* PEntity, std::string_view funcName)
+sol::function getEntityCachedFunction(CBaseEntity* PEntity, const std::string& funcName)
 {
     TracyZoneScoped;
     TracyZoneString(PEntity->getName());
 
-    // Build a cache key uniquely identifying the resolved function for this entity's script.
-    auto& key = detail::cacheKeyBuffer;
+    auto& key = luaCache.keyBuffer();
     key.clear();
     switch (PEntity->objtype)
     {
@@ -668,51 +641,41 @@ sol::function getEntityCachedFunction(CBaseEntity* PEntity, std::string_view fun
     key += ':';
     key += funcName;
 
-    // Cache hit.
-    if (auto it = detail::cachedObjects.find(key); it != detail::cachedObjects.end())
-    {
-        if (!it->second.valid())
+    return luaCache.getOrResolveFunction(
+        key,
+        [&]() -> sol::function
         {
+            switch (PEntity->objtype)
+            {
+                case TYPE_NPC:
+                    if (auto f = lua["xi"]["zones"][PEntity->loc.zone->getName()]["npcs"][PEntity->getName()][funcName]; f.valid())
+                    {
+                        return f.get<sol::function>();
+                    }
+                    break;
+                case TYPE_MOB:
+                    if (auto f = lua["xi"]["zones"][PEntity->loc.zone->getName()]["mobs"][PEntity->getName()][funcName]; f.valid())
+                    {
+                        return f.get<sol::function>();
+                    }
+                    break;
+                case TYPE_PET:
+                    if (auto f = lua["xi"]["pets"][static_cast<CPetEntity*>(PEntity)->GetScriptName()][funcName]; f.valid())
+                    {
+                        return f.get<sol::function>();
+                    }
+                    break;
+                case TYPE_TRUST:
+                    if (auto f = lua["xi"]["actions"]["spells"]["trust"][PEntity->getName()][funcName]; f.valid())
+                    {
+                        return f.get<sol::function>();
+                    }
+                    break;
+                default:
+                    break;
+            }
             return sol::lua_nil;
-        }
-        return it->second;
-    }
-
-    // Miss: walk the Lua tree once, then cache the result (valid or not) so future calls bail fast.
-    sol::function resolved = sol::lua_nil;
-    switch (PEntity->objtype)
-    {
-        case TYPE_NPC:
-            if (auto f = lua["xi"]["zones"][PEntity->loc.zone->getName()]["npcs"][PEntity->getName()][funcName]; f.valid())
-            {
-                resolved = f.get<sol::function>();
-            }
-            break;
-        case TYPE_MOB:
-            if (auto f = lua["xi"]["zones"][PEntity->loc.zone->getName()]["mobs"][PEntity->getName()][funcName]; f.valid())
-            {
-                resolved = f.get<sol::function>();
-            }
-            break;
-        case TYPE_PET:
-            if (auto f = lua["xi"]["pets"][static_cast<CPetEntity*>(PEntity)->GetScriptName()][funcName]; f.valid())
-            {
-                resolved = f.get<sol::function>();
-            }
-            break;
-        case TYPE_TRUST:
-            if (auto f = lua["xi"]["actions"]["spells"]["trust"][PEntity->getName()][funcName]; f.valid())
-            {
-                resolved = f.get<sol::function>();
-            }
-            break;
-        default:
-            break;
-    }
-
-    detail::cachedObjects[key] = resolved;
-
-    return resolved;
+        });
 }
 
 sol::function getSpellCachedFunction(CSpell* PSpell, std::string funcName)
@@ -773,23 +736,66 @@ sol::function getSpellCachedFunction(CSpell* PSpell, std::string funcName)
         break;
     }
 
-    if (auto cached_func = lua["xi"]["actions"]["spells"][switchKey][name][funcName]; cached_func.valid())
-    {
-        return cached_func;
-    }
+    auto& key = luaCache.keyBuffer();
+    key.clear();
+    key += "s:";
+    key += switchKey;
+    key += ':';
+    key += name;
+    key += ':';
+    key += funcName;
 
-    // Didn't find it
-    return sol::lua_nil;
+    return luaCache.getOrResolveFunction(
+        key,
+        [&]() -> sol::function
+        {
+            if (auto f = lua["xi"]["actions"]["spells"][switchKey][name][funcName]; f.valid())
+            {
+                return f.get<sol::function>();
+            }
+            return sol::lua_nil;
+        });
+}
+
+auto getEffectCachedFunction(const std::string& effectName, const std::string& funcName) -> sol::function
+{
+    auto& key = luaCache.keyBuffer();
+    key.clear();
+    key += "e:";
+    key += effectName;
+    key += ':';
+    key += funcName;
+
+    return luaCache.getOrResolveFunction(
+        key,
+        [&]() -> sol::function
+        {
+            sol::table effectTable = GetLuaObjectFromFilename(fmt::format("./scripts/{}.lua", effectName));
+            if (effectTable.valid())
+            {
+                if (auto f = effectTable[funcName]; f.valid())
+                {
+                    return f.get<sol::function>();
+                }
+            }
+            return sol::lua_nil;
+        });
 }
 
 // Assumes filename in the form "./scripts/folder0/folder1/folder2/mob_name.lua"
-// Object returned from that script will be cached to:
+// Loads (compiles + runs) that script and stores the object it returns into the Lua state at:
 // xi.folder0.folder1.folder2.mob_name
-void CacheLuaObjectFromFile(const std::string& filename, bool overwriteCurrentEntry /* = false*/)
+void LoadLuaObjectFromFile(const std::string& filename, bool overwriteCurrentEntry /* = false*/)
 {
     TracyZoneScoped;
 
     TracyZoneString(filename);
+
+    // NOTE: We deliberately do NOT clear the function caches here on every (re)load. Entity/script
+    // tables are reassigned on zone re-entry and pet/trust spawn, but the scripts are unchanged, so
+    // a cached function is functionally identical to a freshly-resolved one -- clearing would just
+    // throw away warm cache across every zone load. Genuine script *changes* are handled by the
+    // filewatcher (see ReloadFilewatchList), which clears the cache when a file is edited.
 
     const auto path = std::filesystem::path(filename);
     if (path.empty() || path.extension().empty())
@@ -811,7 +817,7 @@ void CacheLuaObjectFromFile(const std::string& filename, bool overwriteCurrentEn
         if (!result.valid())
         {
             const sol::error err = result;
-            ShowError("luautils::CacheLuaObjectFromFile: Load module error: %s: %s", filename, err.what());
+            ShowError("luautils::LoadLuaObjectFromFile: Load module error: %s: %s", filename, err.what());
             return;
         }
 
@@ -833,7 +839,7 @@ void CacheLuaObjectFromFile(const std::string& filename, bool overwriteCurrentEn
         if (!result.valid())
         {
             const sol::error err = result;
-            ShowError("luautils::CacheLuaObjectFromFile: Load settings error: %s: %s", filename, err.what());
+            ShowError("luautils::LoadLuaObjectFromFile: Load settings error: %s: %s", filename, err.what());
             return;
         }
 
@@ -847,7 +853,7 @@ void CacheLuaObjectFromFile(const std::string& filename, bool overwriteCurrentEn
     const auto scriptsIt = std::ranges::find(parts, std::string("scripts"));
     if (scriptsIt == parts.end())
     {
-        ShowError("luautils::CacheLuaObjectFromFile: Invalid filename: %s", filename);
+        ShowError("luautils::LoadLuaObjectFromFile: Invalid filename: %s", filename);
         return;
     }
 
@@ -863,7 +869,7 @@ void CacheLuaObjectFromFile(const std::string& filename, bool overwriteCurrentEn
         if (!result.valid())
         {
             const sol::error err = result;
-            ShowError("luautils::CacheLuaObjectFromFile: Load global error: %s: %s", filename, err.what());
+            ShowError("luautils::LoadLuaObjectFromFile: Load global error: %s: %s", filename, err.what());
             return;
         }
 
@@ -919,7 +925,7 @@ void CacheLuaObjectFromFile(const std::string& filename, bool overwriteCurrentEn
             if (!result.valid())
             {
                 const sol::error err = result;
-                ShowError("luautils::CacheLuaObjectFromFile: Load interaction error: %s: %s", filename, err.what());
+                ShowError("luautils::LoadLuaObjectFromFile: Load interaction error: %s: %s", filename, err.what());
                 return;
             }
 
@@ -930,7 +936,7 @@ void CacheLuaObjectFromFile(const std::string& filename, bool overwriteCurrentEn
 
     if (!std::filesystem::exists(filename))
     {
-        ShowTrace("luautils::CacheLuaObjectFromFile: Tried to load file but it does not exist: %s", filename);
+        ShowTrace("luautils::LoadLuaObjectFromFile: Tried to load file but it does not exist: %s", filename);
         return;
     }
 
@@ -938,13 +944,13 @@ void CacheLuaObjectFromFile(const std::string& filename, bool overwriteCurrentEn
     if (!fileResult.valid())
     {
         const sol::error err = fileResult;
-        ShowError("luautils::CacheLuaObjectFromFile: Load error: %s: %s", filename, err.what());
+        ShowError("luautils::LoadLuaObjectFromFile: Load error: %s: %s", filename, err.what());
         return;
     }
 
     if (!fileResult.return_count())
     {
-        ShowError("luautils::CacheLuaObjectFromFile: No returned object to cache: %s", filename);
+        ShowError("luautils::LoadLuaObjectFromFile: No returned object to cache: %s", filename);
         return;
     }
 
@@ -972,7 +978,7 @@ void CacheLuaObjectFromFile(const std::string& filename, bool overwriteCurrentEn
     moduleutils::TryApplyLuaModules(parts, overwriteCurrentEntry);
 }
 
-sol::table GetCacheEntryFromFilename(const std::string& filename)
+sol::table GetLuaObjectFromFilename(const std::string& filename)
 {
     TracyZoneScoped;
     TracyZoneString(filename);
@@ -982,10 +988,14 @@ sol::table GetCacheEntryFromFilename(const std::string& filename)
         return sol::lua_nil;
     }
 
-    if (auto cached = detail::findCachedObject(filename); cached.valid())
-    {
-        return cached;
-    }
+    // NOTE: We intentionally do NOT cache the resolved table here. This function hands back the
+    // live `xi.<path>` table via get_or_create, and caching that reference is unsafe: the table is
+    // reassigned whenever its script (re)loads (lazy zones, zone re-entry), and get_or_create can
+    // also mint an empty placeholder table if called before the script's table exists. A cached
+    // stale/empty table then persists and silently breaks NPC/mob/mission handlers (e.g. mob-kill
+    // not advancing a mission). This is a player-action path, not a per-tick hot path, so always
+    // re-walking the live tables is cheap and correct. (The per-tick function caches are keyed by
+    // entity+name and re-resolve safely, so they remain cached.)
 
     // Handle filename -> path conversion
     std::filesystem::path    path(filename);
@@ -999,7 +1009,7 @@ sol::table GetCacheEntryFromFilename(const std::string& filename)
     auto it = std::find(parts.begin(), parts.end(), "scripts");
     if (it == parts.end())
     {
-        ShowError("luautils::GetCacheEntryFromFilename: Invalid filename: %s", filename);
+        ShowError("luautils::GetLuaObjectFromFilename: Invalid filename: %s", filename);
         return lua.create_table();
     }
 
@@ -1013,9 +1023,40 @@ sol::table GetCacheEntryFromFilename(const std::string& filename)
         table = table[part].get_or_create<sol::table>();
     }
 
-    detail::cacheObject(filename, table);
-
+    // Not cached: see note above.
     return table;
+}
+
+sol::function getCachedFileFunction(const std::string& filename, const std::string& funcName)
+{
+    TracyZoneScoped;
+    TracyZoneString(filename);
+
+    // Cache the resolved function (not the table). Keyed by the unique script path + function name.
+    // On a miss we re-walk the live xi.<path> table (GetLuaObjectFromFilename, which never caches
+    // the table) and pull out the function. Mirrors getEntityCachedFunction.
+    auto& key = luaCache.keyBuffer();
+    key.clear();
+    key += filename;
+    key += ':';
+    key += funcName;
+
+    return luaCache.getOrResolveFunction(
+        key,
+        [&]() -> sol::function
+        {
+            // GetLuaObjectFromFilename returns lua_nil for an empty/invalid filename (e.g. an event
+            // with no script file); indexing that nil table would crash, so guard it.
+            sol::table table = GetLuaObjectFromFilename(filename);
+            if (table.valid())
+            {
+                if (auto f = table[funcName]; f.valid())
+                {
+                    return f.get<sol::function>();
+                }
+            }
+            return sol::lua_nil;
+        });
 }
 
 void OnEntityLoad(CBaseEntity* PEntity)
@@ -1036,26 +1077,26 @@ void OnEntityLoad(CBaseEntity* PEntity)
 
             const auto  zoneName = PEntity->loc.zone->getName();
             const auto& name     = PEntity->getName();
-            CacheLuaObjectFromFile(fmt::format("./scripts/zones/{}/npcs/{}.lua", zoneName, name));
+            LoadLuaObjectFromFile(fmt::format("./scripts/zones/{}/npcs/{}.lua", zoneName, name));
         }
         break;
         case TYPE_MOB:
         {
             const auto  zoneName = PEntity->loc.zone->getName();
             const auto& name     = PEntity->getName();
-            CacheLuaObjectFromFile(fmt::format("./scripts/zones/{}/mobs/{}.lua", zoneName, name));
+            LoadLuaObjectFromFile(fmt::format("./scripts/zones/{}/mobs/{}.lua", zoneName, name));
         }
         break;
         case TYPE_PET:
         {
             const auto name = static_cast<CPetEntity*>(PEntity)->GetScriptName();
-            CacheLuaObjectFromFile(fmt::format("./scripts/globals/pets/{}.lua", name));
+            LoadLuaObjectFromFile(fmt::format("./scripts/globals/pets/{}.lua", name));
         }
         break;
         case TYPE_TRUST:
         {
             const auto& name = PEntity->getName();
-            CacheLuaObjectFromFile(fmt::format("./scripts/actions/spells/trust/{}.lua", name));
+            LoadLuaObjectFromFile(fmt::format("./scripts/actions/spells/trust/{}.lua", name));
         }
         break;
         default:
@@ -2165,7 +2206,7 @@ void OnZoneInitialize(uint16 ZoneID)
 
     ShowTraceFmt("luautils::OnZoneInitialize: {}", name);
 
-    CacheLuaObjectFromFile(filename);
+    LoadLuaObjectFromFile(filename);
 
     auto onInitialize = lua["xi"]["zones"][name]["Zone"]["onInitialize"];
     if (!onInitialize.valid())
@@ -2190,7 +2231,7 @@ void OnZoneTick(CZone* PZone)
 
     ShowTraceFmt("luautils::OnZoneTick: {}", name);
 
-    auto onZoneTick = GetCacheEntryFromFilename(filename)["onZoneTick"];
+    auto onZoneTick = getCachedFileFunction(filename, "onZoneTick");
     if (!onZoneTick.valid())
     {
         return;
@@ -2242,7 +2283,7 @@ void OnZoneIn(CCharEntity* PChar)
     ShowTraceFmt("luautils::OnZoneIn: {}: {} -> {}", PChar->getName(), prevZoneStr, name);
 
     auto onZoneInFramework = lua["InteractionGlobal"]["onZoneIn"];
-    auto onZoneIn          = GetCacheEntryFromFilename(filename)["onZoneIn"];
+    auto onZoneIn          = getCachedFileFunction(filename, "onZoneIn");
 
     auto result = onZoneInFramework(PChar, PChar->loc.prevzone, onZoneIn);
     if (!result.valid())
@@ -2285,7 +2326,7 @@ void AfterZoneIn(CBaseEntity* PChar)
     ShowTraceFmt("luautils::AfterZoneIn: {} ({})", PChar->getName(), name);
 
     auto afterZoneInFramework = lua["InteractionGlobal"]["afterZoneIn"];
-    auto afterZoneIn          = GetCacheEntryFromFilename(filename)["afterZoneIn"];
+    auto afterZoneIn          = getCachedFileFunction(filename, "afterZoneIn");
 
     auto result = afterZoneInFramework(PChar, afterZoneIn);
     if (!result.valid())
@@ -2306,7 +2347,7 @@ void OnZoneOut(CCharEntity* PChar)
     ShowTraceFmt("luautils::OnZoneOut: {} ({})", PChar->getName(), name);
 
     auto onZoneOutFramework = lua["InteractionGlobal"]["onZoneOut"];
-    auto onZoneOut          = GetCacheEntryFromFilename(filename)["onZoneOut"];
+    auto onZoneOut          = getCachedFileFunction(filename, "onZoneOut");
 
     auto result = onZoneOutFramework(PChar, onZoneOut);
     if (!result.valid())
@@ -2444,7 +2485,7 @@ int32 OnTrigger(CCharEntity* PChar, CBaseEntity* PNpc)
     PChar->eventPreparation->scriptFile   = filename;
 
     auto onTriggerFramework = lua["InteractionGlobal"]["onTrigger"];
-    auto onTrigger          = GetCacheEntryFromFilename(filename)["onTrigger"];
+    auto onTrigger          = getCachedFileFunction(filename, "onTrigger");
 
     auto result = onTriggerFramework(PChar, PNpc, onTrigger);
     if (!result.valid())
@@ -2577,7 +2618,7 @@ void OnTrade(CCharEntity* PChar, CBaseEntity* PNpc)
     PChar->eventPreparation->scriptFile   = filename;
 
     auto onTradeFramework = lua["InteractionGlobal"]["onTrade"];
-    auto onTrade          = GetCacheEntryFromFilename(filename)["onTrade"];
+    auto onTrade          = getCachedFileFunction(filename, "onTrade");
 
     auto result = onTradeFramework(PChar, PNpc, PChar->TradeContainer, onTrade);
     if (!result.valid())
@@ -2712,7 +2753,7 @@ int32 OnItemAdditionalEffect(CBattleEntity* PAttacker, CBattleEntity* PDefender,
 
     std::string filename = fmt::format("./scripts/items/{}.lua", PItem->getName());
 
-    sol::function onItemAdditionalEffect = GetCacheEntryFromFilename(filename)["onItemAdditionalEffect"].get<sol::function>();
+    sol::function onItemAdditionalEffect = getCachedFileFunction(filename, "onItemAdditionalEffect");
     if (!onItemAdditionalEffect.valid())
     {
         return -1;
@@ -2763,7 +2804,7 @@ void OnEffectGain(CBattleEntity* PEntity, CStatusEffect* PStatusEffect)
 {
     TracyZoneScoped;
 
-    sol::function onEffectGain = detail::getCachedEffectTable(PStatusEffect->GetName())["onEffectGain"].get<sol::function>();
+    sol::function onEffectGain = getEffectCachedFunction(PStatusEffect->GetName(), "onEffectGain");
     if (!onEffectGain.valid())
     {
         return;
@@ -2782,7 +2823,7 @@ void OnEffectTick(CBattleEntity* PEntity, CStatusEffect* PStatusEffect)
 {
     TracyZoneScoped;
 
-    sol::function onEffectTick = detail::getCachedEffectTable(PStatusEffect->GetName())["onEffectTick"].get<sol::function>();
+    sol::function onEffectTick = getEffectCachedFunction(PStatusEffect->GetName(), "onEffectTick");
     if (!onEffectTick.valid())
     {
         return;
@@ -2801,7 +2842,7 @@ void OnEffectLose(CBattleEntity* PEntity, CStatusEffect* PStatusEffect)
 {
     TracyZoneScoped;
 
-    sol::function onEffectLose = detail::getCachedEffectTable(PStatusEffect->GetName())["onEffectLose"].get<sol::function>();
+    sol::function onEffectLose = getEffectCachedFunction(PStatusEffect->GetName(), "onEffectLose");
     if (!onEffectLose.valid())
     {
         return;
@@ -2924,7 +2965,7 @@ auto OnItemCheck(CBaseEntity* PTarget, CItem* PItem, CBaseEntity* PCaster) -> st
 
     auto filename = fmt::format("./scripts/items/{}.lua", PItem->getName());
 
-    sol::function onItemCheck = GetCacheEntryFromFilename(filename)["onItemCheck"].get<sol::function>();
+    sol::function onItemCheck = getCachedFileFunction(filename, "onItemCheck");
     if (!onItemCheck.valid())
     {
         return { 56, 0, 0 };
@@ -2955,7 +2996,7 @@ int32 OnItemUse(CBaseEntity* PUser, CBaseEntity* PTarget, CItem* PItem, action_t
 
     auto filename = fmt::format("./scripts/items/{}.lua", PItem->getName());
 
-    sol::function onItemUse = GetCacheEntryFromFilename(filename)["onItemUse"].get<sol::function>();
+    sol::function onItemUse = getCachedFileFunction(filename, "onItemUse");
     if (!onItemUse.valid())
     {
         return 0;
@@ -2986,7 +3027,7 @@ void OnItemDrop(CBaseEntity* PUser, CItem* PItem, IsRecycleBin recycleBin)
 
     auto filename = fmt::format("./scripts/items/{}.lua", PItem->getName());
 
-    sol::function onItemDrop = GetCacheEntryFromFilename(filename)["onItemDrop"].get<sol::function>();
+    sol::function onItemDrop = getCachedFileFunction(filename, "onItemDrop");
     if (!onItemDrop.valid())
     {
         return;
@@ -3007,7 +3048,7 @@ void OnItemEquip(CBaseEntity* PUser, CItem* PItem)
 
     auto filename = fmt::format("./scripts/items/{}.lua", PItem->getName());
 
-    sol::function onItemEquip = GetCacheEntryFromFilename(filename)["onItemEquip"].get<sol::function>();
+    sol::function onItemEquip = getCachedFileFunction(filename, "onItemEquip");
     if (!onItemEquip.valid())
     {
         return;
@@ -3028,7 +3069,7 @@ void OnItemUnequip(CBaseEntity* PUser, CItem* PItem)
 
     auto filename = fmt::format("./scripts/items/{}.lua", PItem->getName());
 
-    sol::function onItemUnequip = GetCacheEntryFromFilename(filename)["onItemUnequip"].get<sol::function>();
+    sol::function onItemUnequip = getCachedFileFunction(filename, "onItemUnequip");
     if (!onItemUnequip.valid())
     {
         return;
@@ -4273,7 +4314,7 @@ int32 OnAutomatonAbilityCheck(CBaseEntity* PTarget, CAutomatonEntity* PAutomaton
 
     auto filename = fmt::format("./scripts/actions/abilities/pets/automaton/{}.lua", PMobSkill->getName());
 
-    sol::function onAutomatonAbilityCheck = GetCacheEntryFromFilename(filename)["onAutomatonAbilityCheck"];
+    sol::function onAutomatonAbilityCheck = getCachedFileFunction(filename, "onAutomatonAbilityCheck");
     if (!onAutomatonAbilityCheck.valid())
     {
         return 1;
@@ -4294,7 +4335,7 @@ int32 OnAutomatonAbility(CBaseEntity* PTarget, CBaseEntity* PMob, CMobSkill* PMo
 {
     auto filename = fmt::format("./scripts/actions/abilities/pets/automaton/{}.lua", PMobSkill->getName());
 
-    sol::function onAutomatonAbility = GetCacheEntryFromFilename(filename)["onAutomatonAbility"];
+    sol::function onAutomatonAbility = getCachedFileFunction(filename, "onAutomatonAbility");
     if (!onAutomatonAbility.valid())
     {
         return 0;
@@ -4526,7 +4567,7 @@ int32 OnAbilityCheck(CBaseEntity* PChar, CBaseEntity* PTarget, CAbility* PAbilit
         filename = fmt::format("./scripts/actions/abilities/{}.lua", PAbility->getName());
     }
 
-    sol::function onAbilityCheck = GetCacheEntryFromFilename(filename)["onAbilityCheck"];
+    sol::function onAbilityCheck = getCachedFileFunction(filename, "onAbilityCheck");
     if (!onAbilityCheck.valid())
     {
         // TODO: We rely on this to fail silently in certain cases, but this is bad :(
@@ -4558,7 +4599,7 @@ int32 OnPetAbility(CBaseEntity* PTarget, CBaseEntity* PMob, CMobSkill* PMobSkill
 
     std::string filename = fmt::format("./scripts/actions/abilities/pets/{}.lua", PMobSkill->getName());
 
-    sol::function onPetAbility = GetCacheEntryFromFilename(filename)["onPetAbility"];
+    sol::function onPetAbility = getCachedFileFunction(filename, "onPetAbility");
     if (!onPetAbility.valid())
     {
         return 0;
@@ -4596,7 +4637,7 @@ int32 OnPetAbility(CBaseEntity* PTarget, CPetEntity* PPet, CPetSkill* PPetSkill,
 
     std::string filename = fmt::format("./scripts/actions/abilities/pets/{}.lua", PPetSkill->getName());
 
-    sol::function onPetAbility = GetCacheEntryFromFilename(filename)["onPetAbility"];
+    sol::function onPetAbility = getCachedFileFunction(filename, "onPetAbility");
     if (!onPetAbility.valid())
     {
         return 0;
@@ -4636,7 +4677,7 @@ int32 OnUseAbility(CBattleEntity* PUser, CBattleEntity* PTarget, CAbility* PAbil
         filename = fmt::format("./scripts/actions/abilities/{}.lua", PAbility->getName());
     }
 
-    sol::function onUseAbility = GetCacheEntryFromFilename(filename)["onUseAbility"];
+    sol::function onUseAbility = getCachedFileFunction(filename, "onUseAbility");
     if (!onUseAbility.valid())
     {
         ShowWarning("luautils::onUseAbility - Ability %s not found.", PAbility->getName());
@@ -4670,7 +4711,7 @@ int32 OnSteal(CBattleEntity* PChar, CBattleEntity* PMob, CAbility* PAbility, act
     ShowTraceFmt("luautils::OnSteal: {} ({}) -> {}", PChar->getName(), zone, name);
 
     auto onStealFramework = lua["InteractionGlobal"]["onSteal"];
-    auto onSteal          = GetCacheEntryFromFilename(filename)["onSteal"];
+    auto onSteal          = getCachedFileFunction(filename, "onSteal");
 
     auto result = onStealFramework(PChar, PMob, PAbility, action, onSteal);
     if (!result.valid())
@@ -4737,14 +4778,14 @@ auto GetCachedInstanceScript(uint16 instanceId) -> sol::table
 
     auto instanceData = instanceutils::GetInstanceData(instanceId);
 
-    auto cachedInstanceScript = GetCacheEntryFromFilename(instanceData.filename);
-    if (!cachedInstanceScript.valid())
+    auto instanceScript = GetLuaObjectFromFilename(instanceData.filename);
+    if (!instanceScript.valid())
     {
-        ShowError("luautils::GetCachedInstanceScript: Could not retrieve cache entry for %d", instanceId);
+        ShowError("luautils::GetCachedInstanceScript: Could not retrieve Lua object for instance %d", instanceId);
         return sol::lua_nil;
     }
 
-    return cachedInstanceScript;
+    return instanceScript;
 }
 
 void OnInstanceZoneIn(CCharEntity* PChar, CInstance* PInstance)
@@ -4780,7 +4821,7 @@ void AfterInstanceRegister(CBaseEntity* PChar)
     TracyZoneScoped;
 
     auto instanceData          = instanceutils::GetInstanceData(PChar->PInstance->GetID());
-    auto afterInstanceRegister = GetCacheEntryFromFilename(instanceData.filename)["afterInstanceRegister"];
+    auto afterInstanceRegister = getCachedFileFunction(instanceData.filename, "afterInstanceRegister");
     if (!afterInstanceRegister.valid())
     {
         return;
@@ -4823,7 +4864,7 @@ void OnInstanceTimeUpdate(CZone* PZone, CInstance* PInstance, uint32 time)
 
     auto instanceData = instanceutils::GetInstanceData(PInstance->GetID());
 
-    auto onInstanceTimeUpdate = GetCacheEntryFromFilename(instanceData.filename)["onInstanceTimeUpdate"];
+    auto onInstanceTimeUpdate = getCachedFileFunction(instanceData.filename, "onInstanceTimeUpdate");
     if (!onInstanceTimeUpdate.valid())
     {
         return;
@@ -4843,7 +4884,7 @@ void OnInstanceFailure(CInstance* PInstance)
 
     auto instanceData = instanceutils::GetInstanceData(PInstance->GetID());
 
-    auto onInstanceFailure = GetCacheEntryFromFilename(instanceData.filename)["onInstanceFailure"];
+    auto onInstanceFailure = getCachedFileFunction(instanceData.filename, "onInstanceFailure");
     if (!onInstanceFailure.valid())
     {
         return;
@@ -4869,7 +4910,7 @@ void OnInstanceCreatedCallback(CCharEntity* PChar, CInstance* PInstance)
 
     auto instanceData = instanceutils::GetInstanceData(PInstance->GetID());
 
-    auto onInstanceCreatedCallback = GetCacheEntryFromFilename(instanceData.filename)["onInstanceCreatedCallback"];
+    auto onInstanceCreatedCallback = getCachedFileFunction(instanceData.filename, "onInstanceCreatedCallback");
     if (!onInstanceCreatedCallback.valid())
     {
         ShowError("luautils::OnInstanceCreatedCallback: undefined procedure onInstanceCreatedCallback");
@@ -4889,7 +4930,7 @@ void OnInstanceCreated(CInstance* PInstance)
     TracyZoneScoped;
 
     auto instanceData      = instanceutils::GetInstanceData(PInstance->GetID());
-    auto onInstanceCreated = GetCacheEntryFromFilename(instanceData.filename)["onInstanceCreated"];
+    auto onInstanceCreated = getCachedFileFunction(instanceData.filename, "onInstanceCreated");
     if (!onInstanceCreated.valid())
     {
         return;
@@ -4908,7 +4949,7 @@ void OnInstanceProgressUpdate(CInstance* PInstance)
     TracyZoneScoped;
 
     auto instanceData             = instanceutils::GetInstanceData(PInstance->GetID());
-    auto onInstanceProgressUpdate = GetCacheEntryFromFilename(instanceData.filename)["onInstanceProgressUpdate"];
+    auto onInstanceProgressUpdate = getCachedFileFunction(instanceData.filename, "onInstanceProgressUpdate");
     if (!onInstanceProgressUpdate.valid())
     {
         return;
@@ -4928,7 +4969,7 @@ void OnInstanceStageChange(CInstance* PInstance)
     TracyZoneScoped;
 
     auto instanceData          = instanceutils::GetInstanceData(PInstance->GetID());
-    auto onInstanceStageChange = GetCacheEntryFromFilename(instanceData.filename)["onInstanceStageChange"];
+    auto onInstanceStageChange = getCachedFileFunction(instanceData.filename, "onInstanceStageChange");
     if (!onInstanceStageChange.valid())
     {
         return;
@@ -4947,7 +4988,7 @@ void OnInstanceComplete(CInstance* PInstance)
     TracyZoneScoped;
 
     auto instanceData       = instanceutils::GetInstanceData(PInstance->GetID());
-    auto onInstanceComplete = GetCacheEntryFromFilename(instanceData.filename)["onInstanceComplete"];
+    auto onInstanceComplete = getCachedFileFunction(instanceData.filename, "onInstanceComplete");
     if (!onInstanceComplete.valid())
     {
         return;
@@ -5427,14 +5468,9 @@ sol::function LoadEventScript(CCharEntity* PChar, const char* functionName)
 {
     TracyZoneScoped;
 
-    const auto currentEventEntry = GetCacheEntryFromFilename(PChar->currentEvent->scriptFile);
-    if (currentEventEntry.valid())
+    if (auto funcFromChar = getCachedFileFunction(PChar->currentEvent->scriptFile, functionName); funcFromChar.valid())
     {
-        const auto funcFromChar = currentEventEntry[functionName];
-        if (funcFromChar.valid())
-        {
-            return funcFromChar;
-        }
+        return funcFromChar;
     }
 
     if (PChar->PInstance)
@@ -5444,26 +5480,16 @@ sol::function LoadEventScript(CCharEntity* PChar, const char* functionName)
             PChar->PInstance->GetZone()->getName(),
             PChar->PInstance->GetName());
 
-        const auto instanceEntry = GetCacheEntryFromFilename(instanceFilename);
-        if (instanceEntry.valid())
+        if (auto funcFromInstance = getCachedFileFunction(instanceFilename, functionName); funcFromInstance.valid())
         {
-            const auto funcFromInstance = instanceEntry[functionName];
-            if (funcFromInstance.valid())
-            {
-                return funcFromInstance;
-            }
+            return funcFromInstance;
         }
     }
 
     const auto zoneFilename = fmt::format("./scripts/zones/{}/Zone.lua", PChar->loc.zone->getName());
-    const auto zoneEntry    = GetCacheEntryFromFilename(zoneFilename);
-    if (zoneEntry.valid())
+    if (auto funcFromZone = getCachedFileFunction(zoneFilename, functionName); funcFromZone.valid())
     {
-        const auto funcFromZone = zoneEntry[functionName];
-        if (funcFromZone.valid())
-        {
-            return funcFromZone;
-        }
+        return funcFromZone;
     }
 
     return sol::lua_nil;

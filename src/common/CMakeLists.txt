@@ -52,6 +52,9 @@ set(COMMON_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/database/libmariadb/libmariadb_result_set.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/database/libmariadb/libmariadb_result_set.h
     ${CMAKE_CURRENT_SOURCE_DIR}/types/flat_hash_map.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/types/hash_map.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/types/maybe.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/types/variant.h
     ${CMAKE_CURRENT_SOURCE_DIR}/debug.h
     $<$<PLATFORM_ID:Linux>:${CMAKE_CURRENT_SOURCE_DIR}/debug_linux.cpp>
     $<$<PLATFORM_ID:Darwin>:${CMAKE_CURRENT_SOURCE_DIR}/debug_osx.cpp>

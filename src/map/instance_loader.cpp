@@ -302,7 +302,7 @@ auto CInstanceLoader::LoadInstance() const -> CInstance*
             ((CMobEntity*)PMob)->saveMobModifiers();
 
             // Add to cache
-            luautils::CacheLuaObjectFromFile(
+            luautils::LoadLuaObjectFromFile(
                 fmt::format("./scripts/zones/{}/mobs/{}.lua",
                             PMob->loc.zone->getName(),
                             PMob->getName()));
@@ -316,7 +316,7 @@ auto CInstanceLoader::LoadInstance() const -> CInstance*
             luautils::OnNpcSpawn(PNpc);
 
             // Add to cache
-            luautils::CacheLuaObjectFromFile(
+            luautils::LoadLuaObjectFromFile(
                 fmt::format("./scripts/zones/{}/npcs/{}.lua",
                             PNpc->loc.zone->getName(),
                             PNpc->getName()));
@@ -324,7 +324,7 @@ auto CInstanceLoader::LoadInstance() const -> CInstance*
         // clang-format on
 
         // Cache Instance script (TODO: This will be done multiple times, don't do that)
-        luautils::CacheLuaObjectFromFile(instanceutils::GetInstanceData(m_PInstance->GetID()).filename);
+        luautils::LoadLuaObjectFromFile(instanceutils::GetInstanceData(m_PInstance->GetID()).filename);
 
         // Finish setup
         luautils::OnInstanceCreatedCallback(m_PRequester, m_PInstance);

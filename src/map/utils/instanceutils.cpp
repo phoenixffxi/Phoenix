@@ -122,14 +122,14 @@ auto LoadInstances(const std::vector<uint16>& instanceIds) -> void
         data.filename = fmt::format("./scripts/assaults/{}/{}.lua", data.instance_zone_name, data.instance_name);
         if (std::filesystem::exists(data.filename))
         {
-            luautils::CacheLuaObjectFromFile(data.filename, true);
+            luautils::LoadLuaObjectFromFile(data.filename, true);
         }
 
         // If not, fall back to regular instance path
         else
         {
             data.filename = fmt::format("./scripts/zones/{}/instances/{}.lua", data.instance_zone_name, data.instance_name);
-            luautils::CacheLuaObjectFromFile(data.filename);
+            luautils::LoadLuaObjectFromFile(data.filename);
         }
 
         // Add to data cache

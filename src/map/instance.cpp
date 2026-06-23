@@ -116,11 +116,11 @@ void CInstance::LoadInstance()
         const auto assaultPath = fmt::format("./scripts/assaults/{}/{}.lua", zone, name);
         if (std::filesystem::exists(assaultPath))
         {
-            luautils::CacheLuaObjectFromFile(assaultPath, true);
+            luautils::LoadLuaObjectFromFile(assaultPath, true);
         }
         else
         {
-            luautils::CacheLuaObjectFromFile(fmt::format("./scripts/zones/{}/instances/{}.lua", zone, name));
+            luautils::LoadLuaObjectFromFile(fmt::format("./scripts/zones/{}/instances/{}.lua", zone, name));
         }
     }
     else

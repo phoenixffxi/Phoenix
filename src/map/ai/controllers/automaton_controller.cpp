@@ -1751,7 +1751,7 @@ void LoadAutomatonAbilities()
             const auto abilityName = rset->get<std::string>("abilityname");
 
             const auto filename = fmt::format("./scripts/actions/abilities/pets/automaton/{}.lua", abilityName);
-            luautils::CacheLuaObjectFromFile(filename);
+            luautils::LoadLuaObjectFromFile(filename);
         }
     }
 }

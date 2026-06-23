@@ -201,7 +201,7 @@ void LoadWeaponSkillsList()
         g_PWeaponSkillsList[PWeaponSkill->getType()].emplace_back(PWeaponSkill);
 
         auto filename = fmt::format("./scripts/actions/weaponskills/{}.lua", PWeaponSkill->getName());
-        luautils::CacheLuaObjectFromFile(filename);
+        luautils::LoadLuaObjectFromFile(filename);
     }
 }
 
@@ -239,7 +239,7 @@ void LoadMobSkillsList()
         g_PMobSkillList[PMobSkill->getID()] = PMobSkill;
 
         auto filename = fmt::format("./scripts/actions/mobskills/{}.lua", PMobSkill->getName());
-        luautils::CacheLuaObjectFromFile(filename);
+        luautils::LoadLuaObjectFromFile(filename);
     }
 
     rset = db::preparedStmt("SELECT skill_list_id, mob_skill_id FROM mob_skill_lists");
@@ -283,7 +283,7 @@ void LoadPetSkillsList()
         g_PPetSkillList[PPetSkill->getID()] = PPetSkill;
 
         auto filename = fmt::format("./scripts/actions/abilities/pets/{}.lua", PPetSkill->getName());
-        luautils::CacheLuaObjectFromFile(filename);
+        luautils::LoadLuaObjectFromFile(filename);
     }
 }
 

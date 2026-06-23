@@ -37,12 +37,17 @@
 // Iteration & Invalidation:
 //   - Iteration is highly efficient and happens in insertion order.
 //   - Reallocations (via insert/emplace) invalidate all iterators, pointers, and references.
-//   - erase() invalidates iterators to the removed element AND the last element in the 
+//   - erase() invalidates iterators to the removed element AND the last element in the
 //     underlying vector (as it uses a move-from-back strategy to maintain density).
 //
+
+// namespace xi
+// {
 
 template <typename Key,
           typename Value,
           typename Hash     = ankerl::unordered_dense::hash<Key>,
           typename KeyEqual = std::equal_to<Key>>
 using FlatHashMap = ankerl::unordered_dense::map<Key, Value, Hash, KeyEqual>;
+
+// } // namespace xi

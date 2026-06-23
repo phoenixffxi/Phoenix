@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-  Copyright (c) 2025 LandSandBoat Dev Teams
+  Copyright (c) 2026 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,22 +19,39 @@
 ===========================================================================
 */
 
-#pragma once
+#include <map/lua/lua_cache.h>
 
-namespace xi
+auto LuaCache::find(const std::string& key) const -> sol::reference
 {
+    if (const auto it = entries_.find(key); it != entries_.end())
+    {
+        return it->second;
+    }
 
-// overload
-//
-// helper type for std::visit
-// https://en.cppreference.com/w/cpp/utility/variant/visit
-//
+    return sol::lua_nil;
+}
 
-template <typename... Ts>
-struct overload : Ts...
+auto LuaCache::findEntry(const std::string& key) const -> const sol::reference*
 {
-    // cppcheck-suppress syntaxError
-    using Ts::operator()...;
-};
+    if (const auto it = entries_.find(key); it != entries_.end())
+    {
+        return &it->second;
+    }
 
-} // namespace xi
+    return nullptr;
+}
+
+void LuaCache::store(const std::string& key, sol::reference value)
+{
+    entries_[key] = std::move(value);
+}
+
+void LuaCache::clear()
+{
+    entries_.clear();
+}
+
+auto LuaCache::keyBuffer() -> std::string&
+{
+    return keyBuffer_;
+}
