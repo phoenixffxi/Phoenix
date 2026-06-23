@@ -13961,6 +13961,7 @@ auto CLuaBaseEntity::addStatusEffect(const xi::StatusEffect effectId, sol::table
     const auto flag            = params["flag"].get_or(0u);
     const auto sourceType      = params["sourceType"].get_or<uint16>(0);
     const auto sourceTypeParam = params["sourceTypeParam"].get_or(0u);
+    const auto slot            = params["slot"].get_or<uint8>(0);
     const auto silent          = params["silent"].get_or(false);
 
     auto effectDuration = std::chrono::milliseconds(static_cast<uint64>(duration * 1000));
@@ -13979,10 +13980,10 @@ auto CLuaBaseEntity::addStatusEffect(const xi::StatusEffect effectId, sol::table
     // previous SetSource/SetOriginID post-construction steps fold into the call.
     if (silent)
     {
-        return PSEC->AddStatusEffectSilent(effectId, icon, power, std::chrono::seconds(tick), effectDuration, subType, subPower, subIcon, tier, static_cast<xi::StatusEffectFlag>(flag), sourceType, sourceTypeParam, originEntity.getID());
+        return PSEC->AddStatusEffectSilent(effectId, icon, power, std::chrono::seconds(tick), effectDuration, subType, subPower, subIcon, tier, static_cast<xi::StatusEffectFlag>(flag), sourceType, sourceTypeParam, originEntity.getID(), slot);
     }
 
-    return PSEC->AddStatusEffect(effectId, icon, power, std::chrono::seconds(tick), effectDuration, subType, subPower, subIcon, tier, static_cast<xi::StatusEffectFlag>(flag), sourceType, sourceTypeParam, originEntity.getID());
+    return PSEC->AddStatusEffect(effectId, icon, power, std::chrono::seconds(tick), effectDuration, subType, subPower, subIcon, tier, static_cast<xi::StatusEffectFlag>(flag), sourceType, sourceTypeParam, originEntity.getID(), slot);
 }
 
 /************************************************************************
@@ -14807,25 +14808,6 @@ int16 CLuaBaseEntity::getGearModFromSlot(uint8 slot, Mod modId)
 }
 
 /************************************************************************
- *  Function: fold()
- *  Purpose : Removes the most recent Phantom Roll or Bust effect
- *  Example : target:fold()
- *  Notes   : Calls the Fold member of CStatusEffectContainer for calculation
- ************************************************************************/
-
-void CLuaBaseEntity::fold()
-{
-    if (auto* PEntity = dynamic_cast<CBattleEntity*>(m_PBaseEntity))
-    {
-        PEntity->StatusEffectContainer->Fold(PEntity->id);
-    }
-    else
-    {
-        ShowError("Invalid entity type calling function (%s).", m_PBaseEntity->getName());
-    }
-}
-
-/************************************************************************
  *  Function: doWildCard()
  *  Purpose : Executes the Wild Card two hour for a COR
  *  Example : caster:doWildCard(target,total)
@@ -14868,81 +14850,6 @@ bool CLuaBaseEntity::doRandomDeal(CLuaBaseEntity* PTarget)
         return battleutils::DoRandomDealToEntity(static_cast<CCharEntity*>(m_PBaseEntity), PBattleTarget);
     }
 
-    return false;
-}
-
-/************************************************************************
- *  Function: addCorsairRoll()
- *  Purpose : Adds the Corsair Roll to the Target's Status Effect Container
- *  Example : target:addCorsairRoll(caster:getMainJob(), caster:getMerit(xi.merit.BUST_DURATION), xi.effect.CHAOS_ROLL, effectpower, 0, duration, subType(MOD ID),
- * rollTotal, 0, sourceType, sourceTypeParam, originID) Notes   : Returns true if success (Is range a factor?)
- ************************************************************************/
-
-auto CLuaBaseEntity::addCorsairRoll(sol::variadic_args va) -> bool
-{
-    if (m_PBaseEntity->objtype == TYPE_NPC)
-    {
-        ShowWarning("Invalid Entity (NPC: %s) calling function.", m_PBaseEntity->getName());
-        return false;
-    }
-
-    if (va.size() < 12)
-    {
-        return false;
-    }
-
-    // Mandatory parameters
-    auto casterJob       = va[0].as<uint8>();
-    auto bustDuration    = va[1].as<uint8>();
-    auto effectID        = va[2].as<uint16>();
-    auto power           = static_cast<uint16>(va[3].as<double>());
-    auto tick            = static_cast<uint32>(va[4].as<double>());
-    auto duration        = static_cast<uint32>(va[5].as<double>());
-    auto subType         = va[6].is<uint32>() ? va[6].as<uint32>() : 0;
-    auto subPower        = va[7].is<double>() ? static_cast<uint16>(va[7].as<double>()) : 0;
-    auto tier            = va[8].is<uint16>() ? va[8].as<uint16>() : 0;
-    auto sourceType      = va[9].is<uint16>() ? va[9].as<uint16>() : 0;
-    auto sourceTypeParam = va[10].is<uint32>() ? va[10].as<uint32>() : 0;
-    auto originID        = va[11].is<uint32>() ? va[11].as<uint32>() : 0;
-
-    CStatusEffect* PEffect = new CStatusEffect(static_cast<xi::StatusEffect>(effectID), // Effect ID
-                                               effectID,                                // Effect Icon (Associated with ID)
-                                               power,                                   // Power (Mod power)
-                                               std::chrono::seconds(tick),              // Tick
-                                               std::chrono::seconds(duration),          // Duration
-                                               subType,                                 // SubType (Mod ID)
-                                               subPower,                                // SubPower (Roll #)
-                                               0,                                       // SubIcon (rolls have no sub-icon)
-                                               tier                                     // Tier
-    );
-
-    PEffect->SetSource(sourceType, sourceTypeParam);
-    PEffect->SetOriginID(originID);
-
-    uint8 maxRolls = 2;
-    if (casterJob != JOB_COR)
-    {
-        maxRolls = 1;
-    }
-
-    return static_cast<CBattleEntity*>(m_PBaseEntity)->StatusEffectContainer->ApplyCorsairEffect(PEffect, maxRolls, bustDuration);
-}
-
-/************************************************************************
- *  Function: hasCorsairEffect()
- *  Purpose : Returns true if the Entity has Corsair Effect
- *  Example : if target:hasCorsairEffect() then
- *  Notes   :
- ************************************************************************/
-
-bool CLuaBaseEntity::hasCorsairEffect()
-{
-    if (auto* PEntity = dynamic_cast<CBattleEntity*>(m_PBaseEntity))
-    {
-        return PEntity->StatusEffectContainer->HasCorsairEffect(PEntity->id);
-    }
-
-    ShowError("Invalid entity type calling function (%s).", m_PBaseEntity->getName());
     return false;
 }
 
@@ -20852,11 +20759,8 @@ void CLuaBaseEntity::Register()
     SOL_REGISTER("delLatent", CLuaBaseEntity::delLatent);
     SOL_REGISTER("hasAllLatentsActive", CLuaBaseEntity::hasAllLatentsActive);
 
-    SOL_REGISTER("fold", CLuaBaseEntity::fold);
     SOL_REGISTER("doWildCard", CLuaBaseEntity::doWildCard);
     SOL_REGISTER("doRandomDeal", CLuaBaseEntity::doRandomDeal);
-    SOL_REGISTER("addCorsairRoll", CLuaBaseEntity::addCorsairRoll);
-    SOL_REGISTER("hasCorsairEffect", CLuaBaseEntity::hasCorsairEffect);
     SOL_REGISTER("hasBustEffect", CLuaBaseEntity::hasBustEffect);
     SOL_REGISTER("numBustEffects", CLuaBaseEntity::numBustEffects);
     SOL_REGISTER("healingWaltz", CLuaBaseEntity::healingWaltz);

@@ -67,6 +67,11 @@ uint16 CLuaStatusEffect::getTier()
     return m_PLuaStatusEffect->GetTier();
 }
 
+uint8 CLuaStatusEffect::getEffectSlot()
+{
+    return m_PLuaStatusEffect->GetEffectSlot();
+}
+
 //======================================================//
 
 uint32 CLuaStatusEffect::getDuration()
@@ -176,6 +181,11 @@ void CLuaStatusEffect::setSubIcon(uint16 subIcon)
 void CLuaStatusEffect::setTier(uint16 tier)
 {
     m_PLuaStatusEffect->SetTier(tier);
+}
+
+void CLuaStatusEffect::setEffectSlot(uint8 slot)
+{
+    m_PLuaStatusEffect->SetEffectSlot(slot);
 }
 
 auto CLuaStatusEffect::setOriginID(uint32 originid) -> void
@@ -298,6 +308,8 @@ void CLuaStatusEffect::Register()
     SOL_REGISTER("setSubIcon", CLuaStatusEffect::setSubIcon);
     SOL_REGISTER("getTier", CLuaStatusEffect::getTier);
     SOL_REGISTER("setTier", CLuaStatusEffect::setTier);
+    SOL_REGISTER("getEffectSlot", CLuaStatusEffect::getEffectSlot);
+    SOL_REGISTER("setEffectSlot", CLuaStatusEffect::setEffectSlot);
     SOL_REGISTER("getTick", CLuaStatusEffect::getTick);
     SOL_REGISTER("setTick", CLuaStatusEffect::setTick);
     SOL_REGISTER("setStartTime", CLuaStatusEffect::setStartTime);

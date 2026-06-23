@@ -3120,10 +3120,6 @@ end
 function CBaseEntity:hasAllLatentsActive(slot)
 end
 
----@return nil
-function CBaseEntity:fold()
-end
-
 ---@param PEntity CBaseEntity
 ---@param total integer
 ---@return nil
@@ -3134,28 +3130,6 @@ end
 ---@param PTarget CBaseEntity
 ---@return boolean
 function CBaseEntity:doRandomDeal(PTarget)
-end
-
----@nodiscard
----@param casterJob integer
----@param bustDuration integer
----@param effectID integer
----@param power integer
----@param tick integer
----@param duration integer
----@param subType integer
----@param subPower integer
----@param tier integer
----@param sourceType integer
----@param sourceTypeParam integer
----@param originID integer
----@return boolean
-function CBaseEntity:addCorsairRoll(casterJob, bustDuration, effectID, power, tick, duration, subType, subPower, tier, sourceType, sourceTypeParam, originID)
-end
-
----@nodiscard
----@return boolean
-function CBaseEntity:hasCorsairEffect()
 end
 
 ---@nodiscard

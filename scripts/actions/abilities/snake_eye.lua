@@ -12,10 +12,8 @@ abilityObject.onAbilityCheck = function(player, target, ability)
     return 0, 0
 end
 
-abilityObject.onUseAbility = function(player, target, ability)
-    player:addStatusEffect(xi.effect.SNAKE_EYE, { power = (player:getMerit(xi.merit.SNAKE_EYE) - 10), duration = 60, origin = player })
-
-    return xi.effect.SNAKE_EYE
+abilityObject.onUseAbility = function(player, target, ability, action)
+    return xi.job_utils.corsair.useSnakeEye(player, action)
 end
 
 return abilityObject

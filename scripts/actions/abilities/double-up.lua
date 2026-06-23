@@ -9,7 +9,7 @@
 local abilityObject = {}
 
 abilityObject.onAbilityCheck = function(player, target, ability)
-    return xi.job_utils.corsair.onDoubleUpAbilityCheck(player, target, ability)
+    return xi.job_utils.corsair.checkDoubleUp(player, target, ability)
 end
 
 abilityObject.onUseAbility = function(caster, target, ability, action)

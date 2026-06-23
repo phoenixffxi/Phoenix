@@ -108,11 +108,8 @@ public:
     auto  GetEffectsCountWithFlag(xi::StatusEffectFlag flag) -> uint8; // We get the number of effects with the specified flag
     uint8 GetLowestFreeSlot();                                         // returns the lowest free slot for songs/rolls
 
-    auto ApplyCorsairEffect(CStatusEffect* PStatusEffect, uint8 maxRolls, uint8 bustDuration) -> bool;
     bool CheckForElevenRoll();
     bool HasBustEffect(uint16 id);
-    bool HasCorsairEffect(uint32 charid);
-    void Fold(uint32 charid);
 
     uint8 GetActiveManeuverCount();
     void  RemoveOldestManeuver();
