@@ -51,6 +51,18 @@ REPLACE INTO `mob_spawn_points` VALUES (16793839, 0, 'Hobgoblin_Toreador', 'Hobg
 REPLACE INTO `mob_spawn_points` VALUES (16793840, 0, 'Tartarus_Eft', 'Tartarus Eft', 36, 76, 77, 85.2948, -29.1658, 208.1893, 131);
 REPLACE INTO `mob_spawn_points` VALUES (16793841, 0, 'Tartarus_Eft', 'Tartarus Eft', 36, 76, 77, 63.5269, -28.4998, 214.2176, 52);
 
+-- Misareaux_Coast (Zone 25)
+REPLACE INTO `mob_spawn_points` VALUES (16879691, 0, 'Death_Jacket', 'Death Jacket', 32, 37, 40, 512.0135, -15.7584, 205.8453, 6);
+REPLACE INTO `mob_spawn_points` VALUES (16879692, 0, 'Death_Jacket', 'Death Jacket', 32, 37, 40, 521.5015, -15.9082, 274.1429, 204);
+REPLACE INTO `mob_spawn_points` VALUES (16879693, 0, 'Death_Jacket', 'Death Jacket', 32, 37, 40, 463.9465, -15.2375, 186.7759, 78);
+REPLACE INTO `mob_spawn_points` VALUES (16879694, 0, 'Gigantobugard', 'Gigantobugard', 25, 40, 43, 454.2903, -15.3966, 135.4628, 59);
+REPLACE INTO `mob_spawn_points` VALUES (16879695, 0, 'Gigantobugard', 'Gigantobugard', 25, 40, 43, 465.8547, -23.2309, 266.1741, 172);
+REPLACE INTO `mob_spawn_points` VALUES (16879696, 0, 'Gigantobugard', 'Gigantobugard', 25, 40, 43, 462.0979, -24.0405, 295.9691, 229);
+REPLACE INTO `mob_spawn_points` VALUES (16879697, 0, 'Gigantobugard', 'Gigantobugard', 25, 40, 43, 478.0033, -23.4051, 295.5144, 253);
+REPLACE INTO `mob_spawn_points` VALUES (16879698, 0, 'Gigantobugard', 'Gigantobugard', 25, 40, 43, 433.5359, -23.8722, 249.0632, 42);
+REPLACE INTO `mob_spawn_points` VALUES (16879699, 0, 'Gigas_Martialist', 'Gigas Martialist', 28, 41, 44, 513.1515, -23.8735, 319.7224, 239);
+REPLACE INTO `mob_spawn_points` VALUES (16879700, 0, 'Orcish_Footsoldier', 'Orcish Footsoldier', 36, 41, 44, 449.8965, -23.5740, 277.6799, 147);
+
 -- Bhaflau Thickets (Zone 52)
 REPLACE INTO `mob_spawn_points` VALUES (16990444, 0, 'Greater_Colibri', 'Greater Colibri', 7, 82, 83, -584.4034, -5.7966, 5.6828, 208);
 REPLACE INTO `mob_spawn_points` VALUES (16990445, 0, 'Greater_Colibri', 'Greater Colibri', 7, 82, 83, -574.6365, -7.6441, 13.7203, 91);
