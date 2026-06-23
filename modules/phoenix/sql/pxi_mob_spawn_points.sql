@@ -63,6 +63,11 @@ REPLACE INTO `mob_spawn_points` VALUES (16879698, 0, 'Gigantobugard', 'Gigantobu
 REPLACE INTO `mob_spawn_points` VALUES (16879699, 0, 'Gigas_Martialist', 'Gigas Martialist', 28, 41, 44, 513.1515, -23.8735, 319.7224, 239);
 REPLACE INTO `mob_spawn_points` VALUES (16879700, 0, 'Orcish_Footsoldier', 'Orcish Footsoldier', 36, 41, 44, 449.8965, -23.5740, 277.6799, 147);
 
+-- Phomiuna_Aqueducts (Zone 27)
+REPLACE INTO `mob_spawn_points` VALUES (16888011, 0, 'Makara', 'Makara', 17, 44, 47, 179.7085, 1.0020, 141.4838, 175);
+REPLACE INTO `mob_spawn_points` VALUES (16888012, 0, 'Oil_Spill', 'Oil Spill', 21, 44, 47, 173.2919, 1.1516, 139.7954, 166);
+REPLACE INTO `mob_spawn_points` VALUES (16888013, 0, 'Foul_Meat', 'Foul Meat', 26, 45, 47, 179.9092, 1.0000, 178.2200, 59);
+
 -- Bhaflau Thickets (Zone 52)
 REPLACE INTO `mob_spawn_points` VALUES (16990444, 0, 'Greater_Colibri', 'Greater Colibri', 7, 82, 83, -584.4034, -5.7966, 5.6828, 208);
 REPLACE INTO `mob_spawn_points` VALUES (16990445, 0, 'Greater_Colibri', 'Greater Colibri', 7, 82, 83, -574.6365, -7.6441, 13.7203, 91);
