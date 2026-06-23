@@ -19,8 +19,18 @@
 ===========================================================================
 */
 
-#ifndef _LUAUTILS_H
-#define _LUAUTILS_H
+#pragma once
+
+//
+// GOTCHA: Never index a Lua table (sol) with a std::string_view key, e.g. lua["xi"][view] or
+// table[view].
+// sol's lazy table_proxy stores the key by value (sol::detail::proxy_key_t). A std::string
+// is stored as an owning copy, but a std::string_view is stored as a non-owning view, so the
+// deferred lookup reads a key that is no longer valid. (sol DOES encode a string_view as a proper
+// Lua string when it is actually pushed, the problem is the proxy key storage, not the encoding.)
+//
+// Always pass function/key names as const std::string& (or const char*), never std::string_view.
+//
 
 #include <common/cbasetypes.h>
 #include <common/types/maybe.h>
@@ -43,7 +53,7 @@ extern sol::state lua;
 #include "lua_ability.h"
 #include "lua_action.h"
 #include "lua_attack.h"
-#include "lua_baseentity.h"
+#include "lua_base_entity.h"
 #include "lua_battlefield.h"
 #include "lua_instance.h"
 #include "lua_item.h"
@@ -111,6 +121,7 @@ enum class Emote : uint8;
 
 namespace luautils
 {
+
 namespace detail
 {
 
@@ -127,6 +138,10 @@ namespace detail
 auto findGlobalLuaFunction(const std::string& funcName) -> sol::function;
 
 } // namespace detail
+
+//
+// Lua lifetime
+//
 
 void init(IPP mapIPP, bool isRunningInCI);
 void garbageCollectStep();
@@ -148,64 +163,29 @@ void cleanup();
 // NOTE: This is slower (but safet) than looking up something manually like this:
 //     : lua["xi"]["server"]["onTimeServerTick"]();
 template <typename T, typename... Targs>
-auto callGlobal(const std::string& funcName, Targs... args)
-{
-    auto func = detail::findGlobalLuaFunction(funcName);
-    if (!func.valid())
-    {
-        ShowError("luautils::callGlobalFunction: %s: Function not found", funcName);
-        if constexpr (std::is_void_v<T>)
-        {
-            return;
-        }
-        else
-        {
-            return T{};
-        }
-    }
-
-    const auto result = func(std::forward<Targs>(args)...);
-    if (!result.valid())
-    {
-        sol::error err = result;
-        ShowError("luautils::callGlobalFunction: %s: %s", funcName, err.what());
-        if constexpr (std::is_void_v<T>)
-        {
-            return;
-        }
-        else
-        {
-            return T{};
-        }
-    }
-
-    if constexpr (std::is_void_v<T>)
-    {
-        return;
-    }
-    else
-    {
-        auto returnObject = result.template get<sol::object>();
-        if (returnObject.template is<T>())
-        {
-            return returnObject.template as<T>();
-        }
-        else
-        {
-            ShowError("luautils::callGlobalFunction: %s: Invalid return type", funcName);
-            return T{};
-        }
-    }
-}
+auto callGlobal(const std::string& funcName, Targs... args);
 
 void TryReloadFilewatchList();
 
 auto GetContainerFilenamesList() -> std::vector<std::string>;
 
-// Cache helpers
-auto getEntityCachedFunction(CBaseEntity* PEntity, std::string funcName) -> sol::function;
-void CacheLuaObjectFromFile(const std::string& filename, bool overwriteCurrentEntry = false);
-auto GetCacheEntryFromFilename(const std::string& filename) -> sol::table;
+//
+// Lua script loading: read a file from disk into the Lua state, and look up the object it
+// returned. Loading happens once per (re)load; the lookup walks the live Lua state.
+//
+
+void LoadLuaObjectFromFile(const std::string& filename, bool overwriteCurrentEntry = false);
+auto GetLuaObjectFromFilename(const std::string& filename) -> sol::table;
+
+//
+// Cache: memoize resolved Lua functions (keyed by entity/spell/effect/file + function name) so we
+// don't walk the Lua state on every call. The intermediate tables are never cached -- only the
+// resolved functions. See LuaCache.
+//
+
+auto getEntityCachedFunction(CBaseEntity* PEntity, const std::string& funcName) -> sol::function;
+auto getCachedFileFunction(const std::string& filename, const std::string& funcName) -> sol::function;
+
 void OnEntityLoad(CBaseEntity* PEntity);
 
 void LoadExpDifficultyCurves(const sol::table& expToDifficultyTable, const uint8 incrediblyEasyPreyLevel, const uint16 incrediblyEasyPreyMinExp);
@@ -485,7 +465,61 @@ auto GetSynergyRecipeByTrade(CLuaTradeContainer luaTradeContainer) -> sol::table
 
 }; // namespace luautils
 
-// template impl
+//
+// template impls
+//
+
+template <typename T, typename... Targs>
+auto luautils::callGlobal(const std::string& funcName, Targs... args)
+{
+    auto func = detail::findGlobalLuaFunction(funcName);
+    if (!func.valid())
+    {
+        ShowError("luautils::callGlobalFunction: %s: Function not found", funcName);
+        if constexpr (std::is_void_v<T>)
+        {
+            return;
+        }
+        else
+        {
+            return T{};
+        }
+    }
+
+    const auto result = func(std::forward<Targs>(args)...);
+    if (!result.valid())
+    {
+        sol::error err = result;
+        ShowError("luautils::callGlobalFunction: %s: %s", funcName, err.what());
+        if constexpr (std::is_void_v<T>)
+        {
+            return;
+        }
+        else
+        {
+            return T{};
+        }
+    }
+
+    if constexpr (std::is_void_v<T>)
+    {
+        return;
+    }
+    else
+    {
+        auto returnObject = result.template get<sol::object>();
+        if (returnObject.template is<T>())
+        {
+            return returnObject.template as<T>();
+        }
+        else
+        {
+            ShowError("luautils::callGlobalFunction: %s: Invalid return type", funcName);
+            return T{};
+        }
+    }
+}
+
 template <typename... Targs>
 int32 luautils::invokeBattlefieldEvent(uint16 battlefieldId, const std::string& eventName, Targs... args)
 {
@@ -519,5 +553,3 @@ int32 luautils::invokeBattlefieldEvent(uint16 battlefieldId, const std::string& 
 
     return 0;
 }
-
-#endif // _LUAUTILS_H -

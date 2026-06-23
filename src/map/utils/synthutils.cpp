@@ -26,7 +26,7 @@
 #include "common/logging.h"
 #include "common/timer.h"
 #include "common/utils.h"
-#include "entities/battleentity.h"
+#include "entities/battle_entity.h"
 #include "enums/key_items.h"
 #include "enums/synthesis_effect.h"
 #include "enums/synthesis_result.h"

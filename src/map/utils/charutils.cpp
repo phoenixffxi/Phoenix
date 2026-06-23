@@ -83,10 +83,10 @@
 #include "weapon_skill.h"
 #include "zone.h"
 
-#include "entities/automatonentity.h"
-#include "entities/charentity.h"
-#include "entities/mobentity.h"
-#include "entities/petentity.h"
+#include "entities/automaton_entity.h"
+#include "entities/char_entity.h"
+#include "entities/mob_entity.h"
+#include "entities/pet_entity.h"
 
 #include "battleutils.h"
 #include "blueutils.h"
@@ -6951,7 +6951,7 @@ auto CheckAbilityAddtype(CCharEntity* PChar, const CAbility* PAbility) -> bool
 
         // Alexander, Odin and Atomos grant no abilities (Assault, Release...) to the master.
         const auto* petEntity = static_cast<CPetEntity*>(PChar->PPet);
-        if (petEntity->m_PetID == PETID_ALEXANDER || petEntity->m_PetID == PETID_ODIN || petEntity->m_PetID == PETID_ATOMOS)
+        if (petEntity->petID() == PETID_ALEXANDER || petEntity->petID() == PETID_ODIN || petEntity->petID() == PETID_ATOMOS)
         {
             return false;
         }
@@ -7110,7 +7110,7 @@ void ReloadParty(CCharEntity* PChar)
         {
             PChar->pushPacket<GP_SERV_COMMAND_BATTLE_MESSAGE>(PChar, PChar, 0, PSyncTarget->GetMLevel(), MsgBasic::LevelSyncActivated);
             PChar->StatusEffectContainer->DelStatusEffectsByFlag(xi::StatusEffectFlag::Dispelable);
-            PChar->StatusEffectContainer->AddStatusEffect(new CStatusEffect(xi::StatusEffect::LevelSync, static_cast<uint16>(xi::StatusEffect::LevelSync), PSyncTarget->GetMLevel(), 0s, 0s), EffectNotice::Silent);
+            PChar->StatusEffectContainer->AddStatusEffectSilent(xi::StatusEffect::LevelSync, static_cast<uint16>(xi::StatusEffect::LevelSync), PSyncTarget->GetMLevel(), 0s, 0s);
         }
 
         if (allianceid != 0)
@@ -8052,10 +8052,7 @@ void removeCharFromZone(CCharEntity* PChar)
 
     if (PChar->loc.zone != nullptr)
     {
-        if (auto* manager = PChar->loc.zone->nominateManager())
-        {
-            manager->onCharLeavingZone(PChar);
-        }
+        PChar->loc.zone->nominateManager().onCharLeavingZone(PChar);
     }
 
     PChar->WideScanTarget = std::nullopt;
@@ -8282,6 +8279,36 @@ void ApplyAbilityRecast(CCharEntity* PChar, const CAbility* PAbility, const Char
     }
 
     PChar->pushPacket<GP_SERV_COMMAND_ABIL_RECAST>(PChar);
+}
+
+void TrackArrowUsageForScavenge(CCharEntity* PChar, CItemWeapon* PAmmo)
+{
+    TracyZoneScoped;
+
+    // Check if local has been set yet
+    if (PChar->GetLocalVar("ArrowsUsed") == 0)
+    {
+        // Local not set yet so set
+        PChar->SetLocalVar("ArrowsUsed", PAmmo->getID() * 10000 + 1);
+    }
+    else
+    {
+        // Local exists now check if arrow used is same as last time
+        if ((floor(PChar->GetLocalVar("ArrowsUsed") / 10000)) == PAmmo->getID())
+        {
+            // Same arrow used as last time now check that arrows used do not go above 1980
+            if (!(floor(PChar->GetLocalVar("ArrowsUsed") % 10000) >= 1980))
+            {
+                // Safe to increment arrows used
+                PChar->SetLocalVar("ArrowsUsed", PChar->GetLocalVar("ArrowsUsed") + 1);
+            }
+        }
+        else
+        {
+            // Different arrow is being used so remake local
+            PChar->SetLocalVar("ArrowsUsed", PAmmo->getID() * 10000 + 1);
+        }
+    }
 }
 
 }; // namespace charutils

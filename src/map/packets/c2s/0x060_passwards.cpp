@@ -22,7 +22,7 @@
 #include "0x060_passwards.h"
 
 #include "common/logging.h"
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "lua/luautils.h"
 #include "packets/s2c/0x052_eventucoff.h"
 

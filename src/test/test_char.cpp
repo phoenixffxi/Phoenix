@@ -26,8 +26,8 @@
 #include "common/lua.h"
 #include "login/login_helpers.h"
 #include "lua/lua_spy.h"
-#include "map/entities/baseentity.h"
-#include "map/entities/charentity.h"
+#include "map/entities/base_entity.h"
+#include "map/entities/char_entity.h"
 #include "test_common.h"
 
 #include <format>

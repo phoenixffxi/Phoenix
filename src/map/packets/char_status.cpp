@@ -30,7 +30,7 @@
 
 #include "ai/ai_container.h"
 #include "ai/states/death_state.h"
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "item_container.h"
 #include "items/item_linkshell.h"
 #include "status_effect_container.h"
@@ -214,8 +214,8 @@ CCharStatusPacket::CCharStatusPacket(CCharEntity* PChar)
     packet->id   = 0x037;
     packet->size = roundUpToNearestFour(sizeof(GP_SERV_SERVERSTATUS)) / 4;
 
-    std::memcpy(packet->BufStatus, PChar->StatusEffectContainer->m_StatusIcons, 32);
-    std::memcpy(&packet->BufStatusBits, &PChar->StatusEffectContainer->m_Flags, sizeof(status_bits_t));
+    std::memcpy(packet->BufStatus, PChar->StatusEffectContainer->statusIcons(), 32);
+    std::memcpy(&packet->BufStatusBits, &PChar->StatusEffectContainer->statusBits(), sizeof(status_bits_t));
 
     packet->UniqueNo      = PChar->id;
     packet->server_status = PChar->animation;

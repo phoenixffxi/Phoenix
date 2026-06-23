@@ -27,7 +27,7 @@
 
 #include <list>
 
-#include "entities/battleentity.h"
+#include "entities/battle_entity.h"
 
 enum class ActionReactKind : uint8_t;
 enum class ActionProcSkillChain : uint8_t;

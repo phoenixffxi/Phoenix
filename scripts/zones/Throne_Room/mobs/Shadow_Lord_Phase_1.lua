@@ -6,35 +6,24 @@
 ---@type TMobEntity
 local entity = {}
 
-local stanceTable =
-{
--- [Stance] = { animationSub, canAutoAttack, canCastSpells, physicalShieldPower, magicalShieldPower }
-    [1] = { 1, false, true,  0, 1 }, -- Magical Stance
-    [2] = { 2, true,  false, 1, 0 }, -- Physical Stance
-}
-
 local function changeStance(mob, stance)
     -- Set behavior.
-    mob:setAnimationSub(stanceTable[stance][1])
-    mob:setAutoAttackEnabled(stanceTable[stance][2])
-    mob:setMagicCastingEnabled(stanceTable[stance][3])
+    mob:setAnimationSub(stance)
+    mob:setAutoAttackEnabled(stance == 2 and true or false)
+    mob:setMagicCastingEnabled(stance == 1 and true or false)
 
     -- Set effects.
-    local physicalShieldPower = stanceTable[stance][3]
-    local magicalShieldPower  = stanceTable[stance][4]
-
-    if physicalShieldPower > 0 then
-        mob:addStatusEffect(xi.effect.PHYSICAL_SHIELD, { power = physicalShieldPower, origin = mob, icon = 0 })
-        mob:addStatusEffect(xi.effect.ARROW_SHIELD, { power = physicalShieldPower, origin = mob, icon = 0 })
+    if stance == 2 then
+        mob:addStatusEffect(xi.effect.PHYSICAL_SHIELD, { power = 1, origin = mob, icon = 0 })
+        mob:addStatusEffect(xi.effect.ARROW_SHIELD, { power = 1, origin = mob, icon = 0 })
         mob:delStatusEffectSilent(xi.effect.MAGIC_SHIELD)
     else
         mob:delStatusEffectSilent(xi.effect.PHYSICAL_SHIELD)
         mob:delStatusEffectSilent(xi.effect.ARROW_SHIELD)
-        mob:addStatusEffect(xi.effect.MAGIC_SHIELD, { power = magicalShieldPower, origin = mob, icon = 0 })
+        mob:addStatusEffect(xi.effect.MAGIC_SHIELD, { power = 1, origin = mob, icon = 0 })
     end
 
     -- Set special modifiers for action delays.
-    mob:setMod(xi.mod.HASTE_GEAR, 0)
     mob:setMobMod(xi.mobMod.MAGIC_COOL, 8)
 
     -- Save data.
@@ -46,6 +35,23 @@ entity.onMobInitialize = function(mob)
     mob:addImmunity(xi.immunity.DARK_SLEEP)
     mob:addImmunity(xi.immunity.LIGHT_SLEEP)
     mob:addImmunity(xi.immunity.SILENCE)
+
+    -- Counter-attack with "Blind" spell when in magical stance.
+    mob:addListener('TAKE_DAMAGE', 'COUNTER_WITH_BLIND', function(mobArg, amount, attacker, attackType, damageType)
+        if mobArg:getAnimationSub() ~= 1 then
+            return
+        end
+
+        if xi.combat.behavior.isEntityBusy(mobArg) then
+            return
+        end
+
+        if attacker:hasStatusEffect(xi.effect.BLINDNESS) then
+            return
+        end
+
+        mobArg:castSpell(xi.magic.spell.BLIND, attacker) -- Spell is casted on whoever attacked him. Ignores hate.
+    end)
 end
 
 entity.onMobSpawn = function(mob)
@@ -54,32 +60,18 @@ entity.onMobSpawn = function(mob)
     mob:setAutoAttackEnabled(true)
     mob:setMagicCastingEnabled(true)
     mob:delStatusEffectSilent(xi.effect.PHYSICAL_SHIELD)
+    mob:delStatusEffectSilent(xi.effect.ARROW_SHIELD)
     mob:delStatusEffectSilent(xi.effect.MAGIC_SHIELD)
-    mob:setMod(xi.mod.HASTE_GEAR, 0)
     mob:setMobMod(xi.mobMod.MAGIC_COOL, 20)
     mob:setMod(xi.mod.DESPAWN_TIME_REDUCTION, 14)
-
-    -- Ensure counter-attack.
-    mob:addListener('TAKE_DAMAGE', 'COUNTER_WITH_BLIND', function(mobArg, amount, attacker, attackType, damageType)
-        local animationSub = mobArg:getAnimationSub()
-
-        if
-            animationSub == 1 and                             -- Shadow Lord in magical stance.
-            not xi.combat.behavior.isEntityBusy(mobArg) and   -- Shadow lord ain't busy.
-            not attacker:hasStatusEffect(xi.effect.BLINDNESS) -- Target not blind.
-        then
-            mobArg:castSpell(xi.magic.spell.BLIND, attacker) -- Spell is casted on whoever attacked him. Ignores hate.
-        end
-    end)
 end
 
 entity.onMobFight = function(mob, target)
     -- Once he's under 50% HP, start changing immunities and attack patterns
-    local animationSub = mob:getAnimationSub()
-    local changeTime   = mob:getLocalVar('changeTime')
-    local changeHP     = mob:getLocalVar('changeHP')
+    local changeTime = mob:getLocalVar('changeTime')
+    local changeHP   = mob:getLocalVar('changeHP')
 
-    switch (animationSub): caseof
+    switch (mob:getAnimationSub()): caseof
     {
         -- Initial phase.
         [0] = function()
@@ -162,10 +154,6 @@ entity.onMobSpellChoose = function(mob, target, spellId)
     end
 
     return spellList[math.random(1, #spellList)]
-end
-
-entity.onMobDespawn = function(mob)
-    mob:removeListener('COUNTER_WITH_BLIND')
 end
 
 return entity

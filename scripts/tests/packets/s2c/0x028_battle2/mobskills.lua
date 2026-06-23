@@ -314,7 +314,7 @@ local packets =
     {
         test = function(player, mob)
             player:gotoZone(xi.zone.DYNAMIS_WINDURST)
-            local yagudo = player.entities:moveTo('Vanguard_Chanter')
+            local yagudo = player.entities:moveTo('Vanguard_Sentinel')
             yagudo:updateEnmity(player)
             yagudo:addTP(3000)
             yagudo:useMobAbility(xi.mobSkill.SWEEP, player, 5, true)

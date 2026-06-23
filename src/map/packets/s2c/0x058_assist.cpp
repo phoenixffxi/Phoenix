@@ -21,8 +21,8 @@
 
 #include "0x058_assist.h"
 
-#include "entities/battleentity.h"
-#include "entities/charentity.h"
+#include "entities/battle_entity.h"
+#include "entities/char_entity.h"
 
 GP_SERV_COMMAND_ASSIST::GP_SERV_COMMAND_ASSIST(const CCharEntity* PChar, const CBattleEntity* PTarget)
 {

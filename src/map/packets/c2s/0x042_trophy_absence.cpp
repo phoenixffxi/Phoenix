@@ -21,7 +21,7 @@
 
 #include "0x042_trophy_absence.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "treasure_pool.h"
 
 auto GP_CLI_COMMAND_TROPHY_ABSENCE::validate(MapSession* PSession, const CCharEntity* PChar) const -> PacketValidationResult

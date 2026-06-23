@@ -21,7 +21,7 @@
 
 #include "0x0be_merits.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "packets/char_status.h"
 #include "packets/char_sync.h"
 #include "packets/s2c/0x029_battle_message.h"

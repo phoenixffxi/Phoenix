@@ -9,7 +9,7 @@ local attachmentObject = {}
 attachmentObject.onEquip = function(pet)
     pet:addListener('AUTOMATON_ATTACHMENT_CHECK', 'ATTACHMENT_HEAT_CAPACITOR', function(automaton, target)
         -- If Heat Capacitor is still on cooldown, do nothing.
-        if automaton:hasRecast(xi.recast.ABILITY, xi.automaton.abilities.HEAT_CAPACITOR) then
+        if automaton:hasRecast(xi.recast.ABILITY, xi.mobSkill.HEAT_CAPACITOR_AUTOMATON) then
             return
         end
 
@@ -24,7 +24,7 @@ attachmentObject.onEquip = function(pet)
             return
         end
 
-        automaton:useMobAbility(xi.automaton.abilities.HEAT_CAPACITOR, automaton)
+        automaton:useMobAbility(xi.mobSkill.HEAT_CAPACITOR_AUTOMATON, automaton)
     end)
 end
 

@@ -21,8 +21,8 @@
 #include "notoriety_container.h"
 
 #include "enmity_container.h"
-#include "entities/battleentity.h"
-#include "entities/mobentity.h"
+#include "entities/battle_entity.h"
+#include "entities/mob_entity.h"
 
 CNotorietyContainer::CNotorietyContainer(CBattleEntity* owner)
 : m_POwner(owner)

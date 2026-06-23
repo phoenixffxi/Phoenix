@@ -21,7 +21,7 @@
 
 #include "0x0fb_myroom_bankin.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "enums/item_lockflg.h"
 #include "items/exdata/mannequin.h"
 #include "items/item_furnishing.h"

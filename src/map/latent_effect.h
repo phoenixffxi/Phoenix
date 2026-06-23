@@ -22,7 +22,7 @@
 #ifndef _LATENTEFFECT_H
 #define _LATENTEFFECT_H
 
-#include "./entities/battleentity.h"
+#include "./entities/battle_entity.h"
 #include "./items/item_equipment.h"
 #include "common/cbasetypes.h"
 #include "common/mmo.h"

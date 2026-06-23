@@ -23,7 +23,7 @@
 
 #include <common/types/maybe.h>
 
-#include "entities/automatonentity.h"
+#include "entities/automaton_entity.h"
 
 #include "pet_controller.h"
 #include "spell.h"

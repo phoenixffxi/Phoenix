@@ -24,7 +24,7 @@
 #include "common/database.h"
 #include "common/logging.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "enums/item_flag.h"
 #include "enums/item_lockflg.h"
 #include "item_container.h"

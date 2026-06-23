@@ -11,8 +11,8 @@ abilityObject.onAbilityCheck = function(player, target, ability)
     return xi.job_utils.puppetmaster.onAbilityCheckTacticalSwitch(player, target, ability)
 end
 
-abilityObject.onUseAbility = function(player, target, ability)
-    return xi.job_utils.puppetmaster.onAbilityUseTacticalSwitch(player, target, ability)
+abilityObject.onUseAbility = function(player, target, ability, action)
+    return xi.job_utils.puppetmaster.onAbilityUseTacticalSwitch(player, target, ability, action)
 end
 
 return abilityObject

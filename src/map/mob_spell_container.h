@@ -27,7 +27,7 @@
 #include "common/cbasetypes.h"
 #include "common/mmo.h"
 
-#include "entities/mobentity.h"
+#include "entities/mob_entity.h"
 #include "spell.h"
 
 class CMobSpellContainer

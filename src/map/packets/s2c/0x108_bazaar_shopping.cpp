@@ -21,7 +21,7 @@
 
 #include "0x108_bazaar_shopping.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 #include <cstring>
 

@@ -21,7 +21,7 @@
 
 #include "0x036_talknum.h"
 
-#include "entities/baseentity.h"
+#include "entities/base_entity.h"
 
 GP_SERV_COMMAND_TALKNUM::GP_SERV_COMMAND_TALKNUM(CBaseEntity* PEntity, const uint16 messageID, const bool showName, const uint8 mode)
 {

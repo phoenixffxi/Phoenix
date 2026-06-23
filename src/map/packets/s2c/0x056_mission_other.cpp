@@ -21,7 +21,7 @@
 
 #include "0x056_mission_other.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "enums/mission_log.h"
 #include "enums/quest_log.h"
 

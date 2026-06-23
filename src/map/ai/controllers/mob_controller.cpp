@@ -31,7 +31,7 @@
 #include "battlefield.h"
 #include "common/utils.h"
 #include "enmity_container.h"
-#include "entities/mobentity.h"
+#include "entities/mob_entity.h"
 #include "mob_modifier.h"
 #include "mob_spell_container.h"
 #include "mobskill.h"
@@ -79,11 +79,33 @@ auto CMobController::Tick(const timer::time_point tick) -> Task<void>
         }
         else if (!PMob->isDead())
         {
+            if (PMob->SpellContainer->HasSpells() && DoBuffTick())
+            {
+                co_return;
+            }
+
             co_await DoRoamTick(tick);
         }
     }
 
     co_return;
+}
+
+auto CMobController::DoBuffTick() -> bool
+{
+    TracyZoneScoped;
+
+    if (PMob->PAI->IsCurrentState<CMagicState>())
+    {
+        return true;
+    }
+
+    if (!IsSpellReady(0, 0) || !PMob->SpellContainer->HasBuffSpells())
+    {
+        return false;
+    }
+
+    return TryCastSpell();
 }
 
 auto CMobController::TryDeaggro() -> bool
@@ -219,9 +241,9 @@ void CMobController::TryLink()
         {
             const auto PPetEntity = static_cast<CPetEntity*>(PTarget->PPet);
             if (PPetEntity->getPetType() == PET_TYPE::AVATAR &&
-                PPetEntity->m_PetID != PETID_ALEXANDER &&
-                PPetEntity->m_PetID != PETID_ODIN &&
-                PPetEntity->m_PetID != PETID_ATOMOS)
+                PPetEntity->petID() != PETID_ALEXANDER &&
+                PPetEntity->petID() != PETID_ODIN &&
+                PPetEntity->petID() != PETID_ATOMOS)
             {
                 if (PTarget->objtype == TYPE_PC)
                 {
@@ -245,15 +267,28 @@ void CMobController::TryLink()
         PMob->PPet->PAI->Engage(PTarget->targid);
     }
 
-    // Handle monster linking if they are close enough
-    if (PMob->PParty != nullptr && !PMob->getMobMod(MOBMOD_ONE_WAY_LINKING))
+    // Handle linking if they are close enough. This party scan is the hot part of
+    // TryLink, so throttle it to every other combat tick and skip it when there is nothing
+    // to link with (no party, or a party of just this mob).
+    linkScanThisTick_ = !linkScanThisTick_;
+    if (linkScanThisTick_ &&
+        PMob->PParty != nullptr &&
+        PMob->PParty->members.size() > 1 &&
+        !PMob->getMobMod(MOBMOD_ONE_WAY_LINKING))
     {
-        for (auto& member : PMob->PParty->members)
+        for (auto* member : PMob->PParty->members)
         {
-            auto* PPartyMember = dynamic_cast<CMobEntity*>(member);
+            // Mob link parties only contain mobs; objtype-gate then static_cast to avoid a
+            // per-member dynamic_cast in this hot loop.
+            if (member->objtype != TYPE_MOB)
+            {
+                continue;
+            }
+            auto* PPartyMember = static_cast<CMobEntity*>(member);
+
             // Note if the mob to link with this one is a pet then do not link
             // Pets only link with their masters
-            if (!PPartyMember || PPartyMember->PMaster || PPartyMember->isDead())
+            if (PPartyMember->PMaster || PPartyMember->isDead())
             {
                 continue;
             }
@@ -1178,7 +1213,7 @@ auto CMobController::DoRoamTick(timer::time_point tick) -> Task<void>
                 {
                     PMob->PAI->Despawn();
                     // Override respawn timer set by CDespawnState for deaggro (60s instead of default)
-                    PMob->loc.zone->spawnHandler()->registerForRespawn(PMob, 60s);
+                    PMob->loc.zone->spawnHandler().registerForRespawn(PMob, 60s);
                     co_return;
                 }
             }
@@ -1195,21 +1230,6 @@ auto CMobController::DoRoamTick(timer::time_point tick) -> Task<void>
                 if (IsSpecialSkillReady(0) && TrySpecialSkill())
                 {
                     // I spawned a pet
-                }
-                else if (
-                    (!PMob->PBattlefield || PMob->PBattlefield->GetStatus() != BATTLEFIELD_STATUS_OPEN) &&
-                    PMob->GetMJob() == JOB_SMN && CanCastSpells(IgnoreRecastsAndCosts::No) &&
-                    PMob->SpellContainer->HasBuffSpells() && m_Tick >= m_nextMagicTime)
-                {
-                    // summon pet
-                    // - initial summoner-mob pets in battlefields will happen via battlefield.lua, so the first player sees the action
-                    // - Once battlefield is locked, behavior is back to normal with no rng added to pet summoning
-                    TryCastSpell();
-                }
-                else if (CanCastSpells(IgnoreRecastsAndCosts::No) && xirand::GetRandomNumber(10) < 3 && PMob->SpellContainer->HasBuffSpells())
-                {
-                    // cast buff
-                    TryCastSpell();
                 }
                 else if (PMob->m_roamFlags & ROAMFLAG_SCRIPTED)
                 {
@@ -1368,7 +1388,7 @@ void CMobController::Reset()
 {
     TracyZoneScoped;
 
-    // Wait a little before roaming / casting spell / spawning pet
+    // Wait a little while before roaming again.
     m_LastActionTime = m_Tick - std::chrono::seconds(xirand::GetRandomNumber(PMob->getMobMod(MOBMOD_ROAM_COOL)));
 
     // Don't attack player right off of spawn

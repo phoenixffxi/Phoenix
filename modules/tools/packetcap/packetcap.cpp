@@ -13,7 +13,7 @@
  ************************************************************************/
 
 #include "common/settings.h"
-#include "map/entities/charentity.h"
+#include "map/entities/char_entity.h"
 #include "map/packets/basic.h"
 #include "map/utils/moduleutils.h"
 

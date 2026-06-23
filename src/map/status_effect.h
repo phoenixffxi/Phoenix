@@ -1,4 +1,4 @@
-﻿/*
+/*
 ===========================================================================
 
   Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -35,7 +35,7 @@
 
 /************************************************************************
  *                                                                       *
- *  Unsolved problems:                                                   *
+ *  TODO: (?) Unsolved problems:                                         *
  *                                                                       *
  *  - updating the effect (e.g., rewriting Protect I to Protect II)      *
  *                                                                       *
@@ -53,84 +53,87 @@ enum EffectSourceType : uint8_t
     SOURCE_CORSAIR_ROLL   = 5,
 };
 
-class CStatusEffect
+class CStatusEffect final
 {
 public:
-    auto   GetStatusID() -> xi::StatusEffect;
-    uint32 GetSubID() const;
-    auto   GetSourceType() const -> uint16;
-    auto   GetSourceTypeParam() const -> uint32;
-    auto   GetOriginID() const -> uint32;
-    uint16 GetIcon() const;
-    uint16 GetPower() const;
-    uint16 GetSubPower() const;
-    uint16 GetSubIcon() const;
-    uint16 GetTier() const;
-    auto   GetEffectFlags() const -> xi::StatusEffectFlag;
-    uint16 GetEffectType() const;
-    uint8  GetEffectSlot() const;
-
-    timer::duration   GetTickTime() const;
-    timer::duration   GetDuration() const;
-    int               GetElapsedTickCount() const;
-    timer::time_point GetStartTime();
-    CBattleEntity*    GetOwner();
-
-    void SetEffectFlags(xi::StatusEffectFlag Flags);
-    void AddEffectFlag(xi::StatusEffectFlag Flag);
-    void DelEffectFlag(xi::StatusEffectFlag Flag);
-    auto HasEffectFlag(xi::StatusEffectFlag Flag) -> bool;
-    void SetEffectType(uint16 Type);
-    void SetEffectSlot(uint8 Slot);
-    void SetIcon(uint16 Icon);
-    auto SetSource(uint16 sourceType, uint32 sourceTypeParam) -> void;
-    void SetPower(uint16 Power);
-    void SetSubPower(uint16 subPower);
-    void SetSubIcon(uint16 subIcon);
-    void SetTier(uint16 tier);
-    void SetDuration(timer::duration Duration);
-    void SetOwner(CBattleEntity* Owner);
-    void SetTickTime(timer::duration tick);
-    auto SetOriginID(uint32 originID) -> void;
-
-    void IncrementElapsedTickCount();
-    void SetStartTime(timer::time_point StartTime);
-
-    void addMod(Mod modType, int16 amount);
-    void setMod(Mod modType, int16 value);
-
-    void SetEffectName(std::string name);
-
-    const std::string& GetName();
-
-    std::vector<CModifier> modList; // List of modifiers
-    bool                   deleted{ false };
-
     CStatusEffect(xi::StatusEffect id, uint16 icon, uint16 power, timer::duration tick, timer::duration duration, uint32 subid = 0, uint16 subPower = 0, uint16 subIcon = 0, uint16 tier = 0, xi::StatusEffectFlag flags = xi::StatusEffectFlag::None, uint16 sourceType = EffectSourceType::SOURCE_NONE, uint32 sourceTypeParam = 0, uint32 originID = 0);
-
     ~CStatusEffect();
 
+    auto GetStatusID() const -> xi::StatusEffect;
+    auto GetSubID() const -> uint32;
+    auto GetSourceType() const -> uint16;
+    auto GetSourceTypeParam() const -> uint32;
+    auto GetOriginID() const -> uint32;
+    auto GetIcon() const -> uint16;
+    auto GetPower() const -> uint16;
+    auto GetSubPower() const -> uint16;
+    auto GetSubIcon() const -> uint16;
+    auto GetTier() const -> uint16;
+    auto GetEffectFlags() const -> xi::StatusEffectFlag;
+    auto GetEffectType() const -> uint16;
+    auto GetEffectSlot() const -> uint8;
+
+    auto GetTickTime() const -> timer::duration;
+    auto GetDuration() const -> timer::duration;
+    auto GetElapsedTickCount() const -> int;
+    auto GetStartTime() const -> timer::time_point;
+    auto GetOwner() const -> CBattleEntity*;
+
+    auto SetEffectFlags(xi::StatusEffectFlag flags) -> void;
+    auto AddEffectFlag(xi::StatusEffectFlag flag) -> void;
+    auto DelEffectFlag(xi::StatusEffectFlag flag) -> void;
+    auto HasEffectFlag(xi::StatusEffectFlag flag) const -> bool;
+    auto SetEffectType(uint16 type) -> void;
+    auto SetEffectSlot(uint8 slot) -> void;
+    auto SetIcon(uint16 icon) -> void;
+    auto SetSource(uint16 sourceType, uint32 sourceTypeParam) -> void;
+    auto SetPower(uint16 power) -> void;
+    auto SetSubPower(uint16 subPower) -> void;
+    auto SetSubIcon(uint16 subIcon) -> void;
+    auto SetTier(uint16 tier) -> void;
+    auto SetDuration(timer::duration duration) -> void;
+    auto SetOwner(CBattleEntity* owner) -> void;
+    auto SetTickTime(timer::duration tick) -> void;
+    auto SetOriginID(uint32 originID) -> void;
+
+    auto IncrementElapsedTickCount() -> void;
+    auto SetStartTime(timer::time_point startTime) -> void;
+
+    auto addMod(Mod modType, int16 amount) -> void;
+    auto setMod(Mod modType, int16 value) -> void;
+
+    auto SetEffectName(std::string name) -> void;
+    auto GetName() const -> const std::string&;
+
+    auto modList() -> std::vector<CModifier>&;
+
+    auto markDeleted() -> void;
+    auto isDeleted() const -> bool;
+
 private:
-    CBattleEntity* m_POwner{ nullptr };
+    CBattleEntity* owner_{ nullptr };
 
-    xi::StatusEffect     m_StatusID{ xi::StatusEffect::None };  // Main effect type
-    uint32               m_SubID{ 0 };                          // Additional effect type
-    uint16               m_Icon{ 0 };                           // Effect icon
-    uint16               m_Power{ 0 };                          // Strength of effect
-    uint16               m_SubPower{ 0 };                       // Secondary power of the effect
-    uint16               m_SubIcon{ 0 };                        // Secondary icon for the sub effect (used for things like setting an Aura sub effect icon)
-    uint16               m_Tier{ 0 };                           // Tier of the effect
-    xi::StatusEffectFlag m_Flags{ xi::StatusEffectFlag::None }; // Effect flags (conditions for its disappearance)
-    uint32               m_OriginID{ 0 };                       // The effect's origin ID. (This is usually the ID of the entity that created the effect)
-    uint16               m_SourceType{ 0 };                     // The effect's source type
-    uint32               m_SourceTypeParam{ 0 };                // The effect's source ID
-    uint16               m_Type{ 0 };                           // Used to enforce only one
-    uint8                m_Slot{ 0 };                           // Used to determine slot order for songs/rolls
+    std::vector<CModifier> modList_;          // List of modifiers
+    bool                   deleted_{ false }; // Pending-removal flag, swept by CStatusEffectContainer
 
-    timer::duration   m_TickTime{ 0ms }; // Effect repetition time
-    timer::duration   m_Duration{ 0ms }; // Duration of effect
-    timer::time_point m_StartTime;       // Time to obtain effect
-    int               m_tickCount{ 0 };  // Elapsed ticks
+    xi::StatusEffect     statusID_{ xi::StatusEffect::None };  // Main effect type
+    uint32               subID_{ 0 };                          // Additional effect type
+    uint16               icon_{ 0 };                           // Effect icon
+    uint16               power_{ 0 };                          // Strength of effect
+    uint16               subPower_{ 0 };                       // Secondary power of the effect
+    uint16               subIcon_{ 0 };                        // Secondary icon for the sub effect (used for things like setting an Aura sub effect icon)
+    uint16               tier_{ 0 };                           // Tier of the effect
+    xi::StatusEffectFlag flags_{ xi::StatusEffectFlag::None }; // Effect flags (conditions for its disappearance)
+    uint32               originID_{ 0 };                       // The effect's origin ID. (This is usually the ID of the entity that created the effect)
+    uint16               sourceType_{ 0 };                     // The effect's source type
+    uint32               sourceTypeParam_{ 0 };                // The effect's source ID
+    uint16               type_{ 0 };                           // Used to enforce only one
+    uint8                slot_{ 0 };                           // Used to determine slot order for songs/rolls
 
-    std::string m_Name; // Effect name for scripts
+    timer::duration   tickTime_{ 0ms }; // Effect repetition time
+    timer::duration   duration_{ 0ms }; // Duration of effect
+    timer::time_point startTime_;       // Time to obtain effect
+    int               tickCount_{ 0 };  // Elapsed ticks
+
+    std::string name_; // Effect name for scripts
 };

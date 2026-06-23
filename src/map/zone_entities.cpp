@@ -35,9 +35,9 @@
 #include "ai/ai_container.h"
 #include "ai/controllers/mob_controller.h"
 
-#include "entities/mobentity.h"
-#include "entities/npcentity.h"
-#include "entities/trustentity.h"
+#include "entities/mob_entity.h"
+#include "entities/npc_entity.h"
+#include "entities/trust_entity.h"
 
 #include "packets/char_sync.h"
 #include "packets/entity_update.h"
@@ -453,7 +453,7 @@ void CZoneEntities::WeatherChange(Weather weather)
         }
     }
 
-    m_zone->spawnHandler()->onWeatherChange(weather);
+    m_zone->spawnHandler().onWeatherChange(weather);
 
     FOR_EACH_PAIR_CAST_SECOND(CCharEntity*, PCurrentChar, m_charList)
     {
@@ -543,9 +543,9 @@ void CZoneEntities::DecreaseZoneCounter(CCharEntity* PChar)
     PChar->ClearTrusts();
     PChar->SpawnTRUSTList.clear();
 
-    if (m_zone->m_BattlefieldHandler)
+    if (m_zone->battlefieldHandler())
     {
-        m_zone->m_BattlefieldHandler->RemoveFromBattlefield(PChar, PChar->PBattlefield, BATTLEFIELD_LEAVE_CODE_WARPDC);
+        m_zone->battlefieldHandler()->RemoveFromBattlefield(PChar, PChar->PBattlefield, BATTLEFIELD_LEAVE_CODE_WARPDC);
     }
 
     FOR_EACH_PAIR_CAST_SECOND(CMobEntity*, PCurrentMob, m_mobList)
@@ -915,25 +915,29 @@ void CZoneEntities::SpawnNPCs(CCharEntity* PChar)
         }
     };
 
-    syncSpawn(m_npcList, [&](CBaseEntity* PEntity)
-              {
-                  const auto inRange       = isWithinDistance(PChar->loc.p, PEntity->loc.p, ENTITY_RENDER_DISTANCE);
-                  const auto visibleStatus = PEntity->status == STATUS_TYPE::NORMAL || PEntity->status == STATUS_TYPE::UPDATE;
-                  const auto alwaysRel     = PEntity->objtype == TYPE_NPC && static_cast<CNpcEntity*>(PEntity)->m_alwaysRelevant;
-                  return visibleStatus && (inRange || alwaysRel);
-              });
+    syncSpawn(
+        m_npcList,
+        [&](CBaseEntity* PEntity)
+        {
+            const auto inRange       = isWithinDistance(PChar->loc.p, PEntity->loc.p, ENTITY_RENDER_DISTANCE);
+            const auto visibleStatus = PEntity->status == STATUS_TYPE::NORMAL || PEntity->status == STATUS_TYPE::UPDATE;
+            const auto alwaysRel     = PEntity->objtype == TYPE_NPC && static_cast<CNpcEntity*>(PEntity)->alwaysRelevant();
+            return visibleStatus && (inRange || alwaysRel);
+        });
 
     // Registered transports are broadcast at zone-in by SpawnTransport and driven by TransportTimer; everything else
     // in m_TransportList is a static SubKind=4 prop that gets proximity-spawned regardless of status.
-    syncSpawn(m_TransportList, [&](CBaseEntity* PEntity)
-              {
-                  if (static_cast<CNpcEntity*>(PEntity)->m_alwaysRelevant)
-                  {
-                      return false;
-                  }
+    syncSpawn(
+        m_TransportList,
+        [&](CBaseEntity* PEntity)
+        {
+            if (static_cast<CNpcEntity*>(PEntity)->alwaysRelevant())
+            {
+                return false;
+            }
 
-                  return isWithinDistance(PChar->loc.p, PEntity->loc.p, ENTITY_RENDER_DISTANCE);
-              });
+            return isWithinDistance(PChar->loc.p, PEntity->loc.p, ENTITY_RENDER_DISTANCE);
+        });
 }
 
 void CZoneEntities::SpawnTRUSTs(CCharEntity* PChar)
@@ -1247,7 +1251,7 @@ void CZoneEntities::SpawnTransport(CCharEntity* PChar)
 
     FOR_EACH_PAIR_CAST_SECOND(CNpcEntity*, PEntity, m_TransportList)
     {
-        if (!PEntity->m_alwaysRelevant)
+        if (!PEntity->alwaysRelevant())
         {
             continue;
         }
@@ -1347,7 +1351,7 @@ void CZoneEntities::TOTDChange(vanadiel_time::TOTD TOTD)
 {
     TracyZoneScoped;
 
-    m_zone->spawnHandler()->onTOTDChange(TOTD);
+    m_zone->spawnHandler().onTOTDChange(TOTD);
 }
 
 void CZoneEntities::SavePlayTime()

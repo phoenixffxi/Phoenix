@@ -26,7 +26,7 @@
 #include <algorithm>
 #include <array>
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "packets/char_sync.h"
 #include "packets/char_update.h"
 #include "utils/zoneutils.h"

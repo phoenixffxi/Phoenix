@@ -79,7 +79,7 @@ end
 
 attachmentObject.onEquip = function(pet)
     pet:addListener('AUTOMATON_ATTACHMENT_CHECK', 'ATTACHMENT_ERASER', function(automaton, target)
-        if automaton:hasRecast(xi.recast.ABILITY, xi.automaton.abilities.ERASER) then
+        if automaton:hasRecast(xi.recast.ABILITY, xi.mobSkill.ERASER_AUTOMATON) then
             return
         end
 
@@ -109,7 +109,7 @@ attachmentObject.onEquip = function(pet)
             return
         end
 
-        automaton:useMobAbility(xi.automaton.abilities.ERASER, eraserTarget)
+        automaton:useMobAbility(xi.mobSkill.ERASER_AUTOMATON, eraserTarget)
     end)
 end
 

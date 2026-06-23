@@ -19,8 +19,7 @@
 ===========================================================================
 */
 
-#ifndef _CZONEINSTANCE_H
-#define _CZONEINSTANCE_H
+#pragma once
 
 #include "instance.h"
 #include "zone.h"
@@ -28,7 +27,12 @@
 class CZoneInstance : public CZone
 {
 public:
+    CZoneInstance(Scheduler& scheduler, MapConfig config, ZONEID ZoneID, REGION_TYPE RegionID, CONTINENT_TYPE ContinentID, uint8 levelRestriction);
+    ~CZoneInstance() override;
+
     DISALLOW_COPY_AND_MOVE(CZoneInstance);
+
+    CInstance* CreateInstance(uint32 instanceid);
 
     virtual CCharEntity* GetCharByName(const std::string& name) override; // finds the player if exists in zone
     virtual CCharEntity* GetCharByID(uint32 id) override;
@@ -78,15 +82,8 @@ public:
     void ForEachAlly(const std::function<void(CMobEntity*)>& func) override;
     void ForEachAllyInstance(CBaseEntity* PEntity, const std::function<void(CMobEntity*)>& func) override;
 
-    CInstance* CreateInstance(uint32 instanceid);
-
-    CZoneInstance(Scheduler& scheduler, MapConfig config, ZONEID ZoneID, REGION_TYPE RegionID, CONTINENT_TYPE ContinentID, uint8 levelRestriction);
-    ~CZoneInstance() override;
-
 private:
     typedef std::vector<std::unique_ptr<CInstance>> instanceList_t;
 
     instanceList_t m_InstanceList;
 };
-
-#endif // _CZONEINSTANCE_H

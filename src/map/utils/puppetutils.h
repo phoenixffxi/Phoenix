@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "status_effect.h"
 
 namespace puppetutils

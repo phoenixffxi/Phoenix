@@ -17,7 +17,7 @@ local attachmentObject = {}
 attachmentObject.onEquip = function(pet)
     pet:addListener('AUTOMATON_ATTACHMENT_CHECK', 'ATTACHMENT_MANA_CONVERTER', function(automaton, target)
         -- If Mana Converter is on cooldown, do nothing.
-        if automaton:hasRecast(xi.recast.ABILITY, xi.automaton.abilities.MANA_CONVERTER) then
+        if automaton:hasRecast(xi.recast.ABILITY, xi.mobSkill.MANA_CONVERTER_AUTOMATON) then
             return
         end
 
@@ -47,7 +47,7 @@ attachmentObject.onEquip = function(pet)
             return
         end
 
-        automaton:useMobAbility(xi.automaton.abilities.MANA_CONVERTER, automaton)
+        automaton:useMobAbility(xi.mobSkill.MANA_CONVERTER_AUTOMATON, automaton)
     end)
 end
 

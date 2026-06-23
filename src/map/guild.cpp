@@ -20,7 +20,7 @@
 */
 
 #include "guild.h"
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "items/item.h"
 #include "lua/luautils.h"
 

@@ -24,7 +24,7 @@
 
 #include "ai/ai_container.h"
 #include "ai/helpers/action_queue.h"
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "packets/s2c/0x008_enterzone.h"
 #include "packets/s2c/0x01c_item_max.h"
 #include "packets/s2c/0x04f_equip_clear.h"

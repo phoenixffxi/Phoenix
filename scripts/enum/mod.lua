@@ -585,6 +585,8 @@ xi.mod =
 
     -- Puppetmaster
     AUTOMATON_LVL_BONUS             = 1044, -- Automaton: Lv. (Increases automaton's base level above 99)
+    TACTICAL_SWITCH_TP_BONUS        = 1199, -- TP bonus granted by Tactical Switch (percent)
+    OVERDRIVE_BONUS_DURATION        = 1200, -- Extra seconds added to Overdrive
 
     -- Blue Mage
     ENHANCES_BURST_AFFINITY         = 1139, -- Increases WSC bonus on spells cast with Burst Affinity (percent)

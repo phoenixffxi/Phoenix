@@ -485,7 +485,6 @@ xi.instance.onInstanceCreatedCallback = function(player, instance, entryInfo)
         end
 
         -- finally, send commander in
-        player:startEvent(unpack(entryInfo.memberEvent or entryInfo[4])) -- will fail if previous event is working as it should, otherwise catches secondary event to enter
         local npc = player:getEventTarget()
         if npc ~= nil then
             player:instanceEntry(npc, 4)

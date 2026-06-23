@@ -26,7 +26,7 @@
 #include <stack>
 
 #include "ai/controllers/controller.h"
-#include "entities/baseentity.h"
+#include "entities/base_entity.h"
 #include "helpers/action_queue.h"
 #include "helpers/event_handler.h"
 #include "helpers/pathfind.h"

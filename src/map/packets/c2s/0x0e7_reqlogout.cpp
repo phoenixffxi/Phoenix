@@ -21,7 +21,7 @@
 
 #include "0x0e7_reqlogout.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "status_effect_container.h"
 #include "utils/charutils.h"
 
@@ -47,8 +47,7 @@ void GP_CLI_COMMAND_REQLOGOUT::process(MapSession* PSession, CCharEntity* PChar)
         else
         {
             // Apply new LeaveGame and store the kind as the power.
-            const auto leaveEffect = new CStatusEffect(xi::StatusEffect::Leavegame, 0, static_cast<uint16>(kind), 5s, 0s);
-            PChar->StatusEffectContainer->AddStatusEffect(leaveEffect);
+            PChar->StatusEffectContainer->AddStatusEffect(xi::StatusEffect::Leavegame, 0, static_cast<uint16>(kind), 5s, 0s);
         }
     };
 

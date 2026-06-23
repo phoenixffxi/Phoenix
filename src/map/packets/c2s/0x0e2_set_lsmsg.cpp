@@ -21,7 +21,7 @@
 
 #include "0x0e2_set_lsmsg.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "enums/msg_std.h"
 #include "items/item_linkshell.h"
 #include "linkshell.h"

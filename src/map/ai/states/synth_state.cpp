@@ -21,7 +21,7 @@
 
 #include "synth_state.h"
 
-#include "entities/battleentity.h"
+#include "entities/battle_entity.h"
 
 #include "ai/ai_container.h"
 #include "utils/synthutils.h"

@@ -1,5 +1,7 @@
 -----------------------------------
--- Claw M=3.5
+-- Claw
+-- Family: Avatar (Garuda)
+-- Description: Deals Physical damage to a single target.
 -----------------------------------
 ---@type TAbilityPet
 local abilityObject = {}
@@ -9,18 +11,30 @@ abilityObject.onAbilityCheck = function(player, target, ability)
 end
 
 abilityObject.onPetAbility = function(target, pet, petskill, summoner, action)
-    local numhits = 1
-    local accmod = 1
-    local dmgmod = 3.5
-
     xi.job_utils.summoner.onUseBloodPact(target, petskill, summoner, action)
 
-    local info = xi.summon.avatarPhysicalMove(pet, target, petskill, numhits, accmod, dmgmod, 0, xi.mobskills.magicalTpBonus.NO_EFFECT, 1, 2, 3)
-    local totaldamage = xi.summon.avatarFinalAdjustments(info, pet, petskill, target, xi.attackType.PHYSICAL, xi.damageType.PIERCING, numhits)
-    target:takeDamage(totaldamage, pet, xi.attackType.PHYSICAL, xi.damageType.PIERCING)
-    target:updateEnmityFromDamage(pet, totaldamage)
+    local params = {}
 
-    return totaldamage
+    params.baseDamage        = pet:getWeaponDmg()
+    params.numHits           = 1
+    params.fTP               = { 2.0, 2.0, 2.0 }
+    params.fTPSubsequentHits = { 2.0, 2.0, 2.0 }
+    params.dex_wSC           = 0.30
+    params.attackType        = xi.attackType.PHYSICAL
+    params.damageType        = xi.damageType.PIERCING
+    params.shadowBehavior    = xi.mobskills.shadowBehavior.NUMSHADOWS_1
+    params.attackMultiplier  = { 2.0, 2.0, 2.0 }
+    params.canCrit           = true
+    params.criticalChance    = { 0.10, 0.20, 0.25 } -- TODO: Capture crit rate
+    params.primaryMessage    = xi.msg.basic.USES_JA_TAKE_DAMAGE
+
+    local info = xi.mobskills.mobPhysicalMove(pet, target, petskill, action, params)
+
+    if xi.mobskills.processDamage(pet, target, petskill, action, info) then
+        target:takeDamage(info.damage, pet, info.attackType, info.damageType)
+    end
+
+    return info.damage
 end
 
 return abilityObject

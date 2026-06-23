@@ -9,7 +9,7 @@ local attachmentObject = {}
 attachmentObject.onEquip = function(pet)
     pet:addListener('AUTOMATON_ATTACHMENT_CHECK', 'ATTACHMENT_DISRUPTOR', function(automaton, target)
         -- If Disruptor is still on cooldown, do nothing.
-        if automaton:hasRecast(xi.recast.ABILITY, xi.automaton.abilities.DISRUPTOR) then
+        if automaton:hasRecast(xi.recast.ABILITY, xi.mobSkill.DISRUPTOR_AUTOMATON) then
             return
         end
 
@@ -29,7 +29,7 @@ attachmentObject.onEquip = function(pet)
             return
         end
 
-        automaton:useMobAbility(xi.automaton.abilities.DISRUPTOR, target)
+        automaton:useMobAbility(xi.mobSkill.DISRUPTOR_AUTOMATON, target)
     end)
 end
 

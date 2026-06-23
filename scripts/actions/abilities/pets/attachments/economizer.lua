@@ -18,7 +18,7 @@ local activationThresholds =
 attachmentObject.onEquip = function(pet)
     pet:addListener('AUTOMATON_ATTACHMENT_CHECK', 'ATTACHMENT_ECONOMIZER', function(automaton, target)
         -- If Economizer is still on cooldown, do nothing.
-        if automaton:hasRecast(xi.recast.ABILITY, xi.automaton.abilities.ECONOMIZER) then
+        if automaton:hasRecast(xi.recast.ABILITY, xi.mobSkill.ECONOMIZER_AUTOMATON) then
             return
         end
 
@@ -44,7 +44,7 @@ attachmentObject.onEquip = function(pet)
             return
         end
 
-        automaton:useMobAbility(xi.automaton.abilities.ECONOMIZER, automaton)
+        automaton:useMobAbility(xi.mobSkill.ECONOMIZER_AUTOMATON, automaton)
     end)
 end
 

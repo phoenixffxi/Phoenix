@@ -24,11 +24,11 @@
 
 #include "ai/ai_container.h"
 #include "battlefield.h"
-#include "entities/charentity.h"
-#include "entities/mobentity.h"
-#include "entities/npcentity.h"
-#include "entities/trustentity.h"
-#include "lua_baseentity.h"
+#include "entities/char_entity.h"
+#include "entities/mob_entity.h"
+#include "entities/npc_entity.h"
+#include "entities/trust_entity.h"
+#include "lua_base_entity.h"
 #include "lua_battlefield.h"
 #include "mob_modifier.h"
 #include "status_effect_container.h"
@@ -330,7 +330,7 @@ void CLuaBattlefield::addGroups(const sol::table& groups, bool hasMultipleArenas
 
         if (!entityIds.empty())
         {
-            uint32 stride = uint32(entityIds.size()) / m_PLuaBattlefield->GetZone()->m_BattlefieldHandler->MaxBattlefieldAreas();
+            uint32 stride = uint32(entityIds.size()) / m_PLuaBattlefield->GetZone()->battlefieldHandler()->MaxBattlefieldAreas();
 
             // Look to see if there's an Armoury Crate within the group of monsters
             static const std::string ARMOURY_CRATE = "Armoury_Crate";
@@ -720,7 +720,7 @@ void CLuaBattlefield::addGroups(const sol::table& groups, bool hasMultipleArenas
         if (auto* entity = dynamic_cast<CNpcEntity*>(zoneutils::GetEntity(m_PLuaBattlefield->GetArmouryCrate(), TYPE_NPC)))
         {
             m_PLuaBattlefield->InsertEntity(entity, true, CONDITION_DISAPPEAR_AT_START);
-            entity->SetUntargetable(true);
+            entity->setUntargetable(true);
             entity->ResetLocalVars();
             entity->PAI->EventHandler.removeListener("TRIGGER_CRATE");
         }

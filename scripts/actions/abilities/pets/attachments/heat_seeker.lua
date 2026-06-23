@@ -40,7 +40,7 @@ attachmentObject.onEquip = function(automaton)
             return
         end
 
-        local thunderManeuvers = master:countEffect(xi.effect.THUNDER_MANEUVER)
+        local thunderManeuvers = xi.automaton.getManeuverCount(master, master:countEffect(xi.effect.THUNDER_MANEUVER))
 
         if thunderManeuvers == 0 then
             return

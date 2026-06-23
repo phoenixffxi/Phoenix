@@ -24,7 +24,7 @@
 #define _CSTATE_H
 
 #include "common/timer.h"
-#include "entities/baseentity.h"
+#include "entities/base_entity.h"
 #include "packets/basic.h"
 #include <memory>
 

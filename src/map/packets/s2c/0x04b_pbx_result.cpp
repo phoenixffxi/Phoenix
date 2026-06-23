@@ -21,7 +21,7 @@
 
 #include "0x04b_pbx_result.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "packets/c2s/0x04d_pbx.h"
 
 GP_SERV_COMMAND_PBX_RESULT::GP_SERV_COMMAND_PBX_RESULT(GP_CLI_COMMAND_PBX_COMMAND action, GP_CLI_COMMAND_PBX_BOXNO boxid, const uint8 count, const uint8 param)

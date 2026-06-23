@@ -21,7 +21,7 @@
 
 #include "0x084_shop_sell_req.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "packets/s2c/0x03d_shop_sell.h"
 #include "trade_container.h"
 

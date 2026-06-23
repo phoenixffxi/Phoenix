@@ -31,6 +31,10 @@
 #include <cstring>
 #include <string>
 
+//
+// Types inferred or reversed from the client
+//
+
 #define FFXI_HEADER_SIZE 0x1C // common packet header size
 
 // For filters1_t, filters2_t and SAVE_CONF:

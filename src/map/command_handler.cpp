@@ -26,9 +26,9 @@
 
 #include "autotranslate.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
-#include "lua/lua_baseentity.h"
+#include "lua/lua_base_entity.h"
 #include "lua/luautils.h"
 
 #include <algorithm>

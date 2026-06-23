@@ -21,7 +21,7 @@
 
 #include "0x08d_job_points.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "job_points.h"
 
 // Constructor for full job point details

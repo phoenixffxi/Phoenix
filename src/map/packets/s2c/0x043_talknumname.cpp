@@ -23,7 +23,7 @@
 
 #include <cstring>
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 GP_SERV_COMMAND_TALKNUMNAME::GP_SERV_COMMAND_TALKNUMNAME(const CCharEntity* PChar, const uint16_t msgId)
 {

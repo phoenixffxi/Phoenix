@@ -21,7 +21,7 @@
 
 #include "0x058_recipe.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "packets/s2c/0x031_recipe.h"
 #include "validation.h"
 

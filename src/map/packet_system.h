@@ -25,7 +25,7 @@
 #include "packets/basic.h"
 #include "packets/c2s/rate_limiter.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 struct MapSession;
 

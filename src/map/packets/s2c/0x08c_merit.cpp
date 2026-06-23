@@ -21,7 +21,7 @@
 
 #include "0x08c_merit.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 // Constructor for full merit categories (multiple packets)
 GP_SERV_COMMAND_MERIT::GP_SERV_COMMAND_MERIT(CCharEntity* PChar)

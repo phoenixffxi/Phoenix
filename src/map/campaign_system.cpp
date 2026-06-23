@@ -65,9 +65,11 @@ void LoadState()
     zoneutils::ForEachZone(
         [&state](CZone* PZone)
         {
-            if (PZone->m_CampaignHandler != nullptr)
+            if (PZone->campaignHandler() != nullptr)
             {
-                uint8 nation = (uint8)(PZone->m_CampaignHandler->GetZoneControl() + 1) * 2;
+                auto* handler = PZone->campaignHandler();
+
+                uint8 nation = (uint8)(handler->GetZoneControl() + 1) * 2;
                 switch (nation)
                 {
                     case CampaignControl::SandoriaMask:
@@ -86,17 +88,17 @@ void LoadState()
                 }
 
                 CampaignRegion region;
-                region.campaignId            = PZone->m_CampaignHandler->GetCampaignId();
-                region.status                = PZone->m_CampaignHandler->GetBattleStatus();
-                region.heroism               = PZone->m_CampaignHandler->GetHeroism();
-                region.influenceSandoria     = PZone->m_CampaignHandler->GetInfluence(CampaignArmy::Sandoria);
-                region.influenceBastok       = PZone->m_CampaignHandler->GetInfluence(CampaignArmy::Bastok);
-                region.influenceWindurst     = PZone->m_CampaignHandler->GetInfluence(CampaignArmy::Windurst);
-                region.influenceBeastman     = PZone->m_CampaignHandler->GetInfluence(CampaignArmy::Orcish);
-                region.currentFortifications = PZone->m_CampaignHandler->GetFortification();
-                region.currentResources      = PZone->m_CampaignHandler->GetResource();
-                region.maxFortifications     = PZone->m_CampaignHandler->GetMaxFortification();
-                region.maxResources          = PZone->m_CampaignHandler->GetMaxResource();
+                region.campaignId            = handler->GetCampaignId();
+                region.status                = handler->GetBattleStatus();
+                region.heroism               = handler->GetHeroism();
+                region.influenceSandoria     = handler->GetInfluence(CampaignArmy::Sandoria);
+                region.influenceBastok       = handler->GetInfluence(CampaignArmy::Bastok);
+                region.influenceWindurst     = handler->GetInfluence(CampaignArmy::Windurst);
+                region.influenceBeastman     = handler->GetInfluence(CampaignArmy::Orcish);
+                region.currentFortifications = handler->GetFortification();
+                region.currentResources      = handler->GetResource();
+                region.maxFortifications     = handler->GetMaxFortification();
+                region.maxResources          = handler->GetMaxResource();
                 region.nationControl         = nation;
                 state.regions.emplace_back(region);
             }

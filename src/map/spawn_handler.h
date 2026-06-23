@@ -28,6 +28,8 @@
 
 #include "map_constants.h"
 
+#include <map>
+#include <memory>
 #include <unordered_map>
 
 enum class Weather : uint16_t;
@@ -46,6 +48,13 @@ class SpawnHandler
 {
 public:
     explicit SpawnHandler(CZone* PZone);
+    ~SpawnHandler(); // out-of-line: spawnSlots_ holds unique_ptr to (here) incomplete SpawnSlot
+
+    // Get the spawn slot for slotId, creating it if it doesn't exist yet.
+    auto getOrCreateSpawnSlot(uint32_t slotId) -> SpawnSlot*;
+
+    // Get the spawn slot for slotId, or nullptr if none exists.
+    auto getSpawnSlot(uint32_t slotId) const -> SpawnSlot*;
 
     void Tick(timer::time_point now);
     void registerForRespawn(CMobEntity* PMob, Maybe<timer::duration> respawnTime = std::nullopt);
@@ -62,4 +71,5 @@ private:
     timer::duration                                    spawnWindow_{ kSpawnHandlerWindow };
     std::unordered_map<uint32, timer::time_point>      pendingRespawns_;     // Non-slotted mobs: mobId -> respawnAt timestamp
     std::unordered_map<SpawnSlot*, PendingSlotRespawn> pendingSlotRespawns_; // Slotted mobs: slot pointer -> respawn info
+    std::map<uint32_t, std::unique_ptr<SpawnSlot>>     spawnSlots_;          // Owns this zone's spawn slots, keyed by slot id
 };

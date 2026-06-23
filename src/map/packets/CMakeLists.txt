@@ -1,8 +1,12 @@
 add_subdirectory(c2s)
 add_subdirectory(s2c)
 
-set(PACKET_SOURCES
+set(PACKET_C2S_SOURCES
     ${PACKET_C2S_SOURCES}
+    PARENT_SCOPE
+)
+
+set(PACKET_S2C_SOURCES
     ${PACKET_S2C_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/basic.h
     ${CMAKE_CURRENT_SOURCE_DIR}/char_status.cpp

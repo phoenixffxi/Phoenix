@@ -21,7 +21,7 @@
 
 #include "0x112_battlefield_req.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 auto GP_CLI_COMMAND_BATTLEFIELD_REQ::validate(MapSession* PSession, const CCharEntity* PChar) const -> PacketValidationResult
 {

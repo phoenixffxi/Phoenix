@@ -21,7 +21,7 @@
 
 #include "0x113_sitchair.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "status_effect_container.h"
 #include "utils/charutils.h"
 #include "validation.h"

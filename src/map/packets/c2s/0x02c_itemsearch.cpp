@@ -21,7 +21,7 @@
 
 #include "0x02c_itemsearch.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "packets/s2c/0x049_itemsearch.h"
 #include "utils/itemutils.h"
 

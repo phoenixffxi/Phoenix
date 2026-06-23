@@ -21,7 +21,7 @@
 
 #include "0x0f9_res.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 GP_SERV_COMMAND_RES::GP_SERV_COMMAND_RES(const CCharEntity* PChar, GP_SERV_COMMAND_RES_TYPE type)
 {

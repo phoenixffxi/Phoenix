@@ -34,7 +34,14 @@
 namespace settings
 {
 
-std::unordered_map<std::string, SettingsVariant> settingsMap;
+SettingsMap settingsMap;
+
+namespace detail
+{
+
+std::atomic<uint64_t> generation{ 0 };
+
+} // namespace detail
 
 // We need this to figure out which environment variables are numbers
 // so we can pass them to the lua settings properly typed.
@@ -51,11 +58,11 @@ bool isNumber(const std::string& stringValue)
     return true;
 }
 
-/**
- * @brief
- * Load the settings Lua files found in <root>/settings/. Default settings are loaded first from <root>/settings/default/,
- * and are then replaced by the settings found in <root>/settings/, if any.
- */
+//
+// @brief
+// Load the settings Lua files found in <root>/settings/. Default settings are loaded first from <root>/settings/default/,
+// and are then replaced by the settings found in <root>/settings/, if any.
+//
 void init()
 {
     // Load defaults
@@ -104,7 +111,9 @@ void init()
         for (const auto& [innerKeyObj, innerValObj] : outerValObj.as<sol::table>())
         {
             auto innerKey = innerKeyObj.as<std::string>();
-            auto key      = to_upper(fmt::format("{}.{}", outerKey, innerKey));
+            // Stored verbatim: settings::get is case-sensitive, and call sites use the
+            // conventional "<file>.<SETTING_NAME>" casing, so the key must match exactly.
+            auto key = fmt::format("{}.{}", outerKey, innerKey);
 
             if (innerValObj.is<bool>())
             {
@@ -169,7 +178,9 @@ void init()
         for (const auto& [innerKeyObj, innerValObj] : outerValObj.as<sol::table>())
         {
             auto innerKey = innerKeyObj.as<std::string>();
-            auto key      = to_upper(fmt::format("{}.{}", outerKey, innerKey));
+            // Stored verbatim: settings::get is case-sensitive, and call sites use the
+            // conventional "<file>.<SETTING_NAME>" casing, so the key must match exactly.
+            auto key = fmt::format("{}.{}", outerKey, innerKey);
 
             if (innerValObj.is<bool>())
             {
@@ -218,6 +229,8 @@ void init()
         auto inner                          = to_upper(parts[1]);
         lua["xi"]["settings"][outer][inner] = value;
     }
+
+    detail::generation.fetch_add(1, std::memory_order_release);
 
     logging::SetPattern(get<std::string>("logging.PATTERN"));
 

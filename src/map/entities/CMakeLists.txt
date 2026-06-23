@@ -1,21 +1,21 @@
 set(ENTITY_SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/automatonentity.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/automatonentity.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/baseentity.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/baseentity.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/battleentity.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/battleentity.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/charentity.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/charentity.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/fellowentity.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/fellowentity.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/mobentity.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/mobentity.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/npcentity.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/npcentity.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/petentity.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/petentity.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/trustentity.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/trustentity.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/automaton_entity.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/automaton_entity.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/base_entity.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/base_entity.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/battle_entity.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/battle_entity.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/char_entity.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/char_entity.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/fellow_entity.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/fellow_entity.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/mob_entity.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/mob_entity.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/npc_entity.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/npc_entity.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/pet_entity.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/pet_entity.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/trust_entity.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/trust_entity.h
     PARENT_SCOPE
 )

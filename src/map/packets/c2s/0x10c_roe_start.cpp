@@ -21,7 +21,7 @@
 
 #include "0x10c_roe_start.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "packets/s2c/0x029_battle_message.h"
 #include "packets/s2c/0x110_unity.h"
 #include "roe.h"

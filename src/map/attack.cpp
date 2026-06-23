@@ -22,7 +22,7 @@
 #include "attack.h"
 #include "ai/ai_container.h"
 #include "attackround.h"
-#include "entities/battleentity.h"
+#include "entities/battle_entity.h"
 #include "items/item_weapon.h"
 #include "job_points.h"
 #include "mob_modifier.h"

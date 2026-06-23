@@ -28,7 +28,7 @@
 #include "common/database.h"
 #include "common/utils.h"
 #include "enmity_container.h"
-#include "entities/trustentity.h"
+#include "entities/trust_entity.h"
 #include "enums/automaton.h"
 #include "lua/luautils.h"
 #include "mob_spell_container.h"
@@ -53,11 +53,11 @@ CAutomatonController::CAutomatonController(CAutomatonEntity* PPet)
 
 void CAutomatonController::setCooldowns()
 {
-    switch (PAutomaton->getFrame())
+    switch (PAutomaton->frame())
     {
         case AutomatonFrame::Sharpshot:
         {
-            switch (PAutomaton->getHead())
+            switch (PAutomaton->head())
             {
                 case AutomatonHead::Sharpshot:
                     m_rangedCooldown = 20s;
@@ -90,7 +90,7 @@ void CAutomatonController::setCooldowns()
 // New retail Automaton magic AI (Needs more information to accurately recreate)
 void CAutomatonController::setMagicCooldowns()
 {
-    switch (PAutomaton->getHead())
+    switch (PAutomaton->head())
     {
         case AutomatonHead::Harlequin:
         {
@@ -156,11 +156,11 @@ auto CAutomatonController::shouldStandBack() const -> bool
             return true;
         }
     }
-    else if (PAutomaton->getFrame() == AutomatonFrame::Valoredge)
+    else if (PAutomaton->frame() == AutomatonFrame::Valoredge)
     {
         return false;
     }
-    else if (PAutomaton->getHead() >= AutomatonHead::Sharpshot)
+    else if (PAutomaton->head() >= AutomatonHead::Sharpshot)
     {
         return true;
     }
@@ -278,7 +278,7 @@ auto CAutomatonController::TrySpellcast(const CurrentManeuvers& maneuvers) -> bo
         return false;
     }
 
-    switch (PAutomaton->getHead())
+    switch (PAutomaton->head())
     {
         case AutomatonHead::Valoredge:
         {
@@ -508,7 +508,7 @@ auto CAutomatonController::TryHeal(const CurrentManeuvers& maneuvers) -> bool
         }
     }
 
-    if (maneuvers.light && !PCastTarget && PAutomaton->getHead() == AutomatonHead::Soulsoother && PAutomaton->PMaster->PParty) // Light + Soulsoother head -> Heal party
+    if (maneuvers.light && !PCastTarget && PAutomaton->head() == AutomatonHead::Soulsoother && PAutomaton->PMaster->PParty) // Light + Soulsoother head -> Heal party
     {
         // clang-format off
         if (PMob)
@@ -632,7 +632,7 @@ auto CAutomatonController::TryElemental(const CurrentManeuvers& maneuvers) -> bo
             castPriority.emplace_back(res.first);
         }
     }
-    else if (PAutomaton->getHead() == AutomatonHead::Spiritreaver)
+    else if (PAutomaton->head() == AutomatonHead::Spiritreaver)
     {
         if (maneuvers.thunder)
         { // Thunder -> Thunder spells
@@ -725,24 +725,23 @@ auto CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers) -> boo
     std::vector<SpellID> castPriority;
     std::vector<SpellID> defaultPriority;
 
-    switch (PAutomaton->getHead())
+    switch (PAutomaton->head())
     {
         case AutomatonHead::Stormwaker:
         {
             bool dispel = false;
-            // clang-format off
-            PTarget->StatusEffectContainer->ForEachEffect([&dispel](CStatusEffect* PStatus)
-            {
-                if (!dispel && PStatus->GetDuration() > 0s)
+            PTarget->StatusEffectContainer->ForEachEffect(
+                [&dispel](CStatusEffect& PStatus)
                 {
-                    if (PStatus->HasEffectFlag(xi::StatusEffectFlag::Dispelable))
+                    if (!dispel && PStatus.GetDuration() > 0s)
                     {
-                        dispel = true;
-                        return;
+                        if (PStatus.HasEffectFlag(xi::StatusEffectFlag::Dispelable))
+                        {
+                            dispel = true;
+                            return;
+                        }
                     }
-                }
-            });
-            // clang-format on
+                });
             if (dispel)
             {
                 castPriority.emplace_back(SpellID::Dispel);
@@ -1094,11 +1093,11 @@ auto CAutomatonController::TryStatusRemoval(const CurrentManeuvers& maneuvers) -
     std::vector<SpellID> castPriority;
 
     PAutomaton->PMaster->StatusEffectContainer->ForEachEffect(
-        [&castPriority](CStatusEffect* PStatus)
+        [&castPriority](CStatusEffect& PStatus)
         {
-            if (PStatus->GetDuration() > 0s)
+            if (PStatus.GetDuration() > 0s)
             {
-                auto id = automaton::FindNaSpell(PStatus);
+                auto id = automaton::FindNaSpell(&PStatus);
                 if (id.has_value())
                 {
                     castPriority.emplace_back(id.value());
@@ -1117,11 +1116,11 @@ auto CAutomatonController::TryStatusRemoval(const CurrentManeuvers& maneuvers) -
     castPriority.clear();
 
     PAutomaton->StatusEffectContainer->ForEachEffect(
-        [&castPriority](CStatusEffect* PStatus)
+        [&castPriority](CStatusEffect& PStatus)
         {
-            if (PStatus->GetDuration() > 0s)
+            if (PStatus.GetDuration() > 0s)
             {
-                auto id = automaton::FindNaSpell(PStatus);
+                auto id = automaton::FindNaSpell(&PStatus);
                 if (id.has_value())
                 {
                     castPriority.emplace_back(id.value());
@@ -1137,7 +1136,7 @@ auto CAutomatonController::TryStatusRemoval(const CurrentManeuvers& maneuvers) -
         }
     }
 
-    if (maneuvers.water && PAutomaton->getHead() == AutomatonHead::Soulsoother && PAutomaton->PMaster->PParty) // Water + Soulsoother head -> Remove party's statuses
+    if (maneuvers.water && PAutomaton->head() == AutomatonHead::Soulsoother && PAutomaton->PMaster->PParty) // Water + Soulsoother head -> Remove party's statuses
     {
         for (auto member : PAutomaton->PMaster->PParty->members)
         {
@@ -1146,11 +1145,11 @@ auto CAutomatonController::TryStatusRemoval(const CurrentManeuvers& maneuvers) -
                 castPriority.clear();
 
                 member->StatusEffectContainer->ForEachEffect(
-                    [&castPriority](CStatusEffect* PStatus)
+                    [&castPriority](CStatusEffect& PStatus)
                     {
-                        if (PStatus->GetDuration() > 0s)
+                        if (PStatus.GetDuration() > 0s)
                         {
-                            auto id = automaton::FindNaSpell(PStatus);
+                            auto id = automaton::FindNaSpell(&PStatus);
                             if (id.has_value())
                             {
                                 castPriority.emplace_back(id.value());
@@ -1179,7 +1178,7 @@ auto CAutomatonController::TryEnhance() -> bool
         return false;
     }
 
-    if (PAutomaton->getHead() == AutomatonHead::Spiritreaver)
+    if (PAutomaton->head() == AutomatonHead::Spiritreaver)
     {
         return Cast(PAutomaton->targid, SpellID::Dread_Spikes);
     }
@@ -1225,33 +1224,33 @@ auto CAutomatonController::TryEnhance() -> bool
         }
 
         PAutomaton->PMaster->StatusEffectContainer->ForEachEffect(
-            [&protect, &protectcount, &shell, &shellcount, &haste, &stoneskin, &phalanx](CStatusEffect* PStatus)
+            [&protect, &protectcount, &shell, &shellcount, &haste, &stoneskin, &phalanx](CStatusEffect& PStatus)
             {
-                if (PStatus->GetDuration() > 0s)
+                if (PStatus.GetDuration() > 0s)
                 {
-                    if (PStatus->GetStatusID() == xi::StatusEffect::Protect)
+                    if (PStatus.GetStatusID() == xi::StatusEffect::Protect)
                     {
                         protect = true;
                         ++protectcount;
                     }
 
-                    if (PStatus->GetStatusID() == xi::StatusEffect::Shell)
+                    if (PStatus.GetStatusID() == xi::StatusEffect::Shell)
                     {
                         shell = true;
                         ++shellcount;
                     }
 
-                    if (PStatus->GetStatusID() == xi::StatusEffect::Haste || PStatus->GetStatusID() == xi::StatusEffect::GeoHaste)
+                    if (PStatus.GetStatusID() == xi::StatusEffect::Haste || PStatus.GetStatusID() == xi::StatusEffect::GeoHaste)
                     {
                         haste = true;
                     }
 
-                    if (PStatus->GetStatusID() == xi::StatusEffect::Stoneskin)
+                    if (PStatus.GetStatusID() == xi::StatusEffect::Stoneskin)
                     {
                         stoneskin = true;
                     }
 
-                    if (PStatus->GetStatusID() == xi::StatusEffect::Phalanx)
+                    if (PStatus.GetStatusID() == xi::StatusEffect::Phalanx)
                     {
                         phalanx = true;
                     }
@@ -1305,21 +1304,21 @@ auto CAutomatonController::TryEnhance() -> bool
     }
 
     PAutomaton->StatusEffectContainer->ForEachEffect(
-        [&protect, &shell, &haste](CStatusEffect* PStatus)
+        [&protect, &shell, &haste](CStatusEffect& PStatus)
         {
-            if (PStatus->GetDuration() > 0s)
+            if (PStatus.GetDuration() > 0s)
             {
-                if (PStatus->GetStatusID() == xi::StatusEffect::Protect)
+                if (PStatus.GetStatusID() == xi::StatusEffect::Protect)
                 {
                     protect = true;
                 }
 
-                if (PStatus->GetStatusID() == xi::StatusEffect::Shell)
+                if (PStatus.GetStatusID() == xi::StatusEffect::Shell)
                 {
                     shell = true;
                 }
 
-                if (PStatus->GetStatusID() == xi::StatusEffect::Haste || PStatus->GetStatusID() == xi::StatusEffect::GeoHaste)
+                if (PStatus.GetStatusID() == xi::StatusEffect::Haste || PStatus.GetStatusID() == xi::StatusEffect::GeoHaste)
                 {
                     haste = true;
                 }
@@ -1377,23 +1376,23 @@ auto CAutomatonController::TryEnhance() -> bool
                     isEngaged = true; // Assume everyone is engaged if the target isn't a mob
                 }
 
-                PMember->StatusEffectContainer->ForEachEffect([&protect, &protectcount, &shell, &shellcount, &haste](CStatusEffect* PStatus)
+                PMember->StatusEffectContainer->ForEachEffect([&protect, &protectcount, &shell, &shellcount, &haste](CStatusEffect& PStatus)
                 {
-                    if (PStatus->GetDuration() > 0s)
+                    if (PStatus.GetDuration() > 0s)
                     {
-                        if (PStatus->GetStatusID() == xi::StatusEffect::Protect)
+                        if (PStatus.GetStatusID() == xi::StatusEffect::Protect)
                         {
                             protect = true;
                             ++protectcount;
                         }
 
-                        if (PStatus->GetStatusID() == xi::StatusEffect::Shell)
+                        if (PStatus.GetStatusID() == xi::StatusEffect::Shell)
                         {
                             shell = true;
                             ++shellcount;
                         }
 
-                        if (PStatus->GetStatusID() == xi::StatusEffect::Haste || PStatus->GetStatusID() == xi::StatusEffect::GeoHaste)
+                        if (PStatus.GetStatusID() == xi::StatusEffect::Haste || PStatus.GetStatusID() == xi::StatusEffect::GeoHaste)
                         {
                             haste = true;
                         }
@@ -1500,7 +1499,7 @@ auto CAutomatonController::TryTPMove() -> bool
         // load the skills that the automaton has access to with it's skill
         SKILLTYPE skilltype = SKILL_AUTOMATON_MELEE;
 
-        if (PAutomaton->getFrame() == AutomatonFrame::Sharpshot)
+        if (PAutomaton->frame() == AutomatonFrame::Sharpshot)
         {
             skilltype = SKILL_AUTOMATON_RANGED;
         }
@@ -1584,9 +1583,9 @@ auto CAutomatonController::TryTPMove() -> bool
 
 auto CAutomatonController::TryRangedAttack() -> bool // TODO: Find the animation for its ranged attack
 {
-    if (PAutomaton->getFrame() == AutomatonFrame::Sharpshot)
+    if (PAutomaton->frame() == AutomatonFrame::Sharpshot)
     {
-        timer::duration minDelay   = PAutomaton->getHead() == AutomatonHead::Sharpshot ? 5s : 10s;
+        timer::duration minDelay   = PAutomaton->head() == AutomatonHead::Sharpshot ? 5s : 10s;
         timer::duration attackTime = m_rangedCooldown - std::chrono::seconds(PAutomaton->getMod(Mod::AUTO_RANGED_DELAY));
 
         if (m_rangedCooldown > 0s && m_Tick > m_LastRangedTime + std::max(attackTime, minDelay))
@@ -1700,7 +1699,7 @@ void LoadAutomatonSpellList()
 bool CanUseSpell(CAutomatonEntity* PCaster, SpellID spellid)
 {
     const AutomatonSpell& PSpell = autoSpellList[spellid];
-    return ((PCaster->GetSkill(SKILL_AUTOMATON_MAGIC) >= PSpell.skilllevel) && (PSpell.heads & (1 << ((uint8)PCaster->getHead() - 1))));
+    return ((PCaster->GetSkill(SKILL_AUTOMATON_MAGIC) >= PSpell.skilllevel) && (PSpell.heads & (1 << ((uint8)PCaster->head() - 1))));
 }
 
 bool CanUseEnfeeble(CBattleEntity* PTarget, SpellID spell)
@@ -1752,7 +1751,7 @@ void LoadAutomatonAbilities()
             const auto abilityName = rset->get<std::string>("abilityname");
 
             const auto filename = fmt::format("./scripts/actions/abilities/pets/automaton/{}.lua", abilityName);
-            luautils::CacheLuaObjectFromFile(filename);
+            luautils::LoadLuaObjectFromFile(filename);
         }
     }
 }

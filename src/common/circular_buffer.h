@@ -23,59 +23,97 @@
 
 #include <memory>
 #include <mutex>
+#include <stdexcept>
+#include <utility>
 
 // https://gist.github.com/edwintcloud/d547a4f9ccaf7245b06f0e8782acefaa
+//
+// Fixed-capacity, thread-safe ring buffer. Capacity must be a power of two so the
+// hot enqueue path can wrap indices with a cheap mask instead of a modulo.
 template <class T>
 class CircularBuffer final
 {
 private:
     std::unique_ptr<T[]> buffer;
 
-    std::size_t head = 0;
-    std::size_t tail = 0;
-    std::size_t max_size;
-    bool        full = false;
-    T           empty_item;
+    std::size_t head{};
+    std::size_t tail{};
+    std::size_t max_size{};
+    std::size_t mask{};
+    bool        full{};
 
-    std::recursive_mutex mutex;
+    T empty_item{};
+
+    std::mutex mutex;
+
+    // Unlocked; callers must already hold `mutex`.
+    bool is_empty_unlocked() const
+    {
+        return (!full && (head == tail));
+    }
+
+    // Advance an index by one with wraparound. Capacity is a power of two, so this
+    // is a single AND rather than a (much more expensive) modulo on the hot path.
+    std::size_t advance(std::size_t index) const
+    {
+        return (index + 1) & mask;
+    }
+
+    // Shared, unlocked enqueue body. The forwarding reference lets callers pass an
+    // lvalue (copied into the slot) or an rvalue (moved, no allocation).
+    template <class U>
+    void push_unlocked(U&& item)
+    {
+        buffer[tail] = std::forward<U>(item);
+
+        if (full)
+        {
+            head = advance(head);
+        }
+
+        tail = advance(tail);
+
+        full = tail == head;
+    }
 
 public:
     CircularBuffer(std::size_t max_size)
-    : buffer(std::unique_ptr<T[]>(new T[max_size]))
+    : buffer(std::make_unique<T[]>(max_size))
     , max_size(max_size)
+    , mask(max_size - 1)
     {
+        if (max_size == 0 || (max_size & (max_size - 1)) != 0)
+        {
+            throw std::invalid_argument("CircularBuffer capacity must be a power of two");
+        }
     }
 
     void enqueue(const T& item)
     {
         std::lock_guard lock(mutex);
+        push_unlocked(item);
+    }
 
-        buffer[tail] = item;
-
-        if (full)
-        {
-            head = (head + 1) % max_size;
-        }
-
-        tail = (tail + 1) % max_size;
-
-        full = tail == head;
+    void enqueue(T&& item)
+    {
+        std::lock_guard lock(mutex);
+        push_unlocked(std::move(item));
     }
 
     T dequeue()
     {
         std::lock_guard lock(mutex);
 
-        if (is_empty())
+        if (is_empty_unlocked())
         {
             throw std::runtime_error("buffer is empty");
         }
 
-        T item = buffer[head];
+        T item = std::move(buffer[head]);
 
         buffer[head] = empty_item;
 
-        head = (head + 1) % max_size;
+        head = advance(head);
 
         full = false;
 
@@ -86,7 +124,7 @@ public:
     {
         std::lock_guard lock(mutex);
 
-        if (is_empty())
+        if (is_empty_unlocked())
         {
             throw std::runtime_error("buffer is empty");
         }
@@ -98,7 +136,7 @@ public:
     {
         std::lock_guard lock(mutex);
 
-        return (!full && (head == tail));
+        return is_empty_unlocked();
     }
 
     bool is_full()

@@ -21,7 +21,7 @@
 
 #include "0x03a_magicschedulor.h"
 
-#include "entities/baseentity.h"
+#include "entities/base_entity.h"
 
 GP_SERV_COMMAND_MAGICSCHEDULOR::GP_SERV_COMMAND_MAGICSCHEDULOR(const CBaseEntity* PEntity, const CBaseEntity* PTarget, const uint16 animId, const GP_SERV_COMMAND_MAGICSCHEDULOR_TYPE type)
 {

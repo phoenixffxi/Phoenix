@@ -25,7 +25,7 @@
 
 #include <memory>
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "items/item_equipment.h"
 #include "zone.h"
 
@@ -39,6 +39,7 @@ class CPetEntity;
 class CMobEntity;
 class CMeritPoints;
 class CAbility;
+class CItemWeapon;
 
 /**
  * @enum EMobDifficulty
@@ -111,6 +112,7 @@ void   AddCapacityPoints(CCharEntity* PChar, CBaseEntity* PMob, uint32 capacityP
 void   DistributeCapacityPoints(CCharEntity* PChar, CMobEntity* PMob);
 
 void  TrySkillUP(CCharEntity* PChar, SKILLTYPE SkillID, uint8 lvl, bool forceSkillUp = false, bool useSubSkill = false);
+void  TrackArrowUsageForScavenge(CCharEntity* PChar, CItemWeapon* PAmmo);
 bool  isArtsBonusActive(CCharEntity* PChar, SKILLTYPE SkillID);
 int16 ArtsBonusSkill(CCharEntity* PChar, SKILLTYPE SkillID);
 void  BuildingCharSkillsTable(CCharEntity* PChar);

@@ -21,7 +21,7 @@
 
 #include "0x10a_bazaar_sale.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "items/item.h"
 
 GP_SERV_COMMAND_BAZAAR_SALE::GP_SERV_COMMAND_BAZAAR_SALE(const CCharEntity* PChar, const CItem* PItem)

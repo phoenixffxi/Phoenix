@@ -21,8 +21,8 @@
 
 #include "0x076_group_effects.h"
 
-#include "entities/battleentity.h"
-#include "entities/charentity.h"
+#include "entities/battle_entity.h"
+#include "entities/char_entity.h"
 #include "status_effect_container.h"
 
 GP_SERV_COMMAND_GROUP_EFFECTS::GP_SERV_COMMAND_GROUP_EFFECTS(const std::vector<CCharEntity*>& membersList)
@@ -39,8 +39,8 @@ GP_SERV_COMMAND_GROUP_EFFECTS::GP_SERV_COMMAND_GROUP_EFFECTS(const std::vector<C
 
         packet.Members[idx].UniqueNo = PMember->id;
         packet.Members[idx].ActIndex = PMember->targid;
-        packet.Members[idx].Bits     = PMember->StatusEffectContainer->m_Flags;
+        packet.Members[idx].Bits     = PMember->StatusEffectContainer->statusBits();
 
-        std::memcpy(packet.Members[idx].Buffs, PMember->StatusEffectContainer->m_StatusIcons, sizeof(packet.Members[idx].Buffs));
+        std::memcpy(packet.Members[idx].Buffs, PMember->StatusEffectContainer->statusIcons(), sizeof(packet.Members[idx].Buffs));
     }
 }

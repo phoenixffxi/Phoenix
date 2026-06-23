@@ -21,7 +21,7 @@
 
 #include "0x085_guild_selllist.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "item_container.h"
 #include "items/item_shop.h"
 

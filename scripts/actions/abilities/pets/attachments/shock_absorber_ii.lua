@@ -6,7 +6,7 @@ local attachmentObject = {}
 
 attachmentObject.onEquip = function(pet)
     pet:addListener('AUTOMATON_ATTACHMENT_CHECK', 'ATTACHMENT_SHOCK_ABSORBER', function(automaton, target)
-        if automaton:hasRecast(xi.recast.ABILITY, xi.automaton.abilities.SHOCK_ABSORBER) then
+        if automaton:hasRecast(xi.recast.ABILITY, xi.mobSkill.SHOCK_ABSORBER_AUTOMATON) then
             return
         end
 
@@ -20,7 +20,7 @@ attachmentObject.onEquip = function(pet)
             return
         end
 
-        automaton:useMobAbility(xi.automaton.abilities.SHOCK_ABSORBER, automaton)
+        automaton:useMobAbility(xi.mobSkill.SHOCK_ABSORBER_AUTOMATON, automaton)
     end)
 end
 

@@ -1,19 +1,6 @@
 -----------------------------------
 -- This global is intended to handle additional effects from item sources of:
 -- melee attacks, ranged attacks, auto-spikes
--- Notes:
--- Ranged versions get bonus from int/mnd, melee does NOT.
--- No matter how much INT you stack that fire sword doesn't hit any harder.
--- No matter how much MND you stack that holy mace doesn't hit any harder.
--- But Ice Arrows and Bloody Bolts will gain damage from INT and Holy bolts will gain damage from MND.
--- Melee weapon proc also do not appear to adjust for level, only resistance.
--- In testing my fire sword had the same damage ranges no matter my level vs same mob.
--- Weakness/resistance to element would swing damage range a lot
--- For status effects is it possible to land on highly resistant mobs because of flooring.
--- Ranged throwing items have weird cases that don't fully fit in the above,
--- and a handfull of weapons have seem to scale up the more magic accuracy you have
--- Yes accuracy, not attack. More research needed. Not adding them till we know how they work.
--- (And then these comments get cleaned up)
 -----------------------------------
 require('scripts/globals/teleports') -- For warp weapon proc.
 require('scripts/globals/magic') -- For resist functions

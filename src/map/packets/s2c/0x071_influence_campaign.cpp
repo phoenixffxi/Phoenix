@@ -23,7 +23,7 @@
 
 #include "0x071_influence.h"
 #include "campaign_system.h"
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 GP_SERV_COMMAND_INFLUENCE::CAMPAIGN::CAMPAIGN(CCharEntity* PChar, const CampaignState& state, const uint8 number)
 {

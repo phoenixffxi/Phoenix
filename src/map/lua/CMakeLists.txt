@@ -5,10 +5,12 @@ set(LUA_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/lua_action.h
     ${CMAKE_CURRENT_SOURCE_DIR}/lua_attack.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/lua_attack.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/lua_baseentity.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/lua_baseentity.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/lua_base_entity.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/lua_base_entity.h
     ${CMAKE_CURRENT_SOURCE_DIR}/lua_battlefield.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/lua_battlefield.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/lua_cache.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/lua_cache.h
     ${CMAKE_CURRENT_SOURCE_DIR}/lua_instance.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/lua_instance.h
     ${CMAKE_CURRENT_SOURCE_DIR}/lua_item.cpp

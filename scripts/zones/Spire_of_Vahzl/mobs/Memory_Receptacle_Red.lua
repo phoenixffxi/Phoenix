@@ -22,10 +22,10 @@ end
 entity.onMobSpawn = function(mob)
     mob:setModelId(1105)
     mob:setAutoAttackEnabled(false)
+    mob:setMobAbilityEnabled(false)
     mob:setAggressive(true)
     mob:setMobMod(xi.mobMod.SOUND_RANGE, 15)
     mob:setMobMod(xi.mobMod.DETECTION, xi.detects.HEARING)
-    mob:setMod(xi.mod.REGAIN, 550)
 
     -- Red receptacle starts with all damage immunities, which are removed when a respective shield receptacle dies
     mob:setMod(xi.mod.UDMGPHYS, -10000)
@@ -46,7 +46,9 @@ entity.onMobEngage = function(mob, target)
         return
     end
 
-    mob:setLocalVar('drawInTimer', GetSystemTime() + 20)
+    local currentTime = GetSystemTime()
+    mob:setLocalVar('drawInTimer', currentTime + 20)
+    mob:setLocalVar('seedTimer', currentTime + 15)
 
     -- Select a random position for shield receptacles to spawn at
     local area      = mob:getBattlefield():getArea()
@@ -56,7 +58,7 @@ entity.onMobEngage = function(mob, target)
     local position  = math.random(1, #positions[area][1])
 
     battlefield:setLocalVar('position', position)
-    battlefield:setLocalVar('moveTimer', GetSystemTime() + 30)
+    battlefield:setLocalVar('moveTimer', currentTime + 30)
 
     for i = 0, 2 do
         local shieldMob = GetMobByID(ID.mob.MEMORY_RECEPTACLE_SHIELD + offset + i)
@@ -70,34 +72,38 @@ end
 
 entity.onMobFight = function(mob, target)
     -- Every 20 seconds, memory receptacles draws in a random member in the battlefield
+    local currentTime = GetSystemTime()
     local drawInTimer = mob:getLocalVar('drawInTimer')
-    if GetSystemTime() > drawInTimer then
+    if currentTime > drawInTimer then
         local players = mob:getBattlefield():getPlayers()
 
         utils.drawIn(players[math.random(#players)], { position = mob:getPos() })
 
-        mob:setLocalVar('drawInTimer', GetSystemTime() + 20)
+        mob:setLocalVar('drawInTimer', currentTime + 20)
     end
-end
 
-entity.onMobMobskillChoose = function(mob, target, skillId)
-    -- Every three moves, all shield receptacles simultaneously use Empty Seed
-    local skillCount = mob:getLocalVar('skillCount') + 1
-    if skillCount == 3 then
-        local offset = (mob:getBattlefield():getArea() - 1) * 10
-        for i = 0, 2 do
-            local shieldMob = GetMobByID(ID.mob.MEMORY_RECEPTACLE_SHIELD + offset + i)
-            if shieldMob and shieldMob:isAlive() then
-                shieldMob:setLocalVar('useEmptySeed', 1)
+    -- Every 15 seconds, Memory Receptacle uses Empty Seed
+    local seedTimer = mob:getLocalVar('seedTimer')
+    if currentTime > seedTimer then
+        mob:useMobAbility(xi.mobSkill.EMPTY_SEED)
+        mob:setLocalVar('seedTimer', currentTime + 15)
+
+        -- Every three moves, all shield receptacles simultaneously use Empty Seed
+        local skillCount = mob:getLocalVar('skillCount') + 1
+        if skillCount == 3 then
+            local offset = (mob:getBattlefield():getArea() - 1) * 10
+            for i = 0, 2 do
+                local shieldMob = GetMobByID(ID.mob.MEMORY_RECEPTACLE_SHIELD + offset + i)
+                if shieldMob and shieldMob:isAlive() then
+                    shieldMob:setLocalVar('useEmptySeed', 1)
+                end
             end
+
+            mob:setLocalVar('skillCount', 0)
+        else
+            mob:setLocalVar('skillCount', skillCount)
         end
-
-        mob:setLocalVar('skillCount', 0)
-    else
-        mob:setLocalVar('skillCount', skillCount)
     end
-
-    return xi.mobSkill.EMPTY_SEED
 end
 
 entity.onMobDeath = function(mob, player, optParams)
@@ -107,7 +113,9 @@ entity.onMobDeath = function(mob, player, optParams)
             return
         end
 
-        for _, mobEntity in pairs(battlefield:getMobs()) do
+        battlefield:setLocalVar('endingBattlefield', 1)
+
+        for _, mobEntity in pairs(battlefield:getMobs(true, true)) do
             if mobEntity:getID() ~= mob:getID() and mobEntity:isAlive() then
                 mobEntity:setHP(0)
             end

@@ -22,7 +22,7 @@
 #include "0x0a0_map_group.h"
 
 #include "common/logging.h"
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 GP_SERV_COMMAND_MAP_GROUP::GP_SERV_COMMAND_MAP_GROUP(const CCharEntity* PChar)
 {

@@ -41,9 +41,9 @@
 #include "packets/s2c/0x062_clistatus2.h"
 #include "packets/s2c/0x115_fish.h"
 
-#include "entities/battleentity.h"
-#include "entities/mobentity.h"
-#include "entities/npcentity.h"
+#include "entities/battle_entity.h"
+#include "entities/mob_entity.h"
+#include "entities/npc_entity.h"
 
 #include "ai/ai_container.h"
 
@@ -333,7 +333,7 @@ uint8 GetLuckyMoonModifier()
 
 auto GetWeatherModifier(const CCharEntity* PChar) -> float
 {
-    const auto weather    = zoneutils::GetZone(PChar->getZone())->GetWeather();
+    const auto weather    = zoneutils::GetZone(PChar->getZone())->weather().current();
     float      weatherMod = 1.0f;
 
     if (weather == Weather::Rain)

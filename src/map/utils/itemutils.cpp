@@ -33,7 +33,7 @@
 #include "common/logging.h"
 #include "common/sjis.h"
 
-#include "entities/battleentity.h"
+#include "entities/battle_entity.h"
 #include "enums/item_types.h"
 #include "items/item_flowerpot.h"
 #include "items/item_furnishing.h"
@@ -323,7 +323,7 @@ void LoadItemList()
 
                 // If this is a PUP attachment, load the appropriate script as well
                 auto attachmentFile = fmt::format("./scripts/actions/abilities/pets/attachments/{}.lua", PItem->getName());
-                luautils::CacheLuaObjectFromFile(attachmentFile);
+                luautils::LoadLuaObjectFromFile(attachmentFile);
             }
 
             if (PItem->isType(ITEM_EQUIPMENT))
@@ -418,7 +418,7 @@ void LoadItemList()
             }
 
             auto filename = fmt::format("./scripts/items/{}.lua", PItem->getName());
-            luautils::CacheLuaObjectFromFile(filename);
+            luautils::LoadLuaObjectFromFile(filename);
         }
     }
 

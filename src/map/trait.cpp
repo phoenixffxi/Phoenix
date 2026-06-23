@@ -24,7 +24,7 @@
 #include "lua/luautils.h"
 
 #include "blue_trait.h"
-#include "entities/battleentity.h"
+#include "entities/battle_entity.h"
 #include "trait.h"
 
 #include "map_engine.h"

@@ -38,6 +38,7 @@ protected:
     bool PetIsHealing();
 
     virtual auto Tick(timer::time_point tick) -> Task<void> override;
+    virtual auto DoBuffTick() -> bool override;
     virtual void HandleEnmity() override
     {
     }

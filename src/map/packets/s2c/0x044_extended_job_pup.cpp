@@ -21,8 +21,8 @@
 
 #include "0x044_extended_job_pup.h"
 
-#include "entities/automatonentity.h"
-#include "entities/charentity.h"
+#include "entities/automaton_entity.h"
+#include "entities/char_entity.h"
 #include "merit.h"
 #include "utils/puppetutils.h"
 
@@ -49,7 +49,7 @@ GP_SERV_COMMAND_EXTENDED_JOB::PUP::PUP(CCharEntity* PChar, const bool mjob)
         packet.UnlockedAttachments[i] = PChar->m_unlockedAttachments.attachments[i];
     }
 
-    std::memcpy(packet.Name, PChar->automatonInfo.m_automatonName.c_str(), std::min(PChar->automatonInfo.m_automatonName.size(), sizeof(packet.Name)));
+    std::memcpy(packet.Name, PChar->automatonInfo_.automatonName.c_str(), std::min(PChar->automatonInfo_.automatonName.size(), sizeof(packet.Name)));
 
     if (PAutomaton)
     {
@@ -60,10 +60,10 @@ GP_SERV_COMMAND_EXTENDED_JOB::PUP::PUP(CCharEntity* PChar, const bool mjob)
     }
     else
     {
-        packet.HP    = PChar->automatonInfo.automatonHealth.maxhp;
-        packet.MaxHP = PChar->automatonInfo.automatonHealth.maxhp;
-        packet.MP    = PChar->automatonInfo.automatonHealth.maxmp;
-        packet.MaxMP = PChar->automatonInfo.automatonHealth.maxmp;
+        packet.HP    = PChar->automatonInfo_.automatonHealth.maxhp;
+        packet.MaxHP = PChar->automatonInfo_.automatonHealth.maxhp;
+        packet.MP    = PChar->automatonInfo_.automatonHealth.maxmp;
+        packet.MaxMP = PChar->automatonInfo_.automatonHealth.maxmp;
     }
 
     const int32  meritbonus = PChar->PMeritPoints->GetMeritValue(MERIT_AUTOMATON_SKILLS, PChar);
@@ -112,13 +112,13 @@ GP_SERV_COMMAND_EXTENDED_JOB::PUP::PUP(CCharEntity* PChar, const bool mjob)
     }
     else
     {
-        packet.STR = PChar->automatonInfo.automatonStats.STR;
-        packet.DEX = PChar->automatonInfo.automatonStats.DEX;
-        packet.VIT = PChar->automatonInfo.automatonStats.VIT;
-        packet.AGI = PChar->automatonInfo.automatonStats.AGI;
-        packet.INT = PChar->automatonInfo.automatonStats.INT;
-        packet.MND = PChar->automatonInfo.automatonStats.MND;
-        packet.CHR = PChar->automatonInfo.automatonStats.CHR;
+        packet.STR = PChar->automatonInfo_.automatonStats.STR;
+        packet.DEX = PChar->automatonInfo_.automatonStats.DEX;
+        packet.VIT = PChar->automatonInfo_.automatonStats.VIT;
+        packet.AGI = PChar->automatonInfo_.automatonStats.AGI;
+        packet.INT = PChar->automatonInfo_.automatonStats.INT;
+        packet.MND = PChar->automatonInfo_.automatonStats.MND;
+        packet.CHR = PChar->automatonInfo_.automatonStats.CHR;
     }
 
     packet.BonusElementalCapacity = PChar->getMod(Mod::AUTO_ELEM_CAPACITY);

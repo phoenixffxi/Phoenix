@@ -21,7 +21,7 @@
 
 #include "0x117_unity_quest.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "packets/s2c/0x110_unity.h"
 #include "utils/charutils.h"
 

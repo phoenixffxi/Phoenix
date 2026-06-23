@@ -22,7 +22,7 @@
 #pragma once
 
 #include "common/cbasetypes.h"
-#include "entities/battleentity.h"
+#include "entities/battle_entity.h"
 
 #define CANNOT_USE_SPELL 0
 

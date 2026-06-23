@@ -21,7 +21,7 @@
 
 #include "0x063_miscdata_unknown.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 GP_SERV_COMMAND_MISCDATA::UNKNOWN::UNKNOWN(CCharEntity* PChar)
 {

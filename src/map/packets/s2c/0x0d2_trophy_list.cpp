@@ -22,7 +22,7 @@
 #include "0x0d2_trophy_list.h"
 
 #include "common/timer.h"
-#include "entities/baseentity.h"
+#include "entities/base_entity.h"
 #include "treasure_pool.h"
 
 GP_SERV_COMMAND_TROPHY_LIST::GP_SERV_COMMAND_TROPHY_LIST(const TreasurePoolItem* PItem, const CBaseEntity* PEntity, const bool isOldItem)

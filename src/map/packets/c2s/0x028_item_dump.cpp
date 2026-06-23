@@ -21,7 +21,7 @@
 
 #include "0x028_item_dump.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "enums/msg_std.h"
 #include "items.h"
 #include "items/item_linkshell.h"

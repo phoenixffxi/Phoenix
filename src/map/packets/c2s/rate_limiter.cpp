@@ -21,7 +21,7 @@
 
 #include "rate_limiter.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 using namespace std::chrono_literals;
 

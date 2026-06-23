@@ -22,7 +22,7 @@
 #include "0x070_group_breakup.h"
 
 #include "alliance.h"
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "enums/party_kind.h"
 #include "party.h"
 

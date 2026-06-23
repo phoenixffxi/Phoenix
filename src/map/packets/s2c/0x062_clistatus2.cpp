@@ -21,7 +21,7 @@
 
 #include "0x062_clistatus2.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 GP_SERV_COMMAND_CLISTATUS2::GP_SERV_COMMAND_CLISTATUS2(const CCharEntity* PChar)
 {

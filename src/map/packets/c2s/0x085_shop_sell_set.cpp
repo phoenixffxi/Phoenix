@@ -22,7 +22,7 @@
 #include "0x085_shop_sell_set.h"
 
 #include "common/settings.h"
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "enums/msg_std.h"
 #include "enums/packet_c2s.h"
 #include "packets/s2c/0x009_message.h"

@@ -24,7 +24,7 @@
 
 #include "common/cbasetypes.h"
 #include "common/mmo.h"
-#include "entities/baseentity.h"
+#include "entities/base_entity.h"
 
 #include <vector>
 

@@ -22,7 +22,7 @@
 #include "0x110_unity.h"
 
 #include "common/database.h"
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 GP_SERV_COMMAND_UNITY::GP_SERV_COMMAND_UNITY(const CCharEntity* PChar)
 {

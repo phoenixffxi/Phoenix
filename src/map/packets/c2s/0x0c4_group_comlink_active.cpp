@@ -21,7 +21,7 @@
 
 #include "0x0c4_group_comlink_active.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "enums/item_lockflg.h"
 #include "enums/msg_std.h"
 #include "item_container.h"

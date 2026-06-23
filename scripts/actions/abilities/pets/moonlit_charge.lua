@@ -1,5 +1,7 @@
 -----------------------------------
--- Moonlit Charge M=4
+-- Moonlit Charge
+-- Family: Avatar (Fenrir)
+-- Description: Delivers a physical Blunt attack to a target. Additional Effect: Blind
 -----------------------------------
 ---@type TAbilityPet
 local abilityObject = {}
@@ -9,19 +11,36 @@ abilityObject.onAbilityCheck = function(player, target, ability)
 end
 
 abilityObject.onPetAbility = function(target, pet, petskill, summoner, action)
-    local numhits = 1
-    local accmod = 1
-    local dmgmod = 4
-
     xi.job_utils.summoner.onUseBloodPact(target, petskill, summoner, action)
 
-    local info = xi.summon.avatarPhysicalMove(pet, target, petskill, numhits, accmod, dmgmod, 0, xi.mobskills.magicalTpBonus.NO_EFFECT, 1, 2, 3)
-    local totaldamage = xi.summon.avatarFinalAdjustments(info, pet, petskill, target, xi.attackType.PHYSICAL, xi.damageType.BLUNT, numhits)
-    target:addStatusEffect(xi.effect.BLINDNESS, { power = 20, duration = 30, origin = pet })
-    target:takeDamage(totaldamage, pet, xi.attackType.PHYSICAL, xi.damageType.BLUNT)
-    target:updateEnmityFromDamage(pet, totaldamage)
+    local params = {}
 
-    return totaldamage
+    params.baseDamage        = pet:getWeaponDmg()
+    params.numHits           = 1
+    params.fTP               = { 1.0, 1.0, 1.0 }
+    params.fTPSubsequentHits = { 3.0, 3.0, 3.0 }
+    params.vit_wSC           = 0.30
+    params.attackType        = xi.attackType.PHYSICAL
+    params.damageType        = xi.damageType.BLUNT
+    params.shadowBehavior    = xi.mobskills.shadowBehavior.NUMSHADOWS_1
+    params.attackMultiplier  = { 2.0, 2.0, 2.0 }
+    -- params.accuracyModifier   = { 0, 0, 0 } TODO: Capture accuracy
+    params.primaryMessage    = xi.msg.basic.USES_JA_TAKE_DAMAGE
+
+    local info = xi.mobskills.mobPhysicalMove(pet, target, petskill, action, params)
+
+    if xi.mobskills.processDamage(pet, target, petskill, action, info) then
+        target:takeDamage(info.damage, pet, info.attackType, info.damageType)
+
+        local effectTable =
+        {
+            [1] = { effectId = xi.effect.BLINDNESS, power = 25, duration = 60, origin = pet },
+        }
+
+        xi.combat.action.executeMobskillStatusEffect(pet, target, petskill, effectTable, { messageBypass = true })
+    end
+
+    return info.damage
 end
 
 return abilityObject

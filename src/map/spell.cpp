@@ -572,7 +572,7 @@ void LoadSpellList()
         }
 
         filename = fmt::format("./scripts/actions/spells/{}/{}.lua", switchKey, PSpell->getName());
-        luautils::CacheLuaObjectFromFile(filename);
+        luautils::LoadLuaObjectFromFile(filename);
     }
 
     rset = db::preparedStmt("SELECT blue_spell_list.spellid, blue_spell_list.mob_skill_id, blue_spell_list.set_points, "

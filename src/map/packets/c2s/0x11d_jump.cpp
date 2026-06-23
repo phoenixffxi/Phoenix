@@ -21,7 +21,7 @@
 
 #include "0x11d_jump.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "packets/s2c/0x029_battle_message.h"
 #include "packets/s2c/0x11e_jump.h"
 #include "utils/jailutils.h"

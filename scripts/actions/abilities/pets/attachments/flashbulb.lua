@@ -9,7 +9,7 @@ local attachmentObject = {}
 attachmentObject.onEquip = function(pet)
     pet:addListener('AUTOMATON_ATTACHMENT_CHECK', 'ATTACHMENT_FLASHBULB', function(automaton, target)
         -- If Flashbulb is still on cooldown, do nothing.
-        if automaton:hasRecast(xi.recast.ABILITY, xi.automaton.abilities.FLASHBULB) then
+        if automaton:hasRecast(xi.recast.ABILITY, xi.mobSkill.FLASHBULB_AUTOMATON) then
             return
         end
 
@@ -26,7 +26,7 @@ attachmentObject.onEquip = function(pet)
             return
         end
 
-        automaton:useMobAbility(xi.automaton.abilities.FLASHBULB)
+        automaton:useMobAbility(xi.mobSkill.FLASHBULB_AUTOMATON)
     end)
 end
 

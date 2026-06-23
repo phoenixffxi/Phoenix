@@ -1,5 +1,7 @@
 -----------------------------------
 -- Roundhouse
+-- Family: Avatar (Siren)
+-- Description: Deals physical damage to a target.
 -----------------------------------
 ---@type TAbilityPet
 local abilityObject = {}
@@ -10,21 +12,29 @@ end
 
 -- http://wiki.ffo.jp/html/37928.html
 abilityObject.onPetAbility = function(target, pet, petskill, summoner, action)
-    local numhits = 1
-    local accmod = 1
-    local dmgmod = 5.0
-
     xi.job_utils.summoner.onUseBloodPact(target, petskill, summoner, action)
 
-    local info = xi.summon.avatarPhysicalMove(pet, target, petskill, numhits, accmod, dmgmod, 0, xi.mobskills.physicalTpBonus.CRIT_VARIES, 1, 1, 1)
-    local totaldamage = xi.summon.avatarFinalAdjustments(info, pet, petskill, target, xi.attackType.PHYSICAL, xi.damageType.BLUNT, numhits)
+    local params = {}
 
-    xi.job_utils.summoner.calculateTPReturn(pet, target, totaldamage, info.hitslanded)
+    params.baseDamage        = pet:getWeaponDmg()
+    params.numHits           = 1
+    params.fTP               = { 5.0, 5.0, 5.0 } -- TODO: Capture fTPs
+    params.fTPSubsequentHits = { 5.0, 5.0, 5.0 }
+    params.str_wSC           = 0.30
+    params.attackType        = xi.attackType.PHYSICAL
+    params.damageType        = xi.damageType.BLUNT
+    params.shadowBehavior    = xi.mobskills.shadowBehavior.NUMSHADOWS_1
+    params.canCrit           = true
+    params.criticalChance    = { 0.10, 0.20, 0.25 } -- TODO: Capture crit rate
+    params.primaryMessage    = xi.msg.basic.USES_JA_TAKE_DAMAGE
 
-    target:takeDamage(totaldamage, pet, xi.attackType.PHYSICAL, xi.damageType.BLUNT)
-    target:updateEnmityFromDamage(pet, totaldamage)
+    local info = xi.mobskills.mobPhysicalMove(pet, target, petskill, action, params)
 
-    return totaldamage
+    if xi.mobskills.processDamage(pet, target, petskill, action, info) then
+        target:takeDamage(info.damage, pet, info.attackType, info.damageType)
+    end
+
+    return info.damage
 end
 
 return abilityObject

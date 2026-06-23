@@ -23,7 +23,7 @@
 
 #include "ai/ai_container.h"
 #include "enmity_container.h"
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "lua/luautils.h"
 #include "notoriety_container.h"
 #include "packets/s2c/0x052_eventucoff.h"

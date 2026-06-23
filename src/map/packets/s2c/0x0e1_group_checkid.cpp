@@ -21,7 +21,7 @@
 
 #include "0x0e1_group_checkid.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "party.h"
 
 GP_SERV_COMMAND_GROUP_CHECKID::GP_SERV_COMMAND_GROUP_CHECKID(const CCharEntity* PChar)

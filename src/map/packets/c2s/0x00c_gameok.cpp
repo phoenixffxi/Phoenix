@@ -21,7 +21,7 @@
 
 #include "0x00c_gameok.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "gmcall_container.h"
 #include "packets/char_status.h"
 #include "packets/char_sync.h"

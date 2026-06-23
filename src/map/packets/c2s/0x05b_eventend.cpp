@@ -21,8 +21,8 @@
 
 #include "0x05b_eventend.h"
 
-#include "entities/baseentity.h"
-#include "entities/charentity.h"
+#include "entities/base_entity.h"
+#include "entities/char_entity.h"
 #include "lua/luautils.h"
 #include "packets/s2c/0x052_eventucoff.h"
 

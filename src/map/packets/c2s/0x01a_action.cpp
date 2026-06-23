@@ -24,8 +24,8 @@
 #include "ability.h"
 #include "ai/ai_container.h"
 #include "enmity_container.h"
-#include "entities/charentity.h"
-#include "entities/trustentity.h"
+#include "entities/char_entity.h"
+#include "entities/trust_entity.h"
 #include "enums/msg_std.h"
 #include "items.h"
 #include "latent_effect_container.h"
@@ -204,11 +204,11 @@ void GP_CLI_COMMAND_ACTION::process(MapSession* PSession, CCharEntity* PChar) co
             }
 
             // Releasing a trust
-            if (auto* PTrust = dynamic_cast<CTrustEntity*>(PNpc); PTrust && !PTrust->isReleased)
+            if (auto* PTrust = dynamic_cast<CTrustEntity*>(PNpc); PTrust && !PTrust->released())
             {
                 uint32_t trustTargId = PTrust->targid;
 
-                PTrust->isReleased = true;
+                PTrust->setReleased(true);
 
                 // Emit despawn message
                 // TODO: probably change off OnMobDespawn to a listener or a trust specific OnPartyLeave callback
@@ -559,15 +559,14 @@ void GP_CLI_COMMAND_ACTION::process(MapSession* PSession, CCharEntity* PChar) co
                 }
 
                 PChar->m_mountId = this->Mount.MountId ? this->Mount.MountId + 1 : 0;
-                PChar->StatusEffectContainer->AddStatusEffect(new CStatusEffect(
-                                                                  xi::StatusEffect::Mounted,
-                                                                  static_cast<uint16>(xi::StatusEffect::Mounted),
-                                                                  this->Mount.MountId ? this->Mount.MountId + 1 : 0,
-                                                                  0s,
-                                                                  30min,
-                                                                  0,
-                                                                  0x40), // previously known as nameflag "FLAG_CHOCOBO"
-                                                              EffectNotice::Silent);
+                PChar->StatusEffectContainer->AddStatusEffectSilent(
+                    xi::StatusEffect::Mounted,
+                    static_cast<uint16>(xi::StatusEffect::Mounted),
+                    this->Mount.MountId ? this->Mount.MountId + 1 : 0,
+                    0s,
+                    30min,
+                    0,
+                    0x40); // previously known as nameflag "FLAG_CHOCOBO"
 
                 PChar->PRecastContainer->Add(RECAST_ABILITY, Recast::Mount, 60s);
                 PChar->pushPacket<GP_SERV_COMMAND_ABIL_RECAST>(PChar);

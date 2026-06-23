@@ -20,7 +20,7 @@
 */
 
 #include "0x055_scenarioitem.h"
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 GP_SERV_COMMAND_SCENARIOITEM::GP_SERV_COMMAND_SCENARIOITEM(const CCharEntity* PChar, const uint8_t keyTable)
 {

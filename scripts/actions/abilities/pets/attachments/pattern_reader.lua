@@ -37,7 +37,7 @@ attachmentObject.onEquip = function(automaton)
             return
         end
 
-        local windManeuvers = master:countEffect(xi.effect.WIND_MANEUVER)
+        local windManeuvers = xi.automaton.getManeuverCount(master, master:countEffect(xi.effect.WIND_MANEUVER))
 
         if windManeuvers == 0 then
             return

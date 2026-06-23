@@ -21,7 +21,7 @@
 
 #include "0x063_miscdata_monstrosity.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "monstrosity.h"
 #include "utils/charutils.h"
 

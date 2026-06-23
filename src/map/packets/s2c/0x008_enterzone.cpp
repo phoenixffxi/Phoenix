@@ -21,7 +21,7 @@
 
 #include "0x008_enterzone.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 GP_SERV_COMMAND_ENTERZONE::GP_SERV_COMMAND_ENTERZONE(const CCharEntity* PChar)
 {

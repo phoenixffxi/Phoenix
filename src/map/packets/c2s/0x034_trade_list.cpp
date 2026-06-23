@@ -21,7 +21,7 @@
 
 #include "0x034_trade_list.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "enums/msg_std.h"
 #include "items/item_linkshell.h"
 #include "packets/s2c/0x023_item_trade_list.h"

@@ -22,7 +22,7 @@
 #include "0x0d3_trophy_solution.h"
 
 #include "common/utils.h"
-#include "entities/baseentity.h"
+#include "entities/base_entity.h"
 
 #include <cstring>
 

@@ -33,9 +33,9 @@
 #include "map/ai/ai_container.h"
 #include "map/conquest_data.h"
 #include "map/conquest_system.h"
-#include "map/entities/baseentity.h"
-#include "map/entities/mobentity.h"
-#include "map/lua/lua_baseentity.h"
+#include "map/entities/base_entity.h"
+#include "map/entities/mob_entity.h"
+#include "map/lua/lua_base_entity.h"
 #include "map/lua/luautils.h"
 #include "map/map_constants.h"
 #include "map/map_engine.h"
@@ -460,7 +460,7 @@ void CLuaSimulation::tick(const Maybe<TickType> boundary) const
             const auto timePoint = timer::now();
             for (const auto* PZone : g_PZoneList | std::views::values)
             {
-                PZone->spawnHandler()->Tick(timePoint);
+                PZone->spawnHandler().Tick(timePoint);
             }
         }
         break;
@@ -584,14 +584,14 @@ auto CLuaSimulation::getSpawnSlot(const ZONEID zoneId, const uint32 slotId) cons
         return result;
     }
 
-    const auto slotIt = PZone->m_spawnSlots.find(slotId);
-    if (slotIt == PZone->m_spawnSlots.end() || !slotIt->second)
+    const auto* slot = PZone->spawnHandler().getSpawnSlot(slotId);
+    if (!slot)
     {
         TestError("Spawn slot {} not found in zone {}", slotId, static_cast<uint16_t>(zoneId));
         return result;
     }
 
-    const auto& entries = slotIt->second->GetEntries();
+    const auto& entries = slot->GetEntries();
     auto        i       = 1;
     for (const auto& [mob, spawnChance] : entries)
     {

@@ -21,7 +21,7 @@
 
 #include "0x0d5_ack_gmmsg.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "gmcall_container.h"
 
 auto GP_CLI_COMMAND_ACK_GMMSG::validate(MapSession* PSession, const CCharEntity* PChar) const -> PacketValidationResult

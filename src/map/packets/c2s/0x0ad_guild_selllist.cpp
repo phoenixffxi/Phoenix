@@ -21,7 +21,7 @@
 
 #include "0x0ad_guild_selllist.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "lua/luautils.h"
 #include "packets/s2c/0x085_guild_selllist.h"
 #include "utils/zoneutils.h"

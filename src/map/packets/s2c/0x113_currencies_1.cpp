@@ -22,7 +22,7 @@
 #include "0x113_currencies_1.h"
 
 #include "common/database.h"
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "utils/charutils.h"
 
 GP_SERV_COMMAND_CURRENCIES_1::GP_SERV_COMMAND_CURRENCIES_1(CCharEntity* PChar)

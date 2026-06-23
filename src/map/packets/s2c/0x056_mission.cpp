@@ -21,7 +21,7 @@
 
 #include "0x056_mission.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "enums/mission_log.h"
 
 GP_SERV_COMMAND_MISSION::MISSION::MISSION(const CCharEntity* PChar)

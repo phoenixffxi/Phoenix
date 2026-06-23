@@ -24,9 +24,9 @@
 #include "common/logging.h"
 #include "common/timer.h"
 
-#include "entities/charentity.h"
-#include "entities/npcentity.h"
-#include "lua_baseentity.h"
+#include "entities/char_entity.h"
+#include "entities/npc_entity.h"
+#include "lua_base_entity.h"
 #include "map/navmesh/navmesh.h"
 #include "trigger_area.h"
 #include "utils/mobutils.h"
@@ -188,16 +188,16 @@ ZONE_TYPE CLuaZone::getTypeMask()
 
 auto CLuaZone::getBattlefieldByInitiator(uint32 charID) -> CBattlefield*
 {
-    if (m_pLuaZone->m_BattlefieldHandler)
+    if (m_pLuaZone->battlefieldHandler())
     {
-        return m_pLuaZone->m_BattlefieldHandler->GetBattlefieldByInitiator(charID);
+        return m_pLuaZone->battlefieldHandler()->GetBattlefieldByInitiator(charID);
     }
     return nullptr;
 }
 
 auto CLuaZone::getWeather() const -> Weather
 {
-    return m_pLuaZone->GetWeather();
+    return m_pLuaZone->weather().current();
 }
 
 uint32 CLuaZone::getUptime()

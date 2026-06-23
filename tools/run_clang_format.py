@@ -25,6 +25,7 @@ def find_clang_format():
         "/usr/bin/clang-format",
         "/usr/local/bin/clang-format",
         "/opt/homebrew/bin/clang-format",
+        "C:\\Program Files\\LLVM\\bin\\clang-format.exe",
     ]
 
     for path in paths:

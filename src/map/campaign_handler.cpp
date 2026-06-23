@@ -227,7 +227,7 @@ void CCampaignHandler::SetInfluence(CampaignArmy army, int16 amount)
 {
     const auto current = std::clamp<int16>(amount, 0, 250);
 
-    std::unique_ptr<db::detail::ResultSetWrapper> rset = nullptr;
+    std::unique_ptr<db::ResultSet> rset = nullptr;
     switch (army)
     {
         case CampaignArmy::Sandoria:

@@ -24,7 +24,7 @@
 #include "common/logging.h"
 #include "common/tracy.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "map_session.h"
 #include "packets/basic.h"
 #include "packets/c2s/0x00a_login.h"

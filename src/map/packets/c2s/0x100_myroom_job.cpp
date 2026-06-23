@@ -21,7 +21,7 @@
 
 #include "0x100_myroom_job.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "items/item_weapon.h"
 #include "job_points.h"
 #include "latent_effect_container.h"

@@ -21,7 +21,7 @@
 
 #include "0x06f_combine_ans.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "items/craft_state.h"
 #include "items/transactions/synth.h"
 

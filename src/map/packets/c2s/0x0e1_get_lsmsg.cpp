@@ -22,7 +22,7 @@
 #include "0x0e1_get_lsmsg.h"
 
 #include "common/utils.h"
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 #include "linkshell.h"
 
 auto GP_CLI_COMMAND_GET_LSMSG::validate(MapSession* PSession, const CCharEntity* PChar) const -> PacketValidationResult

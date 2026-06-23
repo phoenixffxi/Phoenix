@@ -26,7 +26,7 @@
 #include "common/singleton.h"
 #include "common/vana_time.h"
 
-#include "entities/npcentity.h"
+#include "entities/npc_entity.h"
 
 #include <vector>
 

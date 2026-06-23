@@ -26,22 +26,21 @@
 #include <common/ipp.h>
 #include <common/scheduler.h>
 
-#include "map_constants.h"
+#include <map/map_constants.h>
+#include <map/socket.h>
 
 #include <asio/ip/network_v4.hpp>
 #include <asio/ip/udp.hpp>
 #include <asio/ts/buffer.hpp>
 #include <asio/ts/internet.hpp>
 
-class MapSocket
+class MapSocket final : public Socket
 {
 public:
-    using ReceiveFn = std::function<void(ByteSpan, const IPP&)>;
-
     MapSocket(Scheduler& scheduler, uint16 port, ReceiveFn onReceiveFn);
-    ~MapSocket();
+    ~MapSocket() override;
 
-    void send(const IPP& ipp, ByteSpan buffer);
+    void send(const IPP& ipp, ByteSpan buffer) override;
 
 private:
     void receive();

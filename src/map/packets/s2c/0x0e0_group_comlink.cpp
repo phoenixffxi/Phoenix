@@ -21,7 +21,7 @@
 
 #include "0x0e0_group_comlink.h"
 
-#include "entities/charentity.h"
+#include "entities/char_entity.h"
 
 GP_SERV_COMMAND_GROUP_COMLINK::GP_SERV_COMMAND_GROUP_COMLINK(const CCharEntity* PChar, const uint8 linkshellNumber)
 {
