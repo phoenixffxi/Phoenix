@@ -634,6 +634,58 @@ REPLACE INTO `mob_spawn_points` VALUES (17584259, 0, 'CrawlerHunter', 'CrawlerHu
 REPLACE INTO `mob_spawn_points` VALUES (17584378, 0, 'Mushussu', 'Mushussu', 30, 0, 0, 48.3845, -0.4743, 367.8715, 177);
 REPLACE INTO `mob_spawn_points` VALUES (17584321, 0, 'KnightCrawler', 'KnightCrawler', 0, 60, 63, -297.8918, -0.4755, -256.9619, 116);
 
+-- Maze_of_Shakhrami (Zone 198)
+REPLACE INTO `mob_spawn_points` VALUES (17588350, 0, 'Ghoul', 'Ghoul', 14, 22, 26, 72.6542, -0.9478, 32.4558, 219);
+REPLACE INTO `mob_spawn_points` VALUES (17588446, 0, 'Seeker_Bats', 'Seeker Bats', 25, 23, 26, 79.3849, 0.0000, 82.5663, 6);
+REPLACE INTO `mob_spawn_points` VALUES (17588447, 0, 'Seeker_Bats', 'Seeker Bats', 25, 23, 26, 75.0810, 0.3204, 60.1700, 67);
+REPLACE INTO `mob_spawn_points` VALUES (17588455, 0, 'Seeker_Bats', 'Seeker Bats', 25, 23, 26, 85.2637, -0.1727, 48.3914, 4);
+REPLACE INTO `mob_spawn_points` VALUES (17588456, 0, 'Seeker_Bats', 'Seeker Bats', 25, 23, 26, 102.0253, -0.9469, 63.8924, 213);
+REPLACE INTO `mob_spawn_points` VALUES (17588467, 0, 'Seeker_Bats', 'Seeker Bats', 25, 23, 26, 106.6199, -0.3244, 74.1098, 177);
+REPLACE INTO `mob_spawn_points` VALUES (17588468, 0, 'Seeker_Bats', 'Seeker Bats', 25, 23, 26, 119.6401, 0.0000, 84.4266, 9);
+REPLACE INTO `mob_spawn_points` VALUES (17588351, 0, 'Seeker_Bats', 'Seeker Bats', 25, 23, 26, 130.7861, 0.0000, 74.0951, 29);
+REPLACE INTO `mob_spawn_points` VALUES (17588352, 0, 'Seeker_Bats', 'Seeker Bats', 25, 23, 26, 126.5487, 0.1682, 60.3773, 78);
+REPLACE INTO `mob_spawn_points` VALUES (17588353, 0, 'Seeker_Bats', 'Seeker Bats', 25, 23, 26, 115.4352, -0.2092, 43.0710, 31);
+REPLACE INTO `mob_spawn_points` VALUES (17588354, 0, 'Poison_Leech', 'Poison Leech', 17, 24, 28, 124.1669, 0.4775, 68.8499, 66);
+REPLACE INTO `mob_spawn_points` VALUES (17588357, 0, 'Poison_Leech', 'Poison Leech', 17, 24, 28, 112.8991, 0.1249, 83.8270, 146);
+REPLACE INTO `mob_spawn_points` VALUES (17588358, 0, 'Poison_Leech', 'Poison Leech', 17, 24, 28, 110.7557, 0.3811, 81.5642, 62);
+REPLACE INTO `mob_spawn_points` VALUES (17588359, 0, 'Poison_Leech', 'Poison Leech', 17, 24, 28, 101.1689, 0.3192, 74.7268, 27);
+REPLACE INTO `mob_spawn_points` VALUES (17588360, 0, 'Poison_Leech', 'Poison Leech', 17, 24, 28, 93.4502, 0.3154, 46.4199, 187);
+REPLACE INTO `mob_spawn_points` VALUES (17588361, 0, 'Poison_Leech', 'Poison Leech', 17, 24, 28, 93.7265, 0.0000, 32.4669, 106);
+REPLACE INTO `mob_spawn_points` VALUES (17588362, 0, 'Poison_Leech', 'Poison Leech', 17, 24, 28, 83.1417, 0.0000, 38.3973, 228);
+REPLACE INTO `mob_spawn_points` VALUES (17588365, 0, 'Poison_Leech', 'Poison Leech', 17, 24, 28, 77.3093, -0.0411, 49.8812, 149);
+REPLACE INTO `mob_spawn_points` VALUES (17588366, 0, 'Maze_Scorpion', 'Maze Scorpion', 10, 25, 28, 99.0403, 0.2532, 57.6951, 5);
+REPLACE INTO `mob_spawn_points` VALUES (17588367, 0, 'Maze_Scorpion', 'Maze Scorpion', 10, 25, 28, 128.2176, 0.4951, 41.1219, 82);
+REPLACE INTO `mob_spawn_points` VALUES (17588368, 0, 'Jelly', 'Jelly', 16, 26, 28, 165.6641, -5.0000, 80.2636, 218);
+REPLACE INTO `mob_spawn_points` VALUES (17588369, 0, 'Labyrinth_Scorpion', 'Labyrinth Scorpion', 29, 30, 33, 150.7873, -1.9621, 89.1759, 134);
+REPLACE INTO `mob_spawn_points` VALUES (17588370, 0, 'Seeker_Bats', 'Seeker Bats', 25, 23, 26, 120.7961, 0.0000, 5.6641, 251);
+REPLACE INTO `mob_spawn_points` VALUES (17588373, 0, 'Seeker_Bats', 'Seeker Bats', 25, 23, 26, 137.7754, 0.0699, -7.3393, 9);
+REPLACE INTO `mob_spawn_points` VALUES (17588374, 0, 'Seeker_Bats', 'Seeker Bats', 25, 23, 26, 156.5259, 0.0000, 0.9649, 218);
+REPLACE INTO `mob_spawn_points` VALUES (17588375, 0, 'Seeker_Bats', 'Seeker Bats', 25, 23, 26, 148.2700, 0.0000, 13.5713, 146);
+REPLACE INTO `mob_spawn_points` VALUES (17588376, 0, 'Poison_Leech', 'Poison Leech', 17, 24, 28, 149.0351, 0.0683, 7.7568, 108);
+REPLACE INTO `mob_spawn_points` VALUES (17588377, 0, 'Poison_Leech', 'Poison Leech', 17, 24, 28, 132.9072, -0.3517, 14.5584, 121);
+REPLACE INTO `mob_spawn_points` VALUES (17588380, 0, 'Poison_Leech', 'Poison Leech', 17, 24, 28, 130.7899, 0.4240, 6.5842, 79);
+REPLACE INTO `mob_spawn_points` VALUES (17588381, 0, 'Poison_Leech', 'Poison Leech', 17, 24, 28, 140.8046, 0.8693, 1.3220, 2);
+REPLACE INTO `mob_spawn_points` VALUES (17588382, 0, 'Wendigo', 'Wendigo', 15, 24, 28, 172.4490, -1.1060, -30.3501, 136);
+REPLACE INTO `mob_spawn_points` VALUES (17588383, 0, 'Maze_Scorpion', 'Maze Scorpion', 10, 25, 28, 167.3413, 0.5032, -20.6927, 147);
+REPLACE INTO `mob_spawn_points` VALUES (17588384, 0, 'Jelly', 'Jelly', 16, 26, 28, 105.3615, -0.5537, -56.3799, 189);
+REPLACE INTO `mob_spawn_points` VALUES (17588385, 0, 'Jelly', 'Jelly', 16, 26, 28, 99.1363, 0.0000, -64.1035, 182);
+REPLACE INTO `mob_spawn_points` VALUES (17588386, 0, 'Jelly', 'Jelly', 16, 26, 28, 99.1237, 0.0000, -77.7858, 208);
+REPLACE INTO `mob_spawn_points` VALUES (17588516, 0, 'Ancient_Bat', 'Ancient Bat', 24, 26, 29, 125.4699, -0.1603, -59.8018, 242);
+REPLACE INTO `mob_spawn_points` VALUES (17588648, 0, 'Ancient_Bat', 'Ancient Bat', 24, 26, 29, 99.8897, -0.0889, -37.0579, 188);
+REPLACE INTO `mob_spawn_points` VALUES (17588387, 0, 'Seeker_Bats', 'Seeker Bats', 25, 23, 26, 160.4831, 1.0000, -56.3224, 61);
+REPLACE INTO `mob_spawn_points` VALUES (17588388, 0, 'Seeker_Bats', 'Seeker Bats', 25, 23, 26, 178.6572, 0.0000, -58.8495, 33);
+REPLACE INTO `mob_spawn_points` VALUES (17588389, 0, 'Seeker_Bats', 'Seeker Bats', 25, 23, 26, 184.2029, 0.3014, -87.2947, 37);
+REPLACE INTO `mob_spawn_points` VALUES (17588390, 0, 'Seeker_Bats', 'Seeker Bats', 25, 23, 26, 200.5921, 0.0000, -116.0283, 29);
+REPLACE INTO `mob_spawn_points` VALUES (17588391, 0, 'Seeker_Bats', 'Seeker Bats', 25, 23, 26, 234.0470, 0.1075, -117.2027, 0);
+REPLACE INTO `mob_spawn_points` VALUES (17588392, 0, 'Poison_Leech', 'Poison Leech', 17, 24, 28, 176.2447, 0.1094, -86.9930, 254);
+REPLACE INTO `mob_spawn_points` VALUES (17588393, 0, 'Poison_Leech', 'Poison Leech', 17, 24, 28, 183.6480, -0.0218, -88.3451, 0);
+REPLACE INTO `mob_spawn_points` VALUES (17588394, 0, 'Poison_Leech', 'Poison Leech', 17, 24, 28, 246.8811, 0.1826, -141.5928, 243);
+REPLACE INTO `mob_spawn_points` VALUES (17588395, 0, 'Poison_Leech', 'Poison Leech', 17, 24, 28, 253.9571, -1.3369, -139.3199, 122);
+REPLACE INTO `mob_spawn_points` VALUES (17588396, 0, 'Wendigo', 'Wendigo', 15, 24, 28, 221.5874, -1.3397, -98.9668, 96);
+REPLACE INTO `mob_spawn_points` VALUES (17588397, 0, 'Wendigo', 'Wendigo', 15, 24, 28, 249.2197, -0.9884, -119.5388, 98);
+REPLACE INTO `mob_spawn_points` VALUES (17588398, 0, 'Maze_Scorpion', 'Maze Scorpion', 10, 25, 28, 244.0070, -0.1247, -165.2965, 171);
+REPLACE INTO `mob_spawn_points` VALUES (17588399, 0, 'Jelly', 'Jelly', 16, 26, 28, 267.6090, 1.0000, -161.0713, 111);
+
 -- Garlaige Citadel (Zone 200)
 REPLACE INTO `mob_spawn_points` VALUES (17596644, 0, 'Funnel_Bat', 'Funnel Bat', 36, 51, 53, -353.1886, 19.1933, 236.4755, 13);
 REPLACE INTO `mob_spawn_points` VALUES (17596645, 0, 'Funnel_Bat', 'Funnel Bat', 36, 51, 53, -315.6312, 19.5709, 254.8212, 205);
