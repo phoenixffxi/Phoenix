@@ -360,7 +360,7 @@ void LoadAbilitiesList()
             {
                 filename = fmt::format("./scripts/actions/abilities/pets/{}.lua", PAbility->getName());
             }
-            luautils::CacheLuaObjectFromFile(filename);
+            luautils::LoadLuaObjectFromFile(filename);
         }
     }
 

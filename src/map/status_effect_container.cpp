@@ -109,7 +109,7 @@ void LoadEffectsParameters()
         EffectsParams[static_cast<uint16>(id)].WearOffMessageId = data.WearOffMessageId == 0 ? MsgStd::EffectWearsOff : static_cast<MsgStd>(data.WearOffMessageId);
 
         auto filename = fmt::format("./scripts/effects/{}.lua", EffectsParams[static_cast<uint16>(id)].Name);
-        luautils::CacheLuaObjectFromFile(filename);
+        luautils::LoadLuaObjectFromFile(filename);
     }
 }
 
@@ -1642,9 +1642,8 @@ auto CStatusEffectContainer::SetEffectParams(CStatusEffect* StatusEffect) -> voi
                 // get the item lua script and check if it has valid functions
                 auto itemName     = "items/" + PItem->getName();
                 auto itemFullName = fmt::format("./scripts/{}.lua", itemName);
-                auto cacheEntry   = luautils::GetCacheEntryFromFilename(itemFullName);
-                auto onEffectGain = cacheEntry["onEffectGain"].get<sol::function>();
-                auto onEffectLose = cacheEntry["onEffectLose"].get<sol::function>();
+                auto onEffectGain = luautils::getCachedFileFunction(itemFullName, "onEffectGain");
+                auto onEffectLose = luautils::getCachedFileFunction(itemFullName, "onEffectLose");
 
                 effectFromItemEnchant = onEffectGain.valid() && onEffectLose.valid();
 
@@ -1663,9 +1662,8 @@ auto CStatusEffectContainer::SetEffectParams(CStatusEffect* StatusEffect) -> voi
                 // get the item lua script and check if it has valid functions
                 auto itemName     = "items/" + PItem->getName();
                 auto itemFullName = fmt::format("./scripts/{}.lua", itemName);
-                auto cacheEntry   = luautils::GetCacheEntryFromFilename(itemFullName);
-                auto onEffectGain = cacheEntry["onEffectGain"].get<sol::function>();
-                auto onEffectLose = cacheEntry["onEffectLose"].get<sol::function>();
+                auto onEffectGain = luautils::getCachedFileFunction(itemFullName, "onEffectGain");
+                auto onEffectLose = luautils::getCachedFileFunction(itemFullName, "onEffectLose");
 
                 effectFromItemFood = onEffectGain.valid() && onEffectLose.valid();
 

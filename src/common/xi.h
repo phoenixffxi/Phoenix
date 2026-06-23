@@ -35,18 +35,12 @@
 #include "tracy.h"
 #include "vanadiel_clock.h"
 
-#include "helpers/eraseif.h"
-#include "helpers/overload.h"
-
 #include "types/flag.h"
 #include "types/fn.h"
 #include "types/maybe.h"
+#include "types/variant.h"
 namespace xi
 {
-
-// TODO: A wrapper around std::variant to allow usage of:
-//     :   object.visit(overload{...});
-//     :   object.get<T>() -> Maybe<T>;
 
 // https://github.com/microsoft/GSL/blob/main/include/gsl/util
 // final_action allows you to ensure something gets run at the end of a scope

@@ -245,15 +245,28 @@ void CMobController::TryLink()
         PMob->PPet->PAI->Engage(PTarget->targid);
     }
 
-    // Handle monster linking if they are close enough
-    if (PMob->PParty != nullptr && !PMob->getMobMod(MOBMOD_ONE_WAY_LINKING))
+    // Handle linking if they are close enough. This party scan is the hot part of
+    // TryLink, so throttle it to every other combat tick and skip it when there is nothing
+    // to link with (no party, or a party of just this mob).
+    linkScanThisTick_ = !linkScanThisTick_;
+    if (linkScanThisTick_ &&
+        PMob->PParty != nullptr &&
+        PMob->PParty->members.size() > 1 &&
+        !PMob->getMobMod(MOBMOD_ONE_WAY_LINKING))
     {
-        for (auto& member : PMob->PParty->members)
+        for (auto* member : PMob->PParty->members)
         {
-            auto* PPartyMember = dynamic_cast<CMobEntity*>(member);
+            // Mob link parties only contain mobs; objtype-gate then static_cast to avoid a
+            // per-member dynamic_cast in this hot loop.
+            if (member->objtype != TYPE_MOB)
+            {
+                continue;
+            }
+            auto* PPartyMember = static_cast<CMobEntity*>(member);
+
             // Note if the mob to link with this one is a pet then do not link
             // Pets only link with their masters
-            if (!PPartyMember || PPartyMember->PMaster || PPartyMember->isDead())
+            if (PPartyMember->PMaster || PPartyMember->isDead())
             {
                 continue;
             }

@@ -1,5 +1,14 @@
 # Set a default build type if none was specified
-if(NOT CMAKE_BUILD_TYPE)
+get_property(isMultiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+if(isMultiConfig)
+  set(CMAKE_CONFIGURATION_TYPES
+      "RelWithDebInfo;Debug;Release;MinSizeRel"
+      CACHE STRING "Available build configurations" FORCE)
+
+  if(CMAKE_GENERATOR STREQUAL "Ninja Multi-Config")
+    set(CMAKE_DEFAULT_BUILD_TYPE "RelWithDebInfo")
+  endif()
+elseif(NOT CMAKE_BUILD_TYPE)
   message(STATUS "Setting build type to 'RelWithDebInfo' as none was specified.")
   set(CMAKE_BUILD_TYPE
       "RelWithDebInfo"
@@ -8,10 +17,11 @@ if(NOT CMAKE_BUILD_TYPE)
   set_property(
     CACHE CMAKE_BUILD_TYPE
     PROPERTY STRINGS
-             "Debug"
-             "Release"
-             "MinSizeRel"
-             "RelWithDebInfo")
+        "RelWithDebInfo"
+        "Debug"
+        "Release"
+        "MinSizeRel"
+    )
 endif()
 
 option(ENABLE_IPO "Enable Interprocedural Optimization, aka Link Time Optimization (LTO)" ON)
@@ -87,33 +97,26 @@ string(REPLACE ";" " " FLAGS_AND_DEFINES_STR "${FLAGS_AND_DEFINES}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${FLAGS_AND_DEFINES_STR}")
 
 function(set_target_output_directory target)
-    message(STATUS "Setting output directory for ${target} to ${CMAKE_SOURCE_DIR}")
+    # Run from the repo root: data, scripts, settings and the runtime DLLs all live there.
     set_target_properties(${target} PROPERTIES
-        VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-        RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}"
-        RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}"
-        RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_SOURCE_DIR}"
-        RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_SOURCE_DIR}"
-        RUNTIME_OUTPUT_DIRECTORY_ASAN "${CMAKE_SOURCE_DIR}"
-        RUNTIME_OUTPUT_DIRECTORY_UBSAN "${CMAKE_SOURCE_DIR}"
-        RUNTIME_OUTPUT_DIRECTORY_TSAN "${CMAKE_SOURCE_DIR}"
-        RUNTIME_OUTPUT_DIRECTORY_MSAN "${CMAKE_SOURCE_DIR}"
-        RUNTIME_OUTPUT_DIRECTORY_LSAN "${CMAKE_SOURCE_DIR}"
-    )
+        VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
+
+    message(STATUS "${target}: staging build artifact to ${CMAKE_SOURCE_DIR} after build")
+    add_custom_command(TARGET ${target} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "$<TARGET_FILE:${target}>"
+                "${CMAKE_SOURCE_DIR}/$<TARGET_FILE_NAME:${target}>"
+        VERBATIM)
+
+    if(MSVC)
+        add_custom_command(TARGET ${target} POST_BUILD
+            COMMAND "$<$<CONFIG:Debug,RelWithDebInfo>:${CMAKE_COMMAND};-E;copy_if_different;$<TARGET_PDB_FILE:${target}>;${CMAKE_SOURCE_DIR}/$<TARGET_PDB_FILE_NAME:${target}>>"
+            COMMAND_EXPAND_LISTS
+            VERBATIM)
+    endif()
 endfunction()
 
 function(disable_lto target)
     target_compile_options(${target} PRIVATE -fno-lto)
     target_link_options(${target} PRIVATE -fno-lto)
 endfunction()
-
-# If we're on Unix and the system is 32-bit (void* is 4-bytes wide),
-# then there's a good chance we're compiling for Raspberry Pi.
-# Currently, CMake doesn't detect this properly and needs some help
-# to link libatomic.
-# Source: https://gitlab.kitware.com/cmake/cmake/-/issues/21174
-#
-# TODO: Use include(CheckCXXSourceCompiles) to make this check better.
-if(UNIX AND CMAKE_SIZEOF_VOID_P EQUAL 4)
-    set(CMAKE_CXX_LINK_FLAGS "${CMAKE_CXX_LINK_FLAGS} -latomic")
-endif()

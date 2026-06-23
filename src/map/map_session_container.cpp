@@ -307,7 +307,7 @@ void MapSessionContainer::cleanupSessions(IPP mapIPP)
         ++it;
     }
 
-    xi::eraseIf(
+    std::erase_if(
         pending_sessions_,
         [&](auto& pair)
         {

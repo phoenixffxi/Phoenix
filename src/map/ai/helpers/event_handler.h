@@ -49,52 +49,58 @@ public:
     bool hasListener(const std::string& eventName) const;
 
     template <class... Args>
-    void triggerListener(const std::string& eventName, Args&&... args) noexcept
-    {
-        // No events or events with this name? Bail out
-        auto it = eventListeners_.find(eventName);
-        if (it == eventListeners_.end())
-        {
-            return;
-        }
-
-        // Only report triggers we're actually going to fire
-        TracyZoneScoped;
-        TracyZoneString(eventName);
-
-        // Prevent modification while iterating
-        ++triggerDepth_;
-        {
-            auto& listeners = it->second;
-            for (auto& event : listeners)
-            {
-                auto result = event.luaFunc_(std::forward<Args>(args)...);
-                if (!result.valid())
-                {
-                    sol::error err = result;
-                    ShowErrorFmt("Error in listener event {}: {}", eventName, err.what());
-                }
-            }
-        }
-        --triggerDepth_;
-
-        // Process deferred removals
-        if (!eventsToRemove_.empty())
-        {
-            for (const auto& identifier : eventsToRemove_)
-            {
-                removeFromAllListeners(identifier);
-            }
-            eventsToRemove_.clear();
-        }
-    }
+    void triggerListener(const std::string& eventName, Args&&... args) noexcept;
 
 private:
     void removeFromAllListeners(const std::string& identifier);
 
     uint32 triggerDepth_ = 0;
 
-    // TODO: Use string_view and is_transparent unordered_map + string_hash, etc.
     std::unordered_map<std::string, std::vector<AIEvent>> eventListeners_;
     std::vector<std::string>                              eventsToRemove_;
 };
+
+//
+// Template impls
+//
+
+template <class... Args>
+void CAIEventHandler::triggerListener(const std::string& eventName, Args&&... args) noexcept
+{
+    // No events or events with this name? Bail out
+    auto it = eventListeners_.find(eventName);
+    if (it == eventListeners_.end())
+    {
+        return;
+    }
+
+    // Only report triggers we're actually going to fire
+    TracyZoneScoped;
+    TracyZoneString(eventName);
+
+    // Prevent modification while iterating
+    ++triggerDepth_;
+    {
+        auto& listeners = it->second;
+        for (auto& event : listeners)
+        {
+            auto result = event.luaFunc_(std::forward<Args>(args)...);
+            if (!result.valid())
+            {
+                sol::error err = result;
+                ShowErrorFmt("Error in listener event {}: {}", eventName, err.what());
+            }
+        }
+    }
+    --triggerDepth_;
+
+    // Process deferred removals
+    if (!eventsToRemove_.empty())
+    {
+        for (const auto& identifier : eventsToRemove_)
+        {
+            removeFromAllListeners(identifier);
+        }
+        eventsToRemove_.clear();
+    }
+}
