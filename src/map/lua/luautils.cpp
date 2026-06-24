@@ -189,8 +189,20 @@ bool isEmptyLuaFunction(const sol::function& fn)
         return false;
     }
 
-    static const sol::function checker = []() -> sol::function
+    // Compile the checker once and cache it inside the Lua state itself (in the registry),
+    // rather than in a C++ static. A function-local static sol::function would be destroyed
+    // during static destruction at process exit - after lua_cleanup() has already closed the
+    // Lua state - causing luaL_unref to run against a freed lua_State (crash). Caching in the
+    // registry ties the checker's lifetime to the state, so it is torn down cleanly with it.
+    static constexpr auto checkerKey = "isEmptyLuaFunctionChecker";
+
+    const sol::function checker = [&]() -> sol::function
     {
+        if (const sol::function cached = lua.registry()[checkerKey]; cached.valid())
+        {
+            return cached;
+        }
+
         const auto result = lua.safe_script(
             R"Lua(
             local ok1, util  = pcall(require, "jit.util")
@@ -228,15 +240,16 @@ bool isEmptyLuaFunction(const sol::function& fn)
             )Lua",
             sol::script_pass_on_error);
 
-        if (result.valid())
+        if (!result.valid())
         {
-            return result;
+            const sol::error err = result;
+            ShowErrorFmt("Failed to create nil function checker: {}", err.what());
+            return sol::function(sol::lua_nil);
         }
 
-        sol::error err = result;
-        ShowErrorFmt("Failed to create nil function checker: {}", err.what());
-
-        return sol::function(sol::lua_nil);
+        const sol::function created = result;
+        lua.registry()[checkerKey]  = created;
+        return created;
     }();
 
     if (!checker.valid())
