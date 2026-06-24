@@ -25,9 +25,6 @@ entity.onMobDisengage = function(mob)
     mob:setMagicCastingEnabled(false)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     -- each dead dobsonfly should stay despawned until all 10 are killed. then they respawn as a group.
 

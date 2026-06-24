@@ -40,9 +40,6 @@ entity.onMobSpellChoose = function(mob, target, spellId)
     return utils.randomEntry(spellList)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     mob:setLocalVar('repop', GetSystemTime() + 10)
 end

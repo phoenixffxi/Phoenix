@@ -17,7 +17,4 @@ entity.onMobInitialize = function(mob)
     mob:setAggressive(false)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

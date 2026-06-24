@@ -132,9 +132,6 @@ entity.onMobDisengage = function(mob)
     mob:setAnimationSub(1)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     -- Give Ix'DRG a random placeholder by picking one of the four groups' first PH, then adding a random number of 0-2 for the specific mob.
     local basePhId = utils.randomEntry(ID.mob.AWAERN_DRG_GROUPS)

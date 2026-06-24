@@ -12,9 +12,6 @@ entity.onMobSpawn = function(mob)
     end
 end
 
-entity.onMobFight = function(mob, target)
-end
-
 entity.onMobDespawn = function(mob)
     local nmId = mob:getID()
 

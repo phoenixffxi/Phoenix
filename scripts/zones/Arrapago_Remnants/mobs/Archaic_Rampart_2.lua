@@ -8,9 +8,6 @@ local ID = zones[xi.zone.ARRAPAGO_REMNANTS]
 ---@type TMobEntity
 local entity = {}
 
-entity.onMobSpawn = function(mob)
-end
-
 entity.onMobFight = function(mob, target)
     local instance  = mob:getInstance()
     local popTime   = mob:getLocalVar('lastPetPop')
@@ -58,9 +55,6 @@ entity.onMobDeath = function(mob, player, optParams)
             end
         end
     end
-end
-
-entity.onMobDespawn = function(mob)
 end
 
 return entity

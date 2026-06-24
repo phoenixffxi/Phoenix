@@ -15,9 +15,6 @@ entity.spawnPoints =
     { x =  283.000, y =  19.000, z = -204.000 }
 }
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     if math.random(1, 100) <= 50 then
         DisallowRespawn(ID.mob.LEECH_KING, true)

@@ -17,7 +17,4 @@ entity.onPath = function(mob)
     end
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

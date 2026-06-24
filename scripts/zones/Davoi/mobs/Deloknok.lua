@@ -18,7 +18,4 @@ entity.onMobSpawn = function(mob)
     mob:setMobMod(xi.mobMod.MAGIC_DELAY, 0)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

@@ -16,9 +16,6 @@ entity.onMobSpawn = function(mob)
     xi.dynamis.mobInfo(mob)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     xi.mob.phOnDespawn(mob, ID.mob.SLINKIX_TRUFFLESNIFF, 10, 1200) -- 20 minutes
 end

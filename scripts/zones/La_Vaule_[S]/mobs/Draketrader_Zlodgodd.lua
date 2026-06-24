@@ -46,9 +46,6 @@ entity.onMobSpawn = function(mob)
     end)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     mob:removeListener('TRIPLE_JUMP')
     mob:resetLocalVars()

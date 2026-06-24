@@ -259,9 +259,6 @@ entity.onMobSpawn = function(mob)
     ]]--
 end
 
-entity.onMobRoam = function(mob)
-end
-
 entity.onMobEngage = function(mob, target)
     xi.av.nextsp = GetSystemTime() + math.random(45, 90)
 end

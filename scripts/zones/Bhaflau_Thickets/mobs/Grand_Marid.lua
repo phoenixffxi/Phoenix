@@ -12,10 +12,4 @@ entity.spawnPoints =
     { x =  137.000, y = -18.000, z =  334.000 }
 }
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
-entity.onMobDespawn = function(mob)
-end
-
 return entity

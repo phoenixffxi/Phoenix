@@ -26,9 +26,6 @@ entity.onMobSpawn = function(mob)
     end
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobSkillTarget = function(target, mob, skill)
     local triggerSkills = { 1733, 1736, 1923, 1925 }
     local skillID = skill:getID()

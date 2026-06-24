@@ -25,7 +25,4 @@ entity.onAdditionalEffect = function(mob, target, damage)
     end
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

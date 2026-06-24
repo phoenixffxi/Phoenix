@@ -9,7 +9,4 @@ entity.onMobSpawn = function(mob)
     xi.assault.adjustMobLevel(mob)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

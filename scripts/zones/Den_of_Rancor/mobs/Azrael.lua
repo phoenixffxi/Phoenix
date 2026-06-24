@@ -15,7 +15,4 @@ entity.onMobSpawn = function(mob)
     mob:setMod(xi.mod.TRIPLE_ATTACK, 15)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

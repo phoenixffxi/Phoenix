@@ -77,9 +77,6 @@ entity.onMobSpawn = function(mob)
     mob:setMod(xi.mod.POWER_MULTIPLIER_SPELL, 15)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     xi.mob.updateNMSpawnPoint(mob)
     mob:setRespawnTime(math.random(75600, 86400)) -- 21 to 24 hours

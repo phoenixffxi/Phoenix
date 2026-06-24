@@ -11,9 +11,6 @@ entity.onMobInitialize = function(mob)
     xi.pet.setMobPet(mob, 1, 'Yagudos_Elemental')
 end
 
-entity.onMobSpawn = function(mob)
-end
-
 entity.onMobDeath = function(mob, player, optParams)
     if
         player:getQuestStatus(xi.questLog.OTHER_AREAS, xi.quest.id.otherAreas.A_MORAL_MANIFEST) == xi.questStatus.QUEST_ACCEPTED and

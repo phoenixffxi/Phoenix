@@ -11,7 +11,4 @@ entity.onMobInitialize = function(mob)
     xi.pet.setMobPet(mob, 3, 'Orcs_Wyvern')
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

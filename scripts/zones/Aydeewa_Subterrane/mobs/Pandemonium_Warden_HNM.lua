@@ -201,12 +201,6 @@ entity.onMobSpawn = function(mob)
     mob:stun(2000)
 end
 
-entity.onMobDisengage = function(mob)
-end
-
-entity.onMobEngage = function(mob, target)
-end
-
 entity.onCriticalHit = function(mob)
     local critsRemaining = mob:getLocalVar('critsRemaining')
     local animationSub = mob:getAnimationSub()

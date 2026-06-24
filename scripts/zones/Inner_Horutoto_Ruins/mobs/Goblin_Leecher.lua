@@ -8,9 +8,6 @@ local ID = zones[xi.zone.INNER_HORUTOTO_RUINS]
 ---@type TMobEntity
 local entity = {}
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     xi.mob.phOnDespawn(mob, ID.mob.SLENDLIX_SPINDLETHUMB, 10, 3600) -- 1 hour
 end

@@ -14,7 +14,4 @@ entity.onMobSpawn = function(mob)
     mob:setMod(xi.mod.DARK_SLEEP_RES_RANK, 4)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

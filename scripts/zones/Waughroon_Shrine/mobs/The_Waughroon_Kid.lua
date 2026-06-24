@@ -61,7 +61,4 @@ entity.onAdditionalEffect = function(mob, target, damage)
     return xi.mob.onAddEffect(mob, target, damage, xi.mob.ae.WEIGHT, { chance = 20, power = 50 })
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

@@ -11,7 +11,4 @@ entity.onMobMobskillChoose = function(mob, target, skillId)
     return xi.mix.growingBomb.onMobMobskillChoose(mob, target)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

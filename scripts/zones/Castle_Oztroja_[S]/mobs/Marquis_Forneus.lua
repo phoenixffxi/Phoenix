@@ -17,9 +17,6 @@ entity.onMobInitialize = function(mob)
     mob:setRespawnTime(math.random(900, 10800))
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     xi.mob.updateNMSpawnPoint(mob)
     mob:setRespawnTime(math.random(18000, 21600)) -- 5 to 6 hours

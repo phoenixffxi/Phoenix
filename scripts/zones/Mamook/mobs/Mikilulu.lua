@@ -10,7 +10,4 @@ entity.onMobSpawn = function(mob)
     mob:setUnkillable(true)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

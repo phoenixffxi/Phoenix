@@ -16,7 +16,4 @@ entity.onMobSpawn = function(mob)
     mob:setMod(xi.mod.STORETP, 150)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

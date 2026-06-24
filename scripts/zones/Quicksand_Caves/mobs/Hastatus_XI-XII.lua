@@ -24,7 +24,4 @@ entity.onMobInitialize = function(mob)
     mob:setMobMod(xi.mobMod.GIL_MAX, 1450)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity
