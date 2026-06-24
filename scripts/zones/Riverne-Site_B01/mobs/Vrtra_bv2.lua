@@ -71,7 +71,7 @@ entity.onMobSpawn = function(mob)
     mob:setMobMod(xi.mobMod.DETECTION, bit.bor(xi.detects.SIGHT, xi.detects.HEARING))
     mob:setMobMod(xi.mobMod.SIGHT_RANGE, 20)
     mob:setMobMod(xi.mobMod.SOUND_RANGE, 15)
-    mob:setMobMod(xi.mobMod.WEAPON_BONUS, 137)
+    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MODIFIER, 137)
     mob:setMobMod(xi.mobMod.MAGIC_COOL, 40)
     mob:setMobMod(xi.mobMod.ADD_EFFECT, 1)
 

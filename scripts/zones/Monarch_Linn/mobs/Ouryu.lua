@@ -53,7 +53,7 @@ entity.onMobSpawn = function(mob)
     end
 
     -- 54 + 2 + 14 = 70 total damage (the 14 dmg accounts for a 25% boost)
-    mob:setMobMod(xi.mobMod.WEAPON_BONUS, 14)
+    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MODIFIER, 14)
     mob:setMod(xi.mod.UDMGRANGE, -3500)
     mob:setMod(xi.mod.UDMGMAGIC, -3500)
     mob:addImmunity(xi.immunity.SLOW)

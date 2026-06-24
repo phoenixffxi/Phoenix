@@ -19,7 +19,7 @@ entity.onMobSpawn = function(mob)
     mob:setMobMod(xi.mobMod.GIL_MAX, -1) -- Does not drop gil.
     mob:setMobMod(xi.mobMod.NO_MOVE, 0)
     mob:setMobMod(xi.mobMod.AOE_HIT_ALL, 1)
-    mob:setMobMod(xi.mobMod.WEAPON_BONUS, 50) -- 140 total weapon damage
+    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MODIFIER, 50) -- 140 total weapon damage
     mob:setMod(xi.mod.ATT, 499) -- 560 Total Attack
     mob:setMod(xi.mod.ACC, 444)
     mob:setMod(xi.mod.EVA, 327)

@@ -14,7 +14,7 @@ entity.onMobSpawn = function(mob)
     mob:addImmunity(xi.immunity.BIND)
     mob:addImmunity(xi.immunity.GRAVITY)
     mob:addImmunity(xi.immunity.SILENCE)
-    mob:setMobMod(xi.mobMod.WEAPON_BONUS, 50)
+    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MODIFIER, 50)
 end
 
 entity.onMobMobskillChoose = function(mob, target, skillId)

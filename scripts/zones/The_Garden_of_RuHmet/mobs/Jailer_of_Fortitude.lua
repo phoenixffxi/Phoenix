@@ -33,7 +33,7 @@ entity.onMobSpawn = function(mob)
     mob:setModelId(1169)
     mob:setMod(xi.mod.UDMGPHYS, -9500)
     mob:setMod(xi.mod.UDMGRANGE, -9500)
-    mob:setMobMod(xi.mobMod.WEAPON_BONUS, 73)
+    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MODIFIER, 73)
 end
 
 entity.onMobFight = function(mob, target)

@@ -18311,19 +18311,26 @@ void CLuaBaseEntity::setDelay(uint16 delay)
 /************************************************************************
  *  Function: setDamage()
  *  Purpose : Override default damage settings for a Mob
- *  Example : mob:setDamage(40)
+ *  Example : mob:setDamage(40, xi.slot.MAIN)
  ************************************************************************/
 
-void CLuaBaseEntity::setDamage(uint16 damage)
+auto CLuaBaseEntity::setDamage(uint16 damage, uint8 slot) -> void
 {
-    if (!(m_PBaseEntity->objtype & TYPE_MOB))
+    if (!(m_PBaseEntity->objtype & (TYPE_MOB | TYPE_PET)))
     {
         ShowError("function call on invalid entity! (name: %s type: %d)", m_PBaseEntity->name, m_PBaseEntity->objtype);
         return;
     }
 
-    auto* PMobEntity = static_cast<CMobEntity*>(m_PBaseEntity);
-    if (auto* PItemWeapon = dynamic_cast<CItemWeapon*>(PMobEntity->m_Weapons[SLOT_MAIN]))
+    if (slot < SLOT_MAIN || slot > SLOT_RANGED)
+    {
+        ShowError("attempted to setDamage for an invalid slot! (name: %s type: %d)", m_PBaseEntity->name, m_PBaseEntity->objtype);
+        return;
+    }
+
+    auto* PBattleEntity = static_cast<CBattleEntity*>(m_PBaseEntity);
+
+    if (auto* PItemWeapon = dynamic_cast<CItemWeapon*>(PBattleEntity->m_Weapons[slot]))
     {
         PItemWeapon->setDamage(damage);
     }

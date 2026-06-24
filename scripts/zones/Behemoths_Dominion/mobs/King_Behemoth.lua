@@ -26,7 +26,7 @@ end
 entity.onMobSpawn = function(mob)
     mob:setLocalVar('[rage]timer', 3600) -- 60 minutes
     mob:setMobMod(xi.mobMod.NO_MOVE, 0)
-    mob:setMobMod(xi.mobMod.WEAPON_BONUS, 58) -- 145 total weapaon damage
+    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MODIFIER, 58) -- 145 total weapaon damage
     mob:setMod(xi.mod.MDEF, 20)
     mob:setMod(xi.mod.ATT, 462)
     mob:setMod(xi.mod.DEF, 500)

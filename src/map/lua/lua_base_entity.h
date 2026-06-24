@@ -893,7 +893,7 @@ public:
     bool isAggroable();
 
     void setDelay(uint16 delay);
-    void setDamage(uint16 damage);
+    auto setDamage(uint16 damage, uint8 slot) -> void;
     auto getSpellListId() const -> uint16;
     auto hasSpellList() const -> bool;
     void setSpellList(uint16 spellListId) const;

@@ -96,7 +96,7 @@ entity.onMobSpawn = function(mob)
     mob:setMobMod(xi.mobMod.NO_MOVE, 0)
     mob:setMobMod(xi.mobMod.AOE_HIT_ALL, 1)
 
-    mob:setMobMod(xi.mobMod.WEAPON_BONUS, 53) -- 140 total weapon damage.
+    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MODIFIER, 53) -- 140 total weapon damage.
     mob:setMod(xi.mod.ATT, 681) -- 740 total attack.
     mob:setMod(xi.mod.DEF, 520) -- 570 total defense.
     mob:setMod(xi.mod.STORETP, 80) -- 10 hits to 1000 TP.

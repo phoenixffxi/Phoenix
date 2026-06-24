@@ -163,7 +163,7 @@ local function switchMobForm(mob, form, aggressive)
     local originalEva = mob:getLocalVar('originalEVA')
 
     -- Reset to base stats first
-    mob:setMobMod(xi.mobMod.WEAPON_BONUS, 0)
+    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MODIFIER, 0)
     mob:setMod(xi.mod.ATT, originalAtt)
     mob:setMod(xi.mod.DEF, originalDef)
     mob:setMod(xi.mod.EVA, originalEva)
@@ -177,7 +177,7 @@ local function switchMobForm(mob, form, aggressive)
     elseif form == 2 then
         -- Spider form
         -- ATT and DEF traits equivalent to 75 WAR
-        mob:setMobMod(xi.mobMod.WEAPON_BONUS, mob:getMainLvl() + 2)
+        mob:setMobMod(xi.mobMod.BASE_DAMAGE_MODIFIER, mob:getMainLvl() + 2)
         mob:setMod(xi.mod.ATT, originalAtt + 11)
         mob:setMod(xi.mod.DEF, originalDef + 11)
     elseif form == 3 then

@@ -45,7 +45,7 @@ entity.onMobInitialize = function(mob)
 end
 
 entity.onMobSpawn = function(mob)
-    mob:addMobMod(xi.mobMod.WEAPON_BONUS, 13) -- 100 total weapon damage
+    mob:addMobMod(xi.mobMod.BASE_DAMAGE_MODIFIER, 13) -- 100 total weapon damage
     mob:addMod(xi.mod.EVA, 10)
     mob:addMod(xi.mod.MDEF, 20)
     mob:addMod(xi.mod.ATT, mob:getMod(xi.mod.ATT) * 0.65) -- Increase attack by 65%

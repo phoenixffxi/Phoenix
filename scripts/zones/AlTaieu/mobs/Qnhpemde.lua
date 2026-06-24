@@ -22,7 +22,7 @@ entity.onMobFight = function(mob, target)
     if mob:getAnimationSub() == 6 and mob:getBattleTime() - changeTime > 30 then
         mob:setAnimationSub(3) -- Mouth Open
         -- Double the mob weapon damage
-        mob:setMobMod(xi.mobMod.WEAPON_BONUS, mob:getMainLvl())
+        mob:setMobMod(xi.mobMod.BASE_DAMAGE_MODIFIER, mob:getMainLvl())
         -- Boost all damage taken by 50%
         mob:setMod(xi.mod.UDMGPHYS, 5000)
         mob:setMod(xi.mod.UDMGRANGE, 5000)
@@ -32,7 +32,7 @@ entity.onMobFight = function(mob, target)
 
     elseif mob:getAnimationSub() == 3 and mob:getBattleTime() - changeTime > 30 then
         mob:setAnimationSub(6) -- Mouth Closed
-        mob:setMobMod(xi.mobMod.WEAPON_BONUS, 0)
+        mob:setMobMod(xi.mobMod.BASE_DAMAGE_MODIFIER, 0)
         mob:setMod(xi.mod.UDMGPHYS, 0)
         mob:setMod(xi.mod.UDMGRANGE, 0)
         mob:setMod(xi.mod.UDMGMAGIC, 0)

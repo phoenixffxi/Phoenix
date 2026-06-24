@@ -12,7 +12,9 @@ entity.onMobInitialize = function(mob)
 end
 
 entity.onMobSpawn = function(mob)
+    -- Snoll Tzar is Lv. 65-66. Base damage would be (130/132) with a 2x multiplier.
     mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 200)
+    mob:setMobMod(xi.mobMod.DAMAGE_OFFSET, 0)
 
     mob:addListener('WEAPONSKILL_STATE_EXIT', 'SNOLL_EXPLOSION', function(snoll, skillId, wasExecuted)
         if skillId == xi.mobSkill.HYPOTHERMAL_COMBUSTION_2 then
@@ -52,19 +54,19 @@ entity.onMobFight = function(mob, target)
         {
             [4] = function()
                 mob:setAnimationSub(5)
-                mob:setDamage(140)
+                mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 216) -- 140 at 65, 142 at 66
                 mob:setLocalVar('changeTime', changeTime + math.random(20, 25))
             end,
 
             [5] = function()
                 mob:setAnimationSub(6)
-                mob:setDamage(150)
+                mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 231) -- 150 at 65, 152 at 66
                 mob:setLocalVar('changeTime', changeTime + math.random(20, 25))
             end,
 
             [6] = function()
                 mob:setAnimationSub(7)
-                mob:setDamage(160)
+                mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 247) -- 160 at 65, 162 at 66
                 mob:setLocalVar('changeTime', changeTime + 90)
             end,
 

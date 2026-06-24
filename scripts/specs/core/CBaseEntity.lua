@@ -3901,8 +3901,9 @@ function CBaseEntity:setDelay(delay)
 end
 
 ---@param damage integer
+---@param slot xi.slot
 ---@return nil
-function CBaseEntity:setDamage(damage)
+function CBaseEntity:setDamage(damage, slot)
 end
 
 ---@nodiscard
