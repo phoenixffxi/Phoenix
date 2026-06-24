@@ -8,9 +8,9 @@
  * container (inventory, wardrobes, etc.) without modifying base code.
  ************************************************************************/
 
-#include "map/entities/charentity.h"
+#include "map/entities/char_entity.h"
 #include "map/item_container.h"
-#include "map/lua/lua_baseentity.h"
+#include "map/lua/lua_base_entity.h"
 #include "map/utils/charutils.h"
 #include "map/utils/moduleutils.h"
 

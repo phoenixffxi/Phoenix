@@ -12,7 +12,7 @@
 #include "common/database.h"
 #include "common/logging.h"
 #include "common/vana_time.h"
-#include "map/entities/charentity.h"
+#include "map/entities/char_entity.h"
 #include "map/lua/luautils.h"
 #include "map/utils/moduleutils.h"
 
