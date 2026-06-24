@@ -35,7 +35,7 @@ quest.sections =
                 end,
             },
 
-            ['Equette'] = quest:progressEvent(170),
+            ['Equette'] =
             {
                 onTrigger = function(player, npc)
                     if quest:getVar(player, 'Prog') == 0 then
