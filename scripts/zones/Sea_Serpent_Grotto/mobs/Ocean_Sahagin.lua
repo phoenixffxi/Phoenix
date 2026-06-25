@@ -18,9 +18,6 @@ entity.onMobSpawn = function(mob)
     mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 150)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     mob:setRespawnTime(math.random(75600, 86400)) -- 21 to 24 hours
 end

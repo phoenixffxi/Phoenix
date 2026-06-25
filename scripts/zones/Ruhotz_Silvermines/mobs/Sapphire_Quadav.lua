@@ -25,7 +25,4 @@ entity.onMobSpawn = function(mob)
     mob:pathThrough(pathNodes, xi.path.flag.PATROL)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

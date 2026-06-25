@@ -28,9 +28,6 @@ entity.onMobSpawn = function(mob)
     mob:setMod(xi.mod.REGAIN, 100) -- TODO: Verify if Nyzul Fafnir has same regain value.
 end
 
-entity.onMobFight = function(mob, target)
-end
-
 entity.onMobDeath = function(mob, player, optParams)
     if optParams.isKiller or optParams.noKiller then
         xi.nyzul.enemyLeaderKill(mob)

@@ -15,7 +15,4 @@ entity.onMobSpawn = function(mob)
     mob:setMod(xi.mod.UDMGRANGE, 100)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

@@ -26,9 +26,6 @@ entity.onMobMobskillChoose = function(mob, target, skillId)
     return tpMoves[math.random(1, #tpMoves)]
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     local params = { }
     xi.mob.phOnDespawn(mob, ID.mob.MAGNOTAUR, 10, 3600, params) -- 1 hour

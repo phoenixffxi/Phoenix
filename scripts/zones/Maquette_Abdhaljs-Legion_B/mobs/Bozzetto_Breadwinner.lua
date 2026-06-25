@@ -60,13 +60,4 @@ entity.onMobEngage = function(mob, target)
     end)
 end
 
-entity.onMobFight = function(mob, target)
-end
-
-entity.onMobWeaponSkill = function(mob, target, skill, action)
-end
-
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

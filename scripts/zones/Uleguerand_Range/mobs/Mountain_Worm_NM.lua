@@ -15,10 +15,4 @@ entity.onMobFight = function(mob, target)
     -- TODO should only cast if out of melee range, but this PR should resolve that https://github.com/LandSandBoat/server/pull/5313
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
-entity.onMobDespawn = function(mob)
-end
-
 return entity

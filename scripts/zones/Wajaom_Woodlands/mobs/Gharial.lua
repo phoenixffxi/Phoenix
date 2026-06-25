@@ -30,9 +30,6 @@ entity.onMobSpawn = function(mob)
     end)
 end
 
-entity.onMobFight = function(mob, target)
-end
-
 entity.onMobDeath = function(mob, player, optParams)
     xi.hunts.checkHunt(mob, player, 450)
 end

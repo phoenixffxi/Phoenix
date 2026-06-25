@@ -61,9 +61,6 @@ local baronetSpawnPoints =
     { x = -331.973, y = -52.000, z = 19.368 },
 }
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     xi.mob.phOnDespawn(mob, ID.mob.BARONET_ROMWE, 10, 1, { spawnPoints = baronetSpawnPoints }) -- No Respawn
 end

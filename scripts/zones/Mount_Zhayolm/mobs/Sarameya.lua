@@ -26,9 +26,6 @@ entity.onMobSpawn = function(mob)
     mob:setLocalVar('[rage]timer', 3600) -- 60 minutes
 end
 
-entity.onMobRoam = function(mob)
-end
-
 entity.onMobFight = function(mob, target)
     local hpp = mob:getHPP()
     local useChainspell = false
@@ -76,9 +73,6 @@ end
 
 entity.onAdditionalEffect = function(mob, target, damage)
     return xi.mob.onAddEffect(mob, target, damage, xi.mob.ae.POISON, { chance = 40, power = 50 })
-end
-
-entity.onMobDeath = function(mob, player, optParams)
 end
 
 return entity

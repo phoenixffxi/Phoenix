@@ -14,7 +14,4 @@ entity.onMobSpawn = function(mob)
     mob:setMobMod(xi.mobMod.BASE_DAMAGE_MODIFIER, 165) -- Level 85 + 2 + 165 = 252 Base damage
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

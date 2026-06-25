@@ -16,7 +16,4 @@ entity.onMobSpawn = function(mob)
     mob:setLocalVar('qutrubBreakChance', 5) -- Wiki implies its weapon is harder to break
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

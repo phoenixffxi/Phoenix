@@ -16,7 +16,4 @@ entity.onMobSpawn = function(mob)
     mob:addImmunity(xi.immunity.TERROR)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

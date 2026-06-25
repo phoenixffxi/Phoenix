@@ -20,7 +20,4 @@ entity.onMobDeath = function(mob, player, optParams)
     end
 end
 
-entity.onMobDespawn = function(mob)
-end
-
 return entity

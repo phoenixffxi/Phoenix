@@ -66,7 +66,4 @@ entity.onMobMobskillChoose = function(mob, target, skillId)
     return elementalTPMoves[mob:getLocalVar('currentAbsorb')]
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

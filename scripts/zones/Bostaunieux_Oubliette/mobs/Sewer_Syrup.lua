@@ -76,7 +76,4 @@ entity.phList =
     [ID.mob.SEWER_SYRUP - 1] = ID.mob.SEWER_SYRUP, -- -20.000 1.000 -148.000
 }
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

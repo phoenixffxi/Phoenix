@@ -307,9 +307,6 @@ entity.onMobInitialize = function(mob)
     end)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     local mobId = mob:getID()
 

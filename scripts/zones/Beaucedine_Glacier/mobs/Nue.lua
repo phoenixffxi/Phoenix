@@ -67,7 +67,4 @@ entity.phList =
     [ID.mob.NUE - 1] = ID.mob.NUE, -- -322.000 -100.000 116.000
 }
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

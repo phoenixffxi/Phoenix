@@ -16,7 +16,4 @@ entity.onMobInitialize = function(mob)
     mob:setMobMod(xi.mobMod.SIGHT_RANGE, 25)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

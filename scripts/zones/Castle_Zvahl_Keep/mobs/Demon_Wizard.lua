@@ -61,9 +61,6 @@ local baronSpawnPoints =
     { x = -232.100, y = -52.000, z =  93.063 },
 }
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     xi.mob.phOnDespawn(mob, ID.mob.BARON_VAPULA, 10, 1, { spawnPoints = baronSpawnPoints }) -- No respawn
 end

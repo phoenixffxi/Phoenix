@@ -14,7 +14,4 @@ entity.phList =
     [ID.mob.EATHO_CRUELHEART - 1] = ID.mob.EATHO_CRUELHEART,
 }
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

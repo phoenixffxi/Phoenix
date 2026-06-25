@@ -75,7 +75,4 @@ entity.phList =
     [ID.mob.MEE_DEGGI_THE_PUNISHER - 2]  = ID.mob.MEE_DEGGI_THE_PUNISHER, -- Yagudo_Drummer:      -207.840 -0.498 109.939
 }
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

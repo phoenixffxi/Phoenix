@@ -23,7 +23,4 @@ entity.onMobSpawn = function(mob)
     mob:setMod(xi.mod.HTH_SDT, -5000)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

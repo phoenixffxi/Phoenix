@@ -19,9 +19,6 @@ entity.onMobSpawn = function(mob)
     mob:setLocalVar('[rage]timer', 300)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     local kingArthro = GetMobByID(ID.mob.KING_ARTHRO)
     if not kingArthro then
