@@ -365,6 +365,24 @@ REPLACE INTO `mob_spawn_points` VALUES (16888011, 0, 'Makara', 'Makara', 17, 44,
 REPLACE INTO `mob_spawn_points` VALUES (16888012, 0, 'Oil_Spill', 'Oil Spill', 21, 44, 47, 173.2919, 1.1516, 139.7954, 166);
 REPLACE INTO `mob_spawn_points` VALUES (16888013, 0, 'Foul_Meat', 'Foul Meat', 26, 45, 47, 179.9092, 1.0000, 178.2200, 59);
 
+-- Riverne-Site_B01 (Zone 29)
+REPLACE INTO `mob_spawn_points` VALUES (16896063, 0, 'Nitro_Cluster', 'Nitro Cluster', 8, 55, 57, 109.7828, 0.9182, -657.4095, 154);
+REPLACE INTO `mob_spawn_points` VALUES (16896064, 0, 'Nitro_Cluster', 'Nitro Cluster', 8, 55, 57, 99.1347, 0.5400, -650.7828, 140);
+REPLACE INTO `mob_spawn_points` VALUES (16896065, 0, 'Ignidrake', 'Ignidrake', 7, 57, 59, 93.0908, 0.8805, -662.0855, 75);
+REPLACE INTO `mob_spawn_points` VALUES (16896066, 0, 'Ignidrake', 'Ignidrake', 7, 57, 59, 116.6772, 0.2001, -671.8181, 2);
+REPLACE INTO `mob_spawn_points` VALUES (16896067, 0, 'Strato_Hippogryph', 'Strato Hippogryph', 5, 55, 57, -72.8365, 0.6463, -503.1687, 3);
+REPLACE INTO `mob_spawn_points` VALUES (16896068, 0, 'Strato_Hippogryph', 'Strato Hippogryph', 5, 55, 57, -81.8323, 0.1029, -515.3257, 87);
+REPLACE INTO `mob_spawn_points` VALUES (16896069, 0, 'Lunantishee', 'Lunantishee', 6, 55, 58, -86.4326, 0.4849, -497.4696, 253);
+REPLACE INTO `mob_spawn_points` VALUES (16896078, 0, 'Strato_Hippogryph', 'Strato Hippogryph', 5, 55, 57, -82.9077, 0.0400, -608.2040, 33);
+REPLACE INTO `mob_spawn_points` VALUES (16896079, 0, 'Strato_Hippogryph', 'Strato Hippogryph', 5, 55, 57, -82.2422, 0.7145, -623.6898, 63);
+REPLACE INTO `mob_spawn_points` VALUES (16896080, 0, 'Strato_Hippogryph', 'Strato Hippogryph', 5, 55, 57, -40.7350, 0.1159, -647.0909, 80);
+REPLACE INTO `mob_spawn_points` VALUES (16896081, 0, 'Strato_Hippogryph', 'Strato Hippogryph', 5, 55, 57, -40.8354, 0.0298, -684.6168, 44);
+REPLACE INTO `mob_spawn_points` VALUES (16896082, 0, 'Strato_Hippogryph', 'Strato Hippogryph', 5, 55, 57, -43.4538, 0.5197, -704.7476, 67);
+REPLACE INTO `mob_spawn_points` VALUES (16896083, 0, 'Strato_Hippogryph', 'Strato Hippogryph', 5, 55, 57, -4.0350, 0.0007, -679.7943, 170);
+REPLACE INTO `mob_spawn_points` VALUES (16896084, 0, 'Lunantishee', 'Lunantishee', 6, 55, 57, -50.3732, 0.4972, -667.7455, 79);
+REPLACE INTO `mob_spawn_points` VALUES (16896085, 0, 'Lunantishee', 'Lunantishee', 6, 55, 58, -44.2823, 0.2166, -627.7780, 254);
+REPLACE INTO `mob_spawn_points` VALUES (16896086, 0, 'Lunantishee', 'Lunantishee', 6, 55, 58, -62.1763, 0.8606, -630.7301, 20);
+
 -- Riverne-Site_A01 (Zone 30)
 REPLACE INTO `mob_spawn_points` VALUES (16900277, 0, 'Cloud_Hippogryph', 'Cloud Hippogryph', 9, 45, 47, -90.8435, 0.3667, 599.3009, 172);
 REPLACE INTO `mob_spawn_points` VALUES (16900278, 0, 'Cloud_Hippogryph', 'Cloud Hippogryph', 9, 45, 47, -120.0079, 0.8081, 496.4635, 149);
