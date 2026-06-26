@@ -830,6 +830,48 @@ REPLACE INTO `mob_spawn_points` VALUES (17469715, 0, 'Fallen_Knight', 'Fallen Kn
 REPLACE INTO `mob_spawn_points` VALUES (17469716, 0, 'Lich', 'Lich', 10, 54, 57, -297.7010, 25.0000, 64.7383, 101);
 REPLACE INTO `mob_spawn_points` VALUES (17469717, 0, 'Lich', 'Lich', 10, 54, 57, -305.3909, 25.0000, 59.1162, 123);
 
+-- Zeruhn_Mines (Zone 172)
+REPLACE INTO `mob_spawn_points` VALUES (17481731, 0, 'Ding_Bats', 'Ding Bats', 1, 1, 3, -60.1001, 3.2599, -16.5895, 62);
+REPLACE INTO `mob_spawn_points` VALUES (17481732, 0, 'Ding_Bats', 'Ding Bats', 1, 1, 3, -59.8443, 8.2240, -38.6678, 53);
+REPLACE INTO `mob_spawn_points` VALUES (17481733, 0, 'Ding_Bats', 'Ding Bats', 1, 1, 3, -40.7209, 8.1998, -59.6529, 12);
+REPLACE INTO `mob_spawn_points` VALUES (17481734, 0, 'Ding_Bats', 'Ding Bats', 1, 1, 3, -18.9874, 8.2852, -105.7004, 35);
+REPLACE INTO `mob_spawn_points` VALUES (17481736, 0, 'Ding_Bats', 'Ding Bats', 1, 1, 3, -7.0079, 9.6817, -137.4080, 197);
+REPLACE INTO `mob_spawn_points` VALUES (17481738, 0, 'Ding_Bats', 'Ding Bats', 1, 1, 3, 8.9607, 9.1780, -153.2871, 43);
+REPLACE INTO `mob_spawn_points` VALUES (17481742, 0, 'Tunnel_Worm', 'Tunnel Worm', 2, 1, 3, -47.6506, 9.1230, -154.4428, 49);
+REPLACE INTO `mob_spawn_points` VALUES (17481743, 0, 'Tunnel_Worm', 'Tunnel Worm', 2, 1, 3, -30.3862, 9.5342, -155.7907, 204);
+REPLACE INTO `mob_spawn_points` VALUES (17481744, 0, 'Tunnel_Worm', 'Tunnel Worm', 2, 1, 3, 5.1086, 9.1370, -116.3335, 119);
+REPLACE INTO `mob_spawn_points` VALUES (17481745, 0, 'Mouse_Bat', 'Mouse Bat', 3, 2, 4, 5.1975, 9.4124, -136.0907, 245);
+REPLACE INTO `mob_spawn_points` VALUES (17481746, 0, 'Mouse_Bat', 'Mouse Bat', 3, 2, 4, -13.9528, 9.7947, -152.7166, 237);
+REPLACE INTO `mob_spawn_points` VALUES (17481747, 0, 'Mouse_Bat', 'Mouse Bat', 3, 2, 4, -51.9417, 8.9968, -126.6405, 204);
+REPLACE INTO `mob_spawn_points` VALUES (17481740, 0, 'Ding_Bats', 'Ding Bats', 1, 1, 3, 52.5257, 8.0026, -102.7144, 42);
+REPLACE INTO `mob_spawn_points` VALUES (17481748, 0, 'Tunnel_Worm', 'Tunnel Worm', 2, 1, 3, 55.0194, 8.5844, -138.4367, 82);
+REPLACE INTO `mob_spawn_points` VALUES (17481749, 0, 'Tunnel_Worm', 'Tunnel Worm', 2, 1, 3, 63.3731, 8.7950, -138.4521, 226);
+REPLACE INTO `mob_spawn_points` VALUES (17481750, 0, 'Ding_Bats', 'Ding Bats', 1, 1, 3, 56.9426, 8.0456, -214.5108, 207);
+REPLACE INTO `mob_spawn_points` VALUES (17481751, 0, 'Mouse_Bat', 'Mouse Bat', 3, 2, 4, 69.0285, 8.0688, -182.2473, 231);
+REPLACE INTO `mob_spawn_points` VALUES (17481752, 0, 'Mouse_Bat', 'Mouse Bat', 3, 2, 4, 87.2830, 7.9230, -180.1133, 114);
+REPLACE INTO `mob_spawn_points` VALUES (17481753, 0, 'Ding_Bats', 'Ding Bats', 1, 1, 3, 110.3118, 8.5929, -177.7555, 10);
+REPLACE INTO `mob_spawn_points` VALUES (17481754, 0, 'Ding_Bats', 'Ding Bats', 1, 1, 3, 123.2590, 8.2091, -183.2714, 14);
+REPLACE INTO `mob_spawn_points` VALUES (17481755, 0, 'Tunnel_Worm', 'Tunnel Worm', 2, 1, 3, 129.1735, 8.2379, -176.5646, 238);
+REPLACE INTO `mob_spawn_points` VALUES (17481756, 0, 'Tunnel_Worm', 'Tunnel Worm', 2, 1, 3, 137.6250, 8.5208, -186.7251, 58);
+REPLACE INTO `mob_spawn_points` VALUES (17481757, 0, 'Leech', 'Leech', 6, 3, 5, 143.8281, 8.1333, -203.9930, 198);
+REPLACE INTO `mob_spawn_points` VALUES (17481758, 0, 'Leech', 'Leech', 6, 3, 5, 141.6460, 8.2500, -201.1999, 86);
+REPLACE INTO `mob_spawn_points` VALUES (17481759, 0, 'Leech', 'Leech', 6, 3, 5, 136.1424, 8.3015, -205.2045, 104);
+REPLACE INTO `mob_spawn_points` VALUES (17481760, 0, 'Tunnel_Worm', 'Tunnel Worm', 2, 1, 3, 53.4104, 8.4104, -258.5733, 94);
+REPLACE INTO `mob_spawn_points` VALUES (17481761, 0, 'Tunnel_Worm', 'Tunnel Worm', 2, 1, 3, 66.0793, 8.5248, -259.3198, 170);
+REPLACE INTO `mob_spawn_points` VALUES (17481762, 0, 'Tunnel_Worm', 'Tunnel Worm', 2, 1, 3, -83.9339, 8.2069, -223.0315, 245);
+REPLACE INTO `mob_spawn_points` VALUES (17481763, 0, 'Mouse_Bat', 'Mouse Bat', 3, 2, 4, -74.9292, 8.2205, -217.4863, 229);
+REPLACE INTO `mob_spawn_points` VALUES (17481764, 0, 'Ding_Bats', 'Ding Bats', 1, 1, 3, -60.5756, 7.9874, -243.1604, 56);
+REPLACE INTO `mob_spawn_points` VALUES (17481765, 0, 'Ding_Bats', 'Ding Bats', 1, 1, 3, -51.0659, 8.0756, -257.9789, 39);
+REPLACE INTO `mob_spawn_points` VALUES (17481766, 0, 'Mouse_Bat', 'Mouse Bat', 3, 2, 4, -33.0784, 7.9270, -260.9795, 22);
+REPLACE INTO `mob_spawn_points` VALUES (17481767, 0, 'Mouse_Bat', 'Mouse Bat', 3, 2, 4, -20.1389, 8.2261, -280.5865, 60);
+REPLACE INTO `mob_spawn_points` VALUES (17481768, 0, 'Tunnel_Worm', 'Tunnel Worm', 2, 1, 3, -59.2517, 8.0723, -289.2889, 55);
+REPLACE INTO `mob_spawn_points` VALUES (17481769, 0, 'Tunnel_Worm', 'Tunnel Worm', 2, 1, 3, -59.1474, 7.7537, -299.9917, 204);
+REPLACE INTO `mob_spawn_points` VALUES (17481770, 0, 'Tunnel_Worm', 'Tunnel Worm', 2, 1, 3, -52.9878, 7.5481, -301.2433, 138);
+REPLACE INTO `mob_spawn_points` VALUES (17481735, 0, 'River_Crab', 'River Crab', 5, 2, 4, -86.2831, 8.4227, -337.9890, 252);
+REPLACE INTO `mob_spawn_points` VALUES (17481737, 0, 'River_Crab', 'River Crab', 5, 2, 4, -86.0633, 8.4063, -341.3548, 58);
+REPLACE INTO `mob_spawn_points` VALUES (17481739, 0, 'River_Crab', 'River Crab', 5, 2, 4, -89.1067, 8.1856, -345.3416, 229);
+REPLACE INTO `mob_spawn_points` VALUES (17481741, 0, 'Ding_Bats', 'Ding Bats', 1, 1, 3, -75.0051, 8.2661, -341.0054, 248);
+
 -- Kuftal Tunnel (Zone 174)
 REPLACE INTO `mob_spawn_points` VALUES (17490111, 0, 'Ovinnik', 'Ovinnik', 18, 77, 79, 116.3816, 19.9924, -98.2624, 25);
 REPLACE INTO `mob_spawn_points` VALUES (17490112, 0, 'Greater_Cockatrice', 'Greater Cockatrice', 19, 78, 80, 85.1589, 20.9847, -98.2876, 105);
