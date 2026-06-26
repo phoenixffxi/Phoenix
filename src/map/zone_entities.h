@@ -33,8 +33,15 @@
 #include "entities/trust_entity.h"
 #include "enums/music_slot.h"
 
+#include "spatial_grid.h"
+
+#include <functional>
 #include <set>
 #include <vector>
+
+// Per-entity callbacks used by the spawn-sync helpers.
+using EntityFn       = std::function<bool(CBaseEntity*)>; // visibility predicate
+using EntityCallback = std::function<void(CBaseEntity*)>; // action run on a newly-spawned entity
 
 class CZoneEntities
 {
@@ -44,6 +51,9 @@ public:
 
     void HealAllMobs();
     void TryAddToNearbySpawnLists(CBaseEntity* PEntity);
+
+    void onEntityMoved(CBaseEntity* PEntity);
+    void onEntityDespawned(CBaseEntity* PEntity);
 
     CCharEntity* GetCharByName(const std::string& name); // finds the player if exists in zone
     CCharEntity* GetCharByID(uint32 id);
@@ -114,6 +124,16 @@ private:
     // aggro check when a mob becomes visible
     void tapMobAggro(CCharEntity* PChar, CMobEntity* PCurrentMob);
 
+    // clear and re-file every entity into the grid
+    void rebuildSpatialGrid();
+
+    // Sync one of a player's spawn lists against the proximity grid: drop now-invisible entries, then
+    // add in-range visible ones from a 3x3 cell query. `visible` carries the precise status/vertical/
+    // distance checks; `onAdd` runs per newly-added entity (mob aggro). `alwaysInclude` is an optional
+    // set of entities that must be considered regardless of range (NPCs flagged alwaysRelevant, which
+    // a range query can't find) - each is run through `visible` like any other candidate.
+    void syncSpawnListWithGrid(CCharEntity* PChar, SpawnIDList_t& spawnList, uint8 objtype, uint8 spawnFlag, const EntityFn& visible, const EntityCallback& onAdd = {}, const std::vector<CBaseEntity*>* alwaysInclude = nullptr);
+
     Scheduler& scheduler_;
     MapConfig  config_;
 
@@ -127,6 +147,10 @@ private:
     EntityList_t m_npcList;
     EntityList_t m_TransportList;
     EntityList_t m_charList;
+
+    SpatialGrid               spatialGrid_;        // proximity grid; rebuilt every tick (always on)
+    std::vector<uint32>       idsToRemoveScratch_; // reused scratch for grid spawn-list removals
+    std::vector<CBaseEntity*> alwaysRelevantNpcs_; // NPCs flagged alwaysRelevant; collected each rebuild, spawned regardless of range
 
     std::vector<CBaseEntity*> tickEntityScratch_; // reusable snapshot of an entity list for a per-entity tick phase
 

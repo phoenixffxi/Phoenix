@@ -631,6 +631,11 @@ void CZone::FindPartyForMob(CBaseEntity* PEntity)
     m_zoneEntities->FindPartyForMob(PEntity);
 }
 
+void CZone::onEntityMoved(CBaseEntity* PEntity)
+{
+    m_zoneEntities->onEntityMoved(PEntity);
+}
+
 void CZone::TransportDepart(uint16 boundary, uint16 prevZoneId, uint16 transportId)
 {
     m_zoneEntities->TransportDepart(boundary, prevZoneId, transportId);

@@ -628,6 +628,10 @@ public:
 
     virtual void FindPartyForMob(CBaseEntity* PEntity);
 
+    // Keep the underlying spatial grid current when an entity moves outside the per-tick resync
+    // (teleport, setPos, a movement step, etc.).
+    virtual void onEntityMoved(CBaseEntity* PEntity);
+
     virtual void TransportDepart(uint16 boundary, uint16 prevZoneId, uint16 transportId); // Collect passengers if ship/boat is departing
 
     virtual void updateCharLevelRestriction(CCharEntity* PChar); // Removes the character's level restriction. If the zone has a level restriction, it is applied after it is removed.

@@ -72,6 +72,11 @@ void GP_CLI_COMMAND_POS::process(MapSession* PSession, CCharEntity* PChar) const
     {
         PChar->updatemask |= UPDATE_POS; // Indicate that we want to update this PChar's PChar->loc or targID
 
+        if (PChar->loc.zone != nullptr)
+        {
+            PChar->loc.zone->onEntityMoved(PChar);
+        }
+
         // Calculate rough amount of steps taken
         if (PChar->m_previousLocation.zone->GetID() == PChar->loc.zone->GetID())
         {
