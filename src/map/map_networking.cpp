@@ -437,9 +437,11 @@ int32 MapNetworking::parse(uint8* buff, size_t* buffsize, MapSession* PSession)
         }
         else
         {
-            auto basicPacket = CBasicPacket::createFromBuffer(SmallPD_ptr);
-            ShowTraceFmt("map::parse: Char: {} ({}): {}", PChar->getName(), PChar->id, hex16ToString(basicPacket->getType()));
-            packetSystem_.dispatch(SmallPD_Type, PSession, PChar, *basicPacket);
+            // Reuse one CBasicPacket (parseScratchPacket_) across the loop instead of re-allocating per inbound packet.
+            // We're copying in and bounding only exactly what we want, so it's safe.
+            std::memcpy(&parseScratchPacket_.ref<uint8>(0), SmallPD_ptr, PACKET_SIZE);
+            ShowTraceFmt("map::parse: Char: {} ({}): {}", PChar->getName(), PChar->id, hex16ToString(parseScratchPacket_.getType()));
+            packetSystem_.dispatch(SmallPD_Type, PSession, PChar, parseScratchPacket_);
         }
     }
 
