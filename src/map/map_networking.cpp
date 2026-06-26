@@ -169,7 +169,6 @@ int32 MapNetworking::map_decipher_packet(uint8* buff, size_t buffsize, MapSessio
     TracyZoneScoped;
 
     uint16 tmp = 0;
-    uint16 i   = 0;
 
     // counting blocks whose size = 4 byte
     tmp = (uint16)((buffsize - FFXI_HEADER_SIZE) / 4);
@@ -177,10 +176,8 @@ int32 MapNetworking::map_decipher_packet(uint8* buff, size_t buffsize, MapSessio
 
     const auto ip = PSession->client_ipp.getIP();
 
-    for (i = 0; i < tmp; i += 2)
-    {
-        blowfish_decipher((uint32*)buff + i + 7, (uint32*)buff + i + 8, pbfkey->P, pbfkey->S[0]);
-    }
+    // tmp is an even count of 4-byte words, i.e. 2 words (one 64-bit block) per cipher step.
+    blowfish_decipher_blocks((uint32*)buff + 7, tmp / 2, pbfkey->P, pbfkey->S[0]);
 
     if (checksum((uint8*)(buff + FFXI_HEADER_SIZE), (uint32)(buffsize - (FFXI_HEADER_SIZE + 16)), (char*)(buff + buffsize - 16)) == 0)
     {
@@ -288,17 +285,10 @@ int32 MapNetworking::recv_parse(uint8* buff, size_t* buffsize, MapSession* PSess
 
             std::ignore = langID;
 
-            auto rset = db::preparedStmt("SELECT charid FROM chars WHERE charid = ? LIMIT 1", packetCharID);
+            auto rset = db::preparedStmt("SELECT accid FROM chars WHERE charid = ? LIMIT 1", packetCharID);
             if (!rset || rset->rowsCount() == 0 || !rset->next())
             {
-                ShowError("recv_parse: Cannot load charid %u", packetCharID);
-                return -1;
-            }
-
-            rset = db::preparedStmt("SELECT accid FROM chars WHERE charid = ? LIMIT 1", packetCharID);
-            if (!rset || rset->rowsCount() == 0 || !rset->next())
-            {
-                ShowError("recv_parse: Cannot load account id for char id %u", packetCharID);
+                ShowError("recv_parse: Cannot load char %u (no such charid)", packetCharID);
                 return -1;
             }
 
@@ -447,9 +437,11 @@ int32 MapNetworking::parse(uint8* buff, size_t* buffsize, MapSession* PSession)
         }
         else
         {
-            auto basicPacket = CBasicPacket::createFromBuffer(SmallPD_ptr);
-            ShowTraceFmt("map::parse: Char: {} ({}): {}", PChar->getName(), PChar->id, hex16ToString(basicPacket->getType()));
-            packetSystem_.dispatch(SmallPD_Type, PSession, PChar, *basicPacket);
+            // Reuse one CBasicPacket (parseScratchPacket_) across the loop instead of re-allocating per inbound packet.
+            // We're copying in and bounding only exactly what we want, so it's safe.
+            std::memcpy(&parseScratchPacket_.ref<uint8>(0), SmallPD_ptr, PACKET_SIZE);
+            ShowTraceFmt("map::parse: Char: {} ({}): {}", PChar->getName(), PChar->id, hex16ToString(parseScratchPacket_.getType()));
+            packetSystem_.dispatch(SmallPD_Type, PSession, PChar, parseScratchPacket_);
         }
     }
 
@@ -698,7 +690,7 @@ void MapNetworking::finalizePacket(uint8* buff, size_t* buffsize, size_t PacketS
     // Making total outgoing packet
     std::memcpy(buff + FFXI_HEADER_SIZE, PScratchBuffer.data(), PacketSize);
 
-    uint32 CypherSize = (PacketSize / 4) & -2;
+    uint32 cypherSize = (PacketSize / 4) & -2;
 
     blowfish_t* pbfkey = nullptr;
 
@@ -711,10 +703,8 @@ void MapNetworking::finalizePacket(uint8* buff, size_t* buffsize, size_t PacketS
         pbfkey = &PSession->blowfish;
     }
 
-    for (uint32 j = 0; j < CypherSize; j += 2)
-    {
-        blowfish_encipher((uint32*)(buff) + j + 7, (uint32*)(buff) + j + 8, pbfkey->P, pbfkey->S[0]);
-    }
+    // cypherSize is an even count of 4-byte words, i.e. 2 words (one 64-bit block) per cipher step.
+    blowfish_encipher_blocks((uint32*)(buff) + 7, cypherSize / 2, pbfkey->P, pbfkey->S[0]);
 
     *buffsize = PacketSize + FFXI_HEADER_SIZE;
 }

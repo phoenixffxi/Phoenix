@@ -33,9 +33,8 @@
 #include <map/map_socket.h>
 #include <map/map_statistics.h>
 #include <map/packet_system.h>
+#include <map/packets/basic.h>
 #include <map/socket.h>
-
-class CBasicPacket;
 
 class MapNetworking final
 {
@@ -105,12 +104,15 @@ private:
     std::unique_ptr<Socket> socket_;
     MapConfig               config_;
 
+    // TODO: All of these scratch buffers make MapNetworking thread un-safe. If we want to move away
+    //     : from this model, these are the first things to change.
     // TODO: We can probably dedupe these and move the main buffer into MapSocket, passing a span
     //     : to it back into here when we've got our buffer of network data.
     // TODO: Update the naming conventions of these
     NetworkBuffer PBuff;          // Global packet clipboard
     NetworkBuffer PBuffCopy;      // Copy of above, used to decrypt a second time if necessary.
     NetworkBuffer PScratchBuffer; // Temporary packet clipboard
+    CBasicPacket  parseScratchPacket_;
 
     PacketSystem packetSystem_;
 };

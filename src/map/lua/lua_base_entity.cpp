@@ -3530,6 +3530,11 @@ void CLuaBaseEntity::setPos(sol::variadic_args va)
     m_PBaseEntity->loc.p.z        = z;
     m_PBaseEntity->loc.p.rotation = rotation;
 
+    if (m_PBaseEntity->loc.zone != nullptr)
+    {
+        m_PBaseEntity->loc.zone->onEntityMoved(m_PBaseEntity);
+    }
+
     // Zoning
     if (m_PBaseEntity->objtype == TYPE_PC)
     {
