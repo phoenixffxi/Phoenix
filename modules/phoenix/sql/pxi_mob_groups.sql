@@ -20,3 +20,6 @@ INSERT INTO `mob_groups` VALUES (203,244,190,'Armet_Beetle',660,0,670,0,0,0,NULL
 INSERT INTO `mob_groups` VALUES (204,1073,190,'Thousand_Eyes',960,0,315,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (205,1898,190,'Hati',960,0,1278,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (206,1514,190,'Lemures',960,0,1506,0,0,0,NULL);
+
+-- Ranguemont Pass (Zone 166)
+INSERT INTO `mob_groups` VALUES (200,1715,166,'Goblin_Smithy',720,0,1162,0,0,0,NULL);
