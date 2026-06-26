@@ -365,6 +365,23 @@ REPLACE INTO `mob_spawn_points` VALUES (16888011, 0, 'Makara', 'Makara', 17, 44,
 REPLACE INTO `mob_spawn_points` VALUES (16888012, 0, 'Oil_Spill', 'Oil Spill', 21, 44, 47, 173.2919, 1.1516, 139.7954, 166);
 REPLACE INTO `mob_spawn_points` VALUES (16888013, 0, 'Foul_Meat', 'Foul Meat', 26, 45, 47, 179.9092, 1.0000, 178.2200, 59);
 
+-- Riverne-Site_A01 (Zone 30)
+REPLACE INTO `mob_spawn_points` VALUES (16900277, 0, 'Cloud_Hippogryph', 'Cloud Hippogryph', 9, 45, 47, -90.8435, 0.3667, 599.3009, 172);
+REPLACE INTO `mob_spawn_points` VALUES (16900278, 0, 'Cloud_Hippogryph', 'Cloud Hippogryph', 9, 45, 47, -120.0079, 0.8081, 496.4635, 149);
+REPLACE INTO `mob_spawn_points` VALUES (16900279, 0, 'Cloud_Hippogryph', 'Cloud Hippogryph', 9, 45, 47, -139.4045, 2.5158, 507.0347, 139);
+REPLACE INTO `mob_spawn_points` VALUES (16900280, 0, 'Cloud_Hippogryph', 'Cloud Hippogryph', 9, 45, 47, -121.9263, 0.1574, 516.3481, 217);
+REPLACE INTO `mob_spawn_points` VALUES (16900281, 0, 'Cloud_Hippogryph', 'Cloud Hippogryph', 9, 45, 47, -116.7815, -0.1222, 525.4406, 212);
+REPLACE INTO `mob_spawn_points` VALUES (16900282, 0, 'Cloud_Hippogryph', 'Cloud Hippogryph', 9, 45, 47, -125.3812, 0.5621, 548.4337, 180);
+REPLACE INTO `mob_spawn_points` VALUES (16900283, 0, 'Cloud_Hippogryph', 'Cloud Hippogryph', 9, 45, 47, -138.4424, -1.1042, 575.7886, 187);
+REPLACE INTO `mob_spawn_points` VALUES (16900284, 0, 'Cloud_Hippogryph', 'Cloud Hippogryph', 9, 45, 47, -118.1717, 0.9121, 579.4771, 239);
+REPLACE INTO `mob_spawn_points` VALUES (16900285, 0, 'Atomic_Cluster', 'Atomic Cluster', 10, 45, 48, -77.8216, 0.7062, 575.1089, 223);
+REPLACE INTO `mob_spawn_points` VALUES (16900286, 0, 'Atomic_Cluster', 'Atomic Cluster', 10, 45, 48, -82.8559, 0.0264, 564.5499, 233);
+REPLACE INTO `mob_spawn_points` VALUES (16900287, 0, 'Hawker', 'Hawker', 8, 45, 48, -89.6305, 0.3268, 440.9482, 23);
+REPLACE INTO `mob_spawn_points` VALUES (16900288, 0, 'Hawker', 'Hawker', 8, 45, 48, -104.0222, 0.0279, 459.1960, 151);
+REPLACE INTO `mob_spawn_points` VALUES (16900289, 0, 'Hawker', 'Hawker', 8, 45, 48, -98.9196, 0.3713, 469.1497, 200);
+REPLACE INTO `mob_spawn_points` VALUES (16900290, 0, 'Hawker', 'Hawker', 8, 45, 48, -93.1303, 0.4549, 484.8690, 204);
+REPLACE INTO `mob_spawn_points` VALUES (16900291, 0, 'Hawker', 'Hawker', 8, 45, 48, -108.2836, 0.5000, 489.5339, 145);
+
 -- Bhaflau Thickets (Zone 52)
 REPLACE INTO `mob_spawn_points` VALUES (16990444, 0, 'Greater_Colibri', 'Greater Colibri', 7, 82, 83, -584.4034, -5.7966, 5.6828, 208);
 REPLACE INTO `mob_spawn_points` VALUES (16990445, 0, 'Greater_Colibri', 'Greater Colibri', 7, 82, 83, -574.6365, -7.6441, 13.7203, 91);
