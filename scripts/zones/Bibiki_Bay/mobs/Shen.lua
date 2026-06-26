@@ -1,12 +1,19 @@
 -----------------------------------
 -- Area: Bibiki Bay
---  Mob: Shen
+--   NM: Shen
+-- !pos -102.540 2.087 -725.207 4
 -----------------------------------
 ---@type TMobEntity
 local entity = {}
 
+local status =
+{
+    OUTSIDE_SHELL = 0,
+    INSIDE_SHELL  = 1,
+}
+
 local function enterShell(mob)
-    mob:setAnimationSub(1)
+    mob:setAnimationSub(status.INSIDE_SHELL)
     mob:setAutoAttackEnabled(false)
     mob:setMagicCastingEnabled(false)
     mob:setMod(xi.mod.UDMGPHYS, -8500)
@@ -16,13 +23,11 @@ local function enterShell(mob)
     mob:setMod(xi.mod.REGEN, 100)
     mob:setMobMod(xi.mobMod.SKILL_LIST, 250)
     mob:setMobMod(xi.mobMod.NO_MOVE, 1)
-    mob:setLocalVar('inShell', 1)
 end
 
 local function exitShell(mob)
-    mob:setAnimationSub(0)
+    mob:setAnimationSub(status.OUTSIDE_SHELL)
     mob:setAutoAttackEnabled(true)
-    mob:setMagicCastingEnabled(true)
     mob:setMod(xi.mod.UDMGPHYS, 0)
     mob:setMod(xi.mod.UDMGRANGE, 0)
     mob:setMod(xi.mod.UDMGMAGIC, 0)
@@ -30,14 +35,12 @@ local function exitShell(mob)
     mob:setMod(xi.mod.REGEN, 0)
     mob:setMobMod(xi.mobMod.SKILL_LIST, 251)
     mob:setMobMod(xi.mobMod.NO_MOVE, 0)
-    mob:setLocalVar('inShell', 0)
 end
 
 entity.onMobInitialize = function(mob)
     mob:setMobMod(xi.mobMod.IDLE_DESPAWN, 180)
-end
-
-entity.onMobSpawn = function(mob)
+    mob:setMobMod(xi.mobMod.GIL_MIN, 18000)
+    mob:setMobMod(xi.mobMod.GIL_MAX, 18000)
     mob:addImmunity(xi.immunity.GRAVITY)
     mob:addImmunity(xi.immunity.BIND)
     mob:addImmunity(xi.immunity.BLIND)
@@ -46,110 +49,168 @@ entity.onMobSpawn = function(mob)
     mob:addImmunity(xi.immunity.POISON)
     mob:addImmunity(xi.immunity.SILENCE)
     mob:addImmunity(xi.immunity.PARALYZE)
-    mob:addImmunity(xi.immunity.REQUIEM)
-    mob:setMod(xi.mod.WATER_ABSORB, 100)
+    mob:addImmunity(xi.immunity.PETRIFY)
+    mob:addImmunity(xi.immunity.STUN)
+    mob:addImmunity(xi.immunity.TERROR)
+    mob:addImmunity(xi.immunity.PLAGUE)
+end
 
-    mob:setLocalVar('shellTimer', GetSystemTime() + 60)
-    mob:setLocalVar('petCooldown', GetSystemTime() + 20)
+entity.onMobSpawn = function(mob)
+    mob:setMod(xi.mod.WATER_ABSORB, 100)
+    mob:setMobMod(xi.mobMod.NO_STANDBACK, 1)
+    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 250)
+    mob:setMobMod(xi.mobMod.MAGIC_COOL, 20)
+    mob:setMod(xi.mod.POWER_MULTIPLIER_SPELL, 5)
+    mob:setMod(xi.mod.REGAIN, 50)
+
+    -- Ensure non-shell form.
     exitShell(mob)
 
-    mob:addListener('MAGIC_STATE_EXIT', 'SHEN_MAGIC_EXIT', function(shen, spell)
-        if spell:getID() == xi.magic.spell.FLOOD then
-            mob:setMagicCastingEnabled(true)
-            -- need to remove chainspell manually so it can be done silently
-            if mob:hasStatusEffect(xi.effect.CHAINSPELL) then
-                mob:delStatusEffectSilent(xi.effect.CHAINSPELL)
-            end
-        end
-    end)
+    -- Handle initial variables.
+    local currentTime = GetSystemTime()
+    mob:setLocalVar('petReviveTimer', currentTime + 60)
+    mob:setLocalVar('healTimer', currentTime + math.random(30, 120))
+
+    -- Default to disabled magic casting. Judge inside onMobFight if it can cast.
+    mob:setMagicCastingEnabled(false)
 end
 
 entity.onMobFight = function(mob, target)
-    -- check timer for going into or out of shell
-    if GetSystemTime() > mob:getLocalVar('shellTimer') then
-        if mob:getLocalVar('inShell') == 0 and mob:getAnimationSub() == 0 then
-            enterShell(mob)
-            mob:setLocalVar('shellTimer', GetSystemTime() + math.random(30, 100))
-        elseif mob:getLocalVar('inShell') == 1 and mob:getAnimationSub() == 1 then
-            exitShell(mob)
-            mob:setLocalVar('shellTimer', GetSystemTime() + math.random(30, 100))
-        end
-    end
-
     local mobId = mob:getID()
-    local petOne = GetMobByID(mobId + 1)
-    local petTwo = GetMobByID(mobId + 2)
-    local petCooldown = mob:getLocalVar('petCooldown')
 
-    -- Shen instant casts Flood to spawn a pet
-    if
-        GetSystemTime() >= petCooldown and
-        petOne and
-        petTwo and
-        (not petOne:isSpawned() or not petTwo:isSpawned()) and
-        not xi.combat.behavior.isEntityBusy(mob)
-    then
-        mob:setMagicCastingEnabled(false)
-        mob:addStatusEffect(xi.effect.CHAINSPELL, { power = 1, duration = 3, origin = mob, silent = true })
-        mob:castSpell(xi.magic.spell.FLOOD, target)
-        mob:setLocalVar('petCooldown', GetSystemTime() + 20)
+    -- Early return: Fatal error -> Filtrate(1) not defined.
+    local filtrateOne = GetMobByID(mobId + 1)
+    if not filtrateOne then
+        return
     end
 
-    -- Shen exits shell if a pet dies so that it can respawn it
-    local petDeath = mob:getLocalVar('filtrateDeath')
-    if petDeath == 1 then
-        if mob:getLocalVar('inShell') == 1 and mob:getAnimationSub() == 1 then
-            exitShell(mob)
-            mob:setLocalVar('shellTimer', GetSystemTime() + math.random(30, 100))
-        end
-
-        mob:setLocalVar('filtrateDeath', 0)
+    -- Early return: Fatal error -> Filtrate(2) not defined.
+    local filtrateTwo = GetMobByID(mobId + 2)
+    if not filtrateTwo then
+        return
     end
 
-    -- every 30-90 seconds have one of the filtrates heal Shen via a water spell
-    if GetSystemTime() > mob:getLocalVar('healTimer') then
-        local pets = { petOne, petTwo }
-        pets = utils.shuffle(pets)
-
-        for _, shenFiltrate in ipairs(pets) do
+    -- Filtrate pet logic. Every 30-120 seconds have one of the filtrates heal Shen via a water spell.
+    local currentTime = GetSystemTime()
+    if currentTime > mob:getLocalVar('healTimer') then
+        for _, filtrate in ipairs(utils.shuffle({ filtrateOne, filtrateTwo })) do
             if
-                shenFiltrate and
-                shenFiltrate:isAlive() and
-                shenFiltrate:checkDistance(mob) < 20
+                filtrate:isAlive() and
+                filtrate:checkDistance(mob) < 20 and
+                not xi.combat.behavior.isEntityBusy(filtrate)
             then
-                local spells = { xi.magic.spell.WATER_IV, xi.magic.spell.WATER_III }
-                local spellID = spells[math.random(1, #spells)]
-                shenFiltrate:castSpell(spellID, mob)
-                mob:setLocalVar('healTimer', GetSystemTime() + math.random(40, 100))
+                local spells = { [1] = xi.magic.spell.WATER_IV, [2] = xi.magic.spell.WATER_III }
+                filtrate:castSpell(spells[math.random(1, #spells)], mob)
+                mob:setLocalVar('healTimer', currentTime + math.random(30, 120))
                 break
             end
         end
     end
+
+    -- Early return: Entity is busy.
+    if xi.combat.behavior.isEntityBusy(mob) then
+        return
+    end
+
+    -- Shen logic.
+    switch (mob:getAnimationSub()): caseof
+    {
+        [status.OUTSIDE_SHELL] = function()
+            -- Judge spellcasting availability.
+            mob:setMagicCastingEnabled(mob:checkDistance(target) <= mob:getMeleeRange(target))
+
+            -- Can enter shell.
+            if
+                filtrateOne:isSpawned() and
+                filtrateTwo:isSpawned() and
+                currentTime >= mob:getLocalVar('shellTimer')
+            then
+                mob:setLocalVar('shellTimer', currentTime + math.random(30, 120))
+                enterShell(mob)
+            end
+        end,
+
+        [status.INSIDE_SHELL] = function()
+            -- Go out of shell immediately the moment a pet isn't present or when the time is up.
+            if
+                not filtrateOne:isSpawned() or
+                not filtrateTwo:isSpawned() or
+                currentTime >= mob:getLocalVar('shellTimer')
+            then
+                mob:setLocalVar('shellTimer', currentTime + math.random(30, 120))
+                exitShell(mob)
+            end
+        end,
+    }
+end
+
+entity.onMobSpellChoose = function(mob, target, spellId)
+    local mobId       = mob:getID()
+    local filtrateOne = GetMobByID(mobId + 1)
+    local filtrateTwo = GetMobByID(mobId + 2)
+
+    -- Flood.
+    if
+        (filtrateOne and not filtrateOne:isSpawned()) or
+        (filtrateTwo and not filtrateTwo:isSpawned())
+    then
+        -- Check if it can revive a pet.
+        local currentTime = GetSystemTime()
+        if currentTime >= mob:getLocalVar('petReviveTimer') then
+            mob:setMod(xi.mod.UFASTCAST, 100)
+            mob:setLocalVar('petReviveTimer', currentTime + 25)
+
+            return xi.magic.spell.FLOOD
+        end
+    end
+
+    -- Reset insta-cast.
+    mob:setMod(xi.mod.UFASTCAST, 0)
+
+    -- Regular spells.
+    local spellList =
+    {
+        [1] = xi.magic.spell.WATER_IV,
+        [2] = xi.magic.spell.WATERGA_III,
+    }
+
+    return spellList[math.random(1, #spellList)]
 end
 
 entity.onSpellPrecast = function(mob, spell)
+    -- Early return: Not flood.
+    if spell:getID() ~= xi.magic.spell.FLOOD then
+        return
+    end
+
+    -- Early return: No target.
     local target = mob:getTarget()
     if not target then
         return
     end
 
-    local pos = target:getPos()
+    -- Fetch data needed.
+    local mobId = mob:getID()
+    local pos   = target:getPos()
 
-    if spell:getID() == xi.magic.spell.FLOOD then
-        for i = 1, 2 do
-            local pet = GetMobByID(mob:getID() + i)
-            if pet and not pet:isSpawned() then
-                SpawnMob(pet:getID())
-                pet:updateEnmity(target)
-                pet:setPos(pos.x, pos.y, pos.z, pos.rot)
-                break
-            end
+    -- Check pet status and spawn if needed.
+    for i = 1, 2 do
+        local pet = GetMobByID(mobId + i)
+        if pet and not pet:isSpawned() then
+            SpawnMob(mobId + i)
+            pet:updateEnmity(target)
+            pet:setPos(pos.x, pos.y, pos.z, pos.rot)
+            break
         end
     end
 end
 
+entity.onMobDisengage = function(mob)
+    mob:setMagicCastingEnabled(false)
+end
+
 entity.onMobDeath = function(mob, player, optParams)
-    if mob:getLocalVar('firstOnMobDeathCall') == 0 then
+    if optParams.isKiller or optParams.noKiller then
         local mobId = mob:getID()
         for i = 1, 2 do
             local petObj = GetMobByID(mobId + i)
@@ -157,9 +218,6 @@ entity.onMobDeath = function(mob, player, optParams)
                 petObj:setHP(0)
             end
         end
-
-        mob:setLocalVar('firstOnMobDeathCall', 1)
-        mob:removeListener('SHEN_MAGIC_EXIT')
     end
 end
 
