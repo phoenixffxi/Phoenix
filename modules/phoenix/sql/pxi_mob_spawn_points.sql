@@ -702,6 +702,14 @@ REPLACE INTO `mob_spawn_points` VALUES (17490122, 0, 'Greater_Cockatrice', 'Grea
 REPLACE INTO `mob_spawn_points` VALUES (17490123, 0, 'Greater_Cockatrice', 'Greater Cockatrice', 19, 78, 80, 43.3091, 30.0000, -202.0315, 227);
 REPLACE INTO `mob_spawn_points` VALUES (17490124, 0, 'Ladon', 'Ladon', 20, 80, 82, 45.7475, 30.0000, -195.1464, 205);
 
+-- The_Shrine_of_RuAvitau (Zone 178)
+REPLACE INTO `mob_spawn_points` VALUES (17506646, 0, 'Aura_Pot', 'Aura Pot', 2, 75, 80, 91.9273, 32.5758, 2.1176, 13);
+REPLACE INTO `mob_spawn_points` VALUES (17506647, 0, 'Aura_Pot', 'Aura Pot', 2, 75, 80, 80.2322, 32.5758, -17.4177, 81);
+REPLACE INTO `mob_spawn_points` VALUES (17506648, 0, 'Aura_Pot', 'Aura Pot', 2, 75, 80, 73.1144, 32.3925, 22.5299, 159);
+REPLACE INTO `mob_spawn_points` VALUES (17506649, 0, 'Aura_Pot', 'Aura Pot', 2, 75, 80, 105.7688, 32.1018, 12.6875, 155);
+REPLACE INTO `mob_spawn_points` VALUES (17506650, 0, 'Aura_Pot', 'Aura Pot', 2, 75, 80, 118.4540, 32.5254, -4.7752, 14);
+REPLACE INTO `mob_spawn_points` VALUES (17506651, 0, 'Aura_Pot', 'Aura Pot', 2, 75, 80, 51.6397, 32.0000, 60.2624, 129);
+
 -- King Ranperre's Tomb (Zone 190)
 REPLACE INTO `mob_spawn_points` VALUES (17555777, 0, 'Tomb_Worm', 'Tomb Worm', 200, 60, 62, -133.7651, 7.5000, -146.9293, 95);
 REPLACE INTO `mob_spawn_points` VALUES (17555778, 0, 'Tomb_Worm', 'Tomb Worm', 200, 60, 62, -136.7834, 7.5000, -170.9173, 30);
