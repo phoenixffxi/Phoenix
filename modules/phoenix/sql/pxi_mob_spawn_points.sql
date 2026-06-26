@@ -932,7 +932,65 @@ REPLACE INTO `mob_spawn_points` VALUES (17571918, 0, 'Ghoul', 'Ghoul', 68, 23, 2
 REPLACE INTO `mob_spawn_points` VALUES (17571919, 0, 'Ghoul', 'Ghoul', 68, 23, 26, -490.7556, -0.0464, 740.3684, 41);
 REPLACE INTO `mob_spawn_points` VALUES (17571920, 0, 'Ghoul', 'Ghoul', 68, 23, 26, -480.4546, 1.0000, 734.6539, 40);
 
--- Ordelles Caves (Zone 195)
+-- The Eldieme Necropolis (Zone 195)
+REPLACE INTO `mob_spawn_points` VALUES (17575959, 0, 'Tomb_Wolf', 'Tomb Wolf', 29, 53, 55, 219.4686, -2.4801, -134.1387, 185);
+REPLACE INTO `mob_spawn_points` VALUES (17575960, 0, 'Tomb_Wolf', 'Tomb Wolf', 29, 53, 55, 219.7775, -5.1465, -145.7063, 64);
+REPLACE INTO `mob_spawn_points` VALUES (17575961, 0, 'Tomb_Wolf', 'Tomb Wolf', 29, 53, 55, 219.6501, -7.8003, -159.8905, 62);
+REPLACE INTO `mob_spawn_points` VALUES (17575962, 0, 'Lich', 'Lich', 23, 51, 55, 378.0670, -36.0000, -140.5758, 117);
+REPLACE INTO `mob_spawn_points` VALUES (17575963, 0, 'Lich', 'Lich', 23, 51, 55, 351.0222, -32.0000, -142.0407, 164);
+REPLACE INTO `mob_spawn_points` VALUES (17575964, 0, 'Fallen_Knight', 'Fallen Knight', 38, 54, 56, 323.8168, -32.0000, -137.1638, 229);
+REPLACE INTO `mob_spawn_points` VALUES (17575965, 0, 'Fallen_Knight', 'Fallen Knight', 38, 54, 56, 359.4129, -32.0000, -138.0671, 118);
+REPLACE INTO `mob_spawn_points` VALUES (17575966, 0, 'Tomb_Warrior', 'Tomb Warrior', 42, 60, 62, 344.5793, -32.0000, -124.5962, 102);
+REPLACE INTO `mob_spawn_points` VALUES (17575978, 0, 'Tomb_Mage', 'Tomb Mage', 43, 60, 63, 335.4146, -32.0000, -127.5662, 92);
+REPLACE INTO `mob_spawn_points` VALUES (17575979, 0, 'Tomb_Warrior', 'Tomb Warrior', 42, 60, 62, 340.3879, -32.0000, -153.3817, 64);
+REPLACE INTO `mob_spawn_points` VALUES (17575980, 0, 'Tomb_Mage', 'Tomb Mage', 43, 60, 63, 336.3448, -32.0000, -157.6532, 98);
+REPLACE INTO `mob_spawn_points` VALUES (17575981, 0, 'Utukku', 'Utukku', 31, 55, 57, 253.7367, -15.9875, -179.2203, 191);
+REPLACE INTO `mob_spawn_points` VALUES (17575982, 0, 'Utukku', 'Utukku', 31, 55, 57, 261.6981, -15.9722, -203.0491, 48);
+REPLACE INTO `mob_spawn_points` VALUES (17575983, 0, 'Utukku', 'Utukku', 31, 55, 57, 276.0863, -15.8065, -221.1098, 214);
+REPLACE INTO `mob_spawn_points` VALUES (17575984, 0, 'Utukku', 'Utukku', 31, 55, 57, 287.5757, -15.6792, -222.8582, 239);
+REPLACE INTO `mob_spawn_points` VALUES (17575985, 0, 'Utukku', 'Utukku', 31, 55, 57, 297.9370, -15.7443, -243.7121, 192);
+REPLACE INTO `mob_spawn_points` VALUES (17575995, 0, 'Tomb_Wolf', 'Tomb Wolf', 29, 53, 55, 340.2444, -31.7869, -317.8485, 62);
+REPLACE INTO `mob_spawn_points` VALUES (17575996, 0, 'Tomb_Wolf', 'Tomb Wolf', 29, 53, 55, 342.4355, -31.9709, -330.3567, 29);
+REPLACE INTO `mob_spawn_points` VALUES (17575957, 0, 'Lost_Soul', 'Lost Soul', 10, 42, 46, 158.7464, -15.0000, 280.2213, 96);
+REPLACE INTO `mob_spawn_points` VALUES (17575997, 0, 'Lost_Soul', 'Lost Soul', 10, 42, 46, 151.0785, -15.0000, 268.7261, 197);
+REPLACE INTO `mob_spawn_points` VALUES (17575998, 0, 'Lost_Soul', 'Lost Soul', 10, 42, 46, 170.7774, -15.0000, 279.5736, 95);
+REPLACE INTO `mob_spawn_points` VALUES (17575958, 0, 'Lost_Soul', 'Lost Soul', 10, 42, 46, 161.4019, -15.5699, 294.5034, 137);
+REPLACE INTO `mob_spawn_points` VALUES (17575999, 0, 'Lost_Soul', 'Lost Soul', 10, 42, 46, 151.8329, -15.0000, 290.5169, 138);
+REPLACE INTO `mob_spawn_points` VALUES (17575953, 0, 'Shade', 'Shade', 11, 42, 46, 162.6554, -14.9720, 268.9094, 236);
+REPLACE INTO `mob_spawn_points` VALUES (17575954, 0, 'Shade', 'Shade', 13, 46, 48, 159.9012, -15.0000, 289.0268, 86);
+REPLACE INTO `mob_spawn_points` VALUES (17575955, 0, 'Shade', 'Shade', 14, 46, 48, 168.7570, -15.7183, 292.2428, 205);
+REPLACE INTO `mob_spawn_points` VALUES (17575956, 0, 'Shade', 'Shade', 11, 46, 48, 172.9748, -15.7568, 268.9285, 134);
+REPLACE INTO `mob_spawn_points` VALUES (17576000, 0, 'Revenant', 'Revenant', 17, 44, 47, -23.0583, -7.9909, 213.6617, 89);
+REPLACE INTO `mob_spawn_points` VALUES (17576001, 0, 'Revenant', 'Revenant', 17, 44, 47, -16.7888, -8.0583, 221.0604, 187);
+REPLACE INTO `mob_spawn_points` VALUES (17576002, 0, 'Revenant', 'Revenant', 17, 44, 47, -52.2773, -8.0157, 222.8009, 13);
+REPLACE INTO `mob_spawn_points` VALUES (17576184, 0, 'Lost_Soul', 'Lost Soul', 10, 42, 46, 42.5433, -15.5284, 305.2198, 196);
+REPLACE INTO `mob_spawn_points` VALUES (17576069, 0, 'Lost_Soul', 'Lost Soul', 10, 42, 46, 55.4332, -15.6857, 318.5959, 215);
+REPLACE INTO `mob_spawn_points` VALUES (17576070, 0, 'Lost_Soul', 'Lost Soul', 10, 42, 46, 47.1226, -14.9876, 330.6462, 193);
+REPLACE INTO `mob_spawn_points` VALUES (17576185, 0, 'Lost_Soul', 'Lost Soul', 10, 42, 46, 30.6451, -14.9092, 325.4042, 101);
+REPLACE INTO `mob_spawn_points` VALUES (17576071, 0, 'Lost_Soul', 'Lost Soul', 10, 42, 46, 24.5465, -15.6916, 318.3766, 122);
+REPLACE INTO `mob_spawn_points` VALUES (17576180, 0, 'Shade', 'Shade', 11, 46, 48, 33.1451, -15.0000, 320.3086, 42);
+REPLACE INTO `mob_spawn_points` VALUES (17576181, 0, 'Shade', 'Shade', 13, 46, 48, 36.6787, -14.9427, 330.2766, 123);
+REPLACE INTO `mob_spawn_points` VALUES (17576182, 0, 'Shade', 'Shade', 14, 46, 48, 46.7134, -15.0000, 319.9181, 125);
+REPLACE INTO `mob_spawn_points` VALUES (17576183, 0, 'Shade', 'Shade', 11, 46, 48, 48.7845, -15.0000, 310.5618, 190);
+REPLACE INTO `mob_spawn_points` VALUES (17576240, 0, 'Lost_Soul', 'Lost Soul', 10, 42, 46, 117.2070, 9.0000, -78.8167, 30);
+REPLACE INTO `mob_spawn_points` VALUES (17576241, 0, 'Lost_Soul', 'Lost Soul', 10, 42, 46, 126.1532, 9.0000, -79.0076, 26);
+REPLACE INTO `mob_spawn_points` VALUES (17576242, 0, 'Lost_Soul', 'Lost Soul', 10, 42, 46, 108.2978, 8.8791, -82.0996, 221);
+REPLACE INTO `mob_spawn_points` VALUES (17576243, 0, 'Lost_Soul', 'Lost Soul', 10, 42, 46, 115.6506, 8.8084, -68.7539, 246);
+REPLACE INTO `mob_spawn_points` VALUES (17576236, 0, 'Shade', 'Shade', 11, 46, 48, 127.3304, 8.1102, -64.5301, 111);
+REPLACE INTO `mob_spawn_points` VALUES (17576237, 0, 'Shade', 'Shade', 13, 46, 48, 109.7597, 9.0312, -76.6841, 194);
+REPLACE INTO `mob_spawn_points` VALUES (17576238, 0, 'Shade', 'Shade', 14, 46, 48, 115.5484, 8.3413, -94.0926, 126);
+REPLACE INTO `mob_spawn_points` VALUES (17576239, 0, 'Shade', 'Shade', 11, 46, 48, 127.0540, 9.0000, -88.5120, 52);
+REPLACE INTO `mob_spawn_points` VALUES (17576072, 0, 'Spriggan', 'Spriggan', 44, 64, 66, 84.8263, -0.7552, 100.0518, 246);
+REPLACE INTO `mob_spawn_points` VALUES (17576073, 0, 'Spriggan', 'Spriggan', 45, 64, 66, 101.0045, -7.8821, 122.0374, 200);
+REPLACE INTO `mob_spawn_points` VALUES (17576074, 0, 'Spriggan', 'Spriggan', 46, 64, 66, 87.9377, -8.5424, 141.9982, 89);
+REPLACE INTO `mob_spawn_points` VALUES (17576075, 0, 'Spriggan', 'Spriggan', 47, 64, 66, 69.8427, -4.9799, 138.7710, 124);
+REPLACE INTO `mob_spawn_points` VALUES (17576076, 0, 'Spriggan', 'Spriggan', 44, 64, 66, 181.8395, -0.4557, -184.0969, 68);
+REPLACE INTO `mob_spawn_points` VALUES (17576077, 0, 'Spriggan', 'Spriggan', 45, 64, 66, 178.0064, 0.0470, -183.6487, 133);
+REPLACE INTO `mob_spawn_points` VALUES (17576078, 0, 'Spriggan', 'Spriggan', 46, 64, 66, 171.6257, -0.2000, -186.4595, 211);
+REPLACE INTO `mob_spawn_points` VALUES (17576079, 0, 'Spriggan', 'Spriggan', 47, 64, 66, 178.6517, 0.0000, -178.4647, 214);
+REPLACE INTO `mob_spawn_points` VALUES (17576080, 0, 'Gazer', 'Gazer', 20, 41, 43, -259.7986, 0.1262, 155.0959, 55);
+
+-- Ordelles Caves (Zone 193)
 REPLACE INTO `mob_spawn_points` VALUES (17567835, 0, 'Goblin_Gambler', 'Goblin Gambler', 17, 22, 26, -220.2456, 28.5000, -82.3076, 189);
 REPLACE INTO `mob_spawn_points` VALUES (17567836, 0, 'Goblin_Gambler', 'Goblin Gambler', 17, 22, 26, -172.5788, 32.5101, 30.9258, 206);
 REPLACE INTO `mob_spawn_points` VALUES (17567837, 0, 'Goblin_Leecher', 'Goblin Leecher', 16, 22, 26, -203.4948, 32.0000, 36.9682, 76);
