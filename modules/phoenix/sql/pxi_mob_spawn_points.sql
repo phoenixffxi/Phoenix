@@ -365,6 +365,16 @@ REPLACE INTO `mob_spawn_points` VALUES (16888011, 0, 'Makara', 'Makara', 17, 44,
 REPLACE INTO `mob_spawn_points` VALUES (16888012, 0, 'Oil_Spill', 'Oil Spill', 21, 44, 47, 173.2919, 1.1516, 139.7954, 166);
 REPLACE INTO `mob_spawn_points` VALUES (16888013, 0, 'Foul_Meat', 'Foul Meat', 26, 45, 47, 179.9092, 1.0000, 178.2200, 59);
 
+-- Sacrarium (Zone 28)
+REPLACE INTO `mob_spawn_points` VALUES (16892075, 0, 'Fomor_Ranger', 'Fomor Ranger', 9, 55, 56, 140.2004, 0.0000, -78.9729, 165);
+REPLACE INTO `mob_spawn_points` VALUES (16892076, 0, 'Fomor_Samurai', 'Fomor Samurai', 19, 55, 56, 138.9038, 0.0247, -77.3562, 226);
+REPLACE INTO `mob_spawn_points` VALUES (16892077, 0, 'Blubber_Eyes', 'Blubber Eyes', 6, 57, 59, 179.1126, -4.0000, -59.8943, 58);
+REPLACE INTO `mob_spawn_points` VALUES (16892078, 0, 'Blubber_Eyes', 'Blubber Eyes', 6, 57, 59, 180.0323, -4.7500, -65.3264, 56);
+REPLACE INTO `mob_spawn_points` VALUES (16892079, 0, 'Blubber_Eyes', 'Blubber Eyes', 6, 57, 59, 140.6765, 3.7500, 96.5726, 46);
+REPLACE INTO `mob_spawn_points` VALUES (16892080, 0, 'Blubber_Eyes', 'Blubber Eyes', 6, 57, 59, 149.0225, 5.2500, 101.8795, 227);
+REPLACE INTO `mob_spawn_points` VALUES (16892081, 0, 'Fomor_Red_Mage', 'Fomor Red Mage', 18, 55, 56, 158.7527, 0.0000, 59.4941, 252);
+REPLACE INTO `mob_spawn_points` VALUES (16892082, 0, 'Fomor_Dark_Knight', 'Fomor Dark Knight', 20, 55, 56, 163.6040, -1.0000, 61.7931, 47);
+
 -- Riverne-Site_B01 (Zone 29)
 REPLACE INTO `mob_spawn_points` VALUES (16896063, 0, 'Nitro_Cluster', 'Nitro Cluster', 8, 55, 57, 109.7828, 0.9182, -657.4095, 154);
 REPLACE INTO `mob_spawn_points` VALUES (16896064, 0, 'Nitro_Cluster', 'Nitro Cluster', 8, 55, 57, 99.1347, 0.5400, -650.7828, 140);
