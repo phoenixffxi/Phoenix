@@ -51,6 +51,24 @@ REPLACE INTO `mob_spawn_points` VALUES (16793839, 0, 'Hobgoblin_Toreador', 'Hobg
 REPLACE INTO `mob_spawn_points` VALUES (16793840, 0, 'Tartarus_Eft', 'Tartarus Eft', 36, 76, 77, 85.2948, -29.1658, 208.1893, 131);
 REPLACE INTO `mob_spawn_points` VALUES (16793841, 0, 'Tartarus_Eft', 'Tartarus Eft', 36, 76, 77, 63.5269, -28.4998, 214.2176, 52);
 
+-- Uleguerand Range (Zone 5)
+REPLACE INTO `mob_spawn_points` VALUES (16797929, 0, 'Molech', 'Molech', 36, 79, 82, -243.6924, -176.0000, 242.9240, 135);
+REPLACE INTO `mob_spawn_points` VALUES (16797930, 0, 'Smolenkos', 'Smolenkos', 31, 80, 82, -196.0439, -176.0033, 241.6865, 107);
+REPLACE INTO `mob_spawn_points` VALUES (16797931, 0, 'Kindred_Warrior', 'Kindred Warrior', 32, 81, 84, -206.6191, -175.8701, 243.0708, 0);
+REPLACE INTO `mob_spawn_points` VALUES (16797932, 0, 'Kindred_Dark_Knight', 'Kindred Dark Knight', 34, 81, 84, -218.2464, -176.6426, 222.8609, 18);
+REPLACE INTO `mob_spawn_points` VALUES (16797933, 0, 'Kindred_Summone', 'Kindred Summone', 0, 81, 84, -201.5562, -175.2420, 224.3783, 209);
+REPLACE INTO `mob_spawn_points` VALUES (16797934, 0, 'Demons_Elemental', 'Demon\'s Elemental', 0, 0, 0, 1.000, 1.000, 1.000, 1);
+REPLACE INTO `mob_spawn_points` VALUES (16797935, 0, 'Molech', 'Molech', 36, 79, 82, -199.2303, -176.0058, 283.9061, 226);
+REPLACE INTO `mob_spawn_points` VALUES (16797936, 0, 'Molech', 'Molech', 36, 79, 82, -230.3706, -177.0149, 331.1444, 217);
+REPLACE INTO `mob_spawn_points` VALUES (16797937, 0, 'Smolenkos', 'Smolenkos', 31, 80, 82, -209.6414, -176.0000, 292.1495, 219);
+REPLACE INTO `mob_spawn_points` VALUES (16797938, 0, 'Kindred_Warrior', 'Kindred Warrior', 32, 81, 84, -231.9611, -175.2087, 302.3502, 144);
+REPLACE INTO `mob_spawn_points` VALUES (16797939, 0, 'Kindred_Black_Mage', 'Kindred Black Mage', 33, 81, 84, -243.8737, -175.2634, 304.5938, 9);
+REPLACE INTO `mob_spawn_points` VALUES (16797940, 0, 'Kindred_Dark_Knight', 'Kindred Dark Knight', 34, 81, 84, -262.0326, -175.5010, 328.2307, 29);
+REPLACE INTO `mob_spawn_points` VALUES (16797941, 0, 'Molech', 'Molech', 36, 79, 82, -206.9297, -176.0000, 357.1663, 214);
+REPLACE INTO `mob_spawn_points` VALUES (16797942, 0, 'Kindred_Warrior', 'Kindred Warrior', 32, 81, 84, -190.6962, -180.9422, 377.5090, 150);
+REPLACE INTO `mob_spawn_points` VALUES (16797943, 0, 'Kindred_Summoner', 'Kindred Summoner', 35, 81, 84, -164.7628, -183.4956, 391.0568, 216);
+REPLACE INTO `mob_spawn_points` VALUES (16797944, 0, 'Demons_Elemental', 'Demon\'s Elemental', 26, 0, 0, 1.000, 1.000, 1.000, 1);
+
 -- Promvion - Holla (Zone 16)
 REPLACE INTO `mob_spawn_points` VALUES (16842765, 0, 'Weeper', 'Weeper', 2, 37, 38, 73.9332, 0.0000, -280.9321, 215);
 REPLACE INTO `mob_spawn_points` VALUES (16842766, 0, 'Weeper', 'Weeper', 2, 37, 38, 83.5499, 0.0000, -241.4516, 244);
