@@ -100,6 +100,7 @@ CZoneEntities::CZoneEntities(Scheduler& scheduler, MapConfig config, CZone* zone
     m_trustsToDelete.reserve(INTERMEDIATE_CONTAINER_RESERVE_SIZE);
     m_aggroableMobs.reserve(INTERMEDIATE_CONTAINER_RESERVE_SIZE);
     m_charsToChangeZone.reserve(INTERMEDIATE_CONTAINER_RESERVE_SIZE);
+    tickEntityScratch_.reserve(1024);
 }
 
 CZoneEntities::~CZoneEntities()
@@ -1849,92 +1850,89 @@ auto CZoneEntities::ZoneServer(timer::time_point tick) -> Task<void>
 
     luautils::OnZoneTick(this->m_zone);
 
-    co_await Scheduler::TaskGroup(
-        m_mobList.size(),
-        [&](auto& add)
+    // Snapshot each list, then tick inline.
+    tickEntityScratch_.clear();
+    FOR_EACH_PAIR_CAST_SECOND(CMobEntity*, PMob, m_mobList)
+    {
+        if (!PMob || (PMob->PBattlefield && PMob->PBattlefield->CanCleanup()))
         {
-            FOR_EACH_PAIR_CAST_SECOND(CMobEntity*, PMob, m_mobList)
-            {
-                if (!PMob)
-                {
-                    continue;
-                }
+            continue;
+        }
 
-                if (PMob->PBattlefield && PMob->PBattlefield->CanCleanup())
-                {
-                    continue;
-                }
+        tickEntityScratch_.push_back(PMob);
+    }
 
-                add(mobTick(PMob, tick));
-            }
-        });
+    for (auto* PEntity : tickEntityScratch_)
+    {
+        co_await mobTick(static_cast<CMobEntity*>(PEntity), tick);
+    }
 
-    co_await Scheduler::TaskGroup(
-        m_aggroableMobs.size(),
-        [&](auto& add)
-        {
-            // Check to see if any aggroable mobs should be aggroed by other mobs
-            for (const auto& PMob : m_aggroableMobs)
-            {
-                add(mobAggroCheck(PMob, tick));
-            }
-        });
+    // Check to see if any aggroable mobs should be aggroed by other mobs (snapshot then run inline).
+    tickEntityScratch_.assign(m_aggroableMobs.begin(), m_aggroableMobs.end());
+    for (auto* PEntity : tickEntityScratch_)
+    {
+        co_await mobAggroCheck(static_cast<CMobEntity*>(PEntity), tick);
+    }
 
     //
     // NPC tick logic
     //
 
-    co_await Scheduler::TaskGroup(
-        m_npcList.size(),
-        [&](auto& add)
-        {
-            FOR_EACH_PAIR_CAST_SECOND(CNpcEntity*, PNpc, m_npcList)
-            {
-                add(npcTick(PNpc, tick));
-            }
-        });
+    tickEntityScratch_.clear();
+    FOR_EACH_PAIR_CAST_SECOND(CNpcEntity*, PNpc, m_npcList)
+    {
+        tickEntityScratch_.push_back(PNpc);
+    }
+
+    for (auto* PEntity : tickEntityScratch_)
+    {
+        co_await npcTick(static_cast<CNpcEntity*>(PEntity), tick);
+    }
 
     //
     // Pet tick logic
     //
 
-    co_await Scheduler::TaskGroup(
-        m_petList.size(),
-        [&](auto& add)
-        {
-            FOR_EACH_PAIR_CAST_SECOND(CPetEntity*, PPet, m_petList)
-            {
-                add(petTick(PPet, tick));
-            }
-        });
+    tickEntityScratch_.clear();
+    FOR_EACH_PAIR_CAST_SECOND(CPetEntity*, PPet, m_petList)
+    {
+        tickEntityScratch_.push_back(PPet);
+    }
+
+    for (auto* PEntity : tickEntityScratch_)
+    {
+        co_await petTick(static_cast<CPetEntity*>(PEntity), tick);
+    }
 
     //
     // Trust tick logic
     //
 
-    co_await Scheduler::TaskGroup(
-        m_trustList.size(),
-        [&](auto& add)
-        {
-            FOR_EACH_PAIR_CAST_SECOND(CTrustEntity*, PTrust, m_trustList)
-            {
-                add(trustTick(PTrust, tick));
-            }
-        });
+    tickEntityScratch_.clear();
+    FOR_EACH_PAIR_CAST_SECOND(CTrustEntity*, PTrust, m_trustList)
+    {
+        tickEntityScratch_.push_back(PTrust);
+    }
+
+    for (auto* PEntity : tickEntityScratch_)
+    {
+        co_await trustTick(static_cast<CTrustEntity*>(PEntity), tick);
+    }
 
     //
     // Char tick logic
     //
 
-    co_await Scheduler::TaskGroup(
-        m_charList.size(),
-        [&](auto& add)
-        {
-            FOR_EACH_PAIR_CAST_SECOND(CCharEntity*, PChar, m_charList)
-            {
-                add(charTick(PChar, tick));
-            }
-        });
+    tickEntityScratch_.clear();
+    FOR_EACH_PAIR_CAST_SECOND(CCharEntity*, PChar, m_charList)
+    {
+        tickEntityScratch_.push_back(PChar);
+    }
+
+    for (auto* PEntity : tickEntityScratch_)
+    {
+        co_await charTick(static_cast<CCharEntity*>(PEntity), tick);
+    }
 
     //
     // Cleanup logic

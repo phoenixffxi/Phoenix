@@ -125,6 +125,8 @@ private:
     EntityList_t m_TransportList;
     EntityList_t m_charList;
 
+    std::vector<CBaseEntity*> tickEntityScratch_; // reusable snapshot of an entity list for a per-entity tick phase
+
     uint16           m_nextDynamicTargID; // The next dynamic targ ID to chosen -- SE rotates them forwards and skips entries that already exist.
     std::set<uint16> m_charTargIds;       // sorted set of targids for characters
     std::set<uint16> m_dynamicTargIds;    // sorted set of targids for dynamic entities
