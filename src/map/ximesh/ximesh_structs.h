@@ -107,6 +107,8 @@ struct MeshBlock
     std::vector<uint16>       indices;       // 3 per triangle
     std::vector<TriangleMeta> metas;         // 1 per triangle
     bool                      hasBarriers{}; // true if any triangle in this block is a barrier
+    Vector3                   aabbMin{};     // local-space bounds, for ray broad-phase culling
+    Vector3                   aabbMax{};     // local-space bounds, for ray broad-phase culling
 };
 
 struct MeshPlacement
