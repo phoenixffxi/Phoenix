@@ -35,9 +35,11 @@ public:
     ~TestApplication() override;
 
     auto createEngine() -> std::unique_ptr<Engine> override;
-    void run() override;
+    auto run() -> bool override;
     void captureLogger() const;
 
 private:
     std::shared_ptr<InMemorySink> sink_;
+
+    bool success_{ false };
 };
