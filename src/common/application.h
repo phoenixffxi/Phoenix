@@ -87,7 +87,7 @@ public:
     //
 
     // Is expected to block until requestExit() is called and/or isRunning() returns false
-    virtual void run();
+    virtual auto run() -> bool;
 
     void requestExit();
     auto closeRequested() const -> bool;

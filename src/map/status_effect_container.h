@@ -70,7 +70,7 @@ public:
     void DelStatusEffectsByType(uint16 Type);
     auto DelStatusEffectByTier(xi::StatusEffect StatusID, uint16 power) -> bool;
     void KillAllStatusEffect();
-    void ApplyStateAlteringEffects(CStatusEffect* StatusEffect);
+    void HandleEffectGainSideEffects(CStatusEffect* StatusEffect);
 
     auto HasStatusEffect(xi::StatusEffect StatusID) -> bool;               // We check the presence of the effect
     auto HasStatusEffect(xi::StatusEffect StatusID, uint16 SubID) -> bool; // Check the presence of an effect with a unique Subid

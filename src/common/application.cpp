@@ -257,7 +257,7 @@ auto Application::isRunningInCI() const -> bool
     return args_->get<bool>("--ci");
 }
 
-void Application::run()
+auto Application::run() -> bool
 {
     ShowInfo("Creating engine");
     engine_ = createEngine();
@@ -292,8 +292,11 @@ void Application::run()
         catch (std::exception& e)
         {
             ShowErrorFmt("Fatal exception: {}", e.what());
+            return false;
         }
     }
+
+    return true;
 }
 
 auto Application::scheduler() -> Scheduler&

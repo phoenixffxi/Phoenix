@@ -105,7 +105,7 @@ auto TestApplication::createEngine() -> std::unique_ptr<Engine>
     return nullptr;
 }
 
-void TestApplication::run()
+auto TestApplication::run() -> bool
 {
     TracyZoneScoped;
 
@@ -167,12 +167,9 @@ void TestApplication::run()
             // Print to stderr directly if needed
             captureLogger();
 
-            auto success = co_await static_cast<TestEngine*>(engine_.get())->executeTests();
-            if (!success)
-            {
-                std::exit(EXIT_FAILURE);
-            }
-
+            // Record the result and exit through the normal path so main() can run
+            // lua_cleanup() before the process tears down.
+            success_ = co_await static_cast<TestEngine*>(engine_.get())->executeTests();
             this->requestExit();
         });
 
@@ -183,8 +180,10 @@ void TestApplication::run()
     catch (const std::exception& e)
     {
         ShowCriticalFmt("Fatal Exception: {}", e.what());
-        std::exit(EXIT_FAILURE);
+        success_ = false;
     }
+
+    return success_;
 }
 
 // Replace all loggers sinks with the in-memory sink
