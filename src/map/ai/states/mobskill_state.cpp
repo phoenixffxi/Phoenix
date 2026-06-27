@@ -183,10 +183,11 @@ bool CMobSkillState::Update(timer::time_point tick)
         // Zero message ID
         if (m_PSkill->getFlag() & SKILLFLAG_NO_FINISH_MSG)
         {
-            action.ForEachResult([&](action_result_t& result)
-                                 {
-                                     result.messageID = MsgBasic::None;
-                                 });
+            action.ForEachResult(
+                [&](action_result_t& result)
+                {
+                    result.messageID = MsgBasic::None;
+                });
         }
 
         // Only send packet if action was populated (e.g. interrupts return early)

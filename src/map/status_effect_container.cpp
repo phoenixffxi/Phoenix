@@ -502,7 +502,7 @@ bool CStatusEffectContainer::AddStatusEffect(std::unique_ptr<CStatusEffect> PSta
 
         m_StatusEffectSet.insert(std::move(PStatusEffectPtr));
 
-        ApplyStateAlteringEffects(PStatusEffect);
+        HandleEffectGainSideEffects(PStatusEffect);
 
         luautils::OnEffectGain(m_POwner, PStatusEffect);
         m_POwner->PAI->EventHandler.triggerListener("EFFECT_GAIN", m_POwner, PStatusEffect);
@@ -773,8 +773,7 @@ void CStatusEffectContainer::KillAllStatusEffect()
     m_POwner->UpdateHealth();
 }
 
-// Apply any state alterations for the effect if applicable.
-void CStatusEffectContainer::ApplyStateAlteringEffects(CStatusEffect* StatusEffect)
+void CStatusEffectContainer::HandleEffectGainSideEffects(CStatusEffect* StatusEffect)
 {
     TracyZoneScoped;
 
@@ -800,11 +799,6 @@ void CStatusEffectContainer::ApplyStateAlteringEffects(CStatusEffect* StatusEffe
             if (effect == xi::StatusEffect::SleepIi || effect == xi::StatusEffect::Lullaby)
             {
                 StatusEffect->SetIcon(static_cast<uint16>(xi::StatusEffect::SleepI));
-            }
-
-            if (!m_POwner->PAI->IsCurrentState<CInactiveState>() && !m_POwner->PAI->IsCurrentState<CMobSkillState>())
-            {
-                m_POwner->PAI->Inactive(0ms, false);
             }
         }
     }
