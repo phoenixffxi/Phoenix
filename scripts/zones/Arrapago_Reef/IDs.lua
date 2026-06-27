@@ -56,11 +56,12 @@ zones[xi.zone.ARRAPAGO_REEF] =
         APKALLU_NPC           = GetFirstID('Arrapago_Apkallu'),
         BLOODY_BONES          = GetFirstID('Bloody_Bones'),
         BUKKI                 = GetFirstID('Bukki'),
-        MEDUSA                = GetFirstID('Medusa'),
+        LAMIA_NO19            = GetFirstID('Lamia_No19'),
         LIL_APKALLU           = GetFirstID('Lil_Apkallu'),
+        MEDUSA                = GetFirstID('Medusa'),
+        NUHN                  = GetFirstID('Nuhn'),
         VELIONIS              = GetFirstID('Velionis'),
         ZAREEHKL_THE_JUBILANT = GetFirstID('Zareehkl_the_Jubilant'),
-        NUHN                  = GetFirstID('Nuhn'),
     },
     npc =
     {

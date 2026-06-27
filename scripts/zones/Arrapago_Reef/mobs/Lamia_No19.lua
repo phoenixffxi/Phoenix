@@ -8,230 +8,122 @@
 -----------------------------------
 mixins = { require('scripts/mixins/weapon_break') }
 -----------------------------------
-local ID = zones[xi.zone.ARRAPAGO_REEF]
-
-local moveInterval = 25 -- seconds between advancing to the next patrol point
-
--- 'state' local var: 0 = dormant (invisible, patrolling), 1 = revealed (awaiting engagement), 2 = returning home
-
 -- Patrol zones. She spawns in one at random, starts on its first point, walks the list to the end, then back up, and repeats
 local patrolZones =
 {
-    { -- Zone 1
-        { x = -140.3979, y = -7.5625, z = 129.6947 },
-        { x = -151.5618, y = -7.5669, z = 133.4263 },
-        { x = -159.6965, y = -4.0674, z = 142.4664 },
-        { x = -147.8239, y = -3.9370, z = 143.8264 },
-        { x = -132.7979, y = -4.1487, z = 142.3289 },
-        { x = -116.7645, y = -5.6650, z = 138.4146 },
-        { x = -106.3411, y = -3.6548, z = 149.6426 },
-        { x =  -95.9528, y = -7.0264, z = 157.3188 },
-        { x =  -97.9981, y = -8.2839, z = 177.5508 },
-        { x =  -95.9604, y = -6.5235, z = 194.4670 },
-        { x =  -97.5012, y = -6.2962, z = 209.2726 },
-        { x =  -84.0119, y = -6.6560, z = 216.9704 },
+    -- Zone 1
+    [1] =
+    {
+        [ 1] = { x = -140.3979, y = -7.5625, z = 129.6947 },
+        [ 2] = { x = -151.5618, y = -7.5669, z = 133.4263 },
+        [ 3] = { x = -159.6965, y = -4.0674, z = 142.4664 },
+        [ 4] = { x = -147.8239, y = -3.9370, z = 143.8264 },
+        [ 5] = { x = -132.7979, y = -4.1487, z = 142.3289 },
+        [ 6] = { x = -116.7645, y = -5.6650, z = 138.4146 },
+        [ 7] = { x = -106.3411, y = -3.6548, z = 149.6426 },
+        [ 8] = { x =  -95.9528, y = -7.0264, z = 157.3188 },
+        [ 9] = { x =  -97.9981, y = -8.2839, z = 177.5508 },
+        [10] = { x =  -95.9604, y = -6.5235, z = 194.4670 },
+        [11] = { x =  -97.5012, y = -6.2962, z = 209.2726 },
+        [12] = { x =  -84.0119, y = -6.6560, z = 216.9704 },
     },
-    { -- Zone 2
-        { x =  -70.4526, y = -3.4229, z = 225.8736 },
-        { x =  -55.8334, y = -6.8534, z = 234.8286 },
-        { x =  -52.0121, y = -7.6663, z = 252.0792 },
-        { x =  -36.6158, y = -7.1406, z = 255.2419 },
-        { x =  -18.6769, y = -4.2378, z = 257.9763 },
-        { x =  -23.2517, y = -6.7339, z = 240.1379 },
-        { x =  -29.7112, y = -7.3039, z = 226.7537 },
-        { x =  -23.0620, y = -8.6800, z = 213.3530 },
-        { x =  -27.1148, y = -8.1091, z = 204.9024 },
-        { x =   -9.3409, y = -4.1911, z = 209.8858 },
-        { x =   -6.8611, y = -3.6151, z = 227.8160 },
+
+    -- Zone 2
+    [2] =
+    {
+        [ 1] = { x = -70.4526, y = -3.4229, z = 225.8736 },
+        [ 2] = { x = -55.8334, y = -6.8534, z = 234.8286 },
+        [ 3] = { x = -52.0121, y = -7.6663, z = 252.0792 },
+        [ 4] = { x = -36.6158, y = -7.1406, z = 255.2419 },
+        [ 5] = { x = -18.6769, y = -4.2378, z = 257.9763 },
+        [ 6] = { x = -23.2517, y = -6.7339, z = 240.1379 },
+        [ 7] = { x = -29.7112, y = -7.3039, z = 226.7537 },
+        [ 8] = { x = -23.0620, y = -8.6800, z = 213.3530 },
+        [ 9] = { x = -27.1148, y = -8.1091, z = 204.9024 },
+        [10] = { x =  -9.3409, y = -4.1911, z = 209.8858 },
+        [11] = { x =  -6.8611, y = -3.6151, z = 227.8160 },
     },
-    { -- Zone 3
-        { x =   24.1552, y = -4.3124, z = 222.5897 },
-        { x =   29.0236, y = -7.6649, z = 211.4547 },
-        { x =   18.9880, y = -4.6938, z = 199.3556 },
-        { x =    7.5865, y = -3.9338, z = 190.0146 },
-        { x =   23.4894, y = -8.4546, z = 181.0779 },
-        { x =   26.4053, y = -7.4731, z = 163.9737 },
-        { x =   16.8353, y = -7.3900, z = 155.6682 },
-        { x =    0.1742, y = -1.9985, z = 159.1774 },
+
+    -- Zone 3
+    [3] =
+    {
+        [1] = { x = 24.1552, y = -4.3124, z = 222.5897 },
+        [2] = { x = 29.0236, y = -7.6649, z = 211.4547 },
+        [3] = { x = 18.9880, y = -4.6938, z = 199.3556 },
+        [4] = { x =  7.5865, y = -3.9338, z = 190.0146 },
+        [5] = { x = 23.4894, y = -8.4546, z = 181.0779 },
+        [6] = { x = 26.4053, y = -7.4731, z = 163.9737 },
+        [7] = { x = 16.8353, y = -7.3900, z = 155.6682 },
+        [8] = { x =  0.1742, y = -1.9985, z = 159.1774 },
     },
 }
-
--- Flat list of every patrol point (all zones, in order), plus the allPoints index of each zone's first point. On the way
--- home she enters this network at the nearest point and walks it back to her own zone's first point, so every leg is a
--- short, walkable hop between adjacent points instead of one long straight line across the map
-local allPoints = {}
-local zoneStart = {}
-for _, zonePoints in ipairs(patrolZones) do
-    zoneStart[#zoneStart + 1] = #allPoints + 1
-    for _, point in ipairs(zonePoints) do
-        allPoints[#allPoints + 1] = point
-    end
-end
 
 ---@type TMobEntity
 local entity = {}
 
--- Tracks deaths she has already handled. Each death gets one reveal chance, evaluated once at the moment of death, so a
--- lingering corpse can't re-trigger. An entry is cleared once that player is alive again (their next death is eligible)
-local rolledDeaths = {}
-
 -- Hide her and (re)start the patrol from the first point of a zone. Pass a zoneIndex to keep her in the zone she just returned to; omit it on first spawn to pick a zone at random
 local function goDormant(mob, zoneIndex)
+    mob:clearPath()
+
     zoneIndex = zoneIndex or math.random(1, #patrolZones)
 
-    mob:setLocalVar('zone', zoneIndex)
+    mob:setLocalVar('patrolZone', zoneIndex)
     mob:setLocalVar('state', 0)
     mob:setLocalVar('appearTime', 0)
-    mob:setLocalVar('wpIndex', 1)    -- current patrol point (she starts on point 1)
-    mob:setLocalVar('wpReverse', 0)  -- 0 = walking down the list, 1 = walking back up
-    mob:setLocalVar('nextMoveTime', GetSystemTime() + moveInterval)
+    mob:setLocalVar('wpIndex', 1) -- Current patrol point (She starts at point 1)
+    mob:setLocalVar('wpDirection', 0)
+    mob:setLocalVar('nextMoveTime', GetSystemTime() + 25)
 
     mob:setStatus(xi.status.INVISIBLE)
+    mob:setMagicCastingEnabled(false)
     mob:hideHP(true)
     mob:hideName(true)
     mob:setUntargetable(true)
     mob:setAggressive(false)
-    mob:setMobMod(xi.mobMod.ALWAYS_AGGRO, 0)
     mob:setTrueDetection(false)
+    mob:setMobMod(xi.mobMod.ALWAYS_AGGRO, 0)
     mob:setMobMod(xi.mobMod.NO_MOVE, 0)
 
     -- Start on the zone's first point; movement is driven in onMobRoam
-    local first = patrolZones[zoneIndex][1]
-    mob:clearPath()
-    mob:setPos(first.x, first.y, first.z)
-end
-
--- Index in allPoints of the patrol point nearest her current position
-local function nearestIndexInAll(mob)
-    local bestIdx, bestDist = 1, nil
-    for i, p in ipairs(allPoints) do
-        local d = mob:checkDistance(p.x, p.y, p.z)
-        if not bestDist or d < bestDist then
-            bestIdx, bestDist = i, d
-        end
-    end
-
-    return bestIdx
+    local point = patrolZones[zoneIndex][1]
+    mob:setPos(point.x, point.y, point.z) -- Teleports back to first point in her starting patrol zone.
 end
 
 -- Disengage/give up: enter the patrol-point network at the nearest point and walk it back home
 local function startReturningHome(mob)
-    -- The fight is over - send any summoned skeletons away so the next engage gets a fresh pair spawned at her side
+    -- The fight is over. Despawn adds.
     local mobId = mob:getID()
     DespawnMob(mobId + 1)
     DespawnMob(mobId + 2)
 
-    mob:setLocalVar('state', 2)
-    mob:setLocalVar('returnIndex', nearestIndexInAll(mob)) -- enter the network at the nearest point
-    mob:setLocalVar('returnPauseUntil', 0)
-    mob:setMobMod(xi.mobMod.NO_MOVE, 0)
-    mob:clearPath()
+    -- Get the closest point index.
+    local bestZoneIndex  = 1
+    local bestPointIndex = 1
+    local bestDistance   = 1000000000
 
-    local wp = allPoints[mob:getLocalVar('returnIndex')]
-    mob:pathThrough({ wp.x, wp.y, wp.z })
-end
-
--- Reveal: Teleport onto the corpse, reveal herself, and become aggressive with true sight
-local function reveal(mob, player)
-    mob:clearPath()
-    mob:setMobMod(xi.mobMod.NO_MOVE, 1)
-    mob:setPos(player:getXPos(), player:getYPos(), player:getZPos())
-
-    mob:setStatus(xi.status.UPDATE)
-    mob:hideHP(false)
-    mob:hideName(false)
-    mob:setUntargetable(false)
-
-    -- While visible she is always aggressive and has true sight
-    mob:setAggressive(true)
-    mob:setMobMod(xi.mobMod.ALWAYS_AGGRO, 1)
-    mob:setMobMod(xi.mobMod.DETECTION, xi.detects.SIGHT)
-    mob:setTrueDetection(true)
-
-    mob:setLocalVar('state', 1)
-    mob:setLocalVar('appearTime', GetSystemTime())
-end
-
--- Show the foreboding message (not spoken by her - just a displayed area message) to every player within 30 yalms of the death
-local function broadcastForeboding(deadPlayer)
-    local zone = deadPlayer:getZone()
-    if not zone then
-        return
-    end
-
-    for _, p in pairs(zone:getPlayers()) do
-        if p:checkDistance(deadPlayer) <= 30 then -- the foreboding message is displayed within 30 yalms
-            p:messageSpecial(ID.text.FOREBODING)
-        end
-    end
-end
-
--- Watch for a nearby player death; returns true if she is revealed
-local function checkForDeath(mob)
-    local zone = mob:getZone()
-    if not zone then
-        return false
-    end
-
-    for _, player in pairs(zone:getPlayers()) do
-        local pid = player:getID()
-
-        if not player:isDead() then
-            -- Player is alive again; forget the handled death so a later one is eligible for a fresh chance
-            rolledDeaths[pid] = nil
-        elseif not rolledDeaths[pid] then
-            -- First tick we have seen this death: it gets exactly one chance, right now. Mark it immediately whatever the
-            -- outcome, so a lingering corpse can never re-trigger; she only reacts to a death that happens close to her
-            rolledDeaths[pid] = true
-
-            if mob:checkDistance(player) <= 15 then -- death happened within 15 yalms of her
-                -- Show the foreboding message (not spoken by her - just displayed) to everyone near the death
-                broadcastForeboding(player)
-
-                -- 80% chance she answers it (estimate from current captures; needs more data for a precise rate)
-                if math.random(100) <= 80 then
-                    reveal(mob, player)
-                    return true
-                end
+    for zoneIndex = 1, #patrolZones do
+        local zonePoints = patrolZones[zoneIndex]
+        for pointIndex = 1, #zonePoints do
+            local point    = patrolZones[zoneIndex][pointIndex]
+            local distance = mob:checkDistance(point.x, point.y, point.z)
+            if distance <= bestDistance then
+                bestZoneIndex  = zoneIndex
+                bestPointIndex = pointIndex
+                bestDistance   = distance
             end
         end
     end
 
-    return false
-end
+    -- Setup mob.
+    mob:setLocalVar('state', 2)
+    mob:setLocalVar('returnZoneIndex', bestZoneIndex)
+    mob:setLocalVar('returnPointIndex', bestPointIndex)
+    mob:setLocalVar('returnPauseUntil', 0)
+    mob:setMobMod(xi.mobMod.NO_MOVE, 0)
+    mob:clearPath()
 
--- Advance one patrol point every moveInterval seconds, going down the zone's list to the end and back up to the start
-local function drivePatrol(mob)
-    if GetSystemTime() < mob:getLocalVar('nextMoveTime') then
-        return
-    end
-
-    local points  = patrolZones[mob:getLocalVar('zone')]
-    local idx     = mob:getLocalVar('wpIndex')
-    local reverse = mob:getLocalVar('wpReverse')
-
-    if reverse == 0 then
-        if idx >= #points then
-            reverse = 1          -- reached the end; turn around
-            idx = idx - 1
-        else
-            idx = idx + 1
-        end
-    else
-        if idx <= 1 then
-            reverse = 0          -- reached the start; turn around
-            idx = idx + 1
-        else
-            idx = idx - 1
-        end
-    end
-
-    mob:setLocalVar('wpIndex', idx)
-    mob:setLocalVar('wpReverse', reverse)
-    mob:setLocalVar('nextMoveTime', GetSystemTime() + moveInterval)
-
-    local wp = points[idx]
-    mob:pathThrough({ wp.x, wp.y, wp.z })
+    local returnPoint = patrolZones[bestZoneIndex][bestPointIndex]
+    mob:pathThrough({ returnPoint.x, returnPoint.y, returnPoint.z })
 end
 
 entity.onMobInitialize = function(mob)
@@ -245,51 +137,92 @@ end
 entity.onMobSpawn = function(mob)
     -- Don't let the engine drag her back to her DB spawn point (with WALLHACK) while she patrols far from it
     mob:setMobMod(xi.mobMod.DONT_ROAM_HOME, 1)
-    goDormant(mob)
-    mob:setMod(xi.mod.POWER_MULTIPLIER_SPELL, 20)
     mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 150)
+    mob:setMod(xi.mod.POWER_MULTIPLIER_SPELL, 20)
+
+    goDormant(mob)
 end
 
 entity.onMobRoam = function(mob)
-    local state = mob:getLocalVar('state')
+    local currentTime = GetSystemTime()
+    local state       = mob:getLocalVar('state')
 
-    -- Dormant and invisible: walk the patrol and watch for a nearby death
+    -- Dormant and invisible: Walk the patrol and watch for a nearby death.
     if state == 0 then
-        if not checkForDeath(mob) then
-            drivePatrol(mob)
+        if currentTime < mob:getLocalVar('nextMoveTime') then
+            return
         end
+
+        local pointTable = patrolZones[mob:getLocalVar('patrolZone')]
+        local pointIndex = mob:getLocalVar('wpIndex')
+        local point      = pointTable[pointIndex]
+
+        -- Early return: Not at destiny yet.
+        if mob:checkDistance(point.x, point.y, point.z) > 3 then
+            return
+        end
+
+        -- At destiny. Choose next point to path to.
+        local pathDirection = mob:getLocalVar('wpDirection')
+
+        if pathDirection == 0 then
+            if pointIndex >= #pointTable then
+                pathDirection = 1 -- Reached the end; Turn around.
+            end
+        else
+            if pointIndex <= 1 then
+                pathDirection = 0 -- Reached the end; Turn around.
+            end
+        end
+
+        pointIndex = pointIndex + (pathDirection == 0 and 1 or -1)
+
+        mob:setLocalVar('wpIndex', pointIndex)
+        mob:setLocalVar('wpDirection', pathDirection)
+        mob:setLocalVar('nextMoveTime', currentTime + 25)
+
+        local nextPoint = pointTable[pointIndex]
+        mob:pathThrough({ nextPoint.x, nextPoint.y, nextPoint.z })
 
     -- Revealed but never engaged: after the idle timer she gives up and walks home
     elseif state == 1 then
-        if GetSystemTime() - mob:getLocalVar('appearTime') >= 120 then -- 2 minutes
+        if currentTime >= mob:getLocalVar('appearTime') + 120 then -- 2 minutes
             startReturningHome(mob)
         end
 
-    -- Returning: walk the patrol-point network back to her zone's first point, pausing briefly at each, then re-hide
+    -- Returning: Walk the patrol-point network back to her zone's first point, pausing briefly at each, then re-hide.
     elseif state == 2 then
-        local idx = mob:getLocalVar('returnIndex')
-        local wp  = allPoints[idx]
+        local zoneTable  = patrolZones[mob:getLocalVar('returnZoneIndex')]
+        local pointIndex = mob:getLocalVar('returnPointIndex')
+        local point      = zoneTable[pointIndex]
 
-        if mob:checkDistance(wp.x, wp.y, wp.z) <= 3 then -- reached the current point
+        -- Reached target point.
+        if mob:checkDistance(point.x, point.y, point.z) <= 3 then
             local pauseUntil = mob:getLocalVar('returnPauseUntil')
+            -- Can't move: Wait ~3s (a tick) before moving on.
             if pauseUntil == 0 then
-                mob:setLocalVar('returnPauseUntil', GetSystemTime() + 3) -- pause ~3s before moving on
-            elseif GetSystemTime() >= pauseUntil then
+                mob:setLocalVar('returnPauseUntil', currentTime + 3)
+
+            -- Can move. So move.
+            elseif currentTime >= pauseUntil then
                 mob:setLocalVar('returnPauseUntil', 0)
 
-                local target = zoneStart[mob:getLocalVar('zone')]
-                if idx == target then
-                    goDormant(mob, mob:getLocalVar('zone')) -- back at her first point; hide & patrol
-                else
-                    idx = idx + (target > idx and 1 or -1) -- step one point toward home
-                    mob:setLocalVar('returnIndex', idx)
+                -- At begining of a patrol zone. Go dormant.
+                if pointIndex == 1 then
+                    goDormant(mob, mob:getLocalVar('patrolZone'))
 
-                    local nxt = allPoints[idx]
-                    mob:pathThrough({ nxt.x, nxt.y, nxt.z })
+                -- Not at begining of a patrol zone. Path to next point.
+                else
+                    mob:setLocalVar('returnPointIndex', pointIndex - 1)
+
+                    local nextPoint = zoneTable[pointIndex - 1]
+                    mob:pathThrough({ nextPoint.x, nextPoint.y, nextPoint.z })
                 end
             end
+
+        -- Path interrupted; Resume.
         elseif not mob:isFollowingPath() then
-            mob:pathThrough({ wp.x, wp.y, wp.z }) -- path interrupted; resume
+            mob:pathThrough({ point.x, point.y, point.z })
         end
     end
 end
@@ -297,11 +230,13 @@ end
 entity.onMobEngage = function(mob, target)
     -- She was holding position: let her move now that she fights
     mob:setMobMod(xi.mobMod.NO_MOVE, 0)
+    mob:setMagicCastingEnabled(true)
 
-    -- Summon two Lamia's Skeleton next to her. Their DB spawn points sit by her original spawn, far from where she now
-    -- reveals, so place them at her side before spawning or they would appear across the zone
+    -- Summon two Lamia's Skeleton next to her.
     local mobId = mob:getID()
-    local x, y, z = mob:getXPos(), mob:getYPos(), mob:getZPos()
+    local x     = mob:getXPos()
+    local y     = mob:getYPos()
+    local z     = mob:getZPos()
 
     GetMobByID(mobId + 1):setSpawn(x + 2, y, z)
     GetMobByID(mobId + 2):setSpawn(x - 2, y, z)
@@ -335,6 +270,7 @@ end
 
 entity.onMobDisengage = function(mob)
     -- Combat ended (the player died fighting her, or she lost her target). She walks back along her zone's points; arrival is handled in onMobRoam
+    mob:setMagicCastingEnabled(false)
     startReturningHome(mob)
 end
 
