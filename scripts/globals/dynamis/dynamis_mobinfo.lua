@@ -517,6 +517,11 @@ xi.dynamis.onBossInitialize = function(mob)
     mob:addImmunity(xi.immunity.DARK_SLEEP)
     mob:addImmunity(xi.immunity.PETRIFY)
     mob:addImmunity(xi.immunity.TERROR)
+
+    -- Need to set this NMs pets differently
+    if mob:getName() == 'Dagourmarche' then
+        xi.pet.setMobPet(mob, 2, 'Dagourmarches_Avatar')
+    end
 end
 
 xi.dynamis.onBossSpawn = function(mob, modelSize)

@@ -7,7 +7,7 @@ xi.dynamis = xi.dynamis or {}
 -- Returns seconds remaining until lockout expires, or 0 if not locked out
 -- Pass returnDays = true to get Vanadiel days instead (for display purposes)
 xi.dynamis.isPlayerLockedOut = function(player, returnDays)
-    local lockout = player:getCharVar('[DYNA]lockout')
+    local lockout = player:getAccountVar('[DYNA]lockout')
     if lockout == 0 then
         return 0
     end
@@ -27,5 +27,9 @@ end
 xi.dynamis.recordLockout = function(player)
     local lockoutInHours = 72
     local expiry = GetSystemTime() + (lockoutInHours * 60 * 60)
-    player:setCharVar('[DYNA]lockout', expiry, expiry)
+    player:setAccountVar('[DYNA]lockout', expiry, expiry)
+end
+
+xi.dynamis.clearLockout = function(player)
+    player:setAccountVar('[DYNA]lockout', 0)
 end

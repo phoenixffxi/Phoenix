@@ -527,7 +527,7 @@ end
 -- GM Command Only
 xi.dynamis.resetPlayerVars = function(playerEntity, dynaZone)
     -- Reset player lockout
-    playerEntity:setCharVar('[DYNA]lockout', 0)
+    xi.dynamis.clearLockout(playerEntity)
 
     -- Remove player from participants list for this instance
     xi.dynamis.removeParticipant(playerEntity:getID())
