@@ -18,9 +18,6 @@ entity.spawnPoints =
     { x = -605.754, y =   0.102, z = -584.290 }
 }
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     -- Picolaton PH has a varied spawn location
     if mob:getID() == (ID.mob.PICOLATON - 1) then

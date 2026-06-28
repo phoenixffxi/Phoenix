@@ -23,9 +23,6 @@ entity.onMobSpawn = function(mob)
     xi.follow.spawnFollowers(mob, followers)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     xi.mob.phOnDespawn(mob, ID.mob.SWASHSTOX_BEADBLINKER[1], 15, 10800)
 

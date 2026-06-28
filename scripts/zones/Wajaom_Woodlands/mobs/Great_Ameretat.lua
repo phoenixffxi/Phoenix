@@ -13,9 +13,6 @@ entity.onMobMobskillChoose = function(mob, target, skillId)
     return target:countEffectWithFlag(xi.effectFlag.DISPELABLE) > 0 and xi.mobSkill.VAMPIRIC_ROOT or 0
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     xi.mob.phOnDespawn(mob, ID.mob.JADED_JODY, 10, 7200) -- 2 hours
 end

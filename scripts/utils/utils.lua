@@ -1201,3 +1201,26 @@ function utils.selectFromLootGroups(actor, lootTable)
 
     return selectedLoot
 end
+
+-- Returns the lowest slot number not currently occupied by any status effect on the entity
+---@param entity table
+---@return integer
+function utils.getLowestFreeSlot(entity)
+    local effects = entity:getStatusEffects()
+
+    -- Sort effects by slot number to ensure we can find the lowest free slot
+    table.sort(effects, function(a, b)
+        return a:getEffectSlot() < b:getEffectSlot()
+    end)
+
+    local lowestFreeSlot = 1
+    for _, effect in ipairs(effects) do
+        if effect:getEffectSlot() == lowestFreeSlot then
+            lowestFreeSlot = lowestFreeSlot + 1
+        elseif effect:getEffectSlot() > lowestFreeSlot then
+            break
+        end
+    end
+
+    return lowestFreeSlot
+end

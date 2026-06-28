@@ -12,9 +12,6 @@ entity.onMobEngage = function(mob, target)
     SpawnMob(mobID + 1, instance):updateEnmity(target)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     local instance = mob:getInstance()
     if not instance then

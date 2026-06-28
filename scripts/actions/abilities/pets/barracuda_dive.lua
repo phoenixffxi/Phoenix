@@ -24,6 +24,7 @@ abilityObject.onPetAbility = function(target, pet, petskill, summoner, action)
     params.damageType        = xi.damageType.SLASHING
     params.shadowBehavior    = xi.mobskills.shadowBehavior.NUMSHADOWS_1
     params.attackMultiplier  = { 2.0, 2.0, 2.0 }
+    -- params.accuracyModifier   = { 0, 0, 0 } -- TODO: JP Wiki/Patch notes state this has an accuracy modifier.
     params.primaryMessage    = xi.msg.basic.USES_JA_TAKE_DAMAGE
 
     local info = xi.mobskills.mobPhysicalMove(pet, target, petskill, action, params)

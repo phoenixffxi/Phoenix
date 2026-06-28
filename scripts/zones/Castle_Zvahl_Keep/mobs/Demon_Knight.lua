@@ -61,9 +61,6 @@ local bifronsSpawnPoints =
     { x = -183.549, y = -52.000, z = -101.836 },
 }
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     xi.mob.phOnDespawn(mob, ID.mob.COUNT_BIFRONS, 10, 1, { spawnPoints = bifronsSpawnPoints }) -- No respawn
 end

@@ -97,7 +97,4 @@ entity.onAdditionalEffect = function(mob, target, damage)
     return xi.combat.action.executeAddEffectEnfeeblement(mob, target, pTable)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

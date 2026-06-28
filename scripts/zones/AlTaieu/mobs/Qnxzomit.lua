@@ -32,9 +32,6 @@ entity.onMobSpawn = function(mob)
     end
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobEngage = function(mob, target)
     -- These are needed to make their NIN main job not behave like a beastmen NIN (no throwing or standing at range to cast)
     mob:setMobMod(xi.mobMod.NO_STANDBACK, 1)

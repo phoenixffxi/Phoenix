@@ -24,13 +24,13 @@ end
 
 local function openMouth(mob)
     local damage = 1 + mob:getMainLvl() / 2
-    mob:setMobMod(xi.mobMod.WEAPON_BONUS, damage)
+    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MODIFIER, damage)
     mob:setAnimationSub(2) -- TODO: the db.. mobs start with animsub 4 or 6? shouldn't even be possible
     mob:wait(2000)
 end
 
 local function closeMouth(mob)
-    mob:setMobMod(xi.mobMod.WEAPON_BONUS, 0)
+    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MODIFIER, 0)
     mob:setLocalVar('[euvhi]changeTime', GetSystemTime() + 80)
     mob:setLocalVar('closeMouth', 0)
     mob:setAnimationSub(1) -- TODO: db shows animsub 5?

@@ -42,9 +42,6 @@ entity.onMobSpawn = function(mob)
     end
 end
 
-entity.onMobFight = function(mob, target)
-end
-
 -- If Para uses TP specific TP moves move under 50% HP then it will spawn a clone.
 -- Will only spawn 4 adds total.
 -- Adds will spawn ontop of the player.
@@ -82,7 +79,4 @@ entity.onMobWeaponSkill = function(mob, target, skill, action)
 end
 
 -- Clones do not despawn when original is killed. Consistent with capture.
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

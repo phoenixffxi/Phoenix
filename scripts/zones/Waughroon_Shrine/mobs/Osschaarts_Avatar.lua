@@ -8,7 +8,4 @@ local entity = {}
 
 mixins = { require('scripts/mixins/families/avatar') }
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

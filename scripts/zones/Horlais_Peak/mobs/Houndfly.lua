@@ -15,7 +15,4 @@ entity.onMobMobskillChoose = function(mob, target, skillId)
     return xi.mobSkill.VENOM_1
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

@@ -23,7 +23,4 @@ entity.onMobSpellChoose = function(mob, target, spellId)
     return xi.magic.spell.HORDE_LULLABY
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

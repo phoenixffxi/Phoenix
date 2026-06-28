@@ -8,9 +8,6 @@ local ID = zones[xi.zone.YUGHOTT_GROTTO]
 ---@type TMobEntity
 local entity = {}
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     xi.mob.phOnDespawn(mob, ID.mob.ASHMAKER_GOTBLUT, 5, 3600) -- 1 hour minimum
 end

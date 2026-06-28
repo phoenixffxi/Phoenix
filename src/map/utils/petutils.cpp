@@ -720,6 +720,7 @@ void LoadAutomatonStats(CCharEntity* PMaster, CPetEntity* PPet, Pet_t* petStats,
 
 void LoadAvatarStats(CBattleEntity* PMaster, CPetEntity* PPet)
 {
+    // TODO: Audit Avatar HP Scale
     // Declaration of variables needed for calculation.
     float raceStat          = 0; // final HP for level based on race.
     float jobStat           = 0; // final number of HP for the level based on the primary profession.
@@ -891,7 +892,9 @@ void CalculateAvatarStats(CBattleEntity* PMaster, CPetEntity* PPet)
         PPet->SetMLevel(mLvl);
     }
     else
-    { // should never happen
+    { // TODO: How does this interact since all jobs can use it?
+      // https://www.bg-wiki.com/ffxi/Poseidon%27s_Ring
+
         ShowDebug("%s summoned an avatar but is not SMN main or SMN sub! Please report. ", PMaster->getName());
         PPet->SetMLevel(1);
     }
@@ -920,27 +923,21 @@ void CalculateAvatarStats(CBattleEntity* PMaster, CPetEntity* PPet)
     {
         PPet->setModifier(Mod::MATT, 20);
     }
-    static_cast<CItemWeapon*>(PPet->m_Weapons[SLOT_MAIN])->setDelay(320);
 
-    if (petID == PETID_FENRIR)
-    {
-        static_cast<CItemWeapon*>(PPet->m_Weapons[SLOT_MAIN])->setDelay(280);
-    }
+    static_cast<CItemWeapon*>(PPet->m_Weapons[SLOT_MAIN])->setDelay(PPetData->cmbDelay);
+    static_cast<CItemWeapon*>(PPet->m_Weapons[SLOT_MAIN])->setBaseDelay(PPetData->cmbDelay);
+    static_cast<CItemWeapon*>(PPet->m_Weapons[SLOT_RANGED])->setBaseDelay(360); // Used for titan's ranged skills TP returns.
 
     // In a 2014 update SE updated Avatar base damage
-    // Based on testing this value appears to be Level now instead of Level * 0.74f
-    uint16 weaponDamage = 1 + mLvl;
-    if (petID == PETID_CARBUNCLE || petID == PETID_CAIT_SITH)
-    {
-        weaponDamage = static_cast<uint16>(floor(mLvl * 0.9f));
-    }
+    uint16 weaponDamage = mLvl + 2;
 
     static_cast<CItemWeapon*>(PPet->m_Weapons[SLOT_MAIN])->setDamage(weaponDamage);
-    static_cast<CItemWeapon*>(PPet->m_Weapons[SLOT_MAIN])->setBaseDelay(PPetData->cmbDelay);
+
     // Set B+ weapon skill (assumed capped for level derp)
     // attack is madly high for avatars (roughly x2)
     PPet->setModifier(Mod::ATT, 2 * battleutils::GetMaxSkill(SKILL_CLUB, JOB_WHM, mLvl > 99 ? 99 : mLvl));
     PPet->setModifier(Mod::ACC, battleutils::GetMaxSkill(SKILL_CLUB, JOB_WHM, mLvl > 99 ? 99 : mLvl));
+
     // Set E evasion and def
     PPet->setModifier(Mod::EVA, battleutils::GetMaxSkill(SKILL_THROWING, JOB_WHM, mLvl > 99 ? 99 : mLvl));
     PPet->setModifier(Mod::DEF, battleutils::GetMaxSkill(SKILL_THROWING, JOB_WHM, mLvl > 99 ? 99 : mLvl));

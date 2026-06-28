@@ -53,7 +53,4 @@ entity.onMobWeaponSkill = function(mob, target, skill, action)
     end
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

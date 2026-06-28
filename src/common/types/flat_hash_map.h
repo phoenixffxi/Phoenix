@@ -36,8 +36,9 @@
 //
 // Iteration & Invalidation:
 //   - Iteration is highly efficient and happens in insertion order.
-//   - Reallocations (via insert/emplace) invalidate all iterators, pointers, and references.
-//   - erase() invalidates iterators to the removed element AND the last element in the
+//   - IMPORTANT: Reallocations (via insert/emplace) invalidate all iterators, pointers,
+//     and references.
+//   - IMPORTANT: erase() invalidates iterators to the removed element AND the last element in the
 //     underlying vector (as it uses a move-from-back strategy to maintain density).
 //
 

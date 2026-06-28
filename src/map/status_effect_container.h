@@ -70,7 +70,7 @@ public:
     void DelStatusEffectsByType(uint16 Type);
     auto DelStatusEffectByTier(xi::StatusEffect StatusID, uint16 power) -> bool;
     void KillAllStatusEffect();
-    void ApplyStateAlteringEffects(CStatusEffect* StatusEffect);
+    void HandleEffectGainSideEffects(CStatusEffect* StatusEffect);
 
     auto HasStatusEffect(xi::StatusEffect StatusID) -> bool;               // We check the presence of the effect
     auto HasStatusEffect(xi::StatusEffect StatusID, uint16 SubID) -> bool; // Check the presence of an effect with a unique Subid
@@ -108,11 +108,8 @@ public:
     auto  GetEffectsCountWithFlag(xi::StatusEffectFlag flag) -> uint8; // We get the number of effects with the specified flag
     uint8 GetLowestFreeSlot();                                         // returns the lowest free slot for songs/rolls
 
-    auto ApplyCorsairEffect(CStatusEffect* PStatusEffect, uint8 maxRolls, uint8 bustDuration) -> bool;
     bool CheckForElevenRoll();
     bool HasBustEffect(uint16 id);
-    bool HasCorsairEffect(uint32 charid);
-    void Fold(uint32 charid);
 
     uint8 GetActiveManeuverCount();
     void  RemoveOldestManeuver();

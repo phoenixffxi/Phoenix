@@ -725,11 +725,8 @@ public:
     auto delLatent(uint16 condID, uint16 conditionValue, uint16 mID, int16 modValue) -> bool;
     bool hasAllLatentsActive(uint8 slot);
 
-    void   fold();
     void   doWildCard(CLuaBaseEntity* PEntity, uint8 total);
     bool   doRandomDeal(CLuaBaseEntity* PTarget);
-    auto   addCorsairRoll(sol::variadic_args va) -> bool;
-    bool   hasCorsairEffect();
     bool   hasBustEffect(uint16 id); // Checks to see if a character has a specified busted corsair roll
     uint8  numBustEffects();         // Gets the number of bust effects on the player
     uint16 healingWaltz();
@@ -893,7 +890,7 @@ public:
     bool isAggroable();
 
     void setDelay(uint16 delay);
-    void setDamage(uint16 damage);
+    auto setDamage(uint16 damage, uint8 slot) -> void;
     auto getSpellListId() const -> uint16;
     auto hasSpellList() const -> bool;
     void setSpellList(uint16 spellListId) const;

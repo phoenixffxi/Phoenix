@@ -111,7 +111,7 @@ quest.sections =
 
             ['Blackbone_Frazdiz'] =
             {
-                onMobDeath = function(mob, player)
+                onMobDeath = function(mob, player, optParams)
                     if
                         quest:getVar(player, 'Prog') == 2 and
                         GetMobByID(orcNM + 1):isDead()
@@ -123,7 +123,7 @@ quest.sections =
 
             ['Rainbringer_Yjatvot'] =
             {
-                onMobDeath = function(mob, player)
+                onMobDeath = function(mob, player, optParams)
                     if
                         quest:getVar(player, 'Prog') == 2 and
                         GetMobByID(orcNM):isDead()

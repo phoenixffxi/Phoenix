@@ -16,9 +16,6 @@ entity.onMobFight = function(mob, target)
     end
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     local lumberJackID = mob:getID() + 6
     -- Retail behavior is for it to walk back to where willow died if unclaimed *unless* willow was pulled down the cliff

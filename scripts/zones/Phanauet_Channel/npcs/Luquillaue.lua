@@ -6,17 +6,8 @@
 -----------------------------------
 local entity = {}
 
-entity.onTrade = function(player, npc, trade)
-end
-
 entity.onTrigger = function(player, npc)
     xi.barge.timekeeperOnTrigger(player, xi.barge.location.PHANAUET_CHANNEL, 4)
-end
-
-entity.onEventUpdate = function(player, csid, option, npc)
-end
-
-entity.onEventFinish = function(player, csid, option, npc)
 end
 
 return entity

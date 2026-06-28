@@ -12,10 +12,4 @@ entity.onMobInitialize = function(mob)
     mob:addMod(xi.mod.SLEEP_MEVA, 50)
 end
 
-entity.onMobSpawn = function(mob)
-end
-
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

@@ -76,9 +76,6 @@ entity.onTrigger = function(player, npc)
     end
 end
 
-entity.onEventUpdate = function(player, csid, option, npc)
-end
-
 entity.onEventFinish = function(player, csid, option)
     if csid == 18 and option >= 1 and option <= 9 then
         xi.einherjar.giveChamberFeather(player, option)

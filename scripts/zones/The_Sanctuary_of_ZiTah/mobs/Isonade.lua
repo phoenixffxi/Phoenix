@@ -14,7 +14,4 @@ entity.onMobSpawn = function(mob)
     mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 200)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

@@ -14,6 +14,7 @@
 # Build results
 build/
 build*/
+.cpm-cache/
 lbuild/
 build_mariadb_32/
 build_mariadb_64/

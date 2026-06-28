@@ -11,7 +11,4 @@ entity.onMobInitialize = function(mob)
     mob:setMobMod(xi.mobMod.AVATAR_PETID, xi.petId.SHIVA)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

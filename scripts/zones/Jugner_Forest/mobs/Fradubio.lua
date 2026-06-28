@@ -110,9 +110,6 @@ entity.onMobWeaponSkill = function(mob, target, skill, action)
     end
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     xi.mob.updateNMSpawnPoint(mob)
     for i = ID.mob.FRADUBIO + 1, ID.mob.FRADUBIO + 5 do

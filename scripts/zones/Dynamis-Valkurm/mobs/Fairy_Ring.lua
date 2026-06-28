@@ -11,10 +11,7 @@ entity.onMobSpawn = function(mob)
     mob:setMobSkillAttack(2008) -- use mephitic spare as its auto attack
     mob:addImmunity(xi.immunity.LIGHT_SLEEP)
     mob:addImmunity(xi.immunity.DARK_SLEEP)
-    mob:setMobMod(xi.mobMod.WEAPON_BONUS, 165) -- Level 85 + 2 + 165 = 252 Base damage
-end
-
-entity.onMobDeath = function(mob, player, optParams)
+    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MODIFIER, 165) -- Level 85 + 2 + 165 = 252 Base damage
 end
 
 return entity

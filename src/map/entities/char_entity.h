@@ -19,8 +19,7 @@
 ===========================================================================
 */
 
-#ifndef _CHARENTITY_H
-#define _CHARENTITY_H
+#pragma once
 
 #include "aman.h"
 #include "event_info.h"
@@ -32,11 +31,13 @@
 #include "map_session.h"
 #include "monstrosity.h"
 
-#include "common/cbasetypes.h"
-#include "common/mmo.h"
-#include "common/xi.h"
+#include <common/cbasetypes.h>
+#include <common/mmo.h>
+#include <common/types/flat_hash_map.h>
+#include <common/xi.h>
 
 #include <array>
+
 #include <bitset>
 #include <deque>
 #include <map>
@@ -282,8 +283,8 @@ class CRangeState;
 class CItemState;
 class CItemUsable;
 
-typedef std::map<uint32, CBaseEntity*> SpawnIDList_t;
-typedef std::vector<EntityID_t>        BazaarList_t;
+typedef FlatHashMap<uint32, CBaseEntity*> SpawnIDList_t;
+typedef std::vector<EntityID_t>           BazaarList_t;
 
 struct ItemLocation
 {
@@ -813,5 +814,3 @@ private:
     std::deque<std::unique_ptr<CBasicPacket>> PacketList;          // The list of packets to be sent to the character during the next network cycle
     std::unordered_map<uint32, CBasicPacket*> EntityUpdatePackets; // Keep track of entity update packets by ID, such that they can be updated
 };
-
-#endif

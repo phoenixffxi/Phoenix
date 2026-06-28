@@ -88,7 +88,7 @@ entity.onMobEngage = function(mob)
 end
 
 entity.onMobSpawn = function(mob)
-    mob:setMobMod(xi.mobMod.WEAPON_BONUS, 50)
+    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MODIFIER, 50)
     mob:setMobMod(xi.mobMod.ALWAYS_AGGRO, 1)
     mob:setMobMod(xi.mobMod.NO_MOVE, 0)
     mob:addImmunity(xi.immunity.BIND)

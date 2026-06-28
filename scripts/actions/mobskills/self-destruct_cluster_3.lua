@@ -14,12 +14,13 @@ end
 mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
-    params.baseDamage     = skill:getMobHP()
-    params.fTP            = { 0.40, 0.40, 0.40 }
-    params.element        = xi.element.FIRE
-    params.attackType     = xi.attackType.BREATH
-    params.damageType     = xi.damageType.FIRE
-    params.shadowBehavior = xi.mobskills.shadowBehavior.IGNORE_SHADOWS
+    params.baseDamage         = skill:getMobHP()
+    params.fTP                = { 0.33, 0.33, 0.33 }
+    params.element            = xi.element.FIRE
+    params.attackType         = xi.attackType.BREATH
+    params.damageType         = xi.damageType.FIRE
+    params.skipMagicBonusDiff = true
+    params.shadowBehavior     = xi.mobskills.shadowBehavior.IGNORE_SHADOWS
 
     if mob:getPool() == xi.mobPool.RAZON then
         params.baseDamage = mob:getMaxHP()

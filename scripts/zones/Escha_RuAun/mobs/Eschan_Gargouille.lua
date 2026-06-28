@@ -17,7 +17,4 @@ entity.onMobEngage = function(mob, target)
     mob:setAnimationSub(0)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

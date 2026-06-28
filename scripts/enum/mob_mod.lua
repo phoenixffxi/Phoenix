@@ -67,7 +67,7 @@ xi.mobMod =
     HP_STANDBACK           = 56, -- mob will always standback with hp % higher to value
     MAGIC_DELAY            = 57, -- Amount of seconds mob waits before casting first spell
     SPECIAL_DELAY          = 58, -- Amount of seconds mob waits before using first special
-    WEAPON_BONUS           = 59, -- Add a flat modifer mob weapon damage ( damage + bonus )
+    BASE_DAMAGE_MODIFIER   = 59, -- Add a flat modifer mob a mob's base damage. This is subject to multiplication by MOBMOD_BASE_DAMAGE_MULTIPLIER.
     SPAWN_ANIMATIONSUB     = 60, -- reset animationsub to this on spawn
     HP_SCALE               = 61, -- Scale the mobs max HP. ( hp_scale / 100 ) * maxhp
     NO_STANDBACK           = 62, -- Mob will never standback
@@ -94,7 +94,7 @@ xi.mobMod =
     CLAIM_TYPE             = 83, -- Changes the claim behavior of the mob. See xi.claimType enum.
     NO_SPELL_COST          = 84, -- Mob does not use MP when casting spells
     ASTRAL_PET_OFFSET      = 85, -- If non-zero, defines the offset from main mob's ID for astral flow (if zero, will assume offset of 2)
-    BASE_DAMAGE_MULTIPLIER = 86, -- Multiplies the mob's base damage. Example: 150 = x1.5
+    BASE_DAMAGE_MULTIPLIER = 86, -- Multiplies the mob's base damage. Example: 150 = x1.5. MOBMOD_DAMAGE_OFFSET/MOBMOD_RANGED_DAMAGE_OFFSET are not subject to multiplication.
     DAMAGE_OFFSET          = 87, -- Adds or subtracts the mob's base damage offset.
     RANGED_DAMAGE_OFFSET   = 88, -- Adds or subtracts the mob's ranged base damage offset.
     AVATAR_PETID           = 89, -- A value from xi.petId to select model/ability from when owner uses astral flow

@@ -43,7 +43,4 @@ entity.onMobMobskillChoose = function(mob, target, skillId)
     return tpMoves[math.random(1, #tpMoves)]
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

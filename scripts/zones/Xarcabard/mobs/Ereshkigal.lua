@@ -29,9 +29,6 @@ entity.onAdditionalEffect = function(mob, target, damage)
     return xi.combat.action.executeAddEffectDamage(mob, target, pTable)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     -- set PH back to active spawn
     local ph = GetMobByID(mob:getID() - 1)

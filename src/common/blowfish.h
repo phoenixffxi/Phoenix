@@ -43,4 +43,7 @@ struct blowfish_t
 void blowfish_decipher(uint32* xl, uint32* xr, const uint32* P, uint32* S);
 void blowfish_encipher(uint32* xl, uint32* xr, const uint32* P, uint32* S);
 
+void blowfish_decipher_blocks(uint32* data, size_t count, const uint32* P, uint32* S);
+void blowfish_encipher_blocks(uint32* data, size_t count, const uint32* P, uint32* S);
+
 uint32* blowfish_init(const int8 key[], int16 keybytes, uint32* P, uint32* S);

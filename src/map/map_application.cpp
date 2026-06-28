@@ -107,7 +107,7 @@ void MapApplication::registerCommands(ConsoleService& console)
     console.registerCommand("backtrace", "Print backtrace", std::bind(&MapEngine::onBacktrace, mapEngine, std::placeholders::_1));
 }
 
-void MapApplication::run()
+auto MapApplication::run() -> bool
 {
     engine_ = createEngine();
     if (!engine_)
@@ -127,5 +127,8 @@ void MapApplication::run()
     catch (const std::exception& e)
     {
         ShowCriticalFmt("Fatal Exception: {}", e.what());
+        return false;
     }
+
+    return true;
 }

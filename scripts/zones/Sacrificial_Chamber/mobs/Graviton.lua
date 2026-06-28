@@ -37,7 +37,4 @@ entity.onMobDisengage = function(mob)
     mob:setLocalVar('everyonesRancorUsed', 0)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

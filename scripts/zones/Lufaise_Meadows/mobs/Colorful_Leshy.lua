@@ -46,9 +46,6 @@ entity.onMobRoam = function(mob)
     end
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     local phIndex = mob:getLocalVar('phIndex')
     if phIndex ~= 0 then

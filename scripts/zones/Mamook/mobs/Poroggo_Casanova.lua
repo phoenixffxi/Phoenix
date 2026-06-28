@@ -8,12 +8,6 @@ local ID = zones[xi.zone.MAMOOK]
 ---@type TMobEntity
 local entity = {}
 
-entity.onMobSpawn = function(mob)
-end
-
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     for i = ID.mob.POROGGO_CASANOVA + 1, ID.mob.POROGGO_CASANOVA + 5 do
         DespawnMob(i)

@@ -76,9 +76,6 @@ entity.onMobSpawn = function(mob)
     mob:setMaxMP(0) -- WHM but has no MP
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     -- Set Woodland_Sage's spawnpoint and respawn time (21-24 hours)
     xi.mob.updateNMSpawnPoint(mob)

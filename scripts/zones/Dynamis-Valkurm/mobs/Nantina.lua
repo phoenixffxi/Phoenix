@@ -32,7 +32,4 @@ entity.onMobMobskillChoose = function(mob, target, skillId)
     end
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

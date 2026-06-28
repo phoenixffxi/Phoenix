@@ -16,9 +16,6 @@ entity.onMobInitialize = function(mob)
     mob:setMod(xi.mod.LIGHT_SLEEP_RES_RANK, 7)
 end
 
-entity.onMobSpawn = function(mob)
-end
-
 entity.onMobDeath = function(mob, player, optParams)
     local elementalId = mob:getID() + 2
     if GetMobByID(elementalId):isSpawned() then

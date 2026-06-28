@@ -109,9 +109,6 @@ entity.onMobSpawn = function(mob)
     })
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     mob:setLocalVar('AERN_RERAISES', 0)
 end

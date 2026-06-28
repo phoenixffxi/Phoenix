@@ -46,7 +46,41 @@ local attohwaChasmGlobal =
 
             npc:setLocalVar('timer', GetSystemTime() + newTimer)
         end
-    end
+    end,
+
+    handleLuminantUsed = function(npc)
+        npc:setStatus(xi.status.CUTSCENE_ONLY)
+
+        -- Reactivate a random deactivated luminant after 30-60 minutes
+        -- Because 3 luminants always start activated when the server starts,
+        -- the luminants will always be restored back to 3 active eventually.
+        npc:timer(math.random(1800, 3600), function()
+            local luminantTable = ID.npc.LUMINANT
+            local shuffledTable = utils.shuffle(luminantTable) -- Reorder the luminantTable randomly.
+            for _, luminantId in ipairs(shuffledTable) do
+                local luminant = GetNPCByID(luminantId)
+                if
+                    luminant and
+                    luminant:getStatus() == xi.status.CUTSCENE_ONLY
+                then
+                    luminant:setStatus(xi.status.NORMAL)
+                    break
+                end
+            end
+        end)
+    end,
+
+    removeMimeoKIs = function(player)
+        if player:hasKeyItem(xi.ki.MIMEO_STONE) then
+            player:delKeyItem(xi.ki.MIMEO_STONE)
+            player:messageSpecial(ID.text.MIMEO_JEWEL_OFFSET + 4, xi.ki.MIMEO_STONE)
+        end
+
+        if player:hasKeyItem(xi.ki.MIMEO_JEWEL) then
+            player:delKeyItem(xi.ki.MIMEO_JEWEL)
+            player:messageSpecial(ID.text.MIMEO_JEWEL_OFFSET + 4, xi.ki.MIMEO_JEWEL)
+        end
+    end,
 }
 
 return attohwaChasmGlobal

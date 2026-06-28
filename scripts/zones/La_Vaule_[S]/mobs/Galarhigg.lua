@@ -6,12 +6,6 @@
 ---@type TMobEntity
 local entity = {}
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
-entity.onMobDespawn = function(mob)
-end
-
 entity.onMobWeaponSkill = function(mob, target, skill, action)
     local id = skill:getID()
 

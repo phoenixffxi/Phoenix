@@ -12,7 +12,4 @@ entity.onMobSpawn = function(mob)
     mob:setMobSkillAttack(2012) -- use gouging_branch as its auto attack
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

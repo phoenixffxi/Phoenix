@@ -48,7 +48,7 @@ entity.onMobFight = function(mob, target)
             mobArg:setAutoAttackEnabled(true)
         end)
 
-        mob:setMobMod(xi.mobMod.WEAPON_BONUS, selectedForm.bonus)
+        mob:setMobMod(xi.mobMod.BASE_DAMAGE_MODIFIER, selectedForm.bonus)
         mob:setDelay(selectedForm.delay)
         mob:setAnimationSub(selectedForm.animSub)
         mob:setMod(xi.mod.TRIPLE_ATTACK, selectedForm.tripleAtk)
@@ -77,7 +77,7 @@ end
 entity.onMobDisengage = function(mob)
     -- Reset to normal form with normal mode stats
     mob:setAnimationSub(13)
-    mob:setMobMod(xi.mobMod.WEAPON_BONUS, 0)
+    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MODIFIER, 0)
     mob:setDelay(240)
     mob:setMod(xi.mod.TRIPLE_ATTACK, 0)
 end

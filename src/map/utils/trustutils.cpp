@@ -397,7 +397,8 @@ auto LoadTrust(CCharEntity* PMaster, uint32 TrustID) -> CTrustEntity*
     LoadTrustStatsAndSkills(PTrust);
 
     // Use Mob formulas to work out base "weapon" damage, but scale down to reasonable values.
-    const float  mobStyleDamage   = static_cast<float>(mobutils::GetWeaponDamage(PTrust, SLOT_MAIN));
+    // TODO: Verify trust base damage.
+    const float  mobStyleDamage   = static_cast<float>(mobutils::GetBaseWeaponDamage(PTrust, SLOT_MAIN));
     const float  baseDamage       = mobStyleDamage * 0.5f;
     const float  damageMultiplier = static_cast<float>(trustData->cmbDmgMult) / 100.0f;
     const float  adjustedDamage   = baseDamage * damageMultiplier;

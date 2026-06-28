@@ -32,6 +32,7 @@ zones[xi.zone.BASTOK_MARKETS_S] =
         WELDON_DELIVERY_DIALOG        = 10891, -- Do you have something you wish to send?
         ARE_TAKEN_AWAY_FROM_CHAR      = 11555, -- The <keyitem> are taken away from <player>!
         CAMPAIGN_RESULTS_TALLIED      = 11775, -- Campaign results tallied.
+        NOW_ALLIED_WITH               = 12050, -- You are now a member of the [/Knights of the Iron Ram/Republican Legion's Fourth Division/Cobra Unit]!
         ALLIED_SIGIL                  = 12379, -- You have received the Allied Sigil!
         SILKE_SHOP_DIALOG             = 12831, -- You wouldn't happen to be a fellow scholar, by any chance? The contents of these pages are beyond me, but perhaps you might glean something from them. They could be yours...for a nominal fee.
         KEVAN_TURN_IN                 = 13578, -- Just as we suspected. This contains a great deal of information that will prove vital to our cause. Hm, what's this? Not sure what to make of this... Doesn't seem to be terribly important. Here, why don't you hang onto it? See if you can't get some use out of it down the road.

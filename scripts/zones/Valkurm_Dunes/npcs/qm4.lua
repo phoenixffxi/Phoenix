@@ -13,9 +13,6 @@ entity.onTrade = function(player, npc, trade)
     end
 end
 
-entity.onTrigger = function(player, npc)
-end
-
 entity.onEventUpdate = function(player, csid, option, npc)
     return xi.piratesChart.onEventUpdate(player, csid, option, npc)
 end

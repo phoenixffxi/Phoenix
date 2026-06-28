@@ -47,9 +47,6 @@ entity.onMobSpawnCheck = function(mob)
     return 0
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     xi.mob.phOnDespawn(mob, ID.mob.VASILICERATOPS, 10, 5400) -- 1.5 hour
 

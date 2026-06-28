@@ -12,7 +12,4 @@ entity.phList =
     [ID.mob.CRYPT_GHOST - 1] = ID.mob.CRYPT_GHOST, -- Confirmed on retail
 }
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

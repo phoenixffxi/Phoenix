@@ -9,23 +9,11 @@
 local abilityObject = {}
 
 abilityObject.onAbilityCheck = function(player, target, ability)
-    if target:hasCorsairEffect() then
-        return 0, 0
-    end
-
-    return xi.msg.basic.CANNOT_PERFORM, 0
+    return xi.job_utils.corsair.checkFold(player)
 end
 
-abilityObject.onUseAbility = function(player, target, ability)
-    target:fold()
-
-    local merit = target:getMerit(xi.merit.FOLD) -10
-
-    if math.random(0, 99) < merit then
-        target:resetRecast(xi.recast.ABILITY, 193)
-    end
-
-    -- return xi.effect.FOLD -- TODO: implement xi.effect.FOLD
+abilityObject.onUseAbility = function(player, target, ability, action)
+    return xi.job_utils.corsair.useFold(player, action)
 end
 
 return abilityObject

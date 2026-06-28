@@ -9,9 +9,6 @@ mixins = { require('scripts/mixins/families/ladybug') }
 ---@type TMobEntity
 local entity = {}
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     xi.mob.phOnDespawn(mob, ID.mob.SKOGS_FRU, 5, 3600) -- 1 hour
 end

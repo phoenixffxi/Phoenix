@@ -58,10 +58,4 @@ entity.onMobEngage = function(mob, target)
     mob:setTP(3000)
 end
 
-entity.onMobFight = function(mob, target)
-end
-
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

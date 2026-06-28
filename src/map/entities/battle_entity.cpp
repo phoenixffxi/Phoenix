@@ -620,8 +620,37 @@ uint16 CBattleEntity::GetMainWeaponDmg()
 
     if (objtype == TYPE_MOB)
     {
-        auto* PMob = static_cast<CMobEntity*>(this);
-        return mobutils::GetWeaponDamage(PMob, SLOT_MAIN);
+        auto* weapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_MAIN]);
+
+        int32 weaponDamage       = weapon->getDamage();
+        int32 baseDamageModifier = 0;
+        int32 damageModifier     = getMod(Mod::MAIN_DMG_RATING);
+        float damageMultiplier   = 1.0f;
+        int32 weaponDamageOffset = 0;
+
+        if (auto* PMob = dynamic_cast<CMobEntity*>(this))
+        {
+            weaponDamageOffset = PMob->getMobMod(MOBMOD_DAMAGE_OFFSET);
+            damageMultiplier   = PMob->m_dmgMult / 100.0f;
+
+            // Add this mod to increase a mobs damage by a base amount
+            if (PMob->getMobMod(MOBMOD_BASE_DAMAGE_MODIFIER) != 0)
+            {
+                baseDamageModifier = PMob->getMobMod(MOBMOD_BASE_DAMAGE_MODIFIER);
+            }
+
+            if (PMob->getMobMod(MOBMOD_BASE_DAMAGE_MULTIPLIER) != 0)
+            {
+                damageMultiplier = PMob->getMobMod(MOBMOD_BASE_DAMAGE_MULTIPLIER) / 100.0f;
+            }
+        }
+
+        int32 damage = static_cast<int32>(std::floor((weaponDamage + baseDamageModifier) * damageMultiplier));
+
+        damage += damageModifier + weaponDamageOffset;
+        damage = std::clamp(damage, 1, 65535);
+
+        return static_cast<uint16>(damage);
     }
     else if (objtype == TYPE_PET)
     {
@@ -639,15 +668,15 @@ uint16 CBattleEntity::GetMainWeaponDmg()
         }
         else if (PPetEntity->getPetType() == PET_TYPE::AVATAR)
         {
-            // In a 2014 update SE updated Avatar base damage
-            // Based on testing this value appears to be Level now instead of Level * 0.74f
-            uint16 weaponDamage = 1 + GetMLevel();
-            if (PPetEntity->petID() == PETID_CARBUNCLE || PPetEntity->petID() == PETID_CAIT_SITH)
-            {
-                weaponDamage = static_cast<uint16>(floor(GetMLevel() * 0.9f));
-            }
+            auto* weapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_MAIN]);
 
-            return weaponDamage + getMod(Mod::MAIN_DMG_RATING);
+            int32 weaponDamage   = weapon->getDamage();
+            int32 damageModifier = getMod(Mod::MAIN_DMG_RATING);
+
+            weaponDamage += damageModifier;
+            weaponDamage = std::clamp<int32>(weaponDamage, 1, 65535);
+
+            return static_cast<uint16>(weaponDamage);
         }
         else // jugs
         {
@@ -684,8 +713,37 @@ uint16 CBattleEntity::GetSubWeaponDmg()
         (objtype == TYPE_PET &&
          static_cast<CPetEntity*>(this)->getPetType() != PET_TYPE::AUTOMATON))
     {
-        auto* PMob = static_cast<CMobEntity*>(this);
-        return mobutils::GetWeaponDamage(PMob, SLOT_MAIN); // So help me duke if mob offhand isn't identical to mainhand somewhere
+        auto* weapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_SUB]);
+
+        int32 weaponDamage       = weapon->getDamage();
+        int32 baseDamageModifier = 0;
+        int32 damageModifier     = getMod(Mod::SUB_DMG_RATING);
+        float damageMultiplier   = 1.0f;
+        int32 weaponDamageOffset = 0;
+
+        if (auto* PMob = dynamic_cast<CMobEntity*>(this))
+        {
+            weaponDamageOffset = PMob->getMobMod(MOBMOD_DAMAGE_OFFSET);
+            damageMultiplier   = PMob->m_dmgMult / 100.0f;
+
+            // Add this mod to increase a mobs damage by a base amount
+            if (PMob->getMobMod(MOBMOD_BASE_DAMAGE_MODIFIER) != 0)
+            {
+                baseDamageModifier = PMob->getMobMod(MOBMOD_BASE_DAMAGE_MODIFIER);
+            }
+
+            if (PMob->getMobMod(MOBMOD_BASE_DAMAGE_MULTIPLIER) != 0)
+            {
+                damageMultiplier = PMob->getMobMod(MOBMOD_BASE_DAMAGE_MULTIPLIER) / 100.0f;
+            }
+        }
+
+        int32 damage = static_cast<int32>(std::floor((weaponDamage + baseDamageModifier) * damageMultiplier));
+
+        damage += damageModifier + weaponDamageOffset;
+        damage = std::clamp(damage, 1, 65535);
+
+        return static_cast<uint16>(damage);
     }
 
     if (auto* weapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_SUB]))
@@ -714,8 +772,37 @@ uint16 CBattleEntity::GetRangedWeaponDmg()
 
     if (objtype == TYPE_MOB)
     {
-        auto* PMob = static_cast<CMobEntity*>(this);
-        return mobutils::GetWeaponDamage(PMob, SLOT_RANGED);
+        auto* weapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_RANGED]);
+
+        int32 weaponDamage       = weapon->getDamage();
+        int32 baseDamageModifier = 0;
+        int32 damageModifier     = getMod(Mod::RANGED_DMG_RATING);
+        float damageMultiplier   = 1.0f;
+        int32 weaponDamageOffset = 0;
+
+        if (auto* PMob = dynamic_cast<CMobEntity*>(this))
+        {
+            weaponDamageOffset = PMob->getMobMod(MOBMOD_RANGED_DAMAGE_OFFSET);
+            damageMultiplier   = PMob->m_dmgMult / 100.0f;
+
+            // Add this mod to increase a mobs damage by a base amount
+            if (PMob->getMobMod(MOBMOD_BASE_DAMAGE_MODIFIER) != 0)
+            {
+                baseDamageModifier = PMob->getMobMod(MOBMOD_BASE_DAMAGE_MODIFIER);
+            }
+
+            if (PMob->getMobMod(MOBMOD_BASE_DAMAGE_MULTIPLIER) != 0)
+            {
+                damageMultiplier = PMob->getMobMod(MOBMOD_BASE_DAMAGE_MULTIPLIER) / 100.0f;
+            }
+        }
+
+        int32 damage = static_cast<int32>(std::floor((weaponDamage + baseDamageModifier) * damageMultiplier));
+
+        damage += damageModifier + weaponDamageOffset;
+        damage = std::clamp(damage, 1, 65535);
+
+        return static_cast<uint16>(damage);
     }
     else if (objtype == TYPE_PET)
     {
@@ -733,15 +820,15 @@ uint16 CBattleEntity::GetRangedWeaponDmg()
         }
         else if (PPetEntity->getPetType() == PET_TYPE::AVATAR)
         {
-            // In a 2014 update SE updated Avatar base damage
-            // Based on testing this value appears to be Level now instead of Level * 0.74f
-            uint16 weaponDamage = 1 + GetMLevel();
-            if (PPetEntity->petID() == PETID_CARBUNCLE || PPetEntity->petID() == PETID_CAIT_SITH)
-            {
-                weaponDamage = static_cast<uint16>(floor(GetMLevel() * 0.9f));
-            }
+            auto* weapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_RANGED]);
 
-            return weaponDamage + getMod(Mod::RANGED_DMG_RATING);
+            int32 weaponDamage   = weapon->getDamage();
+            int32 damageModifier = getMod(Mod::RANGED_DMG_RATING);
+
+            weaponDamage += damageModifier;
+            weaponDamage = std::clamp<int32>(weaponDamage, 1, 65535);
+
+            return static_cast<uint16>(weaponDamage);
         }
         else // jugs
         {

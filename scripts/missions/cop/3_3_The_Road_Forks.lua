@@ -420,7 +420,7 @@ mission.sections =
 
             onZoneOut = function(player)
                 if player:hasKeyItem(xi.ki.MIMEO_JEWEL) then
-                    player:messageSpecial(attohwaChasmID.text.MIMEO_JEWEL_OFFSET + 4)
+                    player:messageSpecial(attohwaChasmID.text.MIMEO_JEWEL_OFFSET + 4, xi.ki.MIMEO_JEWEL)
                     player:delKeyItem(xi.ki.MIMEO_JEWEL)
                 end
             end,

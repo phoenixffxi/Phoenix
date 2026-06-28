@@ -1,5 +1,6 @@
 -----------------------------------
 -- The Fighting Fourth (WOTG Nation Quests Bastok Intro)
+-----------------------------------
 -- !addquest 7 7
 -- Turbulent Storm : !pos 422.461 -48.000 -47.308 175
 -- Adelbrecht      : !pos -325.766 -12.601 -76.977 87
@@ -14,13 +15,7 @@ local quest = Quest:new(xi.questLog.CRYSTAL_WAR, xi.quest.id.crystalWar.THE_FIGH
 
 quest.reward =
 {
-    -- TODO: The messaging for this should be first keyItem and then item, but is swapped
-    item    = xi.item.SPRINTERS_SHOES,
-    keyItem = xi.keyItem.BRONZE_RIBBON_OF_SERVICE,
-    title   = xi.title.FOURTH_DIVISION_SOLDIER,
-
-    -- TODO: You should only get the item reward the first time you sign up to a campaign allegiance.
-    --     : You shouldn't get it again if you switch allegiances (but not a huge deal, these are a cheap item)
+    title = xi.title.FOURTH_DIVISION_SOLDIER,
 }
 
 local removeRations = function(player)
@@ -36,6 +31,7 @@ end
 
 local quitQuest = function(player)
     player:delQuest(xi.questLog.CRYSTAL_WAR, xi.quest.id.crystalWar.THE_FIGHTING_FOURTH)
+    quest:cleanup(player)
 end
 
 quest.sections =
@@ -162,8 +158,23 @@ quest.sections =
                 end,
 
                 [143] = function(player, csid, option, npc)
-                    player:setCampaignAllegiance(2)
-                    quest:complete(player)
+                    local hasNoAllegiance = player:getCampaignAllegiance() == 0
+
+                    if
+                        hasNoAllegiance and
+                        not npcUtil.giveItem(player, xi.item.SPRINTERS_SHOES)
+                    then
+                        return
+                    end
+
+                    if quest:complete(player) then
+                        if hasNoAllegiance then
+                            npcUtil.giveKeyItem(player, xi.ki.BRONZE_RIBBON_OF_SERVICE)
+                        end
+
+                        player:setCampaignAllegiance(2)
+                        player:messageSpecial(marketsID.text.NOW_ALLIED_WITH, 2)
+                    end
                 end,
             },
         },

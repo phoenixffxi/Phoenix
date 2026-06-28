@@ -13,7 +13,4 @@ entity.onMobSpawn = function(mob)
     mob:setMod(xi.mod.SILENCE_RES_RANK, 10)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

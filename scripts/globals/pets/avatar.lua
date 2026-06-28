@@ -81,6 +81,16 @@ local function setMagicCastCooldown(pet)
     pet:setMobMod(xi.mobMod.MAGIC_COOL, lastCastTime + math.max(castingCooldown, 0))
 end
 
+-- Sets the SMN pet's base damage.
+-- Used as a hook for 75 era modules.
+---@param pet CBaseEntity
+xi.pets.avatar.calculateAvatarWeaponDamage = function(pet)
+    local weaponDamage = pet:getMainLvl() + 2 -- TODO: Verify retail base damage.
+
+    pet:setDamage(weaponDamage, xi.slot.MAIN)
+    pet:setDamage(weaponDamage, xi.slot.RANGED)
+end
+
 xi.pets.avatar.onMobSpawn = function(pet)
     local master = pet:getMaster()
     if not master then
@@ -91,41 +101,43 @@ xi.pets.avatar.onMobSpawn = function(pet)
         return
     end
 
-    if pet:getPetID() > xi.petId.DARK_SPIRIT then
-        return
+    -- Set up avatar's base damage.
+    xi.pets.avatar.calculateAvatarWeaponDamage(pet)
+
+    -- Spawn mods and listeners for Light Spirit functionality.
+    if pet:getPetID() == xi.petId.LIGHT_SPIRIT then
+        -- Stop pet from immediately casting a spell on spawn and respecting the cooldowns by exiting early if MAGIC_COOL is 1
+        pet:setMobMod(xi.mobMod.MAGIC_COOL, 1)
+        pet:setMod(xi.mod.MPP, 500)
+        pet:updateHealth()
+        pet:setMP(pet:getMaxMP())
+
+        -- Add listener to player to fine-tune spirit pact cast delays in realtime
+        master:addListener('TICK', 'SMN_SPIRIT_CAST_DELAY', function(masterArg)
+            local petArg = masterArg:getPet()
+
+            if petArg and petArg:getMobMod(xi.mobMod.MAGIC_COOL) > 1 then
+                setMagicCastCooldown(petArg)
+            end
+        end)
+
+        master:addListener('ABILITY_USE', 'SMN_SPIRIT_CAST_DELAY' .. 'ABILITY', function(masterArg, target, skill, action)
+            local petArg  = masterArg:getPet()
+            if not petArg then
+                return
+            end
+
+            local skillId = skill:getID()
+            if
+                skillId == xi.jobAbility.ASSAULT or
+                skillId == xi.jobAbility.RETREAT
+            then
+                -- Reset cast cooldown via same method as fresh spawn
+                petArg:setMobMod(xi.mobMod.MAGIC_COOL, 1)
+                petArg:setLocalVar('AVATAR_BUFF_MODE_OFF', 1)
+            end
+        end)
     end
-
-    -- Stop pet from immediately casting a spell on spawn and respecting the cooldowns by exiting early if MAGIC_COOL is 1
-    pet:setMobMod(xi.mobMod.MAGIC_COOL, 1)
-    pet:setMod(xi.mod.MPP, 500)
-    pet:updateHealth()
-    pet:setMP(pet:getMaxMP())
-
-    -- Add listener to player to fine-tune spirit pact cast delays in realtime
-    master:addListener('TICK', 'SMN_SPIRIT_CAST_DELAY', function(masterArg)
-        local petArg = masterArg:getPet()
-
-        if petArg and petArg:getMobMod(xi.mobMod.MAGIC_COOL) > 1 then
-            setMagicCastCooldown(petArg)
-        end
-    end)
-
-    master:addListener('ABILITY_USE', 'SMN_SPIRIT_CAST_DELAY' .. 'ABILITY', function(masterArg, target, skill, action)
-        local petArg  = masterArg:getPet()
-        if not petArg then
-            return
-        end
-
-        local skillId = skill:getID()
-        if
-            skillId == xi.jobAbility.ASSAULT or
-            skillId == xi.jobAbility.RETREAT
-        then
-            -- Reset cast cooldown via same method as fresh spawn
-            petArg:setMobMod(xi.mobMod.MAGIC_COOL, 1)
-            petArg:setLocalVar('AVATAR_BUFF_MODE_OFF', 1)
-        end
-    end)
 end
 
 xi.pets.avatar.onMobDeath = function(pet)

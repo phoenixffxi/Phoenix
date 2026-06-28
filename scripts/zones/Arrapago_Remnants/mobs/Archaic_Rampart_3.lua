@@ -7,9 +7,6 @@ mixins = { require('scripts/mixins/families/rampart') }
 ---@type TMobEntity
 local entity = {}
 
-entity.onMobSpawn = function(mob)
-end
-
 entity.onMobFight = function(mob, target)
     local instance = mob:getInstance()
     if not instance then
@@ -58,12 +55,6 @@ entity.onMobFight = function(mob, target)
     if thirdPet and thirdPet: isSpawned() then
         thirdPet:updateEnmity(target)
     end
-end
-
-entity.onMobDeath = function(mob, player, optParams)
-end
-
-entity.onMobDespawn = function(mob)
 end
 
 return entity

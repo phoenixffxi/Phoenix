@@ -193,6 +193,11 @@ bool CPathFind::WarpTo(const position_t& point, float maxDistance)
     LookAt(point);
     m_POwner->updatemask |= UPDATE_POS;
 
+    if (m_POwner->loc.zone != nullptr)
+    {
+        m_POwner->loc.zone->onEntityMoved(m_POwner);
+    }
+
     return true;
 }
 
@@ -420,6 +425,11 @@ void CPathFind::StepTo(const position_t& pos, bool run)
     m_POwner->loc.p.moving %= 0x2000;
 
     m_POwner->updatemask |= UPDATE_POS;
+
+    if (m_POwner->loc.zone != nullptr)
+    {
+        m_POwner->loc.zone->onEntityMoved(m_POwner);
+    }
 }
 
 bool CPathFind::FindPath(const position_t& start, const position_t& end)

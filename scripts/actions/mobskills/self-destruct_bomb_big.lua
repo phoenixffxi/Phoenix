@@ -22,12 +22,13 @@ end
 mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
-    params.baseDamage     = skill:getMobHP() / 2
-    params.fTP            = { 1.0, 1.0, 1.0 }
-    params.element        = xi.element.FIRE
-    params.attackType     = xi.attackType.BREATH
-    params.damageType     = xi.damageType.FIRE
-    params.shadowBehavior = xi.mobskills.shadowBehavior.IGNORE_SHADOWS
+    params.baseDamage         = math.min(target:getMaxHP() * math.random(0.7, 1.1), mob:getHP())
+    params.fTP                = { 1.00, 1.00, 1.00 }
+    params.element            = xi.element.FIRE
+    params.attackType         = xi.attackType.BREATH
+    params.damageType         = xi.damageType.FIRE
+    params.skipMagicBonusDiff = true
+    params.shadowBehavior     = xi.mobskills.shadowBehavior.IGNORE_SHADOWS
 
     local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 

@@ -25,7 +25,7 @@ entity.onMobInitialize = function(mob)
 end
 
 entity.onMobSpawn = function(mob)
-    mob:setMobMod(xi.mobMod.WEAPON_BONUS, 78) -- 175 total weapon damage
+    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MODIFIER, 78) -- 175 total weapon damage
     mob:addMod(xi.mod.EVA, 30)
     mob:addMod(xi.mod.DEFP, 50)
     mob:addMod(xi.mod.ATTP, 50)
@@ -109,9 +109,6 @@ entity.onAdditionalEffect = function(mob, target, damage)
     }
 
     return xi.combat.action.executeAddEffectEnfeeblement(mob, target, pTable)
-end
-
-entity.onMobDeath = function(mob, player, optParams)
 end
 
 return entity

@@ -52,11 +52,11 @@ ModsMap_t mobSpawnModsList;
 
 /************************************************************************
  *                                                                       *
- *  Calculate mob base weapon damage                                     *
+ *  Calculate mob's initial base weapon damage without modifiers         *
  *                                                                       *
  ************************************************************************/
 
-uint16 GetWeaponDamage(CMobEntity* PMob, uint16 slot)
+uint16 GetBaseWeaponDamage(CMobEntity* PMob, uint16 slot)
 {
     // https://docs.google.com/spreadsheets/d/1YBoveP-weMdidrirY-vPDzHyxbEI2ryECINlfCnFkLI/edit?pli=1&gid=1743955268#gid=1743955268
     // Basic base damage formulas for reference:
@@ -64,13 +64,16 @@ uint16 GetWeaponDamage(CMobEntity* PMob, uint16 slot)
     // Normal MNK mobs     : (Level * Multiplier(Default: 1.0000)) + Offset (Auto attacks get a penalty multiplier)
     // "Special" MNK mobs  : (Level + Offset) * Multiplier(1.6667) (Auto attacks get a penalty multiplier)
 
-    auto   mobZoneId      = PMob->getZone();
-    uint16 mobLvl         = PMob->GetMLevel();
-    int8   offset         = 0;
-    int8   rangedOffset   = 0;
-    float  multiplier     = PMob->m_dmgMult / 100.0f;
-    int32  damage         = mobLvl;
-    int16  damageModifers = 0;
+    // NOTE: Multipliers and damage modifiers are handled in battlentity::GetMainWeaponDmg(), battlentity::GetRangedWeaponDmg().
+    // Things such as auto attacks and skills reference these functions so the modifiers will be applied through there
+    // rather than when the mob's damage is initially set. This will allow us to use the mob:setDamage() lua binding
+    // without double dipping damage modifiers while also being able to see updated damage values with prints/getstats commands.
+
+    auto   mobZoneId    = PMob->getZone();
+    uint16 mobLvl       = PMob->GetMLevel();
+    int8   offset       = 0;
+    int8   rangedOffset = 0;
+    uint16 damage       = mobLvl;
 
     // Zones from base game/expansions have different base offsets, multipliers, etc.
     REGION_TYPE regionID = PMob->loc.zone->GetRegionID();
@@ -154,19 +157,12 @@ uint16 GetWeaponDamage(CMobEntity* PMob, uint16 slot)
             break;
     }
 
-    offset += PMob->getMobMod(MOBMOD_DAMAGE_OFFSET);
-
-    if (slot == SLOT_RANGED)
-    {
-        offset = rangedOffset;
-        offset += PMob->getMobMod(MOBMOD_RANGED_DAMAGE_OFFSET);
-    }
-
     // Normal mobs in beginner zones have the offset lowered by 1.
     // Excluded NMs for now for things like Voidwatch Mobs.
     if (mobZoneId != 0 && PMob->m_Type != MOBTYPE_NOTORIOUS && (mobZoneId == ZONE_WEST_RONFAURE || mobZoneId == ZONE_EAST_RONFAURE || mobZoneId == ZONE_NORTH_GUSTABERG || mobZoneId == ZONE_SOUTH_GUSTABERG || mobZoneId == ZONE_WEST_SARUTABARUTA || mobZoneId == ZONE_EAST_SARUTABARUTA))
     {
         offset -= 1;
+        rangedOffset -= 1;
     }
 
     // Clamp to 0 for edge cases that might cause the offset go negative.
@@ -175,37 +171,14 @@ uint16 GetWeaponDamage(CMobEntity* PMob, uint16 slot)
         offset = 0;
     }
 
-    // Add this mod to increase a mobs damage by a base amount
-    if (PMob->getMobMod(MOBMOD_WEAPON_BONUS) != 0)
+    if (rangedOffset < 0)
     {
-        damageModifers = PMob->getMobMod(MOBMOD_WEAPON_BONUS);
+        rangedOffset = 0;
     }
 
-    // Add damage mods to the appropriate slot's base damage if the mob has them.
-    if (slot == SLOT_MAIN)
-    {
-        damageModifers += PMob->getMod(Mod::MAIN_DMG_RATING);
-    }
-    else if (slot == SLOT_SUB)
-    {
-        damageModifers += PMob->getMod(Mod::SUB_DMG_RATING);
-    }
-    else if (slot == SLOT_RANGED)
-    {
-        damageModifers += PMob->getMod(Mod::RANGED_DMG_RATING);
-    }
-
-    damage += damageModifers;
-
-    if (PMob->getMobMod(MOBMOD_BASE_DAMAGE_MULTIPLIER) != 0)
-    {
-        multiplier = PMob->getMobMod(MOBMOD_BASE_DAMAGE_MULTIPLIER) / 100.0f;
-    }
-
-    damage = (damage + offset) * multiplier;
-
-    damage = std::clamp<int32>(damage, 1, 65535);
-
+    // Set default offsets. Will be calculated in battlentity::GetMainWeaponDmg()
+    PMob->setMobMod(MOBMOD_DAMAGE_OFFSET, offset);
+    PMob->setMobMod(MOBMOD_RANGED_DAMAGE_OFFSET, rangedOffset);
     return static_cast<uint16>(damage);
 }
 
@@ -838,8 +811,8 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
         }
     }
 
-    ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(GetWeaponDamage(PMob, SLOT_MAIN));
-    ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(GetWeaponDamage(PMob, SLOT_RANGED));
+    ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(GetBaseWeaponDamage(PMob, SLOT_MAIN));
+    ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(GetBaseWeaponDamage(PMob, SLOT_RANGED));
 
     // reduce weapon delay of MNK
     if (PMob->GetMJob() == JOB_MNK)
@@ -1003,7 +976,7 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
     // If a mob is going to dual wield, then it needs to have a sub slot.
     // Assume it is the same damage as the main slot.
     // Ordering matters. This has to come after SetupJob
-    static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_SUB])->setDamage(PMob->IsDualWielding() ? GetWeaponDamage(PMob, SLOT_MAIN) : 0);
+    static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_SUB])->setDamage(PMob->IsDualWielding() ? GetBaseWeaponDamage(PMob, SLOT_MAIN) : 0);
 
     SetupRoaming(PMob);
 

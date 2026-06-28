@@ -19,8 +19,7 @@
 ===========================================================================
 */
 
-#ifndef _AI_H
-#define _AI_H
+#pragma once
 
 #include <memory>
 #include <stack>
@@ -63,7 +62,10 @@ public:
     bool Inactive(timer::duration _duration, bool canChangeState);
     bool Untargetable(timer::duration _duration, bool canChangeState); // Used to make owner entity untargetable & inactionable in TargetFind for _duration
 
-    /* Internal Controller functions */
+    //
+    // Internal Controller functions
+    //
+
     bool Internal_Engage(uint16 targetid);
     bool Internal_Cast(uint16 targetid, SpellID spellid);
     bool Internal_ChangeTarget(uint16 targetid);
@@ -85,28 +87,20 @@ public:
     bool    IsStateStackEmpty();
     void    ClearStateStack();
     void    InterruptStates();
+
     // Pop the top state if it's the expected state
     template <typename State>
-    bool PopState()
-    {
-        if (IsCurrentState<State>())
-        {
-            m_stateStack.pop();
-            return true;
-        }
+    bool PopState();
 
-        return false;
-    }
-    /* Or have each state return a static number/string that Lua can use as well, in case this is not sufficient */
+    // Or have each state return a static number/string that Lua can use as well, in case this is not sufficient
     template <typename State, typename = std::enable_if_t<std::is_base_of<CState, State>::value>>
-    bool IsCurrentState()
-    {
-        return dynamic_cast<State*>(GetCurrentState());
-    }
+    bool IsCurrentState();
+
     bool IsSpawned();
     bool IsRoaming();
     bool IsEngaged();
     bool IsUntargetable();
+
     // whether AI is currently able to change state from external means
     bool CanChangeState();
     bool CanFollowPath();
@@ -135,62 +129,111 @@ public:
 protected:
     // input controller
     std::unique_ptr<CController> Controller;
+
     // current synchronized server time (before AI loop execution)
     timer::time_point m_Tick;
     timer::time_point m_PrevTick;
+
     // entity who holds this AI
     CBaseEntity* PEntity;
 
     void CheckCompletedStates();
-    template <typename T, typename... Args>
-    bool ChangeState(Args&&... args)
-    {
-        if (m_stateStack.size() > 10)
-        {
-            ShowWarning("State Stack size exceeds maximum.");
-            return false;
-        }
 
-        if (CanChangeState())
-        {
-            try
-            {
-                CheckCompletedStates();
-                m_stateStack.emplace(std::make_unique<T>(std::forward<Args>(args)...));
-                return true;
-            }
-            catch (CStateInitException& e)
-            {
-                PEntity->HandleErrorMessage(e.packet);
-            }
-        }
+    template <typename T, typename... Args>
+    bool ChangeState(Args&&... args);
+
+    template <typename T, typename... Args>
+    bool ForceChangeState(Args&&... args);
+
+private:
+    // Suspend the current state (if any) beneath `next`, then make `next` current.
+    void enterState(std::unique_ptr<CState> next);
+
+    // Finish with the current state and resume the one suspended beneath it (or go idle).
+    void resumeNextState();
+
+    size_t stateCount() const;
+
+    // The state the entity is currently in (null == idle). It lives here rather than on
+    // the stack so it can never be freed from underneath its own DoUpdate; m_stateStack
+    // holds the states suspended beneath it.
+    std::unique_ptr<CState>             m_currentState;
+    std::stack<std::unique_ptr<CState>> m_stateStack;
+
+    CAIActionQueue ActionQueue;
+};
+
+//
+// Template impls
+//
+
+template <typename State>
+bool CAIContainer::PopState()
+{
+    if (IsCurrentState<State>())
+    {
+        resumeNextState();
+        return true;
+    }
+
+    return false;
+}
+
+template <typename State, typename>
+bool CAIContainer::IsCurrentState()
+{
+    return dynamic_cast<State*>(GetCurrentState());
+}
+
+template <typename T, typename... Args>
+bool CAIContainer::ChangeState(Args&&... args)
+{
+    if (stateCount() > 10)
+    {
+        ShowWarning("State Stack size exceeds maximum.");
         return false;
     }
-    template <typename T, typename... Args>
-    bool ForceChangeState(Args&&... args)
-    {
-        if (m_stateStack.size() > 10)
-        {
-            ShowWarning("State Stack size exceeds maximum.");
-            return false;
-        }
 
+    if (CanChangeState())
+    {
         try
         {
             CheckCompletedStates();
-            m_stateStack.emplace(std::make_unique<T>(std::forward<Args>(args)...));
+
+            // Construct first: if it throws, the current state is left untouched.
+            enterState(std::make_unique<T>(std::forward<Args>(args)...));
             return true;
         }
         catch (CStateInitException& e)
         {
             PEntity->HandleErrorMessage(e.packet);
         }
+    }
+
+    return false;
+}
+
+template <typename T, typename... Args>
+bool CAIContainer::ForceChangeState(Args&&... args)
+{
+    if (stateCount() > 10)
+    {
+        ShowWarning("State Stack size exceeds maximum.");
         return false;
     }
 
-private:
-    std::stack<std::unique_ptr<CState>> m_stateStack;
-    CAIActionQueue                      ActionQueue;
-};
+    try
+    {
+        CheckCompletedStates();
 
-#endif
+        // Construct first: if it throws, the current state is left untouched.
+        enterState(std::make_unique<T>(std::forward<Args>(args)...));
+        return true;
+    }
+    catch (CStateInitException& e)
+    {
+        PEntity->HandleErrorMessage(e.packet);
+    }
+
+    return false;
+}

@@ -18,12 +18,16 @@ entity.onMobInitialize = function(mob)
         if damage >= 292 then
             mobArg:messageText(mobArg, ID.text.THAT_LL_HURT_IN_THE_MORNING)
         end
+
+        if damage >= 584 then
+            mobArg:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 200)
+        end
     end)
 end
 
 entity.onMobSpawn = function(mob)
     mob:setUnkillable(true)
-    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 200)
+    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 125)
     mob:setBaseSpeed(60)
 
     -- Reset mob.

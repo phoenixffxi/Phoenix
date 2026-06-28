@@ -20,7 +20,4 @@ entity.onMobSpawn = function(mob)
     mob:addMod(xi.mod.GRAVITY_MEVA, 50)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

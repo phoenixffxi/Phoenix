@@ -18,12 +18,13 @@ end
 mobskillObject.onMobWeaponSkill = function(mob, target, skill, action)
     local params = {}
 
-    params.baseDamage     = skill:getMobHP() / 3
-    params.fTP            = { 1, 1, 1 }
-    params.element        = xi.element.ICE
-    params.attackType     = xi.attackType.BREATH
-    params.damageType     = xi.damageType.ICE
-    params.shadowBehavior = xi.mobskills.shadowBehavior.IGNORE_SHADOWS
+    params.baseDamage         = math.min(target:getMaxHP() * math.random(0.7, 1.1), mob:getHP())
+    params.fTP                = { 1.0, 1.0, 1.0 }
+    params.element            = xi.element.ICE
+    params.attackType         = xi.attackType.BREATH
+    params.damageType         = xi.damageType.ICE
+    params.skipMagicBonusDiff = true
+    params.shadowBehavior     = xi.mobskills.shadowBehavior.IGNORE_SHADOWS
 
     local info = xi.mobskills.mobMagicalMove(mob, target, skill, action, params)
 

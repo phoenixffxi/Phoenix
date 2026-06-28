@@ -29,12 +29,12 @@ entity.onMobInitialize = function(mob)
     end)
 end
 
--- RDM Maat needs Grav Res Rank 7
 entity.onMobSpawn = function(mob)
     mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 125)
     mob:setUnkillable(true)
     mob:setBaseSpeed(60)
     mob:setMod(xi.mod.SILENCE_RES_RANK, 7)
+    mob:setMod(xi.mod.GRAVITY_MEVA, 100) -- RDM Maat needs Grav Res Rank 7
     mob:setMod(xi.mod.DARK_SLEEP_RES_RANK, 3)
 
     -- Reset mob.

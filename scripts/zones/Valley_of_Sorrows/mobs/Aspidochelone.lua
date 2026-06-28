@@ -67,7 +67,7 @@ entity.onMobSpawn = function(mob)
     mob:setMod(xi.mod.UDMGMAGIC, -3000)
     mob:setMod(xi.mod.CURSERES, 100)
 
-    mob:setMobMod(xi.mobMod.WEAPON_BONUS, 45) -- 130 total weapon damage
+    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MODIFIER, 45) -- 130 total weapon damage
     mob:setMobMod(xi.mobMod.AOE_HIT_ALL, 1)
     mob:setMobMod(xi.mobMod.NO_MOVE, 0)
 

@@ -16,9 +16,6 @@ entity.onMobSpawn = function(mob)
     mob:setLocalVar('[rage]timer', 3600) -- 60 minutes
 end
 
-entity.onMobFight = function(mob, target)
-end
-
 entity.onMobDeath = function(mob)
 end
 

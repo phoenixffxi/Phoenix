@@ -34,7 +34,4 @@ entity.onMobMobskillChoose = function(mob, target, skillId)
     return xi.mobSkill.SELF_DESTRUCT_BOMB
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

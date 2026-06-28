@@ -143,15 +143,25 @@ quest.sections =
             onEventFinish =
             {
                 [12] = function(player, csid, option, npc)
+                    local hasNoAllegiance = player:getCampaignAllegiance() == 0
+
+                    if
+                        hasNoAllegiance and
+                        not npcUtil.giveItem(player, xi.item.SPRINTERS_SHOES)
+                    then
+                        return
+                    end
+
                     if quest:complete(player) then
+                        if hasNoAllegiance then
+                            npcUtil.giveKeyItem(player, xi.ki.BRONZE_RIBBON_OF_SERVICE)
+                        end
+
                         player:setCampaignAllegiance(1)
-                        npcUtil.giveKeyItem(player, xi.ki.BRONZE_RIBBON_OF_SERVICE)
 
                         player:delKeyItem(xi.ki.CHARRED_PROPELLER)
                         player:delKeyItem(xi.ki.OXIDIZED_PLATE)
                         player:delKeyItem(xi.ki.PIECE_OF_SHATTERED_LUMBER)
-
-                        npcUtil.giveItem(player, xi.item.SPRINTERS_SHOES)
 
                         player:messageSpecial(southernSandoriaSID.text.NOW_ALLIED_WITH, 1)
                     end

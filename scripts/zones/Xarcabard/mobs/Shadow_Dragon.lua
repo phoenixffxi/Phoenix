@@ -10,9 +10,6 @@ entity.onMobInitialize = function(mob)
     mob:setMobMod(xi.mobMod.GIL_MAX, 3000)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 entity.onMobDespawn = function(mob)
     local biastTimeOfDeath = GetServerVariable('[POP]Biast')
     local xPos = mob:getXPos()

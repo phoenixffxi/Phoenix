@@ -26,6 +26,7 @@
 #include <common/mmo.h>
 #include <common/scheduler.h>
 #include <common/timer.h>
+#include <common/types/flat_hash_map.h>
 #include <common/types/maybe.h>
 #include <common/vana_time.h>
 
@@ -551,7 +552,7 @@ typedef std::list<std::unique_ptr<ITriggerArea>> triggerAreaList_t;
 
 typedef std::list<zoneLine_t*> zoneLineList_t;
 
-typedef std::map<uint16, CBaseEntity*> EntityList_t;
+typedef FlatHashMap<uint16, CBaseEntity*> EntityList_t;
 
 using QueryByNameResult_t = std::vector<CBaseEntity*>;
 
@@ -626,6 +627,10 @@ public:
     virtual void InsertTRUST(CBaseEntity* PTrust);
 
     virtual void FindPartyForMob(CBaseEntity* PEntity);
+
+    // Keep the underlying spatial grid current when an entity moves outside the per-tick resync
+    // (teleport, setPos, a movement step, etc.).
+    virtual void onEntityMoved(CBaseEntity* PEntity);
 
     virtual void TransportDepart(uint16 boundary, uint16 prevZoneId, uint16 transportId); // Collect passengers if ship/boat is departing
 

@@ -301,6 +301,7 @@ xi.msg.basic =
     ROLL_ALREADY_ACTIVE             = 429, -- The same roll is already active on the <player>.
     MAGIC_STEAL                     = 430, -- <caster> casts <spell>. <number> of <target>'s effects is drained.
     MAGIC_TP_REDUCE                 = 431, -- <caster> casts <spell>. <target>'s TP is reduced.
+    WILD_CARD_BASE                  = 435, -- <actor> uses Wild Card! <target>'s abilities are recharged.
     JA_RECEIVES_EFFECT_3            = 441, -- <user> receives the effect of <ability>.
     CANNOT_ATTACK_TARGET            = 446, -- You cannot attack that target
     TIME_DYNAMIS_EXTENDED           = 448, -- Time allowed in Dynamis has been extended by <param> minutes

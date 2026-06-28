@@ -12,7 +12,4 @@ entity.onMobSpawn = function(mob)
     mob:setMobMod(xi.mobMod.NO_DROPS, 1)
 end
 
-entity.onMobDeath = function(mob, player, optParams)
-end
-
 return entity

@@ -46,13 +46,13 @@ entity.onMobFight = function(mob)
         if mob:getAnimationSub() == 1 then
             -- Euvhi deal 50% extra base damage with mouth open
             local damage = 1 + mob:getMainLvl() / 2
-            mob:setMobMod(xi.mobMod.WEAPON_BONUS, damage)
+            mob:setMobMod(xi.mobMod.BASE_DAMAGE_MODIFIER, damage)
             mob:setAnimationSub(2)
             mob:setMod(xi.mod.DMG, 1250) -- +12.5% damage taken with mouth open
             mob:setLocalVar('changeTime', GetSystemTime() + 180)
         else -- Change from open to close
             mob:setAnimationSub(1)
-            mob:setMobMod(xi.mobMod.WEAPON_BONUS, 0)
+            mob:setMobMod(xi.mobMod.BASE_DAMAGE_MODIFIER, 0)
             mob:setMod(xi.mod.DMG, -2500) -- -25% damage taken with mouth closed
             mob:setLocalVar('changeTime', GetSystemTime() + 60)
         end
