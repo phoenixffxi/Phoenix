@@ -124,7 +124,7 @@ INSERT INTO `mob_groups` VALUES (301,10590,37,'Kingslayer_Doggvdegg',0,128,3237,
 INSERT INTO `mob_groups` VALUES (302,10591,37,'JiGho_Ageless',0,128,3237,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (303,10592,37,'Koo_Buzu_the_Theomanic',0,128,3237,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (304,10593,37,'Mystic_Avatar',0,128,3235,15000,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (305,10594,37,'Proto-Ultima',0,128,0,26000,2000,0,NULL);
+INSERT INTO `mob_groups` VALUES (305,10594,37,'Proto-Ultima',0,128,0,55000,55000,0,NULL);
 
 -- Central Basement
 INSERT INTO `mob_groups` VALUES (306,10595,37,'Temenos_Aern_pld',0,128,2861,0,0,0,NULL);
