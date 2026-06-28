@@ -4,11 +4,16 @@
 -- Description: Deals physical damage to a single target. Additional Effect: Poison
 -- Notes: This module reverses the changes found on the 09/08/2008 patch. https://www.bg-wiki.com/ffxi/Version_Update_(09/08/2008)
 -- https://wiki.ffo.jp/html/3039.html
+
 -----------------------------------
 require('modules/module_utils')
 -----------------------------------
 
 local moduleName = 'toau_queasyshroom'
+
+if xi.module.isContentEnabled('TOAU') then
+    return { name = moduleName }
+end
 
 local m = Module:new(moduleName)
 

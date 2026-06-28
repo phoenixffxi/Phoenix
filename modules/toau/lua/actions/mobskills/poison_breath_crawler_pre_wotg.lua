@@ -10,6 +10,10 @@ require('modules/module_utils')
 
 local moduleName = 'toau_poison_breath_crawler'
 
+if xi.module.isContentEnabled('TOAU') then
+    return { name = moduleName }
+end
+
 local m = Module:new(moduleName)
 
 -----------------------------------
