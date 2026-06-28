@@ -7,36 +7,36 @@
 -- ------------------------------------------------------------
 
 -- Northern Tower
-INSERT INTO `mob_groups` VALUES (200,10500,37,'Moblin_Dustman',0,128,2856,9000,500,0,NULL);
-INSERT INTO `mob_groups` VALUES (201,10501,37,'Goblin_Slaughterman',0,128,2856,10000,1000,0,NULL);
+INSERT INTO `mob_groups` VALUES (200,10500,37,'Moblin_Dustman',0,128,2856,9000,9000,0,NULL);
+INSERT INTO `mob_groups` VALUES (201,10501,37,'Goblin_Slaughterman',0,128,2856,10000,10000,0,NULL);
 INSERT INTO `mob_groups` VALUES (202,10502,37,'Kari',0,128,2858,10000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (203,10003,37,'Beli',0,128,2858,10000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (204,10504,37,'Thrym',0,128,2858,10000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (205,10505,37,'Skadi',0,128,2858,10000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (206,10506,37,'Telchines_Bard',0,128,2856,9000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (207,10507,37,'Telchines_Dragoon',0,128,2856,10000,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (208,10509,37,'Telchiness_Wyvern',0,128,0,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (208,10509,37,'Telchiness_Wyvern',0,128,0,1500,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (209,10508,37,'Telchines_Monk',0,128,2856,10000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (210,10510,37,'Telchines_White_Mage',0,128,2856,9000,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (211,10511,37,'Kindred_Black_Mage',0,128,2858,9000,500,0,NULL);
-INSERT INTO `mob_groups` VALUES (212,10512,37,'Kindred_Dark_Knight',0,128,2858,10000,400,0,NULL);
-INSERT INTO `mob_groups` VALUES (213,10513,37,'Kindred_Summoner',0,128,2858,9000,500,0,NULL);
-INSERT INTO `mob_groups` VALUES (214,10515,37,'Kindreds_Avatar',0,128,0,5000,500,0,NULL);
-INSERT INTO `mob_groups` VALUES (215,10514,37,'Kindreds_Elemental',0,128,0,2000,500,0,NULL);
+INSERT INTO `mob_groups` VALUES (211,10511,37,'Kindred_Black_Mage',0,128,2858,9000,9000,0,NULL);
+INSERT INTO `mob_groups` VALUES (212,10512,37,'Kindred_Dark_Knight',0,128,2858,10000,10000,0,NULL);
+INSERT INTO `mob_groups` VALUES (213,10513,37,'Kindred_Summoner',0,128,2858,9000,9000,0,NULL);
+INSERT INTO `mob_groups` VALUES (214,10515,37,'Kindreds_Avatar',0,128,0,5000,5000,0,NULL);
+INSERT INTO `mob_groups` VALUES (215,10514,37,'Kindreds_Elemental',0,128,0,2000,2000,0,NULL);
 INSERT INTO `mob_groups` VALUES (216,10516,37,'Kindred_Warrior',0,128,2858,10000,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (217,10517,37,'Praetorian_Guard_CCCXI',0,128,2856,10000,500,0,NULL);
+INSERT INTO `mob_groups` VALUES (217,10517,37,'Praetorian_Guard_CCCXI',0,128,2856,9500,9500,0,NULL);
 INSERT INTO `mob_groups` VALUES (218,10518,37,'Praetorian_Guard_CCXX',0,128,2856,10000,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (219,10519,37,'Praetorian_Guard_CXLVIII',0,128,2856,10000,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (220,10520,37,'Praetorian_Guard_LXXIII',0,128,2856,10000,500,0,NULL);
+INSERT INTO `mob_groups` VALUES (219,10519,37,'Praetorian_Guard_CXLVIII',0,128,2856,9000,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (220,10520,37,'Praetorian_Guard_LXXIII',0,128,2856,8500,8500,0,NULL);
 INSERT INTO `mob_groups` VALUES (221,10021,37,'Cryptonberry_Abductor',0,128,2858,9000,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (222,10022,37,'Cryptonberry_Charmer',0,128,2858,9000,1000,0,NULL);
-INSERT INTO `mob_groups` VALUES (223,10023,37,'Cryptonberry_Designator',0,128,2858,9000,1000,0,NULL);
-INSERT INTO `mob_groups` VALUES (224,10524,37,'Tonberrys_Elemental',0,128,0,2000,1000,0,NULL);
-INSERT INTO `mob_groups` VALUES (225,10525,37,'Tonberrys_Avatar',0,128,0,4000,1000,0,NULL);
+INSERT INTO `mob_groups` VALUES (222,10022,37,'Cryptonberry_Charmer',0,128,2858,8500,8500,0,NULL);
+INSERT INTO `mob_groups` VALUES (223,10023,37,'Cryptonberry_Designator',0,128,2858,9000,9000,0,NULL);
+INSERT INTO `mob_groups` VALUES (224,10524,37,'Tonberrys_Elemental',0,128,0,2000,2000,0,NULL);
+INSERT INTO `mob_groups` VALUES (225,10525,37,'Tonberrys_Avatar',0,128,0,4000,4000,0,NULL);
 INSERT INTO `mob_groups` VALUES (226,10026,37,'Cryptonberry_Skulker',0,128,2858,9000,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (227,10527,37,'Goblin_Fencer',0,128,2865,9000,1000,0,NULL);
+INSERT INTO `mob_groups` VALUES (227,10527,37,'Goblin_Fencer',0,128,2865,9000,9000,0,NULL);
 INSERT INTO `mob_groups` VALUES (228,10528,37,'Goblin_Theurgist',0,128,2865,9000,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (229,10529,37,'Goblin_Warlord',0,128,2865,9000,1000,0,NULL);
+INSERT INTO `mob_groups` VALUES (229,10529,37,'Goblin_Warlord',0,128,2865,9000,9000,0,NULL);
 
 -- Eastern Tower
 INSERT INTO `mob_groups` VALUES (230,10530,37,'Fire_Elemental',0,128,2856,8000,3000,0,NULL);
@@ -147,7 +147,7 @@ INSERT INTO `mob_groups` VALUES (322,10611,37,'Aerns_Elemental',0,128,0,0,0,0,NU
 INSERT INTO `mob_groups` VALUES (323,10612,37,'Aerns_Avatar',0,128,0,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (324,10613,37,'Temenos_Aern_drk',0,128,2861,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (325,10614,37,'Temenos_Ghrah',0,128,0,16000,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (326,10556,37,'Armoury_Crate',0,128,0,1,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (326,10677,37,'Armoury_Crate',0,128,0,1,0,0,NULL);
 
 -- ------------------------------------------------------------
 -- Apollyon (Zone 38)

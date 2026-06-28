@@ -36,79 +36,78 @@ end
 
 content.paths =
 {
-
     [ID.TEMENOS_NORTHERN_TOWER.mob.MOBLIN_DUSTMAN] =
     {
-        { x = 340.000, y = 68.000, z = 436.000, wait = 10000 },
-        { x = 340.000, y = 68.000, z = 456.000, wait = 10000 },
+        { x =  340.000, y =  68.000, z = 436.000, wait = 10000 },
+        { x =  340.000, y =  68.000, z = 456.000, wait = 10000 },
     },
 
     [ID.TEMENOS_NORTHERN_TOWER.mob.MOBLIN_DUSTMAN + 1] =
     {
-        { x = 344.000, y = 68.000, z = 460.000, wait = 10000 },
-        { x = 364.000, y = 68.000, z = 460.000, wait = 10000 },
+        { x =  344.000, y =  68.000, z = 460.000, wait = 10000 },
+        { x =  364.000, y =  68.000, z = 460.000, wait = 10000 },
     },
 
     [ID.TEMENOS_NORTHERN_TOWER.mob.MOBLIN_DUSTMAN + 2] =
     {
-        { x = 370.000, y = 74.000, z = 432.000, wait = 10000 },
-        { x = 370.000, y = 74.000, z = 408.000, wait = 10000 },
+        { x =  370.000, y =  74.000, z = 432.000, wait = 10000 },
+        { x =  370.000, y =  74.000, z = 408.000, wait = 10000 },
     },
 
     [ID.TEMENOS_NORTHERN_TOWER.mob.MOBLIN_DUSTMAN + 3] =
     {
-        { x = 374.000, y = 74.000, z = 408.000, wait = 10000 },
-        { x = 374.000, y = 74.000, z = 432.000, wait = 10000 },
+        { x =  374.000, y =  74.000, z = 408.000, wait = 10000 },
+        { x =  374.000, y =  74.000, z = 432.000, wait = 10000 },
     },
 
     [ID.TEMENOS_NORTHERN_TOWER.mob.KARI] =
     {
-        { x = 186.000, y = -82.000, z = 464.000, wait = 3000 },
-        { x = 214.000, y = -82.000, z = 466.000, wait = 3000 },
-        { x = 214.000, y = -82.000, z = 494.000, wait = 3000 },
-        { x = 186.000, y = -82.000, z = 494.000, wait = 3000 },
+        { x =  186.000, y = -82.000, z = 464.000, wait =  3000 },
+        { x =  214.000, y = -82.000, z = 466.000, wait =  3000 },
+        { x =  214.000, y = -82.000, z = 494.000, wait =  3000 },
+        { x =  186.000, y = -82.000, z = 494.000, wait =  3000 },
     },
 
     [ID.TEMENOS_NORTHERN_TOWER.mob.TELCHINES_DRAGOON] =
     {
-        { x = 30.000, y = 80.000, z = 419.500, wait = 10000 },
-        { x = 50.000, y = 80.000, z = 419.500, wait = 10000 },
+        { x =   30.000, y =  80.000, z = 419.500, wait = 10000 },
+        { x =   50.000, y =  80.000, z = 419.500, wait = 10000 },
     },
 
     [ID.TEMENOS_NORTHERN_TOWER.mob.TELCHINES_MONK] =
     {
-        { x = 30.000, y = 80.000, z = 420.500, wait = 10000 },
-        { x = 10.000, y = 80.000, z = 420.500, wait = 10000 },
+        { x =   30.000, y =  80.000, z = 420.500, wait = 10000 },
+        { x =   10.000, y =  80.000, z = 420.500, wait = 10000 },
     },
 
     [ID.TEMENOS_NORTHERN_TOWER.mob.TELCHINES_MONK + 1] =
     {
-        { x = 70.000, y = 80.000, z = 420.500, wait = 10000 },
-        { x = 50.000, y = 80.000, z = 420.500, wait = 10000 },
+        { x =   70.000, y =  80.000, z = 420.500, wait = 10000 },
+        { x =   50.000, y =  80.000, z = 420.500, wait = 10000 },
     },
 
     [ID.TEMENOS_NORTHERN_TOWER.mob.KINDRED_BLACK_MAGE] =
     {
-        { x =  -92.000, y = -80.000, z = 427.000, wait = 5000 },
-        { x = -148.000, y = -80.000, z = 427.000, wait = 5000 },
+        { x =  -92.000, y = -80.000, z = 427.000, wait =  5000 },
+        { x = -148.000, y = -80.000, z = 427.000, wait =  5000 },
     },
 
     [ID.TEMENOS_NORTHERN_TOWER.mob.KINDRED_BLACK_MAGE + 1] =
     {
-        { x =  -92.000, y = -80.000, z = 430.000, wait = 5000 },
-        { x = -148.000, y = -80.000, z = 430.000, wait = 5000 },
+        { x =  -92.000, y = -80.000, z = 430.000, wait =  5000 },
+        { x = -148.000, y = -80.000, z = 430.000, wait =  5000 },
     },
 
     [ID.TEMENOS_NORTHERN_TOWER.mob.KINDRED_BLACK_MAGE + 2] =
     {
-        { x = -148.000, y = -80.000, z = 410.000, wait = 5000 },
-        { x =  -92.000, y = -80.000, z = 410.000, wait = 5000 },
+        { x = -148.000, y = -80.000, z = 410.000, wait =  5000 },
+        { x =  -92.000, y = -80.000, z = 410.000, wait =  5000 },
     },
 
     [ID.TEMENOS_NORTHERN_TOWER.mob.KINDRED_BLACK_MAGE + 3] =
     {
-        { x = -148.000, y = -80.000, z = 413.000, wait = 5000 },
-        { x =  -92.000, y = -80.000, z = 413.000, wait = 5000 },
+        { x = -148.000, y = -80.000, z = 413.000, wait =  5000 },
+        { x =  -92.000, y = -80.000, z = 413.000, wait =  5000 },
     },
 
     [ID.TEMENOS_NORTHERN_TOWER.mob.CRYPTONBERRY_ABDUCTOR] =
@@ -306,182 +305,261 @@ content.loot =
     [ID.TEMENOS_NORTHERN_TOWER.npc.ITEM_CRATES[1]] =
     {
         {
-            quantity = 5,
-            { itemId = xi.item.ANCIENT_BEASTCOIN, weight = xi.loot.weight.NORMAL },
+            quantity = 4,
+            { itemId = xi.item.ANCIENT_BEASTCOIN,        weight = 10000 },
         },
 
         {
-            quantity = 2,
-            { itemId = xi.item.NONE,              weight = xi.loot.weight.NORMAL },
-            { itemId = xi.item.ANCIENT_BEASTCOIN, weight = xi.loot.weight.NORMAL },
+            quantity = 3,
+            { itemId = xi.item.NONE,                     weight =  5000 },
+            { itemId = xi.item.ANCIENT_BEASTCOIN,        weight =  5000 },
         },
 
         {
-            { itemId = xi.item.NONE,                    weight = xi.loot.weight.VERY_HIGH },
-            { itemId = xi.item.SQUARE_OF_BENEDICT_SILK, weight = xi.loot.weight.LOW       },
-            { itemId = xi.item.SQUARE_OF_DIABOLIC_SILK, weight = xi.loot.weight.LOW       },
-            { itemId = xi.item.PLAITED_CORD,            weight = xi.loot.weight.LOW       },
-            { itemId = xi.item.SQUARE_OF_FILET_LACE,    weight = xi.loot.weight.LOW       },
+            { itemId = xi.item.NONE,                     weight =  4400 },
+            { itemId = xi.item.SQUARE_OF_ECARLATE_CLOTH, weight =   800 }, -- WAR
+            { itemId = xi.item.UTOPIAN_GOLD_THREAD,      weight =   800 }, -- MNK
+            { itemId = xi.item.SQUARE_OF_BENEDICT_SILK,  weight =   800 }, -- WHM
+            { itemId = xi.item.SQUARE_OF_DIABOLIC_SILK,  weight =   800 }, -- BLM
+            { itemId = xi.item.SQUARE_OF_SUPPLE_SKIN,    weight =   800 }, -- THF
+            { itemId = xi.item.CHUNK_OF_SNOWY_CERMET,    weight =   800 }, -- PLD
+         -- { itemId = xi.item.SQUARE_OF_BRILLIANTINE,   weight =   800 }, -- SCH
+        },
+
+        {
+            { itemId = xi.item.NONE,                     weight =  4400 },
+            { itemId = xi.item.SPOOL_OF_CHAMELEON_YARN,  weight =   800 }, -- RNG
+            { itemId = xi.item.PLAITED_CORD,             weight =   800 }, -- NIN
+            { itemId = xi.item.SHEET_OF_COBALT_MYTHRIL,  weight =   800 }, -- DRG
+            { itemId = xi.item.SPOOL_OF_GLITTERING_YARN, weight =   800 }, -- SMN
+            { itemId = xi.item.SPOOL_OF_LUMINIAN_THREAD, weight =   800 }, -- BLU
+            { itemId = xi.item.SPOOL_OF_SILKWORM_THREAD, weight =   800 }, -- COR
+         -- { itemId = xi.item.SQUARE_OF_FILET_LACE,     weight =   800 }, -- DNC
         },
     },
 
     [ID.TEMENOS_NORTHERN_TOWER.npc.ITEM_CRATES[2]] =
     {
         {
-            quantity = 5,
-            { itemId = xi.item.ANCIENT_BEASTCOIN, weight = xi.loot.weight.NORMAL },
+            quantity = 4,
+            { itemId = xi.item.ANCIENT_BEASTCOIN,        weight = 10000 },
         },
 
         {
-            quantity = 2,
-            { itemId = xi.item.NONE,              weight = xi.loot.weight.NORMAL },
-            { itemId = xi.item.ANCIENT_BEASTCOIN, weight = xi.loot.weight.NORMAL },
+            quantity = 3,
+            { itemId = xi.item.NONE,                     weight =  5000 },
+            { itemId = xi.item.ANCIENT_BEASTCOIN,        weight =  5000 },
         },
 
         {
-            { itemId = xi.item.NONE,                      weight = xi.loot.weight.VERY_HIGH },
-            { itemId = xi.item.SQUARE_OF_ECARLATE_CLOTH,  weight = xi.loot.weight.LOW       },
-            { itemId = xi.item.SPOOL_OF_RUBY_SILK_THREAD, weight = xi.loot.weight.LOW       },
-            { itemId = xi.item.SQUARE_OF_SMALT_LEATHER,   weight = xi.loot.weight.LOW       },
-            { itemId = xi.item.PANTIN_WIRE,               weight = xi.loot.weight.LOW       },
+            { itemId = xi.item.NONE,                     weight =  4400 },
+            { itemId = xi.item.SQUARE_OF_ECARLATE_CLOTH, weight =   800 }, -- WAR
+            { itemId = xi.item.UTOPIAN_GOLD_THREAD,      weight =   800 }, -- MNK
+            { itemId = xi.item.SQUARE_OF_BENEDICT_SILK,  weight =   800 }, -- WHM
+            { itemId = xi.item.SQUARE_OF_DIABOLIC_SILK,  weight =   800 }, -- BLM
+            { itemId = xi.item.SQUARE_OF_SUPPLE_SKIN,    weight =   800 }, -- THF
+            { itemId = xi.item.CHUNK_OF_SNOWY_CERMET,    weight =   800 }, -- PLD
+         -- { itemId = xi.item.SQUARE_OF_BRILLIANTINE,   weight =   800 }, -- SCH
         },
 
         {
-            { itemId = xi.item.NONE,                     weight = xi.loot.weight.VERY_HIGH },
-            { itemId = xi.item.CHUNK_OF_SNOWY_CERMET,    weight = xi.loot.weight.LOW       },
-            { itemId = xi.item.SPOOL_OF_SCARLET_ODOSHI,  weight = xi.loot.weight.LOW       },
-            { itemId = xi.item.SPOOL_OF_GLITTERING_YARN, weight = xi.loot.weight.LOW       },
-            { itemId = xi.item.SQUARE_OF_BRILLIANTINE,   weight = xi.loot.weight.LOW       },
+            { itemId = xi.item.NONE,                     weight =  4400 },
+            { itemId = xi.item.SPOOL_OF_CHAMELEON_YARN,  weight =   800 }, -- RNG
+            { itemId = xi.item.PLAITED_CORD,             weight =   800 }, -- NIN
+            { itemId = xi.item.SHEET_OF_COBALT_MYTHRIL,  weight =   800 }, -- DRG
+            { itemId = xi.item.SPOOL_OF_GLITTERING_YARN, weight =   800 }, -- SMN
+            { itemId = xi.item.SPOOL_OF_LUMINIAN_THREAD, weight =   800 }, -- BLU
+            { itemId = xi.item.SPOOL_OF_SILKWORM_THREAD, weight =   800 }, -- COR
+         -- { itemId = xi.item.SQUARE_OF_FILET_LACE,     weight =   800 }, -- DNC
         },
     },
 
     [ID.TEMENOS_NORTHERN_TOWER.npc.ITEM_CRATES[3]] =
     {
         {
-            quantity = 5,
-            { itemId = xi.item.ANCIENT_BEASTCOIN, weight = xi.loot.weight.NORMAL },
+            quantity = 4,
+            { itemId = xi.item.ANCIENT_BEASTCOIN,        weight = 10000 },
         },
 
         {
-            quantity = 2,
-            { itemId = xi.item.NONE,              weight = xi.loot.weight.NORMAL },
-            { itemId = xi.item.ANCIENT_BEASTCOIN, weight = xi.loot.weight.NORMAL },
+            quantity = 3,
+            { itemId = xi.item.NONE,                     weight =  5000 },
+            { itemId = xi.item.ANCIENT_BEASTCOIN,        weight =  5000 },
         },
 
         {
-            { itemId = xi.item.SQUARE_OF_BENEDICT_SILK, weight = xi.loot.weight.NORMAL },
-            { itemId = xi.item.CHUNK_OF_SNOWY_CERMET,   weight = xi.loot.weight.NORMAL },
-            { itemId = xi.item.SPOOL_OF_CHAMELEON_YARN, weight = xi.loot.weight.NORMAL },
-            { itemId = xi.item.SQUARE_OF_BRILLIANTINE,  weight = xi.loot.weight.NORMAL },
+            { itemId = xi.item.NONE,                     weight =  4400 },
+            { itemId = xi.item.SQUARE_OF_ECARLATE_CLOTH, weight =   800 }, -- WAR
+            { itemId = xi.item.UTOPIAN_GOLD_THREAD,      weight =   800 }, -- MNK
+            { itemId = xi.item.SQUARE_OF_BENEDICT_SILK,  weight =   800 }, -- WHM
+            { itemId = xi.item.SQUARE_OF_DIABOLIC_SILK,  weight =   800 }, -- BLM
+            { itemId = xi.item.SQUARE_OF_SUPPLE_SKIN,    weight =   800 }, -- THF
+            { itemId = xi.item.CHUNK_OF_SNOWY_CERMET,    weight =   800 }, -- PLD
+         -- { itemId = xi.item.SQUARE_OF_BRILLIANTINE,   weight =   800 }, -- SCH
+        },
+
+        {
+            { itemId = xi.item.NONE,                     weight =  4400 },
+            { itemId = xi.item.SPOOL_OF_CHAMELEON_YARN,  weight =   800 }, -- RNG
+            { itemId = xi.item.PLAITED_CORD,             weight =   800 }, -- NIN
+            { itemId = xi.item.SHEET_OF_COBALT_MYTHRIL,  weight =   800 }, -- DRG
+            { itemId = xi.item.SPOOL_OF_GLITTERING_YARN, weight =   800 }, -- SMN
+            { itemId = xi.item.SPOOL_OF_LUMINIAN_THREAD, weight =   800 }, -- BLU
+            { itemId = xi.item.SPOOL_OF_SILKWORM_THREAD, weight =   800 }, -- COR
+         -- { itemId = xi.item.SQUARE_OF_FILET_LACE,     weight =   800 }, -- DNC
         },
     },
 
     [ID.TEMENOS_NORTHERN_TOWER.npc.ITEM_CRATES[4]] =
     {
         {
-            quantity = 5,
-            { itemId = xi.item.ANCIENT_BEASTCOIN, weight = xi.loot.weight.NORMAL },
+            quantity = 4,
+            { itemId = xi.item.ANCIENT_BEASTCOIN,        weight = 10000 },
         },
 
         {
-            quantity = 2,
-            { itemId = xi.item.NONE,              weight = xi.loot.weight.NORMAL },
-            { itemId = xi.item.ANCIENT_BEASTCOIN, weight = xi.loot.weight.NORMAL },
+            quantity = 3,
+            { itemId = xi.item.NONE,                     weight =  5000 },
+            { itemId = xi.item.ANCIENT_BEASTCOIN,        weight =  5000 },
         },
 
         {
-            { itemId = xi.item.SQUARE_OF_DIABOLIC_SILK,   weight = xi.loot.weight.NORMAL },
-            { itemId = xi.item.SPOOL_OF_RUBY_SILK_THREAD, weight = xi.loot.weight.NORMAL },
-            { itemId = xi.item.SPOOL_OF_GLITTERING_YARN,  weight = xi.loot.weight.NORMAL },
-            { itemId = xi.item.PANTIN_WIRE,               weight = xi.loot.weight.NORMAL },
+            { itemId = xi.item.NONE,                     weight =  4400 },
+            { itemId = xi.item.SQUARE_OF_ECARLATE_CLOTH, weight =   800 }, -- WAR
+            { itemId = xi.item.UTOPIAN_GOLD_THREAD,      weight =   800 }, -- MNK
+            { itemId = xi.item.SQUARE_OF_BENEDICT_SILK,  weight =   800 }, -- WHM
+            { itemId = xi.item.SQUARE_OF_DIABOLIC_SILK,  weight =   800 }, -- BLM
+            { itemId = xi.item.SQUARE_OF_SUPPLE_SKIN,    weight =   800 }, -- THF
+            { itemId = xi.item.CHUNK_OF_SNOWY_CERMET,    weight =   800 }, -- PLD
+         -- { itemId = xi.item.SQUARE_OF_BRILLIANTINE,   weight =   800 }, -- SCH
+        },
+
+        {
+            { itemId = xi.item.NONE,                     weight =  4400 },
+            { itemId = xi.item.SPOOL_OF_CHAMELEON_YARN,  weight =   800 }, -- RNG
+            { itemId = xi.item.PLAITED_CORD,             weight =   800 }, -- NIN
+            { itemId = xi.item.SHEET_OF_COBALT_MYTHRIL,  weight =   800 }, -- DRG
+            { itemId = xi.item.SPOOL_OF_GLITTERING_YARN, weight =   800 }, -- SMN
+            { itemId = xi.item.SPOOL_OF_LUMINIAN_THREAD, weight =   800 }, -- BLU
+            { itemId = xi.item.SPOOL_OF_SILKWORM_THREAD, weight =   800 }, -- COR
+         -- { itemId = xi.item.SQUARE_OF_FILET_LACE,     weight =   800 }, -- DNC
         },
     },
 
     [ID.TEMENOS_NORTHERN_TOWER.npc.ITEM_CRATES[5]] =
     {
         {
-            quantity = 5,
-            { itemId = xi.item.ANCIENT_BEASTCOIN, weight = xi.loot.weight.NORMAL },
+            quantity = 4,
+            { itemId = xi.item.ANCIENT_BEASTCOIN,        weight = 10000 },
         },
 
         {
-            quantity = 2,
-            { itemId = xi.item.NONE,              weight = xi.loot.weight.NORMAL },
-            { itemId = xi.item.ANCIENT_BEASTCOIN, weight = xi.loot.weight.NORMAL },
+            quantity = 3,
+            { itemId = xi.item.NONE,                     weight =  5000 },
+            { itemId = xi.item.ANCIENT_BEASTCOIN,        weight =  5000 },
         },
 
         {
-            { itemId = xi.item.SQUARE_OF_ECARLATE_CLOTH, weight = xi.loot.weight.NORMAL },
-            { itemId = xi.item.SQUARE_OF_SMALT_LEATHER,  weight = xi.loot.weight.NORMAL },
-            { itemId = xi.item.SHEET_OF_COBALT_MYTHRIL,  weight = xi.loot.weight.NORMAL },
-            { itemId = xi.item.SPOOL_OF_LUMINIAN_THREAD, weight = xi.loot.weight.NORMAL },
+            { itemId = xi.item.NONE,                     weight =  4400 },
+            { itemId = xi.item.SQUARE_OF_ECARLATE_CLOTH, weight =   800 }, -- WAR
+            { itemId = xi.item.UTOPIAN_GOLD_THREAD,      weight =   800 }, -- MNK
+            { itemId = xi.item.SQUARE_OF_BENEDICT_SILK,  weight =   800 }, -- WHM
+            { itemId = xi.item.SQUARE_OF_DIABOLIC_SILK,  weight =   800 }, -- BLM
+            { itemId = xi.item.SQUARE_OF_SUPPLE_SKIN,    weight =   800 }, -- THF
+            { itemId = xi.item.CHUNK_OF_SNOWY_CERMET,    weight =   800 }, -- PLD
+         -- { itemId = xi.item.SQUARE_OF_BRILLIANTINE,   weight =   800 }, -- SCH
+        },
+
+        {
+            { itemId = xi.item.NONE,                     weight =  4400 },
+            { itemId = xi.item.SPOOL_OF_CHAMELEON_YARN,  weight =   800 }, -- RNG
+            { itemId = xi.item.PLAITED_CORD,             weight =   800 }, -- NIN
+            { itemId = xi.item.SHEET_OF_COBALT_MYTHRIL,  weight =   800 }, -- DRG
+            { itemId = xi.item.SPOOL_OF_GLITTERING_YARN, weight =   800 }, -- SMN
+            { itemId = xi.item.SPOOL_OF_LUMINIAN_THREAD, weight =   800 }, -- BLU
+            { itemId = xi.item.SPOOL_OF_SILKWORM_THREAD, weight =   800 }, -- COR
+         -- { itemId = xi.item.SQUARE_OF_FILET_LACE,     weight =   800 }, -- DNC
         },
     },
 
     [ID.TEMENOS_NORTHERN_TOWER.npc.ITEM_CRATES[6]] =
     {
         {
-            quantity = 5,
-            { itemId = xi.item.ANCIENT_BEASTCOIN, weight = xi.loot.weight.NORMAL },
+            quantity = 4,
+            { itemId = xi.item.ANCIENT_BEASTCOIN,        weight = 10000 },
         },
 
         {
-            quantity = 2,
-            { itemId = xi.item.NONE,              weight = xi.loot.weight.NORMAL },
-            { itemId = xi.item.ANCIENT_BEASTCOIN, weight = xi.loot.weight.NORMAL },
+            quantity = 3,
+            { itemId = xi.item.NONE,                     weight =  5000 },
+            { itemId = xi.item.ANCIENT_BEASTCOIN,        weight =  5000 },
         },
 
         {
-            { itemId = xi.item.SQUARE_OF_SUPPLE_SKIN, weight = xi.loot.weight.NORMAL },
-            { itemId = xi.item.DARK_ORICHALCUM_INGOT, weight = xi.loot.weight.NORMAL },
-            { itemId = xi.item.SPOOL_OF_COILED_YARN,  weight = xi.loot.weight.NORMAL },
-            { itemId = xi.item.SQUARE_OF_FILET_LACE,  weight = xi.loot.weight.NORMAL },
+            { itemId = xi.item.NONE,                     weight =  4400 },
+            { itemId = xi.item.SQUARE_OF_ECARLATE_CLOTH, weight =   800 }, -- WAR
+            { itemId = xi.item.UTOPIAN_GOLD_THREAD,      weight =   800 }, -- MNK
+            { itemId = xi.item.SQUARE_OF_BENEDICT_SILK,  weight =   800 }, -- WHM
+            { itemId = xi.item.SQUARE_OF_DIABOLIC_SILK,  weight =   800 }, -- BLM
+            { itemId = xi.item.SQUARE_OF_SUPPLE_SKIN,    weight =   800 }, -- THF
+            { itemId = xi.item.CHUNK_OF_SNOWY_CERMET,    weight =   800 }, -- PLD
+         -- { itemId = xi.item.SQUARE_OF_BRILLIANTINE,   weight =   800 }, -- SCH
         },
 
         {
-            { itemId = xi.item.NONE,                     weight = xi.loot.weight.VERY_HIGH },
-            { itemId = xi.item.UTOPIAN_GOLD_THREAD,      weight = xi.loot.weight.LOW       },
-            { itemId = xi.item.SPOOL_OF_CHAMELEON_YARN,  weight = xi.loot.weight.LOW       },
-            { itemId = xi.item.SHEET_OF_COBALT_MYTHRIL,  weight = xi.loot.weight.LOW       },
-            { itemId = xi.item.SPOOL_OF_SILKWORM_THREAD, weight = xi.loot.weight.LOW       },
+            { itemId = xi.item.NONE,                     weight =  4400 },
+            { itemId = xi.item.SPOOL_OF_CHAMELEON_YARN,  weight =   800 }, -- RNG
+            { itemId = xi.item.PLAITED_CORD,             weight =   800 }, -- NIN
+            { itemId = xi.item.SHEET_OF_COBALT_MYTHRIL,  weight =   800 }, -- DRG
+            { itemId = xi.item.SPOOL_OF_GLITTERING_YARN, weight =   800 }, -- SMN
+            { itemId = xi.item.SPOOL_OF_LUMINIAN_THREAD, weight =   800 }, -- BLU
+            { itemId = xi.item.SPOOL_OF_SILKWORM_THREAD, weight =   800 }, -- COR
+         -- { itemId = xi.item.SQUARE_OF_FILET_LACE,     weight =   800 }, -- DNC
         },
     },
 
     [ID.npc.N_LOOT_CRATE] =
     {
         {
-            quantity = 5,
-            { itemId = xi.item.ANCIENT_BEASTCOIN, weight = xi.loot.weight.NORMAL },
+            quantity = 4,
+            { itemId = xi.item.ANCIENT_BEASTCOIN,        weight = 10000 },
         },
 
         {
-            quantity = 2,
-            { itemId = xi.item.NONE,              weight = xi.loot.weight.NORMAL },
-            { itemId = xi.item.ANCIENT_BEASTCOIN, weight = xi.loot.weight.NORMAL },
+            quantity = 3,
+            { itemId = xi.item.NONE,                     weight =  5000 },
+            { itemId = xi.item.ANCIENT_BEASTCOIN,        weight =  5000 },
         },
 
         {
-            { itemId = xi.item.UTOPIAN_GOLD_THREAD,      weight = xi.loot.weight.NORMAL },
-            { itemId = xi.item.SPOOL_OF_SCARLET_ODOSHI,  weight = xi.loot.weight.NORMAL },
-            { itemId = xi.item.PLAITED_CORD,             weight = xi.loot.weight.NORMAL },
-            { itemId = xi.item.SPOOL_OF_SILKWORM_THREAD, weight = xi.loot.weight.NORMAL },
+            { itemId = xi.item.NONE,                     weight =  4400 },
+            { itemId = xi.item.SQUARE_OF_ECARLATE_CLOTH, weight =   800 }, -- WAR
+            { itemId = xi.item.UTOPIAN_GOLD_THREAD,      weight =   800 }, -- MNK
+            { itemId = xi.item.SQUARE_OF_BENEDICT_SILK,  weight =   800 }, -- WHM
+            { itemId = xi.item.SQUARE_OF_DIABOLIC_SILK,  weight =   800 }, -- BLM
+            { itemId = xi.item.SQUARE_OF_SUPPLE_SKIN,    weight =   800 }, -- THF
+            { itemId = xi.item.CHUNK_OF_SNOWY_CERMET,    weight =   800 }, -- PLD
+         -- { itemId = xi.item.SQUARE_OF_BRILLIANTINE,   weight =   800 }, -- SCH
         },
 
         {
-            { itemId = xi.item.NONE,                     weight = xi.loot.weight.VERY_HIGH },
-            { itemId = xi.item.SQUARE_OF_SUPPLE_SKIN,    weight = xi.loot.weight.LOW       },
-            { itemId = xi.item.DARK_ORICHALCUM_INGOT,    weight = xi.loot.weight.LOW       },
-            { itemId = xi.item.SPOOL_OF_COILED_YARN,     weight = xi.loot.weight.LOW       },
-            { itemId = xi.item.SPOOL_OF_LUMINIAN_THREAD, weight = xi.loot.weight.LOW       },
+            { itemId = xi.item.NONE,                     weight =  4400 },
+            { itemId = xi.item.SPOOL_OF_CHAMELEON_YARN,  weight =   800 }, -- RNG
+            { itemId = xi.item.PLAITED_CORD,             weight =   800 }, -- NIN
+            { itemId = xi.item.SHEET_OF_COBALT_MYTHRIL,  weight =   800 }, -- DRG
+            { itemId = xi.item.SPOOL_OF_GLITTERING_YARN, weight =   800 }, -- SMN
+            { itemId = xi.item.SPOOL_OF_LUMINIAN_THREAD, weight =   800 }, -- BLU
+            { itemId = xi.item.SPOOL_OF_SILKWORM_THREAD, weight =   800 }, -- COR
+         -- { itemId = xi.item.SQUARE_OF_FILET_LACE,     weight =   800 }, -- DNC
         },
 
         {
-            { itemId = xi.item.IVORY_CHIP, weight = xi.loot.weight.NORMAL },
+            { itemId = xi.item.IVORY_CHIP,               weight = 10000 },
         },
 
         {
-            { itemId = xi.item.NONE,       weight = xi.loot.weight.VERY_HIGH },
-            { itemId = xi.item.METAL_CHIP, weight = xi.loot.weight.VERY_LOW  },
+            { itemId = xi.item.NONE,                     weight =  9000 },
+            { itemId = xi.item.METAL_CHIP,               weight =  1000 },
         },
     },
 }

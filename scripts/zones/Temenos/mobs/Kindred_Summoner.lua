@@ -11,10 +11,9 @@ entity.onMobInitialize = function(mob)
     xi.pet.setMobPet(mob, 1, 'Kindreds_Elemental')
 end
 
-entity.onMobEngage = function(mob, target)
-end
-
-entity.onMobDeath = function(mob, player, optParams)
+entity.onMobSpawn = function(mob)
+    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 150)
+    mob:setMod(xi.mod.UDMGMAGIC, -2500)
 end
 
 return entity
