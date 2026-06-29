@@ -374,7 +374,7 @@ inline Maybe<std::pair<uint32, uint32>> validateAndConsumeLaunchToken(const std:
         "JOIN accounts a ON a.id = lt.accid "
         "WHERE lt.token = ? AND lt.expires > NOW()",
         hashed);
-    if (!sel || sel->rowsCount() == 0 || !sel->next())
+    if (!sel || !sel->next())
     {
         return std::nullopt;
     }
