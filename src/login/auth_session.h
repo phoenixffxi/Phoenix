@@ -49,22 +49,23 @@ enum class login_cmd : uint8_t
 /*return result*/
 enum class login_result : uint8_t
 {
-    LOGIN_FAIL                      = 0x00,
-    LOGIN_SUCCESS                   = 0x01,
-    LOGIN_ERROR                     = 0x02,
-    LOGIN_SUCCESS_CREATE            = 0x03,
-    LOGIN_ERROR_CREATE_TAKEN        = 0x04,
-    LOGIN_REQUEST_NEW_PASSWORD      = 0x05, // is this used?
-    LOGIN_SUCCESS_CHANGE_PASSWORD   = 0x06,
-    LOGIN_ERROR_CHANGE_PASSWORD     = 0x07,
-    LOGIN_ERROR_CREATE_DISABLED     = 0x08,
-    LOGIN_ERROR_CREATE              = 0x09,
-    LOGIN_ERROR_ALREADY_LOGGED_IN   = 0x0A,
-    LOGIN_ERROR_VERSION_UNSUPPORTED = 0x0B,
-    LOGIN_SUCCESS_CREATE_TOTP       = 0x10,
-    LOGIN_SUCCESS_VERIFY_TOTP       = 0x11,
-    LOGIN_SUCCESS_REMOVE_TOTP       = 0x12,
-    LOGIN_ERROR_TRUST_TOKEN_INVALID = 0x13,
+    LOGIN_FAIL                       = 0x00,
+    LOGIN_SUCCESS                    = 0x01,
+    LOGIN_ERROR                      = 0x02,
+    LOGIN_SUCCESS_CREATE             = 0x03,
+    LOGIN_ERROR_CREATE_TAKEN         = 0x04,
+    LOGIN_REQUEST_NEW_PASSWORD       = 0x05, // is this used?
+    LOGIN_SUCCESS_CHANGE_PASSWORD    = 0x06,
+    LOGIN_ERROR_CHANGE_PASSWORD      = 0x07,
+    LOGIN_ERROR_CREATE_DISABLED      = 0x08,
+    LOGIN_ERROR_CREATE               = 0x09,
+    LOGIN_ERROR_ALREADY_LOGGED_IN    = 0x0A,
+    LOGIN_ERROR_VERSION_UNSUPPORTED  = 0x0B,
+    LOGIN_SUCCESS_CREATE_TOTP        = 0x10,
+    LOGIN_SUCCESS_VERIFY_TOTP        = 0x11,
+    LOGIN_SUCCESS_REMOVE_TOTP        = 0x12,
+    LOGIN_ERROR_TRUST_TOKEN_INVALID  = 0x13,
+    LOGIN_ERROR_LAUNCH_TOKEN_INVALID = 0x14, // [Phoenix] Launch Token
 };
 
 constexpr std::array<uint8, 3> SupportedXiloaderVersion = { 2, 1, 0 };

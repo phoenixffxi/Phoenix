@@ -25,6 +25,8 @@
 #include "common/utils.h"
 #include "otp_helpers.h"
 
+#include <tuple> // [Phoenix] Launch Token
+
 #include <bcrypt/BCrypt.hpp>
 
 #include <nlohmann/json.hpp>
@@ -152,6 +154,7 @@ void auth_session::read_func()
     std::string            updated_password    = loginHelpers::jsonGet<std::string>(jsonBuffer, "new_password").value_or("");
     std::string            otp                 = loginHelpers::jsonGet<std::string>(jsonBuffer, "otp").value_or("");
     std::string            trust_token         = loginHelpers::jsonGet<std::string>(jsonBuffer, "trust_token").value_or("");
+    std::string            login_token         = loginHelpers::jsonGet<std::string>(jsonBuffer, "login_token").value_or(""); // [Phoenix] Launch Token
     bool                   trust_this_computer = loginHelpers::jsonGet<bool>(jsonBuffer, "trust_this_computer").value_or(false);
     std::array<uint8_t, 3> version             = loginHelpers::jsonGet<uint8, 3>(jsonBuffer, "version").value_or(std::array<uint8_t, 3>{ 0, 0, 0 });
 
@@ -165,18 +168,24 @@ void auth_session::read_func()
 
     DebugSockets(fmt::format("auth code: {} from {}", code, ipAddress));
 
-    // data checks
-    if (loginHelpers::isStringMalformed(username, 16))
+    // [Phoenix] Launch Token BEGIN
+    // A launch-token login carries no username/password, so skip those checks
+    // when one is present (isStringMalformed rejects empty strings).
+    if (login_token.empty())
     {
-        ShowWarningFmt("login_parse: malformed username from {}", ipAddress);
-        return;
-    }
+        if (loginHelpers::isStringMalformed(username, 16))
+        {
+            ShowWarningFmt("login_parse: malformed username from {}", ipAddress);
+            return;
+        }
 
-    if (loginHelpers::isStringMalformed(password, 32))
-    {
-        ShowWarningFmt("login_parse: malformed password from {}", ipAddress);
-        return;
+        if (loginHelpers::isStringMalformed(password, 32))
+        {
+            ShowWarningFmt("login_parse: malformed password from {}", ipAddress);
+            return;
+        }
     }
+    // [Phoenix] Launch Token END
 
     switch (static_cast<login_cmd>(code))
     {
@@ -189,17 +198,37 @@ void auth_session::read_func()
         {
             DebugSockets(fmt::format("LOGIN_ATTEMPT from {}", ipAddress));
 
-            // Look up and validate account password
-            auto accountInfo = validatePassword(username, password);
-            if (!accountInfo)
+            uint32 accountID = 0;
+            uint32 status    = 0;
+
+            // [Phoenix] Launch Token BEGIN
+            // Single-use token minted by the auth service stands in for both password
+            // and OTP (the session already enforced 2FA at mint), so skip both here.
+            const bool viaLaunchToken = !login_token.empty();
+            if (viaLaunchToken)
             {
-                sendLoginResult(login_result::LOGIN_ERROR);
-                return;
+                auto launchInfo = otpHelpers::validateAndConsumeLaunchToken(login_token);
+                if (!launchInfo)
+                {
+                    sendLoginResult(login_result::LOGIN_ERROR_LAUNCH_TOKEN_INVALID);
+                    return;
+                }
+                std::tie(accountID, status) = *launchInfo;
             }
+            else
+            {
+                // Look up and validate account password
+                auto accountInfo = validatePassword(username, password);
+                if (!accountInfo)
+                {
+                    sendLoginResult(login_result::LOGIN_ERROR);
+                    return;
+                }
+                std::tie(accountID, status) = *accountInfo;
+            }
+            // [Phoenix] Launch Token END
 
-            auto [accountID, status] = *accountInfo;
-
-            // Reject banned/non-normal accounts before processing OTP or trust tokens
+            // Reject banned/non-normal accounts before processing OTP or trust tokens.
             if (!(status & ACCOUNT_STATUS_CODE::NORMAL))
             {
                 // Purge any lingering trust tokens for banned accounts
@@ -213,7 +242,8 @@ void auth_session::read_func()
 
             bool otpVerified = false;
 
-            if (otpHelpers::doesAccountNeedOTP(accountID, "TOTP"))
+            // [Phoenix] Launch Token: `!viaLaunchToken &&` skips OTP (already satisfied at mint).
+            if (!viaLaunchToken && otpHelpers::doesAccountNeedOTP(accountID, "TOTP"))
             {
                 bool trustedByToken = false;
 
