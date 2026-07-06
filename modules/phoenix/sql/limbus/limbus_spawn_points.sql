@@ -274,12 +274,12 @@ INSERT INTO `mob_spawn_points` VALUES (16929035,0,'Air_Elemental','Air Elemental
 INSERT INTO `mob_spawn_points` VALUES (16929036,0,'Earth_Elemental','Earth Elemental',264,78,80,-70.000,1.500,-410.000,32,NULL,NULL);
 INSERT INTO `mob_spawn_points` VALUES (16929037,0,'Thunder_Elemental','Thunder Elemental',266,78,80,70.000,1.500,-410.000,96,NULL,NULL);
 INSERT INTO `mob_spawn_points` VALUES (16929038,0,'Water_Elemental','Water Elemental',268,78,80,62.000,-6.500,-460.000,0,NULL,NULL);
-INSERT INTO `mob_spawn_points` VALUES (16929039,0,'Mystic_Avatar_Ifrit','Mystic Avatar',304,81,82,70.000,1.500,-510.000,160,NULL,NULL);
-INSERT INTO `mob_spawn_points` VALUES (16929040,0,'Mystic_Avatar_Shiva','Mystic Avatar',304,81,82,-70.000,1.500,-510.000,224,NULL,NULL);
-INSERT INTO `mob_spawn_points` VALUES (16929041,0,'Mystic_Avatar_Garuda','Mystic Avatar',304,81,82,-62.000,-6.500,-460.000,128,NULL,NULL);
-INSERT INTO `mob_spawn_points` VALUES (16929042,0,'Mystic_Avatar_Titan','Mystic Avatar',304,81,82,-70.000,1.500,-410.000,32,NULL,NULL);
-INSERT INTO `mob_spawn_points` VALUES (16929043,0,'Mystic_Avatar_Ramuh','Mystic Avatar',304,81,82,70.000,1.500,-410.000,96,NULL,NULL);
-INSERT INTO `mob_spawn_points` VALUES (16929044,0,'Mystic_Avatar_Leviathan','Mystic Avatar',304,81,82,62.000,-6.500,-460.000,0,NULL,NULL);
+INSERT INTO `mob_spawn_points` VALUES (16929039,0,'Mystic_Avatar_Ifrit','Mystic Avatar',259,81,82,70.000,1.500,-510.000,160,NULL,NULL);
+INSERT INTO `mob_spawn_points` VALUES (16929040,0,'Mystic_Avatar_Shiva','Mystic Avatar',261,81,82,-70.000,1.500,-510.000,224,NULL,NULL);
+INSERT INTO `mob_spawn_points` VALUES (16929041,0,'Mystic_Avatar_Garuda','Mystic Avatar',263,81,82,-62.000,-6.500,-460.000,128,NULL,NULL);
+INSERT INTO `mob_spawn_points` VALUES (16929042,0,'Mystic_Avatar_Titan','Mystic Avatar',265,81,82,-70.000,1.500,-410.000,32,NULL,NULL);
+INSERT INTO `mob_spawn_points` VALUES (16929043,0,'Mystic_Avatar_Ramuh','Mystic Avatar',267,81,82,70.000,1.500,-410.000,96,NULL,NULL);
+INSERT INTO `mob_spawn_points` VALUES (16929044,0,'Mystic_Avatar_Leviathan','Mystic Avatar',269,81,82,62.000,-6.500,-460.000,0,NULL,NULL);
 
 -- Central 1st Floor
 INSERT INTO `mob_spawn_points` VALUES (16929046,0,'Airi','Airi',251,80,80,270.000,-160.500,-460.000,128,NULL,NULL);

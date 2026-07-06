@@ -72,19 +72,20 @@ INSERT INTO `mob_groups` VALUES (255,10556,37,'Temenos_Cleaner',0,128,3233,16000
 INSERT INTO `mob_groups` VALUES (256,10555,37,'Temenos_Weapon',0,128,3233,16000,0,0,NULL);
 
 -- Central 2nd Floor
-INSERT INTO `mob_groups` VALUES (257,10557,37,'Light_Elemental',0,128,3235,6500,4000,0,NULL);
 INSERT INTO `mob_groups` VALUES (258,10530,37,'Fire_Elemental',0,128,3234,6500,3000,0,NULL);
-INSERT INTO `mob_groups` VALUES (259,10531,37,'Mystic_Avatar',0,128,3234,6500,4000,0,NULL); -- ifrit
+INSERT INTO `mob_groups` VALUES (259,10531,37,'Mystic_Avatar',0,128,3234,7000,4000,0,NULL); -- ifrit
 INSERT INTO `mob_groups` VALUES (260,10532,37,'Ice_Elemental',0,128,3234,6500,3000,0,NULL);
-INSERT INTO `mob_groups` VALUES (261,10533,37,'Mystic_Avatar',0,128,3234,6500,4000,0,NULL); -- shiva
+INSERT INTO `mob_groups` VALUES (261,10533,37,'Mystic_Avatar',0,128,3234,7000,4000,0,NULL); -- shiva
 INSERT INTO `mob_groups` VALUES (262,10534,37,'Air_Elemental',0,128,3234,6500,3000,0,NULL);
-INSERT INTO `mob_groups` VALUES (263,10535,37,'Mystic_Avatar',0,128,3234,6500,4000,0,NULL); -- garuda
+INSERT INTO `mob_groups` VALUES (263,10535,37,'Mystic_Avatar',0,128,3234,7000,4000,0,NULL); -- garuda
 INSERT INTO `mob_groups` VALUES (264,10536,37,'Earth_Elemental',0,128,3234,6500,3000,0,NULL);
-INSERT INTO `mob_groups` VALUES (265,10537,37,'Mystic_Avatar',0,128,3234,6500,4000,0,NULL); -- titan
+INSERT INTO `mob_groups` VALUES (265,10537,37,'Mystic_Avatar',0,128,3234,7000,4000,0,NULL); -- titan
 INSERT INTO `mob_groups` VALUES (266,10538,37,'Thunder_Elemental',0,128,3234,6500,3000,0,NULL);
-INSERT INTO `mob_groups` VALUES (267,10539,37,'Mystic_Avatar',0,128,3234,6500,4000,0,NULL); -- ramuh
+INSERT INTO `mob_groups` VALUES (267,10539,37,'Mystic_Avatar',0,128,3234,7000,4000,0,NULL); -- ramuh
 INSERT INTO `mob_groups` VALUES (268,10540,37,'Water_Elemental',0,128,3234,6500,3000,0,NULL);
-INSERT INTO `mob_groups` VALUES (269,10541,37,'Mystic_Avatar',0,128,3234,6500,4000,0,NULL); -- leviathan
+INSERT INTO `mob_groups` VALUES (269,10541,37,'Mystic_Avatar',0,128,3234,7000,4000,0,NULL); -- leviathan
+INSERT INTO `mob_groups` VALUES (257,10557,37,'Light_Elemental',0,128,3235,6500,4000,0,NULL);
+INSERT INTO `mob_groups` VALUES (304,10593,37,'Mystic_Avatar',0,128,3235,15000,0,0,NULL); -- carbuncle
 
 -- Central 3rd Floor
 INSERT INTO `mob_groups` VALUES (270,10559,37,'Grognard_Footsoldier',0,128,3236,0,0,0,NULL);
@@ -123,7 +124,6 @@ INSERT INTO `mob_groups` VALUES (300,10589,37,'Enhanced_Salamander',0,128,3237,0
 INSERT INTO `mob_groups` VALUES (301,10590,37,'Kingslayer_Doggvdegg',0,128,3237,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (302,10591,37,'JiGho_Ageless',0,128,3237,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (303,10592,37,'Koo_Buzu_the_Theomanic',0,128,3237,0,0,0,NULL);
-INSERT INTO `mob_groups` VALUES (304,10593,37,'Mystic_Avatar',0,128,3235,15000,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (305,10594,37,'Proto-Ultima',0,128,0,55000,55000,0,NULL);
 
 -- Central Basement

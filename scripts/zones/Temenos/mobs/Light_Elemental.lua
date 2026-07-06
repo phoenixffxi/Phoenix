@@ -7,7 +7,17 @@ local ID = zones[xi.zone.TEMENOS]
 ---@type TMobEntity
 local entity = {}
 
+entity.onMobInitialize = function(mob)
+    mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 200)
+end
+
+entity.onMobSpawn = function(mob)
+    mob:setMagicCastingEnabled(false)
+end
+
 entity.onMobEngage = function(mob, target)
+    mob:setMagicCastingEnabled(true)
+
     local mobID = mob:getID()
     if mobID == ID.mob.TEMENOS_C_MOB[2] + 1 then
         GetMobByID(ID.mob.TEMENOS_C_MOB[2] + 2):updateEnmity(target)
@@ -16,6 +26,10 @@ entity.onMobEngage = function(mob, target)
         GetMobByID(ID.mob.TEMENOS_C_MOB[2] + 1):updateEnmity(target)
         GetMobByID(ID.mob.TEMENOS_C_MOB[2]):updateEnmity(target)
     end
+end
+
+entity.onMobDisengage = function(mob)
+    mob:setMagicCastingEnabled(false)
 end
 
 entity.onMobDeath = function(mob, player, optParams)

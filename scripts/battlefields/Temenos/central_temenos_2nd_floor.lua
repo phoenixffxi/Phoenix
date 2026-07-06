@@ -59,6 +59,7 @@ function content:handleElementalDeath(elementalMod, bonusMod, bonusAmount, weakE
 
     if elemental:isAlive() then
         elemental:setLocalVar('morphed', 1)
+        elemental:setMod(xi.mod.DESPAWN_TIME_REDUCTION, 15)
         elemental:setHP(0)
     end
 end
@@ -77,14 +78,14 @@ content.groups =
             'Light_Elemental',
         },
 
-        -- NOTE: Elementals in here take 50% physical damage instead of the usual 25%
-        -- TODO: Verify if the Elementals here should detect sound
         mods =
         {
-            [xi.mod.SLASH_SDT   ] = 500,
-            [xi.mod.PIERCE_SDT  ] = 500,
-            [xi.mod.IMPACT_SDT  ] = 500,
-            [xi.mod.HTH_SDT     ] = 500,
+            [xi.mod.SLASH_SDT   ] = -5000,
+            [xi.mod.PIERCE_SDT  ] = -5000,
+            [xi.mod.IMPACT_SDT  ] = -5000,
+            [xi.mod.HTH_SDT     ] = -5000,
+            [xi.mod.UDMGMAGIC   ] = -5000,
+            [xi.mod.FASTCAST    ] = 20,
             [xi.mobMod.DETECTION] = xi.detects.HEARING,
         },
     },
@@ -95,14 +96,15 @@ content.groups =
         mobs    = { 'Mystic_Avatar_Ifrit' },
         mods =
         {
-            [xi.mod.UDMGPHYS   ] = 2500,
+            [xi.mod.UDMGPHYS   ] = -6500,
             [xi.mod.FIRE_ABSORB] = 100,
-            [xi.mod.FIRE_SDT   ] = -10000,
-            [xi.mod.ICE_SDT    ] = 9000,
-            [xi.mod.THUNDER_SDT] = 9000,
-            [xi.mod.EARTH_SDT  ] = 9000,
-            [xi.mod.WIND_SDT   ] = 9000,
-            [xi.mod.DARK_SDT   ] = 9000,
+            [xi.mod.FIRE_SDT   ] = 10000,
+            [xi.mod.ICE_SDT    ] = -9500,
+            [xi.mod.THUNDER_SDT] = -9500,
+            [xi.mod.EARTH_SDT  ] = -9500,
+            [xi.mod.WIND_SDT   ] = -9500,
+            [xi.mod.DARK_SDT   ] = -9500,
+            [xi.mod.LIGHT_SDT  ] = -9500,
         },
     },
 
@@ -111,14 +113,15 @@ content.groups =
         mobs    = { 'Mystic_Avatar_Shiva' },
         mods =
         {
-            [xi.mod.UDMGPHYS   ] = 2500,
+            [xi.mod.UDMGPHYS   ] = -6500,
             [xi.mod.ICE_ABSORB ] = 100,
-            [xi.mod.ICE_SDT    ] = -10000,
-            [xi.mod.WATER_SDT  ] = 9000,
-            [xi.mod.THUNDER_SDT] = 9000,
-            [xi.mod.EARTH_SDT  ] = 9000,
-            [xi.mod.WIND_SDT   ] = 9000,
-            [xi.mod.DARK_SDT   ] = 9000,
+            [xi.mod.ICE_SDT    ] = 10000,
+            [xi.mod.WATER_SDT  ] = -9500,
+            [xi.mod.THUNDER_SDT] = -9500,
+            [xi.mod.EARTH_SDT  ] = -9500,
+            [xi.mod.WIND_SDT   ] = -9500,
+            [xi.mod.DARK_SDT   ] = -9500,
+            [xi.mod.LIGHT_SDT  ] = -9500,
         },
     },
 
@@ -127,14 +130,15 @@ content.groups =
         mobs    = { 'Mystic_Avatar_Garuda' },
         mods =
         {
-            [xi.mod.UDMGPHYS   ] = 2500,
+            [xi.mod.UDMGPHYS   ] = -6500,
             [xi.mod.WIND_ABSORB] = 100,
-            [xi.mod.WIND_SDT   ] = -10000,
-            [xi.mod.FIRE_SDT   ] = 9000,
-            [xi.mod.WATER_SDT  ] = 9000,
-            [xi.mod.THUNDER_SDT] = 9000,
-            [xi.mod.EARTH_SDT  ] = 9000,
-            [xi.mod.DARK_SDT   ] = 9000,
+            [xi.mod.WIND_SDT   ] = 10000,
+            [xi.mod.FIRE_SDT   ] = -9500,
+            [xi.mod.WATER_SDT  ] = -9500,
+            [xi.mod.THUNDER_SDT] = -9500,
+            [xi.mod.EARTH_SDT  ] = -9500,
+            [xi.mod.DARK_SDT   ] = -9500,
+            [xi.mod.LIGHT_SDT  ] = -9500,
         },
     },
 
@@ -143,14 +147,15 @@ content.groups =
         mobs    = { 'Mystic_Avatar_Titan' },
         mods =
         {
-            [xi.mod.UDMGPHYS    ] = 2500,
+            [xi.mod.UDMGPHYS    ] = -6500,
             [xi.mod.EARTH_ABSORB] = 100,
-            [xi.mod.EARTH_SDT   ] = -10000,
-            [xi.mod.ICE_SDT     ] = 9000,
-            [xi.mod.FIRE_SDT    ] = 9000,
-            [xi.mod.WATER_SDT   ] = 9000,
-            [xi.mod.THUNDER_SDT ] = 9000,
-            [xi.mod.DARK_SDT    ] = 9000,
+            [xi.mod.EARTH_SDT   ] = 10000,
+            [xi.mod.ICE_SDT     ] = -9500,
+            [xi.mod.FIRE_SDT    ] = -9500,
+            [xi.mod.WATER_SDT   ] = -9500,
+            [xi.mod.THUNDER_SDT ] = -9500,
+            [xi.mod.DARK_SDT    ] = -9500,
+            [xi.mod.LIGHT_SDT   ] = -9500,
         },
     },
 
@@ -159,14 +164,15 @@ content.groups =
         mobs    = { 'Mystic_Avatar_Ramuh' },
         mods =
         {
-            [xi.mod.UDMGPHYS   ] = 2500,
+            [xi.mod.UDMGPHYS   ] = -6500,
             [xi.mod.LTNG_ABSORB] = 100,
-            [xi.mod.THUNDER_SDT] = -10000,
-            [xi.mod.ICE_SDT    ] = 9000,
-            [xi.mod.FIRE_SDT   ] = 9000,
-            [xi.mod.WATER_SDT  ] = 9000,
-            [xi.mod.WIND_SDT   ] = 9000,
-            [xi.mod.DARK_SDT   ] = 9000,
+            [xi.mod.THUNDER_SDT] = 10000,
+            [xi.mod.ICE_SDT    ] = -9500,
+            [xi.mod.FIRE_SDT   ] = -9500,
+            [xi.mod.WATER_SDT  ] = -9500,
+            [xi.mod.WIND_SDT   ] = -9500,
+            [xi.mod.DARK_SDT   ] = -9500,
+            [xi.mod.LIGHT_SDT  ] = -9500,
         },
     },
 
@@ -175,14 +181,15 @@ content.groups =
         mobs    = { 'Mystic_Avatar_Leviathan' },
         mods =
         {
-            [xi.mod.UDMGPHYS    ] = 2500,
+            [xi.mod.UDMGPHYS    ] = -6500,
             [xi.mod.WATER_ABSORB] = 100,
-            [xi.mod.WATER_SDT   ] = -10000,
-            [xi.mod.FIRE_SDT    ] = 9000,
-            [xi.mod.ICE_SDT     ] = 9000,
-            [xi.mod.EARTH_SDT   ] = 9000,
-            [xi.mod.WIND_SDT    ] = 9000,
-            [xi.mod.DARK_SDT    ] = 9000,
+            [xi.mod.WATER_SDT   ] = 10000,
+            [xi.mod.FIRE_SDT    ] = -9500,
+            [xi.mod.ICE_SDT     ] = -9500,
+            [xi.mod.EARTH_SDT   ] = -9500,
+            [xi.mod.WIND_SDT    ] = -9500,
+            [xi.mod.DARK_SDT    ] = -9500,
+            [xi.mod.LIGHT_SDT   ] = -9500,
         },
     },
 
@@ -207,7 +214,6 @@ content.groups =
             'Mystic_Avatar_Shiva',
         },
 
-        -- TODO: Figure out the bonus modifier
         death = utils.bind(content.handleElementalDeath, content, xi.mod.ICE_SDT, xi.mod.MATT, 50, 'Air_Elemental'),
     },
 
@@ -257,7 +263,7 @@ content.groups =
 
     {
         mobs  = { 'Light_Elemental' },
-        death = utils.bind(weakenCarbuncle, content, xi.mod.NONE, xi.mod.DARK_SDT, 2500),
+        death = utils.bind(weakenCarbuncle, content, xi.mod.DARK_SDT, xi.mod.NONE, 0),
     },
 
     {
@@ -274,13 +280,15 @@ content.groups =
         mobs = { 'Mystic_Avatar_Carbuncle' },
         mods =
         {
-            [xi.mod.FIRE_SDT   ] = 9000,
-            [xi.mod.ICE_SDT    ] = 9000,
-            [xi.mod.WIND_SDT   ] = 9000,
-            [xi.mod.EARTH_SDT  ] = 9000,
-            [xi.mod.THUNDER_SDT] = 9000,
-            [xi.mod.WATER_SDT  ] = 9000,
-            [xi.mod.DARK_SDT   ] = 5000,
+            [xi.mod.FIRE_SDT    ] = -9500,
+            [xi.mod.ICE_SDT     ] = -9500,
+            [xi.mod.WIND_SDT    ] = -9500,
+            [xi.mod.EARTH_SDT   ] = -9500,
+            [xi.mod.THUNDER_SDT ] = -9500,
+            [xi.mod.WATER_SDT   ] = -9500,
+            [xi.mod.DARK_SDT    ] = -9500,
+            [xi.mod.LIGHT_SDT   ] = -10000,
+            [xi.mod.LIGHT_ABSORB] = 100,
         },
 
         setup = function(battlefield, mobs)
@@ -305,38 +313,27 @@ content.loot =
     {
         {
             quantity = 6,
-            { itemId = xi.item.ANCIENT_BEASTCOIN, weight = xi.loot.weight.NORMAL },
+            { itemId = xi.item.ANCIENT_BEASTCOIN,         weight = 10000 },
         },
 
         {
-            { itemId = xi.item.SQUARE_OF_ECARLATE_CLOTH, weight = xi.loot.weight.NORMAL },
-            { itemId = xi.item.DARK_ORICHALCUM_INGOT,    weight = xi.loot.weight.NORMAL },
-            { itemId = xi.item.SQUARE_OF_SMALT_LEATHER,  weight = xi.loot.weight.NORMAL },
-            { itemId = xi.item.SQUARE_OF_FILET_LACE,     weight = xi.loot.weight.NORMAL },
+            { itemId = xi.item.NONE,                      weight =  4000 },
+            { itemId = xi.item.CHUNK_OF_SNOWY_CERMET,     weight =  1000 }, -- PLD
+            { itemId = xi.item.SQUARE_OF_SMALT_LEATHER,   weight =  1000 }, -- BST
+            { itemId = xi.item.PANTIN_WIRE,               weight =  1000 }, -- PUP
+            { itemId = xi.item.SQUARE_OF_DIABOLIC_SILK,   weight =  1000 }, -- BLM
+            { itemId = xi.item.DARK_ORICHALCUM_INGOT,     weight =  1000 }, -- DRK
+            { itemId = xi.item.SPOOL_OF_CHAMELEON_YARN,   weight =  1000 }, -- RNG
+          --{ itemId = xi.item.SQUARE_OF_FILET_LACE,      weight =  1000 }, -- DNC
         },
 
         {
-            { itemId = xi.item.SPOOL_OF_COILED_YARN,     weight = xi.loot.weight.NORMAL },
-            { itemId = xi.item.PLAITED_CORD,             weight = xi.loot.weight.NORMAL },
-            { itemId = xi.item.SHEET_OF_COBALT_MYTHRIL,  weight = xi.loot.weight.NORMAL },
-            { itemId = xi.item.SPOOL_OF_LUMINIAN_THREAD, weight = xi.loot.weight.NORMAL },
+            { itemId = xi.item.CERULEAN_CHIP,             weight = 10000 },
         },
 
         {
-            { itemId = xi.item.NONE,                     weight = xi.loot.weight.VERY_HIGH },
-            { itemId = xi.item.UTOPIAN_GOLD_THREAD,      weight = xi.loot.weight.LOW       },
-            { itemId = xi.item.SQUARE_OF_SUPPLE_SKIN,    weight = xi.loot.weight.LOW       },
-            { itemId = xi.item.SPOOL_OF_SCARLET_ODOSHI,  weight = xi.loot.weight.LOW       },
-            { itemId = xi.item.SPOOL_OF_SILKWORM_THREAD, weight = xi.loot.weight.LOW       },
-        },
-
-        {
-            { itemId = xi.item.CERULEAN_CHIP, weight = xi.loot.weight.NORMAL },
-        },
-
-        {
-            { itemId = xi.item.NONE,       weight = xi.loot.weight.VERY_HIGH },
-            { itemId = xi.item.METAL_CHIP, weight = xi.loot.weight.VERY_LOW  },
+            { itemId = xi.item.NONE,                      weight =  9000 },
+            { itemId = xi.item.METAL_CHIP,                weight =  1000 },
         },
     }
 }
