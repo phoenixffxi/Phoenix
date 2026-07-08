@@ -667,7 +667,6 @@ xi.data.guildShops['Tsutsuroon'].stock[99].initial     = 100 -- Rice Vinegar
 xi.data.guildShops['Tsutsuroon'].stock[100].initial     = 100 -- Napa
 table.insert(xi.data.guildShops['Tsutsuroon'].stock, { id = xi.item.KOMA, initial = 30, maxStock = 60, targetStock = 45, buyMax = 660, restockRate = 15 }) -- Koma
 
-
 -----------------------------------
 -- Tenshodo (new shops -- Akamafula and Amalasanda did not exist in base guild_shops.lua)
 -----------------------------------
@@ -724,10 +723,10 @@ xi.data.guildShops['Amalasanda'] =
         { id = xi.item.JAR_OF_GROUND_WASABI, initial = 100, maxStock = 150, targetStock = 120, buyMax = 12974, restockRate = 100 }, -- Wasabi
         { id = xi.item.BOTTLE_OF_RICE_VINEGAR, initial = 100, maxStock = 150, targetStock = 120, buyMax = 1000, restockRate = 100 }, -- Rice Vinegar
         { id = xi.item.BUNDLE_OF_SHIRATAKI, initial = 50, maxStock = 150, targetStock = 120, buyMax = 369, restockRate = 100, priceFloor = 150, noSell = true }, -- Shirataki
-        { id = xi.item.SCROLL_OF_KATON_ICHI, initial = 10, maxStock = 60, targetStock = 45, buyMax = 11655, restockRate = 3 }, -- Katon: Ichi 
+        { id = xi.item.SCROLL_OF_KATON_ICHI, initial = 10, maxStock = 60, targetStock = 45, buyMax = 11655, restockRate = 3 }, -- Katon: Ichi
         { id = xi.item.SCROLL_OF_HUTON_ICHI, initial = 10, maxStock = 60, targetStock = 45, buyMax = 11655, restockRate = 3 }, -- Huton: Ichi
         { id = xi.item.SCROLL_OF_DOTON_ICHI, initial = 10, maxStock = 60, targetStock = 45, buyMax = 11655, restockRate = 3 }, -- Doton: Ichi
-        { id = xi.item.SCROLL_OF_SUITON_ICHI, initial = 10, maxStock = 60, targetStock = 45, buyMax = 11655, restockRate = 3 }, -- Suiton: Ichi 
+        { id = xi.item.SCROLL_OF_SUITON_ICHI, initial = 10, maxStock = 60, targetStock = 45, buyMax = 11655, restockRate = 3 }, -- Suiton: Ichi
         { id = xi.item.UCHITAKE, initial = 10, maxStock = 60, targetStock = 50, buyMax = 200, restockRate = 0 }, -- Uchitake
         { id = xi.item.KAWAHORI_OGI, initial = 10, maxStock = 60, targetStock = 50, buyMax = 200, restockRate = 0 }, -- Kawahori Ogi
         { id = xi.item.MAKIBISHI, initial = 10, maxStock = 60, targetStock = 50, buyMax = 200, restockRate = 0 }, -- Makibishi
