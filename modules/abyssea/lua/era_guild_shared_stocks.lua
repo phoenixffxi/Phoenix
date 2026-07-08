@@ -84,9 +84,10 @@ m:addOverride('xi.zones.Northern_San_dOria.npcs.Cauzeriste.onTrigger', function(
 end)
 
 -----------------------------------
--- Tenshodo (Akamafula and Amalasanda were hardcoded on xi.shop.general with a static
--- fixed-price stock table; wiring both to the real era-corrected guild shop data instead.
--- Anti-cheat key item check preserved from their original onTrigger.)
+-- Neptune's Spire Tenshodo guild vendors
+-- Akamafula and Amalasanda were converted to normal shops on retail.
+-- This reverts them back to being guild shops, while also keeping the tenshodo membership anti-cheat
+-- that was already in place on their files.
 -----------------------------------
 m:addOverride('xi.zones.Lower_Jeuno.npcs.Akamafula.onTrigger', function(player, npc)
     if not player:hasKeyItem(xi.ki.TENSHODO_MEMBERS_CARD) then
