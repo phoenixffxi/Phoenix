@@ -11,31 +11,31 @@ local moduleName = 'era_guild_shops'
 -----------------------------------
 -- Amulya & Vicious Eye
 xi.data.guildShops['Vicious_Eye'] = { sharedStock = 'Amulya' }
-table.insert(xi.data.guildShops['Amulya'].stock, 1, { id = xi.item.CHUNK_OF_COPPER_ORE, initial = 120, maxStock = 240, targetStock = 180, buyMax = 60, restockRate = 40 })
+table.insert(xi.data.guildShops['Amulya'].stock, 1, { id = xi.item.CHUNK_OF_COPPER_ORE,  initial = 120,  maxStock = 240,  targetStock = 180,  buyMax = 60,   restockRate = 40 })
 xi.data.guildShops['Amulya'].stock[2].initial     = 120 -- Tin Ore
 xi.data.guildShops['Amulya'].stock[3].initial     = 120 -- Iron Ore
 xi.data.guildShops['Amulya'].stock[6].initial     = 12 -- Bronze Ingot
 xi.data.guildShops['Amulya'].stock[7].initial     = 12 -- Iron Ingot
 xi.data.guildShops['Amulya'].stock[11].initial     = 12 -- Bronze Sheet
 xi.data.guildShops['Amulya'].stock[12].initial     = 12 -- Iron Sheet
-table.insert(xi.data.guildShops['Amulya'].stock, { id = xi.item.MANDREL, initial = 120, maxStock = 240, targetStock = 180, buyMax = 500, restockRate = 60 })
-table.insert(xi.data.guildShops['Amulya'].stock, { id = xi.item.WORKSHOP_ANVIL, initial = 120, maxStock = 240, targetStock = 180, buyMax = 500, restockRate = 60 })
+table.insert(xi.data.guildShops['Amulya'].stock, { id = xi.item.MANDREL,              initial = 120,  maxStock = 240,  targetStock = 180,  buyMax = 500,  restockRate = 60 })
+table.insert(xi.data.guildShops['Amulya'].stock, { id = xi.item.WORKSHOP_ANVIL,       initial = 120,  maxStock = 240,  targetStock = 180,  buyMax = 500,  restockRate = 60 })
 
 -- Doggomehr & Lucretia
 xi.data.guildShops['Lucretia'] = { sharedStock = 'Doggomehr' }
-table.insert(xi.data.guildShops['Doggomehr'].stock, 1, { id = xi.item.CHUNK_OF_COPPER_ORE, initial = 120, maxStock = 240, targetStock = 180, buyMax = 60, restockRate = 60 })
+table.insert(xi.data.guildShops['Doggomehr'].stock, 1, { id = xi.item.CHUNK_OF_COPPER_ORE,  initial = 120,  maxStock = 240,  targetStock = 180,  buyMax = 60,   restockRate = 60 })
 xi.data.guildShops['Doggomehr'].stock[2].initial     = 120 -- Tin Ore
 xi.data.guildShops['Doggomehr'].stock[3].initial     = 120 -- Iron Ore
 xi.data.guildShops['Doggomehr'].stock[6].initial     = 12 -- Bronze Ingot
 xi.data.guildShops['Doggomehr'].stock[7].initial     = 12 -- Iron Ingot
 xi.data.guildShops['Doggomehr'].stock[11].initial     = 12 -- Bronze Sheet
 xi.data.guildShops['Doggomehr'].stock[12].initial     = 12 -- Iron Sheet
-table.insert(xi.data.guildShops['Doggomehr'].stock, { id = xi.item.MANDREL, initial = 120, maxStock = 240, targetStock = 180, buyMax = 500, restockRate = 60 })
-table.insert(xi.data.guildShops['Doggomehr'].stock, { id = xi.item.WORKSHOP_ANVIL, initial = 120, maxStock = 240, targetStock = 180, buyMax = 500, restockRate = 60 })
+table.insert(xi.data.guildShops['Doggomehr'].stock, { id = xi.item.MANDREL,              initial = 120,  maxStock = 240,  targetStock = 180,  buyMax = 500,  restockRate = 60 })
+table.insert(xi.data.guildShops['Doggomehr'].stock, { id = xi.item.WORKSHOP_ANVIL,       initial = 120,  maxStock = 240,  targetStock = 180,  buyMax = 500,  restockRate = 60 })
 
 -- Mololo & Kamilah
 xi.data.guildShops['Mololo'] = { sharedStock = 'Kamilah' }
-table.insert(xi.data.guildShops['Kamilah'].stock, 1, { id = xi.item.CHUNK_OF_COPPER_ORE, initial = 120, maxStock = 240, targetStock = 180, buyMax = 60, restockRate = 20 })
+table.insert(xi.data.guildShops['Kamilah'].stock, 1, { id = xi.item.CHUNK_OF_COPPER_ORE,  initial = 120,  maxStock = 240,  targetStock = 180,  buyMax = 60,  restockRate = 20 })
 xi.data.guildShops['Kamilah'].stock[2].initial     = 120 -- Tin Ore
 xi.data.guildShops['Kamilah'].stock[3].initial     = 120 -- Iron Ore
 xi.data.guildShops['Kamilah'].stock[4].initial     = 60 -- Bronze Ingot
@@ -87,7 +87,7 @@ xi.data.guildShops['Bornahn'].stock[126].restockRate = 0 -- Workshop Anvil
 
 -- Teerth & Visala
 xi.data.guildShops['Teerth'] = { sharedStock = 'Visala' }
-table.insert(xi.data.guildShops['Visala'].stock, 1, { id = xi.item.CHUNK_OF_COPPER_ORE, initial = 120, maxStock = 240, targetStock = 180, buyMax = 60, restockRate = 60 })
+table.insert(xi.data.guildShops['Visala'].stock, 1, { id = xi.item.CHUNK_OF_COPPER_ORE,  initial = 120,  maxStock = 240,  targetStock = 180,  buyMax = 60,  restockRate = 60 })
 xi.data.guildShops['Visala'].stock[2].initial     = 120 -- Silver Ore
 xi.data.guildShops['Visala'].stock[3].initial     = 0 -- Mythril Ore
 xi.data.guildShops['Visala'].stock[12].initial     = 1 -- Brass Sheet
@@ -115,7 +115,7 @@ xi.data.guildShops['Visala'].stock[125].initial     = 120 -- Tufa
 
 -- Yabby Tanmikey & Celestina
 xi.data.guildShops['Celestina'] = { sharedStock = 'Yabby_Tanmikey' }
-table.insert(xi.data.guildShops['Yabby_Tanmikey'].stock, 1, { id = xi.item.CHUNK_OF_COPPER_ORE, initial = 90, maxStock = 240, targetStock = 180, buyMax = 133, restockRate = 15 }) -- buyMax Mhaura-specific (20g vs 9g at Bastok/Al Zahbi)
+table.insert(xi.data.guildShops['Yabby_Tanmikey'].stock, 1, { id = xi.item.CHUNK_OF_COPPER_ORE,  initial = 90,   maxStock = 240,  targetStock = 180,  buyMax = 133,  restockRate = 15 }) -- buyMax Mhaura-specific (20g vs 9g at Bastok/Al Zahbi)
 xi.data.guildShops['Yabby_Tanmikey'].stock[2].initial     = 70 -- Silver Ore
 xi.data.guildShops['Yabby_Tanmikey'].stock[2].buyMax     = 4700 -- Silver Ore, Mhaura-specific price curve (705g vs 315g at Bastok/Al Zahbi)
 xi.data.guildShops['Yabby_Tanmikey'].stock[21].initial     = 2 -- Red Rock
@@ -126,17 +126,17 @@ xi.data.guildShops['Yabby_Tanmikey'].stock[25].initial     = 2 -- Clear Rock
 xi.data.guildShops['Yabby_Tanmikey'].stock[26].initial     = 2 -- Purple Rock
 xi.data.guildShops['Yabby_Tanmikey'].stock[27].initial     = 2 -- Black Rock
 xi.data.guildShops['Yabby_Tanmikey'].stock[28].initial     = 2 -- White Stone
-table.insert(xi.data.guildShops['Yabby_Tanmikey'].stock, { id = xi.item.MANDREL, initial = 120, maxStock = 240, targetStock = 180, buyMax = 500, restockRate = 60 })
-table.insert(xi.data.guildShops['Yabby_Tanmikey'].stock, { id = xi.item.WORKSHOP_ANVIL, initial = 120, maxStock = 240, targetStock = 180, buyMax = 500, restockRate = 60 })
+table.insert(xi.data.guildShops['Yabby_Tanmikey'].stock, { id = xi.item.MANDREL,              initial = 120,  maxStock = 240,  targetStock = 180,  buyMax = 500,  restockRate = 60 })
+table.insert(xi.data.guildShops['Yabby_Tanmikey'].stock, { id = xi.item.WORKSHOP_ANVIL,       initial = 120,  maxStock = 240,  targetStock = 180,  buyMax = 500,  restockRate = 60 })
 
 -----------------------------------
 -- Woodworking
 -----------------------------------
 -- Cauzeriste & Chaupire
 xi.data.guildShops['Cauzeriste'] = { sharedStock = 'Chaupire' }
-table.insert(xi.data.guildShops['Chaupire'].stock, 1, { id = xi.item.ARROWWOOD_LOG, initial = 120, maxStock = 240, targetStock = 180, buyMax = 100, restockRate = 60 })
-table.insert(xi.data.guildShops['Chaupire'].stock, 2, { id = xi.item.LAUAN_LOG, initial = 120, maxStock = 240, targetStock = 144, buyMax = 180, restockRate = 12 })
-table.insert(xi.data.guildShops['Chaupire'].stock, 3, { id = xi.item.MAPLE_LOG, initial = 120, maxStock = 240, targetStock = 144, buyMax = 300, restockRate = 12 })
+table.insert(xi.data.guildShops['Chaupire'].stock, 1, { id = xi.item.ARROWWOOD_LOG,  initial = 120,  maxStock = 240,  targetStock = 180,  buyMax = 100,  restockRate = 60 })
+table.insert(xi.data.guildShops['Chaupire'].stock, 2, { id = xi.item.LAUAN_LOG,      initial = 120,  maxStock = 240,  targetStock = 144,  buyMax = 180,  restockRate = 12 })
+table.insert(xi.data.guildShops['Chaupire'].stock, 3, { id = xi.item.MAPLE_LOG,      initial = 120,  maxStock = 240,  targetStock = 144,  buyMax = 300,  restockRate = 12 })
 xi.data.guildShops['Chaupire'].stock[4].initial     = 120 -- Ash Log
 xi.data.guildShops['Chaupire'].stock[5].initial     = 120 -- Willow Log
 xi.data.guildShops['Chaupire'].stock[6].initial     = 90 -- Holly Log
@@ -210,7 +210,7 @@ xi.data.guildShops['Dehbi_Moshal'].stock[28].initial     = 6 -- Oak Lumber
 -----------------------------------
 -- Kuzah Hpirohpon & Meriri
 xi.data.guildShops['Meriri'] = { sharedStock = 'Kuzah_Hpirohpon' }
-table.insert(xi.data.guildShops['Kuzah_Hpirohpon'].stock, 1, { id = xi.item.CLUMP_OF_MOKO_GRASS, initial = 120, maxStock = 240, targetStock = 180, buyMax = 100, restockRate = 60 })
+table.insert(xi.data.guildShops['Kuzah_Hpirohpon'].stock, 1, { id = xi.item.CLUMP_OF_MOKO_GRASS,  initial = 120,  maxStock = 240,  targetStock = 180,  buyMax = 100,  restockRate = 60 })
 xi.data.guildShops['Kuzah_Hpirohpon'].stock[2].initial     = 0 -- Saruta Cotton
 xi.data.guildShops['Kuzah_Hpirohpon'].stock[2].buyMax     = 214 -- Saruta Cotton
 xi.data.guildShops['Kuzah_Hpirohpon'].stock[3].initial     = 120 -- Flax
@@ -228,7 +228,7 @@ xi.data.guildShops['Kuzah_Hpirohpon'].stock[12].buyMax     = 1875 -- Silver Thre
 xi.data.guildShops['Kuzah_Hpirohpon'].stock[13].initial     = 3 -- Gold Thread
 xi.data.guildShops['Kuzah_Hpirohpon'].stock[15].initial     = 12 -- Grass Cloth
 xi.data.guildShops['Kuzah_Hpirohpon'].stock[16].initial     = 12 -- Cotton Cloth
-table.insert(xi.data.guildShops['Kuzah_Hpirohpon'].stock, 78, { id = xi.item.SPINDLE, initial = 120, maxStock = 240, targetStock = 180, buyMax = 500, restockRate = 60 })
+table.insert(xi.data.guildShops['Kuzah_Hpirohpon'].stock, 78, { id = xi.item.SPINDLE,              initial = 120,  maxStock = 240,  targetStock = 180,  buyMax = 500,  restockRate = 60 })
 
 -- Taten-Bilten
 xi.data.guildShops['Taten-Bilten'].stock[1].initial     = 6 -- Silk Thread
@@ -251,11 +251,11 @@ xi.data.guildShops['Taten-Bilten'].stock[21].initial     = 120 -- Spindle
 xi.data.guildShops['Taten-Bilten'].stock[22].initial     = 120 -- Spool of Zephyr Thread
 xi.data.guildShops['Taten-Bilten'].stock[26].initial     = 60 -- Wamoura Cocoon
 xi.data.guildShops['Taten-Bilten'].stock[27].initial     = 60 -- Karakul Thread
-table.insert(xi.data.guildShops['Taten-Bilten'].stock, { id = xi.item.SPOOL_OF_WOOL_THREAD, initial = 60, maxStock = 120, targetStock = 90, buyMax = 18000, restockRate = 3 })
+table.insert(xi.data.guildShops['Taten-Bilten'].stock, { id = xi.item.SPOOL_OF_WOOL_THREAD,  initial = 60,  maxStock = 120,  targetStock = 90,  buyMax = 18000,  restockRate = 3 })
 
 -- Tilala & Gibol
 xi.data.guildShops['Gibol'] = { sharedStock = 'Tilala' }
-table.insert(xi.data.guildShops['Tilala'].stock, 1, { id = xi.item.CLUMP_OF_MOKO_GRASS, initial = 120, maxStock = 240, targetStock = 180, buyMax = 100, restockRate = 40 })
+table.insert(xi.data.guildShops['Tilala'].stock, 1, { id = xi.item.CLUMP_OF_MOKO_GRASS,  initial = 120,  maxStock = 240,  targetStock = 180,  buyMax = 100,  restockRate = 40 })
 xi.data.guildShops['Tilala'].stock[3].initial     = 60 -- Flax
 xi.data.guildShops['Tilala'].stock[4].initial     = 55 -- Sheep Wool
 xi.data.guildShops['Tilala'].stock[5].initial     = 40 -- Crawler Cocoon
@@ -276,8 +276,8 @@ xi.data.guildShops['Tilala'].stock[13].initial     = 3 -- Gold Thread
 -----------------------------------
 -- Cletae & Kueh Igunahmori
 xi.data.guildShops['Cletae'] = { sharedStock = 'Kueh_Igunahmori' }
-table.insert(xi.data.guildShops['Kueh_Igunahmori'].stock, 1, { id = xi.item.RABBIT_HIDE, initial = 12, maxStock = 160, targetStock = 120, buyMax = 400, restockRate = 12 }) -- targetStock assumed
-table.insert(xi.data.guildShops['Kueh_Igunahmori'].stock, 2, { id = xi.item.SHEEPSKIN,   initial = 12, maxStock = 160, targetStock = 120, buyMax = 506, restockRate = 12 }) -- targetStock assumed
+table.insert(xi.data.guildShops['Kueh_Igunahmori'].stock, 1, { id = xi.item.RABBIT_HIDE,  initial = 12,   maxStock = 160,  targetStock = 120,  buyMax = 400,  restockRate = 12 }) -- targetStock assumed
+table.insert(xi.data.guildShops['Kueh_Igunahmori'].stock, 2, { id = xi.item.SHEEPSKIN,    initial = 12,   maxStock = 160,  targetStock = 120,  buyMax = 506,  restockRate = 12 }) -- targetStock assumed
 xi.data.guildShops['Kueh_Igunahmori'].stock[4].initial     = 0 -- Wolf Hide
 xi.data.guildShops['Kueh_Igunahmori'].stock[5].initial     = 0 -- Ram Skin
 xi.data.guildShops['Kueh_Igunahmori'].stock[6].initial     = 0 -- Tiger Hide
@@ -286,28 +286,28 @@ xi.data.guildShops['Kueh_Igunahmori'].stock[16].initial     = 30 -- Raptor Skin
 xi.data.guildShops['Kueh_Igunahmori'].stock[17].initial     = 30 -- Cockatrice Skin
 xi.data.guildShops['Kueh_Igunahmori'].stock[19].initial     = 120 -- Willow Log
 xi.data.guildShops['Kueh_Igunahmori'].stock[20].initial     = 120 -- Distilled Water
-table.insert(xi.data.guildShops['Kueh_Igunahmori'].stock, { id = xi.item.TANNING_VAT, initial = 120, maxStock = 240, targetStock = 180, buyMax = 500, restockRate = 60 })
+table.insert(xi.data.guildShops['Kueh_Igunahmori'].stock, { id = xi.item.TANNING_VAT,  initial = 120,  maxStock = 240,  targetStock = 180,  buyMax = 500,  restockRate = 60 })
 
 -----------------------------------
 -- Bonecraft
 -----------------------------------
 -- Retto-Marutto & Shih Tayuun
 xi.data.guildShops['Retto-Marutto'] = { sharedStock = 'Shih_Tayuun' }
-table.insert(xi.data.guildShops['Shih_Tayuun'].stock, 1, { id = xi.item.BONE_CHIP, initial = 12, maxStock = 240, targetStock = 180, buyMax = 380, restockRate = 12 })
+table.insert(xi.data.guildShops['Shih_Tayuun'].stock, 1, { id = xi.item.BONE_CHIP,               initial = 12,   maxStock = 240,  targetStock = 180,  buyMax = 380,  restockRate = 12 })
 xi.data.guildShops['Shih_Tayuun'].stock[3].initial     = 12  -- Sheep Tooth
 xi.data.guildShops['Shih_Tayuun'].stock[5].initial     = 4   -- Turtle Shell
 xi.data.guildShops['Shih_Tayuun'].stock[6].initial     = 120 -- Seashell
 xi.data.guildShops['Shih_Tayuun'].stock[13].initial     = 7  -- Chicken Bone
-table.insert(xi.data.guildShops['Shih_Tayuun'].stock, 14, { id = xi.item.HANDFUL_OF_FISH_SCALES, initial = 30, maxStock = 240, targetStock = 180, buyMax = 480, restockRate = 15 })
+table.insert(xi.data.guildShops['Shih_Tayuun'].stock, 14, { id = xi.item.HANDFUL_OF_FISH_SCALES,  initial = 30,   maxStock = 240,  targetStock = 180,  buyMax = 480,  restockRate = 15 })
 xi.data.guildShops['Shih_Tayuun'].stock[60].initial     = 0  -- Bone Arrow
-table.insert(xi.data.guildShops['Shih_Tayuun'].stock, { id = xi.item.SHAGREEN_FILE, initial = 120, maxStock = 240, targetStock = 180, buyMax = 500, restockRate = 60 })
+table.insert(xi.data.guildShops['Shih_Tayuun'].stock, { id = xi.item.SHAGREEN_FILE,           initial = 120,  maxStock = 240,  targetStock = 180,  buyMax = 500,  restockRate = 60 })
 
 -----------------------------------
 -- Alchemy
 -----------------------------------
 -- Maymunah & Odoba
 xi.data.guildShops['Odoba'] = { sharedStock = 'Maymunah' }
-table.insert(xi.data.guildShops['Maymunah'].stock, 1, { id = xi.item.VIAL_OF_MERCURY, initial = 8, maxStock = 60, targetStock = 45, buyMax = 7500, restockRate = 1 })
+table.insert(xi.data.guildShops['Maymunah'].stock, 1, { id = xi.item.VIAL_OF_MERCURY,  initial = 8,    maxStock = 60,   targetStock = 45,   buyMax = 7500,  restockRate =  1 })
 xi.data.guildShops['Maymunah'].stock[9].initial     = 60 -- Wijnruit
 xi.data.guildShops['Maymunah'].stock[10].initial     = 60 -- Crying Mustard
 xi.data.guildShops['Maymunah'].stock[11].initial     = 60 -- Dried Marjoram
@@ -317,7 +317,7 @@ xi.data.guildShops['Maymunah'].stock[18].initial     = 30 -- Glass Fiber
 xi.data.guildShops['Maymunah'].stock[71].initial     = 120 -- Battery
 xi.data.guildShops['Maymunah'].stock[72].initial     = 120 -- Hydro Pump
 xi.data.guildShops['Maymunah'].stock[73].initial     = 120 -- Wind Fan
-table.insert(xi.data.guildShops['Maymunah'].stock, { id = xi.item.TRITURATOR, initial = 120, maxStock = 240, targetStock = 180, buyMax = 500, restockRate = 60 })
+table.insert(xi.data.guildShops['Maymunah'].stock, { id = xi.item.TRITURATOR,       initial = 120,  maxStock = 240,  targetStock = 180,  buyMax = 500,   restockRate = 60 })
 
 -- Wahraga & Gathweeda
 xi.data.guildShops['Wahraga'].stock[33].initial     = 8 -- Mercury
@@ -343,9 +343,9 @@ xi.data.guildShops['Wahraga'].stock[83].initial     = 12 -- Minium
 -----------------------------------
 -- Chomo Jinhahl & Kopopo
 xi.data.guildShops['Chomo_Jinjahl'] = { sharedStock = 'Kopopo' }
-table.insert(xi.data.guildShops['Kopopo'].stock, 1, { id = xi.item.CHUNK_OF_ROCK_SALT, initial = 120, maxStock = 240, targetStock = 180, buyMax = 93, restockRate = 12 }) -- targetStock assumed
-table.insert(xi.data.guildShops['Kopopo'].stock, 42, { id = xi.item.SARUTA_ORANGE, initial = 60, maxStock = 240, targetStock = 180, buyMax = 300, restockRate = 2 }) -- targetStock assumed
-table.insert(xi.data.guildShops['Kopopo'].stock, 47, { id = xi.item.BUNCH_OF_SAN_DORIAN_GRAPES, initial = 12, maxStock = 240, targetStock = 180, buyMax = 380, restockRate = 2 }) -- targetStock assumed
+table.insert(xi.data.guildShops['Kopopo'].stock, 1, { id = xi.item.CHUNK_OF_ROCK_SALT,          initial = 120,  maxStock = 240,  targetStock = 180,  buyMax = 93,   restockRate = 12 }) -- targetStock assumed
+table.insert(xi.data.guildShops['Kopopo'].stock, 42, { id = xi.item.SARUTA_ORANGE,               initial = 60,   maxStock = 240,  targetStock = 180,  buyMax = 300,  restockRate =  2 }) -- targetStock assumed
+table.insert(xi.data.guildShops['Kopopo'].stock, 47, { id = xi.item.BUNCH_OF_SAN_DORIAN_GRAPES,  initial = 12,   maxStock = 240,  targetStock = 180,  buyMax = 380,  restockRate =  2 }) -- targetStock assumed
 xi.data.guildShops['Kopopo'].stock[3].initial     = 120 -- Rye Flour
 xi.data.guildShops['Kopopo'].stock[4].initial     = 120 -- San d'Orian Flour
 xi.data.guildShops['Kopopo'].stock[5].initial     = 120 -- Kazham Peppers
@@ -415,21 +415,21 @@ xi.data.guildShops['Cehn_Teyohngo'].stock[3].initial     = 10 -- Minnow
 xi.data.guildShops['Cehn_Teyohngo'].stock[5].initial     = 120 -- Tarutaru Fishing Rod
 
 -- Graegham & Mendoline
-table.insert(xi.data.guildShops['Graegham'].stock, 1, { id = xi.item.LITTLE_WORM, initial = 120, maxStock = 240, targetStock = 180, buyMax = 20, restockRate = 60 })
-table.insert(xi.data.guildShops['Graegham'].stock, 2, { id = xi.item.LUGWORM, initial = 120, maxStock = 240, targetStock = 180, buyMax = 60, restockRate = 60 })
-table.insert(xi.data.guildShops['Graegham'].stock, 3, { id = xi.item.BALL_OF_SARDINE_PASTE, initial = 120, maxStock = 240, targetStock = 180, buyMax = 350, restockRate = 12 })
-table.insert(xi.data.guildShops['Graegham'].stock, 4, { id = xi.item.BALL_OF_CRAYFISH_PASTE, initial = 120, maxStock = 240, targetStock = 180, buyMax = 350, restockRate = 12 })
-table.insert(xi.data.guildShops['Graegham'].stock, 5, { id = xi.item.SLICE_OF_COD, initial = 120, maxStock = 240, targetStock = 180, buyMax = 1425, restockRate = 12 })
-table.insert(xi.data.guildShops['Graegham'].stock, 6, { id = xi.item.FLY_LURE, initial = 120, maxStock = 240, targetStock = 180, buyMax = 3600, restockRate = 12 })
-table.insert(xi.data.guildShops['Graegham'].stock, 7, { id = xi.item.MINNOW, initial = 120, maxStock = 240, targetStock = 180, buyMax = 2025, restockRate = 12 })
+table.insert(xi.data.guildShops['Graegham'].stock, 1, { id = xi.item.LITTLE_WORM,             initial = 120,  maxStock = 240,  targetStock = 180,  buyMax = 20,      restockRate = 60 })
+table.insert(xi.data.guildShops['Graegham'].stock, 2, { id = xi.item.LUGWORM,                 initial = 120,  maxStock = 240,  targetStock = 180,  buyMax = 60,      restockRate = 60 })
+table.insert(xi.data.guildShops['Graegham'].stock, 3, { id = xi.item.BALL_OF_SARDINE_PASTE,   initial = 120,  maxStock = 240,  targetStock = 180,  buyMax = 350,     restockRate = 12 })
+table.insert(xi.data.guildShops['Graegham'].stock, 4, { id = xi.item.BALL_OF_CRAYFISH_PASTE,  initial = 120,  maxStock = 240,  targetStock = 180,  buyMax = 350,     restockRate = 12 })
+table.insert(xi.data.guildShops['Graegham'].stock, 5, { id = xi.item.SLICE_OF_COD,            initial = 120,  maxStock = 240,  targetStock = 180,  buyMax = 1425,    restockRate = 12 })
+table.insert(xi.data.guildShops['Graegham'].stock, 6, { id = xi.item.FLY_LURE,                initial = 120,  maxStock = 240,  targetStock = 180,  buyMax = 3600,    restockRate = 12 })
+table.insert(xi.data.guildShops['Graegham'].stock, 7, { id = xi.item.MINNOW,                  initial = 120,  maxStock = 240,  targetStock = 180,  buyMax = 2025,    restockRate = 12 })
 xi.data.guildShops['Graegham'].stock[8].initial     = 120 -- Sabiki Rig
 xi.data.guildShops['Graegham'].stock[8].restockRate = 12 -- Sabiki Rig
-table.insert(xi.data.guildShops['Graegham'].stock, 9, { id = xi.item.WILLOW_FISHING_ROD, initial = 90, maxStock = 180, targetStock = 160, buyMax = 360, restockRate = 9 })
-table.insert(xi.data.guildShops['Graegham'].stock, 10, { id = xi.item.YEW_FISHING_ROD, initial = 90, maxStock = 180, targetStock = 160, buyMax = 1180, restockRate = 9 })
-table.insert(xi.data.guildShops['Graegham'].stock, 11, { id = xi.item.BAMBOO_FISHING_ROD, initial = 90, maxStock = 180, targetStock = 160, buyMax = 2700, restockRate = 9 })
+table.insert(xi.data.guildShops['Graegham'].stock, 9, { id = xi.item.WILLOW_FISHING_ROD,      initial = 90,   maxStock = 180,  targetStock = 160,  buyMax = 360,     restockRate =  9 })
+table.insert(xi.data.guildShops['Graegham'].stock, 10, { id = xi.item.YEW_FISHING_ROD,         initial = 90,   maxStock = 180,  targetStock = 160,  buyMax = 1180,    restockRate =  9 })
+table.insert(xi.data.guildShops['Graegham'].stock, 11, { id = xi.item.BAMBOO_FISHING_ROD,      initial = 90,   maxStock = 180,  targetStock = 160,  buyMax = 2700,    restockRate =  9 })
 xi.data.guildShops['Graegham'].stock[12].initial     = 30 -- Tarutaru Fishing Rod
 xi.data.guildShops['Graegham'].stock[12].restockRate = 15 -- Tarutaru Fishing Rod
-table.insert(xi.data.guildShops['Graegham'].stock, 13, { id = xi.item.MITHRAN_FISHING_ROD, initial = 30, maxStock = 60, targetStock = 45, buyMax = 171600, restockRate = 5 })
+table.insert(xi.data.guildShops['Graegham'].stock, 13, { id = xi.item.MITHRAN_FISHING_ROD,     initial = 30,   maxStock = 60,   targetStock = 45,   buyMax = 171600,  restockRate =  5 })
 xi.data.guildShops['Graegham'].stock[14].initial     = 30 -- Clothespole
 xi.data.guildShops['Graegham'].stock[14].restockRate = 15 -- Clothespole
 xi.data.guildShops['Graegham'].stock[15].initial     = 30 -- Fastwater Rod
@@ -460,9 +460,9 @@ xi.data.guildShops['Lokhong'].stock[3].initial     = 10 -- Minnow
 xi.data.guildShops['Lokhong'].stock[5].initial     = 120 -- Tarutaru Fishing Rod
 
 -- Mep Nhapopoluko
-table.insert(xi.data.guildShops['Mep_Nhapopoluko'].stock, 1, { id = xi.item.SABIKI_RIG, initial = 120, maxStock = 240, targetStock = 180, buyMax = 15960, restockRate = 12 })
+table.insert(xi.data.guildShops['Mep_Nhapopoluko'].stock, 1, { id = xi.item.SABIKI_RIG,            initial = 120,  maxStock = 240,  targetStock = 180,  buyMax = 15960,  restockRate = 12 })
 xi.data.guildShops['Mep_Nhapopoluko'].stock[2].initial     = 80 -- Fastwater Rod
-table.insert(xi.data.guildShops['Mep_Nhapopoluko'].stock, 3, { id = xi.item.TARUTARU_FISHING_ROD, initial = 30, maxStock = 60, targetStock = 45, buyMax = 27180, restockRate = 3 })
+table.insert(xi.data.guildShops['Mep_Nhapopoluko'].stock, 3, { id = xi.item.TARUTARU_FISHING_ROD,  initial = 30,   maxStock = 60,   targetStock = 45,   buyMax = 27180,  restockRate =  3 })
 xi.data.guildShops['Mep_Nhapopoluko'].stock[4].initial     = 80 -- Single Hook Rod
 xi.data.guildShops['Mep_Nhapopoluko'].stock[5].initial     = 100 -- Bluetail
 xi.data.guildShops['Mep_Nhapopoluko'].stock[6].initial     = 100 -- Noble Lady
@@ -618,7 +618,7 @@ xi.data.guildShops['Vuliaie'].stock[24].initial     = 60 -- Curry Powder
 xi.data.guildShops['Vuliaie'].stock[25].initial     = 100 -- Ground Wasabi
 xi.data.guildShops['Vuliaie'].stock[26].initial     = 100 -- Rice Vinegar
 xi.data.guildShops['Vuliaie'].stock[27].initial     = 100 -- Napa
-table.insert(xi.data.guildShops['Vuliaie'].stock, { id = xi.item.KOMA, initial = 30, maxStock = 60, targetStock = 45, buyMax = 660, restockRate = 15 }) -- Koma
+table.insert(xi.data.guildShops['Vuliaie'].stock, { id = xi.item.KOMA,  initial = 30,  maxStock = 60,  targetStock = 45,  buyMax = 660,  restockRate = 15 }) -- Koma
 
 -- Tsutsuroon
 xi.data.guildShops['Tsutsuroon'].stock[1].initial     = 30 -- Kunai
@@ -665,7 +665,7 @@ xi.data.guildShops['Tsutsuroon'].stock[97].initial     = 60 -- Curry Powder
 xi.data.guildShops['Tsutsuroon'].stock[98].initial     = 100 -- Ground Wasabi
 xi.data.guildShops['Tsutsuroon'].stock[99].initial     = 100 -- Rice Vinegar
 xi.data.guildShops['Tsutsuroon'].stock[100].initial     = 100 -- Napa
-table.insert(xi.data.guildShops['Tsutsuroon'].stock, { id = xi.item.KOMA, initial = 30, maxStock = 60, targetStock = 45, buyMax = 660, restockRate = 15 }) -- Koma
+table.insert(xi.data.guildShops['Tsutsuroon'].stock, { id = xi.item.KOMA,  initial = 30,  maxStock = 60,  targetStock = 45,  buyMax = 660,  restockRate = 15 }) -- Koma
 
 -----------------------------------
 -- Tenshodo (new shops -- Akamafula and Amalasanda did not exist in base guild_shops.lua)
@@ -676,30 +676,30 @@ xi.data.guildShops['Akamafula'] =
     holiday = xi.day.EARTHSDAY,
     stock =
     {
-        { id = xi.item.KUNAI, initial = 20, maxStock = 60, targetStock = 55, buyMax = 4419, restockRate = 5 }, -- Kunai
-        { id = xi.item.WAKIZASHI, initial = 20, maxStock = 60, targetStock = 55, buyMax = 12000, restockRate = 5 }, -- Wakizashi
-        { id = xi.item.UCHIGATANA, initial = 20, maxStock = 60, targetStock = 55, buyMax = 26680, restockRate = 5 }, -- Uchigatana
-        { id = xi.item.KANESADA, initial = 2, maxStock = 60, targetStock = 55, buyMax = 99000, restockRate = 10 }, -- Kanesada
-        { id = xi.item.TACHI, initial = 20, maxStock = 60, targetStock = 55, buyMax = 15695, restockRate = 5 }, -- Tachi
-        { id = xi.item.NODACHI, initial = 2, maxStock = 60, targetStock = 55, buyMax = 40620, restockRate = 0 }, -- Nodachi
-        { id = xi.item.OKANEHIRA, initial = 5, maxStock = 60, targetStock = 55, buyMax = 104730, restockRate = 7 }, -- Okanehira
-        { id = xi.item.TANEGASHIMA, initial = 2, maxStock = 60, targetStock = 55, buyMax = 65310, restockRate = 0 }, -- Tanegashima
-        { id = xi.item.SHURIKEN, initial = 30, maxStock = 60, targetStock = 55, buyMax = 250, restockRate = 10 }, -- Shuriken
-        { id = xi.item.HACHIMAKI, initial = 5, maxStock = 60, targetStock = 45, buyMax = 4125, restockRate = 3 }, -- Hachimaki
-        { id = xi.item.COTTON_HACHIMAKI, initial = 5, maxStock = 60, targetStock = 45, buyMax = 24420, restockRate = 3 }, -- Cotton Hachimaki
-        { id = xi.item.SOIL_HACHIMAKI, initial = 10, maxStock = 60, targetStock = 45, buyMax = 66960, restockRate = 5 }, -- Soil Hachimaki
-        { id = xi.item.KENPOGI, initial = 5, maxStock = 60, targetStock = 45, buyMax = 6225, restockRate = 3 }, -- Kenpogi
-        { id = xi.item.COTTON_DOGI, initial = 5, maxStock = 60, targetStock = 45, buyMax = 36800, restockRate = 3 }, -- Cotton Dogi
-        { id = xi.item.SOIL_GI, initial = 10, maxStock = 60, targetStock = 45, buyMax = 99000, restockRate = 5 }, -- Soil Gi
-        { id = xi.item.TEKKO, initial = 5, maxStock = 60, targetStock = 45, buyMax = 3425, restockRate = 3 }, -- Tekko
-        { id = xi.item.COTTON_TEKKO, initial = 5, maxStock = 60, targetStock = 45, buyMax = 20250, restockRate = 3 }, -- Cotton Tekko
-        { id = xi.item.SOIL_TEKKO, initial = 10, maxStock = 60, targetStock = 45, buyMax = 55440, restockRate = 5 }, -- Soil Tekko
-        { id = xi.item.SITABAKI, initial = 5, maxStock = 60, targetStock = 45, buyMax = 4975, restockRate = 3 }, -- Sitabaki
-        { id = xi.item.COTTON_SITABAKI, initial = 5, maxStock = 60, targetStock = 45, buyMax = 29490, restockRate = 3 }, -- Cotton Sitabaki
-        { id = xi.item.SOIL_SITABAKI, initial = 10, maxStock = 60, targetStock = 45, buyMax = 80640, restockRate = 5 }, -- Soil Sitabaki
-        { id = xi.item.KYAHAN, initial = 5, maxStock = 60, targetStock = 45, buyMax = 3175, restockRate = 3 }, -- Kyahan
-        { id = xi.item.COTTON_KYAHAN, initial = 5, maxStock = 60, targetStock = 45, buyMax = 18870, restockRate = 3 }, -- Cotton Kyahan
-        { id = xi.item.SOIL_KYAHAN, initial = 10, maxStock = 60, targetStock = 45, buyMax = 82620, restockRate = 5 }, -- Soil Kyahan
+        { id = xi.item.KUNAI,             initial = 20,  maxStock = 60,  targetStock = 55,  buyMax = 4419,    restockRate =  5 }, -- Kunai
+        { id = xi.item.WAKIZASHI,         initial = 20,  maxStock = 60,  targetStock = 55,  buyMax = 12000,   restockRate =  5 }, -- Wakizashi
+        { id = xi.item.UCHIGATANA,        initial = 20,  maxStock = 60,  targetStock = 55,  buyMax = 26680,   restockRate =  5 }, -- Uchigatana
+        { id = xi.item.KANESADA,          initial = 2,   maxStock = 60,  targetStock = 55,  buyMax = 99000,   restockRate = 10 }, -- Kanesada
+        { id = xi.item.TACHI,             initial = 20,  maxStock = 60,  targetStock = 55,  buyMax = 15695,   restockRate =  5 }, -- Tachi
+        { id = xi.item.NODACHI,           initial = 2,   maxStock = 60,  targetStock = 55,  buyMax = 40620,   restockRate =  0 }, -- Nodachi
+        { id = xi.item.OKANEHIRA,         initial = 5,   maxStock = 60,  targetStock = 55,  buyMax = 104730,  restockRate =  7 }, -- Okanehira
+        { id = xi.item.TANEGASHIMA,       initial = 2,   maxStock = 60,  targetStock = 55,  buyMax = 65310,   restockRate =  0 }, -- Tanegashima
+        { id = xi.item.SHURIKEN,          initial = 30,  maxStock = 60,  targetStock = 55,  buyMax = 250,     restockRate = 10 }, -- Shuriken
+        { id = xi.item.HACHIMAKI,         initial = 5,   maxStock = 60,  targetStock = 45,  buyMax = 4125,    restockRate =  3 }, -- Hachimaki
+        { id = xi.item.COTTON_HACHIMAKI,  initial = 5,   maxStock = 60,  targetStock = 45,  buyMax = 24420,   restockRate =  3 }, -- Cotton Hachimaki
+        { id = xi.item.SOIL_HACHIMAKI,    initial = 10,  maxStock = 60,  targetStock = 45,  buyMax = 66960,   restockRate =  5 }, -- Soil Hachimaki
+        { id = xi.item.KENPOGI,           initial = 5,   maxStock = 60,  targetStock = 45,  buyMax = 6225,    restockRate =  3 }, -- Kenpogi
+        { id = xi.item.COTTON_DOGI,       initial = 5,   maxStock = 60,  targetStock = 45,  buyMax = 36800,   restockRate =  3 }, -- Cotton Dogi
+        { id = xi.item.SOIL_GI,           initial = 10,  maxStock = 60,  targetStock = 45,  buyMax = 99000,   restockRate =  5 }, -- Soil Gi
+        { id = xi.item.TEKKO,             initial = 5,   maxStock = 60,  targetStock = 45,  buyMax = 3425,    restockRate =  3 }, -- Tekko
+        { id = xi.item.COTTON_TEKKO,      initial = 5,   maxStock = 60,  targetStock = 45,  buyMax = 20250,   restockRate =  3 }, -- Cotton Tekko
+        { id = xi.item.SOIL_TEKKO,        initial = 10,  maxStock = 60,  targetStock = 45,  buyMax = 55440,   restockRate =  5 }, -- Soil Tekko
+        { id = xi.item.SITABAKI,          initial = 5,   maxStock = 60,  targetStock = 45,  buyMax = 4975,    restockRate =  3 }, -- Sitabaki
+        { id = xi.item.COTTON_SITABAKI,   initial = 5,   maxStock = 60,  targetStock = 45,  buyMax = 29490,   restockRate =  3 }, -- Cotton Sitabaki
+        { id = xi.item.SOIL_SITABAKI,     initial = 10,  maxStock = 60,  targetStock = 45,  buyMax = 80640,   restockRate =  5 }, -- Soil Sitabaki
+        { id = xi.item.KYAHAN,            initial = 5,   maxStock = 60,  targetStock = 45,  buyMax = 3175,    restockRate =  3 }, -- Kyahan
+        { id = xi.item.COTTON_KYAHAN,     initial = 5,   maxStock = 60,  targetStock = 45,  buyMax = 18870,   restockRate =  3 }, -- Cotton Kyahan
+        { id = xi.item.SOIL_KYAHAN,       initial = 10,  maxStock = 60,  targetStock = 45,  buyMax = 82620,   restockRate =  5 }, -- Soil Kyahan
     },
 }
 
@@ -709,28 +709,28 @@ xi.data.guildShops['Amalasanda'] =
     holiday = xi.day.EARTHSDAY,
     stock =
     {
-        { id = xi.item.BAMBOO_STICK, initial = 30, maxStock = 240, targetStock = 180, buyMax = 720, restockRate = 10 }, -- Bamboo Stick
-        { id = xi.item.KOMA, initial = 30, maxStock = 60, targetStock = 45, buyMax = 660, restockRate = 15 }, -- Koma
-        { id = xi.item.LUMP_OF_TAMA_HAGANE, initial = 20, maxStock = 60, targetStock = 45, buyMax = 35000, restockRate = 5 }, -- Tama Hagane
-        { id = xi.item.POT_OF_URUSHI, initial = 10, maxStock = 60, targetStock = 45, buyMax = 367650, restockRate = 1 }, -- Urushi
-        { id = xi.item.BOX_OF_STICKY_RICE, initial = 50, maxStock = 150, targetStock = 120, buyMax = 316, restockRate = 100, priceFloor = 150, noSell = true }, -- Sticky Rice
-        { id = xi.item.BAG_OF_BUCKWHEAT_FLOUR, initial = 50, maxStock = 150, targetStock = 120, buyMax = 1500, restockRate = 100, priceFloor = 150, noSell = true }, -- Buckwheat Flour
-        { id = xi.item.PINCH_OF_BLACK_PEPPER, initial = 10, maxStock = 60, targetStock = 45, buyMax = 1111, restockRate = 5 }, -- Black Pepper
-        { id = xi.item.ONZ_OF_TURMERIC, initial = 20, maxStock = 60, targetStock = 50, buyMax = 3225, restockRate = 15 }, -- Turmeric
-        { id = xi.item.ONZ_OF_CORIANDER, initial = 20, maxStock = 60, targetStock = 50, buyMax = 7925, restockRate = 15 }, -- Coriander
-        { id = xi.item.SPRIG_OF_HOLY_BASIL, initial = 20, maxStock = 60, targetStock = 50, buyMax = 4000, restockRate = 15 }, -- Holy Basil
-        { id = xi.item.ONZ_OF_CURRY_POWDER, initial = 10, maxStock = 30, targetStock = 25, buyMax = 1456, restockRate = 7 }, -- Curry Powder
-        { id = xi.item.JAR_OF_GROUND_WASABI, initial = 100, maxStock = 150, targetStock = 120, buyMax = 12974, restockRate = 100 }, -- Wasabi
-        { id = xi.item.BOTTLE_OF_RICE_VINEGAR, initial = 100, maxStock = 150, targetStock = 120, buyMax = 1000, restockRate = 100 }, -- Rice Vinegar
-        { id = xi.item.BUNDLE_OF_SHIRATAKI, initial = 50, maxStock = 150, targetStock = 120, buyMax = 369, restockRate = 100, priceFloor = 150, noSell = true }, -- Shirataki
-        { id = xi.item.SCROLL_OF_KATON_ICHI, initial = 10, maxStock = 60, targetStock = 45, buyMax = 11655, restockRate = 3 }, -- Katon: Ichi
-        { id = xi.item.SCROLL_OF_HUTON_ICHI, initial = 10, maxStock = 60, targetStock = 45, buyMax = 11655, restockRate = 3 }, -- Huton: Ichi
-        { id = xi.item.SCROLL_OF_DOTON_ICHI, initial = 10, maxStock = 60, targetStock = 45, buyMax = 11655, restockRate = 3 }, -- Doton: Ichi
-        { id = xi.item.SCROLL_OF_SUITON_ICHI, initial = 10, maxStock = 60, targetStock = 45, buyMax = 11655, restockRate = 3 }, -- Suiton: Ichi
-        { id = xi.item.UCHITAKE, initial = 10, maxStock = 60, targetStock = 50, buyMax = 200, restockRate = 0 }, -- Uchitake
-        { id = xi.item.KAWAHORI_OGI, initial = 10, maxStock = 60, targetStock = 50, buyMax = 200, restockRate = 0 }, -- Kawahori Ogi
-        { id = xi.item.MAKIBISHI, initial = 10, maxStock = 60, targetStock = 50, buyMax = 200, restockRate = 0 }, -- Makibishi
-        { id = xi.item.MIZU_DEPPO, initial = 10, maxStock = 60, targetStock = 50, buyMax = 200, restockRate = 0 }, -- Mizu Deppo
+        { id = xi.item.BAMBOO_STICK,            initial = 30,   maxStock = 240,  targetStock = 180,  buyMax = 720,     restockRate =  10 }, -- Bamboo Stick
+        { id = xi.item.KOMA,                    initial = 30,   maxStock = 60,   targetStock = 45,   buyMax = 660,     restockRate =  15 }, -- Koma
+        { id = xi.item.LUMP_OF_TAMA_HAGANE,     initial = 20,   maxStock = 60,   targetStock = 45,   buyMax = 35000,   restockRate =   5 }, -- Tama Hagane
+        { id = xi.item.POT_OF_URUSHI,           initial = 10,   maxStock = 60,   targetStock = 45,   buyMax = 367650,  restockRate =   1 }, -- Urushi
+        { id = xi.item.BOX_OF_STICKY_RICE,      initial = 50,   maxStock = 150,  targetStock = 120,  buyMax = 316,     restockRate = 100, priceFloor = 150, noSell = true }, -- Sticky Rice
+        { id = xi.item.BAG_OF_BUCKWHEAT_FLOUR,  initial = 50,   maxStock = 150,  targetStock = 120,  buyMax = 1500,    restockRate = 100, priceFloor = 150, noSell = true }, -- Buckwheat Flour
+        { id = xi.item.PINCH_OF_BLACK_PEPPER,   initial = 10,   maxStock = 60,   targetStock = 45,   buyMax = 1111,    restockRate =   5 }, -- Black Pepper
+        { id = xi.item.ONZ_OF_TURMERIC,         initial = 20,   maxStock = 60,   targetStock = 50,   buyMax = 3225,    restockRate =  15 }, -- Turmeric
+        { id = xi.item.ONZ_OF_CORIANDER,        initial = 20,   maxStock = 60,   targetStock = 50,   buyMax = 7925,    restockRate =  15 }, -- Coriander
+        { id = xi.item.SPRIG_OF_HOLY_BASIL,     initial = 20,   maxStock = 60,   targetStock = 50,   buyMax = 4000,    restockRate =  15 }, -- Holy Basil
+        { id = xi.item.ONZ_OF_CURRY_POWDER,     initial = 10,   maxStock = 30,   targetStock = 25,   buyMax = 1456,    restockRate =   7 }, -- Curry Powder
+        { id = xi.item.JAR_OF_GROUND_WASABI,    initial = 100,  maxStock = 150,  targetStock = 120,  buyMax = 12974,   restockRate = 100 }, -- Wasabi
+        { id = xi.item.BOTTLE_OF_RICE_VINEGAR,  initial = 100,  maxStock = 150,  targetStock = 120,  buyMax = 1000,    restockRate = 100 }, -- Rice Vinegar
+        { id = xi.item.BUNDLE_OF_SHIRATAKI,     initial = 50,   maxStock = 150,  targetStock = 120,  buyMax = 369,     restockRate = 100, priceFloor = 150, noSell = true }, -- Shirataki
+        { id = xi.item.SCROLL_OF_KATON_ICHI,    initial = 10,   maxStock = 60,   targetStock = 45,   buyMax = 11655,   restockRate =   3 }, -- Katon: Ichi
+        { id = xi.item.SCROLL_OF_HUTON_ICHI,    initial = 10,   maxStock = 60,   targetStock = 45,   buyMax = 11655,   restockRate =   3 }, -- Huton: Ichi
+        { id = xi.item.SCROLL_OF_DOTON_ICHI,    initial = 10,   maxStock = 60,   targetStock = 45,   buyMax = 11655,   restockRate =   3 }, -- Doton: Ichi
+        { id = xi.item.SCROLL_OF_SUITON_ICHI,   initial = 10,   maxStock = 60,   targetStock = 45,   buyMax = 11655,   restockRate =   3 }, -- Suiton: Ichi
+        { id = xi.item.UCHITAKE,                initial = 10,   maxStock = 60,   targetStock = 50,   buyMax = 200,     restockRate =   0 }, -- Uchitake
+        { id = xi.item.KAWAHORI_OGI,            initial = 10,   maxStock = 60,   targetStock = 50,   buyMax = 200,     restockRate =   0 }, -- Kawahori Ogi
+        { id = xi.item.MAKIBISHI,               initial = 10,   maxStock = 60,   targetStock = 50,   buyMax = 200,     restockRate =   0 }, -- Makibishi
+        { id = xi.item.MIZU_DEPPO,              initial = 10,   maxStock = 60,   targetStock = 50,   buyMax = 200,     restockRate =   0 }, -- Mizu Deppo
     },
 }
 
