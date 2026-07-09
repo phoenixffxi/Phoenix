@@ -220,13 +220,13 @@ local shieldedEntities =
 
     ['Rolanberry_Fields'] =
     {
-        'Eldritch_Edge',
+        -- 'Eldritch_Edge',
         'Simurgh',
     },
 
     ['Rolanberry_Fields_[S]'] =
     {
-        'Lamina',
+        -- 'Lamina',
     },
 
     ['RoMaeve'] =
@@ -241,13 +241,13 @@ local shieldedEntities =
 
     ['Sauromugue_Champaign'] =
     {
-        'Blighting_Brand',
+        -- 'Blighting_Brand',
         'Roc',
     },
 
     ['Sauromugue_Champaign_[S]'] =
     {
-        'Hyakinthos',
+        -- 'Hyakinthos',
     },
 
     ['Sea_Serpent_Grotto'] =
@@ -372,7 +372,13 @@ local endClaimShield = function(mob)
     mob:setCallForHelpBlocked(false)
     mob:resetAI()
     mob:setHP(mob:getMaxHP())
-    mob:delStatusEffectsByFlag(0xFFFF)
+
+    local mobId = mob:getID()
+    for _, effect in ipairs(mob:getStatusEffects()) do
+        if effect:getOriginID() ~= mobId then
+            mob:delStatusEffectSilent(effect:getEffectType())
+        end
+    end
 end
 
 -- Selects a winner, awards claim, notifies entrants, and clears enmity for losing entrants.
