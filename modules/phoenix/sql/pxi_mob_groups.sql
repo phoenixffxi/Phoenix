@@ -3,16 +3,19 @@
 -- https://github.com/phoenixffxi/Era-DATs
 
 -- Uleguerand_Range (Zone 5)
-UPDATE `mob_groups` SET `content_tag` = NULL WHERE `zoneid` = 5 AND `groupid` = 38;
+UPDATE `mob_groups` SET `content_tag` = 'ABYSSEA' WHERE `zoneid` = 5 AND `groupid` = 38; -- Scowlenkos OOE
 
 -- Bhaflau Thickets (Zone 52)
 INSERT INTO `mob_groups` VALUES (200,5648,52,'Wivre',300,0,242,0,0,0,NULL);
+
+-- Aydeewa_Subterrane (Zone 68)
+UPDATE `mob_groups` SET `content_tag` = NULL WHERE `zoneid` = 68 AND `groupid` = 16; -- Mycohopper are era
+UPDATE `mob_groups` SET `content_tag` = 'ABYSSEA' WHERE `zoneid` = 68 AND `groupid` = 23; -- Mycoskulker are not
 
 -- Zeruhn_Mines (Zone 172)
 INSERT INTO `mob_groups` VALUES (200,4053,172,'Tunnel_Worm',300,0,2496,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (201,3165,172,'Leech',300,0,963,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (202,2763,172,'Mouse_Bat',300,0,19,0,0,0,NULL);
-
 
 -- Inner Horutoto Ruins (Zone 192)
 INSERT INTO `mob_groups` VALUES (200,382,192,'Beady_Beetle',300,0,249,0,0,0,NULL);
@@ -30,9 +33,11 @@ INSERT INTO `mob_groups` VALUES (204,1073,190,'Thousand_Eyes',960,0,315,0,0,0,NU
 INSERT INTO `mob_groups` VALUES (205,1898,190,'Hati',960,0,1278,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (206,1514,190,'Lemures',960,0,1506,0,0,0,NULL);
 
--- Dangruf_Wadi (Zone 191)
+-- Dangruf Wadi (Zone 191)
 INSERT INTO `mob_groups` VALUES (200,6415,191,'Giant_Grub',300,0,2496,0,0,0,NULL);
 INSERT INTO `mob_groups` VALUES (201,1666,191,'Goblin_Gambler',300,0,1084,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (202,1690,191,'Goblin_Mugger',300,0,1120,0,0,0,NULL);
+INSERT INTO `mob_groups` VALUES (203,1683,191,'Goblin_Leecher',300,0,1101,0,0,0,NULL);
 
 -- Ranguemont Pass (Zone 166)
 INSERT INTO `mob_groups` VALUES (200,1715,166,'Goblin_Smithy',720,0,1162,0,0,0,NULL);
