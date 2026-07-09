@@ -87,8 +87,8 @@ patchStock('Ndego', xi.item.WORKSHOP_ANVIL, { initial = 120 }) -- Workshop Anvil
 patchStock('Bornahn', xi.item.CHUNK_OF_COPPER_ORE, { initial = 120 }) -- Copper Ore
 patchStock('Bornahn', xi.item.CHUNK_OF_SILVER_ORE, { initial = 120 }) -- Silver Ore
 patchStock('Bornahn', xi.item.CHUNK_OF_MYTHRIL_ORE, { initial = 0 }) -- Mythril Ore
-patchStock('Bornahn', xi.item.HANDFUL_OF_BRASS_SCALES, { initial = 1, restockRate = 1 }) -- Handful of Brass Scales 
-patchStock('Bornahn', xi.item.MYTHRIL_CHAIN, { initial = 1, restockRate = 1 }) -- Mythril Chain 
+patchStock('Bornahn', xi.item.HANDFUL_OF_BRASS_SCALES, { initial = 1, restockRate = 1 }) -- Handful of Brass Scales
+patchStock('Bornahn', xi.item.MYTHRIL_CHAIN, { initial = 1, restockRate = 1 }) -- Mythril Chain
 patchStock('Bornahn', xi.item.RED_ROCK, { initial = 2 }) -- Red Rock
 patchStock('Bornahn', xi.item.BLUE_ROCK, { initial = 2 }) -- Blue Rock
 patchStock('Bornahn', xi.item.YELLOW_ROCK, { initial = 2 }) -- Yellow Rock
@@ -429,7 +429,7 @@ table.insert(xi.data.guildShops['Graegham'].stock, 13, { id = xi.item.MITHRAN_FI
 patchStock('Graegham', xi.item.CLOTHESPOLE, { initial = 30, restockRate = 15 }) -- Clothespole
 patchStock('Graegham', xi.item.FASTWATER_FISHING_ROD, { initial = 30, restockRate = 15 }) -- Fastwater Rod
 patchStock('Graegham', xi.item.SINGLE_HOOK_FISHING_ROD, { initial = 30, restockRate = 3 }) -- Single Hook Rod
-patchStock('Graegham', xi.item.BASTORE_SARDINE_1, { restockRate = 0 }) -- Bastore Sardine 
+patchStock('Graegham', xi.item.BASTORE_SARDINE_1, { restockRate = 0 }) -- Bastore Sardine
 patchStock('Graegham', xi.item.DARK_BASS_1, { restockRate = 0 }) -- Dark Bass
 patchStock('Graegham', xi.item.RED_TERRAPIN, { restockRate = 0 }) -- Red Terrapin
 patchStock('Graegham', xi.item.SILVER_SHARK, { restockRate = 0 }) -- Silver Shark
@@ -543,7 +543,7 @@ patchStock('Silver_Owl', xi.item.COTTON_SITABAKI, { initial = 10 }) -- Cotton Si
 patchStock('Silver_Owl', xi.item.SOIL_SITABAKI, { initial = 10, restockRate = 5 }) -- Soil Sitabaki
 patchStock('Silver_Owl', xi.item.KYAHAN, { initial = 10 }) -- Kyahan
 patchStock('Silver_Owl', xi.item.COTTON_KYAHAN, { initial = 10 }) -- Cotton Kyahan
-removeStock('Silver_Owl', xi.item.JUJI_SHURIKEN) 
+removeStock('Silver_Owl', xi.item.JUJI_SHURIKEN)
 
 -- Jirokichi
 patchStock('Jirokichi', xi.item.KUNAI, { initial = 30 }) -- Kunai
