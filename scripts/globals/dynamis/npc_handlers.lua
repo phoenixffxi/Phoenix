@@ -12,13 +12,13 @@ xi.dynamis = xi.dynamis or {}
 local dynamisTimelessHourglass = xi.item.TIMELESS_HOURGLASS
 local dynamisPerpetual         = xi.item.PERPETUAL_HOURGLASS
 
--- Helper function to clean up trade
-local function releaseTrade(player)
-    local tradeContainer = player:getTrade()
-    if tradeContainer then
-        xi.dynamis.debugPrint('Cleaning up trade container')
-        tradeContainer:clean()
-    end
+-- Checks trade contents without confirming/reserving the item
+local function tradeItemCheck(trade, itemId)
+    return
+        trade ~= nil and
+        trade:getSlotCount() == 1 and
+        trade:getItemCount() == 1 and
+        trade:getItemQty(itemId) > 0
 end
 
 -- ----------------
@@ -65,20 +65,18 @@ xi.dynamis.entryNpcOnTrade = function(player, npc, trade)
 
     -- Check that player meets all entry requirements (level, CJ status, etc)
     if not xi.dynamis.checkEntryRequirements(player, zoneId) then
-        releaseTrade(player)
         xi.dynamis.debugPrint('Entry requirements not met')
         return
     end
 
     -- Player trades a Timeless Hourglass
-    if npcUtil.tradeHasExactly(trade, { dynamisTimelessHourglass }) then
+    if tradeItemCheck(trade, dynamisTimelessHourglass) then
         xi.dynamis.debugPrint('Timeless hourglass trade detected')
 
         -- 1. Check if another group is currently in Dynamis
         if dynamisTimeRemaining > 0 then
             xi.dynamis.debugPrint('Another group is currently in Dynamis, time remaining: ' .. tostring(dynamisTimeRemaining))
             player:messageSpecial(xi.dynamis.getZoneMessageID('ANOTHER_GROUP', zoneId), entryInfo.csBit)
-            releaseTrade(player)
             return
         end
 
@@ -93,7 +91,6 @@ xi.dynamis.entryNpcOnTrade = function(player, npc, trade)
         if lockout > 0 then
             xi.dynamis.debugPrint('Player is locked out, lockout time remaining (seconds): ' .. tostring(lockout))
             player:messageSpecial(zones[zoneId].text.YOU_CANNOT_ENTER_DYNAMIS, xi.dynamis.isPlayerLockedOut(player, true), entryInfo.csBit)
-            releaseTrade(player)
             return
         end
 
@@ -102,23 +99,15 @@ xi.dynamis.entryNpcOnTrade = function(player, npc, trade)
         if zoneCooldownEnter > currentTime and cleanupScript ~= 1 then
             xi.dynamis.debugPrint('Zone is on cooldown, cooldown time remaining: ' .. tostring(zoneCooldownEnter - currentTime))
             player:messageSpecial(xi.dynamis.getZoneMessageID('ANOTHER_GROUP', zoneId), entryInfo.csBit)
-            releaseTrade(player)
             return
         end
 
         -- 5. All checks passed - reset zone cooldown and initiate Dynamis registration
-        if not trade:confirmItem(dynamisTimelessHourglass, 1) then
-            xi.dynamis.debugPrint('Unable to confirm Timeless Hourglass trade')
-            releaseTrade(player)
-            return
-        end
-
         zone:setLocalVar(varZoneCooldown, 0)
 
         player:startEvent(entryInfo.csRegisterGlass, entryInfo.csBit, playerEntered == 1 and 0 or 1, xi.dynamis.settings.RESERVATION_TIMEOUT, xi.dynamis.settings.REENTRY_DAYS, entryInfo.maxCapacity, xi.ki.VIAL_OF_SHROUDED_SAND, dynamisTimelessHourglass, dynamisPerpetual)
-        player:confirmTrade()
     -- Player trades a Perpetual Hourglass
-    elseif npcUtil.tradeHasExactly(trade, { dynamisPerpetual }) then
+    elseif tradeItemCheck(trade, dynamisPerpetual) then
         xi.dynamis.debugPrint('Perpetual hourglass trade detected')
 
         -- 1. GM bypass - allow direct entry and registration
@@ -136,7 +125,6 @@ xi.dynamis.entryNpcOnTrade = function(player, npc, trade)
         -- Important: Check registration status BEFORE lockout, since lockout can change after registration
         local glassValid = xi.dynamis.verifyTradeHourglass(player, zoneId, glassObj)
         xi.dynamis.debugPrint('Perpetual hourglass validity: ' .. tostring(glassValid))
-        releaseTrade(player)
 
         -- 3. If player is already registered, allow entry immediately
         if glassValid == xi.dynamis.hourglassTradeResult.REGISTERED then
@@ -256,7 +244,7 @@ xi.dynamis.entryNpcOnTriggerEra = function(player, npc)
     player:messageSpecial(defaultMsg) -- default message for everything else
 end
 
--- Called when a cutscene completes (after player confirms hourglass trade)
+-- Called when a cutscene completes after player accepts hourglass registration
 -- Handles Dynamis instance creation and registration
 xi.dynamis.entryNpcOnEventUpdate = function(player, csid, option, npc)
     local zoneId    = player:getZoneID()
@@ -298,6 +286,11 @@ xi.dynamis.entryNpcOnEventUpdate = function(player, csid, option, npc)
     if option == 0 and dynamisTimeRemaining <= 0 then
         xi.dynamis.debugPrint('Calling registerDynamis')
 
+        if not tradeItemCheck(player:getTrade(), dynamisTimelessHourglass) then
+            xi.dynamis.debugPrint('Timeless Hourglass trade is missing or invalid')
+            return
+        end
+
         -- Tavnazia instances start with less time
         local expirationTime = xi.dynamis.settings.DEFAULT_TIME_LIMIT
         if dynaZoneId == xi.zone.DYNAMIS_TAVNAZIA then
@@ -309,6 +302,9 @@ xi.dynamis.entryNpcOnEventUpdate = function(player, csid, option, npc)
         local endTime   = startTime + expirationTime
         xi.dynamis.debugPrint('RegisterDynamis with startTime: ' .. tostring(startTime) .. ', endTime: ' .. tostring(endTime) .. ' (difference: ' .. tostring(endTime - startTime) .. ' seconds)')
 
+        -- Consume the Timeless Hourglass only after the registration event succeeds.
+        player:tradeComplete()
+
         -- Create a perpetual hourglass item encoded with instance data
         SetServerVariable(string.format('[DYNA]StartTime_%s', dynaZoneId), startTime)
         SetServerVariable(string.format('[DYNA]ExpirationTime_%s', dynaZoneId), endTime)
@@ -316,8 +312,6 @@ xi.dynamis.entryNpcOnEventUpdate = function(player, csid, option, npc)
 
         -- Register the Dynamis instance server-wide and register player
         xi.dynamis.registerDynamis(player, startTime, endTime)
-
-        player:tradeComplete()
 
         -- Inform player of success
         player:messageSpecial(zones[zoneId].text.ITEM_OBTAINED, dynamisPerpetual)
