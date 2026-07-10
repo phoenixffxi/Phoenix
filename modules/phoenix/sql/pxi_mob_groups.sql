@@ -43,4 +43,4 @@ INSERT INTO `mob_groups` VALUES (203,1683,191,'Goblin_Leecher',300,0,1101,0,0,0,
 INSERT INTO `mob_groups` VALUES (200,1715,166,'Goblin_Smithy',720,0,1162,0,0,0,NULL);
 
 -- Crawlers Nest (Zone 197)
-UPDATE `mob_groups` SET `content_tag` = NULL WHERE `zoneid` = 197 AND `groupid` IN (16, 17, 18, 19);
+UPDATE `mob_groups` SET `content_tag` = 'ABYSSEA' WHERE `zoneid` = 197 AND `groupid` IN (16, 17, 18, 19);
