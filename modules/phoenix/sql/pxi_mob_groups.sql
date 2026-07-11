@@ -2,15 +2,8 @@
 -- NOTE: THIS REQUIRED DAT EDITS OR IT WILL NOT WORK AND EVERYTHING WILL BE NAMED WRONG
 -- https://github.com/phoenixffxi/Era-DATs
 
--- Uleguerand_Range (Zone 5)
-UPDATE `mob_groups` SET `content_tag` = 'ABYSSEA' WHERE `zoneid` = 5 AND `groupid` = 38; -- Scowlenkos OOE
-
 -- Bhaflau Thickets (Zone 52)
 INSERT INTO `mob_groups` VALUES (200,5648,52,'Wivre',300,0,242,0,0,0,NULL);
-
--- Aydeewa_Subterrane (Zone 68)
-UPDATE `mob_groups` SET `content_tag` = NULL WHERE `zoneid` = 68 AND `groupid` = 16; -- Mycohopper are era
-UPDATE `mob_groups` SET `content_tag` = 'ABYSSEA' WHERE `zoneid` = 68 AND `groupid` = 23; -- Mycoskulker are not
 
 -- Zeruhn_Mines (Zone 172)
 INSERT INTO `mob_groups` VALUES (200,4053,172,'Tunnel_Worm',300,0,2496,0,0,0,NULL);
@@ -41,6 +34,3 @@ INSERT INTO `mob_groups` VALUES (203,1683,191,'Goblin_Leecher',300,0,1101,0,0,0,
 
 -- Ranguemont Pass (Zone 166)
 INSERT INTO `mob_groups` VALUES (200,1715,166,'Goblin_Smithy',720,0,1162,0,0,0,NULL);
-
--- Crawlers Nest (Zone 197)
-UPDATE `mob_groups` SET `content_tag` = NULL WHERE `zoneid` = 197 AND `groupid` IN (16, 17, 18, 19);
