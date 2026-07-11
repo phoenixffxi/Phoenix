@@ -175,6 +175,7 @@ set{
     xi.zone.SEA_SERPENT_GROTTO,
     xi.zone.VELUGANNON_PALACE,
     xi.zone.THE_SHRINE_OF_RUAVITAU,
+    xi.zone.STELLAR_FULCRUM,
     xi.zone.LALOFF_AMPHITHEATER,
     xi.zone.THE_CELESTIAL_NEXUS,
     xi.zone.WALK_OF_ECHOES,

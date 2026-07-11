@@ -52,7 +52,6 @@ entity.onMobInitialize = function(mob)
     mob:addImmunity(xi.immunity.SLOW)
     mob:addImmunity(xi.immunity.TERROR)
     mob:addImmunity(xi.immunity.PLAGUE)
-    mob:addImmunity(xi.immunity.PETRIFY)
     mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 150)
 end
 
@@ -91,7 +90,7 @@ entity.onMobWeaponSkill = function(mob, target, skill, action)
 end
 
 entity.onMobDespawn = function(mob)
-    mob:setRespawnTime(math.randomInt(10800, 21600)) -- 3 to 6 hours.
+    mob:setRespawnTime(math.randomInt(10800, 21600)) -- respawn 3-6 hrs
 end
 
 return entity
