@@ -242,8 +242,13 @@ void auth_session::read_func()
 
             bool otpVerified = false;
 
+            // Whether this account has 2FA enabled at all, independent of whether an OTP
+            // code was entered *this* request (see otpVerified below). Used for account-wide
+            // perks like the Satchel grant so they apply regardless of login path.
+            const bool has2FAEnabled = otpHelpers::doesAccountNeedOTP(accountID, "TOTP");
+
             // [Phoenix] Launch Token: `!viaLaunchToken &&` skips OTP (already satisfied at mint).
-            if (!viaLaunchToken && otpHelpers::doesAccountNeedOTP(accountID, "TOTP"))
+            if (!viaLaunchToken && has2FAEnabled)
             {
                 bool trustedByToken = false;
 
@@ -281,9 +286,9 @@ void auth_session::read_func()
 
             dealerChannel_.send(zmq::message_t(payload.data(), payload.size()));
 
-            // set Satchel to the same size as inventory on all chars on their account if character has OTP
+            // set Satchel to the same size as inventory on all chars on their account if the account has 2FA enabled
             // Note: Upgrades happen in-game with gobbiebag
-            if (otpVerified)
+            if (has2FAEnabled)
             {
                 db::preparedStmt("UPDATE char_storage a JOIN char_storage b ON a.charid = b.charid "
                                  "SET a.satchel = b.inventory "
