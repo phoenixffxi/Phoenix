@@ -54,6 +54,7 @@ wotg/
 # Phoenix modules
 phoenix/cpp
 phoenix/lua
+phoenix/economy
 
 # Dynamis
 phoenix/dynamis/cpp/

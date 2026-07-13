@@ -1,0 +1,206 @@
+-- Standalone LuaJIT contract fixture; the non-.lua suffix keeps module loaders from executing it.
+local modulePath = assert(arg[1], 'module path is required')
+
+package.loaded['modules/module_utils'] = true
+
+Module = {}
+function Module:new(name)
+    return { name = name, overrides = {}, addOverride = self.addOverride }
+end
+
+function Module:addOverride(name, func)
+    table.insert(self.overrides, { name = name, func = func })
+end
+
+local contextStacks = setmetatable({}, { __mode = 'k' })
+local records = {}
+local captures = 0
+local mobStages = 0
+
+xi = {
+    economy = {},
+}
+
+function xi.economy.enabled()
+    return true
+end
+
+function xi.economy.beginContext(player, context)
+    local stack = contextStacks[player] or {}
+    contextStacks[player] = stack
+    table.insert(stack, context)
+    return true
+end
+
+function xi.economy.endContext(player)
+    local stack = assert(contextStacks[player])
+    table.remove(stack)
+end
+
+function xi.economy.beginLuaWallet(_)
+    return true
+end
+
+function xi.economy.endLuaWallet(player, before, after, requested, operation)
+    local stack = contextStacks[player] or {}
+    table.insert(records, {
+        player = player,
+        before = before,
+        after = after,
+        requested = requested,
+        operation = operation,
+        context = stack[#stack],
+    })
+end
+
+function xi.economy.captureShop(_)
+    captures = captures + 1
+end
+
+function xi.economy.stageMobDeath(_, _)
+    mobStages = mobStages + 1
+end
+
+local playersByName = {}
+function GetPlayerByName(name)
+    return playersByName[name]
+end
+
+local module = assert(dofile(modulePath))
+
+local function override(name)
+    for _, entry in ipairs(module.overrides) do
+        if entry.name == name then
+            return entry.func
+        end
+    end
+
+    error('missing override: ' .. name)
+end
+
+local function installSuper(func, superFunc)
+    local env = { super = superFunc }
+    setmetatable(env, { __index = getfenv(func) })
+    setfenv(func, env)
+    return func
+end
+
+local function expect(condition, message)
+    if not condition then
+        error('FAILED: ' .. message, 0)
+    end
+end
+
+local function player(id, gil)
+    local result = { id = id, gil = gil }
+    function result:getID()
+        return self.id
+    end
+
+    function result:getGil()
+        return self.gil
+    end
+
+    return result
+end
+
+local addGil = installSuper(override('CBaseEntity.addGil'), function(target, amount)
+    target.gil = math.min(999999999, target.gil + amount)
+end)
+
+local delGil = installSuper(override('CBaseEntity.delGil'), function(target, amount)
+    if amount > target.gil then
+        return false
+    end
+
+    target.gil = target.gil - amount
+    return true
+end)
+
+local gm = player(1001, 500)
+local recipient = player(2002, 100)
+playersByName.Recipient = recipient
+
+local givegil = installSuper(override('xi.commands.givegil.onTrigger'), function(actor, amount, targetName)
+    local target = targetName == nil and actor or GetPlayerByName(targetName)
+    addGil(target, amount)
+end)
+
+givegil(gm, 250, 'Recipient')
+local giveRecord = records[#records]
+expect(giveRecord.player == recipient, 'givegil context follows the named recipient')
+expect(giveRecord.context.sourceType == 'admin' and giveRecord.context.actorCharId == gm.id,
+    'givegil retains the invoking GM as actor')
+expect(giveRecord.context.mintCategory == 'admin_grant', 'givegil category is admin_grant')
+
+local takegil = installSuper(override('xi.commands.takegil.onTrigger'), function(actor, amount, targetName)
+    local target = targetName == nil and actor or GetPlayerByName(targetName)
+    delGil(target, amount)
+end)
+
+takegil(gm, 50, 'Recipient')
+local takeRecord = records[#records]
+expect(takeRecord.player == recipient, 'takegil context follows the named recipient')
+expect(takeRecord.context.actorCharId == gm.id and takeRecord.context.burnCategory == 'admin_remove',
+    'takegil retains admin actor/removal semantics')
+
+local first = player(3003, 0)
+local second = player(4004, 10)
+local battlefield = {}
+function battlefield:getPlayers()
+    return { first, second }
+end
+
+local battlefieldLoot = installSuper(override('Battlefield.handleLootRolls'),
+    function(_, field, _, _, _)
+        for _, member in ipairs(field:getPlayers()) do
+            addGil(member, 25)
+        end
+    end)
+local recordStart = #records
+battlefieldLoot({ battlefieldId = 63 }, battlefield, {}, nil, 1)
+expect(#records == recordStart + 2, 'battlefield reward observes every player')
+expect(records[recordStart + 1].context.battlefieldId == 63 and
+    records[recordStart + 2].context.battlefieldId == 63,
+    'battlefield context is active for every rewarded player')
+
+local nested = player(5005, 0)
+local mission = installSuper(override('npcUtil.completeMission'), function(target, _, _, _)
+    addGil(target, 5)
+end)
+
+local quest = installSuper(override('npcUtil.completeQuest'), function(target, _, _, _)
+    mission(target, 4, 9, {})
+    addGil(target, 7)
+end)
+
+recordStart = #records
+quest(nested, 2, 37, {})
+expect(records[recordStart + 1].context.sourceType == 'mission', 'inner context wins while nested')
+expect(records[recordStart + 2].context.sourceType == 'quest', 'outer context is restored after nested call')
+
+local capped = player(6006, 999999900)
+xi.economy.beginContext(capped, {
+    mintCategory = 'script_reward',
+    sourceType = 'system',
+    systemKey = 'cap-fixture',
+})
+addGil(capped, 1500000000)
+xi.economy.endContext(capped)
+local capRecord = records[#records]
+expect(capRecord.after - capRecord.before == 99, 'wallet override records applied cap-clipped credit')
+expect(capRecord.requested == 1500000000, 'wallet override preserves over-cap requested amount')
+
+local createShop = installSuper(override('CBaseEntity.createShop'), function(_, _)
+end)
+
+createShop(gm, 4)
+expect(captures == 1, 'createShop captures native menu attribution after super')
+
+local mobDeath = installSuper(override('xi.mob.onMobDeathEx'), function(_, _, _, _)
+end)
+
+mobDeath({}, first, true, false)
+expect(mobStages == 1, 'mob death stages correlated evidence after super')
+
+print('economy Lua override contract: PASS')
