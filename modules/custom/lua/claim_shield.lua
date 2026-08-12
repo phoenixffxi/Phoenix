@@ -365,7 +365,6 @@ end
 local endClaimShield = function(mob)
     mob:setUnkillable(false)
     mob:setCallForHelpBlocked(false)
-    mob:resetAI()
     mob:setHP(mob:getMaxHP())
 
     local mobId = mob:getID()
@@ -379,6 +378,20 @@ end
 -- Selects a winner, awards claim, notifies entrants, and clears enmity for losing entrants.
 local resolveLottery = function(mob, entries)
     mob:setMobMod(xi.mobMod.CLAIM_TYPE, xi.claimType.EXCLUSIVE)
+
+    for _, enmityEntry in pairs(mob:getEnmityList()) do
+        local entity = enmityEntry.entity
+        if entity then
+            if not entity:isPC() then
+                entity:disengage()
+            end
+
+            mob:resetEnmity(entity)
+        end
+    end
+
+    mob:resetAI()
+    mob:disengage()
 
     local entrantCount = #entries
     local claimWinner  = utils.randomEntry(entries)
@@ -395,16 +408,8 @@ local resolveLottery = function(mob, entries)
         winningMembers[member:getID()] = true
     end
 
-    for _, enmityEntry in pairs(mob:getEnmityList()) do
-        local entity = enmityEntry.entity
-        local player = entity:isPC() and entity or entity:getMaster()
-
-        if not player or not winningMembers[player:getID()] then
-            mob:clearEnmityForEntity(entity)
-        end
-    end
-
     mob:updateClaim(claimWinner)
+    mob:addEnmity(claimWinner, 1, 1)
 
     for _, member in pairs(alliance) do
         member:printToPlayer(winnerMessage, xi.msg.channel.SYSTEM_3, '')
