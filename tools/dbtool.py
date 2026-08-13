@@ -13,6 +13,8 @@ import urllib.request
 
 import platform
 
+from dbtool_modules import parse_module_entries, select_module_sql_files
+
 
 # Pre-flight sanity checks
 def preflight_exit():
@@ -370,17 +372,43 @@ def write_configs():
         yaml.dump(dump, file)
 
 
-def fetch_module_files():
+def fetch_module_files(express=False):
     with open(from_server_path("modules/init.txt"), "r", encoding="utf-8") as file:
-        for line in file.readlines():
-            if not line.startswith("#") and line.strip() and not line in ["\n", "\r\n"]:
-                line = from_server_path("modules/" + line.strip())
-                if pathlib.Path(line).is_dir():
-                    for filename in sorted(pathlib.Path(line).glob("**/*.sql")):
-                        import_files.append(str(filename).replace("\\", "/"))
-                else:
-                    if line.endswith(".sql"):
-                        import_files.append(str(line).replace("\\", "/"))
+        current_entries = parse_module_entries(file.read())
+
+    current_files = []
+    for entry in current_entries:
+        path = pathlib.Path(from_server_path("modules/" + entry))
+        if path.is_dir():
+            current_files.extend(sorted(path.glob("**/*.sql")))
+        elif path.suffix == ".sql":
+            current_files.append(path)
+
+    current_paths = [
+        path.relative_to(from_server_path("modules")).as_posix()
+        for path in current_files
+    ]
+    selected_paths = current_paths
+
+    if express:
+        module_diffs = repo.commit(db_ver).diff(
+            release_version, paths=from_server_path("modules/")
+        )
+        changed_paths = {
+            diff.b_path.replace("\\", "/").removeprefix("modules/")
+            for diff in module_diffs
+            if diff.b_path and diff.b_path.endswith(".sql")
+        }
+        previous_init = repo.git.show(f"{db_ver}:modules/init.txt")
+        previous_entries = parse_module_entries(previous_init)
+        selected_paths = select_module_sql_files(
+            current_paths, changed_paths, previous_entries
+        )
+
+    for path in selected_paths:
+        import_files.append(from_server_path("modules/" + path))
+
+    return bool(selected_paths)
 
 
 def check_protected():
@@ -456,7 +484,8 @@ def fetch_files(express=False):
         )
     except Exception:
         pass
-    fetch_module_files()
+    if fetch_module_files(express):
+        express_enabled = True
 
 
 def write_version(silent=False):

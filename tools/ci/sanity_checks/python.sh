@@ -41,4 +41,8 @@ for file in "${targets[@]}"; do
     fi
 done
 
+if ! python -m unittest discover -s tools/tests -p 'test_dbtool_*.py'; then
+    any_issues=true
+fi
+
 $any_issues && exit 1 || exit 0
