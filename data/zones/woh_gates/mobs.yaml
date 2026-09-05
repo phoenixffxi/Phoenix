@@ -85,12 +85,6 @@ templates:
     attributes:
       combat:
         skill: staff
-      resists:
-        rank_element:
-          dark: 10
-        rank_status:
-          dark_sleep: 10
-          blind:      10
       render:
         look:
           type:  standard
@@ -235,12 +229,6 @@ templates:
     attributes:
       combat:
         skill: great_katana
-      resists:
-        dmg_physical:
-          slashing: -2500
-          piercing: -2500
-          blunt:    -5000
-          h2h:      -5000
       render:
         look:
           type:  standard
@@ -341,13 +329,6 @@ templates:
       combat:
         skill: dagger
       jobs: [thf, thf]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          earth: -2
-        rank_status:
-          slow: -2
       render:
         look:
           type:  standard
@@ -367,17 +348,6 @@ templates:
     attributes:
       combat:
         skill: scythe
-      resists:
-        dmg_physical:
-          slashing: -5000
-          piercing: -5000
-          h2h:      -7500
-        rank_element:
-          earth: 3
-          water: 5
-        rank_status:
-          slow:   3
-          poison: 5
       render:
         look:
           type:  standard
@@ -521,17 +491,6 @@ templates:
     attributes:
       combat:
         skill: scythe
-      resists:
-        dmg_physical:
-          slashing: -5000
-          piercing: -5000
-          h2h:      -7500
-        rank_element:
-          earth: 3
-          water: 5
-        rank_status:
-          slow:   3
-          poison: 5
       render:
         look:
           type:  standard
@@ -688,17 +647,6 @@ templates:
     attributes:
       combat:
         skill: scythe
-      resists:
-        dmg_physical:
-          slashing: -5000
-          piercing: -5000
-          h2h:      -7500
-        rank_element:
-          earth: 3
-          water: 5
-        rank_status:
-          slow:   3
-          poison: 5
       render:
         look:
           type:  standard

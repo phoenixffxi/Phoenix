@@ -236,9 +236,6 @@ templates:
       combat:
         skill: club
       jobs: [blm, blm]
-      resists:
-        rank_element:
-          thunder: -2
       render:
         look:
           type:  standard
@@ -349,9 +346,6 @@ templates:
       combat:
         skill: scythe
       jobs: [blm, blm]
-      resists:
-        dmg_physical:
-          piercing: 2500
       render:
         look:
           type:  standard
@@ -417,9 +411,6 @@ templates:
       combat:
         skill: staff
       jobs: [blm, blm]
-      resists:
-        rank_element:
-          thunder: -2
       render:
         look:
           type:  standard
@@ -525,7 +516,7 @@ templates:
     attributes:
       combat:
         skill: scythe
-      jobs: [blm, rdm]
+      jobs: [blm, blm]
       render:
         look:
           type:  standard
@@ -1070,11 +1061,11 @@ spawns:
     level:    [76, 78]
   17059854:
     template: Leujaoam_Worm
-    at:       [498.838, 7.653, -87.358, 111]
+    at:       [496.618, 8.201, -70.702, 144]
     level:    [76, 78]
   17059855:
     template: Leujaoam_Worm
-    at:       [471.118, 7.849, -54.299, 239]
+    at:       [483.888, 8.027, -54.894, 92]
     level:    [76, 78]
   17059856:
     template: Qiqirn_Miner

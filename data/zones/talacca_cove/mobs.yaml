@@ -136,10 +136,8 @@ templates:
     attributes:
       combat:
         skill: scythe
+        delay: 220
       jobs: [blm, blm]
-      resists:
-        dmg_physical:
-          piercing: 2500
       render:
         look:
           type:  standard
@@ -161,14 +159,12 @@ templates:
     species:       imp
     type:          [battlefield]
     spell_list_id: 21
-    skill_list_id: 414
+    skill_list_id: 423
     attributes:
       combat:
         skill: scythe
+        delay: 220
       jobs: [blm, blm]
-      resists:
-        dmg_physical:
-          piercing: 2500
       render:
         look:
           type:  standard
@@ -259,11 +255,6 @@ templates:
       combat:
         skill: sword
         delay: 270
-      resists:
-        dmg_physical:
-          slashing:  1250
-          blunt:    -1250
-          h2h:      -1250
       render:
         look:
           type:  standard
@@ -298,24 +289,6 @@ templates:
       jobs: [rng, rng]
       resists:
         immune_status: [gravity, poison, light_sleep, dark_sleep]
-        rank_element:
-          fire:    -1
-          ice:     -2
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    3
-          light:   -2
-          dark:     2
-        rank_status:
-          paralyze:    -2
-          bind:        -2
-          silence:     -1
-          slow:        -1
-          poison:       3
-          light_sleep: -2
-          dark_sleep:   2
-          blind:        2
       render:
         look:
           type:  standard
@@ -362,23 +335,6 @@ templates:
     attributes:
       combat:
         skill: club
-      resists:
-        rank_element:
-          fire:    -3
-          ice:     -2
-          earth:   -2
-          thunder: -2
-          water:   -2
-          light:   -2
-          dark:    -2
-        rank_status:
-          paralyze:    -2
-          bind:        -2
-          slow:        -2
-          poison:      -2
-          light_sleep: -2
-          dark_sleep:  -2
-          blind:       -2
       render:
         look:
           type:  standard

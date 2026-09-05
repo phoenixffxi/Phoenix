@@ -34,6 +34,7 @@ transport:
       dock: [246.377, 0.000, -529.793, 192]
       places:
         hidden: [0.000, 100.000, 0.000]
+      boundary: 2
       voyage:
         - phanauet_channel
       every:     3456
@@ -45,7 +46,7 @@ transport:
           seconds:   31
           moves:
             - to:    dock
-              after: 1
+              after: 2
         - state:     docked
           seconds:   84
         - state:     closing
@@ -54,12 +55,13 @@ transport:
           animation: animation_19
           moves:
             - to:    hidden
-              after: 29
+              after: 31
     barge_central_south_day:
       door: _02t
       dock: [-125.042, 0.000, 72.786, 160]
       places:
         hidden: [0.000, 100.000, 0.000]
+      boundary: 3
       voyage:
         - phanauet_channel
       every:     3456
@@ -71,7 +73,7 @@ transport:
           seconds:   31
           moves:
             - to:    dock
-              after: 1
+              after: 2
         - state:     docked
           seconds:   69
         - state:     closing
@@ -80,12 +82,13 @@ transport:
           animation: animation_21
           moves:
             - to:    hidden
-              after: 29
+              after: 31
     barge_south_oos_day:
       dock: [246.377, 0.000, -529.793, 64]
       places:
         hidden:   [0.000, 100.000, 0.000]
         outbound: [275.000, 0.000, -560.000]
+      boundary: 2
       voyage:
         - phanauet_channel
       every:  3456 # out of service, carries nobody
@@ -95,17 +98,18 @@ transport:
           animation: animation_23
           moves:
             - to:    dock
-              after: 1
+              after: 2
             - to:    outbound
-              after: 54
+              after: 56
             - to:    hidden
-              after: 77
+              after: 79
 
     barge_south_north:
       door: _02s
       dock: [246.377, 0.000, -529.793, 192]
       places:
         hidden: [0.000, 100.000, 0.000]
+      boundary: 2
       voyage:
         - phanauet_channel
       every:     3456
@@ -117,7 +121,7 @@ transport:
           seconds:   31
           moves:
             - to:    dock
-              after: 1
+              after: 2
         - state:     docked
           seconds:   84
         - state:     closing
@@ -126,12 +130,13 @@ transport:
           animation: animation_19
           moves:
             - to:    hidden
-              after: 29
+              after: 31
     barge_north_oos:
       dock: [-291.355, 0.000, 516.868, 160]
       places:
         hidden:   [0.000, 100.000, 0.000]
         outbound: [-260.000, 0.000, 550.000]
+      boundary: 1
       voyage:
         - phanauet_channel
       every:  3456 # out of service, carries nobody
@@ -141,17 +146,18 @@ transport:
           animation: animation_22
           moves:
             - to:    dock
-              after: 1
+              after: 2
             - to:    outbound
-              after: 51
+              after: 53
             - to:    hidden
-              after: 81
+              after: 82
 
     barge_north_central:
       door: _02u
       dock: [-291.355, 0.000, 516.868, 32]
       places:
         hidden: [0.000, 100.000, 0.000]
+      boundary: 1
       voyage:
         - phanauet_channel
       every:     3456
@@ -163,7 +169,7 @@ transport:
           seconds:   40
           moves:
             - to:    dock
-              after: 1
+              after: 2
         - state:     docked
           seconds:   93
         - state:     closing
@@ -172,12 +178,13 @@ transport:
           animation: animation_25
           moves:
             - to:    hidden
-              after: 26
+              after: 27
     barge_central_south_night:
       door: _02t
       dock: [-125.042, 0.000, 72.786, 160]
       places:
         hidden: [0.000, 100.000, 0.000]
+      boundary: 3
       voyage:
         - phanauet_channel
       every:     3456
@@ -189,7 +196,7 @@ transport:
           seconds:   31
           moves:
             - to:    dock
-              after: 1
+              after: 2
         - state:     docked
           seconds:   69
         - state:     closing
@@ -198,12 +205,13 @@ transport:
           animation: animation_21
           moves:
             - to:    hidden
-              after: 29
+              after: 31
     barge_south_oos_night:
       dock: [246.377, 0.000, -529.793, 64]
       places:
         hidden:   [0.000, 100.000, 0.000]
         outbound: [275.000, 0.000, -560.000]
+      boundary: 2
       voyage:
         - phanauet_channel
       every:  3456 # out of service, carries nobody
@@ -213,8 +221,8 @@ transport:
           animation: animation_23
           moves:
             - to:    dock
-              after: 1
+              after: 2
             - to:    outbound
-              after: 54
+              after: 56
             - to:    hidden
-              after: 77
+              after: 79

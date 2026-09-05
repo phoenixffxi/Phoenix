@@ -335,11 +335,6 @@ templates:
       jobs: [blm, blm]
       resists:
         immune_status: [silence, slow, elegy, light_sleep, dark_sleep]
-        dmg_physical:
-          slashing: -5000
-          piercing: -5000
-          blunt:    -5000
-          h2h:      -5000
       render:
         look:
           type:  standard
@@ -916,7 +911,7 @@ templates:
     attributes:
       combat:
         skill: hand_to_hand
-        delay: 480
+        delay: 240
       jobs: [mnk, mnk]
       render:
         look:
@@ -958,7 +953,7 @@ templates:
     attributes:
       combat:
         skill: hand_to_hand
-        delay: 480
+        delay: 240
       jobs: [mnk, mnk]
       render:
         look:

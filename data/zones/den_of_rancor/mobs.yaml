@@ -416,11 +416,6 @@ templates:
       combat:
         skill: sword
         delay: 270
-      resists:
-        dmg_physical:
-          slashing:  1250
-          blunt:    -1250
-          h2h:      -1250
       render:
         look:
           type:  standard
@@ -750,9 +745,6 @@ templates:
         skill: hand_to_hand
         delay: 360
       jobs: [mnk, mnk]
-      resists:
-        dmg_physical:
-          piercing: 2500
       render:
         look:
           type:  standard

@@ -245,7 +245,6 @@ xi.settings.main =
     USE_OLD_CURE_FORMULA            = false, -- true/false. if true, uses older cure formula (3*MND + VIT + 3*(healing skill/5)) // cure 6 will use the newer formula
     USE_OLD_MAGIC_DAMAGE            = false, -- true/false. if true, uses older magic damage formulas
     USE_OLD_COUNTERSTANCE           = false, -- true/false. if true, Counterstance DEF = 1 + VIT/2 (+ Minne); gear/Protect ignored
-    USE_OLD_STAT_ROUNDING           = false, -- true/false. if true, race, job and subjob base stat parts are each rounded down separately (older retail) instead of pooled and rounded once
 
     -- CELEBRATIONS
     EXPLORER_MOOGLE_LV              = 10, -- Enables Explorer Moogle teleports and sets required level. Zero to disable.
@@ -330,6 +329,7 @@ xi.settings.main =
     REGIME_REWARD_THRESHOLD      = 15,    -- If the player is more than N levels below the minimum suggested range, do not award experience.
     PERSIST_SEAL_TIMERS          = false, -- Persist seal (Beastmen/Kindred) recast timers across zone changes and logout.
     GUILD_SHOP_HOLIDAYS          = false, -- true/false. Close each guild shop on its weekly holiday.
+    ENABLE_COSMETIC_WARDROBE     = false, -- true/false. Mog Wardrobe 8 opens at 80 slots and only accepts the cosmetic item list. Requires the cosmetic_wardrobe modules.
 
     -- SYSTEM
     DISABLE_INACTIVITY_WATCHDOG = false, -- true/false. If this is enabled, the watchdog which detects if the main loop isn't being ticked will no longer be able to kill the process.

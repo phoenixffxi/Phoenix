@@ -13,15 +13,6 @@ templates:
       jobs: [blm, rdm]
       resists:
         immune_status: [gravity, silence, slow, elegy]
-        rank_element:
-          ice:   -3
-          wind:  11
-          earth: 11
-        rank_status:
-          paralyze: -3
-          bind:     -3
-          silence:  11
-          slow:     11
       render:
         look:
           type:  standard
@@ -1039,11 +1030,6 @@ templates:
       combat:
         skill: sword
         delay: 270
-      resists:
-        dmg_physical:
-          slashing:  1250
-          blunt:    -1250
-          h2h:      -1250
       render:
         look:
           type:  standard

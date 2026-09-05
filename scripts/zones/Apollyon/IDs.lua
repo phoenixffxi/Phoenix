@@ -39,7 +39,9 @@ zones[xi.zone.APOLLYON] =
         CS_NAQBA_CHIRURGEON        = GetFirstID('NaQba_Chirurgeon'),
 
         NE_APOLLYON_SWEEPER_OFFSET   = GetFirstID('Apollyon_Sweeper'),
+        NE_CRIOSPHINX                = GetFirstID('Criosphinx'),
         NE_GOOBBUE_HARVESTER         = GetFirstID('Goobbue_Harvester'),
+        NE_HIERACOSPHINX             = GetFirstID('Hieracosphinx'),
         NE_TROGLODYTE_DHALMEL_OFFSET = GetFirstID('Troglodyte_Dhalmel'),
 
         NW_APOLLYON_SCAVENGER_OFFSET = GetFirstID('Apollyon_Scavenger'),

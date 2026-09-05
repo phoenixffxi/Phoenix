@@ -11,11 +11,6 @@ templates:
         skill: staff
       resists:
         immune_status: [silence, slow, elegy, light_sleep, dark_sleep]
-        dmg_physical:
-          slashing: -5000
-          piercing: -5000
-          blunt:    -5000
-          h2h:      -5000
       render:
         look:
           type:  standard
@@ -184,11 +179,6 @@ templates:
       jobs: [whm, whm]
       resists:
         immune_status: [silence, slow, elegy, light_sleep, dark_sleep]
-        dmg_physical:
-          slashing: -5000
-          piercing: -5000
-          blunt:    -5000
-          h2h:      -5000
       render:
         look:
           type:  standard
@@ -376,11 +366,6 @@ templates:
       jobs: [blm, blm]
       resists:
         immune_status: [silence, slow, elegy, light_sleep, dark_sleep]
-        dmg_physical:
-          slashing: -5000
-          piercing: -5000
-          blunt:    -5000
-          h2h:      -5000
       render:
         look:
           type:  standard
@@ -1099,11 +1084,6 @@ templates:
       jobs: [blm, blm]
       resists:
         immune_status: [silence, slow, elegy, light_sleep, dark_sleep]
-        dmg_physical:
-          slashing: -5000
-          piercing: -5000
-          blunt:    -5000
-          h2h:      -5000
       render:
         look:
           type:  standard
@@ -1215,25 +1195,6 @@ templates:
       combat:
         skill: club
       jobs: [whm, whm]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -1268,25 +1229,6 @@ templates:
       combat:
         skill: club
       jobs: [whm, whm]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -1319,25 +1261,6 @@ templates:
       combat:
         skill: dagger
       jobs: [rng, rng]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -1371,25 +1294,6 @@ templates:
       combat:
         skill: dagger
       jobs: [rng, rng]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -1524,25 +1428,6 @@ templates:
       combat:
         skill: sword
       jobs: [pld, pld]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -1579,25 +1464,6 @@ templates:
       combat:
         skill: sword
       jobs: [pld, pld]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -1843,27 +1709,6 @@ templates:
         skill: axe
         delay: 265
       jobs: [bst, bst]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -1900,27 +1745,6 @@ templates:
         skill: axe
         delay: 265
       jobs: [bst, bst]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -1957,27 +1781,6 @@ templates:
         skill: axe
         delay: 265
       jobs: [bst, bst]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -2222,27 +2025,6 @@ templates:
         skill: club
         delay: 265
       jobs: [whm, whm]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -2278,27 +2060,6 @@ templates:
         skill: club
         delay: 265
       jobs: [whm, whm]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -2334,27 +2095,6 @@ templates:
         skill: club
         delay: 265
       jobs: [whm, whm]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -2389,27 +2129,6 @@ templates:
         skill: great_sword
         delay: 265
       jobs: [pld, pld]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -2447,27 +2166,6 @@ templates:
         skill: great_sword
         delay: 265
       jobs: [pld, pld]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -2505,27 +2203,6 @@ templates:
         skill: great_sword
         delay: 265
       jobs: [pld, pld]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -2659,25 +2336,6 @@ templates:
       combat:
         skill: sword
       jobs: [drg, drg]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -2713,25 +2371,6 @@ templates:
       combat:
         skill: sword
       jobs: [drg, drg]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -2767,25 +2406,6 @@ templates:
       combat:
         skill: sword
       jobs: [drg, drg]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -2818,27 +2438,6 @@ templates:
       combat:
         skill: sword
       jobs: [drg, drg]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -2874,27 +2473,6 @@ templates:
       combat:
         skill: sword
       jobs: [drg, drg]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -2930,27 +2508,6 @@ templates:
       combat:
         skill: sword
       jobs: [drg, drg]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -2984,25 +2541,6 @@ templates:
       combat:
         skill: sword
       jobs: [rdm, rdm]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -3039,25 +2577,6 @@ templates:
       combat:
         skill: sword
       jobs: [rdm, rdm]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -3466,27 +2985,6 @@ templates:
         skill: scythe
         delay: 265
       jobs: [sam, sam]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -3523,27 +3021,6 @@ templates:
         skill: scythe
         delay: 265
       jobs: [sam, sam]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -3580,27 +3057,6 @@ templates:
         skill: scythe
         delay: 265
       jobs: [sam, sam]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -3736,25 +3192,6 @@ templates:
       combat:
         skill: dagger
       jobs: [nin, nin]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -3791,25 +3228,6 @@ templates:
       combat:
         skill: dagger
       jobs: [nin, nin]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -3846,25 +3264,6 @@ templates:
       combat:
         skill: dagger
       jobs: [nin, nin]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -4075,27 +3474,6 @@ templates:
         skill: great_axe
         delay: 265
       jobs: [nin, nin]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -4133,27 +3511,6 @@ templates:
         skill: great_axe
         delay: 265
       jobs: [nin, nin]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -4191,27 +3548,6 @@ templates:
         skill: great_axe
         delay: 265
       jobs: [nin, nin]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -4347,25 +3683,6 @@ templates:
       combat:
         skill: dagger
       jobs: [brd, brd]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -4402,25 +3719,6 @@ templates:
       combat:
         skill: dagger
       jobs: [brd, brd]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -4457,25 +3755,6 @@ templates:
       combat:
         skill: dagger
       jobs: [brd, brd]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -4509,27 +3788,6 @@ templates:
         skill: club
         delay: 220
       jobs: [rng, rng]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -4564,27 +3822,6 @@ templates:
         skill: club
         delay: 220
       jobs: [rng, rng]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -4619,27 +3856,6 @@ templates:
         skill: club
         delay: 220
       jobs: [rng, rng]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -4773,27 +3989,6 @@ templates:
       combat:
         skill: club
       jobs: [mnk, mnk]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -4827,27 +4022,6 @@ templates:
       combat:
         skill: club
       jobs: [mnk, mnk]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -4881,27 +4055,6 @@ templates:
       combat:
         skill: club
       jobs: [mnk, mnk]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -4936,27 +4089,6 @@ templates:
         skill: club
         delay: 265
       jobs: [brd, brd]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -4994,27 +4126,6 @@ templates:
         skill: club
         delay: 265
       jobs: [brd, brd]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -5052,27 +4163,6 @@ templates:
         skill: club
         delay: 265
       jobs: [brd, brd]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -5211,25 +4301,6 @@ templates:
       combat:
         skill: club
       jobs: [smn, smn]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -5264,25 +4335,6 @@ templates:
       combat:
         skill: club
       jobs: [smn, smn]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -5317,25 +4369,6 @@ templates:
       combat:
         skill: club
       jobs: [smn, smn]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -5676,25 +4709,6 @@ templates:
       combat:
         skill: axe
       jobs: [bst, bst]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -5730,25 +4744,6 @@ templates:
       combat:
         skill: axe
       jobs: [bst, bst]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -5784,25 +4779,6 @@ templates:
       combat:
         skill: axe
       jobs: [bst, bst]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -6039,25 +5015,6 @@ templates:
       combat:
         skill: dagger
       jobs: [mnk, mnk]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -6091,25 +5048,6 @@ templates:
       combat:
         skill: dagger
       jobs: [mnk, mnk]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -6143,25 +5081,6 @@ templates:
       combat:
         skill: dagger
       jobs: [mnk, mnk]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -6496,27 +5415,6 @@ templates:
         skill: great_sword
         delay: 265
       jobs: [rdm, rdm]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -6554,27 +5452,6 @@ templates:
         skill: great_sword
         delay: 265
       jobs: [rdm, rdm]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -6612,27 +5489,6 @@ templates:
         skill: great_sword
         delay: 265
       jobs: [rdm, rdm]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -6665,27 +5521,6 @@ templates:
       combat:
         skill: club
       jobs: [thf, thf]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -6721,27 +5556,6 @@ templates:
       combat:
         skill: club
       jobs: [thf, thf]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -6777,27 +5591,6 @@ templates:
       combat:
         skill: club
       jobs: [thf, thf]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -6830,25 +5623,6 @@ templates:
       combat:
         skill: sword
       jobs: [sam, sam]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -6884,25 +5658,6 @@ templates:
       combat:
         skill: sword
       jobs: [sam, sam]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -6938,25 +5693,6 @@ templates:
       combat:
         skill: sword
       jobs: [sam, sam]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -7155,25 +5891,6 @@ templates:
       combat:
         skill: club
       jobs: [blm, blm]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -7208,25 +5925,6 @@ templates:
       combat:
         skill: club
       jobs: [blm, blm]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -7261,25 +5959,6 @@ templates:
       combat:
         skill: club
       jobs: [blm, blm]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -7378,25 +6057,6 @@ templates:
     attributes:
       combat:
         skill: axe
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -7431,25 +6091,6 @@ templates:
     attributes:
       combat:
         skill: axe
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -7484,25 +6125,6 @@ templates:
     attributes:
       combat:
         skill: axe
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -7536,27 +6158,6 @@ templates:
       combat:
         skill: club
       jobs: [blm, blm]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -7591,27 +6192,6 @@ templates:
       combat:
         skill: club
       jobs: [blm, blm]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -7646,27 +6226,6 @@ templates:
       combat:
         skill: club
       jobs: [blm, blm]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -7700,25 +6259,6 @@ templates:
       combat:
         skill: sword
       jobs: [drk, drk]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -7755,25 +6295,6 @@ templates:
       combat:
         skill: sword
       jobs: [drk, drk]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -7914,27 +6435,6 @@ templates:
       combat:
         skill: club
       jobs: [smn, smn]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -7969,27 +6469,6 @@ templates:
       combat:
         skill: club
       jobs: [smn, smn]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -8024,27 +6503,6 @@ templates:
       combat:
         skill: club
       jobs: [smn, smn]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -8184,27 +6642,6 @@ templates:
         skill: great_sword
         delay: 265
       jobs: [drk, drk]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -8242,27 +6679,6 @@ templates:
         skill: great_sword
         delay: 265
       jobs: [drk, drk]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -8300,27 +6716,6 @@ templates:
         skill: great_sword
         delay: 265
       jobs: [drk, drk]
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -8353,27 +6748,6 @@ templates:
       combat:
         skill: scythe
         delay: 260
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -8409,27 +6783,6 @@ templates:
       combat:
         skill: scythe
         delay: 260
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -8465,27 +6818,6 @@ templates:
       combat:
         skill: scythe
         delay: 260
-      resists:
-        dmg_physical:
-          piercing: 2500
-        rank_element:
-          fire:     1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -2
-          water:    1
-          light:   -1
-          dark:    -1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:       1
-          light_sleep: -1
-          dark_sleep:  -1
-          blind:       -1
       render:
         look:
           type:  standard
@@ -8623,25 +6955,6 @@ templates:
       combat:
         skill: dagger
       jobs: [thf, thf]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
@@ -8677,25 +6990,6 @@ templates:
       combat:
         skill: dagger
       jobs: [thf, thf]
-      resists:
-        rank_element:
-          fire:    -1
-          ice:     -1
-          wind:    -1
-          earth:   -1
-          thunder: -1
-          water:   -1
-          light:   -2
-          dark:     1
-        rank_status:
-          paralyze:    -1
-          bind:        -1
-          silence:     -1
-          slow:        -1
-          poison:      -1
-          light_sleep: -2
-          dark_sleep:   1
-          blind:        1
       render:
         look:
           type:  standard
