@@ -6,160 +6,760 @@ templates:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Bandrix_Rockjaw:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Blazox_Boneybod:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Bootrix_Jaggedelbow:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Buffrix_Eargone:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Cloktix_Longnail:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Distilix_Stickytoes:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Elixmix_Hooknose:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Eremix_Snottynostril:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Gabblox_Magpietongue:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
+
+  Goblin_Golem:
+    loot:
+      drops:
+        - chance: uncommon
+          item:   montiont_silverpiece
+        - chance: uncommon
+          item:   one_hundred_byne_bill
+        - chance: uncommon
+          item:   lungo-nango_jadeshell
+        - chance: common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   infinity_core
+        - chance: very_rare
+          item:   gold_beastcoin
+        - chance: rare
+          item:   mythril_beastcoin
+        - chance: very_rare
+          item:   sparkling_stone
 
   Goblin_Replica:
     type: [notorious]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: uncommon
+          item:   infinity_core
+        - chance: very_rare
+          item:   mythril_beastcoin
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   gold_beastcoin
+
+  Goblin_Statue:
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
 
   Hermitrix_Toothrot:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Humnox_Drumbelly:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Jabbrox_Grannyguise:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Jabkix_Pigeonpecs:
     attributes:
       jobs: [mnk, war]
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Karashix_Swollenskull:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Kikklix_Longlegs:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Lurklox_Dhalmelneck:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Mobpix_Mucousmouth:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Morgmox_Moldnoggin:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Mortilox_Wartpaws:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Prowlox_Barrelbelly:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Rutrix_Hamgams:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Scruffix_Shaggychest:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Slystix_Megapeepers:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Smeltix_Thickhide:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Snypestix_Eaglebeak:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Sparkspox_Sweatbrow:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Ticktox_Beadyeyes:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Trailblix_Goatmug:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Tufflix_Loglimbs:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Tymexox_Ninefingers:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Vanguard_Alchemist:
     type: [notorious]
@@ -167,6 +767,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Vanguard_Ambusher:
     type: [notorious]
@@ -174,6 +792,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Vanguard_Armorer:
     type: [notorious]
@@ -181,6 +817,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Vanguard_Dragontamer:
     type: [notorious]
@@ -188,6 +842,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Vanguard_Enchanter:
     type: [notorious]
@@ -195,6 +867,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Vanguard_Hitman:
     type: [notorious]
@@ -202,6 +892,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Vanguard_Maestro:
     type: [notorious]
@@ -209,6 +917,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Vanguard_Necromancer:
     type: [notorious]
@@ -216,6 +942,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Vanguard_Pathfinder:
     type: [notorious]
@@ -223,6 +967,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Vanguard_Pitfighter:
     type: [notorious]
@@ -230,6 +992,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Vanguard_Ronin:
     type: [notorious]
@@ -237,6 +1017,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Vanguard_Shaman:
     type: [notorious]
@@ -244,6 +1042,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Vanguard_Smithy:
     type: [notorious]
@@ -251,6 +1067,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Vanguard_Tinkerer:
     type: [notorious]
@@ -258,6 +1092,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Vanguard_Welldigger:
     type: [notorious]
@@ -265,6 +1117,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Vanguards_Avatar:
     type: [called, notorious]
@@ -279,11 +1149,47 @@ templates:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
   Wyrmwix_Snakespecs:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: very_rare
+          one_of: [relic_shield, relic_staff, relic_horn, relic_bow]
+        - chance: rare
+          one_of: [warriors_mufflers, koga_kyahan, scouts_beret, melee_gloves, clerics_pantaloons, duelists_tights, abyss_flanchard, sorcerers_sabots, assassins_poulaines, bards_slippers, saotome_sune-ate, wyrm_finger_gauntlets]
+        - chance: very_rare
+          one_of: [pantin_churidars, commodore_gants]
 
 spawns:
 

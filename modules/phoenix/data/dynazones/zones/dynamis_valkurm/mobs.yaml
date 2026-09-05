@@ -27,6 +27,12 @@ templates:
         type: [scripted]
       stats:
         hp: 15000
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
 
   Nightmare_Morbol:
     id:            2861
@@ -52,24 +58,82 @@ templates:
 
   Adamantking_Effigy:
     type: [notorious]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
+        - chance: rare
+          item:   copy_of_ginuvas_battle_theory
+        - chance: very_rare
+          item:   mythril_beastcoin
+        - chance: very_rare
+          item:   gold_beastcoin
+
+  Cirrate_Christelle:
+    loot:
+      drops:
+        - chance: always
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: uncommon
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
 
   Fairy_Ring:
     attributes:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [warriors_mask_-1, melee_crown_-1, clerics_cap_-1, sorcerers_petasos_-1, duelists_chapeau_-1, assassins_bonnet_-1, valor_coronet_-1, abyss_burgeonet_-1, monster_helm_-1, bards_roundlet_-1, scouts_beret_-1, saotome_kabuto_-1, koga_hatsuburi_-1, wyrm_armet_-1, summoners_horn_-1]
+        - chance: very_rare
+          one_of: [mirage_keffiyeh_-1, commodore_tricorne_-1, pantin_taj_-1]
 
   Goblin_Replica:
     type: [notorious]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: rare
+          item:   copy_of_ginuvas_battle_theory
+        - chance: very_rare
+          item:   mythril_beastcoin
+        - chance: very_rare
+          item:   gold_beastcoin
 
   Manifest_Icon:
     type: [notorious]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   lungo-nango_jadeshell
+        - chance: rare
+          item:   copy_of_ginuvas_battle_theory
+        - chance: very_rare
+          item:   mythril_beastcoin
+        - chance: very_rare
+          item:   gold_beastcoin
 
   Nantina:
     attributes:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [warriors_mask_-1, melee_crown_-1, clerics_cap_-1, sorcerers_petasos_-1, duelists_chapeau_-1, assassins_bonnet_-1, valor_coronet_-1, abyss_burgeonet_-1, monster_helm_-1, bards_roundlet_-1, scouts_beret_-1, saotome_kabuto_-1, koga_hatsuburi_-1, wyrm_armet_-1, summoners_horn_-1]
+        - chance: always
+          one_of: [mirage_keffiyeh_-1, commodore_tricorne_-1, pantin_taj_-1]
 
   Nightmare_Fly:
     type: [notorious]
@@ -77,6 +141,20 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [valor_cape, commodore_belt, mirage_mantle]
+        - chance: rare
+          one_of: [warriors_mask_-1, melee_crown_-1, clerics_cap_-1, sorcerers_petasos_-1, duelists_chapeau_-1, assassins_bonnet_-1, valor_coronet_-1, abyss_burgeonet_-1, monster_helm_-1, bards_roundlet_-1, scouts_beret_-1, saotome_kabuto_-1, koga_hatsuburi_-1, wyrm_armet_-1, summoners_horn_-1]
+        - chance: very_rare
+          one_of: [mirage_keffiyeh_-1, commodore_tricorne_-1, pantin_taj_-1]
 
   Nightmare_Hippogryph:
     type: [notorious]
@@ -84,6 +162,20 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [bards_cape, summoners_cape, warriors_stone, koga_sarashi]
+        - chance: rare
+          one_of: [warriors_mask_-1, melee_crown_-1, clerics_cap_-1, sorcerers_petasos_-1, duelists_chapeau_-1, assassins_bonnet_-1, valor_coronet_-1, abyss_burgeonet_-1, monster_helm_-1, bards_roundlet_-1, scouts_beret_-1, saotome_kabuto_-1, koga_hatsuburi_-1, wyrm_armet_-1, summoners_horn_-1]
+        - chance: very_rare
+          one_of: [mirage_keffiyeh_-1, commodore_tricorne_-1, pantin_taj_-1]
 
   Nightmare_Manticore:
     type: [notorious]
@@ -91,6 +183,20 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [assassins_cape, clerics_belt, sorcerers_belt, monster_belt, saotome_koshi-ate]
+        - chance: rare
+          one_of: [warriors_mask_-1, melee_crown_-1, clerics_cap_-1, sorcerers_petasos_-1, duelists_chapeau_-1, assassins_bonnet_-1, valor_coronet_-1, abyss_burgeonet_-1, monster_helm_-1, bards_roundlet_-1, scouts_beret_-1, saotome_kabuto_-1, koga_hatsuburi_-1, wyrm_armet_-1, summoners_horn_-1]
+        - chance: always
+          one_of: [mirage_keffiyeh_-1, commodore_tricorne_-1, pantin_taj_-1]
 
   Nightmare_Sabotender:
     type: [notorious]
@@ -98,6 +204,20 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [bards_cape, summoners_cape, warriors_stone, koga_sarashi]
+        - chance: rare
+          one_of: [warriors_mask_-1, melee_crown_-1, clerics_cap_-1, sorcerers_petasos_-1, duelists_chapeau_-1, assassins_bonnet_-1, valor_coronet_-1, abyss_burgeonet_-1, monster_helm_-1, bards_roundlet_-1, scouts_beret_-1, saotome_kabuto_-1, koga_hatsuburi_-1, wyrm_armet_-1, summoners_horn_-1]
+        - chance: very_rare
+          one_of: [mirage_keffiyeh_-1, commodore_tricorne_-1, pantin_taj_-1]
 
   Nightmare_Sheep:
     type: [notorious]
@@ -105,12 +225,36 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [bards_cape, summoners_cape, warriors_stone, koga_sarashi]
+        - chance: rare
+          one_of: [warriors_mask_-1, melee_crown_-1, clerics_cap_-1, sorcerers_petasos_-1, duelists_chapeau_-1, assassins_bonnet_-1, valor_coronet_-1, abyss_burgeonet_-1, monster_helm_-1, bards_roundlet_-1, scouts_beret_-1, saotome_kabuto_-1, koga_hatsuburi_-1, wyrm_armet_-1, summoners_horn_-1]
+        - chance: very_rare
+          one_of: [mirage_keffiyeh_-1, commodore_tricorne_-1, pantin_taj_-1]
 
   Stcemqestcint:
     attributes:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [warriors_mask_-1, melee_crown_-1, clerics_cap_-1, sorcerers_petasos_-1, duelists_chapeau_-1, assassins_bonnet_-1, valor_coronet_-1, abyss_burgeonet_-1, monster_helm_-1, bards_roundlet_-1, scouts_beret_-1, saotome_kabuto_-1, koga_hatsuburi_-1, wyrm_armet_-1, summoners_horn_-1]
+        - chance: always
+          one_of: [mirage_keffiyeh_-1, commodore_tricorne_-1, pantin_taj_-1]
 
   Vanguard_Alchemist:
     type: [notorious]
@@ -118,6 +262,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Ambusher:
     type: [notorious]
@@ -125,6 +281,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Amputator:
     type: [notorious]
@@ -132,6 +300,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Armorer:
     type: [notorious]
@@ -139,6 +319,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Assassin:
     type: [notorious]
@@ -146,6 +338,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Backstabber:
     type: [notorious]
@@ -153,6 +357,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Beasttender:
     type: [notorious]
@@ -160,6 +376,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Bugler:
     type: [notorious]
@@ -167,6 +395,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Chanter:
     type: [notorious]
@@ -174,6 +414,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Constable:
     type: [notorious]
@@ -181,6 +433,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Defender:
     type: [notorious]
@@ -188,6 +452,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Dollmaster:
     type: [notorious]
@@ -195,6 +471,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Dragontamer:
     type: [notorious]
@@ -202,6 +490,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Drakekeeper:
     type: [notorious]
@@ -209,6 +509,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Enchanter:
     type: [notorious]
@@ -216,6 +528,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Exemplar:
     type: [notorious]
@@ -223,6 +547,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Footsoldier:
     type: [notorious]
@@ -230,6 +566,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Grappler:
     type: [notorious]
@@ -237,6 +585,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Gutslasher:
     type: [notorious]
@@ -244,6 +604,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Hatamoto:
     type: [notorious]
@@ -251,6 +623,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Hawker:
     type: [notorious]
@@ -258,6 +642,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Hitman:
     type: [notorious]
@@ -265,6 +661,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Impaler:
     type: [notorious]
@@ -272,6 +680,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Inciter:
     type: [notorious]
@@ -279,6 +699,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Kusa:
     type: [notorious]
@@ -286,6 +718,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Liberator:
     type: [notorious]
@@ -293,6 +737,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Maestro:
     type: [notorious]
@@ -300,6 +756,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Mason:
     type: [notorious]
@@ -307,6 +775,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Mesmerizer:
     type: [notorious]
@@ -314,6 +794,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Militant:
     type: [notorious]
@@ -321,6 +813,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Minstrel:
     type: [notorious]
@@ -328,6 +832,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Neckchopper:
     type: [notorious]
@@ -335,6 +851,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Necromancer:
     type: [notorious]
@@ -342,6 +870,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Ogresoother:
     type: [notorious]
@@ -349,6 +889,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Oracle:
     type: [notorious]
@@ -356,6 +908,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Partisan:
     type: [notorious]
@@ -363,6 +927,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Pathfinder:
     type: [notorious]
@@ -370,6 +946,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Persecutor:
     type: [notorious]
@@ -377,6 +965,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Pillager:
     type: [notorious]
@@ -384,6 +984,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Pitfighter:
     type: [notorious]
@@ -391,6 +1003,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Predator:
     type: [notorious]
@@ -398,6 +1022,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Prelate:
     type: [notorious]
@@ -405,6 +1041,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Priest:
     type: [notorious]
@@ -412,6 +1060,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Protector:
     type: [notorious]
@@ -419,6 +1079,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Purloiner:
     type: [notorious]
@@ -426,6 +1098,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Ronin:
     type: [notorious]
@@ -433,6 +1117,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Salvager:
     type: [notorious]
@@ -440,6 +1136,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Sentinel:
     type: [notorious]
@@ -447,6 +1155,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Shaman:
     type: [notorious]
@@ -454,6 +1174,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Skirmisher:
     type: [notorious]
@@ -461,6 +1193,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Smithy:
     type: [notorious]
@@ -468,6 +1212,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Thaumaturge:
     type: [notorious]
@@ -475,6 +1231,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Tinkerer:
     type: [notorious]
@@ -482,6 +1250,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Trooper:
     type: [notorious]
@@ -489,6 +1269,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Undertaker:
     type: [notorious]
@@ -496,6 +1288,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Vexer:
     type: [notorious]
@@ -503,6 +1307,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Vigilante:
     type: [notorious]
@@ -510,6 +1326,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Vindicator:
     type: [notorious]
@@ -517,6 +1345,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Visionary:
     type: [notorious]
@@ -524,6 +1364,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguard_Welldigger:
     type: [notorious]
@@ -531,6 +1383,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [assassins_bonnet, monster_helm, scouts_bracers, koga_hakama, wyrm_brais, summoners_spats, warriors_calligae, melee_gaiters, clerics_duckbills, sorcerers_sabots, duelists_boots, valor_leggings, abyss_sollerets, bards_slippers, saotome_sune-ate]
+        - chance: very_rare
+          one_of: [mirage_charuqs, commodore_trews, pantin_churidars]
 
   Vanguards_Avatar:
     type: [called, notorious]
@@ -549,6 +1413,12 @@ templates:
 
   Vanguards_Wyvern:
     type: [called, notorious]
+
+  Warchief_Tombstone:
+    loot:
+      drops:
+        - chance: very_rare
+          item:   montiont_silverpiece
 
 spawns:
 

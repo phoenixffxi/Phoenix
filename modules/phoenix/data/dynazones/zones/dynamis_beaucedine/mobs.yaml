@@ -35,6 +35,10 @@ templates:
       stats:
         hp: 9000
         mp: 10000
+    loot:
+      drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
 
   Dynamis_Icon:
     id:            1153
@@ -67,6 +71,10 @@ templates:
       stats:
         hp: 9000
         mp: 10000
+    loot:
+      drops:
+        - chance: very_rare
+          item:   lungo-nango_jadeshell
 
   Dynamis_Statue:
     id:            1155
@@ -99,6 +107,10 @@ templates:
       stats:
         hp: 9000
         mp: 10000
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
 
   Dynamis_Tombstone:
     id:            1156
@@ -131,47 +143,213 @@ templates:
       stats:
         hp: 9000
         mp: 10000
+    loot:
+      drops:
+        - chance: very_rare
+          item:   montiont_silverpiece
 
   Adamantking_Effigy:
     type: [notorious]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
+        - chance: rare
+          item:   copy_of_ginuvas_battle_theory
+        - chance: uncommon
+          item:   infinity_core
+        - chance: rare
+          item:   mythril_beastcoin
+        - chance: rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   gold_beastcoin
+
+  Angra_Mainyu:
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
 
   Ascetox_Ratgums:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Avatar_Icon:
     type: [notorious]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   lungo-nango_jadeshell
+        - chance: rare
+          item:   copy_of_ginuvas_battle_theory
+        - chance: uncommon
+          item:   infinity_core
+        - chance: rare
+          item:   mythril_beastcoin
+        - chance: rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   gold_beastcoin
 
   BeZhe_Keeprazer:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Bhuu_Wjato_the_Firepool:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   lungo-nango_jadeshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Bordox_Kittyback:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Brewnix_Bittypupils:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Caa_Xaza_the_Madpiercer:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   lungo-nango_jadeshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Cobraclaw_Buchzvotch:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   montiont_silverpiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
+
+  Dagourmarche:
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: always
+          one_of: [attestation_of_bravery, attestation_of_fortitude, attestation_of_virtue]
 
   Dagourmarches_Avatar:
     type: [called, notorious]
@@ -183,90 +361,422 @@ templates:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Deathcaller_Bidfbid:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   montiont_silverpiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Drakefeast_Wubmfub:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   montiont_silverpiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Draklix_Scalecrust:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Droprix_Granitepalms:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Elvaanlopper_Grokdok:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   montiont_silverpiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
+
+  Fire_Pukis:
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
 
   Foo_Peku_the_Bloodcloak:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   lungo-nango_jadeshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   GaFho_Venomtouch:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Galkarider_Retzpratz:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   montiont_silverpiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Gibberox_Pimplebeak:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   GoTyo_Magenapper:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Goblin_Replica:
     type: [notorious]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: rare
+          item:   copy_of_ginuvas_battle_theory
+        - chance: uncommon
+          item:   infinity_core
+        - chance: rare
+          item:   mythril_beastcoin
+        - chance: rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   gold_beastcoin
+
+  Goublefaupe:
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: always
+          one_of: [attestation_of_glory, attestation_of_righteousness, attestation_of_force, attestation_of_invulnerability]
 
   GuKhu_Dukesniper:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   GuNha_Wallstormer:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Guu_Waji_the_Preacher:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   lungo-nango_jadeshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Heavymail_Djidzbad:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   montiont_silverpiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hee_Mida_the_Meticulous:
     spell_list_id: 0
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   lungo-nango_jadeshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Humegutter_Adzjbadj:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   montiont_silverpiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydra_Bard:
     type: [notorious]
@@ -274,6 +784,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydra_Beastmaster:
     type: [notorious]
@@ -281,6 +803,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydra_Black_Mage:
     type: [notorious]
@@ -288,6 +822,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydra_Dark_Knight:
     type: [notorious]
@@ -295,6 +841,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydra_Dragoon:
     type: [notorious]
@@ -302,6 +860,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydra_Monk:
     type: [notorious]
@@ -309,6 +879,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydra_Ninja:
     type: [notorious]
@@ -316,6 +898,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydra_Paladin:
     type: [notorious]
@@ -323,6 +917,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydra_Ranger:
     type: [notorious]
@@ -330,6 +936,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydra_Red_Mage:
     type: [notorious]
@@ -337,6 +955,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydra_Samurai:
     type: [notorious]
@@ -344,6 +974,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydra_Summoner:
     type: [notorious]
@@ -351,6 +993,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydra_Thief:
     type: [notorious]
@@ -358,6 +1012,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydra_Warrior:
     type: [notorious]
@@ -365,6 +1031,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydra_White_Mage:
     type: [notorious]
@@ -372,6 +1050,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydras_Avatar:
     type: [called, notorious]
@@ -386,164 +1076,774 @@ templates:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   montiont_silverpiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   JiFhu_Infiltrator:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   JiKhu_Towercleaver:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Knii_Hoqo_the_Bisector:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   lungo-nango_jadeshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Koo_Saxu_the_Everfast:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   lungo-nango_jadeshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Kuu_Xuka_the_Nimble:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   lungo-nango_jadeshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Lockbuster_Zapdjipp:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   montiont_silverpiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Maa_Zaua_the_Wyrmkeeper:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   lungo-nango_jadeshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   MiRhe_Whisperblade:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
+
+  Mildaunegeux:
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: always
+          one_of: [attestation_of_might, attestation_of_legerity, attestation_of_accuracy]
 
   Mithraslaver_Debhabob:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   montiont_silverpiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Moltenox_Stubthumbs:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Morblox_Chubbychin:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   MuGha_Legionkiller:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   NaHya_Floodmaker:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Nee_Huxa_the_Judgmental:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   lungo-nango_jadeshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   NuBhi_Spiraleye:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
+
+  Petro_Pukis:
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+
+  Poison_Pukis:
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
 
   Puu_Timu_the_Phantasmal:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   lungo-nango_jadeshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
+
+  Quiebitiel:
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: always
+          one_of: [attestation_of_celerity, attestation_of_sacrifice, attestation_of_harmony]
 
   Routsix_Rubbertendon:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Ruffbix_Jumbolobes:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Ryy_Qihi_the_Idolrobber:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   lungo-nango_jadeshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Serjeant_Tombstone:
     type: [notorious]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   montiont_silverpiece
+        - chance: rare
+          item:   copy_of_ginuvas_battle_theory
+        - chance: uncommon
+          item:   infinity_core
+        - chance: rare
+          item:   mythril_beastcoin
+        - chance: rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   gold_beastcoin
 
   Shisox_Widebrow:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Skinmask_Ugghfogg:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   montiont_silverpiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Slinkix_Trufflesniff:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   SoGho_Adderhandler:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   SoZho_Metalbender:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Soo_Jopo_the_Fiendking:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   lungo-nango_jadeshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Spinalsucker_Galflmall:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   montiont_silverpiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Swypestix_Tigershins:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   TaHyu_Gallanthunter:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Taruroaster_Biggsjig:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   montiont_silverpiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Tocktix_Thinlids:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Ultrasonic_Zeknajak:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   montiont_silverpiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Alchemist:
     type: [notorious]
@@ -551,6 +1851,22 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Ambusher:
     type: [notorious]
@@ -558,6 +1874,22 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Amputator:
     type: [notorious]
@@ -565,6 +1897,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Armorer:
     type: [notorious]
@@ -572,6 +1924,22 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Assassin:
     type: [notorious]
@@ -579,6 +1947,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Backstabber:
     type: [notorious]
@@ -586,6 +1972,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Beasttender:
     type: [notorious]
@@ -593,6 +1999,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Bugler:
     type: [notorious]
@@ -600,6 +2024,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Chanter:
     type: [notorious]
@@ -607,6 +2051,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Constable:
     type: [notorious]
@@ -614,6 +2076,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Defender:
     type: [notorious]
@@ -621,6 +2101,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Dollmaster:
     type: [notorious]
@@ -628,6 +2126,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Dragontamer:
     type: [notorious]
@@ -635,6 +2153,22 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Drakekeeper:
     type: [notorious]
@@ -642,6 +2176,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Enchanter:
     type: [notorious]
@@ -649,6 +2201,22 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Exemplar:
     type: [notorious]
@@ -656,6 +2224,32 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
+
+  Vanguard_Eye:
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: uncommon
+          item:   copy_of_ginuvas_battle_theory
 
   Vanguard_Footsoldier:
     type: [notorious]
@@ -663,6 +2257,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Grappler:
     type: [notorious]
@@ -670,6 +2284,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Gutslasher:
     type: [notorious]
@@ -677,6 +2311,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Hatamoto:
     type: [notorious]
@@ -684,6 +2338,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Hawker:
     type: [notorious]
@@ -691,6 +2363,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Hitman:
     type: [notorious]
@@ -698,6 +2390,22 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Impaler:
     type: [notorious]
@@ -705,6 +2413,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Inciter:
     type: [notorious]
@@ -712,6 +2440,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Kusa:
     type: [notorious]
@@ -719,6 +2465,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Liberator:
     type: [notorious]
@@ -726,6 +2490,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Maestro:
     type: [notorious]
@@ -733,6 +2515,22 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Mason:
     type: [notorious]
@@ -740,6 +2538,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Mesmerizer:
     type: [notorious]
@@ -747,6 +2563,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Militant:
     type: [notorious]
@@ -754,6 +2590,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Minstrel:
     type: [notorious]
@@ -761,6 +2615,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Neckchopper:
     type: [notorious]
@@ -768,6 +2640,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Necromancer:
     type: [notorious]
@@ -775,6 +2667,22 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Ogresoother:
     type: [notorious]
@@ -782,6 +2690,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Oracle:
     type: [notorious]
@@ -789,6 +2715,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Partisan:
     type: [notorious]
@@ -796,6 +2740,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Pathfinder:
     type: [notorious]
@@ -803,6 +2765,22 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Persecutor:
     type: [notorious]
@@ -810,6 +2788,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Pillager:
     type: [notorious]
@@ -817,6 +2813,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Pitfighter:
     type: [notorious]
@@ -824,6 +2840,22 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Predator:
     type: [notorious]
@@ -831,6 +2863,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Prelate:
     type: [notorious]
@@ -838,6 +2890,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Priest:
     type: [notorious]
@@ -845,6 +2915,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Protector:
     type: [notorious]
@@ -852,6 +2940,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Purloiner:
     type: [notorious]
@@ -859,6 +2965,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Ronin:
     type: [notorious]
@@ -866,6 +2990,22 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Salvager:
     type: [notorious]
@@ -873,6 +3013,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Sentinel:
     type: [notorious]
@@ -880,6 +3038,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Shaman:
     type: [notorious]
@@ -887,6 +3063,22 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Skirmisher:
     type: [notorious]
@@ -894,6 +3086,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Smithy:
     type: [notorious]
@@ -901,6 +3111,22 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Thaumaturge:
     type: [notorious]
@@ -908,6 +3134,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Tinkerer:
     type: [notorious]
@@ -915,6 +3159,22 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Trooper:
     type: [notorious]
@@ -922,6 +3182,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Undertaker:
     type: [notorious]
@@ -929,6 +3209,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Vexer:
     type: [notorious]
@@ -936,6 +3234,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Vigilante:
     type: [notorious]
@@ -943,6 +3261,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Vindicator:
     type: [notorious]
@@ -950,6 +3286,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Visionary:
     type: [notorious]
@@ -957,6 +3311,24 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguard_Welldigger:
     type: [notorious]
@@ -964,6 +3336,22 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Vanguards_Avatar:
     type: [called, notorious]
@@ -983,25 +3371,113 @@ templates:
   Vanguards_Wyvern:
     type: [called, notorious]
 
+  Velosareon:
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: always
+          one_of: [attestation_of_vigor, attestation_of_decisiveness, attestation_of_transcendence]
+
   Whistrix_Toadthroat:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   jar_of_goblin_grease
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
+
+  Wind_Pukis:
+    loot:
+      drops:
+        - chance: very_rare
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
 
   Wraithdancer_Gidbnod:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   montiont_silverpiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Xaa_Chau_the_Roctalon:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   lungo-nango_jadeshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Xhoo_Fuza_the_Sublime:
     attributes:
       spawn:
         type: [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   lungo-nango_jadeshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
 spawns:
 

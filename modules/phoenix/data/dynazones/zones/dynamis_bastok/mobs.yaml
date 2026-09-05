@@ -32,24 +32,26 @@ templates:
         hp: 8000
     loot:
       drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
         - chance: very_common
-          item: steelwall_bijou
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
         - chance: very_rare
           item: chunk_of_wootz_ore
         - chance: very_rare
           item: sparkling_stone
         - chance: very_rare
           item: vial_of_slime_juice
-        - chance: rare
-          item: forgotten_journey
-        - chance: very_rare
-          item: one_hundred_byne_bill
         - chance: very_rare
           one_of: [relic_blade, relic_axe, relic_scythe, ito]
         - chance: rare
           one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
         - chance: very_rare
-          one_of: [commodore_bottes, etoile_tiara, mirage_shalwar, argute_pants]
+          one_of: [commodore_bottes, mirage_shalwar]
       steal: one_byne_bill
 
   BeEbo_Tortoisedriver:
@@ -81,24 +83,26 @@ templates:
         hp: 8000
     loot:
       drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
         - chance: very_common
-          item: steelwall_bijou
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
         - chance: very_rare
           item: chunk_of_wootz_ore
         - chance: very_rare
           item: sparkling_stone
         - chance: very_rare
           item: vial_of_slime_juice
-        - chance: rare
-          item: forgotten_journey
-        - chance: very_rare
-          item: one_hundred_byne_bill
         - chance: very_rare
           one_of: [relic_blade, relic_axe, relic_scythe, ito]
         - chance: rare
           one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
         - chance: very_rare
-          one_of: [commodore_bottes, etoile_tiara, mirage_shalwar, argute_pants]
+          one_of: [commodore_bottes, mirage_shalwar]
       steal: one_byne_bill
 
   Effigy_Shield_WAR:
@@ -130,24 +134,26 @@ templates:
         hp: 8000
     loot:
       drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
         - chance: very_common
-          item: steelwall_bijou
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
         - chance: very_rare
           item: chunk_of_wootz_ore
         - chance: very_rare
           item: sparkling_stone
         - chance: very_rare
           item: vial_of_slime_juice
-        - chance: rare
-          item: forgotten_journey
-        - chance: very_rare
-          item: one_hundred_byne_bill
         - chance: very_rare
           one_of: [relic_blade, relic_axe, relic_scythe, ito]
         - chance: rare
           one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
         - chance: very_rare
-          one_of: [commodore_bottes, etoile_tiara, mirage_shalwar, argute_pants]
+          one_of: [commodore_bottes, mirage_shalwar]
       steal: one_byne_bill
 
   Effigy_Shield_WHM:
@@ -181,24 +187,26 @@ templates:
         mp: 20000
     loot:
       drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
         - chance: very_common
-          item: steelwall_bijou
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
         - chance: very_rare
           item: chunk_of_wootz_ore
         - chance: very_rare
           item: sparkling_stone
         - chance: very_rare
           item: vial_of_slime_juice
-        - chance: rare
-          item: forgotten_journey
-        - chance: very_rare
-          item: one_hundred_byne_bill
         - chance: very_rare
           one_of: [relic_blade, relic_axe, relic_scythe, ito]
         - chance: rare
           one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
         - chance: very_rare
-          one_of: [commodore_bottes, etoile_tiara, mirage_shalwar, argute_pants]
+          one_of: [commodore_bottes, mirage_shalwar]
       steal: one_byne_bill
 
   Effigy_Shield_MNK:
@@ -231,24 +239,26 @@ templates:
         hp: 8000
     loot:
       drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
         - chance: very_common
-          item: steelwall_bijou
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
         - chance: very_rare
           item: chunk_of_wootz_ore
         - chance: very_rare
           item: sparkling_stone
         - chance: very_rare
           item: vial_of_slime_juice
-        - chance: rare
-          item: forgotten_journey
-        - chance: very_rare
-          item: one_hundred_byne_bill
         - chance: very_rare
           one_of: [relic_blade, relic_axe, relic_scythe, ito]
         - chance: rare
           one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
         - chance: very_rare
-          one_of: [commodore_bottes, etoile_tiara, mirage_shalwar, argute_pants]
+          one_of: [commodore_bottes, mirage_shalwar]
       steal: one_byne_bill
 
   Effigy_Shield_BLM:
@@ -282,24 +292,26 @@ templates:
         mp: 20000
     loot:
       drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
         - chance: very_common
-          item: steelwall_bijou
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
         - chance: very_rare
           item: chunk_of_wootz_ore
         - chance: very_rare
           item: sparkling_stone
         - chance: very_rare
           item: vial_of_slime_juice
-        - chance: rare
-          item: forgotten_journey
-        - chance: very_rare
-          item: one_hundred_byne_bill
         - chance: very_rare
           one_of: [relic_blade, relic_axe, relic_scythe, ito]
         - chance: rare
           one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
         - chance: very_rare
-          one_of: [commodore_bottes, etoile_tiara, mirage_shalwar, argute_pants]
+          one_of: [commodore_bottes, mirage_shalwar]
       steal: one_byne_bill
 
   Effigy_Shield_THF:
@@ -331,24 +343,26 @@ templates:
         hp: 8000
     loot:
       drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
         - chance: very_common
-          item: steelwall_bijou
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
         - chance: very_rare
           item: chunk_of_wootz_ore
         - chance: very_rare
           item: sparkling_stone
         - chance: very_rare
           item: vial_of_slime_juice
-        - chance: rare
-          item: forgotten_journey
-        - chance: very_rare
-          item: one_hundred_byne_bill
         - chance: very_rare
           one_of: [relic_blade, relic_axe, relic_scythe, ito]
         - chance: rare
           one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
         - chance: very_rare
-          one_of: [commodore_bottes, etoile_tiara, mirage_shalwar, argute_pants]
+          one_of: [commodore_bottes, mirage_shalwar]
       steal: one_byne_bill
 
   Effigy_Shield_DRK:
@@ -382,24 +396,26 @@ templates:
         mp: 20000
     loot:
       drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
         - chance: very_common
-          item: steelwall_bijou
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
         - chance: very_rare
           item: chunk_of_wootz_ore
         - chance: very_rare
           item: sparkling_stone
         - chance: very_rare
           item: vial_of_slime_juice
-        - chance: rare
-          item: forgotten_journey
-        - chance: very_rare
-          item: one_hundred_byne_bill
         - chance: very_rare
           one_of: [relic_blade, relic_axe, relic_scythe, ito]
         - chance: rare
           one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
         - chance: very_rare
-          one_of: [commodore_bottes, etoile_tiara, mirage_shalwar, argute_pants]
+          one_of: [commodore_bottes, mirage_shalwar]
       steal: one_byne_bill
 
   Effigy_Shield_PLD:
@@ -433,24 +449,26 @@ templates:
         mp: 20000
     loot:
       drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
         - chance: very_common
-          item: steelwall_bijou
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
         - chance: very_rare
           item: chunk_of_wootz_ore
         - chance: very_rare
           item: sparkling_stone
         - chance: very_rare
           item: vial_of_slime_juice
-        - chance: rare
-          item: forgotten_journey
-        - chance: very_rare
-          item: one_hundred_byne_bill
         - chance: very_rare
           one_of: [relic_blade, relic_axe, relic_scythe, ito]
         - chance: rare
           one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
         - chance: very_rare
-          one_of: [commodore_bottes, etoile_tiara, mirage_shalwar, argute_pants]
+          one_of: [commodore_bottes, mirage_shalwar]
       steal: one_byne_bill
 
   Effigy_Shield_BRD:
@@ -484,24 +502,26 @@ templates:
         mp: 20000
     loot:
       drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
         - chance: very_common
-          item: steelwall_bijou
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
         - chance: very_rare
           item: chunk_of_wootz_ore
         - chance: very_rare
           item: sparkling_stone
         - chance: very_rare
           item: vial_of_slime_juice
-        - chance: rare
-          item: forgotten_journey
-        - chance: very_rare
-          item: one_hundred_byne_bill
         - chance: very_rare
           one_of: [relic_blade, relic_axe, relic_scythe, ito]
         - chance: rare
           one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
         - chance: very_rare
-          one_of: [commodore_bottes, etoile_tiara, mirage_shalwar, argute_pants]
+          one_of: [commodore_bottes, mirage_shalwar]
       steal: one_byne_bill
 
   Effigy_Shield_NIN:
@@ -535,24 +555,26 @@ templates:
         mp: 20000
     loot:
       drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
         - chance: very_common
-          item: steelwall_bijou
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
         - chance: very_rare
           item: chunk_of_wootz_ore
         - chance: very_rare
           item: sparkling_stone
         - chance: very_rare
           item: vial_of_slime_juice
-        - chance: rare
-          item: forgotten_journey
-        - chance: very_rare
-          item: one_hundred_byne_bill
         - chance: very_rare
           one_of: [relic_blade, relic_axe, relic_scythe, ito]
         - chance: rare
           one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
         - chance: very_rare
-          one_of: [commodore_bottes, etoile_tiara, mirage_shalwar, argute_pants]
+          one_of: [commodore_bottes, mirage_shalwar]
       steal: one_byne_bill
 
   Effigy_Shield_SAM:
@@ -584,24 +606,26 @@ templates:
         hp: 8000
     loot:
       drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
         - chance: very_common
-          item: steelwall_bijou
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
         - chance: very_rare
           item: chunk_of_wootz_ore
         - chance: very_rare
           item: sparkling_stone
         - chance: very_rare
           item: vial_of_slime_juice
-        - chance: rare
-          item: forgotten_journey
-        - chance: very_rare
-          item: one_hundred_byne_bill
         - chance: very_rare
           one_of: [relic_blade, relic_axe, relic_scythe, ito]
         - chance: rare
           one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
         - chance: very_rare
-          one_of: [commodore_bottes, etoile_tiara, mirage_shalwar, argute_pants]
+          one_of: [commodore_bottes, mirage_shalwar]
       steal: one_byne_bill
 
   Effigy_Shield_RNG:
@@ -633,24 +657,26 @@ templates:
         hp: 8000
     loot:
       drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
         - chance: very_common
-          item: steelwall_bijou
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
         - chance: very_rare
           item: chunk_of_wootz_ore
         - chance: very_rare
           item: sparkling_stone
         - chance: very_rare
           item: vial_of_slime_juice
-        - chance: rare
-          item: forgotten_journey
-        - chance: very_rare
-          item: one_hundred_byne_bill
         - chance: very_rare
           one_of: [relic_blade, relic_axe, relic_scythe, ito]
         - chance: rare
           one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
         - chance: very_rare
-          one_of: [commodore_bottes, etoile_tiara, mirage_shalwar, argute_pants]
+          one_of: [commodore_bottes, mirage_shalwar]
       steal: one_byne_bill
 
   Effigy_Shield_SMN:
@@ -684,24 +710,26 @@ templates:
         mp: 20000
     loot:
       drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
         - chance: very_common
-          item: steelwall_bijou
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
         - chance: very_rare
           item: chunk_of_wootz_ore
         - chance: very_rare
           item: sparkling_stone
         - chance: very_rare
           item: vial_of_slime_juice
-        - chance: rare
-          item: forgotten_journey
-        - chance: very_rare
-          item: one_hundred_byne_bill
         - chance: very_rare
           one_of: [relic_blade, relic_axe, relic_scythe, ito]
         - chance: rare
           one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
         - chance: very_rare
-          one_of: [commodore_bottes, etoile_tiara, mirage_shalwar, argute_pants]
+          one_of: [commodore_bottes, mirage_shalwar]
       steal: one_byne_bill
 
   Effigy_Shield_RDM:
@@ -735,24 +763,26 @@ templates:
         mp: 20000
     loot:
       drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
         - chance: very_common
-          item: steelwall_bijou
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
         - chance: very_rare
           item: chunk_of_wootz_ore
         - chance: very_rare
           item: sparkling_stone
         - chance: very_rare
           item: vial_of_slime_juice
-        - chance: rare
-          item: forgotten_journey
-        - chance: very_rare
-          item: one_hundred_byne_bill
         - chance: very_rare
           one_of: [relic_blade, relic_axe, relic_scythe, ito]
         - chance: rare
           one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
         - chance: very_rare
-          one_of: [commodore_bottes, etoile_tiara, mirage_shalwar, argute_pants]
+          one_of: [commodore_bottes, mirage_shalwar]
       steal: one_byne_bill
 
   Effigy_Shield_DRG:
@@ -784,24 +814,26 @@ templates:
         hp: 8000
     loot:
       drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
         - chance: very_common
-          item: steelwall_bijou
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
         - chance: very_rare
           item: chunk_of_wootz_ore
         - chance: very_rare
           item: sparkling_stone
         - chance: very_rare
           item: vial_of_slime_juice
-        - chance: rare
-          item: forgotten_journey
-        - chance: very_rare
-          item: one_hundred_byne_bill
         - chance: very_rare
           one_of: [relic_blade, relic_axe, relic_scythe, ito]
         - chance: rare
           one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
         - chance: very_rare
-          one_of: [commodore_bottes, etoile_tiara, mirage_shalwar, argute_pants]
+          one_of: [commodore_bottes, mirage_shalwar]
       steal: one_byne_bill
 
   Effigy_Shield_BST:
@@ -833,46 +865,144 @@ templates:
         hp: 8000
     loot:
       drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
         - chance: very_common
-          item: steelwall_bijou
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
         - chance: very_rare
           item: chunk_of_wootz_ore
         - chance: very_rare
           item: sparkling_stone
         - chance: very_rare
           item: vial_of_slime_juice
-        - chance: rare
-          item: forgotten_journey
-        - chance: very_rare
-          item: one_hundred_byne_bill
         - chance: very_rare
           one_of: [relic_blade, relic_axe, relic_scythe, ito]
         - chance: rare
           one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
         - chance: very_rare
-          one_of: [commodore_bottes, etoile_tiara, mirage_shalwar, argute_pants]
+          one_of: [commodore_bottes, mirage_shalwar]
       steal: one_byne_bill
 
   Adamantking_Effigy:
     type: [notorious]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
+        - chance: uncommon
+          item:   infinity_core
+        - chance: very_rare
+          item:   mythril_beastcoin
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   gold_beastcoin
 
   GiPha_Manameister:
     attributes:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: very_rare
+          one_of: [relic_blade, relic_axe, relic_scythe, ito]
+        - chance: rare
+          one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
+        - chance: very_rare
+          one_of: [commodore_bottes, mirage_shalwar]
+
+  GuDha_Effigy:
+    loot:
+      drops:
+        - chance: common
+          item:   one_hundred_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   infinity_core
+        - chance: rare
+          item:   mythril_beastcoin
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   gold_beastcoin
 
   GuNhi_Noondozer:
     attributes:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: very_rare
+          one_of: [relic_blade, relic_axe, relic_scythe, ito]
+        - chance: rare
+          one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
+        - chance: very_rare
+          one_of: [commodore_bottes, mirage_shalwar]
 
   KoDho_Cannonball:
     attributes:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: very_rare
+          one_of: [relic_blade, relic_axe, relic_scythe, ito]
+        - chance: rare
+          one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
+        - chance: very_rare
+          one_of: [commodore_bottes, mirage_shalwar]
 
   Vanguard_Beasttender:
     type: [notorious]
@@ -880,6 +1010,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: very_rare
+          one_of: [relic_blade, relic_axe, relic_scythe, ito]
+        - chance: rare
+          one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
+        - chance: very_rare
+          one_of: [commodore_bottes, mirage_shalwar]
 
   Vanguard_Constable:
     type: [notorious]
@@ -887,6 +1037,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: very_rare
+          one_of: [relic_blade, relic_axe, relic_scythe, ito]
+        - chance: rare
+          one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
+        - chance: very_rare
+          one_of: [commodore_bottes, mirage_shalwar]
 
   Vanguard_Defender:
     type: [notorious]
@@ -894,6 +1064,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: very_rare
+          one_of: [relic_blade, relic_axe, relic_scythe, ito]
+        - chance: rare
+          one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
+        - chance: very_rare
+          one_of: [commodore_bottes, mirage_shalwar]
 
   Vanguard_Drakekeeper:
     type: [notorious]
@@ -901,6 +1091,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: very_rare
+          one_of: [relic_blade, relic_axe, relic_scythe, ito]
+        - chance: rare
+          one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
+        - chance: very_rare
+          one_of: [commodore_bottes, mirage_shalwar]
 
   Vanguard_Hatamoto:
     type: [notorious]
@@ -908,6 +1118,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: very_rare
+          one_of: [relic_blade, relic_axe, relic_scythe, ito]
+        - chance: rare
+          one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
+        - chance: very_rare
+          one_of: [commodore_bottes, mirage_shalwar]
 
   Vanguard_Kusa:
     type: [notorious]
@@ -915,6 +1145,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: very_rare
+          one_of: [relic_blade, relic_axe, relic_scythe, ito]
+        - chance: rare
+          one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
+        - chance: very_rare
+          one_of: [commodore_bottes, mirage_shalwar]
 
   Vanguard_Mason:
     type: [notorious]
@@ -922,6 +1172,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: very_rare
+          one_of: [relic_blade, relic_axe, relic_scythe, ito]
+        - chance: rare
+          one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
+        - chance: very_rare
+          one_of: [commodore_bottes, mirage_shalwar]
 
   Vanguard_Militant:
     type: [notorious]
@@ -929,6 +1199,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: very_rare
+          one_of: [relic_blade, relic_axe, relic_scythe, ito]
+        - chance: rare
+          one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
+        - chance: very_rare
+          one_of: [commodore_bottes, mirage_shalwar]
 
   Vanguard_Minstrel:
     type: [notorious]
@@ -936,6 +1226,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: very_rare
+          one_of: [relic_blade, relic_axe, relic_scythe, ito]
+        - chance: rare
+          one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
+        - chance: very_rare
+          one_of: [commodore_bottes, mirage_shalwar]
 
   Vanguard_Protector:
     type: [notorious]
@@ -943,6 +1253,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: very_rare
+          one_of: [relic_blade, relic_axe, relic_scythe, ito]
+        - chance: rare
+          one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
+        - chance: very_rare
+          one_of: [commodore_bottes, mirage_shalwar]
 
   Vanguard_Purloiner:
     type: [notorious]
@@ -950,6 +1280,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: very_rare
+          one_of: [relic_blade, relic_axe, relic_scythe, ito]
+        - chance: rare
+          one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
+        - chance: very_rare
+          one_of: [commodore_bottes, mirage_shalwar]
 
   Vanguard_Thaumaturge:
     type: [notorious]
@@ -957,6 +1307,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: very_rare
+          one_of: [relic_blade, relic_axe, relic_scythe, ito]
+        - chance: rare
+          one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
+        - chance: very_rare
+          one_of: [commodore_bottes, mirage_shalwar]
 
   Vanguard_Undertaker:
     type: [notorious]
@@ -964,6 +1334,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: very_rare
+          one_of: [relic_blade, relic_axe, relic_scythe, ito]
+        - chance: rare
+          one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
+        - chance: very_rare
+          one_of: [commodore_bottes, mirage_shalwar]
 
   Vanguard_Vigilante:
     type: [notorious]
@@ -971,6 +1361,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: very_rare
+          one_of: [relic_blade, relic_axe, relic_scythe, ito]
+        - chance: rare
+          one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
+        - chance: very_rare
+          one_of: [commodore_bottes, mirage_shalwar]
 
   Vanguard_Vindicator:
     type: [notorious]
@@ -978,6 +1388,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: very_rare
+          one_of: [relic_blade, relic_axe, relic_scythe, ito]
+        - chance: rare
+          one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
+        - chance: very_rare
+          one_of: [commodore_bottes, mirage_shalwar]
 
   Vanguards_Avatar:
     type: [called, notorious]
@@ -993,6 +1423,28 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   one_hundred_byne_bill
+        - chance: very_common
+          item:   one_byne_bill
+        - chance: common
+          item:   one_byne_bill
+        - chance: uncommon
+          item:   one_byne_bill
+        - chance: very_rare
+          item:   chunk_of_wootz_ore
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   vial_of_slime_juice
+        - chance: very_rare
+          one_of: [relic_blade, relic_axe, relic_scythe, ito]
+        - chance: rare
+          one_of: [valor_coronet, assassins_vest, monster_jackcoat, duelists_gloves, bards_cuffs, saotome_kote, summoners_bracers, sorcerers_tonban, wyrm_brais, melee_gaiters, abyss_sollerets]
+        - chance: very_rare
+          one_of: [commodore_bottes, mirage_shalwar]
 
 spawns:
 

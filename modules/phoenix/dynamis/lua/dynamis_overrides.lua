@@ -1246,6 +1246,8 @@ local baseScriptMobs =
     ['Dynamis-Xarcabard'] =
     {
         Dynamis_Lord = 'original',
+        Ying = 'original',
+        Yang = 'original',
     },
 }
 

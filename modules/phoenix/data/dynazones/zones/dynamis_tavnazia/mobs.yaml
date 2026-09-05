@@ -2,6 +2,38 @@
 
 templates:
 
+  Diabolos_Club:
+    loot:
+      drops:
+        - chance: always
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: uncommon
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+
+  Diabolos_Diamond:
+    loot:
+      drops:
+        - chance: always
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: uncommon
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+
+  Diabolos_Heart:
+    loot:
+      drops:
+        - chance: always
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: uncommon
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+
+  Diabolos_Spade:
+    loot:
+      drops:
+        - chance: always
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: uncommon
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+
   # -- Custom templates for mobs the core file lacks, scaffolded from the module's mob_groups/mob_pools inserts --
 
   Nightmare_Antlion:
@@ -33,16 +65,14 @@ templates:
         hp: 16000
     loot:
       drops:
-        - chance: very_rare
-          item: fiendish_tome_ii_chapter_16
-        - chance: very_rare
-          item: fiendish_tome_ii_chapter_17
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
         - chance: uncommon
-          one_of: [forgotten_thought, forgotten_hope]
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
         - chance: rare
           one_of: [warriors_lorica_-1, melee_cyclas_-1, clerics_bliaut_-1, sorcerers_coat_-1, duelists_tabard_-1, assassins_vest_-1, valor_surcoat_-1, abyss_cuirass_-1, monster_jackcoat_-1, bards_justaucorps_-1, scouts_jerkin_-1, saotome_domaru_-1, koga_chainmail_-1, wyrm_mail_-1, summoners_doublet_-1]
         - chance: very_rare
-          one_of: [mirage_jubbah_-1, commodore_frac_-1, pantin_tobe_-1, etoile_casaque_-1, argute_gown_-1]
+          one_of: [mirage_jubbah_-1, commodore_frac_-1, pantin_tobe_-1]
       steal: ordelle_bronzepiece
 
   Umbral_Diabolos:
@@ -75,11 +105,21 @@ templates:
     loot:
       drops:
         - chance: always
-          item: fiendish_tome_ii_chapter_14
-        - chance: very_rare
-          one_of: [forgotten_thought, forgotten_hope]
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: uncommon
+          one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+
+  Vanguard_Eye:
+    loot:
+      drops:
         - chance: very_rare
           one_of: [lungo-nango_jadeshell, montiont_silverpiece, one_hundred_byne_bill]
+        - chance: rare
+          item:   copy_of_ginuvas_battle_theory
+        - chance: very_rare
+          item:   mythril_beastcoin
+        - chance: very_rare
+          item:   gold_beastcoin
 
   Diaboloss_Shard:
     type: [called, notorious]
@@ -90,6 +130,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydra_Beastmaster:
     type: [notorious]
@@ -97,6 +149,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydra_Black_Mage:
     type: [notorious]
@@ -104,6 +168,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydra_Dark_Knight:
     type: [notorious]
@@ -111,6 +187,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydra_Dragoon:
     type: [notorious]
@@ -118,6 +206,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydra_Monk:
     type: [notorious]
@@ -125,6 +225,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydra_Ninja:
     type: [notorious]
@@ -132,6 +244,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydra_Paladin:
     type: [notorious]
@@ -139,6 +263,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydra_Ranger:
     type: [notorious]
@@ -146,6 +282,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydra_Red_Mage:
     type: [notorious]
@@ -153,6 +301,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydra_Samurai:
     type: [notorious]
@@ -160,6 +320,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydra_Summoner:
     type: [notorious]
@@ -167,6 +339,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydra_Thief:
     type: [notorious]
@@ -174,6 +358,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydra_Warrior:
     type: [notorious]
@@ -181,6 +377,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydra_White_Mage:
     type: [notorious]
@@ -188,6 +396,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_cyclas, clerics_bliaut, sorcerers_coat, duelists_tabard, abyss_cuirass, bards_justaucorps, saotome_domaru, koga_chainmail, wyrm_mail, summoners_doublet, warriors_cuisses, assassins_culottes, valor_breeches, monster_gaiters, scouts_socks]
+        - chance: very_rare
+          one_of: [mirage_jubbah, commodore_frac, pantin_tobe]
 
   Hydras_Avatar:
     type: [called, notorious]
@@ -204,6 +424,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_crown, sorcerers_petasos, duelists_chapeau, abyss_burgeonet, saotome_kabuto, wyrm_armet, summoners_horn, warriors_lorica, valor_surcoat, scouts_jerkin, clerics_mitts, assassins_armlets, monster_gloves, koga_tekko, bards_cannions]
+        - chance: very_rare
+          one_of: [mirage_keffiyeh, commodore_tricorne, pantin_taj]
 
   Kindred_Beastmaster:
     type: [notorious]
@@ -211,6 +443,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_crown, sorcerers_petasos, duelists_chapeau, abyss_burgeonet, saotome_kabuto, wyrm_armet, summoners_horn, warriors_lorica, valor_surcoat, scouts_jerkin, clerics_mitts, assassins_armlets, monster_gloves, koga_tekko, bards_cannions]
+        - chance: very_rare
+          one_of: [mirage_keffiyeh, commodore_tricorne, pantin_taj]
 
   Kindred_Black_Mage:
     type: [notorious]
@@ -218,6 +462,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_crown, sorcerers_petasos, duelists_chapeau, abyss_burgeonet, saotome_kabuto, wyrm_armet, summoners_horn, warriors_lorica, valor_surcoat, scouts_jerkin, clerics_mitts, assassins_armlets, monster_gloves, koga_tekko, bards_cannions]
+        - chance: very_rare
+          one_of: [mirage_keffiyeh, commodore_tricorne, pantin_taj]
 
   Kindred_Dark_Knight:
     type: [notorious]
@@ -225,6 +481,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_crown, sorcerers_petasos, duelists_chapeau, abyss_burgeonet, saotome_kabuto, wyrm_armet, summoners_horn, warriors_lorica, valor_surcoat, scouts_jerkin, clerics_mitts, assassins_armlets, monster_gloves, koga_tekko, bards_cannions]
+        - chance: very_rare
+          one_of: [mirage_keffiyeh, commodore_tricorne, pantin_taj]
 
   Kindred_Dragoon:
     type: [notorious]
@@ -232,6 +500,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_crown, sorcerers_petasos, duelists_chapeau, abyss_burgeonet, saotome_kabuto, wyrm_armet, summoners_horn, warriors_lorica, valor_surcoat, scouts_jerkin, clerics_mitts, assassins_armlets, monster_gloves, koga_tekko, bards_cannions]
+        - chance: very_rare
+          one_of: [mirage_keffiyeh, commodore_tricorne, pantin_taj]
 
   Kindred_Monk:
     type: [notorious]
@@ -239,6 +519,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_crown, sorcerers_petasos, duelists_chapeau, abyss_burgeonet, saotome_kabuto, wyrm_armet, summoners_horn, warriors_lorica, valor_surcoat, scouts_jerkin, clerics_mitts, assassins_armlets, monster_gloves, koga_tekko, bards_cannions]
+        - chance: very_rare
+          one_of: [mirage_keffiyeh, commodore_tricorne, pantin_taj]
 
   Kindred_Ninja:
     type: [notorious]
@@ -246,6 +538,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_crown, sorcerers_petasos, duelists_chapeau, abyss_burgeonet, saotome_kabuto, wyrm_armet, summoners_horn, warriors_lorica, valor_surcoat, scouts_jerkin, clerics_mitts, assassins_armlets, monster_gloves, koga_tekko, bards_cannions]
+        - chance: very_rare
+          one_of: [mirage_keffiyeh, commodore_tricorne, pantin_taj]
 
   Kindred_Paladin:
     type: [notorious]
@@ -253,6 +557,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_crown, sorcerers_petasos, duelists_chapeau, abyss_burgeonet, saotome_kabuto, wyrm_armet, summoners_horn, warriors_lorica, valor_surcoat, scouts_jerkin, clerics_mitts, assassins_armlets, monster_gloves, koga_tekko, bards_cannions]
+        - chance: very_rare
+          one_of: [mirage_keffiyeh, commodore_tricorne, pantin_taj]
 
   Kindred_Ranger:
     type: [notorious]
@@ -260,6 +576,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_crown, sorcerers_petasos, duelists_chapeau, abyss_burgeonet, saotome_kabuto, wyrm_armet, summoners_horn, warriors_lorica, valor_surcoat, scouts_jerkin, clerics_mitts, assassins_armlets, monster_gloves, koga_tekko, bards_cannions]
+        - chance: very_rare
+          one_of: [mirage_keffiyeh, commodore_tricorne, pantin_taj]
 
   Kindred_Red_Mage:
     type: [notorious]
@@ -267,6 +595,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_crown, sorcerers_petasos, duelists_chapeau, abyss_burgeonet, saotome_kabuto, wyrm_armet, summoners_horn, warriors_lorica, valor_surcoat, scouts_jerkin, clerics_mitts, assassins_armlets, monster_gloves, koga_tekko, bards_cannions]
+        - chance: very_rare
+          one_of: [mirage_keffiyeh, commodore_tricorne, pantin_taj]
 
   Kindred_Samurai:
     type: [notorious]
@@ -274,6 +614,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_crown, sorcerers_petasos, duelists_chapeau, abyss_burgeonet, saotome_kabuto, wyrm_armet, summoners_horn, warriors_lorica, valor_surcoat, scouts_jerkin, clerics_mitts, assassins_armlets, monster_gloves, koga_tekko, bards_cannions]
+        - chance: very_rare
+          one_of: [mirage_keffiyeh, commodore_tricorne, pantin_taj]
 
   Kindred_Summoner:
     type: [notorious]
@@ -281,6 +633,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_crown, sorcerers_petasos, duelists_chapeau, abyss_burgeonet, saotome_kabuto, wyrm_armet, summoners_horn, warriors_lorica, valor_surcoat, scouts_jerkin, clerics_mitts, assassins_armlets, monster_gloves, koga_tekko, bards_cannions]
+        - chance: very_rare
+          one_of: [mirage_keffiyeh, commodore_tricorne, pantin_taj]
 
   Kindred_Thief:
     type: [notorious]
@@ -288,6 +652,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_crown, sorcerers_petasos, duelists_chapeau, abyss_burgeonet, saotome_kabuto, wyrm_armet, summoners_horn, warriors_lorica, valor_surcoat, scouts_jerkin, clerics_mitts, assassins_armlets, monster_gloves, koga_tekko, bards_cannions]
+        - chance: very_rare
+          one_of: [mirage_keffiyeh, commodore_tricorne, pantin_taj]
 
   Kindred_Warrior:
     type: [notorious]
@@ -295,6 +671,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_crown, sorcerers_petasos, duelists_chapeau, abyss_burgeonet, saotome_kabuto, wyrm_armet, summoners_horn, warriors_lorica, valor_surcoat, scouts_jerkin, clerics_mitts, assassins_armlets, monster_gloves, koga_tekko, bards_cannions]
+        - chance: very_rare
+          one_of: [mirage_keffiyeh, commodore_tricorne, pantin_taj]
 
   Kindred_White_Mage:
     type: [notorious]
@@ -302,6 +690,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [melee_crown, sorcerers_petasos, duelists_chapeau, abyss_burgeonet, saotome_kabuto, wyrm_armet, summoners_horn, warriors_lorica, valor_surcoat, scouts_jerkin, clerics_mitts, assassins_armlets, monster_gloves, koga_tekko, bards_cannions]
+        - chance: very_rare
+          one_of: [mirage_keffiyeh, commodore_tricorne, pantin_taj]
 
   Kindreds_Avatar:
     type: [called, battlefield, notorious]
@@ -318,6 +718,16 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [warriors_cuisses_-1, melee_hose_-1, clerics_pantaloons_-1, sorcerers_tonban_-1, duelists_tights_-1, assassins_culotte_-1, valor_breeches_-1, abyss_flanchard_-1, monster_trousers_-1, bards_cannions_-1, scouts_braccae_-1, saotome_haidate_-1, koga_hakama_-1, wyrm_brais_-1, summoners_spats_-1]
+        - chance: very_rare
+          one_of: [mirage_shalwar_-1, commodore_trews_-1, pantin_churidars_-1]
 
   Nightmare_Cluster:
     type: [notorious]
@@ -325,6 +735,16 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [warriors_lorica_-1, melee_cyclas_-1, clerics_bliaut_-1, sorcerers_coat_-1, duelists_tabard_-1, assassins_vest_-1, valor_surcoat_-1, abyss_cuirass_-1, monster_jackcoat_-1, bards_justaucorps_-1, scouts_jerkin_-1, saotome_domaru_-1, koga_chainmail_-1, wyrm_mail_-1, summoners_doublet_-1]
+        - chance: very_rare
+          one_of: [mirage_jubbah_-1, commodore_frac_-1, pantin_tobe_-1]
 
   Nightmare_Hornet:
     type: [notorious]
@@ -332,6 +752,16 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [warriors_cuisses_-1, melee_hose_-1, clerics_pantaloons_-1, sorcerers_tonban_-1, duelists_tights_-1, assassins_culotte_-1, valor_breeches_-1, abyss_flanchard_-1, monster_trousers_-1, bards_cannions_-1, scouts_braccae_-1, saotome_haidate_-1, koga_hakama_-1, wyrm_brais_-1, summoners_spats_-1]
+        - chance: very_rare
+          one_of: [mirage_shalwar_-1, commodore_trews_-1, pantin_churidars_-1]
 
   Nightmare_Leech:
     type: [notorious]
@@ -339,6 +769,16 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [warriors_lorica_-1, melee_cyclas_-1, clerics_bliaut_-1, sorcerers_coat_-1, duelists_tabard_-1, assassins_vest_-1, valor_surcoat_-1, abyss_cuirass_-1, monster_jackcoat_-1, bards_justaucorps_-1, scouts_jerkin_-1, saotome_domaru_-1, koga_chainmail_-1, wyrm_mail_-1, summoners_doublet_-1]
+        - chance: very_rare
+          one_of: [mirage_jubbah_-1, commodore_frac_-1, pantin_tobe_-1]
 
   Nightmare_Makara:
     type: [notorious]
@@ -346,6 +786,16 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [warriors_cuisses_-1, melee_hose_-1, clerics_pantaloons_-1, sorcerers_tonban_-1, duelists_tights_-1, assassins_culotte_-1, valor_breeches_-1, abyss_flanchard_-1, monster_trousers_-1, bards_cannions_-1, scouts_braccae_-1, saotome_haidate_-1, koga_hakama_-1, wyrm_brais_-1, summoners_spats_-1]
+        - chance: very_rare
+          one_of: [mirage_shalwar_-1, commodore_trews_-1, pantin_churidars_-1]
 
   Nightmare_Taurus:
     type: [notorious]
@@ -353,6 +803,18 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [hydra_salade, hydra_haubert, hydra_moufles, hydra_brayettes, hydra_sollerets]
+        - chance: rare
+          one_of: [hydra_tiara, hydra_harness, hydra_mittens, hydra_tights, hydra_spats]
+        - chance: rare
+          one_of: [hydra_beret, hydra_doublet, hydra_gloves, hydra_brais, hydra_gaiters]
+        - chance: rare
+          one_of: [hydra_cap, hydra_bracers, hydra_jupon, hydra_hose, hydra_boots]
 
   Nightmare_Worm:
     type: [notorious]
@@ -360,6 +822,16 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: common
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: uncommon
+          one_of: [tukuku_whiteshell, ordelle_bronzepiece, one_byne_bill]
+        - chance: rare
+          one_of: [warriors_cuisses_-1, melee_hose_-1, clerics_pantaloons_-1, sorcerers_tonban_-1, duelists_tights_-1, assassins_culotte_-1, valor_breeches_-1, abyss_flanchard_-1, monster_trousers_-1, bards_cannions_-1, scouts_braccae_-1, saotome_haidate_-1, koga_hakama_-1, wyrm_brais_-1, summoners_spats_-1]
+        - chance: very_rare
+          one_of: [mirage_shalwar_-1, commodore_trews_-1, pantin_churidars_-1]
 
 spawns:
 

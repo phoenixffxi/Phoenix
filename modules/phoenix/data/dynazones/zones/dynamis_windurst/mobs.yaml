@@ -35,21 +35,129 @@ templates:
       stats:
         hp: 1000
         mp: 10000
+    loot:
+      drops:
+        - chance: very_rare
+          item:   lungo-nango_jadeshell
 
   Avatar_Icon:
     type: [notorious]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   lungo-nango_jadeshell
+        - chance: uncommon
+          item:   infinity_core
+        - chance: very_rare
+          item:   mythril_beastcoin
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   gold_beastcoin
+
+  Avatar_Idol:
+    loot:
+      drops:
+        - chance: very_rare
+          item:   lungo-nango_jadeshell
 
   Haa_Pevi_the_Stentorian:
     attributes:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   lungo-nango_jadeshell
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: very_rare
+          one_of: [relic_knuckles, relic_dagger, relic_sword, relic_maul]
+        - chance: rare
+          one_of: [warriors_mask, assassins_bonnet, monster_helm, koga_hatsuburi, sorcerers_gloves, abyss_gauntlets, scouts_bracers, saotome_haidate, summoners_spats, clerics_duckbills, valor_leggings]
+        - chance: very_rare
+          one_of: [mirage_charuqs, pantin_dastanas]
 
   Loo_Hepe_the_Eyepiercer:
     attributes:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   lungo-nango_jadeshell
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: very_rare
+          one_of: [relic_knuckles, relic_dagger, relic_sword, relic_maul]
+        - chance: rare
+          one_of: [warriors_mask, assassins_bonnet, monster_helm, koga_hatsuburi, sorcerers_gloves, abyss_gauntlets, scouts_bracers, saotome_haidate, summoners_spats, clerics_duckbills, valor_leggings]
+        - chance: very_rare
+          one_of: [mirage_charuqs, pantin_dastanas]
+
+  Maa_Febi_the_Steadfast:
+    loot:
+      drops:
+        - chance: very_rare
+          item:   lungo-nango_jadeshell
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+
+  Muu_Febi_the_Steadfast:
+    loot:
+      drops:
+        - chance: very_rare
+          item:   lungo-nango_jadeshell
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+
+  Tzee_Xicu_Idol:
+    loot:
+      drops:
+        - chance: common
+          item:   lungo-nango_jadeshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   infinity_core
+        - chance: very_rare
+          item:   gold_beastcoin
+        - chance: rare
+          item:   mythril_beastcoin
+        - chance: very_rare
+          item:   sparkling_stone
 
   Vanguard_Assassin:
     type: [notorious]
@@ -57,6 +165,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: very_rare
+          one_of: [relic_knuckles, relic_dagger, relic_sword, relic_maul]
+        - chance: rare
+          one_of: [warriors_mask, assassins_bonnet, monster_helm, koga_hatsuburi, sorcerers_gloves, abyss_gauntlets, scouts_bracers, saotome_haidate, summoners_spats, clerics_duckbills, valor_leggings]
+        - chance: very_rare
+          one_of: [mirage_charuqs, pantin_dastanas]
 
   Vanguard_Chanter:
     type: [notorious]
@@ -64,6 +192,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: very_rare
+          one_of: [relic_knuckles, relic_dagger, relic_sword, relic_maul]
+        - chance: rare
+          one_of: [warriors_mask, assassins_bonnet, monster_helm, koga_hatsuburi, sorcerers_gloves, abyss_gauntlets, scouts_bracers, saotome_haidate, summoners_spats, clerics_duckbills, valor_leggings]
+        - chance: very_rare
+          one_of: [mirage_charuqs, pantin_dastanas]
 
   Vanguard_Exemplar:
     type: [notorious]
@@ -71,6 +219,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: very_rare
+          one_of: [relic_knuckles, relic_dagger, relic_sword, relic_maul]
+        - chance: rare
+          one_of: [warriors_mask, assassins_bonnet, monster_helm, koga_hatsuburi, sorcerers_gloves, abyss_gauntlets, scouts_bracers, saotome_haidate, summoners_spats, clerics_duckbills, valor_leggings]
+        - chance: very_rare
+          one_of: [mirage_charuqs, pantin_dastanas]
 
   Vanguard_Inciter:
     type: [notorious]
@@ -78,6 +246,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: very_rare
+          one_of: [relic_knuckles, relic_dagger, relic_sword, relic_maul]
+        - chance: rare
+          one_of: [warriors_mask, assassins_bonnet, monster_helm, koga_hatsuburi, sorcerers_gloves, abyss_gauntlets, scouts_bracers, saotome_haidate, summoners_spats, clerics_duckbills, valor_leggings]
+        - chance: very_rare
+          one_of: [mirage_charuqs, pantin_dastanas]
 
   Vanguard_Liberator:
     type: [notorious]
@@ -85,6 +273,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: very_rare
+          one_of: [relic_knuckles, relic_dagger, relic_sword, relic_maul]
+        - chance: rare
+          one_of: [warriors_mask, assassins_bonnet, monster_helm, koga_hatsuburi, sorcerers_gloves, abyss_gauntlets, scouts_bracers, saotome_haidate, summoners_spats, clerics_duckbills, valor_leggings]
+        - chance: very_rare
+          one_of: [mirage_charuqs, pantin_dastanas]
 
   Vanguard_Ogresoother:
     type: [notorious]
@@ -92,6 +300,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: very_rare
+          one_of: [relic_knuckles, relic_dagger, relic_sword, relic_maul]
+        - chance: rare
+          one_of: [warriors_mask, assassins_bonnet, monster_helm, koga_hatsuburi, sorcerers_gloves, abyss_gauntlets, scouts_bracers, saotome_haidate, summoners_spats, clerics_duckbills, valor_leggings]
+        - chance: very_rare
+          one_of: [mirage_charuqs, pantin_dastanas]
 
   Vanguard_Oracle:
     type: [notorious]
@@ -99,6 +327,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: very_rare
+          one_of: [relic_knuckles, relic_dagger, relic_sword, relic_maul]
+        - chance: rare
+          one_of: [warriors_mask, assassins_bonnet, monster_helm, koga_hatsuburi, sorcerers_gloves, abyss_gauntlets, scouts_bracers, saotome_haidate, summoners_spats, clerics_duckbills, valor_leggings]
+        - chance: very_rare
+          one_of: [mirage_charuqs, pantin_dastanas]
 
   Vanguard_Partisan:
     type: [notorious]
@@ -106,6 +354,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: very_rare
+          one_of: [relic_knuckles, relic_dagger, relic_sword, relic_maul]
+        - chance: rare
+          one_of: [warriors_mask, assassins_bonnet, monster_helm, koga_hatsuburi, sorcerers_gloves, abyss_gauntlets, scouts_bracers, saotome_haidate, summoners_spats, clerics_duckbills, valor_leggings]
+        - chance: very_rare
+          one_of: [mirage_charuqs, pantin_dastanas]
 
   Vanguard_Persecutor:
     type: [notorious]
@@ -113,6 +381,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: very_rare
+          one_of: [relic_knuckles, relic_dagger, relic_sword, relic_maul]
+        - chance: rare
+          one_of: [warriors_mask, assassins_bonnet, monster_helm, koga_hatsuburi, sorcerers_gloves, abyss_gauntlets, scouts_bracers, saotome_haidate, summoners_spats, clerics_duckbills, valor_leggings]
+        - chance: very_rare
+          one_of: [mirage_charuqs, pantin_dastanas]
 
   Vanguard_Prelate:
     type: [notorious]
@@ -120,6 +408,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: very_rare
+          one_of: [relic_knuckles, relic_dagger, relic_sword, relic_maul]
+        - chance: rare
+          one_of: [warriors_mask, assassins_bonnet, monster_helm, koga_hatsuburi, sorcerers_gloves, abyss_gauntlets, scouts_bracers, saotome_haidate, summoners_spats, clerics_duckbills, valor_leggings]
+        - chance: very_rare
+          one_of: [mirage_charuqs, pantin_dastanas]
 
   Vanguard_Priest:
     type: [notorious]
@@ -127,6 +435,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: very_rare
+          one_of: [relic_knuckles, relic_dagger, relic_sword, relic_maul]
+        - chance: rare
+          one_of: [warriors_mask, assassins_bonnet, monster_helm, koga_hatsuburi, sorcerers_gloves, abyss_gauntlets, scouts_bracers, saotome_haidate, summoners_spats, clerics_duckbills, valor_leggings]
+        - chance: very_rare
+          one_of: [mirage_charuqs, pantin_dastanas]
 
   Vanguard_Salvager:
     type: [notorious]
@@ -134,6 +462,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: very_rare
+          one_of: [relic_knuckles, relic_dagger, relic_sword, relic_maul]
+        - chance: rare
+          one_of: [warriors_mask, assassins_bonnet, monster_helm, koga_hatsuburi, sorcerers_gloves, abyss_gauntlets, scouts_bracers, saotome_haidate, summoners_spats, clerics_duckbills, valor_leggings]
+        - chance: very_rare
+          one_of: [mirage_charuqs, pantin_dastanas]
 
   Vanguard_Sentinel:
     type: [notorious]
@@ -141,6 +489,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: very_rare
+          one_of: [relic_knuckles, relic_dagger, relic_sword, relic_maul]
+        - chance: rare
+          one_of: [warriors_mask, assassins_bonnet, monster_helm, koga_hatsuburi, sorcerers_gloves, abyss_gauntlets, scouts_bracers, saotome_haidate, summoners_spats, clerics_duckbills, valor_leggings]
+        - chance: very_rare
+          one_of: [mirage_charuqs, pantin_dastanas]
 
   Vanguard_Skirmisher:
     type: [notorious]
@@ -148,6 +516,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: very_rare
+          one_of: [relic_knuckles, relic_dagger, relic_sword, relic_maul]
+        - chance: rare
+          one_of: [warriors_mask, assassins_bonnet, monster_helm, koga_hatsuburi, sorcerers_gloves, abyss_gauntlets, scouts_bracers, saotome_haidate, summoners_spats, clerics_duckbills, valor_leggings]
+        - chance: very_rare
+          one_of: [mirage_charuqs, pantin_dastanas]
 
   Vanguard_Visionary:
     type: [notorious]
@@ -155,6 +543,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: very_rare
+          one_of: [relic_knuckles, relic_dagger, relic_sword, relic_maul]
+        - chance: rare
+          one_of: [warriors_mask, assassins_bonnet, monster_helm, koga_hatsuburi, sorcerers_gloves, abyss_gauntlets, scouts_bracers, saotome_haidate, summoners_spats, clerics_duckbills, valor_leggings]
+        - chance: very_rare
+          one_of: [mirage_charuqs, pantin_dastanas]
 
   Vanguards_Avatar:
     type: [called, notorious]
@@ -170,12 +578,56 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   lungo-nango_jadeshell
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: very_rare
+          one_of: [relic_knuckles, relic_dagger, relic_sword, relic_maul]
+        - chance: rare
+          one_of: [warriors_mask, assassins_bonnet, monster_helm, koga_hatsuburi, sorcerers_gloves, abyss_gauntlets, scouts_bracers, saotome_haidate, summoners_spats, clerics_duckbills, valor_leggings]
+        - chance: very_rare
+          one_of: [mirage_charuqs, pantin_dastanas]
 
   Xoo_Kaza_the_Solemn:
     attributes:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   lungo-nango_jadeshell
+        - chance: very_common
+          item:   tukuku_whiteshell
+        - chance: common
+          item:   tukuku_whiteshell
+        - chance: uncommon
+          item:   tukuku_whiteshell
+        - chance: very_rare
+          item:   pile_of_relic_iron
+        - chance: very_rare
+          item:   lancewood_log
+        - chance: very_rare
+          item:   colossal_skull
+        - chance: very_rare
+          one_of: [relic_knuckles, relic_dagger, relic_sword, relic_maul]
+        - chance: rare
+          one_of: [warriors_mask, assassins_bonnet, monster_helm, koga_hatsuburi, sorcerers_gloves, abyss_gauntlets, scouts_bracers, saotome_haidate, summoners_spats, clerics_duckbills, valor_leggings]
+        - chance: very_rare
+          one_of: [mirage_charuqs, pantin_dastanas]
 
 spawns:
 

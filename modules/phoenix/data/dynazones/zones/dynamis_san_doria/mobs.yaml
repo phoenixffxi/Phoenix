@@ -2,14 +2,90 @@
 
 templates:
 
+  Battlechoir_Gitchfotch:
+    loot:
+      drops:
+        - chance: very_rare
+          item:   montiont_silverpiece
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+
+  Overlords_Tombstone:
+    loot:
+      drops:
+        - chance: common
+          item:   montiont_silverpiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   infinity_core
+        - chance: rare
+          item:   mythril_beastcoin
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   gold_beastcoin
+
   Reapertongue_Gadgquok:
     attributes:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   montiont_silverpiece
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: very_rare
+          one_of: [relic_bhuj, relic_lance, ihintanto, relic_gun]
+        - chance: rare
+          one_of: [clerics_cap, bards_roundlet, valor_gauntlets, melee_hose, monster_trousers, scouts_braccae, koga_hakama, warriors_calligae, duelists_boots, wyrm_greaves, summoners_pigaches]
+        - chance: very_rare
+          one_of: [pantin_babouches, mirage_bazubands, commodore_trews]
 
   Serjeant_Tombstone:
     type: [notorious]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   montiont_silverpiece
+        - chance: uncommon
+          item:   infinity_core
+        - chance: very_rare
+          item:   mythril_beastcoin
+        - chance: very_rare
+          item:   sparkling_stone
+        - chance: very_rare
+          item:   gold_beastcoin
+
+  Soulsender_Fugbrag:
+    loot:
+      drops:
+        - chance: very_rare
+          item:   montiont_silverpiece
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
 
   Vanguard_Amputator:
     type: [notorious]
@@ -17,6 +93,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: very_rare
+          one_of: [relic_bhuj, relic_lance, ihintanto, relic_gun]
+        - chance: rare
+          one_of: [clerics_cap, bards_roundlet, valor_gauntlets, melee_hose, monster_trousers, scouts_braccae, koga_hakama, warriors_calligae, duelists_boots, wyrm_greaves, summoners_pigaches]
+        - chance: very_rare
+          one_of: [pantin_babouches, mirage_bazubands, commodore_trews]
 
   Vanguard_Backstabber:
     type: [notorious]
@@ -24,6 +120,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: very_rare
+          one_of: [relic_bhuj, relic_lance, ihintanto, relic_gun]
+        - chance: rare
+          one_of: [clerics_cap, bards_roundlet, valor_gauntlets, melee_hose, monster_trousers, scouts_braccae, koga_hakama, warriors_calligae, duelists_boots, wyrm_greaves, summoners_pigaches]
+        - chance: very_rare
+          one_of: [pantin_babouches, mirage_bazubands, commodore_trews]
 
   Vanguard_Bugler:
     type: [notorious]
@@ -31,6 +147,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: very_rare
+          one_of: [relic_bhuj, relic_lance, ihintanto, relic_gun]
+        - chance: rare
+          one_of: [clerics_cap, bards_roundlet, valor_gauntlets, melee_hose, monster_trousers, scouts_braccae, koga_hakama, warriors_calligae, duelists_boots, wyrm_greaves, summoners_pigaches]
+        - chance: very_rare
+          one_of: [pantin_babouches, mirage_bazubands, commodore_trews]
 
   Vanguard_Dollmaster:
     type: [notorious]
@@ -38,6 +174,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: very_rare
+          one_of: [relic_bhuj, relic_lance, ihintanto, relic_gun]
+        - chance: rare
+          one_of: [clerics_cap, bards_roundlet, valor_gauntlets, melee_hose, monster_trousers, scouts_braccae, koga_hakama, warriors_calligae, duelists_boots, wyrm_greaves, summoners_pigaches]
+        - chance: very_rare
+          one_of: [pantin_babouches, mirage_bazubands, commodore_trews]
 
   Vanguard_Footsoldier:
     type: [notorious]
@@ -45,6 +201,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: very_rare
+          one_of: [relic_bhuj, relic_lance, ihintanto, relic_gun]
+        - chance: rare
+          one_of: [clerics_cap, bards_roundlet, valor_gauntlets, melee_hose, monster_trousers, scouts_braccae, koga_hakama, warriors_calligae, duelists_boots, wyrm_greaves, summoners_pigaches]
+        - chance: very_rare
+          one_of: [pantin_babouches, mirage_bazubands, commodore_trews]
 
   Vanguard_Grappler:
     type: [notorious]
@@ -52,6 +228,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: very_rare
+          one_of: [relic_bhuj, relic_lance, ihintanto, relic_gun]
+        - chance: rare
+          one_of: [clerics_cap, bards_roundlet, valor_gauntlets, melee_hose, monster_trousers, scouts_braccae, koga_hakama, warriors_calligae, duelists_boots, wyrm_greaves, summoners_pigaches]
+        - chance: very_rare
+          one_of: [pantin_babouches, mirage_bazubands, commodore_trews]
 
   Vanguard_Gutslasher:
     type: [notorious]
@@ -59,6 +255,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: very_rare
+          one_of: [relic_bhuj, relic_lance, ihintanto, relic_gun]
+        - chance: rare
+          one_of: [clerics_cap, bards_roundlet, valor_gauntlets, melee_hose, monster_trousers, scouts_braccae, koga_hakama, warriors_calligae, duelists_boots, wyrm_greaves, summoners_pigaches]
+        - chance: very_rare
+          one_of: [pantin_babouches, mirage_bazubands, commodore_trews]
 
   Vanguard_Hawker:
     type: [notorious]
@@ -66,6 +282,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: very_rare
+          one_of: [relic_bhuj, relic_lance, ihintanto, relic_gun]
+        - chance: rare
+          one_of: [clerics_cap, bards_roundlet, valor_gauntlets, melee_hose, monster_trousers, scouts_braccae, koga_hakama, warriors_calligae, duelists_boots, wyrm_greaves, summoners_pigaches]
+        - chance: very_rare
+          one_of: [pantin_babouches, mirage_bazubands, commodore_trews]
 
   Vanguard_Impaler:
     type: [notorious]
@@ -73,6 +309,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: very_rare
+          one_of: [relic_bhuj, relic_lance, ihintanto, relic_gun]
+        - chance: rare
+          one_of: [clerics_cap, bards_roundlet, valor_gauntlets, melee_hose, monster_trousers, scouts_braccae, koga_hakama, warriors_calligae, duelists_boots, wyrm_greaves, summoners_pigaches]
+        - chance: very_rare
+          one_of: [pantin_babouches, mirage_bazubands, commodore_trews]
 
   Vanguard_Mesmerizer:
     type: [notorious]
@@ -80,6 +336,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: very_rare
+          one_of: [relic_bhuj, relic_lance, ihintanto, relic_gun]
+        - chance: rare
+          one_of: [clerics_cap, bards_roundlet, valor_gauntlets, melee_hose, monster_trousers, scouts_braccae, koga_hakama, warriors_calligae, duelists_boots, wyrm_greaves, summoners_pigaches]
+        - chance: very_rare
+          one_of: [pantin_babouches, mirage_bazubands, commodore_trews]
 
   Vanguard_Neckchopper:
     type: [notorious]
@@ -87,6 +363,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: very_rare
+          one_of: [relic_bhuj, relic_lance, ihintanto, relic_gun]
+        - chance: rare
+          one_of: [clerics_cap, bards_roundlet, valor_gauntlets, melee_hose, monster_trousers, scouts_braccae, koga_hakama, warriors_calligae, duelists_boots, wyrm_greaves, summoners_pigaches]
+        - chance: very_rare
+          one_of: [pantin_babouches, mirage_bazubands, commodore_trews]
 
   Vanguard_Pillager:
     type: [notorious]
@@ -94,6 +390,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: very_rare
+          one_of: [relic_bhuj, relic_lance, ihintanto, relic_gun]
+        - chance: rare
+          one_of: [clerics_cap, bards_roundlet, valor_gauntlets, melee_hose, monster_trousers, scouts_braccae, koga_hakama, warriors_calligae, duelists_boots, wyrm_greaves, summoners_pigaches]
+        - chance: very_rare
+          one_of: [pantin_babouches, mirage_bazubands, commodore_trews]
 
   Vanguard_Predator:
     type: [notorious]
@@ -101,6 +417,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: very_rare
+          one_of: [relic_bhuj, relic_lance, ihintanto, relic_gun]
+        - chance: rare
+          one_of: [clerics_cap, bards_roundlet, valor_gauntlets, melee_hose, monster_trousers, scouts_braccae, koga_hakama, warriors_calligae, duelists_boots, wyrm_greaves, summoners_pigaches]
+        - chance: very_rare
+          one_of: [pantin_babouches, mirage_bazubands, commodore_trews]
 
   Vanguard_Trooper:
     type: [notorious]
@@ -108,6 +444,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: very_rare
+          one_of: [relic_bhuj, relic_lance, ihintanto, relic_gun]
+        - chance: rare
+          one_of: [clerics_cap, bards_roundlet, valor_gauntlets, melee_hose, monster_trousers, scouts_braccae, koga_hakama, warriors_calligae, duelists_boots, wyrm_greaves, summoners_pigaches]
+        - chance: very_rare
+          one_of: [pantin_babouches, mirage_bazubands, commodore_trews]
 
   Vanguard_Vexer:
     type: [notorious]
@@ -115,6 +471,26 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: very_rare
+          one_of: [relic_bhuj, relic_lance, ihintanto, relic_gun]
+        - chance: rare
+          one_of: [clerics_cap, bards_roundlet, valor_gauntlets, melee_hose, monster_trousers, scouts_braccae, koga_hakama, warriors_calligae, duelists_boots, wyrm_greaves, summoners_pigaches]
+        - chance: very_rare
+          one_of: [pantin_babouches, mirage_bazubands, commodore_trews]
 
   Vanguards_Avatar:
     type: [called, notorious]
@@ -130,12 +506,62 @@ templates:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   montiont_silverpiece
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: very_rare
+          one_of: [relic_bhuj, relic_lance, ihintanto, relic_gun]
+        - chance: rare
+          one_of: [clerics_cap, bards_roundlet, valor_gauntlets, melee_hose, monster_trousers, scouts_braccae, koga_hakama, warriors_calligae, duelists_boots, wyrm_greaves, summoners_pigaches]
+        - chance: very_rare
+          one_of: [pantin_babouches, mirage_bazubands, commodore_trews]
+
+  Warchief_Tombstone:
+    loot:
+      drops:
+        - chance: very_rare
+          item:   montiont_silverpiece
 
   Wyrmgnasher_Bjakdek:
     attributes:
       spawn:
         respawn: 0
         type:    [scripted]
+    loot:
+      drops:
+        - chance: very_rare
+          item:   montiont_silverpiece
+        - chance: very_common
+          item:   ordelle_bronzepiece
+        - chance: common
+          item:   ordelle_bronzepiece
+        - chance: uncommon
+          item:   ordelle_bronzepiece
+        - chance: very_rare
+          item:   griffon_hide
+        - chance: very_rare
+          item:   giant_frozen_head
+        - chance: very_rare
+          item:   fresh_orc_liver
+        - chance: very_rare
+          one_of: [relic_bhuj, relic_lance, ihintanto, relic_gun]
+        - chance: rare
+          one_of: [clerics_cap, bards_roundlet, valor_gauntlets, melee_hose, monster_trousers, scouts_braccae, koga_hakama, warriors_calligae, duelists_boots, wyrm_greaves, summoners_pigaches]
+        - chance: very_rare
+          one_of: [pantin_babouches, mirage_bazubands, commodore_trews]
 
 spawns:
 
