@@ -330,6 +330,7 @@ xi.settings.main =
     PERSIST_SEAL_TIMERS          = false, -- Persist seal (Beastmen/Kindred) recast timers across zone changes and logout.
     GUILD_SHOP_HOLIDAYS          = false, -- true/false. Close each guild shop on its weekly holiday.
     ENABLE_COSMETIC_WARDROBE     = false, -- true/false. Mog Wardrobe 8 opens at 80 slots and only accepts the cosmetic item list. Requires the cosmetic_wardrobe modules.
+    GUILD_SHOP_PERSISTENCE       = false, -- true/false. Guild shop stock and prices survive server restarts. Requires the guild_shop_persistence module.
 
     -- SYSTEM
     DISABLE_INACTIVITY_WATCHDOG = false, -- true/false. If this is enabled, the watchdog which detects if the main loop isn't being ticked will no longer be able to kill the process.
