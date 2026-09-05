@@ -1,0 +1,16 @@
+# Behemoth drops Savory Shank at uncommon instead of rare.
+
+templates:
+  Behemoth:
+    loot:
+      drops:
+        - chance: very_common
+          item:   behemoth_hide
+        - chance: very_common
+          item:   behemoth_hide
+        - chance: uncommon
+          item:   savory_shank
+        - chance: always
+          one_of:
+            thundercloud: 90
+            comet_tail:   10

@@ -1,0 +1,20 @@
+# Adamantoise drops Clump of Red Pondweed at uncommon instead of rare.
+
+templates:
+  Adamantoise:
+    loot:
+      drops:
+        - chance: always
+          item:   chunk_of_adaman_ore
+        - chance: very_common
+          item:   chunk_of_adaman_ore
+        - chance: common
+          item:   chunk_of_adaman_ore
+        - chance: common
+          item:   chunk_of_adaman_ore
+        - chance: uncommon
+          item:   sipar
+        - chance: rare
+          item:   heavy_cuirass
+        - chance: uncommon
+          item:   clump_of_red_pondweed

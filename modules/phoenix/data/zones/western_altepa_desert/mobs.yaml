@@ -1,0 +1,12 @@
+# King Vinegarroon drops Ace's Helm at very common instead of common.
+
+templates:
+  King_Vinegarroon:
+    loot:
+      drops:
+        - chance: very_common
+          item:   aces_helm
+        - chance: uncommon
+          item:   venomous_claw
+        - chance: uncommon
+          item:   heavy_shell

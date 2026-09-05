@@ -1,0 +1,38 @@
+# Fafnir drops Cup of Sweet Tea at uncommon and Ridill at rare.
+
+templates:
+  Fafnir:
+    loot:
+      drops:
+        - chance: always
+          item:   dragon_talon
+        - chance: common
+          item:   aegishjalmr
+        - chance: very_common
+          item:   handful_of_dragon_scales
+        - chance: very_common
+          item:   handful_of_dragon_scales
+        - chance: common
+          item:   dragon_heart
+        - chance: uncommon
+          item:   balmung
+        - chance: uncommon
+          item:   hrotti
+        - chance: uncommon
+          item:   cup_of_sweet_tea
+        - chance: always
+          one_of:
+            andvaranauts: 95
+            ridill: 5
+        - chance: always
+          one_of:
+            neptunal_abjuration_head:  31
+            aquarian_abjuration_feet:  23
+            aquarian_abjuration_hands: 23
+            earthen_abjuration_hands:  23
+        - chance: uncommon
+          one_of:
+            neptunal_abjuration_head:  31
+            aquarian_abjuration_feet:  23
+            aquarian_abjuration_hands: 23
+            earthen_abjuration_hands:  23
