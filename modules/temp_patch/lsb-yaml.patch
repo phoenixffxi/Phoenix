@@ -1,5 +1,5 @@
 diff --git a/docker/ubuntu.Dockerfile b/docker/ubuntu.Dockerfile
-index 67fbe69e690..afa5f044857 100644
+index 57c2b2a9fd..cd1ad9090c 100644
 --- a/docker/ubuntu.Dockerfile
 +++ b/docker/ubuntu.Dockerfile
 @@ -82,6 +82,7 @@ apt-get update && apt-get install --assume-yes --no-install-recommends --quiet \
@@ -11,10 +11,10 @@ index 67fbe69e690..afa5f044857 100644
      python3-dev \
      python3-venv \
 diff --git a/ext/CMakeLists.txt b/ext/CMakeLists.txt
-index f5ee4ac6ed7..267a7eeb8b1 100644
+index 3c6b12193d..8499d09701 100644
 --- a/ext/CMakeLists.txt
 +++ b/ext/CMakeLists.txt
-@@ -130,10 +130,12 @@ if(earcut_hpp_ADDED) # header-only
+@@ -139,10 +139,12 @@ if(earcut_hpp_ADDED) # header-only
  endif()
  
  # The pinned Glaze fix requires CMake 3.31, so expose its headers without adding its CMake project.
@@ -29,7 +29,7 @@ index f5ee4ac6ed7..267a7eeb8b1 100644
  if(glaze_ADDED)
 diff --git a/ext/patches/glaze-yaml-inline-quote-scan.patch b/ext/patches/glaze-yaml-inline-quote-scan.patch
 new file mode 100644
-index 00000000000..1c6060398aa
+index 0000000000..1c6060398a
 --- /dev/null
 +++ b/ext/patches/glaze-yaml-inline-quote-scan.patch
 @@ -0,0 +1,18 @@
@@ -52,7 +52,7 @@ index 00000000000..1c6060398aa
 +                      ++pos;
 +                      if (pos != end) ++pos;
 diff --git a/modules/README.md b/modules/README.md
-index 875e93d68a5..4c61b6d7656 100644
+index 875e93d68a..ba94d5ffc1 100644
 --- a/modules/README.md
 +++ b/modules/README.md
 @@ -29,6 +29,17 @@ Command modules register with `xi.module.registerCommand('name', commandTable)`
@@ -74,7 +74,7 @@ index 875e93d68a5..4c61b6d7656 100644
  
  Lua era-accuracy modules live under `era/lua/` and mirror the main `scripts/` tree where practical.
 diff --git a/src/map/data/loader.h b/src/map/data/loader.h
-index 0307cf54363..6ea8e169ead 100644
+index 0307cf5436..6ea8e169ea 100644
 --- a/src/map/data/loader.h
 +++ b/src/map/data/loader.h
 @@ -24,6 +24,7 @@
@@ -134,7 +134,7 @@ index 0307cf54363..6ea8e169ead 100644
          auto records = Dataset::decode(text);
          if constexpr (requires { Dataset::verifyZone(records, zoneId); })
 diff --git a/src/map/data/yaml/merge.cpp b/src/map/data/yaml/merge.cpp
-index 30ffb2da0e6..16047fa8008 100644
+index 30ffb2da0e..8045ec74cd 100644
 --- a/src/map/data/yaml/merge.cpp
 +++ b/src/map/data/yaml/merge.cpp
 @@ -26,10 +26,13 @@
@@ -299,7 +299,7 @@ index 30ffb2da0e6..16047fa8008 100644
 +
  } // namespace xi::data
 diff --git a/src/map/data/yaml/merge.h b/src/map/data/yaml/merge.h
-index 33cb3e7072c..8a01e503d56 100644
+index 33cb3e7072..8a01e503d5 100644
 --- a/src/map/data/yaml/merge.h
 +++ b/src/map/data/yaml/merge.h
 @@ -24,6 +24,7 @@
@@ -323,7 +323,7 @@ index 33cb3e7072c..8a01e503d56 100644
 +
  } // namespace xi::data
 diff --git a/src/map/data/yaml/read.h b/src/map/data/yaml/read.h
-index 50f0529a7a5..b52d9d6923b 100644
+index 50f0529a7a..b52d9d6923 100644
 --- a/src/map/data/yaml/read.h
 +++ b/src/map/data/yaml/read.h
 @@ -21,6 +21,7 @@
@@ -354,7 +354,7 @@ index 50f0529a7a5..b52d9d6923b 100644
  
      return value;
 diff --git a/src/map/utils/dataset_loader.h b/src/map/utils/dataset_loader.h
-index 757698b72fa..fd474169e0a 100644
+index 757698b72f..fd474169e0 100644
 --- a/src/map/utils/dataset_loader.h
 +++ b/src/map/utils/dataset_loader.h
 @@ -21,12 +21,9 @@
@@ -380,7 +380,7 @@ index 757698b72fa..fd474169e0a 100644
      try
      {
 diff --git a/src/map/utils/moduleutils.cpp b/src/map/utils/moduleutils.cpp
-index 684783a10fb..24c16c50973 100644
+index 5a430684bf..3a2c9b2c52 100644
 --- a/src/map/utils/moduleutils.cpp
 +++ b/src/map/utils/moduleutils.cpp
 @@ -30,7 +30,6 @@
@@ -391,7 +391,7 @@ index 684783a10fb..24c16c50973 100644
  
  #include <fmt/ranges.h>
  
-@@ -455,46 +454,6 @@ void CleanupLuaModules()
+@@ -453,46 +452,6 @@ void CleanupLuaModules()
      overrides.clear();
  }
  
@@ -439,7 +439,7 @@ index 684783a10fb..24c16c50973 100644
  {
      if (parts.empty())
 diff --git a/src/map/utils/moduleutils.h b/src/map/utils/moduleutils.h
-index 6a8d93fb9e3..1d58e2542b4 100644
+index 6a8d93fb9e..1d58e2542b 100644
 --- a/src/map/utils/moduleutils.h
 +++ b/src/map/utils/moduleutils.h
 @@ -115,7 +115,6 @@ void CleanupLuaModules();
@@ -451,7 +451,7 @@ index 6a8d93fb9e3..1d58e2542b4 100644
  
  }; // namespace moduleutils
 diff --git a/src/test/tests/data/data_binding_tests.cpp b/src/test/tests/data/data_binding_tests.cpp
-index 558f34de7c2..ad29ee34284 100644
+index 558f34de7c..adcffbd7cb 100644
 --- a/src/test/tests/data/data_binding_tests.cpp
 +++ b/src/test/tests/data/data_binding_tests.cpp
 @@ -22,14 +22,19 @@
@@ -481,7 +481,7 @@ index 558f34de7c2..ad29ee34284 100644
 +TEST_CASE("data binding: zone patches preserve numeric mapping keys", "[data][binding]")
 +{
 +    const std::vector<std::string> modules{
-+        "modules/era/data/abyssea/advanced_job_quest/zones/korroloka_tunnel/mobs.yaml"
++        "modules/era/data/abyssea/advanced_job_quest_mob_stats/zones/korroloka_tunnel/mobs.yaml"
 +    };
 +    const auto records = MobsDataset::decode(xi::data::loadPatchedZoneYaml("data/zones/korroloka_tunnel/mobs.yaml", modules));
 +
