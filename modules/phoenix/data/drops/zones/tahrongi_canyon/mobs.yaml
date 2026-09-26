@@ -27,3 +27,23 @@ templates:
           item:   yagudo_feather
         - chance: uncommon
           item:   yagudo_bead_necklace
+
+  Yagudo_Acolyte:
+    loot:
+      drops:
+        - chance: common
+          item:   yagudo_feather
+        - chance: common
+          item:   yagudo_feather
+        - chance: common
+          item:   yagudo_feather
+        - chance: common
+          item:   yagudo_feather
+        - chance: common
+          item:   yagudo_bead_necklace
+        - chance: uncommon
+          one_of:
+            - scroll_of_paralyze
+            - scroll_of_protectra
+            - scroll_of_barsleep
+            - scroll_of_sneak

@@ -32,3 +32,23 @@ templates:
           item:   brass_mittens
         - chance: uncommon
           one_of: [quadav_fetich_arms, quadav_fetich_legs, quadav_fetich_head, quadav_fetich_torso]
+
+  Amethyst_Quadav:
+    loot:
+      drops:
+        - chance: common
+          item:   quadav_backplate
+        - chance: uncommon
+          one_of:
+            - scroll_of_paralyze
+            - scroll_of_protectra
+            - scroll_of_barsleep
+            - scroll_of_sneak
+        - chance: very_rare
+          item:   cuffs
+        - chance: very_rare
+          item:   ash_clogs
+        - chance: very_rare
+          item:   circlet
+        - chance: very_rare
+          item:   slops

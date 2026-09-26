@@ -13,3 +13,15 @@ templates:
           item:   insect_wing
         - chance: very_rare
           item:   giant_stinger
+
+  Amethyst_Quadav:
+    loot:
+      drops:
+        - chance: common
+          item:   quadav_backplate
+        - chance: uncommon
+          one_of:
+            - scroll_of_paralyze
+            - scroll_of_protectra
+            - scroll_of_barsleep
+            - scroll_of_sneak

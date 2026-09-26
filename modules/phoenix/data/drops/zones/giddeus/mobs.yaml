@@ -26,3 +26,23 @@ templates:
           item:   cotton_sitabaki
         - chance: super_rare
           item:   cotton_kyahan
+
+  Yagudo_Acolyte:
+    loot:
+      drops:
+        - chance: common
+          item:   yagudo_bead_necklace
+        - chance: uncommon
+          one_of:
+            - scroll_of_paralyze
+            - scroll_of_protectra
+            - scroll_of_barsleep
+            - scroll_of_sneak
+        - chance: very_rare
+          item:   circlet
+        - chance: very_rare
+          item:   cuffs
+        - chance: very_rare
+          item:   slops
+        - chance: rare
+          item:   ash_clogs
