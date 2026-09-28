@@ -76,6 +76,7 @@ era/lua
 # Phoenix modules
 phoenix/cpp
 phoenix/lua
+phoenix/world_events
 
 phoenix_ac/cpp
 phoenix_ac/lua
