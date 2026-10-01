@@ -63,7 +63,6 @@ phoenix/data/bazaar_tax
 phoenix/data/npc_lists
 phoenix/data/dynazones
 phoenix/data/limbus
-phoenix/data/launch_starter_zones
 phoenix/data/drops
 
 # Lua
