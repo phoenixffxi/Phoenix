@@ -100,7 +100,8 @@ m:addOverride('xi.actions.spells.black.bio_ii.onSpellCast', function(caster, tar
 end)
 
 m:addOverride('xi.actions.spells.black.bio_iii.onSpellCast', function(caster, target, spell)
-    return castEraBio(caster, target, spell, 6, 180, 15)
+    local meritDuration = caster:getMerit(xi.merit.BIO_III)
+    return castEraBio(caster, target, spell, 6, meritDuration > 0 and meritDuration or 180, 15)
 end)
 
 -- Dread Spikes: Revert duration from 3 minutes to 1 minute.

@@ -10,6 +10,7 @@ local entity = {}
 entity.phList =
 {
     [ID.mob.LEAPING_LIZZY[1] - 1] = { ID.mob.LEAPING_LIZZY[1], ID.mob.LEAPING_LIZZY[2] },
+    [ID.mob.LEAPING_LIZZY[2] - 1] = { ID.mob.LEAPING_LIZZY[1], ID.mob.LEAPING_LIZZY[2] },
 }
 
 entity.onMobDeath = function(mob, player, optParams)
