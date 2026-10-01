@@ -111,7 +111,6 @@
 #include "itemutils.h"
 #include "job_points.h"
 #include "map_engine.h"
-#include "mountutils.h"
 #include "petutils.h"
 #include "puppetutils.h"
 #include "synthutils.h"
@@ -798,10 +797,10 @@ auto LoadFromCharUnlocksSQL(CCharEntity* PChar) -> void
 
 auto LoadFromCharPetSQL(CCharEntity* PChar) -> void
 {
-    const auto rset = db::preparedStmt("SELECT chocobo_user_data FROM char_pet WHERE charid = ?", PChar->id);
+    const auto rset = db::preparedStmt("SELECT field_chocobo FROM char_pet WHERE charid = ?", PChar->id);
     if (rset && rset->rowsCount() && rset->next())
     {
-        db::extractFromBlob(rset, "chocobo_user_data", PChar->m_chocoboUserData);
+        PChar->m_FieldChocobo = rset->get<uint32>("field_chocobo");
     }
 }
 
@@ -1999,12 +1998,6 @@ void UnequipItem(CCharEntity* PChar, uint8 equipSlotID, Recalculate recalculate,
             PChar->updatemask |= UPDATE_HP;
             PChar->updatemask |= UPDATE_LOOK;
         }
-
-        // Racing silks change a personal chocobo's speed while worn; the client reads its own speed from 0x037.
-        if (mountutils::isPersonalChocobo(PChar))
-        {
-            PChar->pushPacket<CCharStatusPacket>(PChar);
-        }
     }
 }
 
@@ -3145,12 +3138,6 @@ void EquipItem(CCharEntity* PChar, uint8 slotID, uint8 equipSlotID, uint8 contai
 
     PChar->updatemask |= UPDATE_HP;
     PChar->updatemask |= UPDATE_LOOK;
-
-    // Racing silks change a personal chocobo's speed while worn; the client reads its own speed from 0x037.
-    if (mountutils::isPersonalChocobo(PChar))
-    {
-        PChar->pushPacket<CCharStatusPacket>(PChar);
-    }
 
     PChar->setPersist(CharPersist::Equip | CharPersist::Look);
 }

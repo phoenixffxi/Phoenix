@@ -36,6 +36,7 @@
 
 enum class QuestLog : uint8_t;
 enum class POSMODE : uint8;
+enum class ChocoboColor : uint8_t;
 enum class TerrainType : uint8;
 class CBaseEntity;
 class CCharEntity;
@@ -818,10 +819,7 @@ public:
 
     auto getPetName() -> const std::string;
     void setPetName(uint8 pType, uint16 value, const sol::object& arg2);
-    void registerChocobo(const sol::table& chocobo) const;
-    auto getFieldChocobo() const -> sol::object;
-    auto getChocoboUserData() const -> sol::object;
-    void setChocoboUserData(const sol::table& data) const;
+    void registerChocobo(ChocoboColor color, const sol::table& traits) const;
 
     void petAttack(CLuaBaseEntity* PEntity);
     void petAbility(uint16 abilityID); // Function exists, but is not implemented.  Warning will be displayed.

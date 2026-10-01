@@ -513,14 +513,7 @@ void OnPlayerMount(CCharEntity* PChar);
 void OnPlayerEmote(CCharEntity* PChar, Emote EmoteID);
 void OnPlayerVolunteer(CCharEntity* PChar, const std::string& text);
 
-// Lua returns whether the dig went ahead, then whether the greens were kept.
-struct ChocoboDigResult
-{
-    bool dug{};
-    bool keepGreens{};
-};
-
-[[nodiscard]] auto OnChocoboDig(CCharEntity* PChar) -> ChocoboDigResult;
+bool OnChocoboDig(CCharEntity* PChar);
 
 // Utility method: checks for and loads a lua function for events
 auto LoadEventScript(CCharEntity* PChar, const char* functionName) -> sol::function;

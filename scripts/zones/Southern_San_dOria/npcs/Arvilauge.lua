@@ -1,18 +1,13 @@
 -----------------------------------
 -- Area: Southern San d'Oria
 --  NPC: Arvilauge
--- Type: Chocobo Stable Clerk
--- !pos -13.237 1.399 -93.206 230
 -----------------------------------
 ---@type TNpcEntity
 local entity = {}
 
 entity.onTrigger = function(player, npc)
-    local walks  = xi.chocoboRaising.walks
-    local params = walks.clerkReview(player:getCharVar(walks.lostChickVar), xi.chocoboRaising.raisingLocation[player:getZoneID()])
-    params[1]    = math.floor(player:getCharSkillLevel(xi.skill.DIG) / 10)
-
-    player:startEvent(846, params)
+    -- param [0] is related to having a chocobo in raising. it adds more help text to the event.
+    player:startEvent(846, { [0] = 0, [1] =  math.floor(player:getCharSkillLevel(xi.skill.DIG) / 10) })
 end
 
 return entity

@@ -1,12 +1,12 @@
 -----------------------------------
--- Chocobo Raising - Names
+-- Chocobo Names (for Chocobo Raising Menu)
 -----------------------------------
+
 xi = xi or {}
 
------------------------------------
--- Tables
------------------------------------
--- Maps the naming menu's index to its name. The client fixes the list, so it is not customisable.
+-- NOTE: These are just to map the index from
+--       the menu to a name string.
+--       This is not customisable!
 xi.chocoboNames =
 {
     -- 1-letter
@@ -863,25 +863,23 @@ xi.chocoboNames =
     [830] = 'Firecracker',
 }
 
--- Full names the naming menu refuses.
-xi.bannedChocoboNames = set({
-    'Blazing Uranus',
-    'Uranus Meteor',
-})
-
------------------------------------
--- Global Functions
------------------------------------
--- Returns one 5 to 8 letter name; a server may override this.
----@return string
+-- Since this is returning a single-name string, this IS overridable or customisable
 xi.chocoboNames.getRandomName = function()
-    -- The list has gaps.
-    local names = {}
-    for id = 168, 762 do
-        if xi.chocoboNames[id] then
-            table.insert(names, xi.chocoboNames[id])
-        end
+    local name = nil
+
+    -- We have to do this nil-checking loop to account for the gaps in the list
+    while name == nil do
+        -- Pick a 5-8 letter name
+        name = xi.chocoboNames[math.randomInt(168, 762)]
     end
 
-    return names[math.randomInt(1, #names)]
+    return name
 end
+
+-- https://ffxiclopedia.fandom.com/wiki/Chocobo_Names
+local bannedChocoboNames =
+{
+    'Blazing Uranus',
+    'Uranus Meteor',
+}
+xi.bannedChocoboNames = set(bannedChocoboNames)
