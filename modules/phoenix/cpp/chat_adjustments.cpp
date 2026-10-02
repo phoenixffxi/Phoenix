@@ -15,9 +15,14 @@
 #include "map/packets/c2s/0x0b5_chat_std.h"
 #include "map/packets/s2c/0x009_message.h"
 #include "map/packets/s2c/0x017_chat_std.h"
+#include "map/utils/charutils.h"
 #include "map/utils/moduleutils.h"
 #include "map/zone.h"
 
+#include <fmt/chrono.h>
+#include <fmt/format.h>
+
+#include <algorithm>
 #include <format>
 #include <string>
 #include <string_view>
@@ -65,7 +70,7 @@ auto handleSystemMessage(CCharEntity* PChar, const std::string& message) -> bool
 //-----------------------------------
 // Yell requires level 10 on some job. The cooldown is 10 minutes instead of
 // the base 30 seconds. Which zones allow yell at all is still the Yell flag
-// in zone_settings.misc.
+// in zone_settings.misc. A muted player is told how long the mute has left.
 
 constexpr uint8 minYellLevel = 10;
 
@@ -76,19 +81,72 @@ constexpr uint32 yellCooldown = 600;
 // Self-expires and persists through zoning.
 const std::string yellCooldownVar = "[YELL]CooldownPhx";
 
+// Set by !yell ban. Expiry 0 is an indefinite mute.
+const std::string yellMuteVar = "[YELL]Banned";
+
+auto yellMuteNotice(uint32 expiry) -> std::string
+{
+    if (expiry == 0)
+    {
+        return "You are muted from /yell indefinitely.";
+    }
+
+    const auto now          = earth_time::timestamp();
+    const auto remaining    = std::max<uint32>(expiry, now) - now;
+    const auto totalMinutes = std::max<uint32>((remaining + 59) / 60, 1);
+
+    const std::pair<uint32, std::string_view> parts[] = {
+        { totalMinutes / 1440, "day" },
+        { totalMinutes % 1440 / 60, "hour" },
+        { totalMinutes % 60, "minute" },
+    };
+
+    std::string duration;
+    for (const auto& [count, unit] : parts)
+    {
+        if (count == 0)
+        {
+            continue;
+        }
+
+        if (!duration.empty())
+        {
+            duration += ", ";
+        }
+
+        duration += fmt::format("{} {}", count, unit);
+
+        if (count > 1)
+        {
+            duration += 's';
+        }
+    }
+
+    const auto endTime = earth_time::to_utc_tm(earth_time::time_point(std::chrono::seconds(expiry)));
+
+    return fmt::format("You are muted from /yell for another {}. The mute ends {:%Y-%m-%d %H:%M} UTC.", duration, endTime);
+}
+
 auto handleYell(CCharEntity* PChar) -> bool
 {
     // GMs are exempt. That also keeps their ! commands working through this
-    // channel. A zone without the Yell flag and a banned character both keep
-    // the base handler's own refusal. Neither burns the cooldown.
+    // channel. A zone without the Yell flag keeps the base handler's own
+    // refusal and does not burn the cooldown.
     //
     // Everyone else is caught before the base handler sees the message.
     // An unresolved ! command from a non-GM falls through to the yell path there.
     if (PChar->m_GMlevel > 0 ||
-        !PChar->loc.zone->CanUseMisc(xi::ZoneMisc::Yell) ||
-        PChar->getCharVar("[YELL]Banned") == 1)
+        !PChar->loc.zone->CanUseMisc(xi::ZoneMisc::Yell))
     {
         return false;
+    }
+
+    // Send a notice to the player of the duration of their yell mute.
+    if (const auto [muted, expiry] = charutils::FetchCharVar(PChar->id, yellMuteVar); muted == 1)
+    {
+        PChar->pushPacket<GP_SERV_COMMAND_CHAT_STD>(PChar, MESSAGE_SYSTEM_3, yellMuteNotice(expiry));
+
+        return true;
     }
 
     // Level 10 on any job is enough. A level sync or a job change does not take yell away.
