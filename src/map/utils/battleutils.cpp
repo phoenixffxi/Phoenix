@@ -53,6 +53,7 @@
 #include "entities/mob_entity.h"
 #include "entities/pet_entity.h"
 #include "entities/trust_entity.h"
+#include "enums/msg_basic.h"
 #include "enums/msg_std.h"
 #include "item_container.h"
 #include "items.h"
@@ -76,6 +77,7 @@
 #include "trait.h"
 #include "utils/petutils.h"
 #include "weapon_skill.h"
+#include "ximesh/ximesh.h"
 #include "zoneutils.h"
 
 /************************************************************************
@@ -488,7 +490,7 @@ CMobSkill* GetMobSkill(uint16 SkillID)
 
 CPetSkill* GetPetSkill(uint16 SkillID)
 {
-    if (g_PPetSkillList.find(SkillID) != g_PPetSkillList.end())
+    if (g_PPetSkillList.contains(SkillID))
     {
         return g_PPetSkillList[SkillID];
     }
@@ -3832,7 +3834,7 @@ CBattleEntity* getAvailableTrickAttackChar(CBattleEntity* taUser, CBattleEntity*
     if (!taTargetList.empty())
     {
         // sorts by distance then by pointer id (only if floats are equal)
-        std::sort(taTargetList.begin(), taTargetList.end());
+        std::ranges::sort(taTargetList);
         for (const auto& [dist, potentialTAtarget] : taTargetList)
         {
             if (taUser->id == potentialTAtarget->id || // can't TA self

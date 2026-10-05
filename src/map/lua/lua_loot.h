@@ -19,11 +19,11 @@
 ===========================================================================
 */
 
-#ifndef _LUALOOT_H
-#define _LUALOOT_H
+#pragma once
 
-#include "luautils.h"
 #include "utils/itemutils.h"
+
+#include <sol/forward.hpp>
 
 struct action_t;
 struct action_target_t;
@@ -54,5 +54,3 @@ private:
     void addItemToContainer(uint16 item, uint16 rate, sol::variadic_args va, bool hasFixedRate);
     void addGroupToContainer(uint16 groupRate, const sol::table& items, bool hasFixedRate);
 };
-
-#endif

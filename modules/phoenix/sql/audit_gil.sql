@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `audit_gil` (
   PRIMARY KEY (`id`),
   KEY `idx_gil_char_id`     (`charid`, `id`),
   KEY `idx_gil_txn`         (`txn_id`),
-  KEY `idx_gil_source_date` (`source`, `date`),
+  KEY `idx_gil_source_date` (`source`, `date`, `charid`, `delta`),
   KEY `idx_gil_counter`     (`counterparty`, `date`),
-  KEY `idx_gil_date`        (`date`)
+  KEY `idx_gil_date_activity` (`date`, `charid`, `source`, `delta`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

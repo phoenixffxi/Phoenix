@@ -15,6 +15,7 @@
 #include "common/logging.h"
 #include "common/vana_time.h"
 #include "map/entities/char_entity.h"
+#include "map/lua/lua_base_entity.h"
 #include "map/lua/luautils.h"
 #include "map/utils/moduleutils.h"
 

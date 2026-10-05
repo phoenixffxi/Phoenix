@@ -19,11 +19,18 @@
 ===========================================================================
 */
 
-#ifndef _LUABATTLEFIELD_H
-#define _LUABATTLEFIELD_H
+#pragma once
 
 #include "common/cbasetypes.h"
+#include "data/enums/zone.h"
 
+#include <sol/forward.hpp>
+
+#include <string>
+#include <tuple>
+#include <utility>
+
+class CBaseEntity;
 class CBattlefield;
 
 class CLuaBattlefield
@@ -80,5 +87,3 @@ public:
 
     static void Register();
 };
-
-#endif

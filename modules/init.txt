@@ -40,8 +40,8 @@
 
 # Sql things first
 phoenix/sql
-era/sql/abyssea
 era/sql/rov
+era/sql/abyssea
 era/sql/soa
 era/sql/wotg
 

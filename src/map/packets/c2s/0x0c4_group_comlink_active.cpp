@@ -28,6 +28,7 @@
 #include "items.h"
 #include "items/item_linkshell.h"
 #include "linkshell.h"
+#include "packets/c2s/validation.h"
 #include "packets/char_status.h"
 #include "packets/s2c/0x01d_item_same.h"
 #include "packets/s2c/0x01f_item_list.h"
@@ -135,9 +136,9 @@ const auto equipLinkshell = [](CCharEntity* PChar, CItemLinkshell* PItemLinkshel
     // Unequip old linkshell
     if (oldLinkshell)
     {
-        auto* POldItemLinkshell = reinterpret_cast<CItemLinkshell*>(PChar->getEquip(slot));
+        auto* POldItemLinkshell = PChar->getLinkshell(slot);
 
-        if (POldItemLinkshell && POldItemLinkshell->isType(ITEM_LINKSHELL))
+        if (POldItemLinkshell)
         {
             linkshell::DelOnlineMember(PChar, POldItemLinkshell);
 

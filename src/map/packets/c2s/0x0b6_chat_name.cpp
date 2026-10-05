@@ -24,8 +24,11 @@
 #include "common/ipc_structs.h"
 #include "common/settings.h"
 #include "entities/char_entity.h"
+#include "enums/msg_basic.h"
 #include "ipc_client.h"
 #include "lua/luautils.h"
+#include "map_session.h"
+#include "packets/c2s/validation.h"
 #include "packets/s2c/0x029_battle_message.h"
 #include "utils/jailutils.h"
 
@@ -75,7 +78,7 @@ void GP_CLI_COMMAND_CHAT_NAME::process(MapSession* PSession, CCharEntity* PChar)
     const auto recipientName = db::escapeString(asStringFromUntrustedSource(this->sName, sizeof(this->sName)));
     const auto rawMessage    = asStringFromUntrustedSource(this->Mes, messageLength);
 
-    if (strcmp(recipientName.c_str(), "_CUSTOM_MENU") == 0 &&
+    if (recipientName == "_CUSTOM_MENU" &&
         luautils::HasCustomMenuContext(PChar))
     {
         luautils::HandleCustomMenu(PChar, rawMessage);

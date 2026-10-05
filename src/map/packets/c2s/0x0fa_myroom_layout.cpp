@@ -27,10 +27,12 @@
 #include "items/item_furnishing.h"
 #include "lua/luautils.h"
 #include "map/enums/furnishing_placement.h"
+#include "packets/c2s/validation.h"
 #include "packets/s2c/0x01c_item_max.h"
 #include "packets/s2c/0x01d_item_same.h"
 #include "packets/s2c/0x020_item_attr.h"
 #include "packets/s2c/0x0fa_myroom_operation.h"
+#include "zone.h"
 
 namespace
 {
@@ -120,18 +122,23 @@ auto anyInstalledFurnishing(CCharEntity* PChar, const uint8 selfCat, const uint8
 {
     for (const auto cat : { LOC_MOGSAFE, LOC_MOGSAFE2 })
     {
-        const auto* container = PChar->getStorage(cat);
-        for (int slot = 1; slot <= container->GetSize(); ++slot)
-        {
-            if (cat == selfCat && slot == selfSlot)
-            {
-                continue;
-            }
+        auto* PContainer = PChar->getStorage(cat);
 
-            if (auto* PFurn = dynamic_cast<CItemFurnishing*>(container->GetItem(slot)); PFurn && PFurn->isInstalled() && pred(PFurn))
+        const auto* PMatch = PContainer->FindItem(
+            [&](CItem* PItem)
             {
-                return true;
-            }
+                if (cat == selfCat && PItem->getSlotID() == selfSlot)
+                {
+                    return false;
+                }
+
+                auto* PFurn = dynamic_cast<CItemFurnishing*>(PItem);
+                return PFurn && PFurn->isInstalled() && pred(PFurn);
+            });
+
+        if (PMatch)
+        {
+            return true;
         }
     }
 

@@ -25,6 +25,7 @@
 #include "items.h"
 #include "items/item_linkshell.h"
 #include "items/transactions/item_claim.h"
+#include "packets/c2s/validation.h"
 #include "utils/charutils.h"
 #include "utils/itemutils.h"
 
@@ -44,10 +45,10 @@ void GP_CLI_COMMAND_GROUP_COMLINK_MAKE::process(MapSession* PSession, CCharEntit
     switch (static_cast<GP_CLI_COMMAND_GROUP_COMLINK_MAKE_LINKSHELLID>(this->LinkshellId))
     {
         case GP_CLI_COMMAND_GROUP_COMLINK_MAKE_LINKSHELLID::Linkshell1:
-            PItemLinkshell = reinterpret_cast<CItemLinkshell*>(PChar->getEquip(SLOT_LINK1));
+            PItemLinkshell = PChar->getLinkshell(SLOT_LINK1);
             break;
         case GP_CLI_COMMAND_GROUP_COMLINK_MAKE_LINKSHELLID::Linkshell2:
-            PItemLinkshell = reinterpret_cast<CItemLinkshell*>(PChar->getEquip(SLOT_LINK2));
+            PItemLinkshell = PChar->getLinkshell(SLOT_LINK2);
             break;
     }
 

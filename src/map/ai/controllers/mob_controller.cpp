@@ -33,7 +33,10 @@
 #include "data/enums/detects.h"
 #include "data/enums/mob_mod.h"
 #include "enmity_container.h"
+#include "entities/char_entity.h"
 #include "entities/mob_entity.h"
+#include "entities/pet_entity.h"
+#include "lua/luautils.h"
 #include "mob_spell_container.h"
 #include "mobskill.h"
 #include "party.h"
@@ -1046,7 +1049,7 @@ auto CMobController::CheckLock(CBattleEntity* PTarget) const -> bool
         return false;
     }
 
-    return !CanTrackByScent(PTarget);
+    return true;
 }
 
 auto CMobController::CheckDetection(CBattleEntity* PTarget) -> bool

@@ -1,56 +1,3 @@
-diff --git a/docker/ubuntu.Dockerfile b/docker/ubuntu.Dockerfile
-index 57c2b2a9fd..cd1ad9090c 100644
---- a/docker/ubuntu.Dockerfile
-+++ b/docker/ubuntu.Dockerfile
-@@ -82,6 +82,7 @@ apt-get update && apt-get install --assume-yes --no-install-recommends --quiet \
-     libzmq3-dev \
-     make \
-     ninja-build \
-+    patch \
-     pkg-config \
-     python3-dev \
-     python3-venv \
-diff --git a/ext/CMakeLists.txt b/ext/CMakeLists.txt
-index 3c6b12193d..8499d09701 100644
---- a/ext/CMakeLists.txt
-+++ b/ext/CMakeLists.txt
-@@ -139,10 +139,12 @@ if(earcut_hpp_ADDED) # header-only
- endif()
- 
- # The pinned Glaze fix requires CMake 3.31, so expose its headers without adding its CMake project.
-+# The patch works around https://github.com/stephenberry/glaze/issues/2826 until upstream fixes it.
- CPMAddPackage(
-     NAME glaze
-     GITHUB_REPOSITORY stephenberry/glaze
-     GIT_TAG 2f6f5dcfe1a689bf79b443d83434fab264ce0a21
-+    PATCHES patches/glaze-yaml-inline-quote-scan.patch
-     DOWNLOAD_ONLY ON
- )
- if(glaze_ADDED)
-diff --git a/ext/patches/glaze-yaml-inline-quote-scan.patch b/ext/patches/glaze-yaml-inline-quote-scan.patch
-new file mode 100644
-index 0000000000..1c6060398a
---- /dev/null
-+++ b/ext/patches/glaze-yaml-inline-quote-scan.patch
-@@ -0,0 +1,18 @@
-+diff --git a/include/glaze/yaml/read.hpp b/include/glaze/yaml/read.hpp
-+index 9396c1c3..0a0656d9 100644
-+--- a/include/glaze/yaml/read.hpp
-++++ b/include/glaze/yaml/read.hpp
-+@@ -3003,9 +3003,13 @@ namespace glz
-+             const char c = *pos;
-+             if (c == '\n' || c == '\r' || c == '#') return false;
-+             if (c == '"' || c == '\'') {
-++               // A quoted region that runs past the line end cannot carry a plain mapping
-++               // indicator for this inline value. Without this guard an apostrophe inside a
-++               // plain scalar (e.g. `a'b`) swallows following lines until the next quote.
-+                const char quote = c;
-+                ++pos;
-+                while (pos != end && *pos != quote) {
-++                  if (*pos == '\n' || *pos == '\r') return false;
-+                   if (*pos == '\\' && quote == '"') {
-+                      ++pos;
-+                      if (pos != end) ++pos;
 diff --git a/modules/README.md b/modules/README.md
 index 875e93d68a..ba94d5ffc1 100644
 --- a/modules/README.md
@@ -500,7 +447,7 @@ index 558f34de7c..adcffbd7cb 100644
 +
 +TEST_CASE("data binding: zone patches accept apostrophes in plain scalars", "[data][binding]")
 +{
-+    // Regression for https://github.com/stephenberry/glaze/issues/2826, patched in ext/patches.
++    // Regression for https://github.com/stephenberry/glaze/issues/2826, fixed in glaze v9.0.0.
 +    const std::string              core = R"(
 +npcs:
 +  16982179:

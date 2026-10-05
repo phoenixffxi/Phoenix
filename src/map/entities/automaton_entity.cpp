@@ -30,9 +30,11 @@
 #include "common/utils.h"
 #include "enmity_container.h"
 #include "enums/automaton.h"
+#include "lua/luautils.h"
 #include "recast_container.h"
 #include "status_effect_container.h"
 #include "utils/battleutils.h"
+#include "utils/charutils.h"
 #include "utils/mobutils.h"
 #include "utils/puppetutils.h"
 
@@ -66,14 +68,7 @@ uint8 CAutomatonEntity::attachment(const uint8 slotid) const
 
 auto CAutomatonEntity::hasAttachment(const uint8 attachment) const -> bool
 {
-    for (auto&& attachmentid : equip_.attachments)
-    {
-        if (attachmentid == attachment)
-        {
-            return true;
-        }
-    }
-    return false;
+    return std::ranges::contains(equip_.attachments, attachment);
 }
 
 void CAutomatonEntity::setEquip(const AutomatonEquip& equip)

@@ -25,10 +25,12 @@
 
 #include <cstring>
 
+#include "data/enums/zone_misc.h"
 #include "entities/char_entity.h"
 #include "items/item_linkshell.h"
 #include "status_effect_container.h"
 #include "utils/mountutils.h"
+#include "zone.h"
 
 // https://github.com/atom0s/XiPackets/tree/main/world/server/0x0037
 
@@ -213,9 +215,9 @@ CCharStatusPacket::CCharStatusPacket(CCharEntity* PChar)
     packet->UniqueNo      = PChar->id;
     packet->server_status = static_cast<uint8_t>(PChar->animation);
 
-    CItemLinkshell* linkshell = (CItemLinkshell*)PChar->getEquip(SLOT_LINK1);
+    CItemLinkshell* linkshell = PChar->getLinkshell(SLOT_LINK1);
 
-    if (linkshell && linkshell->isType(ITEM_LINKSHELL))
+    if (linkshell)
     {
         Exdata::lscolor_t LSColor = linkshell->GetLSColor();
 

@@ -24,11 +24,13 @@
 
 #include "ai/ai_container.h"
 #include "battlefield.h"
+#include "common/lua.h"
 #include "data/enums/mob_mod.h"
 #include "entities/char_entity.h"
 #include "entities/mob_entity.h"
 #include "entities/npc_entity.h"
 #include "entities/trust_entity.h"
+#include "lua/luautils.h"
 #include "lua_base_entity.h"
 #include "lua_battlefield.h"
 #include "utils/mobutils.h"
@@ -379,7 +381,7 @@ void CLuaBattlefield::addGroups(const sol::table& groups, bool hasMultipleArenas
                     if (entity->id >= lowestId && entity->id <= highestId)
                     {
                         groupEntities.emplace_back(entity);
-                        if (entities.find(entity->id) == entities.end())
+                        if (!entities.contains(entity->id))
                         {
                             m_PLuaBattlefield->InsertEntity(entity, true);
                             entities.insert(entity->id);
@@ -401,7 +403,7 @@ void CLuaBattlefield::addGroups(const sol::table& groups, bool hasMultipleArenas
                     if (entity != nullptr)
                     {
                         groupEntities.emplace_back(entity);
-                        if (entities.find(entity->id) == entities.end())
+                        if (!entities.contains(entity->id))
                         {
                             m_PLuaBattlefield->InsertEntity(entity, true);
                             entities.insert(entity->id);
@@ -678,7 +680,7 @@ void CLuaBattlefield::addGroups(const sol::table& groups, bool hasMultipleArenas
     // are assigned after the zone-load party pass.
     for (uint32 entityID : entities)
     {
-        if (explicitPartyEntities.find(entityID) != explicitPartyEntities.end())
+        if (explicitPartyEntities.contains(entityID))
         {
             continue;
         }
@@ -692,7 +694,7 @@ void CLuaBattlefield::addGroups(const sol::table& groups, bool hasMultipleArenas
 
     for (uint32 entityID : entities)
     {
-        if (explicitPartyEntities.find(entityID) != explicitPartyEntities.end())
+        if (explicitPartyEntities.contains(entityID))
         {
             continue;
         }

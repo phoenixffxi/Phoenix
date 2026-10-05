@@ -220,7 +220,6 @@ local commandTiers =
     [5] =
     {
         'addtime',
-        'chocoboraising',
         'crash',
         'delallinventory',
         'delcontaineritems',

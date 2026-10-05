@@ -29,7 +29,6 @@
 #include "item_container.h"
 #include "items/craft_state.h"
 #include "items/transaction.h"
-#include "map_session.h"
 #include "monstrosity.h"
 
 #include <common/cbasetypes.h>
@@ -42,8 +41,12 @@
 
 #include <array>
 #include <deque>
+#include <list>
 #include <memory>
+#include <string>
 #include <unordered_set>
+#include <utility>
+#include <vector>
 
 #include "persist_batch.h"
 
@@ -51,11 +54,8 @@
 #include "battle_entity.h"
 #include "linkshell.h"
 #include "maze.h"
-#include "pet_entity.h"
 
 #include <map/entities/types/automaton_info.h>
-
-#include "utils/fishingutils.h"
 
 #define MAX_QUESTAREA    11
 #define MAX_QUESTID      256
@@ -66,6 +66,9 @@
 class CItemWeapon;
 class CTrustEntity;
 class PlayerTradeTransaction;
+struct fishresponse_t;
+class CTreasurePool;
+enum class PET_TYPE : uint8;
 
 struct jobs_t
 {
@@ -187,6 +190,26 @@ struct UnlockedAttachments_t
     uint8  frames;
     uint32 attachments[8];
 };
+
+// Chocobo raising state that outlives any one chocobo. Stored as a blob in char_pet.chocobo_user_data.
+struct ChocoboUserData_t
+{
+    uint32 fieldChocobo; // ChocoboCustomProperties of the registered chocobo, 0 when none
+    uint32 flags;
+    uint16 chocobosRaised;
+    uint8  registeredAbility1;
+    uint8  registeredAbility2;
+    uint8  registeredStrength;
+    uint8  registeredEndurance;
+    uint8  registeredDiscernment;
+    uint8  registeredReceptivity;
+    uint8  registeredWeather;
+    uint8  silksSpeedBonus; // Speed added while Purple Race Silks are worn
+    uint8  reserved[14];
+};
+
+// Saved as raw bytes; a new field must go in reserved or every stored blob loads shifted.
+static_assert(sizeof(ChocoboUserData_t) == 32);
 
 struct GearSetMod_t
 {
@@ -409,10 +432,10 @@ public:
 
     std::array<uint8, 20> m_SetBlueSpells{}; // The 0x200 offsetted blue magic spell IDs which the user has set. (1 byte per spell)
 
-    uint32 m_FieldChocobo{};
-    uint8  m_mountId{}; // Do not reset to 0. Only update when the mount changes.
-    uint32 m_claimedDeeds[5]{};
-    uint32 m_uniqueEvents[5]{};
+    ChocoboUserData_t m_chocoboUserData{};
+    uint8             m_mountId{}; // Do not reset to 0. Only update when the mount changes.
+    uint32            m_claimedDeeds[5]{};
+    uint32            m_uniqueEvents[5]{};
 
     // Store a copy of calculated stats to use when automaton is deactivated for the job info packet (automaton menu)
     AutomatonInfo automatonInfo_{};
@@ -704,6 +727,7 @@ public:
     timer::duration GetPlayTime(bool needUpdate = true);   // Get playtime
 
     auto getEquip(SLOTTYPE slot) const -> CItemEquipment*;
+    auto getLinkshell(SLOTTYPE slot) const -> CItemLinkshell*;
 
     bool requestedInfoSync = false;
 

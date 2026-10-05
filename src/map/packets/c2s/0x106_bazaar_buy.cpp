@@ -27,6 +27,8 @@
 #include <limits>
 
 #include "entities/char_entity.h"
+#include "map_session.h"
+#include "packets/c2s/validation.h"
 #include "packets/s2c/0x01d_item_same.h"
 #include "packets/s2c/0x020_item_attr.h"
 #include "packets/s2c/0x105_bazaar_list.h"
@@ -36,6 +38,7 @@
 #include "packets/s2c/0x10a_bazaar_sale.h"
 #include "utils/charutils.h"
 #include "utils/itemutils.h"
+#include "zone.h"
 
 auto GP_CLI_COMMAND_BAZAAR_BUY::validate(MapSession* PSession, const CCharEntity* PChar) const -> PacketValidationResult
 {
@@ -174,18 +177,14 @@ void GP_CLI_COMMAND_BAZAAR_BUY::process(MapSession* PSession, CCharEntity* PChar
 
         DebugBazaarsFmt("Bazaar Interaction [Purchase Successful] - Buyer: {}, Seller: {}, Item: {}, Qty: {}, Cost: {}", PChar->name, PTarget->name, PItem->getName(), this->BuyNum, PriceWithTax);
 
-        bool BazaarIsEmpty = true;
-
-        for (uint8 BazaarSlotID = 1; BazaarSlotID <= PBazaar->GetSize(); ++BazaarSlotID)
-        {
-            PItem = PBazaar->GetItem(BazaarSlotID);
-
-            if ((PItem != nullptr) && (PItem->getCharPrice() != 0))
+        const auto* PListedItem = PBazaar->FindItem(
+            [](CItem* PBazaarItem)
             {
-                BazaarIsEmpty = false;
-                break;
-            }
-        }
+                return PBazaarItem->getCharPrice() != 0;
+            });
+
+        const bool BazaarIsEmpty = PListedItem == nullptr;
+
         for (std::size_t i = 0; i < PTarget->BazaarCustomers.size(); ++i)
         {
             PEntity = PTarget->BazaarCustomers[i].resolve<CCharEntity>();

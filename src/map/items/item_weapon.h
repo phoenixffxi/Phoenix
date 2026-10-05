@@ -19,14 +19,12 @@
 ===========================================================================
 */
 
-#ifndef _CITEMWEAPON_H
-#define _CITEMWEAPON_H
+#pragma once
 
 #include "common/cbasetypes.h"
 #include "entities/battle_entity.h"
 
 #include "item_equipment.h"
-#include "items/exdata.h"
 
 class CItemWeapon : public CItemEquipment
 {
@@ -95,4 +93,3 @@ private:
     bool m_ranged;
     bool m_twoHanded;
 };
-#endif

@@ -22,7 +22,6 @@
 #pragma once
 
 #include "common/cbasetypes.h"
-#include "common/tracy.h"
 #include "common/utils.h"
 
 #include <cstdio>
@@ -54,7 +53,7 @@ protected:
 public:
     CBasicPacket()
     {
-        std::fill(buffer_.data(), buffer_.data() + PACKET_SIZE, 0);
+        buffer_.fill(0);
     }
 
     explicit CBasicPacket(const CBasicPacket& other)

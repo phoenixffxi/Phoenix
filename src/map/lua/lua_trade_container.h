@@ -19,12 +19,13 @@
 ===========================================================================
 */
 
-#ifndef _LUATRADECONTAINER_H
-#define _LUATRADECONTAINER_H
+#pragma once
 
 #include "common/cbasetypes.h"
-#include "luautils.h"
 
+#include <sol/forward.hpp>
+
+class CItem;
 class CCharEntity;
 class CTradeContainer;
 
@@ -70,5 +71,3 @@ public:
 
     static void Register();
 };
-
-#endif // _LUATRADECONTAINER_H

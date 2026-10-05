@@ -24,6 +24,7 @@
 #include "entities/char_entity.h"
 #include "items/item_linkshell.h"
 #include "linkshell.h"
+#include "packets/c2s/validation.h"
 #include "packets/s2c/0x0cc_linkshell_message.h"
 
 auto GP_CLI_COMMAND_SET_LSMSG::validate(MapSession* PSession, const CCharEntity* PChar) const -> PacketValidationResult
@@ -65,8 +66,8 @@ void GP_CLI_COMMAND_SET_LSMSG::process(MapSession* PSession, CCharEntity* PChar)
                                                              PChar->PLinkshell1->getPostRights());
     };
 
-    auto* PItemLinkshell = reinterpret_cast<CItemLinkshell*>(PChar->getEquip(SLOT_LINK1));
-    if (PItemLinkshell != nullptr && PItemLinkshell->isType(ITEM_LINKSHELL))
+    auto* PItemLinkshell = PChar->getLinkshell(SLOT_LINK1);
+    if (PItemLinkshell != nullptr)
     {
         if (this->unknown02)
         {

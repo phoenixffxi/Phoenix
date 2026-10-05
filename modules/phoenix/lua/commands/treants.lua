@@ -83,12 +83,7 @@ local function trySpawn(player)
         end
     end
 
-    -- dead moogles are deleted, not hidden; respawn them alongside the treant
-    if zone:getLocalVar('[TreantEvent]MoogleId1') == 0 then
-        xi.treantEvent.spawnMoogles(zone, zoneId, entry)
-    end
-
-    xi.treantEvent.spawnTreant(zone, zoneId, entry)
+    xi.treantEvent.startZone(zoneId)
     player:printToPlayer('Treant spawned.')
 end
 
@@ -144,6 +139,7 @@ local function completeEvent(player)
     for zoneId in pairs(xi.treantEvent.zones) do
         if GetServerVariable('[TreantEvent]Dead_' .. zoneId) == 0 then
             SetServerVariable('[TreantEvent]Dead_' .. zoneId, now)
+            SendLuaFuncStringToZone(player:getZoneID(), zoneId, string.format('xi.treantEvent.resetZone(%i)', zoneId))
         end
     end
 
@@ -152,7 +148,7 @@ local function completeEvent(player)
         SendLuaFuncStringToZone(player:getZoneID(), cityZoneId, string.format('xi.treantEvent.setTeleporterStatus(%i, %i)', cityZoneId, xi.status.NORMAL))
     end
 
-    player:printToPlayer('Event force completed. Any live treants remain until killed or restart.')
+    player:printToPlayer('Event force completed. Live treants and moogles despawned.')
 end
 
 commandObj.onTrigger = function(player, action)

@@ -30,8 +30,14 @@ templates:
         respawn: 480 # Era dungeon timers
     loot:
       drops:
-        - chance: common
+        - chance: always
           item:   flint_stone
+        - chance: common
+          item:   pinch_of_sulfur
+        - chance: uncommon
+          item:   chunk_of_zinc_ore
+        - chance: rare
+          item:   hermits_ring
       steal: pebble
       despoil:
         chunk_of_copper_ore: 0
@@ -110,6 +116,8 @@ templates:
           item:   scroll_of_silence
         - chance: very_rare
           item:   scroll_of_barpoison
+        - chance: very_rare
+          item:   scroll_of_barblind
         - chance: rare
           item:   scroll_of_protectra
         - chance: rare

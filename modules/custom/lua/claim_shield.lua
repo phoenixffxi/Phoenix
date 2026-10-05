@@ -253,7 +253,7 @@ local shieldedEntities =
     ['Inner_Horutoto_Ruins'] =
     {
         'Maltha',
-        'Slendlix_Spindlethumb',
+        -- 'Slendlix_Spindlethumb', Disabled until WotG
     },
 
     ['Jugner_Forest'] =

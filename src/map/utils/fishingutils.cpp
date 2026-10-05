@@ -53,11 +53,13 @@
 #include "data/enums/weather.h"
 #include "enums/chat_message_type.h"
 #include "enums/four_cc.h"
+#include "enums/msg_basic.h"
 #include "enums/msg_std.h"
 #include "item_container.h"
 #include "items/exdata/fish.h"
 #include "items/transactions/item_claim.h"
 #include "itemutils.h"
+#include "lua/luautils.h"
 #include "packets/c2s/0x110_fishing_2.h"
 #include "packets/s2c/0x029_battle_message.h"
 #include "status_effect_container.h"
@@ -1106,7 +1108,7 @@ auto GetFishPool(const xi::ZoneId zoneID, const uint8 areaID, const uint16 BaitI
 
     for (auto fish : FishingGroups[groupId])
     {
-        if ((!FishList[fish.first]->item) && FishingBaitAffinities.count(BaitID) && FishingBaitAffinities[BaitID].count(fish.first))
+        if ((!FishList[fish.first]->item) && FishingBaitAffinities.contains(BaitID) && FishingBaitAffinities[BaitID].contains(fish.first))
         {
             pool.insert(std::make_pair(FishList[fish.first], fish.second));
         }
@@ -2226,7 +2228,7 @@ fishresponse_t* FishingCheck(CCharEntity* PChar, uint8 fishingSkill, rod_t* rod,
         {
             fish_t* fishIter = fish.first;
 
-            if (RemoveList.count(fishIter->fishID) > 0)
+            if (RemoveList.contains(fishIter->fishID))
             {
                 continue;
             }
@@ -2254,7 +2256,7 @@ fishresponse_t* FishingCheck(CCharEntity* PChar, uint8 fishingSkill, rod_t* rod,
     {
         for (auto* item : ItemPool)
         {
-            if (RemoveList.count(item->fishID) > 0)
+            if (RemoveList.contains(item->fishID))
             {
                 continue;
             }
@@ -2291,7 +2293,7 @@ fishresponse_t* FishingCheck(CCharEntity* PChar, uint8 fishingSkill, rod_t* rod,
     {
         for (auto* mob : MobPool)
         {
-            if (RemoveList.count(mob->mobId) > 0)
+            if (RemoveList.contains(mob->mobId))
             {
                 continue;
             }
@@ -2409,7 +2411,7 @@ fishresponse_t* FishingCheck(CCharEntity* PChar, uint8 fishingSkill, rod_t* rod,
             uint16  hookChance = fishIter.second;
             hookChanceAggregate += hookChance;
 
-            if (hookSelect < hookChanceAggregate && NoCatchList.count(fish->fishID) == 0)
+            if (hookSelect < hookChanceAggregate && !NoCatchList.contains(fish->fishID))
             {
                 FishSelection   = fish;
                 uint8 skilldiff = 0;
@@ -2445,7 +2447,7 @@ fishresponse_t* FishingCheck(CCharEntity* PChar, uint8 fishingSkill, rod_t* rod,
             uint16  hookChance = itemIter.second;
             hookChanceAggregate += hookChance;
 
-            if (hookSelect < hookChanceAggregate && NoCatchList.count(item->fishID) == 0)
+            if (hookSelect < hookChanceAggregate && !NoCatchList.contains(item->fishID))
             {
                 ItemSelection = item;
                 break;

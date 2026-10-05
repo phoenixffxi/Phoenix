@@ -19,11 +19,9 @@
 ===========================================================================
 */
 
-#ifndef _LATENTEFFECT_H
-#define _LATENTEFFECT_H
+#pragma once
 
 #include "./entities/battle_entity.h"
-#include "./items/item_equipment.h"
 #include "common/cbasetypes.h"
 #include "common/mmo.h"
 #include "modifier.h"
@@ -107,5 +105,3 @@ private:
     int16      m_ModPower{ 0 };                              // power of mod to be applied when active
     bool       m_Activated{ false };                         // active or not active
 };
-
-#endif

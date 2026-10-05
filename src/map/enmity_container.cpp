@@ -26,6 +26,7 @@
 #include "entities/battle_entity.h"
 #include "entities/char_entity.h"
 #include "entities/mob_entity.h"
+#include "map_constants.h"
 #include "notoriety_container.h"
 #include "status_effect_container.h"
 #include "utils/battleutils.h"
@@ -272,9 +273,8 @@ void CEnmityContainer::UpdateEnmity(CBattleEntity* PEntity, int32 CE, int32 VE, 
 
 bool CEnmityContainer::HasID(uint32 TargetID)
 {
-    auto maybeID = std::find_if(
-        m_EnmityList.begin(),
-        m_EnmityList.end(),
+    auto maybeID = std::ranges::find_if(
+        m_EnmityList,
         [TargetID](auto elem)
         {
             return elem.first == TargetID;

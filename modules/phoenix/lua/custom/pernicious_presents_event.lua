@@ -11,9 +11,9 @@ local m = Module:new('pernicious_presents_event')
 
 xi.treantEvent = {}
 
-xi.treantEvent.capSubType = 0x1EAF -- Pick a random treant subtype for the event
+xi.treantEvent.capSubType  = 0x1EAF -- Pick a random treant subtype for the event
 xi.treantEvent.capDuration = 3600
-local swapInterval = 3660 -- Move once an hour. Setting here for testing
+local swapInterval         = 3660 -- Move roughly once an hour
 
 xi.treantEvent.zones =
 {
@@ -22,7 +22,7 @@ xi.treantEvent.zones =
         zone    = 'West Ronfaure',
         cap     = 20,
         level   = 25,
-        hp      = 1000000,
+        hp      = 200000,
         treant  =
         {
             { x = -205.957, y = -29.763, z = -78.954,  rot = 140 }, -- 1
@@ -32,8 +32,8 @@ xi.treantEvent.zones =
         moogles =
         {
             { x = -228.045, y = -34.087, z = -47.449, rot = 26 }, -- 1
-            { x = -605.174, y = -30.271, z = 44.911,   rot = 71 }, -- 2
-            { x = -159.469, y = -60.000, z = 287.445,  rot = 95 }, -- 3
+            { x = -605.174, y = -30.271, z =  44.911, rot = 71 }, -- 2
+            { x = -159.469, y = -60.000, z = 287.445, rot = 95 }, -- 3
         },
     },
 
@@ -42,7 +42,7 @@ xi.treantEvent.zones =
         zone    = 'East Ronfaure',
         cap     = 20,
         level   = 25,
-        hp      = 1000000,
+        hp      = 200000,
         treant  =
         {
             { x = 348.8329, y = -49.2264, z =  104.0485, rot =   0 }, -- 1
@@ -62,7 +62,7 @@ xi.treantEvent.zones =
         zone    = 'North Gustaberg',
         cap     = 20,
         level   = 25,
-        hp      = 1000000,
+        hp      = 200000,
         treant  =
         {
             { x =  -45.3841, y =    0.25, z = 72.8555, rot =   0 }, -- 1
@@ -82,7 +82,7 @@ xi.treantEvent.zones =
         zone    = 'South Gustaberg',
         cap     = 20,
         level   = 25,
-        hp      = 1000000,
+        hp      = 200000,
         treant  =
         {
             { x =  90.8989, y =  0.1961, z = -244.5567, rot =   0 }, -- 1
@@ -102,7 +102,7 @@ xi.treantEvent.zones =
         zone    = 'West Sarutabaruta',
         cap     = 20,
         level   = 25,
-        hp      = 1000000,
+        hp      = 200000,
         treant  =
         {
             { x = 319.9714, y = -11.6672, z = 193.2803, rot =   0 }, -- 1
@@ -122,7 +122,7 @@ xi.treantEvent.zones =
         zone    = 'East Sarutabaruta',
         cap     = 20,
         level   = 25,
-        hp      = 1000000,
+        hp      = 200000,
         treant  =
         {
             { x =    89.411, y =  -4.7825, z = -414.9001, rot =   0 }, -- 1
@@ -142,7 +142,7 @@ xi.treantEvent.zones =
         zone    = 'Jugner Forest',
         cap     = 30,
         level   = 35,
-        hp      = 2000000,
+        hp      = 300000,
         treant  =
         {
             { x = -122.952, y =      0, z = -164.9595, rot =   0 }, -- 1
@@ -162,7 +162,7 @@ xi.treantEvent.zones =
         zone    = 'Pashhow Marshlands',
         cap     = 30,
         level   = 35,
-        hp      = 2000000,
+        hp      = 300000,
         treant  =
         {
             { x =  396.2914, y =      25, z = 387.4296, rot =   0 }, -- 1
@@ -182,7 +182,7 @@ xi.treantEvent.zones =
         zone    = 'Meriphataud Mountains',
         cap     = 30,
         level   = 35,
-        hp      = 2000000,
+        hp      = 300000,
         treant  =
         {
             { x =  463.9538, y = -24.051, z = 187.5342, rot =   0 }, -- 1
@@ -202,7 +202,7 @@ xi.treantEvent.zones =
         zone    = 'Beaucedine Glacier',
         cap     = 50,
         level   = 55,
-        hp      = 3500000,
+        hp      = 400000,
         treant  =
         {
             { x = 179.8336, y = -19.0094, z =  203.0641, rot =   0 }, -- 1
@@ -222,7 +222,7 @@ xi.treantEvent.zones =
         zone    = 'Eastern Altepa Desert',
         cap     = 50,
         level   = 55,
-        hp      = 3500000,
+        hp      = 400000,
         treant  =
         {
             { x = 124.9664, y = -7.7153, z =  309.2755, rot =   0 }, -- 1
@@ -242,7 +242,7 @@ xi.treantEvent.zones =
         zone    = 'Yuhtunga Jungle',
         cap     = 50,
         level   = 55,
-        hp      = 3500000,
+        hp      = 400000,
         treant  =
         {
             { x =  329.8498, y = 4.3914, z =  201.4311, rot =   0 }, -- 1
@@ -382,18 +382,19 @@ xi.treantEvent.spawnMoogles = function(zone, zoneId, entry)
             y          = pos.y,
             z          = pos.z,
             rotation   = pos.rot,
-            releaseIdOnDisappear = true,
+            releaseIdOnDisappear = false,
 
             onTrigger = function(player, npc)
                 npc:facePlayer(player, true)
 
+                local speaker     = npc:getPacketName()
                 local restriction = player:getStatusEffect(xi.effect.LEVEL_RESTRICTION)
 
                 if
                     restriction and
                     restriction:getSubType() ~= xi.treantEvent.capSubType
                 then
-                    player:printToPlayer('You are already bound by another engagement, kupo. Settle that business first!', xi.msg.channel.SAY, npc:getPacketName())
+                    player:printToPlayer('You are already bound by another engagement, kupo. Settle that business first!', xi.msg.channel.SAY, speaker)
                     return
                 end
 
@@ -404,12 +405,10 @@ xi.treantEvent.spawnMoogles = function(zone, zoneId, entry)
                     end
 
                     player:delStatusEffect(xi.effect.LEVEL_RESTRICTION)
-                    player:printToPlayer('Your participation is withdrawn, kupo. Come back if you change your mind!', xi.msg.channel.SAY, npc:getPacketName())
+                    player:printToPlayer('Your participation is withdrawn, kupo. Come back if you change your mind!', xi.msg.channel.SAY, speaker)
 
                     return
                 end
-
-                local speaker = npc:getPacketName()
 
                 player:printToPlayer('Hello hello, kupo! I can help you join in the fight to defeat the pernicious Twinkling Treants!', xi.msg.channel.SAY, speaker)
 
@@ -445,7 +444,8 @@ xi.treantEvent.spawnMoogles = function(zone, zoneId, entry)
                                     })
                                 end
 
-                                playerArg:printToPlayer(string.format('You now hold the right to face the Twinkling Treant, kupo! Your level is restricted to %i for the next %i minutes, or until you speak with me again, leave the zone, or fall in battle.', entry.cap, math.floor(xi.treantEvent.capDuration / 60)), xi.msg.channel.SAY, speaker)
+                                playerArg:printToPlayer(string.format('You now hold the right to face the Twinkling Treant, kupo! Your level is restricted to %i for the next %i minutes.', entry.cap, math.floor(xi.treantEvent.capDuration / 60)), xi.msg.channel.SAY, speaker)
+                                playerArg:printToPlayer('The restriction also ends if you speak with me again, leave the zone, or fall in battle, kupo!', xi.msg.channel.SAY, speaker)
                             end,
                         },
                         {
@@ -465,18 +465,17 @@ xi.treantEvent.spawnMoogles = function(zone, zoneId, entry)
     end
 end
 
-local function clearZone(zone, entry)
+local function setMoogleStatus(zone, entry, status)
     for i = 1, #entry.moogles do
-        local moogleId = zone:getLocalVar('[TreantEvent]MoogleId' .. i)
-        if moogleId ~= 0 then
-            local moogle = GetNPCByID(moogleId)
-            if moogle then
-                moogle:setStatus(xi.status.DISAPPEAR)
-            end
+        local moogle = GetNPCByID(zone:getLocalVar('[TreantEvent]MoogleId' .. i))
+        if moogle then
+            moogle:setStatus(status)
         end
-
-        zone:setLocalVar('[TreantEvent]MoogleId' .. i, 0)
     end
+end
+
+local function clearZone(zone, entry)
+    setMoogleStatus(zone, entry, xi.status.DISAPPEAR)
 
     zone:setLocalVar('[TreantEvent]MobId', 0)
 
@@ -530,6 +529,8 @@ xi.treantEvent.spawnTreant = function(zone, zoneId, entry)
             mob:setMobMod(xi.mobMod.CHARMABLE, 0)
             mob:setMobMod(xi.mobMod.CLAIM_TYPE, xi.claimType.NON_EXCLUSIVE)
             mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 150)
+            mob:setMobMod(xi.mobMod.NO_LINK, 1)
+            mob:setMobMod(xi.mobMod.ONE_WAY_LINKING, 1)
             mob:setCallForHelpBlocked(true)
 
             -- Read by the treant_gate C++ module to refuse actions from players without this cap
@@ -647,6 +648,8 @@ xi.treantEvent.startZone = function(zoneId)
 
     if zone:getLocalVar('[TreantEvent]MoogleId1') == 0 then
         xi.treantEvent.spawnMoogles(zone, zoneId, entry)
+    else
+        setMoogleStatus(zone, entry, xi.status.NORMAL)
     end
 
     local mobId = zone:getLocalVar('[TreantEvent]MobId')
