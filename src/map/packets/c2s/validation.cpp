@@ -48,6 +48,7 @@ auto PacketValidator::blockedBy(const magic_enum::containers::bitset<BlockedStat
     CHECK_BLOCKED(BlockedState::Engaged,        PChar_->PAI->IsEngaged())
     CHECK_BLOCKED(BlockedState::AbnormalStatus, PChar_->status != xi::Status::Normal)
     CHECK_BLOCKED(BlockedState::Monstrosity,    PChar_->m_PMonstrosity != nullptr)
+    CHECK_BLOCKED(BlockedState::Gestation,      PChar_->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Gestation))
     CHECK_BLOCKED(BlockedState::Healing,        PChar_->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Healing) || PChar_->animation == xi::Animation::Healing)
     CHECK_BLOCKED(BlockedState::Charmed,        PChar_->StatusEffectContainer->HasStatusEffect({ xi::StatusEffect::CharmI, xi::StatusEffect::CharmIi }))
     CHECK_BLOCKED(BlockedState::PreventAction,  PChar_->StatusEffectContainer->HasPreventActionEffect())
@@ -230,14 +231,14 @@ auto PacketValidator::isEngaged() -> PacketValidator&
     return *this;
 }
 
-auto PacketValidator::isInMogHouse() -> PacketValidator&
+auto PacketValidator::isInMogHouse(const xi::MogHouse kind) -> PacketValidator&
 {
     if (!result_.valid())
     {
         return *this;
     }
 
-    if (!PChar_->inMogHouse())
+    if (!PChar_->inMogHouse(kind))
     {
         result_.addError("Character is not in Mog House.");
     }

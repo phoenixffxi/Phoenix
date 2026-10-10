@@ -106,8 +106,8 @@ m:addOverride('xi.spells.enfeebling.calculateDuration', function(caster, target,
     then
         duration = math.randomInt(30, 120)
     elseif spellId == xi.magic.spell.SILENCE then
-        -- Retail rolled 0-120s, but a duration of 0 never expires and a half resist halves this.
-        duration = math.randomInt(2, 120)
+        -- Distribution is likely not uniform. Needs more research.
+        duration = math.randomInt(30, 120)
     elseif
         spellId == xi.magic.spell.POISON or
         spellId == xi.magic.spell.POISONGA

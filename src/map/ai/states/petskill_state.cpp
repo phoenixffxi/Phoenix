@@ -71,7 +71,7 @@ auto CPetSkillState::init() -> StateErrorOr<void>
 
     auto targetID = PTarget->id;
 
-    if (m_PEntity->objtype != TYPE_PC && settings::get<bool>("map.HIDE_READIES_TARGET"))
+    if (settings::get<bool>("map.HIDE_READIES_TARGET"))
     {
         targetID = m_PEntity->id;
     }
@@ -166,16 +166,15 @@ auto CPetSkillState::Update(const timer::time_point tick) -> bool
             static_cast<CMobEntity*>(PTarget)->PEnmityContainer->UpdateEnmity(m_PEntity, 0, 0, withMaster);
         }
 
-        if (m_PEntity->objtype == TYPE_PET && m_PEntity->PMaster && m_PEntity->PMaster->objtype == TYPE_PC && (m_PSkill->isBloodPactRage() || m_PSkill->isBloodPactWard()))
+        if (auto* PSummoner = dynamic_cast<CCharEntity*>(m_PEntity->PMaster); m_PEntity->objtype == TYPE_PET && PSummoner && (m_PSkill->isBloodPactRage() || m_PSkill->isBloodPactWard()))
         {
-            CCharEntity* PSummoner = dynamic_cast<CCharEntity*>(m_PEntity->PMaster);
-            if (PSummoner && PSummoner->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::AvatarsFavor))
+            if (PSummoner->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::AvatarsFavor))
             {
                 auto power = PSummoner->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::AvatarsFavor)->GetPower();
                 // Retail: Power is gained for BP use
                 auto levelGained = m_PSkill->isBloodPactRage() ? 3 : 2;
                 power += levelGained;
-                PSummoner->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::AvatarsFavor)->SetPower(power > 11 ? power : 11);
+                PSummoner->StatusEffectContainer->GetStatusEffect(xi::StatusEffect::AvatarsFavor)->SetPower(std::max<uint16>(power, 11));
             }
 
             if (PTarget && m_PEntity->getPetType() == PET_TYPE::AVATAR && (m_PEntity->petID() != PETID_ALEXANDER && m_PEntity->petID() != PETID_ATOMOS))

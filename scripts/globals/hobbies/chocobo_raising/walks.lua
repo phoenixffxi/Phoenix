@@ -65,29 +65,29 @@ local trainers =
     [1] = -- San d'Oria
     {
         [cutscenes.GO_ON_A_WALK_SHORT  ] = { trainer.HANTILEON },
-        [cutscenes.GO_ON_A_WALK_REGULAR] = { trainer.ZOPAGO, trainer.RIVALS },
+        [cutscenes.GO_ON_A_WALK_REGULAR] = { trainer.ZOPAGO },
         [cutscenes.GO_ON_A_WALK_LONG   ] = { trainer.PULONONO, trainer.BRUTUS },
     },
     [2] = -- Bastok
     {
         [cutscenes.GO_ON_A_WALK_SHORT  ] = { trainer.ZOPAGO },
-        [cutscenes.GO_ON_A_WALK_REGULAR] = { trainer.HANTILEON, trainer.RIVALS },
+        [cutscenes.GO_ON_A_WALK_REGULAR] = { trainer.HANTILEON },
         [cutscenes.GO_ON_A_WALK_LONG   ] = { trainer.PULONONO, trainer.BRUTUS },
     },
     [3] = -- Windurst
     {
         [cutscenes.GO_ON_A_WALK_SHORT  ] = { trainer.PULONONO },
-        [cutscenes.GO_ON_A_WALK_REGULAR] = { trainer.HANTILEON, trainer.RIVALS },
+        [cutscenes.GO_ON_A_WALK_REGULAR] = { trainer.HANTILEON },
         [cutscenes.GO_ON_A_WALK_LONG   ] = { trainer.ZOPAGO, trainer.BRUTUS },
     },
 }
 
--- Percent chance of meeting someone, then of finding an item. From 144 captured walks; few are regular walks.
+-- Percent chance of meeting someone, then of finding an item, at or below the captured rates.
 walks.eventChance =
 {
-    [cutscenes.GO_ON_A_WALK_SHORT  ] = { 28, 24 },
-    [cutscenes.GO_ON_A_WALK_REGULAR] = { 15, 37 },
-    [cutscenes.GO_ON_A_WALK_LONG   ] = { 26, 23 },
+    [cutscenes.GO_ON_A_WALK_SHORT  ] = { 21, 18 },
+    [cutscenes.GO_ON_A_WALK_REGULAR] = { 15, 26 },
+    [cutscenes.GO_ON_A_WALK_LONG   ] = { 18, 15 },
 }
 
 ---@enum xi.chocoboRaising.walks.lostChickResult
@@ -523,7 +523,6 @@ walks.walk = function(state, careAction, ctx)
         not met and
         result.event == 0 and
         careAction == cutscenes.GO_ON_A_WALK_SHORT and
-        state.stage == xi.chocoboRaising.stage.CHICK and
         chick.owner == 0 and
         not chick.solved
     then

@@ -160,16 +160,25 @@ Fitted to few samples or taken from guides, with no capture behind them:
   gives the plain Handkerchief in the search; a search hides at one random walk distance per quest.
   Four captured hand-ins also fit "a report, two Vana'diel midnights, then a zone"
 - Energy rank `energy * 2 / 25`; stat ranks of 32 points
+- Green Racing Silks taking a tenth off care energy, rounded up (FFXIclopedia; BG says about half and the
+  JP wiki gives no figure)
+- Sky Blue Racing Silks: a 50% chance per dig of the knowledge message, read as one more skill-up roll
 - Care plans: stat changes per arrow, success chance, Basic Care raising a stat 1 day in 6, poor
   days halving, no stat drops from day 64, next-day energy for Exercise Alone and the Interact plans
-- The 640 stat cap (another guide says 637)
-- Food affection per arrow (24), stat arrows, worm stat drops, La Theine Millet, stat foods'
-  chances, Parasite Worm changing a gene
+- The 639 stat cap is our choice, not a guide's: it stops grades at SS/SS/A/F and SS/A/B/C. Guides
+  give 637, 640 and 641, and players report retail birds at 640
+- Food hunger and affection where no capture covers them: the guide's arrows at 32 hunger and 8
+  affection each. Captures fit Gysahl Greens at 104 hunger, wildgrass and adult Vegetable Paste at
+  16, Vomp at 96, Cupid Worm at 80, Gregarious Worm at 224, and greens and carrots under 16
+  affection. Tornado Salad's single capture gives 64
+- Stat arrows, worm stat drops, stat foods' chances, Parasite Worm changing a gene and lowering a
+  stat, Worm Paste lowering a chick's stat, a 25% Lethe forget chance (guides say 1 to 7 feedings)
+- La Theine Millet is refused, as Little Worm is; no source lists it as food
 - Condition onset and end chances (`odds`, `conditionEndOdds`), scene order in a day, a compete
   curing boredom, no affection decay from neglect
-- Walk rates from 144 captured walks (regular walks have few samples); the receptivity bonus;
-  Bastok's walk trainers; some friend chocobo names; an even compete chance
-- Lost chick: found on the first empty chick short walk (3 of 4 captured walks found it; the miss
+- Walk rates: at or below 144 captured walks, mostly their 90% low end (regular walks have few samples);
+  the receptivity bonus; some friend chocobo names; an even compete chance; the rivals met only once
+- Lost chick: found on the first empty short walk at any stage (3 of 4 captured walks found it; the miss
   was on day 8), once per chocobo and again after a wrong guess; random owner; clues only from the
   four story trainers at the finding stable
 - Dietmund needs "Save My Son" and meets a character once
@@ -177,8 +186,9 @@ Fitted to few samples or taken from guides, with no capture behind them:
 - Personality: an exact tie gives easygoing; which of DSC and RCP is sensitive. Captures show it
   settling in the chick stage while every stat is under 32, and hint that the plan history drives it
 - Adult features need the stat highest and at Average (96)
-- Whistle: Canter's 4 minutes, Red Racing Silks applied when called, event 830's variant after a
-  miss, the paid recharge after accepting, buying a lost whistle for 20000 gil
+- Whistle: Canter's 4 minutes, Red Racing Silks' 10 minutes (the JP wiki; a BG talk page test saw 4)
+  applied on the whistle only, event 830's variant after a miss, the paid recharge after accepting, buying
+  a lost whistle for 20000 gil
 - A handkerchief out at give-up or retirement counts as missed; a day away changes nothing;
   registering needs an adult
 - Breeding: 5% mutation per gene, ability inheritance at 60% plus 3 per RCP rank, the plans' sire

@@ -119,6 +119,8 @@ void SpawnHandler::registerForRespawn(CMobEntity* PMob, const Maybe<timer::durat
 
     if (auto slot = PMob->GetSpawnSlot())
     {
+        slot->StartCooldown(PMob);
+
         // Only a non-zero timer (deaggro/scripting) pins the respawn to this mob; otherwise the slot re-rolls.
         const auto specificMobId   = (respawnTime.has_value() && *respawnTime > timer::duration::zero())
                                          ? Maybe<uint32>(PMob->id)
@@ -177,7 +179,7 @@ auto SpawnHandler::getRemainingRespawnTime(CMobEntity* PMob) const -> Maybe<time
         if (auto it = pendingSlotRespawns_.find(slot); it != pendingSlotRespawns_.end())
         {
             const auto remaining = it->second.respawnAt - now;
-            return remaining > timer::duration::zero() ? remaining : timer::duration::zero();
+            return std::max(remaining, timer::duration::zero());
         }
     }
     else
@@ -185,7 +187,7 @@ auto SpawnHandler::getRemainingRespawnTime(CMobEntity* PMob) const -> Maybe<time
         if (auto it = pendingRespawns_.find(respawnKeyOf(PMob)); it != pendingRespawns_.end())
         {
             const auto remaining = it->second.respawnAt - now;
-            return remaining > timer::duration::zero() ? remaining : timer::duration::zero();
+            return std::max(remaining, timer::duration::zero());
         }
     }
 
@@ -249,7 +251,7 @@ void SpawnHandler::Tick(const timer::time_point now)
             }
 
             SpawnSlot* slot = pair.first;
-            return !slot || slot->TrySpawn(pair.second.specificMobId);
+            return !slot || slot->TrySpawn(pair.second.specificMobId, SlotRoll::Respawn);
         });
 }
 

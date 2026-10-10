@@ -68,14 +68,14 @@ auto handleSystemMessage(CCharEntity* PChar, const std::string& message) -> bool
 //-----------------------------------
 // Section: Yell restrictions.
 //-----------------------------------
-// Yell requires level 10 on some job. The cooldown is 10 minutes instead of
+// Yell requires level 10 on some job. The cooldown is 5 minutes instead of
 // the base 30 seconds. Which zones allow yell at all is still the Yell flag
 // in zone_settings.misc. A muted player is told how long the mute has left.
 
 constexpr uint8 minYellLevel = 10;
 
 // The base handler's own 30 second cooldown expires inside this one.
-constexpr uint32 yellCooldown = 600;
+constexpr uint32 yellCooldown = 300;
 
 // Separate from the base handler's [YELL]Cooldown so the two do not fight.
 // Self-expires and persists through zoning.

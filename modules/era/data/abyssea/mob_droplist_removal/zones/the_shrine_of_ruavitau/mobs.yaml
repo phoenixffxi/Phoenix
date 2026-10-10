@@ -5,24 +5,30 @@
 templates:
 
   Faust:
-    loot: # summerstone removed
+    loot: # extra summerstone removed
       drops:
+        - chance: always
+          item:   summerstone
         - chance: common
           item:   oblation_abjuration
         - chance: uncommon
           item:   tonbo-giri
 
   Mother_Globe:
-    loot: # springstone removed
+    loot: # extra springstone removed
       drops:
+        - chance: always
+          item:   springstone
         - chance: common
           item:   libation_abjuration
         - chance: uncommon
           item:   shiranui
 
   Olla_Grande:
-    loot: # winterstone removed
+    loot: # extra winterstone removed
       drops:
+        - chance: always
+          item:   winterstone
         - chance: common
           item:   libation_abjuration
         - chance: uncommon
@@ -31,8 +37,10 @@ templates:
           item:   freyas_tear
 
   Ullikummi:
-    loot: # autumnstone removed
+    loot: # extra autumnstone removed
       drops:
+        - chance: always
+          item:   autumnstone
         - chance: common
           item:   oblation_abjuration
         - chance: uncommon

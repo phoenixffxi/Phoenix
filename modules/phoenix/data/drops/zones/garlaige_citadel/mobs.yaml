@@ -1,0 +1,22 @@
+# Serket drops Serket Ring at rare and Venomous Claw at common.
+
+templates:
+  Serket:
+    loot:
+      drops:
+        - chance: always
+          item:   reraiser
+        - chance: common
+          item:   hi-reraiser
+        - chance: always
+          item:   vile_elixir
+        - chance: common
+          item:   vile_elixir_+1
+        - chance: common
+          item:   serket_shield
+        - chance: rare
+          item:   serket_ring
+        - chance: common
+          item:   venomous_claw
+        - chance: common
+          item:   triple_dagger

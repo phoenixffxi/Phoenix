@@ -272,15 +272,9 @@ uint16 GetBaseWeaponDamage(CMobEntity* PMob, uint16 slot)
     }
 
     // Clamp to 0 for edge cases that might cause the offset go negative.
-    if (offset < 0)
-    {
-        offset = 0;
-    }
+    offset = std::max<int8>(offset, 0);
 
-    if (rangedOffset < 0)
-    {
-        rangedOffset = 0;
-    }
+    rangedOffset = std::max<int8>(rangedOffset, 0);
 
     // Set default offsets. Will be calculated in battlentity::GetMainWeaponDmg()
     PMob->setMobMod(xi::MobMod::DamageOffset, offset);
@@ -724,6 +718,22 @@ static uint32 CalculateBaseMobHP(uint8 mLvl, uint8 baseHP, uint8 jobScale, uint8
 
 /************************************************************************
  *                                                                       *
+ *  Subjob HP at a given subjob level                                    *
+ *                                                                       *
+ ************************************************************************/
+static auto SubjobHPAtLevel(const int32 sjLvl, const uint8 sjJobScale, const uint8 sjScaleXHP) -> uint32
+{
+    const auto sjHP = sjJobScale * std::max(sjLvl - 1, 0) +
+                      (0.5 + 0.5 * sjScaleXHP) * std::max(sjLvl - 10, 0) +
+                      std::max(sjLvl - 30, 0) +
+                      std::max(sjLvl - 50, 0) +
+                      std::max(sjLvl - 70, 0);
+
+    return static_cast<uint32>(std::ceil(sjHP / 2.0));
+}
+
+/************************************************************************
+ *                                                                       *
  *  Calculate subjob HP contribution                                     *
  *                                                                       *
  ************************************************************************/
@@ -753,14 +763,22 @@ static uint32 CalculateSubjobHP(uint8 mLvl, uint8 sjJobScale, uint8 sjScaleXHP)
         sjScale = mLvl / 4;
     }
 
-    const double sjHp =
-        sjJobScale * std::max(sjScale - 1, 0) +
-        (0.5 + 0.5 * sjScaleXHP) * std::max(sjScale - 10, 0) +
-        std::max(sjScale - 30, 0) +
-        std::max(sjScale - 50, 0) +
-        std::max(sjScale - 70, 0);
+    return SubjobHPAtLevel(sjScale, sjJobScale, sjScaleXHP);
+}
 
-    return static_cast<uint32>(std::ceil(sjHp / 2.0));
+/************************************************************************
+ *                                                                       *
+ *  Monipulator HP before merits and its multiplier: the mob main job    *
+ *  term, and the sub job term at the full main level.                   *
+ *                                                                       *
+ ************************************************************************/
+auto MonipulatorBaseHP(const xi::Job mjob, const xi::Job sjob, const uint8 level) -> uint32
+{
+    const auto mJobGrade = grade::GetJobGrade(mjob, 0);
+    const auto sJobGrade = grade::GetJobGrade(sjob, 0);
+    const auto mainHP    = CalculateBaseMobHP(level, grade::GetMobHPScale(mJobGrade, 0), grade::GetMobHPScale(mJobGrade, 1), grade::GetMobHPScale(mJobGrade, 2));
+
+    return mainHP + SubjobHPAtLevel(level, grade::GetMobHPScale(sJobGrade, 1), grade::GetMobHPScale(sJobGrade, 2));
 }
 
 /************************************************************************
@@ -770,15 +788,15 @@ static uint32 CalculateSubjobHP(uint8 mLvl, uint8 sjJobScale, uint8 sjScaleXHP)
  ************************************************************************/
 void CalculateMobStats(CMobEntity* PMob, bool recover)
 {
-    // Reset modifiers to base values to prevent stacking
-    PMob->restoreModifiers();
-    PMob->restoreMobModifiers();
-
     if (recover)
     {
         // Clear status effects only when fully recovering
         PMob->StatusEffectContainer->KillAllStatusEffect();
     }
+
+    // Reset modifiers to base values to prevent stacking
+    PMob->restoreModifiers();
+    PMob->restoreMobModifiers();
 
     bool         isNM     = (PMob->m_Type & xi::MobType::Notorious) != xi::MobType::Normal;
     xi::Job      mJob     = PMob->GetMJob();
@@ -1012,7 +1030,7 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
     // cap all stats for mLvl / job
     for (int i = static_cast<int>(xi::SkillType::DivineMagic); i <= static_cast<int>(xi::SkillType::BlueMagic); i++)
     {
-        uint16 maxSkill = battleutils::GetMaxSkill((xi::SkillType)i, PMob->GetMJob(), mLvl > 99 ? 99 : mLvl);
+        uint16 maxSkill = battleutils::GetMaxSkill((xi::SkillType)i, PMob->GetMJob(), std::min<uint8>(mLvl, 99));
         if (maxSkill != 0)
         {
             PMob->WorkingSkills.skill[i] = maxSkill;
@@ -1020,7 +1038,7 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
         else // if the mob is WAR/BLM and can cast spell
         {
             // set skill as high as main level, so their spells won't get resisted
-            uint16 maxSubSkill = battleutils::GetMaxSkill((xi::SkillType)i, PMob->GetSJob(), mLvl > 99 ? 99 : mLvl);
+            uint16 maxSubSkill = battleutils::GetMaxSkill((xi::SkillType)i, PMob->GetSJob(), std::min<uint8>(mLvl, 99));
 
             if (maxSubSkill != 0)
             {
@@ -1030,7 +1048,7 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
     }
     for (int i = static_cast<int>(xi::SkillType::HandToHand); i <= static_cast<int>(xi::SkillType::Staff); i++)
     {
-        uint16 maxSkill = battleutils::GetMaxSkill(3, mLvl > 99 ? 99 : mLvl);
+        uint16 maxSkill = battleutils::GetMaxSkill(3, std::min<uint8>(mLvl, 99));
         if (maxSkill != 0)
         {
             PMob->WorkingSkills.skill[i] = maxSkill;

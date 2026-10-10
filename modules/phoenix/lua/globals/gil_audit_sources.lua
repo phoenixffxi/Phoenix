@@ -36,7 +36,7 @@ local overrideTargets =
     'xi.player.charCreate',
     'xi.mob.onMobDeathEx',
     'xi.job_utils.thief.useMug',
-    'xi.chocobo.renterOnEventFinish',
+    'xi.rentalChocobo.renterOnEventFinish',
     'xi.regime.checkRegime',
     'xi.commands.givegil.onTrigger',
     'xi.commands.takegil.onTrigger',
@@ -169,7 +169,7 @@ end)
 -- Chocobo rental
 -----------------------------------
 
-m:addOverride('xi.chocobo.renterOnEventFinish', function(player, csid, option, eventSucceed)
+m:addOverride('xi.rentalChocobo.renterOnEventFinish', function(player, csid, option, eventSucceed)
     local declared = declare(player, gilSource.SCRIPT, 'chocobo_rental')
 
     local result = super(player, csid, option, eventSucceed)

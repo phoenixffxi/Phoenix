@@ -28,6 +28,7 @@
 #include "entities/battle_entity.h"
 #include "items/item_weapon.h"
 #include "job_points.h"
+#include "monstrosity.h"
 #include "status_effect_container.h"
 #include "utils/puppetutils.h"
 #include "zone.h"
@@ -123,7 +124,7 @@ void CAttack::SetCritical(bool value)
         xi::SkillType skilltype  = xi::SkillType::None;
         SLOTTYPE      weaponSlot = static_cast<SLOTTYPE>(GetWeaponSlot());
 
-        if (m_attacker->objtype == TYPE_PC)
+        if (dynamic_cast<const CCharEntity*>(m_attacker) != nullptr)
         {
             if (auto* weapon = dynamic_cast<CItemWeapon*>(m_attacker->m_Weapons[weaponSlot]))
             {
@@ -449,20 +450,17 @@ bool CAttack::CheckCounter()
     uint8 meritCounter = 0;
 
     // Skip checking for counter merits if you're not on MNK
-    if (m_victim->objtype == TYPE_PC && m_victim->GetMJob() == xi::Job::MNK)
+    if (auto* PChar = dynamic_cast<CCharEntity*>(m_victim); PChar && m_victim->GetMJob() == xi::Job::MNK)
     {
-        auto* PChar = static_cast<CCharEntity*>(m_victim);
-
         meritCounter = PChar->PMeritPoints->GetMeritValue(xi::Merit::CounterRate, PChar);
     }
 
     uint16 seiganChance = 0;
 
-    if (m_victim->objtype == TYPE_PC && m_victim->getMod(xi::Mod::SEIGAN_COUNTER_BONUS) > 0)
+    if (auto* PChar = dynamic_cast<CCharEntity*>(m_victim); PChar && m_victim->getMod(xi::Mod::SEIGAN_COUNTER_BONUS) > 0)
     {
         // counter check (rate AND your hit rate makes it land, else its just a regular hit)
         // having seigan active gives chance to counter at 25% of the zanshin proc rate
-        auto* PChar              = static_cast<CCharEntity*>(m_victim);
         auto* weapon             = dynamic_cast<CItemWeapon*>(PChar->m_Weapons[SLOT_MAIN]);
         bool  isValid2HandWeapon = weapon && weapon->isTwoHanded();
         bool  hasValidSeigan     = isValid2HandWeapon && PChar->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Seigan, 0);
@@ -534,16 +532,6 @@ bool CAttack::CheckCover()
  ************************************************************************/
 void CAttack::ProcessDamage()
 {
-    auto removePostSwingEffects = [&]() -> void
-    {
-        // SA/TA should wear off on the first swing
-        if (m_isFirstSwing)
-        {
-            m_attacker->StatusEffectContainer->DelStatusEffectSilent(xi::StatusEffect::SneakAttack);
-            m_attacker->StatusEffectContainer->DelStatusEffectSilent(xi::StatusEffect::TrickAttack);
-        }
-    };
-
     if (settings::get<bool>("map.ENABLE_AUTO_ATTACK_LUA"))
     {
         // Sneak attack.
@@ -577,10 +565,8 @@ void CAttack::ProcessDamage()
             // Try skill up.
             if (m_damage > 0)
             {
-                if (m_attacker->objtype == TYPE_PC)
+                if (auto* PChar = dynamic_cast<CCharEntity*>(m_attacker))
                 {
-                    auto* PChar = static_cast<CCharEntity*>(m_attacker);
-
                     if (m_attackType == PHYSICAL_ATTACK_TYPE::DAKEN)
                     {
                         charutils::TrySkillUP(PChar, xi::SkillType::Throwing, m_victim->GetMLevel());
@@ -590,7 +576,7 @@ void CAttack::ProcessDamage()
                         charutils::TrySkillUP(PChar, weapon->getSkillType(), m_victim->GetMLevel());
                     }
                 }
-                else if (m_attacker->objtype == TYPE_PET && m_attacker->PMaster && m_attacker->PMaster->objtype == TYPE_PC &&
+                else if (m_attacker->objtype == TYPE_PET && m_attacker->PMaster && dynamic_cast<const CCharEntity*>(m_attacker->PMaster) != nullptr &&
                          static_cast<CPetEntity*>(m_attacker)->getPetType() == PET_TYPE::AUTOMATON)
                 {
                     puppetutils::TrySkillUP(static_cast<CAutomatonEntity*>(m_attacker), xi::SkillType::AutomatonMelee, m_victim->GetMLevel());
@@ -603,8 +589,6 @@ void CAttack::ProcessDamage()
             sol::error err = result;
             ShowError("attack.cpp::ProcessDamage(): %s", err.what());
         }
-
-        removePostSwingEffects();
         return;
     }
 
@@ -625,17 +609,26 @@ void CAttack::ProcessDamage()
     }
 
     // Consume mana
-    if (m_attacker->objtype == TYPE_PC)
+    if (auto* PChar = dynamic_cast<CCharEntity*>(m_attacker))
     {
-        m_bonusBasePhysicalDamage += battleutils::doConsumeManaEffect(static_cast<CCharEntity*>(m_attacker));
+        m_bonusBasePhysicalDamage += battleutils::doConsumeManaEffect(PChar);
     }
 
     SLOTTYPE slot = static_cast<SLOTTYPE>(GetWeaponSlot());
     if (m_attackRound->IsH2H())
     {
-        m_naturalH2hDamage = std::floor<int32>(m_attacker->GetSkill(xi::SkillType::HandToHand) * 0.11f) + 3;
-        m_baseDamage       = m_attacker->GetMainWeaponDmg();
-        int32 kickDamage   = 0;
+        // A Monipulator's fists are all in its base damage.
+        m_naturalH2hDamage = [&]() -> int32
+        {
+            if (monstrosity::AsMonipulator(m_attacker) != nullptr)
+            {
+                return 0;
+            }
+
+            return std::floor<int32>(m_attacker->GetSkill(xi::SkillType::HandToHand) * 0.11f) + 3;
+        }();
+        m_baseDamage     = m_attacker->GetMainWeaponDmg();
+        int32 kickDamage = 0;
 
         if (m_attacker->objtype == TYPE_MOB)
         {
@@ -714,19 +707,19 @@ void CAttack::ProcessDamage()
     }
 
     // Apply "Double Attack" damage and "Triple Attack" damage mods
-    if (m_attackType == PHYSICAL_ATTACK_TYPE::DOUBLE && m_attacker->objtype == TYPE_PC)
+    if (m_attackType == PHYSICAL_ATTACK_TYPE::DOUBLE && dynamic_cast<const CCharEntity*>(m_attacker) != nullptr)
     {
         m_damage = std::floor<uint32>(m_damage * 1.0f + std::max(m_attacker->getMod(xi::Mod::DOUBLE_ATTACK_DMG) / 100.0f, 0.f));
     }
-    else if (m_attackType == PHYSICAL_ATTACK_TYPE::TRIPLE && m_attacker->objtype == TYPE_PC)
+    else if (m_attackType == PHYSICAL_ATTACK_TYPE::TRIPLE && dynamic_cast<const CCharEntity*>(m_attacker) != nullptr)
     {
         m_damage = std::floor<uint32>(m_damage * 1.0f + std::max(m_attacker->getMod(xi::Mod::TRIPLE_ATTACK_DMG) / 100.0f, 0.f));
     }
 
     // Soul eater.
-    if (m_attacker->objtype == TYPE_PC)
+    if (auto* PChar = dynamic_cast<CCharEntity*>(m_attacker))
     {
-        m_damage = battleutils::doSoulEaterEffect(static_cast<CCharEntity*>(m_attacker), m_damage);
+        m_damage = battleutils::doSoulEaterEffect(PChar, m_damage);
     }
 
     // Set attack type to Samba if the attack type is normal.  Don't overwrite other types.  Used for Samba double damage.
@@ -759,17 +752,13 @@ void CAttack::ProcessDamage()
     // TODO: find out proper fSTR calc for low level mobs when your VIT is ridiculously high. It's likely that this is slightly wrong (possibly you'd get more hits for 0 than you should)
     // However, there are legitimate strategies on retail with 1 dmg weapons and negative fSTR ranks that result in all auto attacks hitting for 0 but using enspells for damage so no TP is fed.
     // Absorption isn't possible at this point in the calculation, so zero it.
-    if (m_damage < 0)
-    {
-        m_damage = 0;
-    }
+    m_damage = std::max(m_damage, 0);
 
     // Try skill up.
     if (m_damage > 0)
     {
-        if (m_attacker->objtype == TYPE_PC)
+        if (auto* PChar = dynamic_cast<CCharEntity*>(m_attacker))
         {
-            auto* PChar = static_cast<CCharEntity*>(m_attacker);
             if (m_attackType == PHYSICAL_ATTACK_TYPE::DAKEN)
             {
                 charutils::TrySkillUP(PChar, xi::SkillType::Throwing, m_victim->GetMLevel());
@@ -779,7 +768,7 @@ void CAttack::ProcessDamage()
                 charutils::TrySkillUP(PChar, weapon->getSkillType(), m_victim->GetMLevel());
             }
         }
-        else if (m_attacker->objtype == TYPE_PET && m_attacker->PMaster && m_attacker->PMaster->objtype == TYPE_PC &&
+        else if (m_attacker->objtype == TYPE_PET && m_attacker->PMaster && dynamic_cast<const CCharEntity*>(m_attacker->PMaster) != nullptr &&
                  static_cast<CPetEntity*>(m_attacker)->getPetType() == PET_TYPE::AUTOMATON)
         {
             puppetutils::TrySkillUP(static_cast<CAutomatonEntity*>(m_attacker), xi::SkillType::AutomatonMelee, m_victim->GetMLevel());
@@ -804,9 +793,9 @@ void CAttack::ProcessDamage()
         {
             uint8 jpBonus = 0;
 
-            if (m_attacker->objtype == TYPE_PC)
+            if (auto* PChar = dynamic_cast<CCharEntity*>(m_attacker))
             {
-                jpBonus = static_cast<CCharEntity*>(m_attacker)->PJobPoints->GetJobPointValue(JP_RESTRAINT_EFFECT) * 2;
+                jpBonus = PChar->PJobPoints->GetJobPointValue(JP_RESTRAINT_EFFECT) * 2;
             }
 
             // Convert weapon delay and divide
@@ -833,5 +822,4 @@ void CAttack::ProcessDamage()
             m_attacker->addModifier(xi::Mod::ALL_WSDMG_FIRST_HIT, boostPerRound);
         }
     }
-    removePostSwingEffects();
 }

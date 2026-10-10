@@ -189,8 +189,7 @@ templates:
       behaviors:
         aggressive: true
       spawn:
-        respawn: 300
-        type:    [at_night]
+        type: [scripted]
     loot:
       drops:
         - chance: common
@@ -246,7 +245,7 @@ templates:
         model_size:      1
         hitbox:         13
       spawn:
-        respawn: 300
+        type: [scripted]
     loot:
       drops:
         - chance: common
@@ -272,7 +271,7 @@ templates:
       behaviors:
         aggressive: true
       spawn:
-        respawn: 300
+        type: [scripted]
     loot:
       drops:
         - chance: common
@@ -326,7 +325,7 @@ templates:
         model_size:     1
         hitbox:        27
       spawn:
-        respawn: 300
+        type: [scripted]
     loot:
       drops:
         - chance: uncommon
@@ -425,11 +424,11 @@ spawns:
   17707016:
     template: Sea_Pugil
     region:   region_1
-    level:    [10, 14]
+    level:    [10, 20]
   17707017:
     template: Sea_Pugil
     region:   region_1
-    level:    [10, 14]
+    level:    [10, 20]
   17707018:
     template: Sea_Monk
     region:   region_1
@@ -438,6 +437,11 @@ spawns:
     template: Phantom
     region:   region_1
     level:    [22, 25]
+    attributes:
+      spawn:
+        window:
+          start: 20
+          end:    4
   17707020:
     template: Crossbones_blm
     script:   Crossbones
@@ -461,7 +465,7 @@ spawns:
   17707024:
     template: Ship_Wight
     region:   region_1
-    level:    [36, 39]
+    level:    [35, 39]
   17707025:
     template: Blackbeard
     region:   region_1

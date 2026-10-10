@@ -1,0 +1,185 @@
+# Reverts Valkurm Emperor to a one hour cooldown.
+# Source: https://forum.square-enix.com/ffxi/threads/38100
+
+slots:
+  - members:
+      17199136: {} # Goblin_Tinkerer
+      17199138: {} # Ghoul
+  - members:
+      17199137: {} # Goblin_Butcher
+      17199139: {} # Ghoul
+  - members:
+      17199152: {} # Goblin_Ambusher
+      17199159: {} # Ghoul
+  - members:
+      17199153: {} # Goblin_Ambusher
+      17199160: {} # Ghoul
+  - members:
+      17199176: {} # Goblin_Mugger
+      17199179: {} # Ghoul
+      17199183: {} # Goblin_Mugger
+  - members:
+      17199177: {} # Goblin_Leecher
+      17199180: {} # Ghoul
+      17199184: {} # Goblin_Leecher
+  - members:
+      17199178: {} # Goblin_Gambler
+      17199181: {} # Ghoul
+      17199185: {} # Goblin_Gambler
+  - members:
+      17199186: {} # Fire_Elemental
+      17199187: {} # Fire_Elemental
+  - members:
+      17199199: {} # Goblin_Mugger
+      17199205: {} # Ghoul
+  - members:
+      17199200: {} # Goblin_Ambusher
+      17199206: {} # Ghoul
+  - members:
+      17199201: {} # Goblin_Leecher
+      17199207: {} # Ghoul
+  - members:
+      17199219: {} # Goblin_Mugger
+      17199226: {} # Ghoul
+  - members:
+      17199220: {} # Goblin_Leecher
+      17199227: {} # Ghoul
+  - members:
+      17199245: {} # Goblin_Ambusher
+      17199247: {} # Goblin_Tinkerer
+  - members:
+      17199246: {} # Goblin_Leecher
+      17199248: {} # Goblin_Butcher
+  - members:
+      17199265: {} # Goblin_Ambusher
+      17199276: {} # Goblin_Ambusher
+  - members:
+      17199267: {} # Goblin_Tinkerer
+      17199277: {} # Goblin_Tinkerer
+  - members:
+      17199269: {} # Goblin_Butcher
+      17199278: {} # Goblin_Butcher
+  - members:
+      17199279: {} # Fire_Elemental
+  - members:
+      17199280: {} # Fire_Elemental
+  - members:
+      17199281: {} # Snipper
+      17199286: {} # Thread_Leech
+  - members:
+      17199282: {} # Snipper
+      17199287: {} # Thread_Leech
+  - members:
+      17199283: {} # Snipper
+      17199288: {} # Thread_Leech
+  - members:
+      17199303: {} # Goblin_Mugger
+      17199309: {} # Ghoul
+  - members:
+      17199304: {} # Goblin_Ambusher
+      17199310: {} # Ghoul
+  - members:
+      17199305: {} # Goblin_Leecher
+      17199311: {} # Ghoul
+  - members:
+      17199313: {} # Snipper
+      17199317: {} # Thread_Leech
+  - members:
+      17199314: {} # Snipper
+      17199318: {} # Thread_Leech
+  - members:
+      17199335: {} # Goblin_Mugger
+      17199338: {} # Ghoul
+  - members:
+      17199336: {} # Goblin_Leecher
+      17199339: {} # Ghoul
+  - members:
+      17199337: {} # Goblin_Gambler
+      17199340: {} # Ghoul
+  - members:
+      17199343: {} # Snipper
+      17199350: {} # Bogy
+  - members:
+      17199384: {} # Goblin_Mugger
+      17199390: {} # Ghoul
+      17199394: {} # Goblin_Mugger
+  - members:
+      17199386: {} # Goblin_Leecher
+      17199391: {} # Ghoul
+      17199395: {} # Goblin_Leecher
+  - members:
+      17199388: {} # Goblin_Gambler
+      17199392: {} # Ghoul
+      17199396: {} # Goblin_Gambler
+  - members:
+      17199397: {} # Fire_Elemental
+      17199398: {} # Fire_Elemental
+  - members:
+      17199399: {} # Snipper
+      17199404: {} # Thread_Leech
+  - members:
+      17199400: {} # Snipper
+      17199405: {} # Thread_Leech
+  - members:
+      17199401: {} # Snipper
+      17199406: {} # Thread_Leech
+  - members:
+      17199422: {} # Goblin_Mugger
+      17199425: {} # Ghoul
+  - members:
+      17199423: {} # Goblin_Leecher
+      17199426: {} # Ghoul
+  - members:
+      17199424: {} # Goblin_Gambler
+      17199427: {} # Ghoul
+  - members:
+      17199444: {} # Goblin_Mugger
+      17199447: {} # Ghoul
+  - members:
+      17199445: {} # Goblin_Leecher
+      17199448: {} # Ghoul
+  - members:
+      17199446: {} # Goblin_Gambler
+      17199449: {} # Ghoul
+  - members:
+      17199452: {} # Snipper
+      17199459: {} # Bogy
+  - members:
+      17199470: {} # Goblin_Mugger
+      17199473: {} # Ghoul
+      17199476: {} # Goblin_Mugger
+  - members:
+      17199471: {} # Goblin_Leecher
+      17199474: {} # Ghoul
+      17199477: {} # Goblin_Leecher
+  - members:
+      17199472: {} # Goblin_Gambler
+      17199475: {} # Ghoul
+      17199478: {} # Goblin_Gambler
+  - members:
+      17199504: {} # Goblin_Mugger
+      17199507: {} # Ghoul
+  - members:
+      17199505: {} # Goblin_Leecher
+      17199508: {} # Ghoul
+  - members:
+      17199506: {} # Goblin_Gambler
+      17199509: {} # Ghoul
+  - members:
+      17199546: {} # Goblin_Mugger
+      17199549: {} # Ghoul
+  - members:
+      17199547: {} # Goblin_Leecher
+      17199550: {} # Ghoul
+  - members:
+      17199548: {} # Goblin_Gambler
+      17199551: {} # Ghoul
+  - members:
+      17199554: {} # Snipper
+      17199561: {} # Bogy
+  - members:
+      17199434: {}                           # Damselfly
+      17199438: {chance: 15, cooldown: 3600} # Valkurm_Emperor
+  - members:
+      17199562: {}                           # Giant_Bat
+      17199564: {chance: 15, cooldown: 3600} # Golden_Bat

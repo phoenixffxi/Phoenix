@@ -658,20 +658,20 @@ void LoadAutomatonStats(CCharEntity* PMaster, CPetEntity* PPet, Pet_t* petStats,
         switch (PAutomaton->frame())
         {
             default: // case AutomatonFrame::Harlequin:
-                PPet->WorkingSkills.evasion = battleutils::GetMaxSkill(4, mlvl > 99 ? 99 : mlvl);
-                PPet->setModifier(xi::Mod::DEF, battleutils::GetMaxSkill(7, mlvl > 99 ? 99 : mlvl) / 2); // C
+                PPet->WorkingSkills.evasion = battleutils::GetMaxSkill(4, std::min<uint8>(mlvl, 99));
+                PPet->setModifier(xi::Mod::DEF, battleutils::GetMaxSkill(7, std::min<uint8>(mlvl, 99)) / 2); // C
                 break;
             case AutomatonFrame::Valoredge:
-                PPet->WorkingSkills.evasion = battleutils::GetMaxSkill(7, mlvl > 99 ? 99 : mlvl);
-                PPet->setModifier(xi::Mod::DEF, battleutils::GetMaxSkill(5, mlvl > 99 ? 99 : mlvl) / 2); // B-
+                PPet->WorkingSkills.evasion = battleutils::GetMaxSkill(7, std::min<uint8>(mlvl, 99));
+                PPet->setModifier(xi::Mod::DEF, battleutils::GetMaxSkill(5, std::min<uint8>(mlvl, 99)) / 2); // B-
                 break;
             case AutomatonFrame::Sharpshot:
-                PPet->WorkingSkills.evasion = battleutils::GetMaxSkill(2, mlvl > 99 ? 99 : mlvl);
-                PPet->setModifier(xi::Mod::DEF, battleutils::GetMaxSkill(8, mlvl > 99 ? 99 : mlvl) / 2); // C-
+                PPet->WorkingSkills.evasion = battleutils::GetMaxSkill(2, std::min<uint8>(mlvl, 99));
+                PPet->setModifier(xi::Mod::DEF, battleutils::GetMaxSkill(8, std::min<uint8>(mlvl, 99)) / 2); // C-
                 break;
             case AutomatonFrame::Stormwaker:
-                PPet->WorkingSkills.evasion = battleutils::GetMaxSkill(10, mlvl > 99 ? 99 : mlvl);
-                PPet->setModifier(xi::Mod::DEF, battleutils::GetMaxSkill(9, mlvl > 99 ? 99 : mlvl) / 2); // D
+                PPet->WorkingSkills.evasion = battleutils::GetMaxSkill(10, std::min<uint8>(mlvl, 99));
+                PPet->setModifier(xi::Mod::DEF, battleutils::GetMaxSkill(9, std::min<uint8>(mlvl, 99)) / 2); // D
                 break;
         }
 
@@ -817,8 +817,8 @@ void CalculateAvatarStats(CBattleEntity* PMaster, CPetEntity* PPet)
     {
         // According to JP wiki, this takes on the players main job level but caps at 75~. TODO: Need to confirm.
         // https://wiki.ffo.jp/html/9155.html
-        PPet->SetMLevel(mLvl = (mLvl > 75) ? 75 : mLvl);
-        PPet->SetSLevel(mLvl = (mLvl > 75) ? 75 : mLvl);
+        PPet->SetMLevel(mLvl = std::min<uint8>(mLvl, 75));
+        PPet->SetSLevel(mLvl = std::min<uint8>(mLvl, 75));
     }
     else
     {
@@ -899,7 +899,7 @@ void CalculateAvatarStats(CBattleEntity* PMaster, CPetEntity* PPet)
     // Cap all magic skills so they play nice with spell scripts
     for (int i = static_cast<int>(xi::SkillType::DivineMagic); i <= static_cast<int>(xi::SkillType::BlueMagic); i++)
     {
-        uint16 maxSkill = battleutils::GetMaxSkill((xi::SkillType)i, PPet->GetMJob(), mLvl > 99 ? 99 : mLvl);
+        uint16 maxSkill = battleutils::GetMaxSkill((xi::SkillType)i, PPet->GetMJob(), std::min<uint8>(mLvl, 99));
         if (maxSkill != 0)
         {
             PPet->WorkingSkills.skill[i] = maxSkill;
@@ -907,7 +907,7 @@ void CalculateAvatarStats(CBattleEntity* PMaster, CPetEntity* PPet)
         else
         {
             // Set skill as high as main level, so their spells won't get resisted
-            uint16 maxSubSkill = battleutils::GetMaxSkill((xi::SkillType)i, PPet->GetSJob(), mLvl > 99 ? 99 : mLvl);
+            uint16 maxSubSkill = battleutils::GetMaxSkill((xi::SkillType)i, PPet->GetSJob(), std::min<uint8>(mLvl, 99));
 
             if (maxSubSkill != 0)
             {
@@ -916,9 +916,8 @@ void CalculateAvatarStats(CBattleEntity* PMaster, CPetEntity* PPet)
         }
     }
 
-    if (PMaster->objtype == TYPE_PC)
+    if (auto* PChar = dynamic_cast<CCharEntity*>(PMaster))
     {
-        CCharEntity* PChar = static_cast<CCharEntity*>(PMaster);
         PPet->addModifier(xi::Mod::MATT, PChar->PMeritPoints->GetMeritValue(xi::Merit::AvatarMagicalAttack, PChar));
         PPet->addModifier(xi::Mod::ATT, PChar->PMeritPoints->GetMeritValue(xi::Merit::AvatarPhysicalAttack, PChar));
         PPet->addModifier(xi::Mod::MACC, PChar->PMeritPoints->GetMeritValue(xi::Merit::AvatarMagicalAccuracy, PChar));
@@ -1053,9 +1052,9 @@ void CalculateWyvernStats(CBattleEntity* PMaster, CPetEntity* PPet)
     PPet->setMobMod(xi::MobMod::CanParry, 1);
 
     // Job Point: Wyvern Max HP
-    if (PMaster->objtype == TYPE_PC)
+    if (auto* PChar = dynamic_cast<CCharEntity*>(PMaster))
     {
-        uint8 jpValue = static_cast<CCharEntity*>(PMaster)->PJobPoints->GetJobPointValue(JP_WYVERN_MAX_HP_BONUS);
+        uint8 jpValue = PChar->PJobPoints->GetJobPointValue(JP_WYVERN_MAX_HP_BONUS);
         if (jpValue > 0)
         {
             PPet->addModifier(xi::Mod::HP, jpValue * 10);
@@ -1096,10 +1095,7 @@ void CalculateJugPetStats(CBattleEntity* PMaster, CPetEntity* PPet)
 
     // And cap it to the master's level or weapon ilvl, whichever is greater
     auto capLevel = std::max(PMaster->GetMLevel(), PMaster->m_Weapons[SLOT_MAIN]->getILvl());
-    if (highestLvl > capLevel)
-    {
-        highestLvl = capLevel;
-    }
+    highestLvl    = std::min(highestLvl, capLevel);
 
     // Randomize: 0-2 lvls lower, less Monster Gloves(+1/+2) bonus
     highestLvl -= xirand::GetRandomNumber(3 - std::clamp<int16>(PChar->getMod(xi::Mod::JUG_LEVEL_RANGE), 0, 2));
@@ -1152,7 +1148,7 @@ void CalculateAutomatonStats(CBattleEntity* PMaster, CBattleEntity* PPet)
 
         if (PAutomaton)
         {
-            if (PMaster->objtype == TYPE_PC)
+            if (dynamic_cast<const CCharEntity*>(PMaster) != nullptr)
             {
                 PPet->addModifier(xi::Mod::ATTP, PChar->PMeritPoints->GetMeritValue(xi::Merit::Optimization, PChar));
                 PPet->addModifier(xi::Mod::DEFP, PChar->PMeritPoints->GetMeritValue(xi::Merit::Optimization, PChar));
@@ -1301,7 +1297,7 @@ void SpawnPet(CBattleEntity* PMaster, uint32 PetID, bool spawningFromZone)
         PMaster->loc.zone->InsertPET(PPet);
 
         PPet->Spawn();
-        if (PMaster->objtype == TYPE_PC)
+        if (dynamic_cast<const CCharEntity*>(PMaster) != nullptr)
         {
             SetupPetWithMaster(PMaster, PPet);
         }
@@ -1312,9 +1308,9 @@ void SpawnPet(CBattleEntity* PMaster, uint32 PetID, bool spawningFromZone)
             PPet->loadPetZoningInfo();
         }
     }
-    else if (PMaster->objtype == TYPE_PC)
+    else if (auto* PChar = dynamic_cast<CCharEntity*>(PMaster))
     {
-        static_cast<CCharEntity*>(PMaster)->resetPetZoningInfo();
+        PChar->resetPetZoningInfo();
     }
 }
 
@@ -1411,14 +1407,14 @@ void DetachPet(CBattleEntity* PMaster)
         return;
     }
 
-    if (PMaster->objtype != TYPE_PC)
+    auto* PChar = dynamic_cast<CCharEntity*>(PMaster);
+    if (!PChar)
     {
         ShowWarning("Non-PC passed into function (%s)", PMaster->getName());
         return;
     }
 
-    CBattleEntity* PPet  = PMaster->PPet;
-    CCharEntity*   PChar = static_cast<CCharEntity*>(PMaster);
+    CBattleEntity* PPet = PMaster->PPet;
 
     if (PPet->objtype == TYPE_MOB)
     {
@@ -1772,10 +1768,10 @@ void LoadPet(CBattleEntity* PMaster, uint32 PetID, bool spawningFromZone)
     }
 
     // Ensure a stowed automaton frame always matches the current automaton frame of the master.
-    if (PMaster->objtype == TYPE_PC &&
-        (PetID == PETID_HARLEQUINFRAME || PetID == PETID_VALOREDGEFRAME || PetID == PETID_SHARPSHOTFRAME || PetID == PETID_STORMWAKERFRAME))
+    if (auto* PChar = dynamic_cast<CCharEntity*>(PMaster); PChar &&
+                                                           (PetID == PETID_HARLEQUINFRAME || PetID == PETID_VALOREDGEFRAME || PetID == PETID_SHARPSHOTFRAME || PetID == PETID_STORMWAKERFRAME))
     {
-        const auto frameEquipped = static_cast<CCharEntity*>(PMaster)->getAutomatonFrame();
+        const auto frameEquipped = PChar->getAutomatonFrame();
         if (frameEquipped >= AutomatonFrame::Harlequin && frameEquipped <= AutomatonFrame::Stormwaker)
         {
             const uint32 equippedPetID = static_cast<uint32>(PETID_HARLEQUINFRAME) + static_cast<uint32>(frameEquipped) - static_cast<uint32>(AutomatonFrame::Harlequin);
@@ -1805,9 +1801,9 @@ void LoadPet(CBattleEntity* PMaster, uint32 PetID, bool spawningFromZone)
         return;
     }
 
-    if (PMaster->objtype == TYPE_PC)
+    if (auto* PChar = dynamic_cast<CCharEntity*>(PMaster))
     {
-        static_cast<CCharEntity*>(PMaster)->petZoningInfo.petID = PetID;
+        PChar->petZoningInfo.petID = PetID;
     }
 
     PET_TYPE petType = PET_TYPE::JUG_PET;
@@ -1896,7 +1892,7 @@ void LoadPet(CBattleEntity* PMaster, uint32 PetID, bool spawningFromZone)
     }
 
     CPetEntity* PPet = nullptr;
-    if (petType == PET_TYPE::AUTOMATON && PMaster->objtype == TYPE_PC)
+    if (petType == PET_TYPE::AUTOMATON && dynamic_cast<const CCharEntity*>(PMaster) != nullptr)
     {
         PPet = new CAutomatonEntity(PPetData->PetID);
     }
@@ -1995,9 +1991,9 @@ void LoadPet(CBattleEntity* PMaster, uint32 PetID, bool spawningFromZone)
     {
         CalculateWyvernStats(PMaster, PPet);
     }
-    else if (PPet->getPetType() == PET_TYPE::AUTOMATON && PMaster->objtype == TYPE_PC)
+    else if (auto* PChar = dynamic_cast<CCharEntity*>(PMaster); PPet->getPetType() == PET_TYPE::AUTOMATON && PChar)
     {
-        puppetutils::LoadAutomaton(static_cast<CCharEntity*>(PMaster));
+        puppetutils::LoadAutomaton(PChar);
 
         CalculateAutomatonStats(PMaster, PPet);
 
@@ -2005,7 +2001,7 @@ void LoadPet(CBattleEntity* PMaster, uint32 PetID, bool spawningFromZone)
 
         PPet->PAI->SetController(std::make_unique<CAutomatonController>(static_cast<CAutomatonEntity*>(PPet)));
     }
-    else if (PPet->getPetType() == PET_TYPE::LUOPAN && PMaster->objtype == TYPE_PC)
+    else if (PPet->getPetType() == PET_TYPE::LUOPAN && dynamic_cast<const CCharEntity*>(PMaster) != nullptr)
     {
         CalculateLuopanStats(PMaster, PPet);
     }
@@ -2071,7 +2067,7 @@ bool IsTandemActive(CBattleEntity* PAttacker)
         https://github.com/AirSkyBoat/AirSkyBoat/pull/3134/files#diff-dea0a7c8d005d1e7507dcb2370aff3a46df84ab53d87ba50beeab376c3082621
     */
     CBattleEntity* tandemPartner = nullptr;
-    if (PAttacker->objtype == TYPE_PC)
+    if (dynamic_cast<const CCharEntity*>(PAttacker) != nullptr)
     {
         if (PAttacker->PPet == nullptr)
         {
@@ -2082,7 +2078,7 @@ bool IsTandemActive(CBattleEntity* PAttacker)
     }
     else
     {
-        if (PAttacker->PMaster == nullptr || PAttacker->PMaster->objtype != TYPE_PC)
+        if (PAttacker->PMaster == nullptr || dynamic_cast<const CCharEntity*>(PAttacker->PMaster) == nullptr)
         {
             return false;
         }

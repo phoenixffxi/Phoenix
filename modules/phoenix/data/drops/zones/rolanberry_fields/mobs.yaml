@@ -1,0 +1,16 @@
+# Simurgh drops Trotter Boots at uncommon.
+
+templates:
+  Simurgh:
+    loot:
+      drops:
+        - chance: always
+          item:   reraiser
+        - chance: always
+          item:   vile_elixir
+        - chance: always
+          item:   arcana_breaker
+        - chance: uncommon
+          item:   trotter_boots
+        - chance: rare
+          item:   damascus_ingot

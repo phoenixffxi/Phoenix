@@ -5,14 +5,18 @@
 templates:
 
   Brigandish_Blade:
-    loot: # gem_of_the_south removed
+    loot: # extra gem_of_the_south removed
       drops:
+        - chance: always
+          item:   gem_of_the_south
         - chance: very_common
           item:   libation_abjuration
 
   Steam_Cleaner:
-    loot: # gem_of_the_east removed
+    loot: # extra gem_of_the_east removed
       drops:
+        - chance: always
+          item:   gem_of_the_east
         - chance: common
           item:   libation_abjuration
         - chance: uncommon
@@ -21,8 +25,10 @@ templates:
           item:   freyas_tear
 
   Zipacna:
-    loot: # gem_of_the_north removed
+    loot: # extra gem_of_the_north removed
       drops:
+        - chance: always
+          item:   gem_of_the_north
         - chance: common
           item:   oblation_abjuration
         - chance: uncommon

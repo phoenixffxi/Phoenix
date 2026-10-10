@@ -755,8 +755,25 @@ function CBaseEntity:getContinentID()
 end
 
 ---@nodiscard
+---@param kind xi.mogHouse?
 ---@return boolean
-function CBaseEntity:inMogHouse()
+function CBaseEntity:inMogHouse(kind)
+end
+
+---@param hostId integer
+---@param npc CBaseEntity
+---@return boolean
+function CBaseEntity:visitMogHouse(hostId, npc)
+end
+
+---@nodiscard
+---@return CBaseEntity?
+function CBaseEntity:getMogHouseOwner()
+end
+
+---@nodiscard
+---@return CBaseEntity[]
+function CBaseEntity:getMogHouseVisitors()
 end
 
 ---@param triggerAreaId integer
@@ -1669,6 +1686,23 @@ end
 ---@param sjob integer
 ---@return nil
 function CBaseEntity:setMonstrosityEntryData(x, y, z, rot, zoneId, mjob, sjob)
+end
+
+---@nodiscard
+---@return table<integer, table<integer, { monSpecies: xi.monstrositySpecies?, monVariant: xi.monstrosityVariant?, infamyCost: integer, requirements: { [1]: xi.monstrositySpecies, [2]: integer }[] }>>
+function CBaseEntity:getMonstrosityShop()
+end
+
+---@nodiscard
+---@param zoneId xi.zone
+---@return { [1]: number, [2]: number, [3]: number, [4]: integer }[]
+function CBaseEntity:getMonstrosityExits(zoneId)
+end
+
+---@nodiscard
+---@param zoneId xi.zone
+---@return boolean
+function CBaseEntity:isMonstrosityPassageZone(zoneId)
 end
 
 ---@nodiscard

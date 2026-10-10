@@ -22,6 +22,7 @@
 #pragma once
 
 #include "aman.h"
+#include "data/enums/mog_house.h"
 #include "enums/char_persist.h"
 #include "event_info.h"
 #include "gmcall_container.h"
@@ -29,6 +30,7 @@
 #include "item_container.h"
 #include "items/craft_state.h"
 #include "items/transaction.h"
+#include "moghouse_container.h"
 #include "monstrosity.h"
 
 #include <common/cbasetypes.h>
@@ -617,9 +619,14 @@ public:
                       });
     }
 
+    // free slots of the location that open transactions keep counted as used
+    auto heldSlots(uint8 location) const -> uint8;
+
     void clearTransactions()
     {
-        transactions_.clear();
+        // emptied before the transactions are destroyed, since their rollback can read this list
+        auto closing = std::exchange(transactions_, {});
+        closing.clear();
     }
 
     // The transaction is owned by the initiator
@@ -683,8 +690,9 @@ public:
     uint32 m_moghouseID;
     uint16 m_moghancementID;
 
-    // The character is in ANY Mog House (their own or someone else's)
-    auto inMogHouse() const -> bool;
+    auto inMogHouse(xi::MogHouse kind = xi::MogHouse::Any) const -> bool;
+    auto moghouse() -> MogHouseContainer&;
+    auto moghouse() const -> const MogHouseContainer&;
 
     auto gmCallContainer() -> GMCallContainer&;
     auto lastProposalCloseTime() const -> timer::time_point;
@@ -849,6 +857,7 @@ private:
     Maybe<CAMANContainer> m_AMAN;
     GMCallContainer       gmCallContainer_;
     timer::time_point     lastProposalCloseTime_{}; // Time last /nominate closed
+    MogHouseContainer     moghouse_{ *this };
 
     std::unique_ptr<CItemContainer> m_Inventory;
     std::unique_ptr<CItemContainer> m_Mogsafe;

@@ -254,7 +254,7 @@ bool CMobEntity::TrySpawn()
     {
         if (spawnSlot)
         {
-            spawnSlot->TrySpawn();
+            spawnSlot->TrySpawn(std::nullopt, SlotRoll::Boot);
             return false;
         }
 
@@ -291,10 +291,7 @@ uint32 CMobEntity::GetRandomGil()
 
     float gil = (float)pow(GetMLevel(), 1.05f);
 
-    if (gil < 1)
-    {
-        gil = 1;
-    }
+    gil = std::max(gil, 1.0f);
 
     uint16 highGil = (uint16)(gil / 3 + 4);
 
@@ -303,10 +300,7 @@ uint32 CMobEntity::GetRandomGil()
         highGil = max;
     }
 
-    if (highGil < 2)
-    {
-        highGil = 2;
-    }
+    highGil = std::max<uint16>(highGil, 2);
 
     // randomize it
     gil += xirand::GetRandomNumber(highGil);
@@ -669,9 +663,9 @@ void CMobEntity::PostTick()
             loc.zone->UpdateEntityPacket(this, ENTITY_UPDATE, updatemask);
 
             // If this mob is charmed, it should sync with its master
-            if (PMaster && PMaster->PPet == this && PMaster->objtype == TYPE_PC)
+            if (auto* PChar = dynamic_cast<CCharEntity*>(PMaster); PChar && PChar->PPet == this)
             {
-                ((CCharEntity*)PMaster)->pushPacket<CPetSyncPacket>((CCharEntity*)PMaster);
+                PChar->pushPacket<CPetSyncPacket>(PChar);
             }
 
             updatemask = 0;
@@ -822,7 +816,7 @@ void CMobEntity::Spawn()
             waypoints.push_back({ point, timer::duration::zero(), false });
         }
 
-        if (PAI->PathFind->PathThrough(std::move(waypoints), PATHFLAG_PATROL))
+        if (PAI->PathFind->PathThrough(std::move(waypoints), PATHFLAG_PATROL) && PAI->CanFollowPath())
         {
             PAI->PathFind->FollowPath(timer::now());
         }
@@ -833,7 +827,8 @@ void CMobEntity::Spawn()
     // Roam immediately on spawn
     const auto minTurns = static_cast<uint8>(getMobMod(xi::MobMod::RoamTurnsMin));
     const auto maxTurns = static_cast<uint8>(getMobMod(xi::MobMod::RoamTurns));
-    if (CanRoam() && PAI->PathFind->RoamAround(GetRoamAnchor(), GetRoamDistance(), minTurns, maxTurns, m_roamFlags, roamRegion_))
+    const bool isWorm   = (m_roamFlags & xi::RoamFlag::Worm) != xi::RoamFlag::None;
+    if (CanRoam() && !isWorm && PAI->PathFind->RoamAround(GetRoamAnchor(), GetRoamDistance(), minTurns, maxTurns, m_roamFlags, roamRegion_) && PAI->CanFollowPath())
     {
         PAI->PathFind->FollowPath(timer::now());
     }
@@ -901,6 +896,13 @@ void CMobEntity::DistributeRewards()
             {
                 charutils::DistributeExperiencePoints(PChar, this);
                 charutils::DistributeCapacityPoints(PChar, this);
+            }
+
+            // JP wiki: a Monipulator never earns gil.
+            // TODO: Monipulators find items under Belligerency.
+            if (PChar->m_PMonstrosity)
+            {
+                return;
             }
 
             // check for gil (beastmen drop gil, some NMs drop gil)
@@ -1377,10 +1379,10 @@ void CMobEntity::OnEngage(CAttackState& state)
         // TODO: Supertanking might be effected by this block when we don't want it to be.
         // Things like Ambuscade "don't have" supertanking, though.
         // This block apparently only effects rare things like NW apollyon, so might be ok for now.
-        if (PTarget->objtype == TYPE_PC)
+        if (auto* PChar = dynamic_cast<CCharEntity*>(PTarget))
         {
             // clang-format off
-            ((CCharEntity*)PTarget)->ForAlliance([this, PTarget, range](CBattleEntity* PMember)
+            PChar->ForAlliance([this, PTarget, range](CBattleEntity* PMember)
             {
                 auto currentDistance = distance(PMember->loc.p, PTarget->loc.p);
                 if (currentDistance < range)
@@ -1465,7 +1467,7 @@ void CMobEntity::Die()
     }));
     // clang-format on
 
-    if (PMaster && PMaster->PPet == this && PMaster->objtype == TYPE_PC)
+    if (PMaster && PMaster->PPet == this && dynamic_cast<const CCharEntity*>(PMaster) != nullptr)
     {
         petutils::DetachPet(PMaster);
     }

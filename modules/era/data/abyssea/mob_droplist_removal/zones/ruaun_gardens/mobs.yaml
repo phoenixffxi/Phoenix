@@ -5,8 +5,10 @@
 templates:
 
   Despot:
-    loot: # gem_of_the_west removed
+    loot: # extra gem_of_the_west removed
       drops:
+        - chance: always
+          item:   gem_of_the_west
         - chance: very_common
           item:   oblation_abjuration
         - chance: uncommon

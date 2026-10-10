@@ -42,20 +42,6 @@ auto MapSessionContainer::createSession(IPP ipp) -> MapSession*
 
     ShowDebugFmt("Creating session for {}", ipp.getIPString());
 
-    const auto rset = db::preparedStmt("SELECT charid FROM accounts_sessions WHERE client_addr = ? LIMIT 1", ipp.getIP());
-    if (!rset)
-    {
-        ShowError("SQL query failed in MapSessionContainer::createSession!");
-        return nullptr;
-    }
-
-    if (rset->rowsCount() == 0)
-    {
-        // This is noisy and not really necessary
-        DebugSocketsFmt("recv_parse: Invalid login attempt from {}", ipp.getIPString());
-        return nullptr;
-    }
-
     auto map_session_data = std::make_unique<MapSession>();
 
     map_session_data->scheduler  = &scheduler_;
@@ -89,6 +75,21 @@ auto MapSessionContainer::createPendingSession(uint32 charId) -> MapSession*
     pending_sessions_[charId] = std::move(map_session_data);
 
     return pending_sessions_[charId].get();
+}
+
+void MapSessionContainer::moveSession(MapSession* map_session_data, const IPP ipp)
+{
+    TracyZoneScoped;
+
+    auto node = sessions_.extract(map_session_data->client_ipp);
+    if (node.empty())
+    {
+        return;
+    }
+
+    node.key()                   = ipp;
+    map_session_data->client_ipp = ipp;
+    sessions_.insert(std::move(node));
 }
 
 auto MapSessionContainer::getSessionByIPP(IPP ipp) -> MapSession*
@@ -316,6 +317,27 @@ void MapSessionContainer::cleanupSessions(IPP mapIPP)
 
             return false; // Keep
         });
+}
+
+void MapSessionContainer::shutdown()
+{
+    TracyZoneScoped;
+
+    while (!sessions_.empty())
+    {
+        destroySession(sessions_.begin()->second.get());
+    }
+
+    for (auto& [charId, session] : pending_sessions_)
+    {
+        if (session->PChar && session->PChar->loc.zone)
+        {
+            session->PChar->loc.zone->DecreaseZoneCounter(session->PChar.get());
+        }
+
+        session->PChar.reset();
+    }
+    pending_sessions_.clear();
 }
 
 void MapSessionContainer::destroySession(IPP ipp)

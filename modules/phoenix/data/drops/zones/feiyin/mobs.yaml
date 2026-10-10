@@ -1,0 +1,10 @@
+# Western Shadow drops Retaliators at uncommon.
+
+templates:
+  Western_Shadow:
+    loot:
+      drops:
+        - chance: always
+          item:   revival_tree_root
+        - chance: uncommon
+          item:   retaliators

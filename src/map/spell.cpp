@@ -28,8 +28,10 @@
 
 #include "blue_spell.h"
 #include "mob_spell_list.h"
+#include "monstrosity.h"
 #include "spell.h"
 
+#include "entities/char_entity.h"
 #include "entities/pet_entity.h"
 #include "enums/four_cc.h"
 #include "enums/msg_basic.h"
@@ -716,6 +718,18 @@ bool CanUseSpell(CBattleEntity* PCaster, CSpell* spell)
     bool  usable       = false;
     uint8 requirements = 0;
 
+    // A Monipulator casts with its species' jobs.
+    const auto [mainJob, subJob] = [&]() -> std::pair<xi::Job, xi::Job>
+    {
+        if (const auto* PMonipulator = monstrosity::AsMonipulator(PCaster))
+        {
+            const auto species = monstrosity::GetSpeciesJobs(PMonipulator);
+            return { species.mainJob, species.subJob };
+        }
+
+        return { PCaster->GetMJob(), PCaster->GetSJob() };
+    }();
+
     switch (PCaster->objtype)
     {
         case TYPE_MOB:
@@ -742,7 +756,7 @@ bool CanUseSpell(CBattleEntity* PCaster, CSpell* spell)
             requirements = spell->getRequirements();
 
             // Make sure caster has the right main job and level
-            if (PCaster->GetMLevel() >= spell->getJob(PCaster->GetMJob()))
+            if (PCaster->GetMLevel() >= spell->getJob(mainJob))
             {
                 usable = true;
                 if (requirements & SPELLREQ_TABULA_RASA)
@@ -752,7 +766,7 @@ bool CanUseSpell(CBattleEntity* PCaster, CSpell* spell)
                         usable = false;
                     }
                 }
-                if (PCaster->GetMJob() == xi::Job::SCH)
+                if (mainJob == xi::Job::SCH)
                 {
                     if (requirements & SPELLREQ_ADDENDUM_BLACK)
                     {
@@ -769,7 +783,7 @@ bool CanUseSpell(CBattleEntity* PCaster, CSpell* spell)
                         }
                     }
                 }
-                if (spell->getSpellGroup() == SPELLGROUP_BLUE && PCaster->objtype == TYPE_PC)
+                if (auto* PChar = dynamic_cast<CCharEntity*>(PCaster); spell->getSpellGroup() == SPELLGROUP_BLUE && PChar)
                 {
                     if (requirements & SPELLREQ_UNBRIDLED_LEARNING)
                     {
@@ -778,7 +792,7 @@ bool CanUseSpell(CBattleEntity* PCaster, CSpell* spell)
                             usable = false;
                         }
                     }
-                    else if (!blueutils::IsSpellSet((CCharEntity*)PCaster, (CBlueSpell*)spell))
+                    else if (!blueutils::IsSpellSet(PChar, (CBlueSpell*)spell))
                     {
                         usable = false;
                     }
@@ -790,7 +804,7 @@ bool CanUseSpell(CBattleEntity* PCaster, CSpell* spell)
             }
 
             // Make sure caster has the right sub job and level
-            if (PCaster->GetSLevel() >= spell->getJob(PCaster->GetSJob()) && !(requirements & SPELLREQ_MAIN_JOB_ONLY))
+            if (PCaster->GetSLevel() >= spell->getJob(subJob) && !(requirements & SPELLREQ_MAIN_JOB_ONLY))
             {
                 usable = true;
                 if (requirements & SPELLREQ_TABULA_RASA)
@@ -800,7 +814,7 @@ bool CanUseSpell(CBattleEntity* PCaster, CSpell* spell)
                         usable = false;
                     }
                 }
-                if (PCaster->GetSJob() == xi::Job::SCH)
+                if (subJob == xi::Job::SCH)
                 {
                     if (requirements & SPELLREQ_ADDENDUM_BLACK)
                     {
@@ -817,7 +831,7 @@ bool CanUseSpell(CBattleEntity* PCaster, CSpell* spell)
                         }
                     }
                 }
-                if (spell->getSpellGroup() == SPELLGROUP_BLUE && PCaster->objtype == TYPE_PC)
+                if (auto* PChar = dynamic_cast<CCharEntity*>(PCaster); spell->getSpellGroup() == SPELLGROUP_BLUE && PChar)
                 {
                     if (requirements & SPELLREQ_UNBRIDLED_LEARNING)
                     {
@@ -826,7 +840,7 @@ bool CanUseSpell(CBattleEntity* PCaster, CSpell* spell)
                             usable = false;
                         }
                     }
-                    else if (!blueutils::IsSpellSet((CCharEntity*)PCaster, (CBlueSpell*)spell))
+                    else if (!blueutils::IsSpellSet(PChar, (CBlueSpell*)spell))
                     {
                         usable = false;
                     }

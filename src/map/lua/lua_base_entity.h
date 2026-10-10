@@ -218,7 +218,10 @@ public:
     uint32 getPreviousZoneLineID();
     uint8  getCurrentRegion();
     uint8  getContinentID();
-    bool   inMogHouse();
+    auto   inMogHouse(sol::optional<xi::MogHouse> kind) -> bool;
+    auto   visitMogHouse(uint32 hostId, CLuaBaseEntity* PLuaNpc) -> bool;
+    auto   getMogHouseOwner() -> CBaseEntity*;
+    auto   getMogHouseVisitors() -> sol::table;
 
     bool isPlayerInTriggerArea(uint32 triggerAreaId);
     void onPlayerTriggerAreaEnter(uint32 triggerAreaId);
@@ -408,6 +411,9 @@ public:
     void setBelligerencyFlag(bool flag);
     auto getMonstrositySize() -> uint8;
     void setMonstrosityEntryData(float x, float y, float z, uint8 rot, uint16 zoneId, uint8 mjob, uint8 sjob);
+    auto getMonstrosityShop() -> sol::table;
+    auto getMonstrosityExits(xi::ZoneId zoneId) -> sol::table;
+    auto isMonstrosityPassageZone(xi::ZoneId zoneId) -> bool;
 
     // Player Titles and Fame
     uint16 getTitle();

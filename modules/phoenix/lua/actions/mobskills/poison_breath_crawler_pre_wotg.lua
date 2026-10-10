@@ -28,7 +28,7 @@ m:addOverride('xi.actions.mobskills.poison_breath_crawler.onMobWeaponSkill', fun
         target:takeDamage(info.damage, mob, info.attackType, info.damageType)
 
         local power    = 1
-        local duration = math.random(200, 300)
+        local duration = math.random(60, 300)
 
         xi.mobskills.mobStatusEffectMove(mob, target, xi.effect.POISON, power, 3, duration)
     end

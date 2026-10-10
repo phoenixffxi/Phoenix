@@ -1,0 +1,10 @@
+# Mee Deggi the Punisher drops Ochimusha Kote 10% of the time.
+
+templates:
+  Mee_Deggi_the_Punisher:
+    loot:
+      drops:
+        - chance: always
+          one_of:
+            impact_knuckles: 90
+            ochimusha_kote:  10

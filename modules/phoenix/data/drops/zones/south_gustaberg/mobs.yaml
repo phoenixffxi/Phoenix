@@ -10,3 +10,14 @@ templates:
             - scroll_of_protectra
             - scroll_of_barsleep
             - scroll_of_sneak
+
+  # Leaping Lizzy drops Bounding Boots at uncommon.
+  Leaping_Lizzy:
+    loot:
+      drops:
+        - chance: very_common
+          item:   lizard_tail
+        - chance: uncommon
+          item:   bounding_boots
+        - chance: uncommon
+          item:   lizard_skin
