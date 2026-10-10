@@ -63,6 +63,7 @@ phoenix/data/bazaar_tax
 phoenix/data/npc_lists
 phoenix/data/dynazones
 phoenix/data/limbus
+phoenix/data/nm_respawn
 phoenix/data/drops
 
 # Lua

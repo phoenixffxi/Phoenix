@@ -1,16 +1,16 @@
 diff --git a/src/map/packets/c2s/0x036_item_transfer.cpp b/src/map/packets/c2s/0x036_item_transfer.cpp
-index 972740d4fc..2692d0d8c5 100644
+index 21beb3f366..534d4dd20b 100644
 --- a/src/map/packets/c2s/0x036_item_transfer.cpp
 +++ b/src/map/packets/c2s/0x036_item_transfer.cpp
-@@ -45,7 +45,7 @@ constexpr uint8 MAX_TRADE_SLOTS = 9;
- auto GP_CLI_COMMAND_ITEM_TRANSFER::validate(MapSession* PSession, const CCharEntity* PChar) const -> PacketValidationResult
+@@ -46,7 +46,7 @@ auto GP_CLI_COMMAND_ITEM_TRANSFER::validate(MapSession* PSession, const CCharEnt
  {
+     // A Monipulator can only trade with the Feretory's NPCs.
      return PacketValidator(PChar)
--        .blockedBy({ BlockedState::InEvent, BlockedState::Monstrosity })
-+        .blockedBy({ BlockedState::InEvent, BlockedState::Fishing, BlockedState::Monstrosity })
+-        .blockedBy({ BlockedState::InEvent })
++        .blockedBy({ BlockedState::InEvent, BlockedState::Fishing })
+         .mustEqual(PChar->m_PMonstrosity == nullptr || PChar->getZone() == xi::ZoneId::Feretory, true, "Monipulators only trade in the Feretory")
          .range("ItemNum", this->ItemNum, 1, MAX_TRADE_SLOTS);
  }
- 
 diff --git a/src/map/packets/c2s/0x050_equip_set.cpp b/src/map/packets/c2s/0x050_equip_set.cpp
 index 4245bafd9b..bba051f9e7 100644
 --- a/src/map/packets/c2s/0x050_equip_set.cpp
@@ -1315,13 +1315,13 @@ index 310e3bf968..38f76eae5d 100644
  void             ReelInCatch(CCharEntity* PChar);
  uint8            UnhookMob(CCharEntity* PChar, Lost lost);
 diff --git a/src/test/CMakeLists.txt b/src/test/CMakeLists.txt
-index 0f2265ba32..9c9bfc5dd1 100644
+index 997bbdc585..00ee49bec4 100644
 --- a/src/test/CMakeLists.txt
 +++ b/src/test/CMakeLists.txt
-@@ -70,6 +70,8 @@ xi_add_executable(xi_test testserver.rc
-     ${CMAKE_CURRENT_SOURCE_DIR}/tests/rng_runtime_tests.cpp
+@@ -71,6 +71,8 @@ xi_add_executable(xi_test testserver.rc
      ${CMAKE_CURRENT_SOURCE_DIR}/tests/pathfind_region_tests.cpp
      ${CMAKE_CURRENT_SOURCE_DIR}/tests/roam_region_tests.cpp
+     ${CMAKE_CURRENT_SOURCE_DIR}/tests/transport_voyage_tests.cpp
 +    # Phoenix module tests build here too: modules/ sources otherwise only reach xi_map, which has no Catch2.
 +    ${CMAKE_SOURCE_DIR}/modules/phoenix/tests/fishingutils.cpp
  )
