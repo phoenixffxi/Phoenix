@@ -1,0 +1,125 @@
+# Restores the pre-November 5, 2013 lottery cooldown for Baron Vapula, Baronet Romwe and Count Bifrons.
+# Source: https://forum.square-enix.com/ffxi/threads/38100
+# Slots replace the core list whole, so every slot in the zone is restated.
+
+slots:
+  - members:
+      17440790: {} # Goblin_Poacher
+      17440791: {} # Goblin_Trader
+      17440793: {} # Goblin_Robber
+      17440794: {} # Goblin_Reaper
+  - members:
+      17440803: {} # Goblin_Hunter
+      17440804: {} # Goblin_Bouncer
+      17440805: {} # Goblin_Enchanter
+  - members:
+      17440806: {} # Goblin_Hunter
+      17440807: {} # Goblin_Bouncer
+      17440808: {} # Goblin_Enchanter
+  - members:
+      17440812: {} # Goblin_Hunter
+      17440813: {} # Goblin_Bouncer
+      17440814: {} # Goblin_Enchanter
+  - members:
+      17440815: {} # Goblin_Hunter
+      17440816: {} # Goblin_Bouncer
+      17440817: {} # Goblin_Enchanter
+  - members:
+      17440818: {} # Goblin_Hunter
+      17440819: {} # Goblin_Bouncer
+      17440820: {} # Goblin_Enchanter
+  - members:
+      17440821: {} # Goblin_Hunter
+      17440822: {} # Goblin_Bouncer
+      17440823: {} # Goblin_Enchanter
+  - members:
+      17440824: {} # Goblin_Hunter
+      17440825: {} # Goblin_Bouncer
+      17440826: {} # Goblin_Enchanter
+  - members:
+      17440831: {} # Orcish_Bowshooter
+      17440832: {} # Orcish_Footsoldier
+      17440833: {} # Orcish_Gladiator
+      17440834: {} # Orcish_Trooper
+  - members:
+      17440839: {} # Orcish_Bowshooter
+      17440840: {} # Orcish_Footsoldier
+      17440841: {} # Orcish_Gladiator
+      17440842: {} # Orcish_Trooper
+  - members:
+      17440851: {} # Orcish_Veteran
+      17440852: {} # Orcish_Predator
+      17440853: {} # Orcish_Zerker
+      17440854: {} # Orcish_Warchief
+  - members:
+      17440859: {} # Orcish_Veteran
+      17440860: {} # Orcish_Predator
+      17440861: {} # Orcish_Zerker
+      17440862: {} # Orcish_Warchief
+  - members:
+      17440867: {} # Orcish_Veteran
+      17440868: {} # Orcish_Predator
+      17440869: {} # Orcish_Zerker
+      17440870: {} # Orcish_Warchief
+  - members:
+      17440871: {} # Orcish_Veteran
+      17440872: {} # Orcish_Predator
+      17440873: {} # Orcish_Zerker
+      17440874: {} # Orcish_Warchief
+  - members:
+      17440879: {} # Elder_Quadav
+      17440880: {} # Iron_Quadav
+      17440881: {} # Spinel_Quadav
+      17440882: {} # Emerald_Quadav
+  - members:
+      17440887: {} # Elder_Quadav
+      17440888: {} # Iron_Quadav
+      17440889: {} # Spinel_Quadav
+      17440890: {} # Emerald_Quadav
+  - members:
+      17440895: {} # Elder_Quadav
+      17440896: {} # Iron_Quadav
+      17440897: {} # Spinel_Quadav
+      17440898: {} # Emerald_Quadav
+  - members:
+      17440903: {} # Steel_Quadav
+      17440904: {} # Mythril_Quadav
+      17440905: {} # Gold_Quadav
+      17440906: {} # Topaz_Quadav
+  - members:
+      17440907: {} # Steel_Quadav
+      17440908: {} # Mythril_Quadav
+      17440909: {} # Gold_Quadav
+      17440910: {} # Topaz_Quadav
+  - members:
+      17440915: {} # Yagudo_Zealot
+      17440916: {} # Yagudo_Conquistador
+      17440917: {} # Yagudo_Lutenist
+      17440918: {} # Yagudo_Prior
+  - members:
+      17440923: {} # Yagudo_Zealot
+      17440924: {} # Yagudo_Conquistador
+      17440925: {} # Yagudo_Lutenist
+      17440926: {} # Yagudo_Prior
+  - members:
+      17440931: {} # Yagudo_Zealot
+      17440932: {} # Yagudo_Conquistador
+      17440933: {} # Yagudo_Lutenist
+      17440934: {} # Yagudo_Prior
+  - members:
+      17440939: {} # Yagudo_Sentinel
+      17440940: {} # Yagudo_Chanter
+      17440941: {} # Yagudo_Inquisitor
+      17440942: {} # Yagudo_Abbot
+  - members:
+      17440962: {}                           # Demon_Wizard
+      17440963: {chance: 15, cooldown: 7200} # Baron_Vapula
+  - members:
+      17440968: {}                           # Demon_Knight
+      17440969: {chance: 15, cooldown: 7200} # Count_Bifrons
+  - members:
+      17440973: {}           # Demon_Warlock
+      17440975: {chance: 15} # Viscount_Morax
+  - members:
+      17440985: {}                           # Demon_Pawn
+      17440986: {chance: 15, cooldown: 7200} # Baronet_Romwe

@@ -55,7 +55,6 @@ local shieldedEntities =
 
     ['Beaucedine_Glacier'] =
     {
-        'Nue',
         'Gargantua',
         'Kirata',
     },
@@ -448,11 +447,6 @@ local shieldedEntities =
     ['Promyvion-Mea'] =
     {
         'Coveter',
-    },
-
-    ['PsoXja'] =
-    {
-        'Gyre-Carlin',
     },
 
     ['Qufim_Island'] =

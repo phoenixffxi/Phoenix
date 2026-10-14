@@ -1,0 +1,169 @@
+# Restores the pre-November 5, 2013 lottery cooldown for N/E/W/S Shadows.
+# Source: https://forum.square-enix.com/ffxi/threads/38100
+# Slots replace the core list whole, so every slot in the zone is restated.
+
+slots:
+  - members:
+      17612806: {} # Revenant
+      17612817: {} # Revenant
+  - members:
+      17612812: {} # Revenant
+      17612813: {} # Revenant
+  - members:
+      17612825: {} # Drone
+      17612826: {} # Drone
+  - members:
+      17612829: {} # Drone
+      17612830: {} # Drone
+  - members:
+      17612831: {} # Drone
+      17612832: {} # Drone
+  - members:
+      17612854: {} # Drone
+      17612855: {} # Drone
+  - members:
+      17612860: {} # Drone
+      17612861: {} # Drone
+  - members:
+      17612870: {} # Shadow
+      17612871: {} # Shadow
+  - members:
+      17612872: {} # Shadow
+      17612873: {} # Shadow
+  - members:
+      17612876: {} # Shadow
+      17612877: {} # Shadow
+  - members:
+      17612878: {} # Shadow
+      17612879: {} # Shadow
+  - members:
+      17612891: {} # Shadow
+      17612894: {} # Shadow
+  - members:
+      17612893: {} # Shadow
+      17612895: {} # Shadow
+  - members:
+      17612896: {} # Shadow
+      17612899: {} # Shadow
+  - members:
+      17612897: {} # Shadow
+      17612901: {} # Shadow
+  - members:
+      17612943: {} # Shadow
+      17612944: {} # Shadow
+  - members:
+      17612946: {} # Shadow
+      17612947: {} # Shadow
+  - members:
+      17612948: {} # Shadow
+      17612950: {} # Shadow
+  - members:
+      17612951: {} # Shadow
+      17612953: {} # Shadow
+  - members:
+      17612969: {} # Talos
+      17612970: {} # Talos
+  - members:
+      17612971: {} # Talos
+      17612972: {} # Talos
+  - members:
+      17612979: {} # Camazotz
+      17612981: {} # Camazotz
+  - members:
+      17612986: {} # Utukku
+      17612987: {} # Utukku
+  - members:
+      17612988: {} # Specter
+      17612991: {} # Specter
+  - members:
+      17612989: {} # Specter
+      17612990: {} # Specter
+  - members:
+      17613013: {} # Underworld_Bats
+      17613018: {} # Underworld_Bats
+      17613023: {} # Underworld_Bats
+  - members:
+      17613014: {} # Specter
+      17613015: {} # Specter
+  - members:
+      17613016: {} # Specter
+      17613017: {} # Specter
+  - members:
+      17613019: {} # Specter
+      17613021: {} # Specter
+  - members:
+      17613020: {} # Specter
+      17613022: {} # Specter
+  - members:
+      17613024: {} # Specter
+      17613026: {} # Specter
+  - members:
+      17613025: {} # Specter
+      17613027: {} # Specter
+  - members:
+      17613044: {}          # Colossus
+      17613045: {chance: 4} # Goliath
+      17613046: {}          # Colossus
+      17613047: {chance: 4} # Goliath
+      17613048: {}          # Colossus
+      17613049: {}          # Colossus
+      17613050: {}          # Colossus
+      17613051: {chance: 4} # Goliath
+      17613052: {}          # Colossus
+      17613053: {chance: 4} # Goliath
+      17613054: {}          # Colossus
+  - members:
+      17613059: {} # Talos
+      17613060: {} # Talos
+  - members:
+      17613061: {} # Talos
+      17613064: {} # Talos
+  - members:
+      17613062: {} # Talos
+      17613063: {} # Talos
+  - members:
+      17613069: {} # Camazotz
+      17613071: {} # Camazotz
+  - members:
+      17613073: {} # Killing_Weapon
+      17613077: {} # Killing_Weapon
+  - members:
+      17613075: {} # Killing_Weapon
+      17613079: {} # Killing_Weapon
+  - members:
+      17613081: {} # Utukku
+      17613082: {} # Utukku
+  - members:
+      17613091: {} # Specter
+      17613092: {} # Specter
+      17613094: {} # Specter
+  - members:
+      17613096: {} # Underworld_Bats
+      17613097: {} # Underworld_Bats
+  - members:
+      17613099: {} # Specter
+      17613100: {} # Specter
+      17613101: {} # Specter
+  - members:
+      17613105: {} # Specter
+      17613106: {} # Specter
+      17613107: {} # Specter
+  - members:
+      17613116: {} # Specter
+      17613118: {} # Specter
+      17613119: {} # Specter
+  - members:
+      17612857: {}                           # Clockwork_Pod
+      17612859: {chance: 15, cooldown: 5400} # Mind_Hoarder
+  - members:
+      17613093: {}                            # Specter
+      17613095: {chance: 15, cooldown: 57600} # Western_Shadow
+  - members:
+      17613098: {}                            # Specter
+      17613102: {chance: 15, cooldown: 57600} # Northern_Shadow
+  - members:
+      17613108: {}                            # Specter
+      17613109: {chance: 15, cooldown: 57600} # Eastern_Shadow
+  - members:
+      17613117: {}                            # Specter
+      17613120: {chance: 15, cooldown: 57600} # Southern_Shadow

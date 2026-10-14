@@ -336,7 +336,7 @@ spawns:
 
   17596720:
     template: Serket
-    region:   nw_272
+    region:   [nw_228, w_234, w_240, nw_249, nw_255, w_261, nw_272, w_280, nw_275, nw_285, nw_290]
     level:    [70, 70]
 
   17596721:

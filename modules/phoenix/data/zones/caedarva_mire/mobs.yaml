@@ -176,5 +176,5 @@ spawns:
   17101197:
     template: Khimaira
     at:       null
-    region:   ne_461
+    region:   [ne_461, ne_453, ne_477]
     level:    [85, 85]

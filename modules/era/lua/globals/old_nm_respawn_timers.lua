@@ -20,20 +20,10 @@
 --   Atkorkamuy (Qufim Island)              : 2 hours, only with WotG content on
 --   Bloodsucker (Bostaunieux Oubliette)    : 72 hours exactly
 --   Dosetsu Tree (Qufim Island)            : 21 to 24 hours, still thunder weather only
---   N/E/W/S Shadow (Fei'Yin)               : 16 hour lottery cooldown from Specter PHs
---   Bloodpool Vorax (Pashhow Marshlands)   : 60 minute lottery cooldown
---   Hovering Hotpot (Garlaige Citadel)     : 90 minute lottery cooldown, only with WotG content on
---   Hyakume (Ranguemont Pass)              : 60 minute lottery cooldown, only with WotG content on
---   Nocuous Weapon (Inner Horutoto Ruins)  : 60 minute lottery cooldown, only with WotG content on
---   Slippery Sucker (Qufim Island)         : 60 minute lottery cooldown, only with WotG content on
---   Stray Mary (Konschtat Highlands)       : 60 minute lottery cooldown
---   Valkurm Emperor (Valkurm Dunes)        : 60 minute lottery cooldown
 --   Lumbering Lambert (La Theine Plateau)  : 60 minute lottery cooldown
---   Leaping Lizzy (South Gustaberg)        : 60 minute lottery cooldown
 --   Rampaging Ram (Konschtat Highlands)    : 60 minute lottery cooldown
---   Baron Vapula (Castle Zvahl Keep)       : 2 hour lottery cooldown
---   Baronet Romwe (Castle Zvahl Keep)      : 2 hour lottery cooldown
---   Count Bifrons (Castle Zvahl Keep)      : 2 hour lottery cooldown
+--
+-- Lottery NMs that share a spawn slot keep their old cooldowns in phoenix/data/nm_respawn.
 --
 -- Most of the lottery figures come from a dated before and after on the Japanese wiki.
 -----------------------------------
@@ -42,7 +32,6 @@ require('modules/module_utils')
 local m = Module:new('era_old_nm_respawn_timers', xi.pre(xi.expansion.SOA))
 
 local shakhramiID = zones[xi.zone.MAZE_OF_SHAKHRAMI]
-local feiyinID    = zones[xi.zone.FEIYIN]
 
 -----------------------------------
 -- Simple timed NMs
@@ -147,31 +136,14 @@ m:addOverride('xi.zones.Qufim_Island.mobs.Dosetsu_Tree.onMobDespawn', function(m
 end)
 
 -----------------------------------
--- N/E/W/S Shadows
--- All four take a flat 16 hour cooldown. Base rolls 1 to 2 hours. The 10
--- percent chance and the Specter placeholder mechanics are unchanged.
--- The cooldown lives in a local var and resets with the server, the same as
--- every other lottery NM.
------------------------------------
-m:addOverride('xi.zones.FeiYin.mobs.Specter.onMobDespawn', function(mob)
-    xi.mob.phOnDespawn(mob, feiyinID.mob.NORTHERN_SHADOW, 10, 57600) -- 16 hours
-    xi.mob.phOnDespawn(mob, feiyinID.mob.EASTERN_SHADOW, 10, 57600) -- 16 hours
-    xi.mob.phOnDespawn(mob, feiyinID.mob.WESTERN_SHADOW, 10, 57600) -- 16 hours
-    xi.mob.phOnDespawn(mob, feiyinID.mob.SOUTHERN_SHADOW, 10, 57600) -- 16 hours
-end)
-
------------------------------------
 -- Lottery cooldowns
--- These NMs re-enter the lottery almost as soon as a placeholder dies. Base
--- uses the shortened post-update waits. Before the update the wait was an
--- hour, ninety minutes on Hovering Hotpot.
+-- These NMs still roll from their placeholders' scripts instead of a spawn
+-- slot. Base uses the shortened post-update waits. Before the update the wait
+-- was an hour.
 --
 -- phOnDespawn stores the wait on the NM as a 'pop' deadline from its own
 -- DESPAWN listener. onMobDespawn runs first, so doNotInvokeCooldown makes that
--- listener skip and the value here stands. Overriding the NM instead of the
--- placeholder leaves the roll chance and the placeholder list untouched, and
--- keeps it to one override each where Slippery Sucker has four placeholders
--- and Hovering Hotpot two.
+-- listener skip and the value here stands.
 --
 -- The cooldown lives in a local var and resets with the server, the same as
 -- every other lottery NM.
@@ -179,25 +151,9 @@ end)
 local lotteryNMs =
 {
     -- { zone folder name, mob file name, cooldown }
-    { 'Castle_Zvahl_Keep',   'Baron_Vapula',      7200 }, -- 2 hours
-    { 'Castle_Zvahl_Keep',   'Baronet_Romwe',     7200 }, -- 2 hours
-    { 'Castle_Zvahl_Keep',   'Count_Bifrons',     7200 }, -- 2 hours
     { 'Konschtat_Highlands', 'Rampaging_Ram',     3600 }, -- 60 minutes
-    { 'Konschtat_Highlands', 'Stray_Mary',        3600 }, -- 60 minutes
     { 'La_Theine_Plateau',   'Lumbering_Lambert', 3600 }, -- 60 minutes
-    { 'Pashhow_Marshlands',  'Bloodpool_Vorax',   3600 }, -- 60 minutes
-    { 'South_Gustaberg',     'Leaping_Lizzy',     3600 }, -- 60 minutes
-    { 'Valkurm_Dunes',       'Valkurm_Emperor',   3600 }, -- 60 minutes
 }
-
--- These four are WotG content. Their scripts never load when that content is
--- off. The overrides would error at every boot.
-if not xi.pre(xi.expansion.WOTG) then
-    table.insert(lotteryNMs, { 'Garlaige_Citadel',     'Hovering_Hotpot',   5400 }) -- 90 minutes
-    table.insert(lotteryNMs, { 'Inner_Horutoto_Ruins', 'Nocuous_Weapon',    3600 }) -- 60 minutes
-    table.insert(lotteryNMs, { 'Qufim_Island',         'Slippery_Sucker',   3600 }) -- 60 minutes
-    table.insert(lotteryNMs, { 'Ranguemont_Pass',      'Hyakume',           3600 }) -- 60 minutes
-end
 
 for _, entry in pairs(lotteryNMs) do
     local zoneName = entry[1]

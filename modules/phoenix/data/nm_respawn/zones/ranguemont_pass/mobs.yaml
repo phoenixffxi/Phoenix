@@ -1,0 +1,36 @@
+# Restores the pre-November 5, 2013 lottery cooldown for Hyakume.
+# Source: https://forum.square-enix.com/ffxi/threads/38100
+# Slots replace the core list whole, so every slot in the zone is restated.
+
+slots:
+  - members:
+      17457153: {} # Wind_Bats
+      17457156: {} # Blade_Bat
+  - members:
+      17457171: {} # Goblin_Mugger
+      17457172: {} # Goblin_Leecher
+  - members:
+      17457173: {} # Goblin_Gambler
+      17457174: {} # Goblin_Mugger
+  - members:
+      17457175: {} # Goblin_Leecher
+      17457176: {} # Goblin_Gambler
+  - members:
+      17457183: {} # Goblin_Mugger
+      17457184: {} # Goblin_Leecher
+  - members:
+      17457185: {} # Goblin_Gambler
+      17457186: {} # Goblin_Mugger
+  - members:
+      17457187: {} # Goblin_Leecher
+      17457188: {} # Goblin_Gambler
+  - members:
+      17457220: {} # Goblin_Mugger
+      17457221: {} # Goblin_Leecher
+      17457222: {} # Goblin_Gambler
+  - members:
+      17457200: {}                           # Seeker_Bats
+      17457204: {chance: 15, cooldown: 3600} # Gloom_Eye
+  - members:
+      17457229: {}                           # Hecteyes
+      17457236: {chance: 20, cooldown: 3600} # Hyakume

@@ -1,0 +1,80 @@
+# Restores the pre-November 5, 2013 lottery cooldown for Slippery Sucker.
+# Source: https://forum.square-enix.com/ffxi/threads/38100
+# Slots replace the core list whole, so every slot in the zone is restated.
+
+slots:
+  - members:
+      17293321: {} # Dancing_Weapon
+      17293324: {} # Dancing_Weapon
+  - members:
+      17293325: {} # Dancing_Weapon
+      17293328: {} # Dancing_Weapon
+  - members:
+      17293341: {} # Giant_Ranger
+      17293342: {} # Giant_Ascetic
+      17293343: {} # Giant_Trapper
+      17293345: {} # Giant_Hunter
+  - members:
+      17293346: {} # Giant_Ranger
+      17293347: {} # Giant_Ascetic
+      17293348: {} # Giant_Trapper
+      17293350: {} # Giant_Hunter
+  - members:
+      17293376: {}                           # Giant_Ranger
+      17293377: {}                           # Giant_Ascetic
+      17293378: {}                           # Giant_Trapper
+      17293380: {}                           # Giant_Hunter
+      17293389: {chance: 15, cooldown: 3600} # Slippery_Sucker
+  - members:
+      17293381: {} # Giant_Ranger
+      17293382: {} # Giant_Ascetic
+      17293383: {} # Giant_Trapper
+      17293385: {} # Giant_Hunter
+  - members:
+      17293399: {} # Giant_Ranger
+      17293400: {} # Giant_Ascetic
+      17293401: {} # Giant_Trapper
+      17293403: {} # Giant_Hunter
+  - members:
+      17293417: {} # Giant_Ranger
+      17293418: {} # Giant_Ascetic
+      17293419: {} # Giant_Trapper
+      17293421: {} # Giant_Hunter
+  - members:
+      17293451: {} # Giant_Ranger
+      17293452: {} # Giant_Ascetic
+      17293453: {} # Giant_Trapper
+      17293455: {} # Giant_Hunter
+  - members:
+      17293496: {} # Giant_Ranger
+      17293497: {} # Giant_Ascetic
+      17293498: {} # Giant_Trapper
+      17293500: {} # Giant_Hunter
+  - members:
+      17293519: {} # Giant_Ranger
+      17293520: {} # Giant_Ascetic
+      17293521: {} # Giant_Trapper
+      17293523: {} # Giant_Hunter
+  - members:
+      17293524: {} # Giant_Ranger
+      17293525: {} # Giant_Ascetic
+      17293526: {} # Giant_Trapper
+      17293528: {} # Giant_Hunter
+  - members:
+      17293550: {} # Giant_Ranger
+      17293551: {} # Giant_Ascetic
+      17293552: {} # Giant_Trapper
+      17293554: {} # Giant_Hunter
+  - members:
+      17293555: {} # Giant_Ranger
+      17293556: {} # Giant_Ascetic
+      17293557: {} # Giant_Trapper
+      17293559: {} # Giant_Hunter
+  - members:
+      17293574: {} # Giant_Ranger
+      17293575: {} # Giant_Ascetic
+      17293576: {} # Giant_Trapper
+      17293578: {} # Giant_Hunter
+  - members:
+      17293536: {}                           # Dancing_Weapon
+      17293537: {chance: 15, cooldown: 3600} # Trickster_Kinetix

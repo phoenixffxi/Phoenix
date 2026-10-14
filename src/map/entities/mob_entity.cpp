@@ -254,7 +254,7 @@ bool CMobEntity::TrySpawn()
     {
         if (spawnSlot)
         {
-            spawnSlot->TrySpawn(std::nullopt, SlotRoll::Boot);
+            spawnSlot->TrySpawn();
             return false;
         }
 
@@ -828,7 +828,7 @@ void CMobEntity::Spawn()
     const auto minTurns = static_cast<uint8>(getMobMod(xi::MobMod::RoamTurnsMin));
     const auto maxTurns = static_cast<uint8>(getMobMod(xi::MobMod::RoamTurns));
     const bool isWorm   = (m_roamFlags & xi::RoamFlag::Worm) != xi::RoamFlag::None;
-    if (CanRoam() && !isWorm && PAI->PathFind->RoamAround(GetRoamAnchor(), GetRoamDistance(), minTurns, maxTurns, m_roamFlags, roamRegion_) && PAI->CanFollowPath())
+    if (!PAI->PathFind->IsFollowingPath() && CanRoam() && !isWorm && PAI->PathFind->RoamAround(GetRoamAnchor(), GetRoamDistance(), minTurns, maxTurns, m_roamFlags, roamRegion_) && PAI->CanFollowPath())
     {
         PAI->PathFind->FollowPath(timer::now());
     }
@@ -1433,6 +1433,11 @@ void CMobEntity::Die()
     if (PBattlefield != nullptr)
     {
         PBattlefield->handleDeath(this);
+    }
+
+    if (spawnSlot)
+    {
+        spawnSlot->OnKill(this);
     }
 
     PEnmityContainer->Clear();

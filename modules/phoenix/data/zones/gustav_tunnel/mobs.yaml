@@ -227,5 +227,5 @@ spawns:
 
   17645719:
     template: Baobhan_Sith
-    region:   ne_125
+    region:   [n_120, ne_125, n_123]
     level:    [79, 81]
