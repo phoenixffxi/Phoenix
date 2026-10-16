@@ -26,8 +26,7 @@ CREATE TABLE IF NOT EXISTS `audit_vendor` (
   PRIMARY KEY (`id`),
   KEY `itemid` (`itemid`),
   KEY `charid` (`seller`),
-  KEY `npcid` (`npcid`),
-  KEY `idx_vendor_date_popular` (`date`,`npcid`,`seller`,`quantity`,`direction`,`applied_gil`,`npc_name`)
+  KEY `npcid` (`npcid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 --
