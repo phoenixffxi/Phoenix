@@ -11,8 +11,6 @@ xi.settings = xi.settings or {}
 
 xi.settings.search =
 {
-    -- AH requests require an active, unbanned game session from the peer IP.
-    -- The shared per-IP minute budget scales with the number of active accounts.
     AH_REQUESTS_PER_ACCOUNT_PER_MINUTE = 120,
 
     -- Omit items with no listing history from auction house results
@@ -27,7 +25,7 @@ xi.settings.search =
     -- Interval is in seconds, default is one hour
     EXPIRE_INTERVAL = 3600,
 
-    -- Exempts connection counts only, never AH session checks or request budgets.
+    -- IP address strings in this list won't be subject to 'IPAddressesInUse' rate limiting
     ACCESS_WHITELIST =
     {
         '127.0.0.1',   -- Example, not actually needed
