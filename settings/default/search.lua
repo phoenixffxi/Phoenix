@@ -11,6 +11,8 @@ xi.settings = xi.settings or {}
 
 xi.settings.search =
 {
+    AH_REQUESTS_PER_ACCOUNT_PER_MINUTE = 120,
+
     -- Omit items with no listing history from auction house results
     OMIT_NO_HISTORY = false,
 

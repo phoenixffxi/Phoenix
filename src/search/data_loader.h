@@ -85,6 +85,7 @@ public:
     ~CDataLoader();
 
     auto GetPlayersCount(const SearchRequest& sr) const -> uint32;
+    auto GetActiveAccountsByIP(uint32 ip) const -> uint32;
     auto GetAHItemHistory(uint16 ItemID, bool stack) const -> std::vector<AuctionHouseHistory>;
     auto GetPartyList(uint32 PartyID, uint32 AllianceID) const -> std::vector<SearchEntity>;
     auto GetLinkshellList(uint32 LinkshellID) const -> std::vector<SearchEntity>;
