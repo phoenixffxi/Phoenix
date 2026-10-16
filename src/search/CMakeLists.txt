@@ -2,6 +2,7 @@ add_subdirectory(packets)
 
 set(SOURCES
     ${PACKET_SOURCES}
+    ah_access.h
     data_loader.cpp
     data_loader.h
     enums/search_type.h

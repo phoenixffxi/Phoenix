@@ -50,7 +50,7 @@ private:
 
             if (!ec)
             {
-                const auto handler = std::make_shared<SearchHandler>(scheduler_, std::move(socket), ipInFlight_, ipWhitelist_);
+                const auto handler = std::make_shared<SearchHandler>(scheduler_, std::move(socket), ipInFlight_, ipWhitelist_, ahRequestBudget_);
                 scheduler_.postToMainThread(handler->run());
             }
             else
@@ -65,4 +65,5 @@ private:
 
     SynchronizedShared<std::unordered_set<std::string>>& ipWhitelist_;
     SynchronizedShared<std::map<std::string, uint16_t>>  ipInFlight_;
+    SynchronizedShared<AHRequestBudget>                  ahRequestBudget_;
 };

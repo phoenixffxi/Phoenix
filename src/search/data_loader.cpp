@@ -54,6 +54,18 @@ CDataLoader::~CDataLoader()
 {
 }
 
+auto CDataLoader::GetActiveAccountsByIP(const uint32 ip) const -> uint32
+{
+    // NORMAL is bit 0; BANNED is bit 1. Match the game's stored network-order IP.
+    const auto rset = db::preparedStmt("SELECT COUNT(*) AS active_accounts "
+                                       "FROM accounts_sessions AS s "
+                                       "INNER JOIN accounts AS a ON a.id = s.accid "
+                                       "WHERE s.client_addr = ? AND (a.status & 3) = 1",
+                                       ip);
+
+    return rset && rset->next() ? rset->get<uint32>("active_accounts") : 0;
+}
+
 /************************************************************************
  *                                                                       *
  *  Returns the auction house sale history for a given item.             *

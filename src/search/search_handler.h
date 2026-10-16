@@ -31,6 +31,7 @@
 #include "common/scheduler.h"
 #include "common/synchronized.h"
 
+#include "ah_access.h"
 #include "search.h"
 
 enum TCPREQUESTTYPE
@@ -49,7 +50,7 @@ enum TCPREQUESTTYPE
 class SearchHandler : public std::enable_shared_from_this<SearchHandler>
 {
 public:
-    SearchHandler(Scheduler& scheduler, asio::ip::tcp::socket socket, SynchronizedShared<std::map<std::string, uint16_t>>& IPAddressesInUseList, SynchronizedShared<std::unordered_set<std::string>>& IPAddressWhitelist);
+    SearchHandler(Scheduler& scheduler, asio::ip::tcp::socket socket, SynchronizedShared<std::map<std::string, uint16_t>>& IPAddressesInUseList, SynchronizedShared<std::unordered_set<std::string>>& IPAddressWhitelist, SynchronizedShared<AHRequestBudget>& ahRequestBudget);
     ~SearchHandler();
     auto run() -> Task<void>;
 
@@ -84,6 +85,7 @@ private:
 
     SynchronizedShared<std::map<std::string, uint16_t>>& IPAddressesInUse_;
     SynchronizedShared<std::unordered_set<std::string>>& IPAddressWhitelist_;
+    SynchronizedShared<AHRequestBudget>&                 ahRequestBudget_;
 
     // Blowfish key
     uint8 key[24] = {
