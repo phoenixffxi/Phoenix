@@ -93,7 +93,6 @@ spawns:
   17490101:
     template: Pelican
     region:   s_214
-    level:    [80, 81]
 
   17490111:
     template: Ovinnik

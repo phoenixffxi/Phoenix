@@ -6,46 +6,38 @@ spawns:
   17100899:
     template: Caedarva_Leech
     region:   c_99
-    level:    [63, 65]
 
   17100903:
     template: Mature_Treant
     region:   c_103
-    level:    [70, 72]
 
   17100946:
     template: Heraldic_Imp_CM
     region:   e_146
-    level:    [79, 81]
     script:   Heraldic_Imp
 
   17100949:
     template: Heraldic_Imp_CM
     region:   e_151
-    level:    [79, 81]
     script:   Heraldic_Imp
 
   17100950:
     template: Heraldic_Imp_CM
     region:   e_146
-    level:    [79, 81]
     script:   Heraldic_Imp
 
   17100951:
     template: Heraldic_Imp_CM
     region:   e_151
-    level:    [79, 81]
     script:   Heraldic_Imp
 
   17100953:
     template: Caedarva_Leech
     region:   c_155
-    level:    [63, 65]
 
   17100961:
     template: Heraldic_Imp_CM
     region:   e_160
-    level:    [79, 81]
     script:   Heraldic_Imp
 
   17101021:
@@ -177,4 +169,3 @@ spawns:
     template: Khimaira
     at:       null
     region:   [ne_461, ne_453, ne_477]
-    level:    [85, 85]

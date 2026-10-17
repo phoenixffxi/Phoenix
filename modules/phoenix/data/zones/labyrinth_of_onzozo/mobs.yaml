@@ -108,7 +108,6 @@ spawns:
   17649818:
     template: Soulstealer_Skullnix
     region:   n_191
-    level:    [69, 72]
 
   17649848:
     template: Goblin_Mercenary

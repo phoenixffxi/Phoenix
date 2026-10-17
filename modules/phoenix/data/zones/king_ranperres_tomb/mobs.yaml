@@ -607,7 +607,7 @@ spawns:
   17555831:
     template: Hati
     region:   sw_353
-    level:    [77, 79]
+    level:    [77, 78]
 
   17555832:
     template: Spartoi_Warrior
@@ -617,17 +617,17 @@ spawns:
   17555833:
     template: Hati
     region:   sw_357
-    level:    [77, 79]
+    level:    [77, 78]
 
   17555834:
     template: Hati
     region:   region_105
-    level:    [77, 79]
+    level:    [77, 78]
 
   17555835:
     template: Hati
     region:   sw_361
-    level:    [77, 79]
+    level:    [77, 78]
 
   17555836:
     template: Spartoi_Warrior
@@ -652,22 +652,22 @@ spawns:
   17555840:
     template: Spartoi_Sorcerer
     region:   sw_375
-    level:    [80, 82]
+    level:    [80, 81]
 
   17555841:
     template: Spartoi_Sorcerer
     region:   sw_375
-    level:    [80, 82]
+    level:    [80, 81]
 
   17555842:
     template: Spartoi_Sorcerer
     region:   sw_375
-    level:    [80, 82]
+    level:    [80, 81]
 
   17555843:
     template: Spartoi_Sorcerer
     region:   sw_372
-    level:    [80, 82]
+    level:    [80, 81]
 
   17555844:
     template: Spartoi_Warrior
@@ -687,17 +687,17 @@ spawns:
   17555847:
     template: Spartoi_Sorcerer
     region:   sw_385
-    level:    [80, 82]
+    level:    [80, 81]
 
   17555848:
     template: Spartoi_Sorcerer
     region:   sw_385
-    level:    [80, 82]
+    level:    [80, 81]
 
   17555849:
     template: Spartoi_Sorcerer
     region:   sw_385
-    level:    [80, 82]
+    level:    [80, 81]
 
   17555850:
     template: Spartoi_Warrior
@@ -717,17 +717,17 @@ spawns:
   17555853:
     template: Spartoi_Sorcerer
     region:   sw_390
-    level:    [80, 82]
+    level:    [80, 81]
 
   17555854:
     template: Hati
     region:   sw_398
-    level:    [77, 79]
+    level:    [77, 78]
 
   17555855:
     template: Hati
     region:   sw_398
-    level:    [77, 79]
+    level:    [77, 78]
 
   17555856:
     template: Spartoi_Warrior
@@ -745,24 +745,24 @@ spawns:
     template: Spartoi_Sorcerer
     at:       [-112.872, 7.878, -363.590, 41]
     region:   null
-    level:    [80, 82]
+    level:    [80, 81]
 
   17555859:
     template: Spartoi_Sorcerer
     at:       [-126.241, 7.662, -363.651, 116]
     region:   null
-    level:    [80, 82]
+    level:    [80, 81]
 
   17555860:
     template: Spartoi_Sorcerer
     at:       [-121.881, 7.638, -351.527, 223]
     region:   null
-    level:    [80, 82]
+    level:    [80, 81]
 
   17555861:
     template: Hati
     region:   s_434
-    level:    [77, 79]
+    level:    [77, 78]
 
   17555862:
     template: Spartoi_Warrior
@@ -777,12 +777,12 @@ spawns:
   17555864:
     template: Spartoi_Sorcerer
     region:   s_438
-    level:    [80, 82]
+    level:    [80, 81]
 
   17555865:
     template: Spartoi_Sorcerer
     region:   s_438
-    level:    [80, 82]
+    level:    [80, 81]
 
   17555866:
     template: Spartoi_Warrior
@@ -797,32 +797,32 @@ spawns:
   17555868:
     template: Spartoi_Sorcerer
     region:   s_442
-    level:    [80, 82]
+    level:    [80, 81]
 
   17555869:
     template: Spartoi_Sorcerer
     region:   s_442
-    level:    [80, 82]
+    level:    [80, 81]
 
   17555870:
     template: Spartoi_Sorcerer
     region:   region_107
-    level:    [80, 82]
+    level:    [80, 81]
 
   17555871:
     template: Spartoi_Sorcerer
     region:   region_107
-    level:    [80, 82]
+    level:    [80, 81]
 
   17555872:
     template: Hati
     region:   s_427
-    level:    [77, 79]
+    level:    [77, 78]
 
   17555873:
     template: Hati
     region:   s_422
-    level:    [77, 79]
+    level:    [77, 78]
 
   17555874:
     template: Spartoi_Warrior
@@ -847,27 +847,27 @@ spawns:
   17555878:
     template: Spartoi_Sorcerer
     region:   region_109
-    level:    [80, 82]
+    level:    [80, 81]
 
   17555879:
     template: Spartoi_Sorcerer
     region:   s_427
-    level:    [80, 82]
+    level:    [80, 81]
 
   17555880:
     template: Spartoi_Sorcerer
     region:   s_422
-    level:    [80, 82]
+    level:    [80, 81]
 
   17555881:
     template: Hati
     region:   se_458
-    level:    [77, 79]
+    level:    [77, 78]
 
   17555882:
     template: Hati
     region:   region_110
-    level:    [77, 79]
+    level:    [77, 78]
 
   17555883:
     template: Spartoi_Warrior
@@ -902,27 +902,27 @@ spawns:
   17555889:
     template: Spartoi_Sorcerer
     region:   se_470
-    level:    [80, 82]
+    level:    [80, 81]
 
   17555890:
     template: Spartoi_Sorcerer
     region:   se_474
-    level:    [80, 82]
+    level:    [80, 81]
 
   17555891:
     template: Spartoi_Sorcerer
     region:   se_474
-    level:    [80, 82]
+    level:    [80, 81]
 
   17555892:
     template: Spartoi_Sorcerer
     region:   se_474
-    level:    [80, 82]
+    level:    [80, 81]
 
   17555893:
     template: Spartoi_Sorcerer
     region:   se_474
-    level:    [80, 82]
+    level:    [80, 81]
 
   17555894:
     template: Lemures

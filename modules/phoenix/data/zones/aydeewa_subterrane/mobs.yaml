@@ -82,7 +82,6 @@ spawns:
   17055967:
     template: Qiqirn_Archaeologist
     region:   c_227
-    level:    [73, 75]
 
   17056019:
     template: Aydeewa_Diremite

@@ -6,27 +6,22 @@ spawns:
   16793764:
     template: Tropical_Rarab
     region:   n_200
-    level:    [73, 76]
 
   16793782:
     template: Catoblepas
     region:   n_213
-    level:    [76, 77]
 
   16793787:
     template: Tropical_Rarab
     region:   n_200
-    level:    [73, 76]
 
   16793790:
     template: Catoblepas
     region:   n_206
-    level:    [76, 77]
 
   16793791:
     template: Tropical_Rarab
     region:   n_217
-    level:    [73, 76]
 
   16793800:
     template: Hobgoblin_Toreador

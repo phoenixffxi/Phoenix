@@ -53,139 +53,115 @@ spawns:
   17461295:
     template: Haunt
     region:   w_28
-    level:    [60, 63]
 
   17461301:
     template: Mousse_BO
     region:   se_118
-    level:    [58, 62]
     script:   Mousse
 
   17461302:
     template: Mousse_BO
     region:   e_121
-    level:    [58, 62]
     script:   Mousse
 
   17461303:
     template: Mousse_BO
     region:   s_99
-    level:    [58, 62]
     script:   Mousse
 
   17461304:
     template: Mousse_BO
     region:   s_98
-    level:    [58, 62]
     script:   Mousse
 
   17461305:
     template: Mousse_BO
     region:   s_109
-    level:    [58, 62]
     script:   Mousse
 
   17461306:
     template: Mousse_BO
     region:   s_107
-    level:    [58, 62]
     script:   Mousse
 
   17461307:
     template: Sewer_Syrup
     region:   s_109
-    level:    [64, 66]
 
   17461308:
     template: Garm_BO
     region:   ne_155
-    level:    [64, 66]
     script:   Garm
 
   17461309:
     template: Garm_BO
     region:   ne_157
-    level:    [64, 66]
     script:   Garm
 
   17461310:
     template: Garm_BO
     region:   c_136
-    level:    [64, 66]
     script:   Garm
 
   17461311:
     template: Garm_BO
     region:   ne_157
-    level:    [64, 66]
     script:   Garm
 
   17461312:
     template: Garm_BO
     region:   c_136
-    level:    [64, 66]
     script:   Garm
 
   17461313:
     template: Garm_BO
     region:   region_97
-    level:    [64, 66]
     script:   Garm
 
   17461314:
     template: Garm_BO
     region:   c_136
-    level:    [64, 66]
     script:   Garm
 
   17461315:
     template: Shii
     region:   c_136
-    level:    [70, 71]
 
   17461334:
     template: Garm_BO
     region:   w_174
-    level:    [64, 66]
     script:   Garm
 
   17461335:
     template: Garm_BO
     region:   se_123
-    level:    [64, 66]
     script:   Garm
 
   17461338:
     template: Drexerion_the_Condemned
     region:   ne_170
-    level:    [72, 73]
 
   17461339:
     template: Garm_BO
     region:   se_127
-    level:    [64, 66]
     script:   Garm
 
   17461340:
     template: Garm_BO
     region:   se_127
-    level:    [64, 66]
     script:   Garm
 
   17461341:
     template: Haunt
     region:   s_109
-    level:    [60, 63]
 
   17461342:
     template: Haunt
     region:   s_107
-    level:    [60, 63]
 
   17461343:
     template: Phanduron_the_Condemned
     region:   ne_170
-    level:    [72, 73]
 
   17461344:
     template: Dark_Aspic
@@ -390,57 +366,46 @@ spawns:
   17461423:
     template: Werebat
     region:   e_139
-    level:    [55, 59]
 
   17461424:
     template: Werebat
     region:   e_140
-    level:    [55, 59]
 
   17461425:
     template: Werebat
     region:   e_140
-    level:    [55, 59]
 
   17461426:
     template: Werebat
     region:   e_140
-    level:    [55, 59]
 
   17461427:
     template: Werebat
     region:   e_143
-    level:    [55, 59]
 
   17461428:
     template: Werebat
     region:   ne_146
-    level:    [55, 59]
 
   17461429:
     template: Werebat
     region:   ne_162
-    level:    [55, 59]
 
   17461430:
     template: Werebat
     region:   ne_162
-    level:    [55, 59]
 
   17461431:
     template: Werebat
     region:   ne_162
-    level:    [55, 59]
 
   17461432:
     template: Werebat
     region:   ne_162
-    level:    [55, 59]
 
   17461433:
     template: Arioch
     region:   ne_150
-    level:    [56, 62]
 
   17461469:
     template: Gespenst
@@ -455,7 +420,6 @@ spawns:
   17461471:
     template: Manes
     region:   se_127
-    level:    [72, 73]
 
   17461476:
     template: Gespenst

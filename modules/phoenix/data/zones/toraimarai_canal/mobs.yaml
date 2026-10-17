@@ -154,7 +154,6 @@ spawns:
   17469547:
     template: Fleshcraver
     region:   e_244
-    level:    [60, 62]
 
   17469548:
     template: Fleshcraver
@@ -164,22 +163,18 @@ spawns:
   17469549:
     template: Fleshcraver
     region:   e_230
-    level:    [60, 62]
 
   17469550:
     template: Fleshcraver
     region:   e_230
-    level:    [60, 62]
 
   17469551:
     template: Mindcraver
     region:   e_244
-    level:    [60, 62]
 
   17469552:
     template: Mindcraver
     region:   e_244
-    level:    [60, 62]
 
   17469579:
     template: Makara
@@ -700,19 +695,19 @@ spawns:
   17469701:
     template: Bloodsucker_TC
     region:   sw_167
-    level:    [64, 67]
+    level:    [54, 57]
     script:   Bloodsucker
 
   17469702:
     template: Bloodsucker_TC
     region:   sw_167
-    level:    [64, 67]
+    level:    [54, 57]
     script:   Bloodsucker
 
   17469703:
     template: Bloodsucker_TC
     region:   sw_167
-    level:    [64, 67]
+    level:    [54, 57]
     script:   Bloodsucker
 
   17469704:

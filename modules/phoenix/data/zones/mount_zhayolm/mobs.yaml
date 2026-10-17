@@ -51,17 +51,17 @@ spawns:
   17027113:
     template: Assassin_Fly
     region:   se_41
-    level:    [70, 76]
+    level:    [71, 74]
 
   17027114:
     template: Assassin_Fly
     region:   se_41
-    level:    [70, 76]
+    level:    [71, 74]
 
   17027115:
     template: Assassin_Fly
     region:   se_19
-    level:    [70, 76]
+    level:    [71, 74]
 
   17027116:
     template: Phasma
