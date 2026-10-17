@@ -20,3 +20,7 @@ UPDATE `item_usable` SET reuseDelay = 86400, useDelay = 30 WHERE `name` = "warp_
 UPDATE `item_usable` SET reuseDelay = 57600, useDelay = 15 WHERE `name` = "chariot_band"; -- 16 hour cooldown, 15 second use delay
 UPDATE `item_usable` SET reuseDelay = 57600, useDelay = 15 WHERE `name` = "empress_band"; -- 16 hour cooldown, 15 second use delay
 UPDATE `item_usable` SET reuseDelay = 57600, useDelay = 15 WHERE `name` = "emperor_band"; -- 16 hour cooldown, 15 second use delay
+
+-- 24 Hour cooldown on Trick Staff II and 120 Hour cooldown on Treat Staff II
+UPDATE `item_usable` SET reuseDelay = 86400 WHERE `name` = "trick_staff_ii"; -- 24 hour cooldown
+UPDATE `item_usable` SET reuseDelay = 432000 WHERE `name` = "treat_staff_ii"; -- 120 hour cooldown
