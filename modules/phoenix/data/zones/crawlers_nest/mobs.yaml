@@ -123,77 +123,62 @@ spawns:
   17584199:
     template: Hornfly
     region:   s_86
-    level:    [51, 53]
 
   17584200:
     template: Hornfly
     region:   s_86
-    level:    [51, 53]
 
   17584201:
     template: Hornfly
     region:   s_86
-    level:    [51, 53]
 
   17584202:
     template: Hornfly
     region:   s_96
-    level:    [51, 53]
 
   17584203:
     template: Hornfly
     region:   s_96
-    level:    [51, 53]
 
   17584204:
     template: Exoray
     region:   s_106
-    level:    [51, 53]
 
   17584205:
     template: Hornfly
     region:   s_106
-    level:    [51, 53]
 
   17584206:
     template: Hornfly
     region:   s_106
-    level:    [51, 53]
 
   17584207:
     template: Exoray
     region:   s_106
-    level:    [51, 53]
 
   17584208:
     template: Hornfly
     region:   s_114
-    level:    [51, 53]
 
   17584209:
     template: Exoray
     region:   s_168
-    level:    [51, 53]
 
   17584210:
     template: Exoray
     region:   s_168
-    level:    [51, 53]
 
   17584211:
     template: Exoray
     region:   s_168
-    level:    [51, 53]
 
   17584212:
     template: Exoray
     region:   s_168
-    level:    [51, 53]
 
   17584213:
     template: Exoray
     region:   s_168
-    level:    [51, 53]
 
   17584214:
     template: Worker_Crawler_CN
@@ -297,7 +282,7 @@ spawns:
   17584233:
     template: Mushussu_CN
     region:   s_146
-    level:    [56, 57]
+    level:    [53, 55]
     script:   Mushussu
 
   17584234:
@@ -328,7 +313,7 @@ spawns:
   17584239:
     template: Mushussu_CN
     region:   s_156
-    level:    [56, 57]
+    level:    [53, 55]
     script:   Mushussu
 
   17584240:
@@ -354,7 +339,7 @@ spawns:
   17584244:
     template: Mushussu_CN
     region:   s_136
-    level:    [56, 57]
+    level:    [53, 55]
     script:   Mushussu
 
   17584245:
@@ -470,61 +455,49 @@ spawns:
   17584298:
     template: Blazer_Beetle
     region:   s_114
-    level:    [52, 54]
 
   17584299:
     template: Blazer_Beetle
     region:   s_114
-    level:    [52, 54]
 
   17584300:
     template: Blazer_Beetle
     region:   s_146
-    level:    [52, 54]
 
   17584303:
     template: Blazer_Beetle
     region:   s_146
-    level:    [52, 54]
 
   17584304:
     template: Blazer_Beetle
     region:   s_146
-    level:    [52, 54]
 
   17584307:
     template: Blazer_Beetle
     region:   s_156
-    level:    [52, 54]
 
   17584308:
     template: Blazer_Beetle
     region:   s_136
-    level:    [52, 54]
 
   17584309:
     template: Blazer_Beetle
     region:   s_136
-    level:    [52, 54]
 
   17584310:
     template: Blazer_Beetle
     region:   s_126
-    level:    [52, 54]
 
   17584311:
     template: Blazer_Beetle
     region:   s_126
-    level:    [52, 54]
 
   17584321:
     template: Knight_Crawler_CN
     region:   sw_193
-    level:    [60, 63]
     script:   Knight_Crawler
 
   17584378:
     template: Mushussu_CN
     region:   n_249
-    level:    [56, 57]
     script:   Mushussu

@@ -243,157 +243,126 @@ spawns:
   17559577:
     template: Goblin_Thug
     region:   c_25
-    level:    [5, 8]
 
   17559578:
     template: Goblin_Weaver
     region:   c_25
-    level:    [5, 8]
 
   17559585:
     template: Goblin_Ambusher
     region:   e_134
-    level:    [12, 16]
 
   17559586:
     template: Goblin_Ambusher
     region:   e_134
-    level:    [12, 16]
 
   17559587:
     template: Goblin_Tinkerer
     region:   e_134
-    level:    [12, 16]
 
   17559588:
     template: Goblin_Butcher
     region:   e_134
-    level:    [12, 16]
 
   17559589:
     template: Wadi_Hare
     region:   ne_159
-    level:    [11, 14]
 
   17559590:
     template: Wadi_Hare
     region:   ne_153
-    level:    [11, 14]
 
   17559591:
     template: Wadi_Hare
     region:   ne_153
-    level:    [11, 14]
 
   17559592:
     template: Steam_Lizard
     region:   n_225
-    level:    [16, 20]
 
   17559593:
     template: Goblin_Ambusher
     region:   e_144
-    level:    [12, 16]
 
   17559594:
     template: Goblin_Ambusher
     region:   ne_156
-    level:    [12, 16]
 
   17559595:
     template: Goblin_Tinkerer
     region:   e_144
-    level:    [12, 16]
 
   17559596:
     template: Goblin_Butcher
     region:   e_134
-    level:    [12, 16]
 
   17559597:
     template: Wadi_Hare
     region:   ne_156
-    level:    [11, 14]
 
   17559598:
     template: Wadi_Hare
     region:   ne_156
-    level:    [11, 14]
 
   17559599:
     template: Wadi_Hare
     region:   ne_156
-    level:    [11, 14]
 
   17559600:
     template: Steam_Lizard
     region:   n_219
-    level:    [16, 20]
 
   17559601:
     template: Wadi_Hare
     region:   n_165
-    level:    [11, 14]
 
   17559602:
     template: Wadi_Hare
     region:   n_171
-    level:    [11, 14]
 
   17559606:
     template: Goblin_Thug
     region:   s_99
-    level:    [5, 8]
 
   17559607:
     template: Goblin_Weaver
     region:   s_99
-    level:    [5, 8]
 
   17559627:
     template: Rock_Lizard
     region:   se_74
-    level:    [5, 8]
 
   17559628:
     template: Rock_Lizard
     region:   se_74
-    level:    [5, 8]
 
   17559629:
     template: Goblin_Thug
     region:   se_55
-    level:    [5, 8]
 
   17559630:
     template: Goblin_Weaver
     region:   se_55
-    level:    [5, 8]
 
   17559635:
     template: Rock_Lizard
     region:   se_74
-    level:    [5, 8]
 
   17559662:
     template: Goblin_Ambusher
     region:   n_171
-    level:    [12, 16]
 
   17559663:
     template: Goblin_Ambusher
     region:   ne_182
-    level:    [12, 16]
 
   17559664:
     template: Goblin_Tinkerer
     region:   sw_314
-    level:    [12, 16]
 
   17559665:
     template: Goblin_Butcher
     region:   sw_314
-    level:    [12, 16]
 
   17559666:
     template: Wadi_Leech
@@ -416,27 +385,22 @@ spawns:
   17559669:
     template: Steam_Lizard
     region:   n_219
-    level:    [16, 20]
 
   17559670:
     template: Goblin_Ambusher
     region:   c_257
-    level:    [12, 16]
 
   17559671:
     template: Goblin_Ambusher
     region:   c_257
-    level:    [12, 16]
 
   17559672:
     template: Goblin_Tinkerer
     region:   sw_314
-    level:    [12, 16]
 
   17559673:
     template: Goblin_Butcher
     region:   e_144
-    level:    [12, 16]
 
   17559674:
     template: Wadi_Leech
@@ -459,7 +423,6 @@ spawns:
   17559677:
     template: Steam_Lizard
     region:   n_231
-    level:    [16, 20]
 
   17559678:
     template: Rock_Lizard

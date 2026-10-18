@@ -50,6 +50,11 @@ public:
     void formAlliance(CLuaBaseEntity* player) const;
     void acceptPartyInvite() const;
     void leaveParty() const;
+    void requestParty(CLuaBaseEntity* player) const;
+    void cancelPartyRequest(CLuaBaseEntity* player) const;
+    void setAcceptingRequests(bool enabled) const;
+    void setSeekingParty(bool enabled) const;
+    void blacklistAdd(CLuaBaseEntity* player) const;
     void setLevelSync(CLuaBaseEntity* player) const;
     void tradeNpc(const sol::object& npcQuery, const sol::table& items, sol::optional<sol::table> expectedEvent) const;
     void tradeRequest(CLuaBaseEntity* target) const;
@@ -87,7 +92,7 @@ public:
     void plantHarvest(uint8 potContainer, uint8 potSlot, sol::optional<bool> uproot) const;
     void plantDry(uint8 potContainer, uint8 potSlot) const;
 
-    void placeFurniture(uint8 container, uint8 slot, uint8 x, uint8 z) const;
+    void placeFurniture(uint8 container, uint8 slot, uint8 x, uint8 z, sol::optional<uint8> y) const;
     void finishFurnishing() const;
 
     static void Register();

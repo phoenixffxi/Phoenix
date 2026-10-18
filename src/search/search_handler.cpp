@@ -277,9 +277,16 @@ void SearchHandler::read_func(const uint16_t length)
             }
             break;
             case TCP_AH_REQUEST:
-            case TCP_AH_REQUEST_MORE:
             {
                 HandleAuctionHouseRequest();
+            }
+            break;
+            case TCP_AH_REQUEST_MORE:
+            {
+                // Every page was already sent for the first request and this one carries no query.
+                CAHItemsListPacket PAHPacket(0);
+                PAHPacket.SetItemCount(0);
+                searchPackets_.emplace_back(PAHPacket.GetData(), PAHPacket.GetSize());
             }
             break;
             case TCP_AH_HISTORY_SINGLE:
@@ -506,32 +513,25 @@ void SearchHandler::HandleAuctionHouseRequest()
 {
     const uint8 AHCatID = ref<uint8>(buffer_.data(), 0x16);
 
-    // 2 - level
-    // 3 - race
-    // 4 - job
-    // 5 - damage
-    // 6 - delay
-    // 7 - defense
-    // 8 - resistance
-    // 9 - name
-    // A repeated key cannot change the order, so the four distinct keys fill every slot the query has.
-    auto        sortKeys   = std::array<uint8, 4>{};
-    auto        keyCount   = 0U;
-    const uint8 paramCount = ref<uint8>(buffer_.data(), 0x12);
-    for (uint8 i = 0; i < paramCount && keyCount < sortKeys.size(); ++i) // Item sort options
+    // Each entry is a type followed by a word: bit 0 has value, bit 1 descending, bits 2-16 value.
+    constexpr uint8                maxParams = 20;
+    std::vector<AuctionQueryParam> params;
+    const uint8                    paramCount = std::min(ref<uint8>(buffer_.data(), 0x12), maxParams);
+    for (uint8 i = 0; i < paramCount; ++i)
     {
-        const uint8 param = ref<uint32>(buffer_.data(), 0x18 + 8 * i);
-        ShowInfoFmt(" Param{}: {}", i, param);
+        const auto type = static_cast<AuctionParam>(ref<uint32>(buffer_.data(), 0x18 + 8 * i));
+        const auto bits = ref<uint32>(buffer_.data(), 0x1C + 8 * i);
 
-        const auto isSortKey = param == 2 || param == 5 || param == 6 || param == 9;
-        if (isSortKey && std::ranges::find(sortKeys, param) == sortKeys.end())
-        {
-            sortKeys[keyCount++] = param;
-        }
+        params.push_back(AuctionQueryParam{
+            .type       = type,
+            .hasValue   = (bits & 0x01) != 0,
+            .descending = (bits & 0x02) != 0,
+            .value      = static_cast<uint16>((bits >> 2) & 0x7FFF),
+        });
     }
 
     const CDataLoader PDataLoader;
-    const auto        ItemList = PDataLoader.GetAHItemsToCategory(AHCatID, sortKeys);
+    const auto        ItemList = PDataLoader.GetAHItemsToCategory(AHCatID, params);
 
     const std::size_t itemListSize = ItemList.size();
     const std::size_t PacketsCount = (itemListSize / 20) + (itemListSize % 20 != 0) + (itemListSize == 0);
@@ -603,7 +603,7 @@ auto SearchHandler::_HandleSearchRequest(const uint16_t length) -> SearchRequest
     uint8 minRank = 0;
     uint8 maxRank = 0;
 
-    uint16 areas[15] = {};
+    uint16 areas[16] = {};
 
     uint32 flags = 0;
 
@@ -624,7 +624,7 @@ auto SearchHandler::_HandleSearchRequest(const uint16_t length) -> SearchRequest
         const auto EntryType = static_cast<SearchType>(unpackBitsLE(&buffer_[0x11], bitOffset, 5));
         bitOffset += 5;
 
-        if ((EntryType != SearchType::Friend) && (EntryType != SearchType::Linkshell) && (EntryType != SearchType::Linkshell2) && (EntryType != SearchType::Comment) && (EntryType != SearchType::Flags2))
+        if ((EntryType != SearchType::Friend) && (EntryType != SearchType::RequestList) && (EntryType != SearchType::Linkshell) && (EntryType != SearchType::Linkshell2) && (EntryType != SearchType::Linkshell3) && (EntryType != SearchType::Comment) && (EntryType != SearchType::Flags2))
         {
             if ((bitOffset + 3) >= workloadBits) // so 0000000 at the end does not get interpreted as name entry
             {
@@ -636,6 +636,12 @@ auto SearchHandler::_HandleSearchRequest(const uint16_t length) -> SearchRequest
 
             isPresent = static_cast<unsigned char>(unpackBitsLE(&buffer_[0x11], bitOffset, 1));
             bitOffset += 1;
+
+            // entries arrive in sort priority order, area repeats once per zone
+            if (!std::ranges::contains(sr.sortOrder, EntryType, &std::pair<SearchType, bool>::first))
+            {
+                sr.sortOrder.emplace_back(EntryType, sortDescending != 0);
+            }
         }
 
         switch (EntryType)
@@ -724,6 +730,17 @@ auto SearchHandler::_HandleSearchRequest(const uint16_t length) -> SearchRequest
                 }
                 break;
             }
+            case SearchType::MasterLevel: // Master level - 16 bit
+            {
+                if (isPresent == 0x1)
+                {
+                    sr.minMasterLvl = static_cast<uint8>(unpackBitsLE(&buffer_[0x11], bitOffset, 8));
+                    bitOffset += 8;
+                    sr.maxMasterLvl = static_cast<uint8>(unpackBitsLE(&buffer_[0x11], bitOffset, 8));
+                    bitOffset += 8;
+                }
+                break;
+            }
             case SearchType::Race: // Race - 4 bit
             {
                 if (isPresent == 0x1)
@@ -779,9 +796,19 @@ auto SearchHandler::_HandleSearchRequest(const uint16_t length) -> SearchRequest
                 ShowInfoFmt("Linkshell2 Entry found. Value: {}", hex32ToString(sr.lsId.value()));
                 break;
             }
+            case SearchType::Linkshell3: // 4 Byte
+            {
+                bitOffset += 32;
+                break;
+            }
             case SearchType::Friend: // Friend Packet, 0 byte
             {
                 sr.friendsOnly = true;
+                break;
+            }
+            case SearchType::RequestList: // Party request history, 0 byte
+            {
+                sr.requestListOnly = true;
                 break;
             }
             case SearchType::Flags1: // Flag Entry #1, 2 byte,
@@ -835,19 +862,38 @@ auto SearchHandler::_HandleSearchRequest(const uint16_t length) -> SearchRequest
         sr.name.insert(0, name);
     }
 
+    const uint16 dataLength    = length - searchPacketTrailerSize;
+    uint16       trailerOffset = 0x11 + size;
+
     // Friend searches append a uint16 count and the uint32 charids of online friends after the query block
     if (sr.friendsOnly)
     {
         constexpr uint16 maxFriendIds = 200;
-        const uint16     countOffset  = 0x11 + size;
-        const uint16     idsOffset    = countOffset + 2;
-        const uint16     dataLength   = length - searchPacketTrailerSize;
+        const uint16     idsOffset    = trailerOffset + 2;
         if (dataLength >= idsOffset)
         {
-            const auto count = std::min<uint16>({ ref<uint16>(buffer_.data(), countOffset), maxFriendIds, static_cast<uint16>((dataLength - idsOffset) / 4) });
+            const auto count = std::min<uint16>({ ref<uint16>(buffer_.data(), trailerOffset), maxFriendIds, static_cast<uint16>((dataLength - idsOffset) / 4) });
             for (uint16 index = 0; index < count; ++index)
             {
                 sr.characterIds.push_back(ref<uint32>(buffer_.data(), idsOffset + index * 4));
+            }
+
+            trailerOffset = idsOffset + count * 4;
+        }
+    }
+
+    // Request list searches append a uint16 count and the 16-byte names from the client's party request history
+    if (sr.requestListOnly)
+    {
+        constexpr uint16 maxRequestNames = 64;
+        constexpr uint16 nameSize        = 16;
+        const uint16     namesOffset     = trailerOffset + 2;
+        if (dataLength >= namesOffset)
+        {
+            const auto count = std::min<uint16>({ ref<uint16>(buffer_.data(), trailerOffset), maxRequestNames, static_cast<uint16>((dataLength - namesOffset) / nameSize) });
+            for (uint16 index = 0; index < count; ++index)
+            {
+                sr.characterNames.push_back(asStringFromUntrustedSource(&buffer_[namesOffset + index * nameSize], nameSize - 1));
             }
         }
     }

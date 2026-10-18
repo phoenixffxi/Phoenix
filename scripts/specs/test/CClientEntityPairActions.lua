@@ -96,6 +96,36 @@ end
 function CClientEntityPairActions:leaveParty()
 end
 
+---Request to join a player's party
+---@param player CBaseEntity Player to send the request to
+---@return nil
+function CClientEntityPairActions:requestParty(player)
+end
+
+---Withdraw a request to join a player's party
+---@param player CBaseEntity Player the request was sent to
+---@return nil
+function CClientEntityPairActions:cancelPartyRequest(player)
+end
+
+---Toggle the accepting party requests flag
+---@param enabled boolean
+---@return nil
+function CClientEntityPairActions:setAcceptingRequests(enabled)
+end
+
+---Toggle the seeking party flag
+---@param enabled boolean
+---@return nil
+function CClientEntityPairActions:setSeekingParty(enabled)
+end
+
+---Add a player to the blacklist
+---@param player CBaseEntity Player to blacklist
+---@return nil
+function CClientEntityPairActions:blacklistAdd(player)
+end
+
 ---Level sync the party to a member (caller must be party leader)
 ---@param player CBaseEntity Party member to sync to
 ---@return nil
@@ -333,13 +363,14 @@ end
 function CClientEntityPairActions:plantDry(potContainer, potSlot)
 end
 
----Install a furnishing on the 1st floor at grid cell (x, z).
+---Install a furnishing on the 1st floor at grid cell (x, z), optionally stacked at elevation y.
 ---@param container xi.inventoryLocation Container holding the furnishing
 ---@param slot integer Furnishing slot index
 ---@param x integer Grid x cell
 ---@param z integer Grid z cell
+---@param y integer? Stacking elevation (parent height / 10)
 ---@return nil
-function CClientEntityPairActions:placeFurniture(container, slot, x, z)
+function CClientEntityPairActions:placeFurniture(container, slot, x, z, y)
 end
 
 ---Finish placing furniture; recomputes the active moghancement.

@@ -355,37 +355,31 @@ spawns:
   17567889:
     template: Poison_Leech_OC_2
     region:   c_153
-    level:    [25, 27]
     script:   Poison_Leech
 
   17567890:
     template: Poison_Leech_OC_2
     region:   c_153
-    level:    [25, 27]
     script:   Poison_Leech
 
   17567891:
     template: Poison_Leech_OC_2
     region:   c_153
-    level:    [25, 27]
     script:   Poison_Leech
 
   17567892:
     template: Poison_Leech_OC_2
     region:   c_153
-    level:    [25, 27]
     script:   Poison_Leech
 
   17567893:
     template: Poison_Leech_OC_2
     region:   c_153
-    level:    [25, 27]
     script:   Poison_Leech
 
   17567894:
     template: Poison_Leech_OC_2
     region:   c_153
-    level:    [25, 27]
     script:   Poison_Leech
 
   17567895:
@@ -403,31 +397,26 @@ spawns:
   17567897:
     template: Jelly_MS_OC
     region:   sw_119
-    level:    [26, 28]
     script:   Jelly
 
   17567898:
     template: Jelly_MS_OC
     region:   sw_119
-    level:    [26, 28]
     script:   Jelly
 
   17567899:
     template: Jelly_MS_OC
     region:   sw_119
-    level:    [26, 28]
     script:   Jelly
 
   17567900:
     template: Jelly_MS_OC
     region:   sw_119
-    level:    [26, 28]
     script:   Jelly
 
   17567901:
     template: Agar_Agar
     region:   sw_119
-    level:    [64, 66]
 
   17567906:
     template: Goblin_Gambler

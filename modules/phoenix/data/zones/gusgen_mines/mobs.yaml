@@ -128,17 +128,14 @@ spawns:
   17580125:
     template: Bogy
     region:   w_153
-    level:    [27, 29]
 
   17580126:
     template: Bogy
     region:   w_162
-    level:    [27, 29]
 
   17580135:
     template: Jelly_KT_GM
     region:   w_162
-    level:    [27, 29]
     script:   Jelly
 
   17580139:
@@ -205,13 +202,13 @@ spawns:
   17580150:
     template: Wight_blm
     region:   w_159
-    level:    [30, 34]
+    level:    [29, 33]
     script:   Wight
 
   17580151:
     template: Wight_blm
     region:   w_183
-    level:    [30, 34]
+    level:    [29, 33]
     script:   Wight
 
   17580152:
@@ -272,7 +269,7 @@ spawns:
   17580162:
     template: Wight_blm
     region:   w_183
-    level:    [30, 34]
+    level:    [29, 33]
     script:   Wight
 
   17580163:
@@ -296,13 +293,13 @@ spawns:
   17580166:
     template: Wight_blm
     region:   c_143
-    level:    [30, 34]
+    level:    [29, 33]
     script:   Wight
 
   17580167:
     template: Wight_blm
     region:   c_143
-    level:    [30, 34]
+    level:    [29, 33]
     script:   Wight
 
   17580168:
@@ -382,13 +379,13 @@ spawns:
   17580182:
     template: Wight_blm
     region:   e_127
-    level:    [30, 34]
+    level:    [29, 33]
     script:   Wight
 
   17580183:
     template: Wight_blm
     region:   e_135
-    level:    [30, 34]
+    level:    [29, 33]
     script:   Wight
 
   17580184:
@@ -400,13 +397,13 @@ spawns:
   17580185:
     template: Wight_blm
     region:   e_135
-    level:    [30, 34]
+    level:    [29, 33]
     script:   Wight
 
   17580186:
     template: Wight_blm
     region:   e_119
-    level:    [30, 34]
+    level:    [29, 33]
     script:   Wight
 
   17580187:

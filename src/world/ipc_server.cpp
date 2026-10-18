@@ -1,4 +1,4 @@
-﻿/*
+/*
 ===========================================================================
 
   Copyright (c) 2025 LandSandBoat Dev Teams
@@ -517,6 +517,13 @@ void IPCServer::handleMessage_PartyInviteResponse(const IPP& ipp, const ipc::Par
 
     // TODO:
     // worldServer_.partySystem_->handleMessage(message);
+}
+
+void IPCServer::handleMessage_PartyRequest(const IPP& ipp, const ipc::PartyRequest& message)
+{
+    TracyZoneScoped;
+
+    rerouteMessageToCharId(message.recipientId, message);
 }
 
 void IPCServer::handleMessage_PartyReload(const IPP& ipp, const ipc::PartyReload& message)

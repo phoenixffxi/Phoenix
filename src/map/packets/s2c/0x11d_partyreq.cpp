@@ -19,15 +19,16 @@
 ===========================================================================
 */
 
-#pragma once
+#include "0x11d_partyreq.h"
 
-#include "base.h"
+GP_SERV_COMMAND_PARTYREQ::GP_SERV_COMMAND_PARTYREQ(const uint32_t id, const uint16_t targid, const std::string& requesterName, const uint16_t race, const GP_SERV_COMMAND_PARTYREQ_STATUS status)
+{
+    auto& packet = this->data();
 
-// https://github.com/atom0s/XiPackets/tree/main/world/client/0x001C
-// The purpose of this packet is currently unknown.
-// The client will send this packet each time the player uses a job ability while having a pet active.
-GP_CLI_PACKET(GP_CLI_COMMAND_UNKNOWN,
-              uint16_t unknown00; // This value is always set to the local players target index.
-              uint16_t padding00; // Padding; unused.
-              uint32_t unknown01; // Unknown. This value is always set to 1.
-);
+    packet.UniqueNo = id;
+    packet.ActIndex = targid;
+    packet.Status   = static_cast<uint8_t>(status);
+    packet.Race     = race;
+
+    std::memcpy(packet.sName, requesterName.c_str(), std::min<size_t>(requesterName.size(), sizeof(packet.sName)));
+}

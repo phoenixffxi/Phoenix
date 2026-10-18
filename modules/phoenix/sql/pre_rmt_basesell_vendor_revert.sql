@@ -360,6 +360,9 @@ UPDATE item_basic SET baseSell = 811 WHERE itemid = 5722;
 -- Remedy
 UPDATE item_basic SET baseSell = 3200 WHERE itemid = 4155;
 
+-- Eye Drops (we use the price before this patch: https://forum.square-enix.com/ffxi/threads/63174) - This is a 2025 Change, never delete this
+UPDATE item_basic SET baseSell = 519 WHERE itemid = 4150;
+
 -- Chocobo Blinker
 UPDATE item_basic SET baseSell = 450 WHERE itemid = 2399;
 

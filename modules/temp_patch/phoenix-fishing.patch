@@ -1,5 +1,5 @@
 diff --git a/src/map/packets/c2s/0x036_item_transfer.cpp b/src/map/packets/c2s/0x036_item_transfer.cpp
-index 018fa3bb5f..e2c013c3fe 100644
+index 66fbca9f11..4bb5d8e761 100644
 --- a/src/map/packets/c2s/0x036_item_transfer.cpp
 +++ b/src/map/packets/c2s/0x036_item_transfer.cpp
 @@ -47,7 +47,7 @@ auto GP_CLI_COMMAND_ITEM_TRANSFER::validate(MapSession* PSession, const CCharEnt
@@ -12,10 +12,10 @@ index 018fa3bb5f..e2c013c3fe 100644
          .range("ItemNum", this->ItemNum, 1, MAX_TRADE_SLOTS);
  }
 diff --git a/src/map/packets/c2s/0x050_equip_set.cpp b/src/map/packets/c2s/0x050_equip_set.cpp
-index 4245bafd9b..bba051f9e7 100644
+index 04733e85fc..b879c4e687 100644
 --- a/src/map/packets/c2s/0x050_equip_set.cpp
 +++ b/src/map/packets/c2s/0x050_equip_set.cpp
-@@ -79,7 +79,7 @@ const auto validContainers = [](const CCharEntity* PChar) -> std::set<CONTAINER_
+@@ -80,7 +80,7 @@ const auto validContainers = [](const CCharEntity* PChar) -> std::set<CONTAINER_
  auto GP_CLI_COMMAND_EQUIP_SET::validate(MapSession* PSession, const CCharEntity* PChar) const -> PacketValidationResult
  {
      return PacketValidator(PChar)
@@ -25,15 +25,15 @@ index 4245bafd9b..bba051f9e7 100644
          .oneOf("Category", static_cast<CONTAINER_ID>(this->Category), validContainers(PChar));
  }
 diff --git a/src/map/packets/c2s/0x051_equipset_set.cpp b/src/map/packets/c2s/0x051_equipset_set.cpp
-index de10ca525b..3d3914f050 100644
+index 820f7883df..0e6f5fa72a 100644
 --- a/src/map/packets/c2s/0x051_equipset_set.cpp
 +++ b/src/map/packets/c2s/0x051_equipset_set.cpp
-@@ -81,7 +81,7 @@ auto GP_CLI_COMMAND_EQUIPSET_SET::validate(MapSession* PSession, const CCharEnti
-     const auto allowedContainers = validContainers(PChar);
+@@ -83,7 +83,7 @@ auto GP_CLI_COMMAND_EQUIPSET_SET::validate(MapSession* PSession, const CCharEnti
  
+     // JP wiki: a Monipulator cannot use /equipset.
      auto pv = PacketValidator(PChar)
--                  .blockedBy({ BlockedState::InEvent, BlockedState::AbnormalStatus })
-+                  .blockedBy({ BlockedState::InEvent, BlockedState::AbnormalStatus, BlockedState::Fishing })
+-                  .blockedBy({ BlockedState::InEvent, BlockedState::AbnormalStatus, BlockedState::Monstrosity })
++                  .blockedBy({ BlockedState::InEvent, BlockedState::AbnormalStatus, BlockedState::Fishing, BlockedState::Monstrosity })
                    .range("Count", this->Count, 1, 16);
  
      if (this->Count <= 16)
@@ -64,15 +64,15 @@ index 500eca35f2..4fe222c8b7 100644
          .oneOf<GP_CLI_COMMAND_REQLOGOUT_KIND>(this->Kind);
  }
 diff --git a/src/map/packets/c2s/0x0e8_camp.cpp b/src/map/packets/c2s/0x0e8_camp.cpp
-index 6986ee133d..d3503c7702 100644
+index 55d090e8c2..03cea5e259 100644
 --- a/src/map/packets/c2s/0x0e8_camp.cpp
 +++ b/src/map/packets/c2s/0x0e8_camp.cpp
-@@ -31,7 +31,7 @@
- auto GP_CLI_COMMAND_CAMP::validate(MapSession* PSession, const CCharEntity* PChar) const -> PacketValidationResult
+@@ -33,7 +33,7 @@ auto GP_CLI_COMMAND_CAMP::validate(MapSession* PSession, const CCharEntity* PCha
  {
+     // JP wiki: a Monipulator cannot /heal.
      return PacketValidator(PChar)
--        .blockedBy({ BlockedState::InEvent, BlockedState::Dead, BlockedState::AbnormalStatus, BlockedState::Crafting, BlockedState::PreventAction, BlockedState::Engaged })
-+        .blockedBy({ BlockedState::InEvent, BlockedState::Dead, BlockedState::AbnormalStatus, BlockedState::Crafting, BlockedState::Fishing, BlockedState::PreventAction, BlockedState::Engaged })
+-        .blockedBy({ BlockedState::InEvent, BlockedState::Dead, BlockedState::AbnormalStatus, BlockedState::Crafting, BlockedState::PreventAction, BlockedState::Engaged, BlockedState::Monstrosity })
++        .blockedBy({ BlockedState::InEvent, BlockedState::Dead, BlockedState::AbnormalStatus, BlockedState::Crafting, BlockedState::Fishing, BlockedState::PreventAction, BlockedState::Engaged, BlockedState::Monstrosity })
          .oneOf<GP_CLI_COMMAND_REQLOGOUT_MODE>(this->Mode)
          .mustNotEqual(
              PChar->animation == xi::Animation::Healing &&
@@ -1245,7 +1245,7 @@ index 2db5f997f7..69ab49f61d 100644
  
  } // namespace fishingutils
 diff --git a/src/map/utils/fishingutils.h b/src/map/utils/fishingutils.h
-index 310e3bf968..38f76eae5d 100644
+index e16ea2f713..e830bd381f 100644
 --- a/src/map/utils/fishingutils.h
 +++ b/src/map/utils/fishingutils.h
 @@ -27,6 +27,7 @@
@@ -1317,10 +1317,10 @@ index 310e3bf968..38f76eae5d 100644
  void             ReelInCatch(CCharEntity* PChar);
  uint8            UnhookMob(CCharEntity* PChar, Lost lost);
 diff --git a/src/test/CMakeLists.txt b/src/test/CMakeLists.txt
-index 997bbdc585..00ee49bec4 100644
+index 7bb4b90b3f..2684c6b6b6 100644
 --- a/src/test/CMakeLists.txt
 +++ b/src/test/CMakeLists.txt
-@@ -71,6 +71,8 @@ xi_add_executable(xi_test testserver.rc
+@@ -72,6 +72,8 @@ xi_add_executable(xi_test testserver.rc
      ${CMAKE_CURRENT_SOURCE_DIR}/tests/pathfind_region_tests.cpp
      ${CMAKE_CURRENT_SOURCE_DIR}/tests/roam_region_tests.cpp
      ${CMAKE_CURRENT_SOURCE_DIR}/tests/transport_voyage_tests.cpp

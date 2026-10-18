@@ -263,22 +263,22 @@ spawns:
   17571874:
     template: Blade_Bat
     region:   nw_34
-    level:    [4, 7]
+    level:    [4, 6]
 
   17571875:
     template: Blade_Bat
     region:   nw_34
-    level:    [4, 7]
+    level:    [4, 6]
 
   17571876:
     template: Blade_Bat
     region:   nw_34
-    level:    [4, 7]
+    level:    [4, 6]
 
   17571877:
     template: Blade_Bat
     region:   nw_34
-    level:    [4, 7]
+    level:    [4, 6]
 
   17571878:
     template: Goblin_Ambusher
@@ -352,7 +352,6 @@ spawns:
   17571892:
     template: Black_Slime
     region:   nw_66
-    level:    [23, 25]
 
   17571904:
     template: Stink_Bats_OHR

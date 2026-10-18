@@ -1,4 +1,4 @@
-﻿/*
+/*
 ===========================================================================
 
   Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -776,7 +776,9 @@ auto MonipulatorBaseHP(const xi::Job mjob, const xi::Job sjob, const uint8 level
 {
     const auto mJobGrade = grade::GetJobGrade(mjob, 0);
     const auto sJobGrade = grade::GetJobGrade(sjob, 0);
-    const auto mainHP    = CalculateBaseMobHP(level, grade::GetMobHPScale(mJobGrade, 0), grade::GetMobHPScale(mJobGrade, 1), grade::GetMobHPScale(mJobGrade, 2));
+    // Retail Spriggans weight the level 1 base two to one between the main and sub job.
+    const auto baseHP = static_cast<uint8>((2 * grade::GetMobHPScale(mJobGrade, 0) + grade::GetMobHPScale(sJobGrade, 0)) / 3);
+    const auto mainHP = CalculateBaseMobHP(level, baseHP, grade::GetMobHPScale(mJobGrade, 1), grade::GetMobHPScale(mJobGrade, 2));
 
     return mainHP + SubjobHPAtLevel(level, grade::GetMobHPScale(sJobGrade, 1), grade::GetMobHPScale(sJobGrade, 2));
 }
@@ -1100,7 +1102,18 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
     // If a mob is going to dual wield, then it needs to have a sub slot.
     // Assume it is the same damage as the main slot.
     // Ordering matters. This has to come after SetupJob
-    static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_SUB])->setDamage(PMob->IsDualWielding() ? GetBaseWeaponDamage(PMob, SLOT_MAIN) : 0);
+    // TODO: hook up modmod/ecosystem/something to set damage. fomors/hydras probably aren't all blunt.
+    if (PMob->IsDualWielding())
+    {
+        static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_SUB])->setDamage(GetBaseWeaponDamage(PMob, SLOT_MAIN));
+
+        static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_MAIN])->setDmgType(xi::DamageType::Slashing); // Assume Fomor/Hydra NIN are slashing
+        static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_SUB])->setDmgType(xi::DamageType::Slashing);
+    }
+    else
+    {
+        static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_MAIN])->setDmgType(xi::DamageType::Blunt);
+    }
 
     SetupRoaming(PMob);
 

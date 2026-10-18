@@ -174,7 +174,6 @@ spawns:
   17575953:
     template: Shade_war
     region:   ne_59
-    level:    [42, 46]
     script:   Shade
 
   17575954:
@@ -204,7 +203,6 @@ spawns:
   17575958:
     template: Lost_Soul_blm_EN
     region:   ne_65
-    level:    [42, 46]
     script:   Lost_Soul
 
   17575959:
@@ -414,7 +412,6 @@ spawns:
   17576180:
     template: Shade_war
     region:   n_25
-    level:    [46, 48]
     script:   Shade
 
   17576181:
@@ -438,13 +435,11 @@ spawns:
   17576184:
     template: Lost_Soul_blm_EN
     region:   n_23
-    level:    [42, 46]
     script:   Lost_Soul
 
   17576185:
     template: Lost_Soul_blm_EN
     region:   n_27
-    level:    [42, 46]
     script:   Lost_Soul
 
   17576236:
@@ -480,7 +475,6 @@ spawns:
   17576241:
     template: Lost_Soul_blm_EN
     region:   se_42
-    level:    [42, 46]
     script:   Lost_Soul
 
   17576242:
@@ -492,5 +486,4 @@ spawns:
   17576243:
     template: Lost_Soul_blm_EN
     region:   se_47
-    level:    [42, 46]
     script:   Lost_Soul

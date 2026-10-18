@@ -197,43 +197,35 @@ spawns:
   17457213:
     template: Taisai
     region:   n_127
-    level:    [35, 38]
 
   17457214:
     template: Taisai
     region:   n_127
-    level:    [35, 38]
 
   17457215:
     template: Taisai
     region:   n_127
-    level:    [35, 38]
 
   17457216:
     template: Taisaijin
     at:       null
     region:   n_127
-    level:    [60, 60]
 
   17457223:
     template: Stirge
     region:   nw_118
-    level:    [30, 33]
 
   17457224:
     template: Stirge
     region:   nw_118
-    level:    [30, 33]
 
   17457225:
     template: Giant_Scorpion
     region:   n_135
-    level:    [38, 40]
 
   17457226:
     template: Bat_Eye
     region:   n_135
-    level:    [42, 44]
 
   17457248:
     template: Seeker_Bats_KT_RP_Qufim

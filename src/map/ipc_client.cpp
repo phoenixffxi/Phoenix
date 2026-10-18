@@ -32,6 +32,7 @@
 #include "conquest_system.h"
 #include "linkshell.h"
 #include "map_networking.h"
+#include "monstrosity.h"
 #include "party.h"
 #include "status_effect_container.h"
 #include "unitychat.h"
@@ -46,6 +47,7 @@
 #include "packets/s2c/0x053_systemmes.h"
 #include "packets/s2c/0x0cc_linkshell_message.h"
 #include "packets/s2c/0x0dc_group_solicit_req.h"
+#include "packets/s2c/0x11d_partyreq.h"
 
 #include "gmcall_container.h"
 #include "items/item_linkshell.h"
@@ -448,6 +450,7 @@ void IPCClient::handleMessage_PartyInvite(const IPP& ipp, const ipc::PartyInvite
         if (PInvitee->isDead() ||
             jailutils::InPrison(PInvitee) ||
             PInvitee->InvitePending.entity.UniqueNo != 0 ||
+            !monstrosity::CanParty(PInvitee) ||
             (PInvitee->PParty && message.inviteType == PartyKind::Party) ||
             (message.inviteType == PartyKind::Alliance && (!PInvitee->PParty || PInvitee->PParty->GetLeader() != PInvitee || (PInvitee->PParty && PInvitee->PParty->m_PAlliance))))
         {
@@ -507,6 +510,14 @@ void IPCClient::handleMessage_PartyInviteResponse(const IPP& ipp, const ipc::Par
         if (message.inviteAnswer == 0)
         {
             PInviter->pushPacket<GP_SERV_COMMAND_MESSAGE>(PInviter, 0, 0, MsgStd::InvitationDeclined);
+        }
+        else if (!monstrosity::CanParty(PInviter))
+        {
+            // The inviter became a Monipulator while the invite was pending.
+            message::send(ipc::MessageStandard{
+                .recipientId = message.inviteeId,
+                .message     = MsgStd::CannotBeProcessed,
+            });
         }
         else
         {
@@ -578,6 +589,22 @@ void IPCClient::handleMessage_PartyInviteResponse(const IPP& ipp, const ipc::Par
                 }
             }
         }
+    }
+}
+
+void IPCClient::handleMessage_PartyRequest(const IPP& ipp, const ipc::PartyRequest& message)
+{
+    TracyZoneScoped;
+
+    if (CCharEntity* PRecipient = zoneutils::GetChar(message.recipientId))
+    {
+        uint16 targid = 0;
+        if (PRecipient->getZone() == message.requesterZoneId)
+        {
+            targid = message.requesterTargId;
+        }
+
+        PRecipient->pushPacket<GP_SERV_COMMAND_PARTYREQ>(message.requesterId, targid, message.requesterName, message.requesterRace, static_cast<GP_SERV_COMMAND_PARTYREQ_STATUS>(message.kind));
     }
 }
 

@@ -217,12 +217,12 @@ spawns:
   17588366:
     template: Maze_Scorpion
     region:   n_141
-    level:    [25, 28]
+    level:    [25, 27]
 
   17588367:
     template: Maze_Scorpion
     region:   c_157
-    level:    [25, 28]
+    level:    [25, 27]
 
   17588368:
     template: Jelly_MS_OC
@@ -288,7 +288,7 @@ spawns:
   17588383:
     template: Maze_Scorpion
     region:   c_179
-    level:    [25, 28]
+    level:    [25, 27]
 
   17588384:
     template: Jelly_MS_OC
@@ -373,7 +373,7 @@ spawns:
   17588398:
     template: Maze_Scorpion
     region:   se_210
-    level:    [25, 28]
+    level:    [25, 27]
 
   17588399:
     template: Jelly_MS_OC
@@ -384,47 +384,39 @@ spawns:
   17588446:
     template: Seeker_Bats_MoS_Ord
     region:   n_126
-    level:    [23, 26]
     script:   Seeker_Bats
 
   17588447:
     template: Seeker_Bats_MoS_Ord
     region:   c_133
-    level:    [23, 26]
     script:   Seeker_Bats
 
   17588455:
     template: Seeker_Bats_MoS_Ord
     region:   n_141
-    level:    [23, 26]
     script:   Seeker_Bats
 
   17588456:
     template: Seeker_Bats_MoS_Ord
     region:   n_141
-    level:    [23, 26]
     script:   Seeker_Bats
 
   17588467:
     template: Seeker_Bats_MoS_Ord
     region:   n_141
-    level:    [23, 26]
     script:   Seeker_Bats
 
   17588468:
     template: Seeker_Bats_MoS_Ord
     region:   n_149
-    level:    [23, 26]
     script:   Seeker_Bats
 
   17588516:
     template: Ancient_Bat_LDT_MoS
     region:   c_173
-    level:    [26, 29]
     script:   Ancient_Bat
 
   17588648:
     template: Ancient_Bat_LDT_MoS
     region:   c_173
-    level:    [26, 29]
     script:   Ancient_Bat

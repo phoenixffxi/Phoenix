@@ -47,6 +47,7 @@ era/sql/wotg
 
 # CPP
 custom/cpp/ah_pagination.cpp
+tools/packetcap/packetcap.cpp
 
 # YAML - ORDER MATTERS
 era/data

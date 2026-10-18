@@ -282,12 +282,12 @@ spawns:
   17596665:
     template: Fallen_Major
     region:   nw_135
-    level:    [59, 62]
+    level:    [60, 62]
 
   17596666:
     template: Fallen_Major
     region:   nw_290
-    level:    [59, 62]
+    level:    [60, 62]
 
   17596667:
     template: Fallen_Mage
@@ -302,12 +302,12 @@ spawns:
   17596669:
     template: Fallen_Major
     region:   c_302
-    level:    [59, 62]
+    level:    [60, 62]
 
   17596670:
     template: Fallen_Major
     region:   c_302
-    level:    [59, 62]
+    level:    [60, 62]
 
   17596671:
     template: Hellmine
@@ -322,54 +322,43 @@ spawns:
   17596717:
     template: Wraith
     region:   c_302
-    level:    [60, 62]
 
   17596718:
     template: Wraith
     region:   c_302
-    level:    [60, 62]
 
   17596719:
     template: Wraith
     region:   c_302
-    level:    [60, 62]
 
   17596720:
     template: Serket
     region:   [nw_228, w_234, w_240, nw_249, nw_255, w_261, nw_272, w_280, nw_275, nw_285, nw_290]
-    level:    [70, 70]
 
   17596721:
     template: Wraith
     region:   nw_290
-    level:    [60, 62]
 
   17596722:
     template: Magic_Jug
     region:   nw_285
-    level:    [62, 64]
 
   17596723:
     template: Magic_Jug
     region:   nw_290
-    level:    [62, 64]
 
   17596724:
     template: Magic_Jug
     region:   nw_290
-    level:    [62, 64]
 
   17596725:
     template: Magic_Jug
     region:   nw_290
-    level:    [62, 64]
 
   17596726:
     template: Hellmine
     region:   region_118
-    level:    [60, 62]
 
   17596727:
     template: Hellmine
     region:   region_115
-    level:    [60, 62]

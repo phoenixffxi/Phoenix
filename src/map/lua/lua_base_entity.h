@@ -1,4 +1,4 @@
-﻿/*
+/*
 ===========================================================================
 
   Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -409,6 +409,7 @@ public:
     void setMonstrosityData(sol::table table);
     bool getBelligerencyFlag();
     void setBelligerencyFlag(bool flag);
+    void changeMonstrositySpecies(uint16 speciesCode);
     auto getMonstrositySize() -> uint8;
     void setMonstrosityEntryData(float x, float y, float z, uint8 rot, uint16 zoneId, uint8 mjob, uint8 sjob);
     auto getMonstrosityShop() -> sol::table;

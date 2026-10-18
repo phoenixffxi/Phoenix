@@ -128,31 +128,26 @@ spawns:
   17612870:
     template: Shadow_war
     region:   se_82
-    level:    [44, 46]
     script:   Shadow
 
   17612871:
     template: Shadow_blm
     region:   se_82
-    level:    [44, 46]
     script:   Shadow
 
   17612872:
     template: Shadow_thf
     region:   se_84
-    level:    [44, 46]
     script:   Shadow
 
   17612873:
     template: Shadow_rng
     region:   se_84
-    level:    [44, 46]
     script:   Shadow
 
   17612874:
     template: Shadow_war
     region:   se_82
-    level:    [44, 46]
     script:   Shadow
 
   17612875:
@@ -182,7 +177,6 @@ spawns:
   17612879:
     template: Shadow_blm
     region:   se_86
-    level:    [44, 46]
     script:   Shadow
 
   17612880:
@@ -194,7 +188,6 @@ spawns:
   17612881:
     template: Shadow_rng
     region:   e_102
-    level:    [44, 46]
     script:   Shadow
 
   17612882:
@@ -254,7 +247,6 @@ spawns:
   17612891:
     template: Shadow_war
     region:   e_114
-    level:    [44, 46]
     script:   Shadow
 
   17612892:
@@ -266,13 +258,11 @@ spawns:
   17612893:
     template: Shadow_blm
     region:   e_116
-    level:    [44, 46]
     script:   Shadow
 
   17612894:
     template: Shadow_thf
     region:   e_114
-    level:    [44, 46]
     script:   Shadow
 
   17612895:
@@ -284,7 +274,6 @@ spawns:
   17612896:
     template: Shadow_war
     region:   e_118
-    level:    [44, 46]
     script:   Shadow
 
   17612897:
@@ -302,7 +291,6 @@ spawns:
   17612899:
     template: Shadow_thf
     region:   e_121
-    level:    [44, 46]
     script:   Shadow
 
   17612900:

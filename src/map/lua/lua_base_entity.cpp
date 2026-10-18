@@ -1,4 +1,4 @@
-﻿/*
+/*
 ===========================================================================
 
   Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -6833,16 +6833,9 @@ void CLuaBaseEntity::setGMHidden(bool isHidden)
 
     db::preparedStmt("UPDATE char_flags SET gmHiddenEnabled = ? WHERE charid = ?", isHidden ? 1 : 0, PChar->id);
 
-    if (PChar->loc.zone)
+    if (PChar->loc.zone && PChar->m_isGMHidden)
     {
-        if (PChar->m_isGMHidden)
-        {
-            PChar->loc.zone->UpdateEntityPacket(PChar, ENTITY_DESPAWN, UPDATE_NONE);
-        }
-        else
-        {
-            PChar->loc.zone->UpdateEntityPacket(PChar, ENTITY_SPAWN, UPDATE_NONE);
-        }
+        PChar->loc.zone->UpdateEntityPacket(PChar, ENTITY_DESPAWN, UPDATE_NONE);
     }
 }
 
@@ -7802,6 +7795,18 @@ void CLuaBaseEntity::setBelligerencyFlag(bool flag)
     }
 
     monstrosity::SetBelligerencyFlag(PChar, flag);
+}
+
+// Takes a species the Monipulator owns, as the Feretory menu would.
+void CLuaBaseEntity::changeMonstrositySpecies(const uint16 speciesCode)
+{
+    auto* PChar = dynamic_cast<CCharEntity*>(m_PBaseEntity);
+    if (PChar == nullptr || PChar->m_PMonstrosity == nullptr)
+    {
+        return;
+    }
+
+    monstrosity::ChangeSpecies(PChar, speciesCode);
 }
 
 auto CLuaBaseEntity::getMonstrositySize() -> uint8
@@ -12350,7 +12355,7 @@ void CLuaBaseEntity::disableLevelSync()
 
     if (PChar->loc.zone)
     {
-        PChar->loc.zone->PushPacket(PChar, CHAR_INRANGE, std::make_unique<CCharSyncPacket>(PChar));
+        PChar->loc.zone->PushPacket(PChar, CHAR_INRANGE, std::make_unique<CCharSyncPacket>(PChar, CharSyncRecipient::Others));
     }
 }
 
@@ -21131,6 +21136,7 @@ void CLuaBaseEntity::Register()
     SOL_REGISTER("setMonstrosityData", CLuaBaseEntity::setMonstrosityData);
     SOL_REGISTER("getBelligerencyFlag", CLuaBaseEntity::getBelligerencyFlag);
     SOL_REGISTER("setBelligerencyFlag", CLuaBaseEntity::setBelligerencyFlag);
+    SOL_REGISTER("changeMonstrositySpecies", CLuaBaseEntity::changeMonstrositySpecies);
     SOL_REGISTER("getMonstrositySize", CLuaBaseEntity::getMonstrositySize);
     SOL_REGISTER("setMonstrosityEntryData", CLuaBaseEntity::setMonstrosityEntryData);
     SOL_REGISTER("getMonstrosityShop", CLuaBaseEntity::getMonstrosityShop);

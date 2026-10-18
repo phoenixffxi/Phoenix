@@ -261,12 +261,12 @@ spawns:
   17563656:
     template: Goblin_Weaver
     region:   ne_7
-    level:    [1, 7]
+    level:    [3, 6]
 
   17563661:
     template: Goblin_Weaver
     region:   ne_12
-    level:    [1, 7]
+    level:    [3, 6]
 
   17563680:
     template: Blade_Bat_Inner_Horutoto
@@ -277,12 +277,12 @@ spawns:
   17563681:
     template: Battue_Bats
     region:   ne_32
-    level:    [1, 5]
+    level:    [1, 3]
 
   17563682:
     template: Battue_Bats
     region:   ne_32
-    level:    [1, 5]
+    level:    [1, 3]
 
   17563683:
     template: Blade_Bat_Inner_Horutoto
@@ -309,17 +309,17 @@ spawns:
   17563687:
     template: Goblin_Weaver
     region:   ne_37
-    level:    [1, 7]
+    level:    [3, 6]
 
   17563688:
     template: Battue_Bats
     region:   e_50
-    level:    [1, 5]
+    level:    [1, 3]
 
   17563689:
     template: Battue_Bats
     region:   e_50
-    level:    [1, 5]
+    level:    [1, 3]
 
   17563690:
     template: Goblin_Thug
@@ -329,27 +329,27 @@ spawns:
   17563691:
     template: Goblin_Weaver
     region:   e_50
-    level:    [1, 7]
+    level:    [3, 6]
 
   17563692:
     template: Battue_Bats
     region:   e_43
-    level:    [1, 5]
+    level:    [1, 3]
 
   17563693:
     template: Battue_Bats
     region:   e_43
-    level:    [1, 5]
+    level:    [1, 3]
 
   17563694:
     template: Battue_Bats
     region:   e_43
-    level:    [1, 5]
+    level:    [1, 3]
 
   17563695:
     template: Battue_Bats
     region:   e_43
-    level:    [1, 5]
+    level:    [1, 3]
 
   17563696:
     template: Blade_Bat_Inner_Horutoto
@@ -406,12 +406,12 @@ spawns:
   17563705:
     template: Battue_Bats
     region:   c_53
-    level:    [1, 5]
+    level:    [1, 3]
 
   17563706:
     template: Battue_Bats
     region:   c_53
-    level:    [1, 5]
+    level:    [1, 3]
 
   17563707:
     template: Goblin_Thug
@@ -421,7 +421,7 @@ spawns:
   17563708:
     template: Goblin_Weaver
     region:   c_53
-    level:    [1, 7]
+    level:    [3, 6]
 
   17563709:
     template: Goblin_Thug
@@ -436,7 +436,7 @@ spawns:
   17563711:
     template: Goblin_Weaver
     region:   c_58
-    level:    [1, 7]
+    level:    [3, 6]
 
   17563712:
     template: Magicked_Bones_club
@@ -470,12 +470,12 @@ spawns:
   17563717:
     template: Goblin_Weaver
     region:   n_68
-    level:    [1, 7]
+    level:    [3, 6]
 
   17563718:
     template: Goblin_Weaver
     region:   n_68
-    level:    [1, 7]
+    level:    [3, 6]
 
   17563719:
     template: Goblin_Thug
@@ -485,7 +485,7 @@ spawns:
   17563720:
     template: Goblin_Weaver
     region:   n_71
-    level:    [1, 7]
+    level:    [3, 6]
 
   17563721:
     template: Blade_Bat_Inner_Horutoto
@@ -621,9 +621,7 @@ spawns:
   17563750:
     template: Balloon
     region:   c_60
-    level:    [8, 10]
 
   17563751:
     template: Balloon
     region:   s_79
-    level:    [8, 10]

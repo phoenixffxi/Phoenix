@@ -537,6 +537,69 @@ m:addOverride('xi.zones.Riverne-Site_A01.mobs.Carmine_Dobsonfly.onMobInitialize'
 end)
 
 -----------------------------------
+-- King Arthro (Jugner Forest)
+-- His despawn sets one window for all ten Knight Crabs. Save the full window
+-- too, so restoring a remainder does not shorten later crab respawns.
+-----------------------------------
+local kingArthroVar       = varPrefix .. 'King_Arthro'
+local kingArthroWindowVar = kingArthroVar .. '_Window'
+
+m:addOverride('xi.zones.Jugner_Forest.mobs.King_Arthro.onMobDespawn', function(mob)
+    super(mob)
+
+    local knightCrab = GetMobByID(mob:getID() - 1)
+    local remaining = knightCrab:getRespawnTime()
+    if remaining > 0 then
+        SetServerVariable(kingArthroWindowVar, GetMobRespawnTime(knightCrab:getID()))
+        SetServerVariable(kingArthroVar, GetSystemTime() + remaining)
+    end
+end)
+
+m:addOverride('xi.zones.Jugner_Forest.mobs.King_Arthro.onMobInitialize', function(mob)
+    super(mob)
+
+    local kingArthroId = mob:getID()
+
+    mob:addListener('SPAWN', 'PXI_TNM_SPAWN', function(mobArg)
+        SetServerVariable(kingArthroVar, 0)
+        SetServerVariable(kingArthroWindowVar, 0)
+
+        -- A forced King Arthro spawn cancels the held crabs and their old window.
+        for offset = 1, 10 do
+            GetMobByID(mobArg:getID() - offset):removeListener('PXI_TNM_RESTORE')
+        end
+    end)
+
+    for offset = 1, 10 do
+        GetMobByID(kingArthroId - offset):addListener('SPAWN', 'PXI_TNM_SPAWN', function()
+            SetServerVariable(kingArthroVar, 0)
+            SetServerVariable(kingArthroWindowVar, 0)
+        end)
+    end
+
+    -- Capture both before the first crab clears the shared save.
+    local deadline   = GetServerVariable(kingArthroVar)
+    local baseWindow = GetServerVariable(kingArthroWindowVar)
+    if deadline <= 0 or baseWindow <= 0 then
+        return
+    end
+
+    local remaining = math.max(deadline - GetSystemTime(), 60)
+    for offset = 1, 10 do
+        local knightCrab = GetMobByID(kingArthroId - offset)
+
+        knightCrab:addListener('SPAWN', 'PXI_TNM_RESTORE', function(mobArg)
+            -- Restore once so a later King Arthro kill can choose a new window.
+            mobArg:removeListener('PXI_TNM_RESTORE')
+            mobArg:setRespawnTime(0)
+            mobArg:setRespawnTime(baseWindow)
+        end)
+
+        knightCrab:setRespawnTime(remaining)
+    end
+end)
+
+-----------------------------------
 -- Lumber Jack (Batallia Downs)
 -- Willow's despawn spawns him at her position. His despawn replaces her saved deadline
 -- with 21 to 24 hours if killed, or 30 minutes if idle. Save his alive state to

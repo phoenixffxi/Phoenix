@@ -104,57 +104,47 @@ spawns:
   17481731:
     template: Ding_Bats
     region:   nw_14
-    level:    [1, 3]
 
   17481732:
     template: Ding_Bats
     region:   nw_14
-    level:    [1, 3]
 
   17481733:
     template: Ding_Bats
     region:   nw_14
-    level:    [1, 3]
 
   17481734:
     template: Ding_Bats
     region:   w_16
-    level:    [1, 3]
 
   17481735:
     template: River_Crab
     region:   sw_43
-    level:    [2, 4]
 
   17481736:
     template: Ding_Bats
     region:   w_16
-    level:    [1, 3]
 
   17481737:
     template: River_Crab
     region:   sw_43
-    level:    [2, 4]
 
   17481738:
     template: Ding_Bats
     region:   w_16
-    level:    [1, 3]
 
   17481739:
     template: River_Crab
     region:   sw_43
-    level:    [2, 4]
 
   17481740:
     template: Ding_Bats
     region:   c_26
-    level:    [1, 3]
 
   17481741:
     template: Ding_Bats
     region:   sw_43
-    level:    [1, 3]
+    level:    [1, 2]
 
   17481742:
     template: Tunnel_Worm
@@ -199,7 +189,7 @@ spawns:
   17481750:
     template: Ding_Bats
     region:   e_46
-    level:    [1, 3]
+    level:    [1, 2]
 
   17481751:
     template: Mouse_Bat
@@ -214,12 +204,12 @@ spawns:
   17481753:
     template: Ding_Bats
     region:   e_55
-    level:    [1, 3]
+    level:    [1, 2]
 
   17481754:
     template: Ding_Bats
     region:   e_55
-    level:    [1, 3]
+    level:    [1, 2]
 
   17481755:
     template: Tunnel_Worm
@@ -269,12 +259,12 @@ spawns:
   17481764:
     template: Ding_Bats
     region:   sw_32
-    level:    [1, 3]
+    level:    [1, 2]
 
   17481765:
     template: Ding_Bats
     region:   sw_32
-    level:    [1, 3]
+    level:    [1, 2]
 
   17481766:
     template: Mouse_Bat

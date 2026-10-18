@@ -55,6 +55,7 @@
 
 #include "ai/ai_container.h"
 #include "ai/controllers/player_controller.h"
+#include "ai/helpers/action_queue.h"
 #include "ai/helpers/targetfind.h"
 #include "ai/states/ability_state.h"
 #include "ai/states/attack_state.h"
@@ -352,12 +353,6 @@ CCharEntity::~CCharEntity()
         }
     }
 
-    SpawnPCList.clear();
-    SpawnNPCList.clear();
-    SpawnMOBList.clear();
-    SpawnPETList.clear();
-    SpawnTRUSTList.clear();
-
     if (PParty)
     {
         PParty->PopMember(this);
@@ -414,6 +409,13 @@ void CCharEntity::clearPacketList()
     {
         std::ignore = popPacket();
     }
+
+    // dropped spawns never reached the client, so let the spawn passes send them again
+    SpawnPCList.clear();
+    SpawnNPCList.clear();
+    SpawnMOBList.clear();
+    SpawnPETList.clear();
+    SpawnTRUSTList.clear();
 }
 
 void CCharEntity::pushPacket(std::unique_ptr<CBasicPacket>&& packet)
@@ -913,7 +915,8 @@ int16 CCharEntity::getShieldDefense()
 
 bool CCharEntity::hasBazaar()
 {
-    if (isSettingBazaarPrices)
+    // FFXIclopedia: a Monipulator has no bazaar, even one priced before entering.
+    if (isSettingBazaarPrices || m_PMonstrosity != nullptr)
     {
         return false;
     }
@@ -1361,6 +1364,17 @@ bool CCharEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags)
     TracyZoneScopedN("CCharEntity::ValidTarget");
 
     if (StatusEffectContainer->GetConfrontationEffect() != PInitiator->StatusEffectContainer->GetConfrontationEffect())
+    {
+        return false;
+    }
+
+    // Belligerents can only harm each other.
+    if (monstrosity::AreBelligerents(PInitiator, this))
+    {
+        return (targetFlags & TARGET_ENEMY) && !isDead();
+    }
+
+    if (allegiance == PInitiator->allegiance && !monstrosity::CanAssist(PInitiator, this))
     {
         return false;
     }
@@ -2198,6 +2212,22 @@ void CCharEntity::OnDeathTimer()
     TracyZoneScoped;
 
     charutils::SetCharVar(this, "expLost", 0);
+
+    // A Monipulator has no home point to go to.
+    // TODO: Capture what retail does when the death menu times out.
+    if (m_PMonstrosity != nullptr)
+    {
+        PAI->QueueAction(
+            queueAction_t(
+                0ms,
+                false,
+                [](CBaseEntity* PEntity)
+                {
+                    monstrosity::HandleDeathMenu(static_cast<CCharEntity*>(PEntity), GP_CLI_COMMAND_ACTION_HOMEPOINTMENU::MonstrosityCancel);
+                }));
+        return;
+    }
+
     requestedWarp = WarpRequest::HomePoint; // zone entities will warp us on the next tick
 }
 
@@ -2475,6 +2505,11 @@ void CCharEntity::Die()
     }
 
     battleutils::RelinquishClaim(this);
+
+    if (auto* PWinner = dynamic_cast<CCharEntity*>(lastAttackerId_.resolve()))
+    {
+        monstrosity::HandleBelligerentDefeat(this, PWinner);
+    }
 
     if (this->PPet)
     {
