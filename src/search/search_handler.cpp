@@ -21,6 +21,7 @@
 
 #include "search_handler.h"
 
+#include "common/ipp.h"
 #include "common/md52.h"
 #include "common/timer.h"
 #include "common/utils.h"
@@ -42,12 +43,13 @@
 #include "packets/search_comment.h"
 #include "packets/search_list.h"
 
-SearchHandler::SearchHandler(Scheduler& scheduler, asio::ip::tcp::socket socket, SynchronizedShared<std::map<std::string, uint16_t>>& IPAddressesInUseList, SynchronizedShared<std::unordered_set<std::string>>& IPAddressWhitelist)
+SearchHandler::SearchHandler(Scheduler& scheduler, asio::ip::tcp::socket socket, SynchronizedShared<std::map<std::string, uint16_t>>& IPAddressesInUseList, SynchronizedShared<std::unordered_set<std::string>>& IPAddressWhitelist, SynchronizedShared<AHRequestBudget>& ahRequestBudget)
 : scheduler_(scheduler)
 , socket_(std::move(socket))
 , buffer_{}
 , IPAddressesInUse_(IPAddressesInUseList)
 , IPAddressWhitelist_(IPAddressWhitelist)
+, ahRequestBudget_(ahRequestBudget)
 {
     DebugSocketsFmt("New connection from IP {}", socket_.lowest_layer().remote_endpoint().address().to_string());
 
@@ -250,6 +252,27 @@ void SearchHandler::read_func(const uint16_t length)
     if (validatePacket(length))
     {
         uint8 packetType = buffer_[0x0B];
+
+        const auto isAHRequest = packetType == TCP_AH_REQUEST || packetType == TCP_AH_REQUEST_MORE ||
+                                 packetType == TCP_AH_HISTORY_SINGLE || packetType == TCP_AH_HISTORY_STACK;
+        if (isAHRequest)
+        {
+            const auto ip             = str2ip(ipAddress_);
+            const auto activeAccounts = CDataLoader{}.GetActiveAccountsByIP(ip);
+            const auto requestLimit   = settings::get<uint32>("search.AH_REQUESTS_PER_ACCOUNT_PER_MINUTE");
+            const auto allowed        = ahRequestBudget_.write(
+                [ip, activeAccounts, requestLimit](auto& budget)
+                {
+                    return budget.allow(ip, activeAccounts, requestLimit, AHRequestBudget::Clock::now());
+                });
+            if (!allowed)
+            {
+                ShowWarningFmt("AH request denied from {}: {} active accounts or request budget exhausted", ipAddress_, activeAccounts);
+                asio::error_code ec;
+                socket_.lowest_layer().close(ec);
+                return;
+            }
+        }
 
         ShowInfoFmt("Search Request: {} ({}), size: {}, ip: {}", searchTypeToString(packetType), packetType, length, ipAddress_);
 
