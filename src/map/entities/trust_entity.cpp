@@ -72,7 +72,7 @@ CTrustEntity::~CTrustEntity()
     TracyZoneScoped;
 }
 
-auto CTrustEntity::trustID() -> uint32
+auto CTrustEntity::trustID() const -> uint32
 {
     return trustID_;
 }
@@ -83,7 +83,7 @@ auto CTrustEntity::shieldSize() -> int8
     return shieldSizeMod > 0 ? shieldSizeMod : kTrustDefaultShieldSize;
 }
 
-auto CTrustEntity::released() -> bool
+auto CTrustEntity::released() const -> bool
 {
     return released_;
 }
@@ -160,7 +160,7 @@ void CTrustEntity::Spawn()
     static_cast<CCharEntity*>(PMaster)->pushPacket<CEntitySetNamePacket>(this);
 }
 
-bool CTrustEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags)
+auto CTrustEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags) -> bool
 {
     // Passive GEO trusts like Sakura etc are basically walking indicolures and cant be targeted
     if (passiveTrust_)
@@ -218,7 +218,7 @@ void CTrustEntity::OnCastFinished(CMagicState& state, action_t& action)
 
     auto* PSpell = state.GetSpell();
 
-    PRecastContainer->Add(RECAST_MAGIC, static_cast<Recast>(PSpell->getID()), action.recast);
+    PRecastContainer->Add(xi::RecastType::Magic, static_cast<xi::Recast>(PSpell->getID()), action.recast);
 }
 
 void CTrustEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
@@ -254,7 +254,7 @@ void CTrustEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& act
             PAI->TargetFind->findSingleTarget(PBattleTarget, FINDFLAGS_NONE, TARGET_NONE);
         }
 
-        if (PAI->TargetFind->m_targets.size() == 0)
+        if (PAI->TargetFind->m_targets.empty())
         {
             // There used to be an assumed interrupt handler
             // Add a test and capture before reintroducing.
@@ -321,7 +321,7 @@ void CTrustEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& act
     this->processActionEffectFlags(action);
 }
 
-bool CTrustEntity::GetUntargetable() const
+auto CTrustEntity::GetUntargetable() const -> bool
 {
     // Passive GEO trusts like Sakura etc are basically walking indicolures and cant be targeted
     if (passiveTrust_)

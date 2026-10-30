@@ -1,9 +1,61 @@
+# Drops removed from mob loot after the Abyssea era: the Sky NM stone drops (December 7, 2010) and later targeted removals.
+# Source: https://www.bg-wiki.com/ffxi/Version_Update_(12/06/2010)
+# Source: https://www.bg-wiki.com/ffxi/Version_Update_(07/23/2012)
+
 # Era mob layout for ranguemont_pass.
 # Needs the Era DATs (https://github.com/phoenixffxi/Era-DATs) or the client shows the wrong mob names.
 
+# Restores the pre-November 5, 2013 lottery cooldown for Hyakume.
+# Source: https://forum.square-enix.com/ffxi/threads/38100
+# Slots replace the core list whole, so every slot in the zone is restated.
+
+# Remove Refresh II, introduced September 9, 2010. JP Wiki says it is very_common but not guaranteed.
+# Source: https://www.playonline.com/pcd/verup/ff11us/detail/5835/detail.html
+
 templates:
 
+  Blade_Bat_Ranguemont_Pass:
+    attributes:
+      spawn:
+        respawn: 480 # Era dungeon timers
+    loot: # vial_of_fiend_blood removed
+      drops:
+        - chance: common
+          item:   bat_wing
+
   # -- Custom templates for mobs the core file lacks, scaffolded from the module's mob_groups/mob_pools inserts --
+
+  Floating_Eye:
+    id:            374
+    display_name:  Bat_Eye
+    species:       ahriman
+    spell_list_id: 11
+    skill_list_id: 4
+    attributes:
+      combat:
+        skill: club
+      jobs: [war, blm]
+      render:
+        look:
+          type:  standard
+          model: 264
+        entity_flags:  131
+        animation_sub:  16
+        model_size:      1
+        hitbox:         24
+      behaviors:
+        aggressive: true
+      spawn:
+        respawn: 840
+    loot:
+      drops:
+        - chance: common
+          item:   ahriman_lens
+        - chance: always
+          item:   bottle_of_ahriman_tears
+      despoil:
+        bottle_of_ahriman_tears: 0
+        ahriman_wing:            0
 
   Goblin_Furrier:
     id:            1665
@@ -122,11 +174,6 @@ templates:
       spawn:
         respawn: 840 # Era dungeon timers
 
-  Blade_Bat_Ranguemont_Pass:
-    attributes:
-      spawn:
-        respawn: 480 # Era dungeon timers
-
   Cave_Scorpion:
     attributes:
       spawn:
@@ -191,6 +238,17 @@ templates:
     attributes:
       spawn:
         respawn: 480 # Era dungeon timers
+  Taisaijin:
+    loot:
+      drops:
+        - chance: common
+          item:   vial_of_mercury
+        - chance: common
+          item:   hecteyes_eye
+        - chance: rare
+          item:   spelunkers_hat
+        - chance: very_common
+          item:   scroll_of_refresh
 
 spawns:
 
@@ -373,19 +431,19 @@ spawns:
     level:    [30, 33]
 
   17457281:
-    template: Bat_Eye
+    template: Floating_Eye
     region:   n_102
     level:    [34, 36]
     script:   Floating_Eye
 
   17457282:
-    template: Bat_Eye
+    template: Floating_Eye
     region:   n_102
     level:    [34, 36]
     script:   Floating_Eye
 
   17457283:
-    template: Bat_Eye
+    template: Floating_Eye
     region:   n_102
     level:    [34, 36]
     script:   Floating_Eye
@@ -445,3 +503,36 @@ spawns:
     template: Stirge
     region:   ne_150
     level:    [30, 33]
+
+slots:
+  - members:
+      17457153: {} # Wind_Bats
+      17457156: {} # Blade_Bat
+  - members:
+      17457171: {} # Goblin_Mugger
+      17457172: {} # Goblin_Leecher
+  - members:
+      17457173: {} # Goblin_Gambler
+      17457174: {} # Goblin_Mugger
+  - members:
+      17457175: {} # Goblin_Leecher
+      17457176: {} # Goblin_Gambler
+  - members:
+      17457183: {} # Goblin_Mugger
+      17457184: {} # Goblin_Leecher
+  - members:
+      17457185: {} # Goblin_Gambler
+      17457186: {} # Goblin_Mugger
+  - members:
+      17457187: {} # Goblin_Leecher
+      17457188: {} # Goblin_Gambler
+  - members:
+      17457220: {} # Goblin_Mugger
+      17457221: {} # Goblin_Leecher
+      17457222: {} # Goblin_Gambler
+  - members:
+      17457200: {}                           # Seeker_Bats
+      17457204: {chance: 15, cooldown: 3600} # Gloom_Eye
+  - members:
+      17457229: {}                           # Hecteyes
+      17457236: {chance: 20, cooldown: 3600} # Hyakume

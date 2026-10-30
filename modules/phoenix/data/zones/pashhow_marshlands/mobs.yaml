@@ -1,0 +1,276 @@
+# Drops removed from mob loot after the Abyssea era: the Sky NM stone drops (December 7, 2010) and later targeted removals.
+# Source: https://www.bg-wiki.com/ffxi/Version_Update_(12/06/2010)
+# Source: https://www.bg-wiki.com/ffxi/Version_Update_(07/23/2012)
+
+# Restores the pre-November 5, 2013 lottery cooldown for Bloodpool Vorax.
+# Source: https://forum.square-enix.com/ffxi/threads/38100
+# Slots replace the core list whole, so every slot in the zone is restated.
+
+slots:
+  - members:
+      17223686: {} # Gadfly
+      17223693: {} # Night_Bats
+  - members:
+      17223687: {} # Gadfly
+      17223697: {} # Black_Bat
+  - members:
+      17223689: {} # Bog_Bunny
+      17223699: {} # Bog_Dog
+  - members:
+      17223700: {} # Gadfly
+      17223707: {} # Night_Bats
+  - members:
+      17223701: {} # Gadfly
+      17223711: {} # Black_Bat
+  - members:
+      17223713: {} # Thread_Leech
+      17223722: {} # Bogy
+  - members:
+      17223716: {} # Land_Pugil
+      17223719: {} # Snipper
+  - members:
+      17223724: {} # Gadfly
+      17223729: {} # Night_Bats
+  - members:
+      17223725: {} # Gadfly
+      17223733: {} # Black_Bat
+  - members:
+      17223727: {} # Bog_Bunny
+      17223735: {} # Bog_Dog
+  - members:
+      17223739: {} # Old_Quadav
+      17223745: {} # Ghoul
+  - members:
+      17223740: {}                           # Veteran_Quadav
+      17223789: {}                           # Veteran_Quadav
+      17223797: {chance: 15, cooldown: 3600} # NiZho_Bladebender
+  - members:
+      17223744: {} # Onyx_Quadav
+      17223746: {} # Zombie
+  - members:
+      17223748: {} # Gadfly
+      17223753: {} # Night_Bats
+  - members:
+      17223749: {} # Gadfly
+      17223757: {} # Black_Bat
+  - members:
+      17223761: {} # Gadfly
+      17223766: {} # Night_Bats
+  - members:
+      17223762: {} # Gadfly
+      17223770: {} # Black_Bat
+  - members:
+      17223764: {} # Bog_Bunny
+      17223772: {} # Bog_Dog
+  - members:
+      17223777: {} # Gadfly
+      17223781: {} # Night_Bats
+  - members:
+      17223788: {} # Old_Quadav
+      17223794: {} # Ghoul
+  - members:
+      17223793: {} # Onyx_Quadav
+      17223795: {} # Zombie
+  - members:
+      17223798: {} # Thread_Leech
+      17223807: {} # Bogy
+  - members:
+      17223801: {} # Land_Pugil
+      17223809: {} # Carnivorous_Crawler
+  - members:
+      17223812: {} # Gadfly
+      17223818: {} # Night_Bats
+  - members:
+      17223813: {} # Gadfly
+      17223822: {} # Black_Bat
+  - members:
+      17223816: {} # Bog_Bunny
+      17223824: {} # Bog_Dog
+  - members:
+      17223826: {} # Water_Wasp
+      17223836: {} # Carnivorous_Crawler
+  - members:
+      17223829: {} # Gadfly
+      17223831: {} # Night_Bats
+  - members:
+      17223830: {} # Gadfly
+      17223834: {} # Black_Bat
+  - members:
+      17223840: {} # Old_Quadav
+      17223846: {} # Ghoul
+  - members:
+      17223845: {} # Onyx_Quadav
+      17223847: {} # Zombie
+  - members:
+      17223849: {} # Gadfly
+      17223853: {} # Night_Bats
+  - members:
+      17223850: {} # Gadfly
+      17223854: {} # Night_Bats
+  - members:
+      17223859: {} # Gadfly
+      17223864: {} # Night_Bats
+  - members:
+      17223860: {} # Gadfly
+      17223870: {} # Carnivorous_Crawler
+  - members:
+      17223861: {} # Gadfly
+      17223865: {} # Night_Bats
+  - members:
+      17223873: {} # Gadfly
+      17223878: {} # Night_Bats
+  - members:
+      17223874: {} # Gadfly
+      17223881: {} # Black_Bat
+  - members:
+      17223876: {} # Bog_Bunny
+      17223883: {} # Bog_Dog
+  - members:
+      17223884: {} # Carnivorous_Crawler
+      17223886: {} # Carnivorous_Crawler
+  - members:
+      17223895: {} # Goblin_Gambler
+      17223898: {} # Zombie
+  - members:
+      17223896: {} # Goblin_Butcher
+      17223897: {} # Ghoul
+  - members:
+      17223901: {} # Thread_Leech
+      17223910: {} # Bogy
+  - members:
+      17223904: {} # Land_Pugil
+      17223907: {} # Snipper
+  - members:
+      17223912: {} # Gadfly
+      17223917: {} # Night_Bats
+  - members:
+      17223913: {} # Gadfly
+      17223921: {} # Black_Bat
+  - members:
+      17223923: {} # Gadfly
+      17223929: {} # Night_Bats
+  - members:
+      17223924: {} # Gadfly
+      17223932: {} # Black_Bat
+  - members:
+      17223925: {} # Gadfly
+      17223935: {} # Carnivorous_Crawler
+  - members:
+      17223937: {} # Gadfly
+      17223942: {} # Night_Bats
+  - members:
+      17223938: {} # Gadfly
+      17223943: {} # Night_Bats
+  - members:
+      17223955: {} # Goblin_Gambler
+      17223958: {} # Zombie
+  - members:
+      17223956: {} # Goblin_Butcher
+      17223957: {} # Ghoul
+  - members:
+      17223960: {} # Gadfly
+      17223965: {} # Night_Bats
+  - members:
+      17223961: {} # Gadfly
+      17223966: {} # Night_Bats
+  - members:
+      17223972: {} # Goblin_Mugger
+      17223973: {} # Goblin_Ambusher
+      17223991: {} # Goblin_Mugger
+      17223992: {} # Goblin_Ambusher
+  - members:
+      17223974: {} # Goblin_Leecher
+      17223975: {} # Goblin_Tinkerer
+      17223993: {} # Goblin_Leecher
+      17223994: {} # Goblin_Tinkerer
+  - members:
+      17223976: {} # Goblin_Gambler
+      17223977: {} # Goblin_Butcher
+      17223995: {} # Goblin_Gambler
+      17223996: {} # Goblin_Butcher
+  - members:
+      17224004: {} # Malboro
+      17224005: {} # Bogy
+  - members:
+      17224027: {} # Carnivorous_Crawler
+      17224029: {} # Carnivorous_Crawler
+      17224032: {} # Carnivorous_Crawler
+  - members:
+      17224033: {} # Gadfly
+      17224038: {} # Night_Bats
+  - members:
+      17224034: {} # Gadfly
+      17224042: {} # Black_Bat
+  - members:
+      17224036: {} # Bog_Bunny
+      17224044: {} # Bog_Dog
+  - members:
+      17224045: {} # Gadfly
+      17224050: {} # Night_Bats
+  - members:
+      17224046: {} # Gadfly
+      17224054: {} # Black_Bat
+  - members:
+      17224056: {} # Gadfly
+      17224062: {} # Night_Bats
+  - members:
+      17224057: {} # Gadfly
+      17224066: {} # Black_Bat
+  - members:
+      17224058: {} # Gadfly
+      17224069: {} # Carnivorous_Crawler
+  - members:
+      17224059: {} # Bog_Bunny
+      17224068: {} # Bog_Dog
+  - members:
+      17224078: {} # Goblin_Gambler
+      17224081: {} # Zombie
+  - members:
+      17224079: {} # Goblin_Butcher
+      17224080: {} # Ghoul
+  - members:
+      17224083: {} # Thread_Leech
+      17224090: {} # Bogy
+  - members:
+      17224086: {} # Land_Pugil
+      17224088: {} # Snipper
+  - members:
+      17224105: {} # Brass_Quadav
+      17224106: {} # Onyx_Quadav
+      17224107: {} # Old_Quadav
+      17224108: {} # Veteran_Quadav
+  - members:
+      17224109: {} # Greater_Quadav
+      17224110: {} # Copper_Quadav
+  - members:
+      17224111: {} # Brass_Quadav
+      17224112: {} # Onyx_Quadav
+  - members:
+      17224119: {} # Old_Quadav
+      17224120: {} # Veteran_Quadav
+  - members:
+      17224121: {} # Greater_Quadav
+      17224122: {} # Copper_Quadav
+  - members:
+      17224123: {} # Brass_Quadav
+      17224124: {} # Onyx_Quadav
+  - members:
+      17223888: {}           # Goobbue
+      17223889: {chance: 15} # Jolly_Green
+  - members:
+      17224014: {}                           # Thread_Leech
+      17224019: {chance: 15, cooldown: 3600} # Bloodpool_Vorax
+
+templates:
+
+  Black_Bat:
+    loot: # vial_of_fiend_blood removed
+      drops:
+        - chance: common
+          item:   bat_wing
+
+  Brass_Quadav:
+    loot: # serving_of_herb_crawler_eggs removed from despoil; hard-boiled_egg removed from despoil
+      despoil:
+        serving_of_herb_crawler_eggs: null
+        hard-boiled_egg:              null

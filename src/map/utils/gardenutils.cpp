@@ -31,8 +31,6 @@
 #include "items/item_flowerpot.h"
 #include "packets/s2c/0x020_item_attr.h"
 
-#define MAX_RESULTID 2500
-
 constexpr uint32 VANADAY_SECONDS            = 3456;
 constexpr uint32 VANADAYS_TO_WILT           = 36;
 constexpr uint32 VANADAYS_TO_GUARANTEE_WILT = 144;
@@ -132,7 +130,7 @@ void UpdateGardening(CCharEntity* PChar, SendPacket sendPacket)
     }
 }
 
-std::tuple<uint16, uint8> CalculateResults(CCharEntity* PChar, CItemFlowerpot* PItem)
+auto CalculateResults(CCharEntity* PChar, CItemFlowerpot* PItem) -> std::tuple<uint16, uint8>
 {
     std::array<uint8, 9> elements = { 0 };
     elements[PItem->getCommonCrystalFeed()] += 10;
@@ -362,7 +360,7 @@ void GrowToNextStage(CItemFlowerpot* PItem, bool growFromFeed /*= false*/)
     PItem->setStageTimestamp(earth_time::vanadiel_timestamp(vanadiel_time::to_earth_time(stageTimestamp)));
 }
 
-uint8 GetStageDuration(CItemFlowerpot* PItem, bool growFromFeed /*= false*/)
+auto GetStageDuration(CItemFlowerpot* PItem, bool growFromFeed /*= false*/) -> uint8
 {
     switch (PItem->getPlant())
     {

@@ -1,6 +1,9 @@
 # Era mob layout for caedarva_mire.
 # Needs the Era DATs (https://github.com/phoenixffxi/Era-DATs) or the client shows the wrong mob names.
 
+# Remove Timeworn Talisman, introduced with the March 23, 2010 Odin quests.
+# Update: https://www.playonline.com/pcd/verup/ff11us/detail/5338/detail.html
+
 spawns:
 
   17100899:
@@ -169,3 +172,17 @@ spawns:
     template: Khimaira
     at:       null
     region:   [ne_461, ne_453, ne_477]
+
+templates:
+  Ephramadian_Shade_cor:
+    loot:
+      drops: []
+  Ephramadian_Shade_mnk:
+    loot:
+      drops: []
+  Ephramadian_Shade_rdm:
+    loot:
+      drops: []
+  Ephramadian_Shade_rng:
+    loot:
+      drops: []

@@ -1,6 +1,9 @@
 # Era mob layout for the_boyahda_tree.
 # Needs the Era DATs (https://github.com/phoenixffxi/Era-DATs) or the client shows the wrong mob names.
 
+# Restore Elder Goobbue's Humus, replaced by Great Boyahda Moss on February 19, 2015.
+# Source: https://forum.square-enix.com/ffxi/threads/46068
+
 templates:
 
   Bark_Spider:
@@ -42,6 +45,16 @@ templates:
     attributes:
       spawn:
         respawn: 960 # Era dungeon timers
+    loot:
+      drops:
+        - chance: very_common
+          item:   clump_of_boyahda_moss
+        - chance: very_common
+          item:   bag_of_tree_cuttings
+        - chance: uncommon
+          item:   piece_of_wisteria_lumber
+        - chance: rare
+          item:   clump_of_goobbue_humus
 
   Knight_Crawler_BT:
     attributes:

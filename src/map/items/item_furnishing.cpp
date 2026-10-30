@@ -38,17 +38,7 @@ CItemFurnishing::CItemFurnishing(uint16 id)
     setType(ITEM_FURNISHING);
 }
 
-CItemFurnishing::CItemFurnishing(const CItemFurnishing& other)
-: CItem(other)
-, m_storage(other.m_storage)
-, m_moghancement(other.m_moghancement)
-, m_element(other.m_element)
-, m_aura(other.m_aura)
-, size_(other.size_)
-, height_(other.height_)
-, placement_(other.placement_)
-{
-}
+CItemFurnishing::CItemFurnishing(const CItemFurnishing& other) = default;
 
 CItemFurnishing::~CItemFurnishing() = default;
 
@@ -67,7 +57,7 @@ void CItemFurnishing::setStorage(uint8 storage)
     m_storage = std::min<uint8>(storage, 80);
 }
 
-uint8 CItemFurnishing::getStorage() const
+auto CItemFurnishing::getStorage() const -> uint8
 {
     return m_storage;
 }
@@ -77,7 +67,7 @@ void CItemFurnishing::setMoghancement(uint16 moghancement)
     m_moghancement = moghancement;
 }
 
-uint16 CItemFurnishing::getMoghancement() const
+auto CItemFurnishing::getMoghancement() const -> uint16
 {
     return m_moghancement;
 }
@@ -87,7 +77,7 @@ void CItemFurnishing::setElement(uint8 element)
     m_element = element;
 }
 
-uint8 CItemFurnishing::getElement() const
+auto CItemFurnishing::getElement() const -> uint8
 {
     return m_element;
 }
@@ -97,7 +87,7 @@ void CItemFurnishing::setAura(uint8 aura)
     m_aura = aura;
 }
 
-uint8 CItemFurnishing::getAura() const
+auto CItemFurnishing::getAura() const -> uint8
 {
     return m_aura;
 }
@@ -137,7 +127,7 @@ void CItemFurnishing::setCol(uint8 col)
     this->exdata<Exdata::Furniture>().X = col;
 }
 
-uint8 CItemFurnishing::getCol()
+auto CItemFurnishing::getCol() -> uint8
 {
     return this->exdata<Exdata::Furniture>().X;
 }
@@ -147,7 +137,7 @@ void CItemFurnishing::setRow(uint8 row)
     this->exdata<Exdata::Furniture>().Y = row;
 }
 
-uint8 CItemFurnishing::getRow()
+auto CItemFurnishing::getRow() -> uint8
 {
     return this->exdata<Exdata::Furniture>().Y;
 }
@@ -157,7 +147,7 @@ void CItemFurnishing::setLevel(uint8 level)
     this->exdata<Exdata::Furniture>().Z = level;
 }
 
-uint8 CItemFurnishing::getLevel()
+auto CItemFurnishing::getLevel() -> uint8
 {
     return this->exdata<Exdata::Furniture>().Z;
 }
@@ -167,7 +157,7 @@ void CItemFurnishing::setRotation(uint8 rotation)
     this->exdata<Exdata::Furniture>().Rotation = rotation;
 }
 
-uint8 CItemFurnishing::getRotation()
+auto CItemFurnishing::getRotation() -> uint8
 {
     return this->exdata<Exdata::Furniture>().Rotation;
 }
@@ -177,7 +167,7 @@ void CItemFurnishing::setMannequinRace(uint8 race)
     this->exdata<Exdata::Mannequin>().Race = race;
 }
 
-uint8 CItemFurnishing::getMannequinRace()
+auto CItemFurnishing::getMannequinRace() -> uint8
 {
     return this->exdata<Exdata::Mannequin>().Race;
 }
@@ -187,7 +177,7 @@ void CItemFurnishing::setMannequinPose(uint8 pose)
     this->exdata<Exdata::Mannequin>().Pose = pose;
 }
 
-uint8 CItemFurnishing::getMannequinPose()
+auto CItemFurnishing::getMannequinPose() -> uint8
 {
     return this->exdata<Exdata::Mannequin>().Pose;
 }
@@ -197,12 +187,12 @@ void CItemFurnishing::setOn2ndFloor(bool on2ndFloor)
     this->exdata<Exdata::Furniture>().On2ndFloor = on2ndFloor ? 1 : 0;
 }
 
-bool CItemFurnishing::getOn2ndFloor()
+auto CItemFurnishing::getOn2ndFloor() -> bool
 {
     return this->exdata<Exdata::Furniture>().On2ndFloor;
 }
 
-auto CItemFurnishing::getSignature() const -> const std::string
+auto CItemFurnishing::getSignature() const -> std::string
 {
     return Exdata::decodeSignature(this->exdata<Exdata::Furniture>().Signature);
 }
@@ -212,7 +202,7 @@ void CItemFurnishing::setSignature(const std::string& signature)
     Exdata::encodeSignature(signature, this->exdata<Exdata::Furniture>().Signature);
 }
 
-bool CItemFurnishing::isGardeningPot() const
+auto CItemFurnishing::isGardeningPot() const -> bool
 {
     return this->isType(ITEM_FLOWERPOT);
 }

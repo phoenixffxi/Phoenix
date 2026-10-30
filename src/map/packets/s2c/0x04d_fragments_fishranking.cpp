@@ -35,7 +35,7 @@ GP_SERV_COMMAND_FRAGMENTS::FISHRANKING::FISHRANKING(const std::vector<FishingCon
     packet.totalEntries = totalEntries;
 
     // Ensure we have a message and the requested offset is not outside the bounds
-    if (entries.size() > 0 && entries.size() <= 6)
+    if (!entries.empty() && entries.size() <= 6)
     {
         constexpr uint8 blockSize  = sizeof(FishingContestEntry);
         const uint8     entryCount = static_cast<uint8>(entries.size());
@@ -45,7 +45,7 @@ GP_SERV_COMMAND_FRAGMENTS::FISHRANKING::FISHRANKING(const std::vector<FishingCon
         packet.size_total     = msgLength;
         packet.offset         = msgOffset;
         packet.data_size      = sndLength;
-        const auto packetSize = sizeof(GP_SERV_HEADER) + sizeof(PacketData) - sizeof(packet.data) + packet.data_size;
+        const auto packetSize = sizeof(GP_SERV_HEADER) + sizeof(PacketData) - sizeof(packet.data) + sizeof(FishingContestEntry) + packet.data_size;
         this->setSize(packetSize);
 
         uint8 idx = 0;

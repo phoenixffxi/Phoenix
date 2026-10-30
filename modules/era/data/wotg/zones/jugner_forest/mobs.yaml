@@ -1,0 +1,39 @@
+# Drops that did not exist in the WotG era removed from every mob that carries them: the ACP, AMK and ASA
+# mini-expansion items and the scrolls added in the April 8, 2009 version update.
+# Source: https://www.bg-wiki.com/ffxi/Version_Update_(04/08/2009)
+# A drops list is replaced whole, so mobs that also lose an Abyssea-era drop carry that removal here as well.
+# Shared: Brass_Quadav (pashhow_marshlands), Yagudo_Piper (giddeus).
+
+templates:
+
+  Orcish_Cursemaker:
+    loot: # seedspall_lux removed
+      drops: null
+
+  Orcish_Cursemaker_3:
+    loot: # seedspall_lux removed
+      drops: null
+
+  Orcish_Fighter:
+    loot: # seedspall_lux removed
+      drops: null
+
+  Orcish_Grunt:
+    loot: # seedspall_lux removed
+      drops: null
+
+  Orcish_Neckchopper:
+    loot: # seedspall_lux removed
+      drops: null
+
+  Orcish_Serjeant:
+    loot: # seedspall_lux removed
+      drops: null
+
+  Orcish_Serjeant_3:
+    loot: # seedspall_lux removed
+      drops: null
+
+  Orcish_Stonechucker:
+    loot: # seedspall_lux removed
+      drops: null

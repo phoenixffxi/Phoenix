@@ -28,9 +28,10 @@
 #include "common/types/flat_hash_map.h"
 #include "common/types/hash_map.h"
 #include "common/utils.h"
+#include "data/enums/automaton_frame.h"
+#include "data/enums/automaton_head.h"
 #include "enmity_container.h"
 #include "entities/trust_entity.h"
-#include "enums/automaton.h"
 #include "lua/luautils.h"
 #include "mob_spell_container.h"
 #include "mobskill.h"
@@ -55,14 +56,14 @@ void CAutomatonController::setCooldowns()
 {
     switch (PAutomaton->frame())
     {
-        case AutomatonFrame::Sharpshot:
+        case xi::AutomatonFrame::Sharpshot:
         {
             switch (PAutomaton->head())
             {
-                case AutomatonHead::Sharpshot:
+                case xi::AutomatonHead::Sharpshot:
                     m_rangedCooldown = 20s;
                     break;
-                case AutomatonHead::Harlequin:
+                case xi::AutomatonHead::Harlequin:
                     m_rangedCooldown = 25s;
                     break;
                 default:
@@ -70,17 +71,17 @@ void CAutomatonController::setCooldowns()
             }
         }
         break;
-        case AutomatonFrame::Harlequin:
+        case xi::AutomatonFrame::Harlequin:
         {
             setMagicCooldowns();
         }
         break;
-        case AutomatonFrame::Stormwaker:
+        case xi::AutomatonFrame::Stormwaker:
         {
             setMagicCooldowns();
         }
         break;
-        case AutomatonFrame::Valoredge:
+        case xi::AutomatonFrame::Valoredge:
         {
             m_shieldbashCooldown = 3min;
         }
@@ -137,11 +138,11 @@ auto CAutomatonController::shouldStandBack() const -> bool
             return true;
         }
     }
-    else if (PAutomaton->frame() == AutomatonFrame::Valoredge)
+    else if (PAutomaton->frame() == xi::AutomatonFrame::Valoredge)
     {
         return false;
     }
-    else if (PAutomaton->head() >= AutomatonHead::Sharpshot)
+    else if (PAutomaton->head() >= xi::AutomatonHead::Sharpshot)
     {
         return true;
     }
@@ -269,7 +270,7 @@ auto CAutomatonController::TrySpellcast(const CurrentManeuvers& maneuvers) -> bo
 
     switch (PAutomaton->head())
     {
-        case AutomatonHead::Valoredge:
+        case xi::AutomatonHead::Valoredge:
         {
             if (TryHeal(maneuvers))
             {
@@ -278,7 +279,7 @@ auto CAutomatonController::TrySpellcast(const CurrentManeuvers& maneuvers) -> bo
             }
         }
         break;
-        case AutomatonHead::Sharpshot:
+        case xi::AutomatonHead::Sharpshot:
         {
             if (maneuvers.light && TryHeal(maneuvers)) // Light -> Heal
             {
@@ -298,7 +299,7 @@ auto CAutomatonController::TrySpellcast(const CurrentManeuvers& maneuvers) -> bo
             }
         }
         break;
-        case AutomatonHead::Harlequin:
+        case xi::AutomatonHead::Harlequin:
         {
             if (maneuvers.light && TryHeal(maneuvers)) // Light -> Heal
             {
@@ -318,7 +319,7 @@ auto CAutomatonController::TrySpellcast(const CurrentManeuvers& maneuvers) -> bo
             }
         }
         break;
-        case AutomatonHead::Stormwaker:
+        case xi::AutomatonHead::Stormwaker:
         {
             bool lowHP = PTarget->GetHPP() <= 30 && PTarget->health.hp <= 300;
             if (lowHP && TryElemental(maneuvers)) // Mob low HP -> Nuke
@@ -360,7 +361,7 @@ auto CAutomatonController::TrySpellcast(const CurrentManeuvers& maneuvers) -> bo
             }
         }
         break;
-        case AutomatonHead::Soulsoother:
+        case xi::AutomatonHead::Soulsoother:
         {
             if (maneuvers.light && TryHeal(maneuvers)) // Light -> Heal
             {
@@ -390,7 +391,7 @@ auto CAutomatonController::TrySpellcast(const CurrentManeuvers& maneuvers) -> bo
             }
         }
         break;
-        case AutomatonHead::Spiritreaver:
+        case xi::AutomatonHead::Spiritreaver:
         {
             if (maneuvers.ice && TryElemental(maneuvers)) // Ice -> Nuke
             {
@@ -504,7 +505,7 @@ auto CAutomatonController::TryHeal(const CurrentManeuvers& maneuvers) -> bool
         }
     }
 
-    if (maneuvers.light && !PCastTarget && PAutomaton->head() == AutomatonHead::Soulsoother && PAutomaton->PMaster->PParty) // Light + Soulsoother head -> Heal party
+    if (maneuvers.light && !PCastTarget && PAutomaton->head() == xi::AutomatonHead::Soulsoother && PAutomaton->PMaster->PParty) // Light + Soulsoother head -> Heal party
     {
         // clang-format off
         if (PMob)
@@ -607,7 +608,7 @@ auto CAutomatonController::CanCastSpells(const IgnoreRecastsAndCosts ignoreRecas
 
 auto CAutomatonController::Cast(const EntityId target, SpellID spellid) -> bool
 {
-    if (!automaton::CanUseSpell(PAutomaton, spellid) || PAutomaton->PRecastContainer->HasRecast(RECAST_MAGIC, static_cast<Recast>(spellid), 0s))
+    if (!automaton::CanUseSpell(PAutomaton, spellid) || PAutomaton->PRecastContainer->HasRecast(xi::RecastType::Magic, static_cast<xi::Recast>(spellid), 0s))
     {
         return false;
     }
@@ -617,7 +618,7 @@ auto CAutomatonController::Cast(const EntityId target, SpellID spellid) -> bool
 
 auto CAutomatonController::MobSkill(const EntityId target, uint16 wsid, const Maybe<timer::duration> castTimeOverride) -> bool
 {
-    if (PAutomaton->PRecastContainer->HasRecast(RECAST_ABILITY, static_cast<Recast>(wsid), 0s))
+    if (PAutomaton->PRecastContainer->HasRecast(xi::RecastType::Ability, static_cast<xi::Recast>(wsid), 0s))
     {
         return false;
     }
@@ -676,7 +677,7 @@ auto CAutomatonController::TryElemental(const CurrentManeuvers& maneuvers) -> bo
             castPriority.emplace_back(res.first);
         }
     }
-    else if (PAutomaton->head() == AutomatonHead::Spiritreaver)
+    else if (PAutomaton->head() == xi::AutomatonHead::Spiritreaver)
     {
         if (maneuvers.thunder)
         { // Thunder -> Thunder spells
@@ -773,7 +774,7 @@ auto CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers) -> boo
 
     switch (PAutomaton->head())
     {
-        case AutomatonHead::Stormwaker:
+        case xi::AutomatonHead::Stormwaker:
         {
             bool dispel = false;
             PTarget->StatusEffectContainer->ForEachEffect(
@@ -901,7 +902,7 @@ auto CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers) -> boo
             }
             break;
         }
-        case AutomatonHead::Spiritreaver:
+        case xi::AutomatonHead::Spiritreaver:
         {
             if (PAutomaton->GetMPP() < 75 && PTarget->health.mp > 0) // MPP < 75 -> Aspir
             {
@@ -1005,7 +1006,7 @@ auto CAutomatonController::TryEnfeeble(const CurrentManeuvers& maneuvers) -> boo
             }
             break;
         }
-        case AutomatonHead::Soulsoother:
+        case xi::AutomatonHead::Soulsoother:
         {
             if (maneuvers.earth)
             { // Earth -> Slow
@@ -1182,7 +1183,7 @@ auto CAutomatonController::TryStatusRemoval(const CurrentManeuvers& maneuvers) -
         }
     }
 
-    if (maneuvers.water && PAutomaton->head() == AutomatonHead::Soulsoother && PAutomaton->PMaster->PParty) // Water + Soulsoother head -> Remove party's statuses
+    if (maneuvers.water && PAutomaton->head() == xi::AutomatonHead::Soulsoother && PAutomaton->PMaster->PParty) // Water + Soulsoother head -> Remove party's statuses
     {
         for (auto member : PAutomaton->PMaster->PParty->members)
         {
@@ -1226,7 +1227,7 @@ auto CAutomatonController::TryEnhance() -> bool
         return false;
     }
 
-    if (PAutomaton->head() == AutomatonHead::Spiritreaver)
+    if (PAutomaton->head() == xi::AutomatonHead::Spiritreaver)
     {
         return Cast(PAutomaton->entityId(), SpellID::Dread_Spikes);
     }
@@ -1549,7 +1550,7 @@ auto CAutomatonController::TryTPMove() -> bool
         // load the skills that the automaton has access to with it's skill
         xi::SkillType skilltype = xi::SkillType::AutomatonMelee;
 
-        if (PAutomaton->frame() == AutomatonFrame::Sharpshot)
+        if (PAutomaton->frame() == xi::AutomatonFrame::Sharpshot)
         {
             skilltype = xi::SkillType::AutomatonRanged;
         }
@@ -1598,19 +1599,19 @@ auto CAutomatonController::TryTPMove() -> bool
         {
             if (PSCEffect)
             {
-                std::list<SKILLCHAIN_ELEMENT> resonanceProperties;
+                std::list<xi::SkillchainType> resonanceProperties;
 
                 if (const uint16 power = PSCEffect->GetPower())
                 {
                     if (PSCEffect->GetTier() == 0)
                     {
-                        resonanceProperties.emplace_back(static_cast<SKILLCHAIN_ELEMENT>(power & 0xF));
-                        resonanceProperties.emplace_back(static_cast<SKILLCHAIN_ELEMENT>((power >> 4) & 0xF));
-                        resonanceProperties.emplace_back(static_cast<SKILLCHAIN_ELEMENT>(power >> 8));
+                        resonanceProperties.emplace_back(static_cast<xi::SkillchainType>(power & 0xF));
+                        resonanceProperties.emplace_back(static_cast<xi::SkillchainType>((power >> 4) & 0xF));
+                        resonanceProperties.emplace_back(static_cast<xi::SkillchainType>(power >> 8));
                     }
                     else
                     {
-                        resonanceProperties.emplace_back(static_cast<SKILLCHAIN_ELEMENT>(power));
+                        resonanceProperties.emplace_back(static_cast<xi::SkillchainType>(power));
                     }
                 }
 
@@ -1618,11 +1619,11 @@ auto CAutomatonController::TryTPMove() -> bool
                 {
                     if (hasSkillPriority(PSkill, 1))
                     {
-                        std::list<SKILLCHAIN_ELEMENT> skillProperties;
-                        skillProperties.emplace_back(static_cast<SKILLCHAIN_ELEMENT>(PSkill->getPrimarySkillchain()));
-                        skillProperties.emplace_back(static_cast<SKILLCHAIN_ELEMENT>(PSkill->getSecondarySkillchain()));
-                        skillProperties.emplace_back(static_cast<SKILLCHAIN_ELEMENT>(PSkill->getTertiarySkillchain()));
-                        if (battleutils::FormSkillchain(resonanceProperties, skillProperties) != SC_NONE)
+                        std::list<xi::SkillchainType> skillProperties;
+                        skillProperties.emplace_back(static_cast<xi::SkillchainType>(PSkill->getPrimarySkillchain()));
+                        skillProperties.emplace_back(static_cast<xi::SkillchainType>(PSkill->getSecondarySkillchain()));
+                        skillProperties.emplace_back(static_cast<xi::SkillchainType>(PSkill->getTertiarySkillchain()));
+                        if (battleutils::FormSkillchain(resonanceProperties, skillProperties) != xi::SkillchainType::None)
                         {
                             currentManeuvers = 1;
                             currentSkill     = PSkill->getParam();
@@ -1665,9 +1666,9 @@ auto CAutomatonController::TryRangedAttack() -> bool // TODO: Find the animation
 {
     auto* PTarget = target().resolve<CBattleEntity>();
 
-    if (PAutomaton->frame() == AutomatonFrame::Sharpshot)
+    if (PAutomaton->frame() == xi::AutomatonFrame::Sharpshot)
     {
-        timer::duration minDelay   = PAutomaton->head() == AutomatonHead::Sharpshot ? 5s : 10s;
+        timer::duration minDelay   = PAutomaton->head() == xi::AutomatonHead::Sharpshot ? 5s : 10s;
         timer::duration attackTime = m_rangedCooldown - std::chrono::seconds(PAutomaton->getMod(xi::Mod::AUTO_RANGED_DELAY));
 
         if (m_rangedCooldown > 0s && m_Tick > m_LastRangedTime + std::max(attackTime, minDelay))

@@ -24,10 +24,11 @@
 // openssl applink.c prevents issues with debug vs release vs threaded/single threaded .dlls at runtime
 // apparently not an issue with linux
 #ifdef _WIN32
+// NOLINTNEXTLINE(bugprone-suspicious-include): openssl applink idiom.
 #include <ms/applink.c>
 #endif
 
-int main(int argc, char** argv)
+auto main(int argc, char** argv) -> int
 {
     const auto profileApp = std::make_unique<ProfileApplication>(argc, argv);
 

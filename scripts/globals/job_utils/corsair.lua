@@ -545,10 +545,9 @@ local function applyCorsairEffect(caster, target, abilityId, power, subPower)
     local addSlot     = nil
     local addSilent   = true
 
-    -- Upgrading an existing roll: Preserve the existing effect's slot and remaining duration.
+    -- Upgrading an existing roll: Preserve the existing effect's slot
     if upgradeEffect then
         target:delStatusEffectSilent(effectId)
-        addDuration = math.floor(upgradeEffect:getTimeRemaining() / 1000)
         addSlot     = upgradeEffect:getEffectSlot()
 
     -- New roll when there is a free slot: Use the lowest available slot and the full duration.
@@ -1024,12 +1023,15 @@ xi.job_utils.corsair.useElementalShot = function(actor, target, ability, action)
     target:updateClaim(actor)
 
     -- Calculate resist rate.
+    -- +75~ bonus macc on both COR main and COR sub relative to Marksmanship
+    -- dSTAT is confirmed AGI vs AGI
     local params =
     {
         skillType      = xi.skill.MARKSMANSHIP,
         magicalElement = data.element,
         actorStat      = xi.mod.AGI,
-        bonusAcc       = actor:getMerit(xi.merit.QUICK_DRAW_ACCURACY) + actor:getMod(xi.mod.QUICK_DRAW_MACC),
+        targetStat     = xi.mod.AGI,
+        bonusAcc       = 75 + actor:getMerit(xi.merit.QUICK_DRAW_ACCURACY) + actor:getMod(xi.mod.QUICK_DRAW_MACC),
     }
     local resist   = xi.combat.magicHitRate.calculateResistRate(actor, target, params)
 
@@ -1144,17 +1146,10 @@ end
 
 -- TODO: Binding does not exist, implement this (old code remains)
 xi.job_utils.corsair.useCuttingCards = function(caster, target, ability, action)
-    if caster:getID() == target:getID() then
-        local roll = math.randomInt(1, 6)
+    local total = math.randomInt(1, 6)
 
-        caster:setLocalVar('corsairRollTotal', roll)
-        action:info(caster:getID(), roll)
-    end
-
-    local total = caster:getLocalVar('corsairRollTotal')
-
-    ability:setMsg(435 + math.floor((total - 1) / 2) * 2)
-    action:setAnimation(target:getID(), 132 + (total) - 1)
+    ability:setMsg(xi.msg.basic.USES_JA)
+    action:setAnimation(target:getID(), 320 + total)
 
     return total
 end

@@ -64,7 +64,7 @@ class IPP final
 {
 public:
     IPP();
-    explicit IPP(const uint32 ip, const uint16 port);
+    explicit IPP(uint32 ip, uint16 port);
     explicit IPP(const uint64& ipp);
     explicit IPP(const zmq::message_t& message);
 
@@ -99,7 +99,7 @@ namespace std
 template <>
 struct hash<IPP>
 {
-    size_t operator()(const IPP& ipp) const noexcept
+    auto operator()(const IPP& ipp) const noexcept -> size_t
     {
         return hash<uint64>{}(ipp.getRawIPP());
     }

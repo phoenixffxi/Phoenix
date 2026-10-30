@@ -1,6 +1,12 @@
 # Era mob layout for garlaige_citadel.
 # Needs the Era DATs (https://github.com/phoenixffxi/Era-DATs) or the client shows the wrong mob names.
 
+# Restores the pre-November 5, 2013 lottery cooldown for Hovering Hotpot.
+# Source: https://forum.square-enix.com/ffxi/threads/38100
+# Slots replace the core list whole, so every slot in the zone is restated.
+
+# Serket drops Serket Ring at rare and Venomous Claw at common.
+
 templates:
 
   Acid_Grease:
@@ -132,6 +138,25 @@ templates:
     attributes:
       spawn:
         respawn: 840 # Era dungeon timers
+  Serket:
+    loot:
+      drops:
+        - chance: always
+          item:   reraiser
+        - chance: common
+          item:   hi-reraiser
+        - chance: always
+          item:   vile_elixir
+        - chance: common
+          item:   vile_elixir_+1
+        - chance: common
+          item:   serket_shield
+        - chance: rare
+          item:   serket_ring
+        - chance: common
+          item:   venomous_claw
+        - chance: common
+          item:   triple_dagger
 
   Siege_Bat:
     attributes:
@@ -362,3 +387,21 @@ spawns:
   17596727:
     template: Hellmine
     region:   region_115
+
+slots:
+  - members:
+      17596597: {} # Tainted_Flesh
+      17596598: {} # Tainted_Flesh
+  - members:
+      17596605: {} # Over_Weapon
+      17596606: {} # Vault_Weapon
+  - members:
+      17596607: {} # Over_Weapon
+      17596608: {} # Vault_Weapon
+  - members:
+      17596624: {}                           # Fallen_Major
+      17596626: {}                           # Fallen_Mage
+      17596628: {chance: 20, cooldown: 5400} # Hovering_Hotpot
+  - members:
+      17596515: {}                           # Explosure
+      17596520: {chance: 15, cooldown: 3600} # Hazmat

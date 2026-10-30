@@ -8,6 +8,9 @@ endmacro()
 
 set(DATA_CORE_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/datasets/catalog.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/shared_types/action_area/dataset.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/shared_types/action_area/dataset.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/shared_types/action_area/yaml.h
     ${CMAKE_CURRENT_SOURCE_DIR}/shared_types/look.h
     ${CMAKE_CURRENT_SOURCE_DIR}/shared_types/mob_attributes/dataset.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/shared_types/mob_attributes/dataset.h
@@ -30,14 +33,15 @@ add_data_dataset(grades)
 add_data_dataset(monstrosity)
 add_data_dataset(skills)
 add_data_dataset(stats)
+add_data_dataset(experience)
+add_data_dataset(weapon_skills)
 add_data_dataset(zones/settings)
 add_data_dataset(zones/npcs)
 add_data_dataset(zones/mobs)
 add_data_dataset(zones/regions)
 
-set(DATA_MAP_SOURCES
+target_sources(xi_map_battle PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/loader.h
-    PARENT_SCOPE
 )
 
 set(DATA_SCHEMA_SOURCES
@@ -66,3 +70,13 @@ add_custom_target(data_schema_check
     USES_TERMINAL
 )
 add_dependencies(data_schema_check data_schema_generate)
+
+add_test(NAME data_schema_verify
+    COMMAND $<TARGET_FILE:xi_data_schema> --verify-data
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+)
+add_test(NAME data_schema_validate
+    COMMAND ${Python_EXECUTABLE} -m tools.codegen ${CMAKE_BINARY_DIR} --validate
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+)
+set_tests_properties(data_schema_verify data_schema_validate PROPERTIES LABELS "schema")

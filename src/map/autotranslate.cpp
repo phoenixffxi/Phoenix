@@ -28506,7 +28506,7 @@ const std::map<unsigned int, const char*> values = {
     { 168624659, "Raebrimm's memento" },
 };
 
-std::string doLookup(const std::string& str, std::vector<uint16>& data)
+auto doLookup(const std::string& str, std::vector<uint16>& data) -> std::string
 {
     if (data.size() != 4)
     {
@@ -28514,10 +28514,10 @@ std::string doLookup(const std::string& str, std::vector<uint16>& data)
         return "?";
     }
 
-    auto type     = data.at(0);
-    auto language = data.at(1);
-    auto category = data.at(2);
-    auto index    = data.at(3);
+    uint32 type     = data.at(0);
+    uint32 language = data.at(1);
+    uint32 category = data.at(2);
+    uint32 index    = data.at(3);
 
     // Type (usually always 0x02):
     // If it is 0x07 then it is an item. If it is 0x13 then it is a key item.
@@ -28561,7 +28561,7 @@ std::string doLookup(const std::string& str, std::vector<uint16>& data)
     return values.at(key);
 }
 
-std::string autotranslate::replaceBytes(const std::string& str)
+auto autotranslate::replaceBytes(const std::string& str) -> std::string
 {
     bool                inATBlock = false;
     std::string         outStr    = "";
@@ -28569,13 +28569,13 @@ std::string autotranslate::replaceBytes(const std::string& str)
 
     for (auto& ch : str)
     {
-        auto chAsInt = static_cast<uint16>(ch);
-        if (chAsInt == 65533 && !inATBlock)
+        auto chAsInt = static_cast<uint8>(ch);
+        if (chAsInt == 0xFD && !inATBlock)
         {
             outStr += "{";
             inATBlock = true;
         }
-        else if (chAsInt == 65533 && inATBlock)
+        else if (chAsInt == 0xFD && inATBlock)
         {
             outStr += doLookup(str, data);
             data.clear();

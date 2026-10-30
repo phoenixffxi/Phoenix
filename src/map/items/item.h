@@ -25,8 +25,8 @@
 #include "common/mmo.h"
 #include "common/types/badge.h"
 
-#include "map/enums/item_flag.h"
-#include "map/enums/item_state.h"
+#include "data/enums/item_flag.h"
+#include "data/enums/item_state.h"
 
 namespace xi::items::detail
 {
@@ -67,31 +67,31 @@ public:
 
     virtual ~CItem();
 
-    uint16 getID() const;
-    uint16 getSubID() const;
-    auto   getFlag() const -> ItemFlag;
-    auto   hasFlag(ItemFlag flag) const -> bool;
-    uint8  getAppraisalID() const;
-    uint8  getAHCat() const;
-    uint32 getQuantity() const;
-    uint32 getStackSize() const;
-    uint32 getBasePrice() const;
-    uint32 getCharPrice() const;
-    uint8  getLocationID() const;
-    uint8  getSlotID() const;
+    auto getID() const -> uint16;
+    auto getSubID() const -> uint16;
+    auto getFlag() const -> xi::ItemFlag;
+    auto hasFlag(xi::ItemFlag flag) const -> bool;
+    auto getAppraisalID() const -> uint8;
+    auto getAHCat() const -> uint8;
+    auto getQuantity() const -> uint32;
+    auto getStackSize() const -> uint32;
+    auto getBasePrice() const -> uint32;
+    auto getCharPrice() const -> uint32;
+    auto getLocationID() const -> uint8;
+    auto getSlotID() const -> uint8;
 
-    bool isSent() const;
-    bool isType(ITEM_TYPE) const;
-    bool isSubType(ITEM_SUBTYPE) const;
+    auto isSent() const -> bool;
+    auto isType(ITEM_TYPE) const -> bool;
+    auto isSubType(ITEM_SUBTYPE) const -> bool;
 
     // process-unique, never reused. Distinguishes this stack from an identical one
     auto uid() const -> uint64;
-    bool isStorageSlip() const;
+    auto isStorageSlip() const -> bool;
 
     void setID(uint16);
     void setSubID(uint16);
     void setSubType(uint8);
-    void setFlag(ItemFlag);
+    void setFlag(xi::ItemFlag);
     void setAppraisalID(uint8 appraisailID);
     void setAHCat(uint8);
     void setQuantity(uint32);
@@ -102,27 +102,27 @@ public:
     void setSlotID(uint8 SlotID);
     void setSent(bool sent);
 
-    const std::string& getName() const;
-    void               setName(const std::string& name);
+    auto getName() const -> const std::string&;
+    void setName(const std::string& name);
 
-    const std::string& getSender() const;
-    void               setSender(const std::string& sender);
+    auto getSender() const -> const std::string&;
+    void setSender(const std::string& sender);
 
-    const std::string& getReceiver() const;
-    void               setReceiver(const std::string& receiver);
+    auto getReceiver() const -> const std::string&;
+    void setReceiver(const std::string& receiver);
 
-    virtual auto getSignature() const -> const std::string;
+    virtual auto getSignature() const -> std::string;
     virtual void setSignature(const std::string& signature);
 
     auto isDirty() const -> bool;
     void setDirty(bool dirty);
 
-    bool isSoultrapper() const;
+    auto isSoultrapper() const -> bool;
 
-    bool isMannequin() const;
+    auto isMannequin() const -> bool;
 
-    auto state() const -> ItemState;
-    void setState(ItemState newState, xi::Badge<xi::items::detail::ItemAccess>);
+    auto state() const -> xi::ItemState;
+    void setState(xi::ItemState newState, xi::Badge<xi::items::detail::ItemAccess>);
     auto isBusy() const -> bool;
 
     static constexpr uint32_t extra_size = 0x18;
@@ -146,17 +146,17 @@ protected:
     void setType(uint16);
 
 private:
-    uint16   m_id;
-    uint64   m_uid;
-    uint16   m_subid;
-    uint16   m_type;
-    uint8    m_subtype;
-    uint32   m_quantity;  // Current number of items
-    uint32   m_stackSize; // The maximum number of items
-    uint32   m_BasePrice;
-    uint32   m_CharPrice; // The cost of the subject in Bazaar
-    uint8    m_ahCat;     // auction category
-    ItemFlag m_flag;
+    uint16       m_id;
+    uint64       m_uid;
+    uint16       m_subid;
+    uint16       m_type;
+    uint8        m_subtype;
+    uint32       m_quantity;  // Current number of items
+    uint32       m_stackSize; // The maximum number of items
+    uint32       m_BasePrice;
+    uint32       m_CharPrice; // The cost of the subject in Bazaar
+    uint8        m_ahCat;     // auction category
+    xi::ItemFlag m_flag;
 
     uint8 m_slotID;     // Cell of the object in the storage
     uint8 m_locationID; // storage number
@@ -168,5 +168,5 @@ private:
     std::string m_send;
     std::string m_recv;
 
-    ItemState state_{ ItemState::Free };
+    xi::ItemState state_{ xi::ItemState::Free };
 };

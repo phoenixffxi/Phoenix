@@ -38,7 +38,7 @@ public:
 
     ConquestSystem(WorldEngine& worldServer);
 
-    bool handleMessage(uint8 messageType, IPPMessage&& message);
+    auto handleMessage(uint8 messageType, IPPMessage&& message) -> bool;
 
     //
     // Called weekly, updates conquest data and sends regional control information
@@ -59,14 +59,14 @@ public:
     void updateVanaHourlyConquest();
 
 private:
-    bool updateInfluencePoints(int points, unsigned int nation, REGION_TYPE region);
-    void addMobKills(int32 count, REGION_TYPE region);
-    void addPlayerHomepoints(int32 count, REGION_TYPE region);
+    auto updateInfluencePoints(int points, xi::Nation nation, xi::Region region) -> bool;
+    void addMobKills(int32 count, xi::Region region);
+    void addPlayerHomepoints(int32 count, xi::Region region);
 
-    auto getRegionalInfluences() -> const std::vector<influence_t>;
-    auto getRegionControls() -> const std::vector<region_control_t>;
+    auto getRegionalInfluences() -> std::vector<influence_t>;
+    auto getRegionControls() -> std::vector<region_control_t>;
 
-    void sendTallyStartMsg();
+    void sendTallyStartMsg() const;
     void sendInfluencesMsg(ShouldUpdateZones shouldUpdateZones);
     void sendRegionControlsMsg(ConquestMessage msgType);
 

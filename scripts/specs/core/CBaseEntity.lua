@@ -657,11 +657,11 @@ function CBaseEntity:leaveGame()
 end
 
 ---@param target CBaseEntity
----@param emID integer
----@param emMode integer
+---@param emote xi.emote
+---@param emoteMode xi.emoteMode
 ---@param othersOnly boolean
 ---@return nil
-function CBaseEntity:sendEmote(target, emID, emMode, othersOnly)
+function CBaseEntity:sendEmote(target, emote, emoteMode, othersOnly)
 end
 
 ---@nodiscard
@@ -751,7 +751,7 @@ function CBaseEntity:getCurrentRegion()
 end
 
 ---@nodiscard
----@return integer
+---@return xi.continent
 function CBaseEntity:getContinentID()
 end
 
@@ -1431,11 +1431,11 @@ function CBaseEntity:setCallForHelpBlocked(blocked)
 end
 
 ---@nodiscard
----@return integer
+---@return xi.nation
 function CBaseEntity:getNation()
 end
 
----@param nation integer
+---@param nation xi.nation
 ---@return nil
 function CBaseEntity:setNation(nation)
 end
@@ -1763,7 +1763,7 @@ function CBaseEntity:getFameLevel(area)
 end
 
 ---@nodiscard
----@param nation integer
+---@param nation xi.nation
 ---@return integer
 function CBaseEntity:getRank(nation)
 end

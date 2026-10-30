@@ -56,3 +56,8 @@ m:addOverride('xi.items.anniversary_ring.onItemUse', function(target)
 
     xi.itemUtils.addItemExpEffect(target, effect, power, duration, subpower)
 end)
+
+-- Redeyes cannot produce Angelwings.
+m:addOverride('xi.items.redeyes.onItemCheck', function(target, item, caster)
+    return xi.msg.basic.ITEM_UNABLE_TO_USE
+end)

@@ -38,16 +38,16 @@ struct GardenResult_t
     uint8  Weight      = 0;
 };
 
-typedef std::vector<GardenResult_t> GardenResultList_t;
+using GardenResultList_t = std::vector<GardenResult_t>;
 
 namespace gardenutils
 {
 
 void Initialize();
 
-void                      UpdateGardening(CCharEntity* PChar, SendPacket sendPacket);
-std::tuple<uint16, uint8> CalculateResults(CCharEntity* PChar, CItemFlowerpot* PItem);
-void                      GrowToNextStage(CItemFlowerpot* PItem, bool growFromFeed = false);
-uint8                     GetStageDuration(CItemFlowerpot* PItem, bool growFromFeed = false);
+void UpdateGardening(CCharEntity* PChar, SendPacket sendPacket);
+auto CalculateResults(CCharEntity* PChar, CItemFlowerpot* PItem) -> std::tuple<uint16, uint8>;
+void GrowToNextStage(CItemFlowerpot* PItem, bool growFromFeed = false);
+auto GetStageDuration(CItemFlowerpot* PItem, bool growFromFeed = false) -> uint8;
 
 } // namespace gardenutils

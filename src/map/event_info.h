@@ -66,11 +66,12 @@ struct EventInfo : EventPrep
     bool               canSkip       = false;
     bool               isHidden      = false;
 
-    bool hasCutsceneOption(int32 _option)
+    auto hasCutsceneOption(int32 _option) -> bool
     {
         return std::ranges::contains(cutsceneOptions, _option);
     }
 
+    // NOLINTNEXTLINE(bugprone-derived-method-shadowing-base-method): non-virtual aggregate, hides and calls the base reset.
     void reset()
     {
         EventPrep::reset();

@@ -40,20 +40,7 @@ CItemUsable::CItemUsable(uint16 id)
     m_AoE         = 0;
 }
 
-CItemUsable::CItemUsable(const CItemUsable& other)
-: CItem(other)
-, m_UseDelay(other.m_UseDelay)
-, m_MaxCharges(other.m_MaxCharges)
-, m_Animation(other.m_Animation)
-, m_AnimationTime(other.m_AnimationTime)
-, m_ActivationTime(other.m_ActivationTime)
-, m_ValidTarget(other.m_ValidTarget)
-, m_ReuseDelay(other.m_ReuseDelay)
-, m_AssignTime(other.m_AssignTime)
-, m_LastUseTime(other.m_LastUseTime)
-, m_AoE(other.m_AoE)
-{
-}
+CItemUsable::CItemUsable(const CItemUsable& other) = default;
 
 CItemUsable::~CItemUsable() = default;
 
@@ -62,7 +49,7 @@ void CItemUsable::setUseDelay(timer::duration UseDelay)
     m_UseDelay = UseDelay;
 }
 
-timer::duration CItemUsable::getUseDelay() const
+auto CItemUsable::getUseDelay() const -> timer::duration
 {
     return m_UseDelay;
 }
@@ -72,7 +59,7 @@ void CItemUsable::setReuseDelay(timer::duration ReuseDelay)
     m_ReuseDelay = ReuseDelay;
 }
 
-timer::duration CItemUsable::getReuseDelay() const
+auto CItemUsable::getReuseDelay() const -> timer::duration
 {
     return m_ReuseDelay;
 }
@@ -83,12 +70,12 @@ void CItemUsable::setLastUseTime(timer::time_point LastUseTime)
     this->exdata<Exdata::ItemTimerInfo>().TimeValue1 = earth_time::vanadiel_timestamp(timer::to_utc(LastUseTime));
 }
 
-timer::time_point CItemUsable::getLastUseTime()
+auto CItemUsable::getLastUseTime() -> timer::time_point
 {
     return m_LastUseTime;
 }
 
-timer::time_point CItemUsable::getNextUseTime()
+auto CItemUsable::getNextUseTime() -> timer::time_point
 {
     return getLastUseTime() + m_ReuseDelay;
 }
@@ -108,7 +95,7 @@ void CItemUsable::setMaxCharges(uint8 MaxCharges)
     m_MaxCharges = MaxCharges;
 }
 
-uint8 CItemUsable::getMaxCharges() const
+auto CItemUsable::getMaxCharges() const -> uint8
 {
     return m_MaxCharges;
 }
@@ -128,7 +115,7 @@ void CItemUsable::setAnimationTime(timer::duration AnimationTime)
     m_AnimationTime = AnimationTime;
 }
 
-timer::duration CItemUsable::getAnimationTime() const
+auto CItemUsable::getAnimationTime() const -> timer::duration
 {
     return m_AnimationTime;
 }
@@ -138,7 +125,7 @@ void CItemUsable::setActivationTime(timer::duration ActivationTime)
     m_ActivationTime = ActivationTime;
 }
 
-timer::duration CItemUsable::getActivationTime() const
+auto CItemUsable::getActivationTime() const -> timer::duration
 {
     return m_ActivationTime;
 }
@@ -148,12 +135,12 @@ void CItemUsable::setValidTarget(uint16 ValidTarget)
     m_ValidTarget = ValidTarget;
 }
 
-uint16 CItemUsable::getValidTarget() const
+auto CItemUsable::getValidTarget() const -> uint16
 {
     return m_ValidTarget;
 }
 
-uint16 CItemUsable::getAoE() const
+auto CItemUsable::getAoE() const -> uint16
 {
     return m_AoE;
 }
@@ -168,7 +155,7 @@ void CItemUsable::setAssignTime(timer::time_point time)
     m_AssignTime = time;
 }
 
-timer::duration CItemUsable::getReuseTime()
+auto CItemUsable::getReuseTime() -> timer::duration
 {
     timer::time_point CurrentTime = timer::now();
     auto              ReuseTime   = std::max<timer::time_point>(m_AssignTime + m_UseDelay, getLastUseTime() + m_ReuseDelay);

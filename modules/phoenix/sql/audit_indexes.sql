@@ -6,3 +6,9 @@ CREATE INDEX IF NOT EXISTS `idx_gil_item`
 
 CREATE INDEX IF NOT EXISTS `idx_vendor_date_popular`
     ON `audit_vendor` (`date`, `npcid`, `seller`, `quantity`, `direction`, `applied_gil`, `npc_name`);
+
+CREATE INDEX IF NOT EXISTS `idx_gil_char_date`
+    ON `audit_gil` (`charid`, `date`, `source`, `itemid`, `delta`);
+
+CREATE INDEX IF NOT EXISTS `idx_vendor_direction_date_item`
+    ON `audit_vendor` (`direction`, `date`, `itemid`, `quantity`, `applied_gil`);

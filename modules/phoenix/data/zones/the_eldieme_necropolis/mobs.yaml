@@ -1,6 +1,9 @@
 # Era mob layout for the_eldieme_necropolis.
 # Needs the Era DATs (https://github.com/phoenixffxi/Era-DATs) or the client shows the wrong mob names.
 
+# Remove Cytherea Pearl, introduced in the March 2012 update.
+# New equipment: https://www.bg-wiki.com/ffxi/March_2012_Version_Update_Changes
+
 templates:
 
   Azer:
@@ -128,6 +131,11 @@ templates:
     attributes:
       spawn:
         respawn: 840 # Era dungeon timers
+  Skull_of_Sloth:
+    loot:
+      drops:
+        - chance: always
+          item:   zircon
 
   Spriggan_blm:
     attributes:

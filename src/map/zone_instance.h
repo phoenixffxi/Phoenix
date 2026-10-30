@@ -29,16 +29,16 @@
 class CZoneInstance : public CZone
 {
 public:
-    CZoneInstance(Scheduler& scheduler, MapConfig config, xi::ZoneId ZoneID, REGION_TYPE RegionID, CONTINENT_TYPE ContinentID, uint8 levelRestriction, const std::optional<xi::data::ZoneSettings>& settings);
+    CZoneInstance(Scheduler& scheduler, MapConfig config, xi::ZoneId ZoneID, xi::Region RegionID, xi::Continent ContinentID, uint8 levelRestriction, const std::optional<xi::data::ZoneSettings>& settings);
     ~CZoneInstance() override;
 
     DISALLOW_COPY_AND_MOVE(CZoneInstance);
 
-    CInstance* CreateInstance(uint32 instanceid);
+    auto CreateInstance(uint32 instanceid) -> CInstance*;
 
-    virtual CCharEntity* GetCharByName(const std::string& name) override; // finds the player if exists in zone
-    virtual CCharEntity* GetCharByID(uint32 id) override;
-    virtual CBaseEntity* GetEntity(uint16 targid, uint8 filter = -1) override; // get a pointer to any entity in the zone
+    virtual auto GetCharByName(const std::string& name) -> CCharEntity* override; // finds the player if exists in zone
+    virtual auto GetCharByID(uint32 id) -> CCharEntity* override;
+    virtual auto GetEntity(uint16 targid, uint8 filter = -1) -> CBaseEntity* override; // get a pointer to any entity in the zone
 
     auto getInstanceByRunId(uint32 runId) const -> CInstance*;
 
@@ -86,7 +86,7 @@ public:
     void ForEachAllyInstance(CBaseEntity* PEntity, FnRef<void(CMobEntity*)> func) override;
 
 private:
-    typedef std::vector<std::unique_ptr<CInstance>> instanceList_t;
+    using instanceList_t = std::vector<std::unique_ptr<CInstance>>;
 
     instanceList_t                  m_InstanceList;
     FlatHashMap<uint32, CInstance*> instancesByRun_;

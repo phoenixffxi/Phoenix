@@ -1,3 +1,7 @@
+# Drops removed from mob loot after the Abyssea era: the Sky NM stone drops (December 7, 2010) and later targeted removals.
+# Source: https://www.bg-wiki.com/ffxi/Version_Update_(12/06/2010)
+# Source: https://www.bg-wiki.com/ffxi/Version_Update_(07/23/2012)
+
 # Era mob layout for the_shrine_of_ruavitau.
 # Needs the Era DATs (https://github.com/phoenixffxi/Era-DATs) or the client shows the wrong mob names.
 
@@ -48,6 +52,16 @@ templates:
       spawn:
         respawn: 960 # Era dungeon timers
 
+  Faust:
+    loot: # extra summerstone removed
+      drops:
+        - chance: always
+          item:   summerstone
+        - chance: common
+          item:   oblation_abjuration
+        - chance: uncommon
+          item:   tonbo-giri
+
   Fire_Elemental:
     attributes:
       spawn:
@@ -58,10 +72,42 @@ templates:
       spawn:
         respawn: 960 # Era dungeon timers
 
+  Mother_Globe:
+    loot: # extra springstone removed
+      drops:
+        - chance: always
+          item:   springstone
+        - chance: common
+          item:   libation_abjuration
+        - chance: uncommon
+          item:   shiranui
+
+  Olla_Grande:
+    loot: # extra winterstone removed
+      drops:
+        - chance: always
+          item:   winterstone
+        - chance: common
+          item:   libation_abjuration
+        - chance: uncommon
+          item:   skofnung
+        - chance: rare
+          item:   freyas_tear
+
   Thunder_Elemental:
     attributes:
       spawn:
         respawn: 960 # Era dungeon timers
+
+  Ullikummi:
+    loot: # extra autumnstone removed
+      drops:
+        - chance: always
+          item:   autumnstone
+        - chance: common
+          item:   oblation_abjuration
+        - chance: uncommon
+          item:   ulfhedinn_axe
 
   Water_Elemental:
     attributes:

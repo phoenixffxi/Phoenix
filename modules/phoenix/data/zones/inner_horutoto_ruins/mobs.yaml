@@ -1,7 +1,24 @@
+# Drops removed from mob loot after the Abyssea era: the Sky NM stone drops (December 7, 2010) and later targeted removals.
+# Source: https://www.bg-wiki.com/ffxi/Version_Update_(12/06/2010)
+# Source: https://www.bg-wiki.com/ffxi/Version_Update_(07/23/2012)
+
 # Era mob layout for inner_horutoto_ruins.
 # Needs the Era DATs (https://github.com/phoenixffxi/Era-DATs) or the client shows the wrong mob names.
 
+# Restores the pre-November 5, 2013 lottery cooldown for Nocuous Weapon.
+# Source: https://forum.square-enix.com/ffxi/threads/38100
+# Slots replace the core list whole, so every slot in the zone is restated.
+
 templates:
+
+  Blade_Bat_Inner_Horutoto:
+    attributes:
+      spawn:
+        respawn: 480 # Era dungeon timers
+    loot: # vial_of_fiend_blood removed
+      drops:
+        - chance: common
+          item:   bat_wing
 
   # -- Custom templates for mobs the core file lacks, scaffolded from the module's mob_groups/mob_pools inserts --
 
@@ -187,11 +204,6 @@ templates:
         respawn: 600 # Era dungeon timers
 
   Battue_Bats:
-    attributes:
-      spawn:
-        respawn: 480 # Era dungeon timers
-
-  Blade_Bat_Inner_Horutoto:
     attributes:
       spawn:
         respawn: 480 # Era dungeon timers
@@ -625,3 +637,71 @@ spawns:
   17563751:
     template: Balloon
     region:   s_79
+
+slots:
+  - members:
+      17563668: {} # Goblin_Thug
+      17563670: {} # Magicked_Bones
+  - members:
+      17563669: {} # Goblin_Weaver
+      17563671: {} # Magicked_Bones
+  - members:
+      17563672: {} # Goblin_Weaver
+      17563678: {} # Goblin_Weaver
+  - members:
+      17563674: {} # Goblin_Weaver
+      17563676: {} # Goblin_Weaver
+  - members:
+      17563770: {} # Goblin_Mugger
+      17563771: {} # Goblin_Leecher
+      17563772: {} # Goblin_Gambler
+  - members:
+      17563773: {} # Goblin_Mugger
+      17563774: {} # Goblin_Leecher
+      17563775: {} # Goblin_Gambler
+  - members:
+      17563776: {} # Goblin_Mugger
+      17563777: {} # Goblin_Leecher
+      17563778: {} # Goblin_Gambler
+  - members:
+      17563779: {} # Goblin_Mugger
+      17563780: {} # Goblin_Leecher
+      17563781: {} # Goblin_Gambler
+  - members:
+      17563793: {} # Boggart
+      17563795: {} # Boggart
+  - members:
+      17563797: {}                           # Boggart
+      17563799: {}                           # Boggart
+      17563801: {chance: 15, cooldown: 3600} # Nocuous_Weapon
+  - members:
+      17563805: {} # Will-o-the-Wisp
+      17563806: {} # Will-o-the-Wisp
+  - members:
+      17563811: {} # Wendigo
+      17563832: {} # Wendigo
+  - members:
+      17563812: {} # Battle_Bat
+      17563817: {} # Battle_Bat
+  - members:
+      17563813: {} # Battle_Bat
+  - members:
+      17563816: {} # Wendigo
+      17563831: {} # Wendigo
+  - members:
+      17563818: {} # Battle_Bat
+      17563819: {} # Wendigo
+      17563823: {} # Battle_Bat
+  - members:
+      17563822: {} # Battle_Bat
+      17563824: {} # Wendigo
+  - members:
+      17563827: {} # Battle_Bat
+  - members:
+      17563828: {} # Battle_Bat
+      17563830: {} # Wendigo
+  - members:
+      17563829: {} # Wendigo
+  - members:
+      17563783: {}                           # Goblin_Leecher
+      17563785: {chance: 15, cooldown: 3600} # Slendlix_Spindlethumb

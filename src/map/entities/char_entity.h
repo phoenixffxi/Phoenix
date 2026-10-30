@@ -23,6 +23,7 @@
 
 #include "aman.h"
 #include "data/enums/mog_house.h"
+#include "data/enums/nation.h"
 #include "enums/char_persist.h"
 #include "event_info.h"
 #include "gmcall_container.h"
@@ -101,7 +102,7 @@ struct Fame
 
 struct profile_t
 {
-    uint8 nation; // Your Nation Allegiance.
+    xi::Nation nation; // Your Nation Allegiance.
 
     // Moghouse data (bit-packed)
     // 0x0001: SANDORIA exit quest flag
@@ -350,8 +351,8 @@ class CRangeState;
 class CItemState;
 class CItemUsable;
 
-typedef FlatHashMap<uint32, CBaseEntity*> SpawnIDList_t;
-typedef std::vector<EntityId>             BazaarList_t;
+using SpawnIDList_t = FlatHashMap<uint32, CBaseEntity*>;
+using BazaarList_t  = std::vector<EntityId>;
 
 struct ItemLocation
 {
@@ -389,13 +390,13 @@ public:
 
     earth_time::time_point lastOnline{}; // UTC time of the last time char zoned or logged out
 
-    bool isNewPlayer() const;          // Checks if new player bit is unset.
-    bool isSeekingParty() const;       // is seeking party or not
-    bool isAnon() const;               // is /anon
-    bool isAway() const;               // is /away (tells will not go through)
-    bool hasAutoTargetEnabled() const; // has autotarget enabled
-    auto isCrafting() const -> bool;   // is currently synthesizing
-    auto isFishing() const -> bool;    // is currently fishing
+    auto isNewPlayer() const -> bool;          // Checks if new player bit is unset.
+    auto isSeekingParty() const -> bool;       // is seeking party or not
+    auto isAnon() const -> bool;               // is /anon
+    auto isAway() const -> bool;               // is /away (tells will not go through)
+    auto hasAutoTargetEnabled() const -> bool; // has autotarget enabled
+    auto isCrafting() const -> bool;           // is currently synthesizing
+    auto isFishing() const -> bool;            // is currently fishing
 
     profile_t       profile{};
     capacityChain_t capacityChain{};
@@ -416,7 +417,7 @@ public:
     uint8            m_TitleList[143]{};       // List of obtained titles
     uint8            m_Abilities[64]{};        // List of current abilities
     uint8            m_LearnedAbilities[49]{}; // Learnable abilities (corsair rolls)
-    xi::bitset<64>   m_LearnedWeaponskills{};  // Learnable Weaponskills
+    xi::bitset<128>  m_LearnedWeaponskills{};  // Learnable Weaponskills
     uint8            m_TraitList[18]{};        // List of active job traits in the form of a bit mask
     uint8            m_PetCommands[64]{};
     uint8            m_WeaponSkills[32]{};
@@ -448,11 +449,11 @@ public:
     auto getAutomatonElementMax(uint8 element) const -> uint8;
     auto getAutomatonElementCapacity(uint8 element) const -> uint8;
 
-    auto getAutomatonFrame() const -> AutomatonFrame;
-    auto getAutomatonHead() const -> AutomatonHead;
+    auto getAutomatonFrame() const -> xi::AutomatonFrame;
+    auto getAutomatonHead() const -> xi::AutomatonHead;
 
-    void setAutomatonFrame(AutomatonFrame frame);
-    void setAutomatonHead(AutomatonHead head);
+    void setAutomatonFrame(xi::AutomatonFrame frame);
+    void setAutomatonHead(xi::AutomatonHead head);
 
     void setAutomatonAttachment(uint8 slotid, uint8 id);
 
@@ -516,7 +517,7 @@ public:
     bool        requestedZoneChange = false;             // used in CLueBaseEntity::setPos(). This will be processed after the player's tick to change zones.
     bool        arrivedByZoning     = false;             // set from char_stats.zoning by LoadChar, read by the 0x00A handler once the char is in its zone.
 
-    uint8 GetGender();
+    auto GetGender() -> uint8;
 
     auto getPacketList() const -> const std::deque<std::unique_ptr<CBasicPacket>>&;
     auto getPacketListCopy() -> std::deque<std::unique_ptr<CBasicPacket>>; // Return a COPY of packet list
@@ -530,13 +531,13 @@ public:
         pushPacket(std::move(packet));
     }
 
-    void   pushPacket(std::unique_ptr<CBasicPacket>&&);                                   // Push packet to packet list
-    void   updateEntityPacket(CBaseEntity* PEntity, ENTITYUPDATE type, uint8 updatemask); // Push or update an entity update packet
-    bool   isPacketListEmpty();
-    auto   popPacket() -> std::unique_ptr<CBasicPacket>; // Get first packet from PacketList
-    size_t getPacketCount();
-    void   erasePackets(uint8 num); // Erase num elements from front of packet list
-    bool   isPacketFiltered(std::unique_ptr<CBasicPacket>& packet);
+    void pushPacket(std::unique_ptr<CBasicPacket>&&);                                   // Push packet to packet list
+    void updateEntityPacket(CBaseEntity* PEntity, ENTITYUPDATE type, uint8 updatemask); // Push or update an entity update packet
+    auto isPacketListEmpty() -> bool;
+    auto popPacket() -> std::unique_ptr<CBasicPacket>; // Get first packet from PacketList
+    auto getPacketCount() -> size_t;
+    void erasePackets(uint8 num); // Erase num elements from front of packet list
+    auto isPacketFiltered(std::unique_ptr<CBasicPacket>& packet) const -> bool;
 
     bool         pendingPositionUpdate;
     bool         sendServerStatus_ = false;
@@ -555,8 +556,8 @@ public:
     CLatentEffectContainer* PLatentEffectContainer;
     bool                    retriggerLatents; // used to retrigger all latent effects if some event requires them to be retriggered
 
-    EntityId        guildShopNpc_{}; // Lua-driven guild shop NPC the PC last opened
-    CItemContainer* getStorage(uint8 locationId) const;
+    EntityId guildShopNpc_{}; // Lua-driven guild shop NPC the PC last opened
+    auto     getStorage(uint8 locationId) const -> CItemContainer*;
 
     CTradeContainer* TradeContainer; // Container used specifically for trading.
     CTradeContainer* Container;      // Universal container for exchange, synthesis, store, etc.
@@ -702,13 +703,13 @@ public:
 
     CharHistory_t m_charHistory{};
 
-    int8  getShieldSize();
-    int16 getShieldDefense();
-    bool  hasBazaar();
+    auto getShieldSize() const -> int8;
+    auto getShieldDefense() const -> int16;
+    auto hasBazaar() const -> bool;
 
-    bool getStyleLocked() const;
+    auto getStyleLocked() const -> bool;
     void setStyleLocked(bool isStyleLocked);
-    bool getBlockingAid() const;
+    auto getBlockingAid() const -> bool;
     void setBlockingAid(bool isBlockingAid);
 
     bool              m_EffectsChanged;
@@ -721,9 +722,9 @@ public:
 
     CHAR_SUBSTATE m_Substate;
 
-    int16 addTP(int16 tp) override;
-    int32 addHP(int32 hp) override;
-    int32 addMP(int32 mp) override;
+    auto addTP(int16 tp) -> int16 override;
+    auto addHP(int32 hp) -> int32 override;
+    auto addMP(int32 mp) -> int32 override;
 
     std::vector<GearSetMod_t>     m_GearSetMods; // The list of gear set mods currently applied to the character.
     std::vector<AuctionHistory_t> m_ah_history;  // AH history list (in the future consider using UContainer)
@@ -731,8 +732,8 @@ public:
     HashMap<uint16, timer::time_point> m_PacketRecievedTimestamps;
     uint16                             m_LastPacketType{};
 
-    void            SetPlayTime(timer::duration playTime); // Set playtime
-    timer::duration GetPlayTime(bool needUpdate = true);   // Get playtime
+    void SetPlayTime(timer::duration playTime);                  // Set playtime
+    auto GetPlayTime(bool needUpdate = true) -> timer::duration; // Get playtime
 
     auto getEquip(SLOTTYPE slot) const -> CItemEquipment*;
     auto getLinkshell(SLOTTYPE slot) const -> CItemLinkshell*;
@@ -747,7 +748,7 @@ public:
 
     void ReloadPartyInc();
     void ReloadPartyDec();
-    bool ReloadParty() const;
+    auto ReloadParty() const -> bool;
     void ClearTrusts();
     void RemoveTrust(CTrustEntity*);
 
@@ -762,9 +763,9 @@ public:
     void addTrait(CTrait*) override;
     void delTrait(CTrait*) override;
 
-    bool ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags) override;
-    bool CanUseSpell(CSpell*) override;
-    bool IsMobOwner(CBattleEntity* PTarget);
+    auto ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags) -> bool override;
+    auto CanUseSpell(CSpell*) -> bool override;
+    auto IsMobOwner(CBattleEntity* PTarget) -> bool;
 
     void Die() override;
     void Die(timer::duration _duration, DeathParams params = {});
@@ -776,21 +777,21 @@ public:
     static constexpr timer::duration death_duration         = 60min;
     static constexpr timer::duration death_update_frequency = 16s;
 
-    void            SetDeathTime(timer::time_point timestamp);
-    timer::duration GetTimeSinceDeath() const;
-    timer::duration GetTimeUntilDeathHomepoint() const;
+    void SetDeathTime(timer::time_point timestamp);
+    auto GetTimeSinceDeath() const -> timer::duration;
+    auto GetTimeUntilDeathHomepoint() const -> timer::duration;
 
-    earth_time::time_point GetTimeCreated();
+    auto GetTimeCreated() -> earth_time::time_point;
 
-    uint8 getHighestJobLevel();
+    auto getHighestJobLevel() -> uint8;
 
-    bool isInTriggerArea(uint32 triggerAreaId);
+    auto isInTriggerArea(uint32 triggerAreaId) -> bool;
     void onTriggerAreaEnter(uint32 tiggerAreaId);
     void onTriggerAreaLeave(uint32 triggerAreaId);
     void clearTriggerAreas();
 
     auto isInEvent() const -> bool;
-    bool isNpcLocked();
+    auto isNpcLocked() const -> bool;
     void queueEvent(EventInfo* eventToQueue);
     void endCurrentEvent();
     void tryStartNextEvent();
@@ -798,13 +799,13 @@ public:
     void setLocked(bool locked);
 
     void UpdateMoghancement();
-    bool hasMoghancement(uint16 moghancementID) const;
+    auto hasMoghancement(uint16 moghancementID) const -> bool;
     void SetMoghancement(uint16 moghancementID);
 
     /* State callbacks */
-    bool CanAttack(CBattleEntity* PTarget, std::unique_ptr<CBasicPacket>& errMsg) override;
-    bool OnAttack(CAttackState&, action_t&) override;
-    bool OnAttackError(CAttackState&) override;
+    auto CanAttack(CBattleEntity* PTarget, std::unique_ptr<CBasicPacket>& errMsg) -> bool override;
+    auto OnAttack(CAttackState&, action_t&) -> bool override;
+    auto OnAttackError(CAttackState&) -> bool override;
     auto IsValidTarget(uint16 targid, uint16 validTargetFlags, std::unique_ptr<CBasicPacket>& errMsg) -> CBattleEntity* override;
     auto IsValidTarget(EntityId target, uint16 validTargetFlags, std::unique_ptr<CBasicPacket>& errMsg) -> CBattleEntity* override;
     void OnChangeTarget(CBattleEntity* PNewTarget) override;
@@ -833,7 +834,7 @@ public:
     bool m_isPCHidden{}; // Is the player currently hidden from other players
 
     // Starts a synth with skillType X
-    bool startSynth(xi::SkillType synthSkill);
+    auto startSynth(xi::SkillType synthSkill) -> bool;
 
     CCharEntity();
     ~CCharEntity() override;

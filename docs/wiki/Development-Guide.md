@@ -401,6 +401,30 @@ if (auto PChar = static_cast<CCharEntity*>(baseEntity))
 }
 ```
 
+#### <a id="c-trailing-return-types"/>Trailing return types for non-void functions
+
+`modernize-use-trailing-return-type`
+
+Functions that return a value use a trailing return type, in both the declaration and the definition. Functions returning `void` keep the plain form, and lambdas are left alone.
+
+```cpp
+// Correct ✔️
+auto getName() const -> const std::string&;
+auto Classname::getValue() const -> uint16
+{
+    return value;
+}
+void setName(const std::string& name);
+
+// Wrong ❌
+const std::string& getName() const;
+uint16 Classname::getValue() const
+{
+    return value;
+}
+auto setName(const std::string& name) -> void;
+```
+
 #### <a id="c-arg-param-spacing"/>Arg/Param spacing
 
 ```cpp
@@ -779,10 +803,10 @@ So we instead store it as:
 INSERT INTO `mob_droplist` VALUES (504,0,0,1000,888,340); -- (Colossal Calamari) seashell
 ```
 
-Conversely, `Combo` weaponskill doesn't need any additional comments because it has a name field:
+Conversely, the `Mighty Strikes` ability doesn't need any additional comments because it has a name field:
 
 ```sql
-INSERT INTO `weapon_skills` VALUES (1,'combo',0x02020000000200000000000002000000000202000000,1,5,0,16,2000,5,1,8,0,0,0,0);
+INSERT INTO `abilities` VALUES (16,'mighty_strikes',1,0,1,3600,0,0,0,33,2000,0,6,0,0,0,1,300,0,0,NULL);
 ```
 
 The format of the comment isn't massively important, but it is preferred not to use ';' as a seperator in the middle of your comment. This is a little confusing, as it's the statement-terminator in SQL.

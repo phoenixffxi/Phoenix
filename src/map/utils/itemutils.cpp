@@ -245,7 +245,7 @@ auto unarmedH2H() -> CItemWeapon*
 namespace itemutils
 {
 
-DropList_t* GetDropList(uint16 DropID)
+auto GetDropList(uint16 DropID) -> DropList_t*
 {
     if (DropID < MAX_DROPID)
     {
@@ -324,7 +324,7 @@ void LoadItemList()
         {
             PItem->setName(rset->get<std::string>("name"));
             PItem->setStackSize(rset->get<uint32>("stackSize"));
-            PItem->setFlag(rset->get<ItemFlag>("flags"));
+            PItem->setFlag(rset->get<xi::ItemFlag>("flags"));
             PItem->setAHCat(rset->get<uint8>("aH"));
             PItem->setBasePrice(rset->get<uint32>("BaseSell"));
             PItem->setSubID(rset->get<uint16>("subid"));

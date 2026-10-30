@@ -1,0 +1,70 @@
+# Drops removed from mob loot after the Abyssea era: the Sky NM stone drops (December 7, 2010) and later targeted removals.
+# Source: https://www.bg-wiki.com/ffxi/Version_Update_(12/06/2010)
+# Source: https://www.bg-wiki.com/ffxi/Version_Update_(07/23/2012)
+
+# Remove King Locust (March 23, 2010) from Yagudo Votaries, and Mage's Ballad from Vuu Puqu the Beguiler.
+# The scroll only came from the quest Intermediate Teamwork until July 24, 2012.
+# King Locust: https://www.playonline.com/pcd/verup/ff11us/detail/5338/detail.html
+# Mage's Ballad: https://wiki.ffo.jp/html/3645.html
+
+templates:
+
+  Yagudo_Piper:
+    loot: # scroll_of_mages_ballad removed
+      drops:
+        - chance: rare
+          item:   block_of_yagudo_caulk
+        - chance: common
+          item:   yagudo_bead_necklace
+        - chance: uncommon
+          item:   scroll_of_foe_lullaby
+        - chance: very_rare
+          item:   circlet
+        - chance: very_rare
+          item:   slops
+        - chance: very_rare
+          item:   cuffs
+        - chance: very_rare
+          item:   ash_clogs
+  Vuu_Puqu_the_Beguiler:
+    loot:
+      drops:
+        - chance: always
+          one_of:
+            bird_whistle:   90
+            bonzes_circlet: 10
+  Yagudo_Votary:
+    loot:
+      drops:
+        - chance: rare
+          item:   giddeus_chest_key
+        - chance: rare
+          item:   seven-knot_quipu
+        - chance: super_rare
+          item:   cotton_hachimaki
+        - chance: super_rare
+          item:   cotton_tekko
+        - chance: super_rare
+          item:   cotton_sitabaki
+        - chance: super_rare
+          item:   cotton_kyahan
+
+  Yagudo_Acolyte:
+    loot:
+      drops:
+        - chance: common
+          item:   yagudo_bead_necklace
+        - chance: uncommon
+          one_of:
+            - scroll_of_paralyze
+            - scroll_of_protectra
+            - scroll_of_barsleep
+            - scroll_of_sneak
+        - chance: very_rare
+          item:   circlet
+        - chance: very_rare
+          item:   cuffs
+        - chance: very_rare
+          item:   slops
+        - chance: rare
+          item:   ash_clogs

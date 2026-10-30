@@ -1,11 +1,11 @@
 """
-Regenerate the slot lists in modules/phoenix/data/nm_respawn from core.
+Regenerate the slot lists in modules/phoenix/data/zones from core.
 
 A module `slots:` list replaces the core list whole, so each file restates every
 slot in its zone with only a few member options changed. Those copies go stale
 when an LSB merge edits a zone's slots. This tool copies each zone's current core
 slots and reapplies the overrides below, matched by mob name so ID shifts are
-picked up. The header comments of an existing module file are kept.
+picked up. Only the slots section of an existing module file is rewritten.
 
 Usage:
     python tools/nm_respawn_slots.py          # rewrite every module file
@@ -25,7 +25,7 @@ import yaml
 
 ROOT        = Path(__file__).resolve().parents[1]
 CORE_ZONES  = ROOT / "data" / "zones"
-MODULE_ROOT = ROOT / "modules" / "phoenix" / "data" / "nm_respawn" / "zones"
+MODULE_ROOT = ROOT / "modules" / "phoenix" / "data" / "zones"
 
 ERA_SOURCE = "https://forum.square-enix.com/ffxi/threads/38100"
 
@@ -75,12 +75,12 @@ def slots_block(text, what):
     if start < 0:
         raise ValueError(f"{what} has no slots section")
 
-    block = text[start + 1:]
-    for line in block.splitlines()[1:]:
-        if re.match(r"^[A-Za-z_]+:", line):
-            raise ValueError(f"{what} has a top-level section after slots")
+    next_section = re.search(r"^[A-Za-z_]+:", text[start + len(marker):], re.MULTILINE)
+    end          = len(text)
+    if next_section:
+        end = start + len(marker) + next_section.start()
 
-    return text[:start + 1], block
+    return text[:start + 1], text[start + 1:end], text[end:]
 
 
 def apply_options(inner, options):
@@ -101,7 +101,7 @@ def build_zone(zone, label, overrides):
     core_path = CORE_ZONES / zone / "mobs.yaml"
     core_text = core_path.read_text(encoding="utf-8")
     spawns    = yaml.safe_load(core_text)["spawns"]
-    _, block  = slots_block(core_text, core_path)
+    _, block, _ = slots_block(core_text, core_path)
 
     names = {}
     for mob_id, spawn in spawns.items():
@@ -121,19 +121,27 @@ def build_zone(zone, label, overrides):
 
     missing = sorted(set(overrides) - applied)
 
+    slots       = "\n".join(lines).rstrip("\n") + "\n"
     module_path = MODULE_ROOT / zone / "mobs.yaml"
-    if module_path.exists():
-        header, _ = slots_block(module_path.read_text(encoding="utf-8"), module_path)
-    else:
-        header = "\n".join([
-            f"# Restores the pre-November 5, 2013 lottery cooldown for {label}.",
-            f"# Source: {ERA_SOURCE}",
-            "# Slots replace the core list whole, so every slot in the zone is restated.",
-            "",
-            "",
-        ])
+    comment     = "\n".join([
+        f"# Restores the pre-November 5, 2013 lottery cooldown for {label}.",
+        f"# Source: {ERA_SOURCE}",
+        "# Slots replace the core list whole, so every slot in the zone is restated.",
+        "",
+    ])
 
-    return module_path, header + "\n".join(lines) + "\n", missing
+    if not module_path.exists():
+        return module_path, comment + "\n" + slots, missing
+
+    module_text = module_path.read_text(encoding="utf-8")
+    if "\nslots:\n" not in module_text:
+        return module_path, module_text.rstrip("\n") + "\n\n" + comment + slots, missing
+
+    before, _, after = slots_block(module_text, module_path)
+    if after:
+        slots += "\n"
+
+    return module_path, before + slots + after, missing
 
 
 def main():

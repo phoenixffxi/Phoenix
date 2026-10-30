@@ -1,0 +1,192 @@
+# Drops removed from mob loot after the Abyssea era: the Sky NM stone drops (December 7, 2010) and later targeted removals.
+# Source: https://www.bg-wiki.com/ffxi/Version_Update_(12/06/2010)
+# Source: https://www.bg-wiki.com/ffxi/Version_Update_(07/23/2012)
+
+# Restores the pre-November 5, 2013 lottery cooldown for Leaping Lizzy.
+# Source: https://forum.square-enix.com/ffxi/threads/38100
+# Slots replace the core list whole, so every slot in the zone is restated.
+
+slots:
+  - members:
+      17215495: {} # Huge_Hornet
+      17215506: {} # Ding_Bats
+  - members:
+      17215496: {} # Huge_Hornet
+      17215507: {} # Ding_Bats
+  - members:
+      17215510: {} # Huge_Hornet
+      17215520: {} # Ding_Bats
+  - members:
+      17215511: {} # Huge_Hornet
+      17215521: {} # Ding_Bats
+  - members:
+      17215524: {} # Huge_Hornet
+      17215533: {} # Ding_Bats
+  - members:
+      17215525: {} # Huge_Hornet
+      17215534: {} # Ding_Bats
+  - members:
+      17215536: {} # Huge_Hornet
+      17215546: {} # Ding_Bats
+  - members:
+      17215537: {} # Huge_Hornet
+      17215547: {} # Ding_Bats
+  - members:
+      17215550: {} # Maneating_Hornet
+      17215558: {} # Ding_Bats
+  - members:
+      17215551: {} # Maneating_Hornet
+      17215560: {} # Fledermaus
+  - members:
+      17215555: {} # Ornery_Sheep
+      17215562: {} # Black_Wolf
+  - members:
+      17215563: {} # Maneating_Hornet
+      17215571: {} # Ding_Bats
+  - members:
+      17215567: {} # Ornery_Sheep
+      17215574: {} # Black_Wolf
+  - members:
+      17215575: {} # Maneating_Hornet
+      17215583: {} # Fledermaus
+  - members:
+      17215578: {} # Ornery_Sheep
+      17215585: {} # Black_Wolf
+  - members:
+      17215586: {} # Maneating_Hornet
+      17215594: {} # Fledermaus
+  - members:
+      17215589: {} # Ornery_Sheep
+      17215596: {} # Black_Wolf
+  - members:
+      17215597: {} # Maneating_Hornet
+      17215605: {} # Fledermaus
+  - members:
+      17215600: {} # Ornery_Sheep
+      17215607: {} # Black_Wolf
+  - members:
+      17215608: {} # Maneating_Hornet
+      17215616: {} # Ding_Bats
+  - members:
+      17215611: {} # Ornery_Sheep
+      17215618: {} # Black_Wolf
+  - members:
+      17215614: {} # Goblin_Thug
+      17215619: {} # Enchanted_Bones
+  - members:
+      17215615: {} # Goblin_Weaver
+      17215620: {} # Enchanted_Bones
+  - members:
+      17215621: {} # Maneating_Hornet
+      17215630: {} # Fledermaus
+  - members:
+      17215624: {} # Ornery_Sheep
+      17215631: {} # Black_Wolf
+  - members:
+      17215627: {} # Goblin_Thug
+      17215632: {} # Enchanted_Bones
+  - members:
+      17215628: {} # Goblin_Weaver
+      17215633: {} # Enchanted_Bones
+  - members:
+      17215634: {} # Maneating_Hornet
+      17215641: {} # Ding_Bats
+  - members:
+      17215638: {} # Ornery_Sheep
+      17215643: {} # Black_Wolf
+  - members:
+      17215639: {} # Goblin_Thug
+      17215644: {} # Enchanted_Bones
+  - members:
+      17215645: {} # Ornery_Sheep
+      17215647: {} # Black_Wolf
+  - members:
+      17215648: {} # Ornery_Sheep
+      17215650: {} # Black_Wolf
+  - members:
+      17215693: {} # Young_Quadav
+      17215696: {} # Young_Quadav
+  - members:
+      17215694: {} # Amethyst_Quadav
+      17215697: {} # Amethyst_Quadav
+  - members:
+      17215695: {} # Amber_Quadav
+      17215698: {} # Amber_Quadav
+  - members:
+      17215757: {} # Young_Quadav
+      17215760: {} # Enchanted_Bones
+  - members:
+      17215774: {} # Young_Quadav
+      17215777: {} # Enchanted_Bones
+  - members:
+      17215781: {} # Goblin_Thug
+      17215785: {} # Enchanted_Bones
+  - members:
+      17215782: {} # Goblin_Thug
+      17215787: {} # Goblin_Thug
+  - members:
+      17215783: {} # Goblin_Weaver
+      17215788: {} # Goblin_Weaver
+  - members:
+      17215784: {} # Goblin_Weaver
+      17215786: {} # Enchanted_Bones
+      17215789: {} # Goblin_Weaver
+  - members:
+      17215802: {} # Young_Quadav
+      17215805: {} # Enchanted_Bones
+  - members:
+      17215819: {} # Young_Quadav
+      17215822: {} # Enchanted_Bones
+  - members:
+      17215838: {} # Young_Quadav
+      17215842: {} # Enchanted_Bones
+  - members:
+      17215858: {} # Young_Quadav
+      17215861: {} # Enchanted_Bones
+  - members:
+      17215875: {} # Young_Quadav
+      17215879: {} # Enchanted_Bones
+  - members:
+      17215895: {} # Young_Quadav
+      17215898: {} # Enchanted_Bones
+  - members:
+      17215910: {} # Young_Quadav
+      17215913: {} # Enchanted_Bones
+  - members:
+      17215612: {}          # Ornery_Sheep
+      17215613: {chance: 8} # Carnero
+      17215626: {chance: 8} # Carnero
+  - members:
+      17215867: {}                          # Rock_Lizard
+      17215868: {chance: 8, cooldown: 3600} # Leaping_Lizzy
+      17215888: {chance: 8, cooldown: 3600} # Leaping_Lizzy
+
+templates:
+  Amethyst_Quadav:
+    loot:
+      drops:
+        - chance: common
+          item:   quadav_backplate
+        - chance: uncommon
+          one_of:
+            - scroll_of_paralyze
+            - scroll_of_protectra
+            - scroll_of_barsleep
+            - scroll_of_sneak
+
+  Fledermaus:
+    loot: # vial_of_fiend_blood removed
+      drops:
+        - chance: common
+          item:   bat_wing
+
+  # Leaping Lizzy drops Bounding Boots at uncommon.
+  Leaping_Lizzy:
+    loot:
+      drops:
+        - chance: very_common
+          item:   lizard_tail
+        - chance: uncommon
+          item:   bounding_boots
+        - chance: uncommon
+          item:   lizard_skin

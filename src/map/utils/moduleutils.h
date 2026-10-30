@@ -69,7 +69,7 @@ public:
     };
 
     template <typename T>
-    static T* Register()
+    static auto Register() -> T*
     {
         return new T();
     };
@@ -120,7 +120,6 @@ void CleanupLuaModules();
 void ClearLuaModuleRegistries();
 void TryApplyLuaModules(const std::vector<std::string>& parts, bool isReload = false);
 void TryApplyRemainingLuaModules();
-auto GetDataModules(const std::string_view name, const std::string_view extension) -> std::vector<std::string>;
 void ReportLuaModuleUsage();
 
 }; // namespace moduleutils

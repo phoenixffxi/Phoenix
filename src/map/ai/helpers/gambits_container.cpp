@@ -53,7 +53,7 @@ auto CGambitsContainer::NewGambitIdentifier(const Gambit_t& gambit) const -> std
 
 // Validate gambit before it's inserted into the gambit list
 // Check levels, etc.
-std::string CGambitsContainer::AddGambit(const Gambit_t& gambit)
+auto CGambitsContainer::AddGambit(const Gambit_t& gambit) -> std::string
 {
     TracyZoneScoped;
 
@@ -417,7 +417,7 @@ auto CGambitsContainer::Tick(timer::time_point tick) -> Task<void>
             }
             else if (action.select == G_SELECT::HELIX_MOB_WEAKNESS)
             {
-                return POwner->SpellContainer->StormDayAgainstTargetWeakness(resolvedTarget);
+                return POwner->SpellContainer->HelixAgainstTargetWeakness(resolvedTarget);
             }
             else if (action.select == G_SELECT::RANDOM)
             {
@@ -431,12 +431,12 @@ auto CGambitsContainer::Tick(timer::time_point tick) -> Task<void>
                     return std::nullopt;
                 }
 
-                std::list<SKILLCHAIN_ELEMENT> resonanceProperties;
+                std::list<xi::SkillchainType> resonanceProperties;
                 if (uint16 power = PSCEffect->GetPower())
                 {
-                    resonanceProperties.emplace_back((SKILLCHAIN_ELEMENT)(power & 0xF));
-                    resonanceProperties.emplace_back((SKILLCHAIN_ELEMENT)(power >> 4 & 0xF));
-                    resonanceProperties.emplace_back((SKILLCHAIN_ELEMENT)(power >> 8));
+                    resonanceProperties.emplace_back((xi::SkillchainType)(power & 0xF));
+                    resonanceProperties.emplace_back((xi::SkillchainType)(power >> 4 & 0xF));
+                    resonanceProperties.emplace_back((xi::SkillchainType)(power >> 8));
                 }
 
                 Maybe<SpellID> spell_id;
@@ -677,7 +677,7 @@ auto CGambitsContainer::Tick(timer::time_point tick) -> Task<void>
                     }
                     else if (action.select == G_SELECT::HELIX_MOB_WEAKNESS)
                     {
-                        auto spell_id = POwner->SpellContainer->StormDayAgainstTargetWeakness(target);
+                        auto spell_id = POwner->SpellContainer->HelixAgainstTargetWeakness(target);
                         if (spell_id.has_value())
                         {
                             controller->Cast(target->entityId(), spell_id.value());
@@ -703,12 +703,12 @@ auto CGambitsContainer::Tick(timer::time_point tick) -> Task<void>
                             co_return;
                         }
 
-                        std::list<SKILLCHAIN_ELEMENT> resonanceProperties;
+                        std::list<xi::SkillchainType> resonanceProperties;
                         if (uint16 power = PSCEffect->GetPower())
                         {
-                            resonanceProperties.emplace_back((SKILLCHAIN_ELEMENT)(power & 0xF));
-                            resonanceProperties.emplace_back((SKILLCHAIN_ELEMENT)(power >> 4 & 0xF));
-                            resonanceProperties.emplace_back((SKILLCHAIN_ELEMENT)(power >> 8));
+                            resonanceProperties.emplace_back((xi::SkillchainType)(power & 0xF));
+                            resonanceProperties.emplace_back((xi::SkillchainType)(power >> 4 & 0xF));
+                            resonanceProperties.emplace_back((xi::SkillchainType)(power >> 8));
                         }
 
                         Maybe<SpellID> spell_id;
@@ -1240,16 +1240,16 @@ auto CGambitsContainer::CheckTrigger(const CBattleEntity* triggerTarget, const G
 
                 if (PSCEffect && PSCEffect->GetStartTime() + 3s < timer::now() && PSCEffect->GetTier() > 0)
                 {
-                    SKILLCHAIN_ELEMENT sc = static_cast<SKILLCHAIN_ELEMENT>(PSCEffect->GetPower());
+                    xi::SkillchainType sc = static_cast<xi::SkillchainType>(PSCEffect->GetPower());
 
-                    if (sc != SC_NONE)
+                    if (sc != xi::SkillchainType::None)
                     {
                         // Only consider tier 3 or 4 skillchains (Light/Dark are tier 3/4)
                         const auto tier = battleutils::GetSkillchainTier(sc);
                         if (tier >= 3)
                         {
                             // Match Light/Dark enums (covers Light, Light II, Darkness, Darkness II)
-                            if (sc == SC_LIGHT || sc == SC_LIGHT_II)
+                            if (sc == xi::SkillchainType::Light || sc == xi::SkillchainType::LightIi)
                             {
                                 if (POwner->StatusEffectContainer->HasStatusEffect(
                                         {
@@ -1262,7 +1262,7 @@ auto CGambitsContainer::CheckTrigger(const CBattleEntity* triggerTarget, const G
                                     maybeUseLunge = true;
                                 }
                             }
-                            else if (sc == SC_DARKNESS || sc == SC_DARKNESS_II)
+                            else if (sc == xi::SkillchainType::Darkness || sc == xi::SkillchainType::DarknessIi)
                             {
                                 if (POwner->StatusEffectContainer->HasStatusEffect(
                                         {
@@ -1513,7 +1513,7 @@ auto CGambitsContainer::CheckTrigger(const CBattleEntity* triggerTarget, const G
     }
 }
 
-bool CGambitsContainer::TryTrustSkill()
+auto CGambitsContainer::TryTrustSkill() -> bool
 {
     TracyZoneScoped;
 
@@ -1536,7 +1536,6 @@ bool CGambitsContainer::TryTrustSkill()
             case G_TP_TRIGGER::ASAP:
             {
                 return true;
-                break;
             }
             case G_TP_TRIGGER::RANDOM:
             {
@@ -1552,7 +1551,6 @@ bool CGambitsContainer::TryTrustSkill()
                 }
                 // clang-format on
                 return result;
-                break;
             }
             case G_TP_TRIGGER::OPENER:
             {
@@ -1571,7 +1569,6 @@ bool CGambitsContainer::TryTrustSkill()
                 });
                 // clang-format on
                 return result;
-                break;
             }
             case G_TP_TRIGGER::CLOSER: // Hold TP indefinitely to close a SC.
             {
@@ -1580,7 +1577,6 @@ bool CGambitsContainer::TryTrustSkill()
                 // TODO: ...and has a valid WS...
 
                 return PSCEffect && PSCEffect->GetStartTime() + 3s < timer::now() && PSCEffect->GetTier() == 0;
-                break;
             }
             case G_TP_TRIGGER::CLOSER_UNTIL_TP: // Will hold TP to close a SC, but WS immediately once specified value is reached.
             {
@@ -1597,18 +1593,16 @@ bool CGambitsContainer::TryTrustSkill()
                 // TODO: ...and has a valid WS...
 
                 return PSCEffect && PSCEffect->GetStartTime() + 3s < timer::now() && PSCEffect->GetTier() == 0;
-                break;
             }
             default:
             {
                 return false;
-                break;
             }
         }
     };
 
     Maybe<TrustSkill_t> chosen_skill;
-    SKILLCHAIN_ELEMENT  chosen_skillchain = SC_NONE;
+    xi::SkillchainType  chosen_skillchain = xi::SkillchainType::None;
     if (checkTPTrigger() && !tp_skills.empty())
     {
         switch (tp_select)
@@ -1626,20 +1620,20 @@ bool CGambitsContainer::TryTrustSkill()
                 // Closer, if a skillchain is available select a random ws that can close it, if multiple are available select the one that creates the best skillchain
                 for (auto& skill : tp_skills)
                 {
-                    std::list<SKILLCHAIN_ELEMENT> resonanceProperties;
+                    std::list<xi::SkillchainType> resonanceProperties;
                     if (uint16 power = PSCEffect->GetPower())
                     {
-                        resonanceProperties.emplace_back((SKILLCHAIN_ELEMENT)(power & 0xF));
-                        resonanceProperties.emplace_back((SKILLCHAIN_ELEMENT)(power >> 4 & 0xF));
-                        resonanceProperties.emplace_back((SKILLCHAIN_ELEMENT)(power >> 8));
+                        resonanceProperties.emplace_back((xi::SkillchainType)(power & 0xF));
+                        resonanceProperties.emplace_back((xi::SkillchainType)(power >> 4 & 0xF));
+                        resonanceProperties.emplace_back((xi::SkillchainType)(power >> 8));
                     }
 
-                    std::list<SKILLCHAIN_ELEMENT> skillProperties;
-                    skillProperties.emplace_back((SKILLCHAIN_ELEMENT)skill.primary);
-                    skillProperties.emplace_back((SKILLCHAIN_ELEMENT)skill.secondary);
-                    skillProperties.emplace_back((SKILLCHAIN_ELEMENT)skill.tertiary);
-                    if (SKILLCHAIN_ELEMENT possible_skillchain = battleutils::FormSkillchain(resonanceProperties, skillProperties);
-                        possible_skillchain != SC_NONE)
+                    std::list<xi::SkillchainType> skillProperties;
+                    skillProperties.emplace_back((xi::SkillchainType)skill.primary);
+                    skillProperties.emplace_back((xi::SkillchainType)skill.secondary);
+                    skillProperties.emplace_back((xi::SkillchainType)skill.tertiary);
+                    if (xi::SkillchainType possible_skillchain = battleutils::FormSkillchain(resonanceProperties, skillProperties);
+                        possible_skillchain != xi::SkillchainType::None)
                     {
                         if (possible_skillchain >= chosen_skillchain)
                         {
@@ -1665,20 +1659,20 @@ bool CGambitsContainer::TryTrustSkill()
                 // Closer
                 for (auto& skill : tp_skills)
                 {
-                    std::list<SKILLCHAIN_ELEMENT> resonanceProperties;
+                    std::list<xi::SkillchainType> resonanceProperties;
                     if (uint16 power = PSCEffect->GetPower())
                     {
-                        resonanceProperties.emplace_back((SKILLCHAIN_ELEMENT)(power & 0xF));
-                        resonanceProperties.emplace_back((SKILLCHAIN_ELEMENT)(power >> 4 & 0xF));
-                        resonanceProperties.emplace_back((SKILLCHAIN_ELEMENT)(power >> 8));
+                        resonanceProperties.emplace_back((xi::SkillchainType)(power & 0xF));
+                        resonanceProperties.emplace_back((xi::SkillchainType)(power >> 4 & 0xF));
+                        resonanceProperties.emplace_back((xi::SkillchainType)(power >> 8));
                     }
 
-                    std::list<SKILLCHAIN_ELEMENT> skillProperties;
-                    skillProperties.emplace_back((SKILLCHAIN_ELEMENT)skill.primary);
-                    skillProperties.emplace_back((SKILLCHAIN_ELEMENT)skill.secondary);
-                    skillProperties.emplace_back((SKILLCHAIN_ELEMENT)skill.tertiary);
-                    if (SKILLCHAIN_ELEMENT possible_skillchain = battleutils::FormSkillchain(resonanceProperties, skillProperties);
-                        possible_skillchain != SC_NONE)
+                    std::list<xi::SkillchainType> skillProperties;
+                    skillProperties.emplace_back((xi::SkillchainType)skill.primary);
+                    skillProperties.emplace_back((xi::SkillchainType)skill.secondary);
+                    skillProperties.emplace_back((xi::SkillchainType)skill.tertiary);
+                    if (xi::SkillchainType possible_skillchain = battleutils::FormSkillchain(resonanceProperties, skillProperties);
+                        possible_skillchain != xi::SkillchainType::None)
                     {
                         if (possible_skillchain >= chosen_skillchain)
                         {
@@ -1699,17 +1693,17 @@ bool CGambitsContainer::TryTrustSkill()
                 {
                     for (auto& skill : tp_skills)
                     {
-                        std::list<SKILLCHAIN_ELEMENT> resonanceProperties;
-                        resonanceProperties.emplace_back((SKILLCHAIN_ELEMENT)skill.primary);
-                        resonanceProperties.emplace_back((SKILLCHAIN_ELEMENT)skill.secondary);
-                        resonanceProperties.emplace_back((SKILLCHAIN_ELEMENT)skill.tertiary);
+                        std::list<xi::SkillchainType> resonanceProperties;
+                        resonanceProperties.emplace_back((xi::SkillchainType)skill.primary);
+                        resonanceProperties.emplace_back((xi::SkillchainType)skill.secondary);
+                        resonanceProperties.emplace_back((xi::SkillchainType)skill.tertiary);
 
-                        std::list<SKILLCHAIN_ELEMENT> skillProperties;
-                        skillProperties.emplace_back((SKILLCHAIN_ELEMENT)PMasterLastWeaponSkill->getPrimarySkillchain());
-                        skillProperties.emplace_back((SKILLCHAIN_ELEMENT)PMasterLastWeaponSkill->getSecondarySkillchain());
-                        skillProperties.emplace_back((SKILLCHAIN_ELEMENT)PMasterLastWeaponSkill->getTertiarySkillchain());
-                        if (SKILLCHAIN_ELEMENT possible_skillchain = battleutils::FormSkillchain(resonanceProperties, skillProperties);
-                            possible_skillchain != SC_NONE)
+                        std::list<xi::SkillchainType> skillProperties;
+                        skillProperties.emplace_back((xi::SkillchainType)PMasterLastWeaponSkill->getPrimarySkillchain());
+                        skillProperties.emplace_back((xi::SkillchainType)PMasterLastWeaponSkill->getSecondarySkillchain());
+                        skillProperties.emplace_back((xi::SkillchainType)PMasterLastWeaponSkill->getTertiarySkillchain());
+                        if (xi::SkillchainType possible_skillchain = battleutils::FormSkillchain(resonanceProperties, skillProperties);
+                            possible_skillchain != xi::SkillchainType::None)
                         {
                             if (possible_skillchain >= chosen_skillchain)
                             {
@@ -1841,7 +1835,7 @@ bool CGambitsContainer::TryTrustSkill()
 }
 
 // currently only used for Uka Totlihn to determin what samba to use.
-bool CGambitsContainer::PartyHasHealer()
+auto CGambitsContainer::PartyHasHealer() -> bool
 {
     bool hasHealer = false;
     // clang-format off
@@ -1859,7 +1853,7 @@ bool CGambitsContainer::PartyHasHealer()
 }
 
 // used to check for tanks in party (Volker, AA Hume)
-bool CGambitsContainer::PartyHasTank()
+auto CGambitsContainer::PartyHasTank() -> bool
 {
     bool hasTank = false;
     // clang-format off

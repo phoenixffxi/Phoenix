@@ -38,7 +38,14 @@
 #
 # Live example:
 
-# Sql things first
+# YAML - ORDER MATTERS, keep above every other line since any phoenix/* or era/* line also enables that module's data folder
+era/data
+phoenix/data
+
+# Reverts WotG-era changes while ENABLE_WOTG = 0. Remove this line when ENABLE_WOTG = 1.
+era/data/wotg
+
+# Sql
 phoenix/sql
 era/sql/rov
 era/sql/abyssea
@@ -48,24 +55,6 @@ era/sql/wotg
 # CPP
 custom/cpp/ah_pagination.cpp
 tools/packetcap/packetcap.cpp
-
-# YAML - ORDER MATTERS
-era/data
-era/data/abyssea/advanced_job_quest_mob_stats
-era/data/abyssea/cop_level_restrictions
-era/data/abyssea/job_adjustments
-era/data/abyssea/mob_droplist_removal
-era/data/abyssea/npc_list
-era/data/rov/npc_list
-era/data/soa/mob_droplist_adjust
-era/data/wotg/mob_droplist_removal
-phoenix/data
-phoenix/data/bazaar_tax
-phoenix/data/npc_lists
-phoenix/data/dynazones
-phoenix/data/limbus
-phoenix/data/nm_respawn
-phoenix/data/drops
 
 # Lua
 custom/lua/garrison_placeholder_data.lua

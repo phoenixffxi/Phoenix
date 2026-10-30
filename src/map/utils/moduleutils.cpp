@@ -31,14 +31,13 @@
 #include <filesystem>
 #include <fstream>
 #include <string>
-#include <unordered_set>
 
 #include <fmt/ranges.h>
 
 namespace
 {
 
-std::vector<CPPModule*>& cppModules()
+auto cppModules() -> std::vector<CPPModule*>&
 {
     static std::vector<CPPModule*> cppModules{};
     return cppModules;
@@ -382,7 +381,7 @@ void LoadLuaModules(IPP mapIPP)
         const sol::table moduleRegistry  = lua["xi"]["module"]["registry"];
         const sol::table commandRegistry = lua["xi"]["module"]["commandRegistry"];
 
-        if (moduleRegistry.size() == 0 && commandRegistry.size() == 0)
+        if (moduleRegistry.empty() && commandRegistry.empty())
         {
             // The old interface returned the command table instead of
             // registering it, and would otherwise vanish silently.
@@ -452,46 +451,6 @@ void ClearLuaModuleRegistries()
 void CleanupLuaModules()
 {
     overrides.clear();
-}
-
-auto GetDataModules(const std::string_view name, const std::string_view extension) -> std::vector<std::string>
-{
-    std::vector<std::string> modules;
-    std::ifstream            file("./modules/init.txt", std::ios_base::in);
-    if (!file)
-    {
-        return modules;
-    }
-
-    std::unordered_set<std::string> seenModules;
-    std::string                     line;
-    while (std::getline(file, line))
-    {
-        const auto trimmed = trim(line, " \t\r\n");
-        if (trimmed.empty() || trimmed[0] == '#')
-        {
-            continue;
-        }
-
-        std::string moduleName = trimmed;
-        if (const auto slash = moduleName.find('/'); slash != std::string::npos)
-        {
-            moduleName.resize(slash);
-        }
-
-        if (!seenModules.insert(moduleName).second)
-        {
-            continue;
-        }
-
-        const auto modulePath = fmt::format("./modules/{}/data/{}{}", moduleName, name, extension);
-        if (std::filesystem::exists(modulePath))
-        {
-            modules.emplace_back(modulePath);
-        }
-    }
-
-    return modules;
 }
 
 void TryApplyLuaModules(const std::vector<std::string>& parts, bool isReload)

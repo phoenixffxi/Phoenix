@@ -102,7 +102,7 @@ struct LootItem_t
     uint8  LootGroupId;
 };
 
-typedef std::vector<LootItem_t> LootList_t;
+using LootList_t = std::vector<LootItem_t>;
 
 struct LootContainer
 {
@@ -128,7 +128,7 @@ namespace itemutils
 void Initialize();
 void FreeItemList();
 
-DropList_t* GetDropList(uint16 DropID);
+auto GetDropList(uint16 DropID) -> DropList_t*;
 
 auto TranslateItemName(GP_CLI_COMMAND_TRANSLATE_INDEX fromLang, GP_CLI_COMMAND_TRANSLATE_INDEX toLang, const std::string& name) -> Maybe<std::pair<uint16, std::string>>;
 

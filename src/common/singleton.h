@@ -27,10 +27,10 @@ template <class T>
 class Singleton
 {
 public:
-    Singleton(const Singleton&)            = delete;
-    Singleton& operator=(const Singleton&) = delete;
+    Singleton(const Singleton&)                    = delete;
+    auto operator=(const Singleton&) -> Singleton& = delete;
 
-    static T* getInstance()
+    static auto getInstance() -> T*
     {
         if (!_instance)
         {
@@ -46,15 +46,13 @@ public:
     }
 
 protected:
-    Singleton()
-    {
-    }
-
-    virtual ~Singleton()
-    {
-    }
+    virtual ~Singleton() = default;
 
 private:
+    friend T;
+
+    Singleton() = default;
+
     // https://stackoverflow.com/a/55932298
     struct T_Instance : public T
     {

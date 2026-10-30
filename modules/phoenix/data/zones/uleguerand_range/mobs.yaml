@@ -1,6 +1,9 @@
 # Era mob layout for uleguerand_range.
 # Needs the Era DATs (https://github.com/phoenixffxi/Era-DATs) or the client shows the wrong mob names.
 
+# Remove Uleguerand Milk, added in the March 11, 2008 update.
+# Source: https://wiki.ffo.jp/html/14855.html
+
 spawns:
 
   16797929:
@@ -92,3 +95,30 @@ spawns:
     at:       [1.000, 1.000, 1.000, 1]
     region:   null
     level:    [72, 74]
+
+templates:
+  Buffalo:
+    loot:
+      drops:
+        - chance: uncommon
+          item:   slice_of_buffalo_meat
+        - chance: very_rare
+          item:   buffalo_hide
+  Giant_Buffalo:
+    loot:
+      drops:
+        - chance: uncommon
+          item:   slice_of_buffalo_meat
+        - chance: rare
+          item:   buffalo_hide
+        - chance: very_rare
+          item:   buffalo_horn
+  King_Buffalo:
+    loot:
+      drops:
+        - chance: uncommon
+          item:   slice_of_buffalo_meat
+        - chance: rare
+          item:   buffalo_hide
+        - chance: very_rare
+          item:   buffalo_horn

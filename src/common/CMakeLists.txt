@@ -94,9 +94,11 @@ set(COMMON_SOURCES
 )
 
 xi_add_library(xi_common ${COMMON_SOURCES})
+add_dependencies(xi_common enum_codegen)
+add_dependencies(xi_common xi_version) # refreshes generated/version.cpp
 target_link_libraries(xi_common
     PUBLIC
-        ${SHARED_EXTERNAL_LIBS}
+        xi_ext_shared
         project_options
 )
 

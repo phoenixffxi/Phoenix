@@ -1,3 +1,7 @@
+# Drops removed from mob loot after the Abyssea era: the Sky NM stone drops (December 7, 2010) and later targeted removals.
+# Source: https://www.bg-wiki.com/ffxi/Version_Update_(12/06/2010)
+# Source: https://www.bg-wiki.com/ffxi/Version_Update_(07/23/2012)
+
 # Era mob layout for lower_delkfutts_tower.
 # Needs the Era DATs (https://github.com/phoenixffxi/Era-DATs) or the client shows the wrong mob names.
 
@@ -7,6 +11,10 @@ templates:
     attributes:
       spawn:
         respawn: 600 # Era dungeon timers
+    loot: # vial_of_fiend_blood removed
+      drops:
+        - chance: common
+          item:   bat_wing
 
   Bogy_LDT:
     attributes:

@@ -1,7 +1,35 @@
 # Era mob layout for bhaflau_thickets.
 # Needs the Era DATs (https://github.com/phoenixffxi/Era-DATs) or the client shows the wrong mob names.
 
+# Remove Moblin Oil (June 17, 2014) and Puppetmaster's Testimony from the trolls it was added to (June 14, 2012).
+# Moblin Oil: https://forum.square-enix.com/ffxi/threads/42614
+# Puppetmaster's Testimony: https://forum.square-enix.com/ffxi/threads/24155
+# Pre-2012 droppers (Troll Surveillant, Troll Engraver): https://wiki.ffo.jp/html/14495.html
+
 templates:
+  Troll_Sabreur:
+    loot:
+      drops:
+        - chance: rare
+          item:   halvung_brass_key
+        - chance: very_rare
+          item:   troll_pauldron
+  Troll_Shieldbearer:
+    loot:
+      drops:
+        - chance: rare
+          item:   halvung_brass_key
+        - chance: very_rare
+          item:   troll_vambrace
+  Troll_Surveillant:
+    loot:
+      drops:
+        - chance: uncommon
+          item:   puppetmasters_testimony
+        - chance: rare
+          item:   halvung_brass_key
+        - chance: very_rare
+          item:   troll_pauldron
 
   # -- Custom templates for mobs the core file lacks, scaffolded from the module's mob_groups/mob_pools inserts --
 

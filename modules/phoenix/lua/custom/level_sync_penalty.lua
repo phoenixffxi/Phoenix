@@ -101,12 +101,14 @@ m:addOverride('xi.server.onServerStart', function()
     updatePenaltyRate()
 end)
 
--- Update penalty tiers every Vana'diel day, triggered once in GM Home zone file
--- Players already synced keep their old penalty until they level up, zone, or re-sync
-m:addOverride('xi.zones.GM_Home.Zone.onGameDay', function()
-    super()
+-- Update penalty tiers every 12 Vana'diel hours (28.8 real minutes), triggered once in GM Home zone file
+-- Synced players pick up the new rate after their next EXP award
+m:addOverride('xi.zones.GM_Home.Zone.onGameHour', function(zone)
+    super(zone)
 
-    updatePenaltyRate()
+    if VanadielHour() % 12 == 0 then
+        updatePenaltyRate()
+    end
 end)
 
 -- Recalculate the penalty when a synced player levels up their actual job
@@ -124,6 +126,11 @@ m:addOverride('xi.effects.level_sync.onEffectGain', function(target, effect)
 
     if target:getObjType() == xi.objType.PC then
         applyPenalty(target)
+
+        -- Fires after the award, so a rate change lands on the following kill
+        target:addListener('EXPERIENCE_POINTS', '[SyncPenalty]Refresh', function(player)
+            applyPenalty(player)
+        end)
     end
 end)
 
@@ -132,6 +139,7 @@ m:addOverride('xi.effects.level_sync.onEffectLose', function(target, effect)
     super(target, effect)
 
     if target:getObjType() == xi.objType.PC then
+        target:removeListener('[SyncPenalty]Refresh')
         removePenalty(target)
     end
 end)

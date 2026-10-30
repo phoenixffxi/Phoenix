@@ -94,17 +94,17 @@ auto GetContestMeasure() -> FISHING_CONTEST_MEASURE
     return CurrentFishingContest.measure;
 }
 
-uint16 GetContestFish()
+auto GetContestFish() -> uint16
 {
     return CurrentFishingContest.fishId;
 }
 
-uint32 GetContestStartTime()
+auto GetContestStartTime() -> uint32
 {
     return CurrentFishingContest.startTime;
 }
 
-uint32 GetContestChangeTime()
+auto GetContestChangeTime() -> uint32
 {
     return CurrentFishingContest.changeTime;
 }
@@ -206,22 +206,17 @@ void UpdateRankingHistory()
                         case 1:
                             return ("INSERT INTO char_fishing_contest_history (charid, contest_rank_1) "
                                     "VALUES (?, 1) ON DUPLICATE KEY UPDATE contest_rank_1 = contest_rank_1 + 1");
-                            break;
                         case 2:
                             return "INSERT INTO char_fishing_contest_history (charid, contest_rank_2) "
                                    "VALUES (?, 1) ON DUPLICATE KEY UPDATE contest_rank_2 = contest_rank_2 + 1";
-                            break;
                         case 3:
                             return "INSERT INTO char_fishing_contest_history (charid, contest_rank_3) "
                                    "VALUES (?, 1) ON DUPLICATE KEY UPDATE contest_rank_3 = contest_rank_3 + 1";
-                            break;
                         case 4:
                             return "INSERT INTO char_fishing_contest_history (charid, contest_rank_4) "
                                    "VALUES (?, 1) ON DUPLICATE KEY UPDATE contest_rank_4 = contest_rank_4 + 1";
-                            break;
                         default:
                             return "";
-                            break;
                     }
                 };
 
@@ -285,7 +280,7 @@ void ScoreContest()
     }
 }
 
-uint32 GetStageChangeTime(FISHING_CONTEST_STATUS stage, uint32 stageStartTime)
+auto GetStageChangeTime(FISHING_CONTEST_STATUS stage, uint32 stageStartTime) -> uint32
 {
     auto getStageTime = lua["xi"]["fishingContest"]["getStageChangeTime"];
     if (!getStageTime.valid())
@@ -307,7 +302,7 @@ uint32 GetStageChangeTime(FISHING_CONTEST_STATUS stage, uint32 stageStartTime)
 }
 
 // Contest Entries
-FishingContestEntry* GetFishRankEntry(uint8 position)
+auto GetFishRankEntry(uint8 position) -> FishingContestEntry*
 {
     // We should only return a valid entry to a player if the contest is in a state of releasing results
     // But we can also return them for GMs or support requests if we want to see the current table entries
@@ -328,7 +323,7 @@ FishingContestEntry* GetFishRankEntry(uint8 position)
     return nullptr;
 }
 
-FishingContestEntry* GetPlayerEntry(CCharEntity* PChar)
+auto GetPlayerEntry(CCharEntity* PChar) -> FishingContestEntry*
 {
     for (auto&& entry : FishingContestEntries)
     {
@@ -342,14 +337,14 @@ FishingContestEntry* GetPlayerEntry(CCharEntity* PChar)
     return nullptr;
 }
 
-uint8 FishingRankEntryCount()
+auto FishingRankEntryCount() -> uint8
 {
     // Client allows for viewing of a max of 100 entries.
     return std::min(static_cast<int>(FishingContestEntries.size()), 100);
 }
 
 // Data storage
-bool WriteContestData()
+auto WriteContestData() -> bool
 {
     // If any criteria are invalid, then do not update the db
     if (!CurrentFishingContest.isValid())
@@ -385,7 +380,7 @@ bool WriteContestData()
     return true;
 }
 
-bool WriteInitialContestData()
+auto WriteInitialContestData() -> bool
 {
     // If any criteria are invalid, then do not update the db
     if (!CurrentFishingContest.isValid())
@@ -421,7 +416,7 @@ bool WriteInitialContestData()
     return true;
 }
 
-bool WriteContestEntryData(FishingContestEntry* entry)
+auto WriteContestEntryData(FishingContestEntry* entry) -> bool
 {
     if (entry == nullptr)
     {
@@ -501,7 +496,7 @@ bool WriteContestEntryData(FishingContestEntry* entry)
 }
 
 // Player Utils
-bool SubmitFish(CCharEntity* PChar, uint32 score)
+auto SubmitFish(CCharEntity* PChar, uint32 score) -> bool
 {
     // Check to see if the player has already submitted a fish
     for (int it = 0; it < (int)FishingContestEntries.size(); it++)
@@ -540,7 +535,7 @@ bool SubmitFish(CCharEntity* PChar, uint32 score)
     return false;
 }
 
-bool WithdrawFish(CCharEntity* PChar)
+auto WithdrawFish(CCharEntity* PChar) -> bool
 {
     FishingContestEntry* PEntry = GetPlayerEntry(PChar);
 
@@ -572,7 +567,7 @@ bool WithdrawFish(CCharEntity* PChar)
     return false;
 }
 
-bool ClaimContestReward(CCharEntity* PChar)
+auto ClaimContestReward(CCharEntity* PChar) -> bool
 {
     if (PChar == nullptr)
     {

@@ -1,5 +1,11 @@
+# NIN quest mobs before the May 10, 2011 version update.
+# Source: https://forum.square-enix.com/ffxi/threads/7257
+
 # Era mob layout for korroloka_tunnel.
 # Needs the Era DATs (https://github.com/phoenixffxi/Era-DATs) or the client shows the wrong mob names.
+
+# Remove Helmet Mole, added to the Gigas in the March 23, 2010 update.
+# Source: https://www.playonline.com/pcd/verup/ff11us/detail/5338/detail.html
 
 templates:
 
@@ -22,21 +28,61 @@ templates:
     attributes:
       spawn:
         respawn: 720 # Era dungeon timers
+    loot:
+      drops:
+        - chance: uncommon
+          item:   gigas_socks
+        - chance: rare
+          item:   maple_shield
+        - chance: very_rare
+          item:   gigas_necklace
+        - chance: super_rare
+          item:   marble_slab
 
   Gigas_Stonecarrier:
     attributes:
       spawn:
         respawn: 720 # Era dungeon timers
+    loot:
+      drops:
+        - chance: uncommon
+          item:   gigas_socks
+        - chance: rare
+          item:   maple_shield
+        - chance: very_rare
+          item:   gigas_necklace
+        - chance: super_rare
+          item:   marble_slab
 
   Gigas_Stonegrinder:
     attributes:
       spawn:
         respawn: 720 # Era dungeon timers
+    loot:
+      drops:
+        - chance: uncommon
+          item:   gigas_socks
+        - chance: rare
+          item:   maple_shield
+        - chance: very_rare
+          item:   gigas_necklace
+        - chance: super_rare
+          item:   marble_slab
 
   Gigas_Stonemason:
     attributes:
       spawn:
         respawn: 720 # Era dungeon timers
+    loot:
+      drops:
+        - chance: uncommon
+          item:   gigas_socks
+        - chance: rare
+          item:   maple_shield
+        - chance: very_rare
+          item:   gigas_necklace
+        - chance: super_rare
+          item:   marble_slab
 
   Goblin_Bounty_Hunter:
     attributes:
@@ -57,6 +103,10 @@ templates:
     attributes:
       spawn:
         respawn: 600 # Era dungeon timers
+  Korroloka_Leech:
+    attributes:
+      stats:
+        hp: 900
 
   Land_Worm_Korroloka:
     attributes:
@@ -87,3 +137,11 @@ templates:
     attributes:
       spawn:
         respawn: 720 # Era dungeon timers
+
+spawns:
+  17486187:
+    level: [32, 32]
+  17486188:
+    level: [32, 32]
+  17486189:
+    level: [32, 32]

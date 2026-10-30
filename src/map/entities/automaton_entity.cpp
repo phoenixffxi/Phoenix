@@ -28,8 +28,9 @@
 #include "ai/states/mobskill_state.h"
 #include "common/tracy.h"
 #include "common/utils.h"
+#include "data/enums/automaton_frame.h"
+#include "data/enums/automaton_head.h"
 #include "enmity_container.h"
-#include "enums/automaton.h"
 #include "lua/luautils.h"
 #include "recast_container.h"
 #include "status_effect_container.h"
@@ -51,17 +52,17 @@ CAutomatonEntity::~CAutomatonEntity()
     TracyZoneScoped;
 }
 
-auto CAutomatonEntity::frame() const -> AutomatonFrame
+auto CAutomatonEntity::frame() const -> xi::AutomatonFrame
 {
     return equip_.frame;
 }
 
-auto CAutomatonEntity::head() const -> AutomatonHead
+auto CAutomatonEntity::head() const -> xi::AutomatonHead
 {
     return equip_.head;
 }
 
-uint8 CAutomatonEntity::attachment(const uint8 slotid) const
+auto CAutomatonEntity::attachment(const uint8 slotid) const -> uint8
 {
     return equip_.attachments[slotid];
 }
@@ -158,7 +159,7 @@ void CAutomatonEntity::Die()
     CPetEntity::Die();
 }
 
-bool CAutomatonEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags)
+auto CAutomatonEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags) -> bool
 {
     if (targetFlags & TARGET_PLAYER && this == PInitiator)
     {
@@ -174,7 +175,7 @@ void CAutomatonEntity::OnCastFinished(CMagicState& state, action_t& action)
     auto* PSpell  = state.GetSpell();
     auto* PTarget = state.target().resolve<CBattleEntity>();
 
-    PRecastContainer->Add(RECAST_MAGIC, static_cast<Recast>(PSpell->getID()), action.recast);
+    PRecastContainer->Add(xi::RecastType::Magic, static_cast<xi::Recast>(PSpell->getID()), action.recast);
 
     if (PSpell->tookEffect())
     {
@@ -222,7 +223,7 @@ void CAutomatonEntity::OnMobSkillFinished(CMobSkillState& state, action_t& actio
         {
             if (skillId == PSkill->getID())
             {
-                const auto skillType = frame() == AutomatonFrame::Sharpshot ? xi::SkillType::AutomatonRanged : xi::SkillType::AutomatonMelee;
+                const auto skillType = frame() == xi::AutomatonFrame::Sharpshot ? xi::SkillType::AutomatonRanged : xi::SkillType::AutomatonMelee;
                 puppetutils::TrySkillUP(this, skillType, PTarget->GetMLevel());
                 break;
             }

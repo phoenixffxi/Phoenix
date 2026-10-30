@@ -1,4 +1,4 @@
-set(ITEM_SOURCES
+target_sources(xi_map_battle PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata.h
     ${CMAKE_CURRENT_SOURCE_DIR}/exdata/appraisable.h
@@ -78,8 +78,6 @@ set(ITEM_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/item_linkshell.h
     ${CMAKE_CURRENT_SOURCE_DIR}/item_puppet.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/item_puppet.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/item_shop.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/item_shop.h
     ${CMAKE_CURRENT_SOURCE_DIR}/item_usable.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/item_usable.h
     ${CMAKE_CURRENT_SOURCE_DIR}/item_weapon.cpp
@@ -107,5 +105,4 @@ set(ITEM_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/transactions/player_trade.h
     ${CMAKE_CURRENT_SOURCE_DIR}/transactions/synth.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/transactions/synth.h
-    PARENT_SCOPE
 )

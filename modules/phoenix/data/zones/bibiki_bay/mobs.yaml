@@ -1,6 +1,9 @@
 # Era mob layout for bibiki_bay.
 # Needs the Era DATs (https://github.com/phoenixffxi/Era-DATs) or the client shows the wrong mob names.
 
+# Revert the January 10, 2023 Air Tank source change from Blagger to Venerer.
+# Source: https://forum.square-enix.com/ffxi/threads/60314
+
 spawns:
 
   16793764:
@@ -232,3 +235,17 @@ spawns:
     template: Tartarus_Eft
     region:   c_287
     level:    [76, 77]
+
+templates:
+  Hobgoblin_Blagger:
+    loot:
+      drops:
+        - chance: rare
+          item:   air_tank
+  Hobgoblin_Venerer:
+    loot:
+      drops:
+        - chance: rare
+          item:   goblin_mask
+        - chance: very_rare
+          item:   goblin_armor

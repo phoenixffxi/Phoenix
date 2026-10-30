@@ -1,0 +1,7 @@
+# Mazurka usable in towns and fields only, before the September 8, 2010 update.
+# Source: https://www.bg-wiki.com/ffxi/Version_Update_(09/08/2010)
+
+# Zonewide loot pool and no Chocobo Mazurka for old-school Dynamis.
+# misc is a list and is replaced whole: the core flags plus treasure, minus mazurka.
+
+misc: [tractor, pet, treasure, trust, los_player_block]

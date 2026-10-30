@@ -1,6 +1,10 @@
 # Era mob layout for mamook.
 # Needs the Era DATs (https://github.com/phoenixffxi/Era-DATs) or the client shows the wrong mob names.
 
+# Remove Blue Mage's Testimony from the Mamool Ja jobs it was added to in the June 14, 2012 update.
+# Source: https://forum.square-enix.com/ffxi/threads/24155
+# Pre-2012 droppers (Mimicker, Strapper, Bounder): https://wiki.ffo.jp/html/14493.html
+
 templates:
 
   Mamool_Ja_Blusterer_Mamook:
@@ -47,16 +51,34 @@ templates:
     attributes:
       spawn:
         respawn: 960 # Era dungeon timers
+    loot:
+      drops:
+        - chance: uncommon
+          item:   mamook_tanscale_key
+        - chance: very_rare
+          item:   mamool_ja_collar
 
   Mamool_Ja_Sophist:
     attributes:
       spawn:
         respawn: 960 # Era dungeon timers
+    loot:
+      drops:
+        - chance: uncommon
+          item:   mamook_tanscale_key
+        - chance: very_rare
+          item:   mamool_ja_collar
 
   Mamool_Ja_Spearman:
     attributes:
       spawn:
         respawn: 960 # Era dungeon timers
+    loot:
+      drops:
+        - chance: uncommon
+          item:   mamook_tanscale_key
+        - chance: very_rare
+          item:   mamool_ja_helmet
 
   Mamool_Ja_Stabler_Mamook:
     attributes:
@@ -72,6 +94,12 @@ templates:
     attributes:
       spawn:
         respawn: 960 # Era dungeon timers
+    loot:
+      drops:
+        - chance: uncommon
+          item:   mamook_tanscale_key
+        - chance: very_rare
+          item:   mamool_ja_collar
 
   Devout_Radol_Ja:
     content: wotg # Disable besieged mobs

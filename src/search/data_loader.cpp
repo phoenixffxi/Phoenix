@@ -32,6 +32,7 @@
 #include <compare>
 #include <cstring>
 #include <limits>
+#include <tuple>
 
 #include <fmt/ranges.h>
 
@@ -72,14 +73,6 @@ auto compareBy(const SearchType type, const SearchEntity& left, const SearchEnti
 }
 
 } // namespace
-
-CDataLoader::CDataLoader()
-{
-}
-
-CDataLoader::~CDataLoader()
-{
-}
 
 /************************************************************************
  *                                                                       *
@@ -132,6 +125,8 @@ auto CDataLoader::GetAHItemsToCategory(uint8 ahCategoryID, const std::vector<Auc
     {
         AuctionHouseItem item;
         int64            level;
+        int64            itemLevel;
+        int64            superiorLevel;
         int64            damage;
         int64            delay;
         int64            defense;
@@ -146,7 +141,7 @@ auto CDataLoader::GetAHItemsToCategory(uint8 ahCategoryID, const std::vector<Auc
         if (settings::get<bool>("search.OMIT_NO_HISTORY"))
         {
             return db::preparedStmt("SELECT item_basic.itemid, item_basic.stackSize, COUNT(*)-SUM(stack), SUM(stack), "
-                                    "CAST(item_basic.sortname AS CHAR(255)) AS sortname, item_equipment.level, item_equipment.jobs, item_weapon.dmg, item_weapon.delay, item_defense.value AS defense, item_resistance.resistance, item_race.value AS races "
+                                    "CAST(item_basic.sortname AS CHAR(255)) AS sortname, item_equipment.level, item_equipment.ilevel, item_equipment.su_level, item_equipment.jobs, item_weapon.dmg, item_weapon.delay, item_defense.value AS defense, item_resistance.resistance, item_race.value AS races "
                                     "FROM (SELECT item_basic.* FROM item_basic "
                                     "INNER JOIN auction_house_items ON item_basic.itemid = auction_house_items.itemid) AS item_basic "
                                     "LEFT JOIN auction_house ON item_basic.itemId = auction_house.itemid AND auction_house.buyer_name IS NULL "
@@ -162,7 +157,7 @@ auto CDataLoader::GetAHItemsToCategory(uint8 ahCategoryID, const std::vector<Auc
         }
 
         return db::preparedStmt("SELECT item_basic.itemid, item_basic.stackSize, COUNT(*)-SUM(stack), SUM(stack), "
-                                "CAST(item_basic.sortname AS CHAR(255)) AS sortname, item_equipment.level, item_equipment.jobs, item_weapon.dmg, item_weapon.delay, item_defense.value AS defense, item_resistance.resistance, item_race.value AS races "
+                                "CAST(item_basic.sortname AS CHAR(255)) AS sortname, item_equipment.level, item_equipment.ilevel, item_equipment.su_level, item_equipment.jobs, item_weapon.dmg, item_weapon.delay, item_defense.value AS defense, item_resistance.resistance, item_race.value AS races "
                                 "FROM item_basic "
                                 "LEFT JOIN auction_house ON item_basic.itemId = auction_house.itemid AND auction_house.buyer_name IS NULL "
                                 "LEFT JOIN item_equipment ON item_basic.itemid = item_equipment.itemid "
@@ -224,13 +219,15 @@ auto CDataLoader::GetAHItemsToCategory(uint8 ahCategoryID, const std::vector<Auc
 
         // INT64_MIN stands in for NULL, which MariaDB treats as the lowest value; delay is signed, so -1 is a real value.
         rows.push_back(SortableItem{
-            .item       = item,
-            .level      = rset->getOrDefault<int64>("level", std::numeric_limits<int64>::min()),
-            .damage     = rset->getOrDefault<int64>("dmg", std::numeric_limits<int64>::min()),
-            .delay      = rset->getOrDefault<int64>("delay", std::numeric_limits<int64>::min()),
-            .defense    = rset->getOrDefault<int64>("defense", std::numeric_limits<int64>::min()),
-            .resistance = rset->getOrDefault<int64>("resistance", std::numeric_limits<int64>::min()),
-            .sortName   = rset->get<std::string>("sortname"),
+            .item          = item,
+            .level         = rset->getOrDefault<int64>("level", std::numeric_limits<int64>::min()),
+            .itemLevel     = rset->getOrDefault<int64>("ilevel", std::numeric_limits<int64>::min()),
+            .superiorLevel = rset->getOrDefault<int64>("su_level", std::numeric_limits<int64>::min()),
+            .damage        = rset->getOrDefault<int64>("dmg", std::numeric_limits<int64>::min()),
+            .delay         = rset->getOrDefault<int64>("delay", std::numeric_limits<int64>::min()),
+            .defense       = rset->getOrDefault<int64>("defense", std::numeric_limits<int64>::min()),
+            .resistance    = rset->getOrDefault<int64>("resistance", std::numeric_limits<int64>::min()),
+            .sortName      = rset->get<std::string>("sortname"),
         });
     }
 
@@ -239,7 +236,8 @@ auto CDataLoader::GetAHItemsToCategory(uint8 ahCategoryID, const std::vector<Auc
         switch (key)
         {
             case AuctionParam::Level:
-                return lhs.level <=> rhs.level;
+                // Retail breaks level ties by item level, then superior level.
+                return std::tie(lhs.level, lhs.itemLevel, lhs.superiorLevel) <=> std::tie(rhs.level, rhs.itemLevel, rhs.superiorLevel);
             case AuctionParam::Damage:
                 return lhs.damage <=> rhs.damage;
             case AuctionParam::Delay:
@@ -373,30 +371,32 @@ auto CDataLoader::GetPlayersList(SearchRequest sr, int* count) const -> std::vec
         return PlayersList;
     }
 
-    // Bound as a JSON array for JSON_TABLE; performance is comparable or better than a formatted IN list.
-    const auto characterIds = fmt::format("[{}]", fmt::join(sr.characterIds, ","));
+    // Split the query so searches done by character id can start from the ids.
+    auto& ids = sr.characterIds;
+    std::ranges::sort(ids);
+    ids.erase(std::unique(ids.begin(), ids.end()), ids.end());
 
-    const auto rset = db::preparedStmt("SELECT charid, partyid, charname, pos_zone, pos_prevzone, nation, rank_sandoria, rank_bastok, unity_leader, "
-                                       "rank_windurst, race, mjob, sjob, mlvl, slvl, languages, settings, seacom_type, disconnecting, gmHiddenEnabled, muted, "
-                                       "linkshellid1, linkshellid2 "
-                                       "FROM accounts_sessions "
-                                       "LEFT JOIN accounts_parties USING (charid) "
-                                       "LEFT JOIN chars USING (charid) "
-                                       "LEFT JOIN char_look USING (charid) "
-                                       "LEFT JOIN char_stats USING (charid) "
-                                       "LEFT JOIN char_profile USING(charid) "
-                                       "LEFT JOIN char_flags USING(charid) "
-                                       "WHERE charname IS NOT NULL "
-                                       "AND (? = 0 OR mjob = ?) "
-                                       "AND (? = 0 OR (seacom_type & 0xF0) = ?) "
-                                       "AND (? = '[]' OR charid IN (SELECT id FROM JSON_TABLE(?, '$[*]' COLUMNS (id INT UNSIGNED PATH '$')) AS ids)) "
-                                       "ORDER BY charname ASC",
-                                       sr.jobid,
-                                       sr.jobid,
-                                       sr.commentType,
-                                       sr.commentType,
-                                       characterIds,
-                                       characterIds);
+    static const auto columns  = std::string("SELECT charid, partyid, charname, pos_zone, pos_prevzone, nation, rank_sandoria, rank_bastok, unity_leader, "
+                                             "rank_windurst, race, mjob, sjob, mlvl, slvl, languages, settings, seacom_type, disconnecting, gmHiddenEnabled, muted, "
+                                             "linkshellid1, linkshellid2 ");
+    static const auto joins    = std::string("LEFT JOIN accounts_parties USING (charid) "
+                                             "LEFT JOIN chars USING (charid) "
+                                             "LEFT JOIN char_look USING (charid) "
+                                             "LEFT JOIN char_stats USING (charid) "
+                                             "LEFT JOIN char_profile USING(charid) "
+                                             "LEFT JOIN char_flags USING(charid) ");
+    static const auto filters  = std::string("WHERE charname IS NOT NULL "
+                                             "AND (? = 0 OR mjob = ?) "
+                                             "AND (? = 0 OR (seacom_type & 0xF0) = ?) "
+                                             "ORDER BY charname ASC");
+    static const auto everyone = columns + "FROM accounts_sessions " + joins + filters;
+    static const auto byIds    = columns + "FROM JSON_TABLE(?, '$[*]' COLUMNS (charid INT UNSIGNED PATH '$')) AS ids " +
+                                 "JOIN accounts_sessions USING (charid) " + joins + filters;
+
+    // The second statement's ids are still bound as a JSON array for JSON_TABLE.
+    const auto rset = ids.empty()
+                          ? db::preparedStmt(everyone, sr.jobid, sr.jobid, sr.commentType, sr.commentType)
+                          : db::preparedStmt(byIds, fmt::format("[{}]", fmt::join(ids, ",")), sr.jobid, sr.jobid, sr.commentType, sr.commentType);
     if (rset && rset->rowsCount())
     {
         while (rset->next())

@@ -51,8 +51,6 @@
 #define RESULT_SUCCESS 0x00
 #define RESULT_FAIL    0x01
 #define RESULT_HQ      0x02
-#define RESULT_HQ2     0x03
-#define RESULT_HQ3     0x04
 
 namespace synthutils
 {
@@ -92,7 +90,7 @@ struct SynthRecipe
     std::string ResultName;
     std::string ContentTag;
 
-    uint16 getSkillValue(xi::SkillType type) const
+    auto getSkillValue(xi::SkillType type) const -> uint16
     {
         switch (type)
         {
@@ -372,7 +370,7 @@ auto resolveRecipe(CCharEntity* PChar, const SynthOffer& offer) -> bool
     }
 
     const CItem* PItem = xi::items::lookup(recipe.Result);
-    if (PItem && PItem->hasFlag(ItemFlag::Rare) && charutils::HasItem(PChar, recipe.Result))
+    if (PItem && PItem->hasFlag(xi::ItemFlag::Rare) && charutils::HasItem(PChar, recipe.Result))
     {
         PChar->pushPacket<GP_SERV_COMMAND_COMBINE_ANS>(PChar, SynthesisResult::CancelRareItem);
         return false;

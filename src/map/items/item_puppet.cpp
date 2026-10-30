@@ -31,14 +31,9 @@ CItemPuppet::CItemPuppet(uint16 id)
 
 CItemPuppet::~CItemPuppet() = default;
 
-CItemPuppet::CItemPuppet(const CItemPuppet& other)
-: CItem(other)
-, m_equipSlot(other.m_equipSlot)
-, m_elementSlots(other.m_elementSlots)
-{
-}
+CItemPuppet::CItemPuppet(const CItemPuppet& other) = default;
 
-uint8 CItemPuppet::getEquipSlot() const
+auto CItemPuppet::getEquipSlot() const -> uint8
 {
     return m_equipSlot;
 }
@@ -48,7 +43,7 @@ void CItemPuppet::setEquipSlot(uint32 slot)
     m_equipSlot = slot;
 }
 
-uint32 CItemPuppet::getElementSlots() const
+auto CItemPuppet::getElementSlots() const -> uint32
 {
     return m_elementSlots;
 }

@@ -75,7 +75,7 @@
 #include "conquest_system.h"
 #include "data/enums/claim_type.h"
 #include "data/enums/mob_mod.h"
-#include "enums/recast.h"
+#include "data/enums/recast.h"
 #include "ipc_client.h"
 #include "item_container.h"
 #include "items/item_equipment.h"
@@ -378,12 +378,12 @@ CCharEntity::~CCharEntity()
     }
 }
 
-uint8 CCharEntity::GetGender()
+auto CCharEntity::GetGender() -> uint8
 {
     return (look.race) % 2 ^ (look.race > 6);
 }
 
-bool CCharEntity::isPacketListEmpty()
+auto CCharEntity::isPacketListEmpty() -> bool
 {
     return PacketList.empty();
 }
@@ -507,7 +507,7 @@ auto CCharEntity::popPacket() -> std::unique_ptr<CBasicPacket>
     return PPacket;
 }
 
-size_t CCharEntity::getPacketCount()
+auto CCharEntity::getPacketCount() -> size_t
 {
     return PacketList.size();
 }
@@ -520,7 +520,7 @@ void CCharEntity::erasePackets(uint8 num)
     }
 }
 
-bool CCharEntity::isPacketFiltered(std::unique_ptr<CBasicPacket>& packet)
+auto CCharEntity::isPacketFiltered(std::unique_ptr<CBasicPacket>& packet) const -> bool
 {
     // Filter others synthesis results
     if (packet->getType() == 0x70 && playerConfig.MessageFilter.others_synthesis_and_fishing_results)
@@ -531,27 +531,27 @@ bool CCharEntity::isPacketFiltered(std::unique_ptr<CBasicPacket>& packet)
     return false;
 }
 
-bool CCharEntity::isNewPlayer() const
+auto CCharEntity::isNewPlayer() const -> bool
 {
     return !playerConfig.NewAdventurerOffFlg;
 }
 
-bool CCharEntity::isSeekingParty() const
+auto CCharEntity::isSeekingParty() const -> bool
 {
     return playerConfig.InviteFlg;
 }
 
-bool CCharEntity::isAnon() const
+auto CCharEntity::isAnon() const -> bool
 {
     return playerConfig.AnonymityFlg;
 }
 
-bool CCharEntity::isAway() const
+auto CCharEntity::isAway() const -> bool
 {
     return playerConfig.AwayFlg;
 }
 
-bool CCharEntity::hasAutoTargetEnabled() const
+auto CCharEntity::hasAutoTargetEnabled() const -> bool
 {
     return !playerConfig.AutoTargetOffFlg;
 }
@@ -692,12 +692,12 @@ auto CCharEntity::shouldPetPersistThroughZoning() const -> bool
            (petType == PET_TYPE::JUG_PET && settings::get<bool>("map.KEEP_JUGPET_THROUGH_ZONING"));
 }
 
-void CCharEntity::setAutomatonFrame(const AutomatonFrame frame)
+void CCharEntity::setAutomatonFrame(const xi::AutomatonFrame frame)
 {
     automatonInfo_.equip.frame = frame;
 }
 
-void CCharEntity::setAutomatonHead(const AutomatonHead head)
+void CCharEntity::setAutomatonHead(const xi::AutomatonHead head)
 {
     automatonInfo_.equip.head = head;
 }
@@ -739,12 +739,12 @@ void CCharEntity::setAutomatonElementalCapacityBonus(const uint8 bonus)
     automatonInfo_.elementalCapacityBonus = bonus;
 }
 
-auto CCharEntity::getAutomatonFrame() const -> AutomatonFrame
+auto CCharEntity::getAutomatonFrame() const -> xi::AutomatonFrame
 {
     return automatonInfo_.equip.frame;
 }
 
-auto CCharEntity::getAutomatonHead() const -> AutomatonHead
+auto CCharEntity::getAutomatonHead() const -> xi::AutomatonHead
 {
     return automatonInfo_.equip.head;
 }
@@ -884,7 +884,7 @@ auto CCharEntity::maze() -> maze_t&
     return maze_;
 }
 
-int8 CCharEntity::getShieldSize()
+auto CCharEntity::getShieldSize() const -> int8
 {
     CItemEquipment* PItem = getEquip(SLOT_SUB);
 
@@ -901,7 +901,7 @@ int8 CCharEntity::getShieldSize()
     return PItem->getShieldSize();
 }
 
-int16 CCharEntity::getShieldDefense()
+auto CCharEntity::getShieldDefense() const -> int16
 {
     CItemEquipment* PItem = getEquip(SLOT_SUB);
 
@@ -913,7 +913,7 @@ int16 CCharEntity::getShieldDefense()
     return 0;
 }
 
-bool CCharEntity::hasBazaar()
+auto CCharEntity::hasBazaar() const -> bool
 {
     // FFXIclopedia: a Monipulator has no bazaar, even one priced before entering.
     if (isSettingBazaarPrices || m_PMonstrosity != nullptr)
@@ -946,7 +946,7 @@ void CCharEntity::SetName(const std::string& name)
     }
 }
 
-int16 CCharEntity::addTP(int16 tp)
+auto CCharEntity::addTP(int16 tp) -> int16
 {
     tp = CBattleEntity::addTP(tp);
     PLatentEffectContainer->CheckLatentsTP();
@@ -954,7 +954,7 @@ int16 CCharEntity::addTP(int16 tp)
     return abs(tp);
 }
 
-int32 CCharEntity::addHP(int32 hp)
+auto CCharEntity::addHP(int32 hp) -> int32
 {
     hp = CBattleEntity::addHP(hp);
     PLatentEffectContainer->CheckLatentsHP();
@@ -962,7 +962,7 @@ int32 CCharEntity::addHP(int32 hp)
     return abs(hp);
 }
 
-int32 CCharEntity::addMP(int32 mp)
+auto CCharEntity::addMP(int32 mp) -> int32
 {
     mp = CBattleEntity::addMP(mp);
     PLatentEffectContainer->CheckLatentsMP();
@@ -970,7 +970,7 @@ int32 CCharEntity::addMP(int32 mp)
     return abs(mp);
 }
 
-bool CCharEntity::getStyleLocked() const
+auto CCharEntity::getStyleLocked() const -> bool
 {
     return m_isStyleLocked;
 }
@@ -980,7 +980,7 @@ void CCharEntity::setStyleLocked(bool isStyleLocked)
     m_isStyleLocked = isStyleLocked;
 }
 
-bool CCharEntity::getBlockingAid() const
+auto CCharEntity::getBlockingAid() const -> bool
 {
     return m_isBlockingAid;
 }
@@ -996,7 +996,7 @@ void CCharEntity::SetPlayTime(timer::duration playTime)
     m_SaveTime = timer::now();
 }
 
-timer::duration CCharEntity::GetPlayTime(bool needUpdate)
+auto CCharEntity::GetPlayTime(bool needUpdate) -> timer::duration
 {
     if (needUpdate)
     {
@@ -1076,7 +1076,7 @@ auto CCharEntity::bindEquip(const uint8 equipSlot, CItem* item) -> bool
         return false;
     }
 
-    if (!xi::items::mark(item, ItemState::Equipped))
+    if (!xi::items::mark(item, xi::ItemState::Equipped))
     {
         return false;
     }
@@ -1095,7 +1095,7 @@ void CCharEntity::clearEquip(const uint8 equipSlot)
 
     if (auto* item = equipped_[equipSlot]; item != nullptr)
     {
-        if (!xi::items::mark(item, ItemState::Free))
+        if (!xi::items::mark(item, xi::ItemState::Free))
         {
             return;
         }
@@ -1114,7 +1114,7 @@ void CCharEntity::ReloadPartyDec()
     m_reloadParty = false;
 }
 
-bool CCharEntity::ReloadParty() const
+auto CCharEntity::ReloadParty() const -> bool
 {
     return m_reloadParty;
 }
@@ -1359,7 +1359,7 @@ void CCharEntity::delTrait(CTrait* PTrait)
     charutils::delTrait(this, PTrait->getID());
 }
 
-bool CCharEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags)
+auto CCharEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags) -> bool
 {
     TracyZoneScopedN("CCharEntity::ValidTarget");
 
@@ -1429,7 +1429,7 @@ bool CCharEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags)
     return false;
 }
 
-bool CCharEntity::CanUseSpell(CSpell* PSpell)
+auto CCharEntity::CanUseSpell(CSpell* PSpell) -> bool
 {
     TracyZoneScopedN("CCharEntity::CanUseSpell");
 
@@ -1477,7 +1477,7 @@ void CCharEntity::OnDisengage(CAttackState& state)
     PLatentEffectContainer->CheckLatentsWeaponDraw(false);
 }
 
-bool CCharEntity::CanAttack(CBattleEntity* PTarget, std::unique_ptr<CBasicPacket>& errMsg)
+auto CCharEntity::CanAttack(CBattleEntity* PTarget, std::unique_ptr<CBasicPacket>& errMsg) -> bool
 {
     TracyZoneScopedN("CCharEntity::CanAttack");
 
@@ -1514,7 +1514,7 @@ bool CCharEntity::CanAttack(CBattleEntity* PTarget, std::unique_ptr<CBasicPacket
     return true;
 }
 
-bool CCharEntity::OnAttack(CAttackState& state, action_t& action)
+auto CCharEntity::OnAttack(CAttackState& state, action_t& action) -> bool
 {
     TracyZoneScopedN("CCharEntity::OnAttack");
 
@@ -1597,45 +1597,45 @@ void CCharEntity::OnCastFinished(CMagicState& state, action_t& action)
                         isHelix = true;
                         [[fallthrough]];
                     case SPELLFAMILY_STONE:
-                        effect = battleutils::GetSkillChainEffect(PTarget, SKILLCHAIN_ELEMENT::SC_SCISSION, 0, 0);
+                        effect = battleutils::GetSkillChainEffect(PTarget, std::to_underlying(xi::SkillchainType::Scission), 0, 0);
                         break;
                     case SPELLFAMILY_HYDROHELIX:
                         isHelix = true;
                         [[fallthrough]];
                     case SPELLFAMILY_WATER:
-                        effect = battleutils::GetSkillChainEffect(PTarget, SKILLCHAIN_ELEMENT::SC_REVERBERATION, 0, 0);
+                        effect = battleutils::GetSkillChainEffect(PTarget, std::to_underlying(xi::SkillchainType::Reverberation), 0, 0);
                         break;
                     case SPELLFAMILY_ANEMOHELIX:
                         isHelix = true;
                         [[fallthrough]];
                     case SPELLFAMILY_AERO:
-                        effect = battleutils::GetSkillChainEffect(PTarget, SKILLCHAIN_ELEMENT::SC_DETONATION, 0, 0);
+                        effect = battleutils::GetSkillChainEffect(PTarget, std::to_underlying(xi::SkillchainType::Detonation), 0, 0);
                         break;
                     case SPELLFAMILY_PYROHELIX:
                         isHelix = true;
                         [[fallthrough]];
                     case SPELLFAMILY_FIRE:
-                        effect = battleutils::GetSkillChainEffect(PTarget, SKILLCHAIN_ELEMENT::SC_LIQUEFACTION, 0, 0);
+                        effect = battleutils::GetSkillChainEffect(PTarget, std::to_underlying(xi::SkillchainType::Liquefaction), 0, 0);
                         break;
                     case SPELLFAMILY_CRYOHELIX:
                         isHelix = true;
                         [[fallthrough]];
                     case SPELLFAMILY_BLIZZARD:
-                        effect = battleutils::GetSkillChainEffect(PTarget, SKILLCHAIN_ELEMENT::SC_INDURATION, 0, 0);
+                        effect = battleutils::GetSkillChainEffect(PTarget, std::to_underlying(xi::SkillchainType::Induration), 0, 0);
                         break;
                     case SPELLFAMILY_IONOHELIX:
                         isHelix = true;
                         [[fallthrough]];
                     case SPELLFAMILY_THUNDER:
-                        effect = battleutils::GetSkillChainEffect(PTarget, SKILLCHAIN_ELEMENT::SC_IMPACTION, 0, 0);
+                        effect = battleutils::GetSkillChainEffect(PTarget, std::to_underlying(xi::SkillchainType::Impaction), 0, 0);
                         break;
                     case SPELLFAMILY_NOCTOHELIX:
                         isHelix = true;
-                        effect  = battleutils::GetSkillChainEffect(PTarget, SKILLCHAIN_ELEMENT::SC_COMPRESSION, 0, 0);
+                        effect  = battleutils::GetSkillChainEffect(PTarget, std::to_underlying(xi::SkillchainType::Compression), 0, 0);
                         break;
                     case SPELLFAMILY_LUMINOHELIX:
                         isHelix = true;
-                        effect  = battleutils::GetSkillChainEffect(PTarget, SKILLCHAIN_ELEMENT::SC_TRANSFIXION, 0, 0);
+                        effect  = battleutils::GetSkillChainEffect(PTarget, std::to_underlying(xi::SkillchainType::Transfixion), 0, 0);
                         break;
                     default:
                         immanenceApplies = false;
@@ -1746,7 +1746,7 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
             PAI->TargetFind->findSingleTarget(PBattleTarget, FINDFLAGS_NONE, TARGET_NONE);
         }
 
-        if (PAI->TargetFind->m_targets.size() == 0)
+        if (PAI->TargetFind->m_targets.empty())
         {
             // There used to be an assumed interrupt handler here.
             // Add a test and capture before reintroducing.
@@ -1851,7 +1851,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
     TracyZoneScoped;
 
     auto* PAbility = state.GetAbility();
-    if (this->PRecastContainer->HasRecast(RECAST_ABILITY, PAbility->getRecastId(), PAbility->getRecastTime()))
+    if (this->PRecastContainer->HasRecast(xi::RecastType::Ability, PAbility->getRecastId(), PAbility->getRecastTime()))
     {
         pushPacket<GP_SERV_COMMAND_BATTLE_MESSAGE>(this, this, 0, 0, MsgBasic::WaitLonger);
         return;
@@ -1874,7 +1874,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
     PAI->TargetFind->findSingleTarget(PTarget, findFlags, PAbility->getValidTarget());
 
     // Check if target is untargetable
-    if (PAI->TargetFind->m_targets.size() == 0)
+    if (PAI->TargetFind->m_targets.empty())
     {
         return;
     }
@@ -1906,11 +1906,11 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
             auto chargesUsed = timer::count_seconds(PAbility->getRecastTime()); // charge cost is stored in the recast...
 
             //  Can't assign merits via ability ID for Sic/Ready due to shenanigans
-            if (PAbility->getRecastId() == Recast::Sic) // Sic/Ready recast ID
+            if (PAbility->getRecastId() == xi::Recast::Sic) // Sic/Ready recast ID
             {
                 recastReduction = std::chrono::seconds(PMeritPoints->GetMeritValue(xi::Merit::SicRecast, this));
             }
-            else if (PAbility->getRecastId() == Recast::Strategems)
+            else if (PAbility->getRecastId() == xi::Recast::Stratagem)
             {
                 recastReduction += std::chrono::seconds(this->getMod(xi::Mod::STRATAGEM_RECAST));
             }
@@ -1924,7 +1924,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
             action.recast = PAbility->getRecastTime() - recastReduction;
         }
 
-        if (PAbility->getID() == ABILITY_LIGHT_ARTS || PAbility->getID() == ABILITY_DARK_ARTS || PAbility->getRecastId() == Recast::Strategems)
+        if (PAbility->getID() == ABILITY_LIGHT_ARTS || PAbility->getID() == ABILITY_DARK_ARTS || PAbility->getRecastId() == xi::Recast::Stratagem)
         {
             if (this->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::TabulaRasa))
             {
@@ -1932,7 +1932,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
                 baseChargeTime = 0s;
             }
         }
-        else if (PAbility->getRecastId() == Recast::BloodPactRage || PAbility->getRecastId() == Recast::BloodPactWard)
+        else if (PAbility->getRecastId() == xi::Recast::BloodPactRage || PAbility->getRecastId() == xi::Recast::BloodPactWard)
         {
             uint16 favorReduction          = 0;
             uint16 bloodPact_I_Reduction   = std::min<int16>(getMod(xi::Mod::BP_DELAY), 15);
@@ -1963,9 +1963,9 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
         {
             // SP abilities don't consume recast when paralyzed
             const auto recastId = PAbility->getRecastId();
-            if (recastId != Recast::Special && recastId != Recast::Special2)
+            if (recastId != xi::Recast::Special && recastId != xi::Recast::Special2)
             {
-                const bool isBloodPact = recastId == Recast::BloodPactRage || recastId == Recast::BloodPactWard;
+                const bool isBloodPact = recastId == xi::Recast::BloodPactRage || recastId == xi::Recast::BloodPactWard;
                 charutils::ApplyAbilityRecast(this, PAbility, charge, baseChargeTime, isBloodPact ? bloodPactRecast : action.recast);
             }
 
@@ -2159,7 +2159,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
     }
 }
 
-bool CCharEntity::IsMobOwner(CBattleEntity* PBattleTarget)
+auto CCharEntity::IsMobOwner(CBattleEntity* PBattleTarget) -> bool
 {
     TracyZoneScoped;
 
@@ -2357,7 +2357,7 @@ auto CCharEntity::OnItemFinish(CItemState& state, action_t& action) -> bool
     PAI->TargetFind->findSingleTarget(PTarget, findFlags, PItem->getValidTarget());
 
     // Check if target is untargetable
-    if (PAI->TargetFind->m_targets.size() == 0)
+    if (PAI->TargetFind->m_targets.empty())
     {
         // TODO: interrupt action packet?
         return false;
@@ -2422,7 +2422,7 @@ auto CCharEntity::OnItemFinish(CItemState& state, action_t& action) -> bool
         if (PItem->getCurrentCharges() != 0)
         {
             // add recast timer to Recast List from any bag
-            this->PRecastContainer->Add(RECAST_ITEM, static_cast<Recast>(PItem->getSlotID() << 8 | PItem->getLocationID()), PItem->getReuseTime());
+            this->PRecastContainer->Add(xi::RecastType::Item, static_cast<xi::Recast>(PItem->getSlotID() << 8 | PItem->getLocationID()), PItem->getReuseTime());
         }
         return false;
     }
@@ -2618,17 +2618,17 @@ void CCharEntity::SetDeathTime(timer::time_point timestamp)
     m_DeathTimestamp = timestamp;
 }
 
-timer::duration CCharEntity::GetTimeSinceDeath() const
+auto CCharEntity::GetTimeSinceDeath() const -> timer::duration
 {
     return m_DeathTimestamp > timer::time_point::min() ? timer::now() - m_DeathTimestamp : 0s;
 }
 
-timer::duration CCharEntity::GetTimeUntilDeathHomepoint() const
+auto CCharEntity::GetTimeUntilDeathHomepoint() const -> timer::duration
 {
     return 60min - GetTimeSinceDeath();
 }
 
-earth_time::time_point CCharEntity::GetTimeCreated()
+auto CCharEntity::GetTimeCreated() -> earth_time::time_point
 {
     TracyZoneScoped;
 
@@ -2642,7 +2642,7 @@ earth_time::time_point CCharEntity::GetTimeCreated()
     return earth_time::time_point::min();
 }
 
-uint8 CCharEntity::getHighestJobLevel()
+auto CCharEntity::getHighestJobLevel() -> uint8
 {
     uint8 maxJobLevel = 0;
 
@@ -2657,7 +2657,7 @@ uint8 CCharEntity::getHighestJobLevel()
     return maxJobLevel;
 }
 
-bool CCharEntity::hasMoghancement(uint16 moghancementID) const
+auto CCharEntity::hasMoghancement(uint16 moghancementID) const -> bool
 {
     return m_moghancementID == moghancementID;
 }
@@ -2939,19 +2939,19 @@ void CCharEntity::changeMoghancement(uint16 moghancementID, bool isAdding)
             // TODO: Increases the chances of finding items when fishing
             break;
         case MOGHANCEMENT_SANDORIA_CONQUEST:
-            if (profile.nation == 0)
+            if (profile.nation == xi::Nation::Sandoria)
             {
                 addModifier(xi::Mod::CONQUEST_BONUS, 6 * multiplier);
             }
             break;
         case MOGHANCEMENT_BASTOK_CONQUEST:
-            if (profile.nation == 1)
+            if (profile.nation == xi::Nation::Bastok)
             {
                 addModifier(xi::Mod::CONQUEST_BONUS, 6 * multiplier);
             }
             break;
         case MOGHANCEMENT_WINDURST_CONQUEST:
-            if (profile.nation == 2)
+            if (profile.nation == xi::Nation::Windurst)
             {
                 addModifier(xi::Mod::CONQUEST_BONUS, 6 * multiplier);
             }
@@ -3011,7 +3011,7 @@ void CCharEntity::changeMoghancement(uint16 moghancementID, bool isAdding)
     }
 }
 
-bool CCharEntity::OnAttackError(CAttackState& state)
+auto CCharEntity::OnAttackError(CAttackState& state) -> bool
 {
     TracyZoneScoped;
 
@@ -3024,7 +3024,7 @@ bool CCharEntity::OnAttackError(CAttackState& state)
     return false;
 }
 
-bool CCharEntity::isInTriggerArea(uint32 triggerAreaID)
+auto CCharEntity::isInTriggerArea(uint32 triggerAreaID) -> bool
 {
     return charTriggerAreaIDs.contains(triggerAreaID);
 }
@@ -3049,7 +3049,7 @@ auto CCharEntity::isInEvent() const -> bool
     return currentEvent->eventId != -1;
 }
 
-bool CCharEntity::isNpcLocked()
+auto CCharEntity::isNpcLocked() const -> bool
 {
     return isInEvent() || inSequence;
 }
@@ -3158,7 +3158,7 @@ void CCharEntity::tryStartNextEvent()
 
     if (currentEvent->strings.empty())
     {
-        if (currentEvent->params.size() > 0 || currentEvent->textTable != -1)
+        if (!currentEvent->params.empty() || currentEvent->textTable != -1)
         {
             pushPacket<GP_SERV_COMMAND_EVENTNUM>(this, currentEvent);
         }
@@ -3206,14 +3206,27 @@ void CCharEntity::setLocked(bool locked)
     m_Locked = locked;
     if (locked)
     {
-        // Player and pet enmity are handled in mobcontroler.cpp, CheckLock() fucntion.
         // Mob casting interruption handled in magic_state.cpp, CMagicState::Update boolean.
         PAI->Disengage();
         if (PPet)
         {
             PPet->PAI->Disengage();
         }
-        battleutils::RelinquishClaim(this);
+
+        // Create a copy of the Notoriety Container and iterate over that.
+        // battleutils::ForceDeaggro eventually removes entries from that list which would be undefined behavior without a copy
+        CNotorietyContainer NotorietyCopy = *PNotorietyContainer;
+        for (auto PBattle : NotorietyCopy)
+        {
+            if (auto PMob = dynamic_cast<CMobEntity*>(PBattle); PMob)
+            {
+                battleutils::ForceDeaggro(PMob, this);
+                if (PPet)
+                {
+                    battleutils::ForceDeaggro(PMob, PPet);
+                }
+            }
+        }
     }
 }
 
@@ -3348,7 +3361,7 @@ void CCharEntity::clearCharVarsWithPrefix(const std::string& prefix)
     db::preparedStmt("DELETE FROM char_vars WHERE charid = ? AND varname LIKE ?", this->id, fmt::format("{}%", prefix));
 }
 
-bool CCharEntity::startSynth(xi::SkillType synthSkill)
+auto CCharEntity::startSynth(xi::SkillType synthSkill) -> bool
 {
     if (PAI)
     {

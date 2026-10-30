@@ -1,4 +1,4 @@
-# luajit, mariadb, zmq and openssl are prebuilt; cmake/Find*.cmake turns them into targets.
+# luajit, mariadb, zmq and openssl are prebuilt; cmake/find/Find*.cmake turns them into targets.
 add_subdirectory(concurrentqueue)
 add_subdirectory(SPSCQueue)
 add_subdirectory(sol)
@@ -15,79 +15,6 @@ CPMAddPackage(
     GITHUB_REPOSITORY nemtrif/utfcpp
     GIT_TAG v4.0.8
 ) # defines: utf8cpp
-
-if(TRACY_ENABLE)
-    # Tracy version tag, without the leading 'v'
-    set(TRACY_VERSION 0.14.1)
-
-    # Download client library
-    CPMAddPackage(
-        NAME TracyClient
-        GITHUB_REPOSITORY wolfpld/tracy
-        GIT_TAG v${TRACY_VERSION}
-        SYSTEM ON
-        OPTIONS
-            "TRACY_ENABLE ON"
-            "TRACY_ON_DEMAND ON"
-            "TRACY_NO_BROADCAST ON"
-            "TRACY_NO_CONTEXT_SWITCH ON"
-            "TRACY_NO_EXIT OFF"
-            "TRACY_NO_VSYNC_CAPTURE ON"
-            "TRACY_NO_FRAME_IMAGE ON"
-            # "TRACY_NO_SYSTEM_TRACING ON" # This is incredibly heavy, add this line back if you need to speed up profiling
-            # "TRACY_TIMER_FALLBACK OFF" # Maybe useful to set ON for Linux VMs?
-            "TRACY_LIBBACKTRACE_ELF_DYNLOAD_SUPPORT ON"
-    )
-
-    # Download Win32 server executables
-    if(MSVC)
-        message(STATUS "Downloading Tracy client")
-        file(DOWNLOAD
-            https://github.com/wolfpld/tracy/releases/download/v${TRACY_VERSION}/windows-${TRACY_VERSION}.zip
-            ${CMAKE_SOURCE_DIR}/tracy.tar.gz
-            TIMEOUT 60
-        )
-        execute_process(COMMAND "${CMAKE_COMMAND}" -E
-                tar xvf "${CMAKE_SOURCE_DIR}/tracy.tar.gz"
-                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/
-        )
-    else() # UNIX (Linux / macOS)
-        include(ExternalProject)
-
-        # target name:source subdirectory
-        set(TRACY_TOOLS
-            "tracy-capture:capture"
-            "tracy-csvexport:csvexport"
-        )
-
-        foreach(_tracy_tool ${TRACY_TOOLS})
-            string(REPLACE ":" ";" _tracy_tool "${_tracy_tool}")
-            list(GET _tracy_tool 0 _tracy_tool_name)
-            list(GET _tracy_tool 1 _tracy_tool_dir)
-
-            message(STATUS "Configuring Tracy tool: ${_tracy_tool_name}")
-
-            set(_tracy_tool_bindir ${CMAKE_BINARY_DIR}/tracy-tools/${_tracy_tool_name})
-
-            ExternalProject_Add(${_tracy_tool_name}
-                SOURCE_DIR ${TracyClient_SOURCE_DIR}/${_tracy_tool_dir}
-                BINARY_DIR ${_tracy_tool_bindir}
-                CMAKE_ARGS
-                    -DCMAKE_BUILD_TYPE=Release
-                    -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
-                    -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
-                    -DCMAKE_OSX_ARCHITECTURES=${CMAKE_OSX_ARCHITECTURES}
-                    -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}
-                    -DCMAKE_OSX_SYSROOT=${CMAKE_OSX_SYSROOT}
-                    -DCMAKE_RUNTIME_OUTPUT_DIRECTORY=${_tracy_tool_bindir}
-                BUILD_ALWAYS TRUE
-                INSTALL_COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                    ${_tracy_tool_bindir}/${_tracy_tool_name}
-                    ${CMAKE_SOURCE_DIR}/${_tracy_tool_name}
-            )
-        endforeach()
-    endif()
-endif(TRACY_ENABLE)
 
 CPMAddPackage(
     NAME fmt
@@ -318,7 +245,10 @@ CPMAddPackage(
         "CPPTRACE_DISABLE_CXX_20_MODULES ON"
 ) # defines: cpptrace::cpptrace
 
-set(SHARED_EXTERNAL_LIBS
+# What each server links from the libraries above. Forks can add their own with
+# target_link_libraries(xi_ext_map INTERFACE <target>) instead of editing these lists.
+add_library(xi_ext_shared INTERFACE)
+target_link_libraries(xi_ext_shared INTERFACE
     fmt::fmt
     spdlog
     concurrentqueue
@@ -342,24 +272,14 @@ set(SHARED_EXTERNAL_LIBS
     cpptrace::cpptrace
 )
 
-if(APPLE)
-    list(APPEND SHARED_EXTERNAL_LIBS
-        dl
-    )
-elseif(UNIX)
-    list(APPEND SHARED_EXTERNAL_LIBS
-        bfd
-        dl
-        zstd
-    )
-endif()
-
-set(CONNECT_ONLY_EXTERNAL_LIBS
+add_library(xi_ext_connect INTERFACE)
+target_link_libraries(xi_ext_connect INTERFACE
     bcrypt
     nlohmann_json::nlohmann_json
 )
 
-set(MAP_ONLY_EXTERNAL_LIBS
+add_library(xi_ext_map INTERFACE)
+target_link_libraries(xi_ext_map INTERFACE
     RecastNavigation::Recast
     RecastNavigation::Detour
     fast_obj
@@ -367,21 +287,19 @@ set(MAP_ONLY_EXTERNAL_LIBS
     zlibstatic
 )
 
-set(SEARCH_ONLY_EXTERNAL_LIBS
+add_library(xi_ext_search INTERFACE)
+target_link_libraries(xi_ext_search INTERFACE
 )
 
-set(WORLD_ONLY_EXTERNAL_LIBS
+add_library(xi_ext_world INTERFACE)
+target_link_libraries(xi_ext_world INTERFACE
     httplib::httplib
     nlohmann_json::nlohmann_json
 )
 
-set(TEST_ONLY_EXTERNAL_LIBS
+add_library(xi_ext_test INTERFACE)
+target_link_libraries(xi_ext_test INTERFACE
     bcrypt
     termcolor::termcolor
     nlohmann_json::nlohmann_json
 )
-
-# copy external lib lists to parent scope
-foreach(list SHARED CONNECT_ONLY MAP_ONLY SEARCH_ONLY WORLD_ONLY TEST_ONLY)
-    set(${list}_EXTERNAL_LIBS ${${list}_EXTERNAL_LIBS} PARENT_SCOPE)
-endforeach()

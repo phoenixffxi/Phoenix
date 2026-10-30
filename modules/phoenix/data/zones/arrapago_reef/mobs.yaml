@@ -1,6 +1,12 @@
 # Era mob layout for arrapago_reef.
 # Needs the Era DATs (https://github.com/phoenixffxi/Era-DATs) or the client shows the wrong mob names.
 
+# Remove Timeworn Talisman (March 23, 2010 Odin quests) and Corsair's Testimony from the Lamia and Merrow
+# it was added to (June 14, 2012).
+# Timeworn Talisman: https://www.playonline.com/pcd/verup/ff11us/detail/5338/detail.html
+# Corsair's Testimony: https://forum.square-enix.com/ffxi/threads/24155
+# Pre-2012 droppers (Merrow Icedancer, Merrow Shadowdancer, Lamia Fatedealer): https://wiki.ffo.jp/html/14494.html
+
 templates:
 
   Lamie_No8:
@@ -29,6 +35,63 @@ templates:
 
   Lamia_Exon:
     content: wotg # Disable besieged mobs
+  Ephramadian_Shade_cor:
+    loot:
+      drops: []
+  Ephramadian_Shade_mnk:
+    loot:
+      drops: []
+  Ephramadian_Shade_rdm:
+    loot:
+      drops: []
+  Ephramadian_Shade_rng:
+    loot:
+      drops: []
+  Lamia_Dancer:
+    loot:
+      drops:
+        - chance: uncommon
+          item:   lamia_skin
+        - chance: rare
+          item:   vial_of_chimera_blood
+        - chance: very_rare
+          item:   lamian_armlet
+  Lamia_Dartist:
+    loot:
+      drops:
+        - chance: uncommon
+          item:   lamia_skin
+        - chance: rare
+          item:   vial_of_chimera_blood
+        - chance: very_rare
+          item:   lamian_armlet
+  Lamia_Graverobber:
+    loot:
+      drops:
+        - chance: uncommon
+          item:   lamia_skin
+        - chance: rare
+          item:   vial_of_chimera_blood
+        - chance: very_rare
+          item:   lamian_armlet
+  Merrow_Chantress:
+    loot:
+      drops:
+        - chance: rare
+          item:   merrow_scale
+        - chance: uncommon
+          item:   lamian_fang_key
+        - chance: very_rare
+          item:   vial_of_chimera_blood
+  Merrow_Kabukidancer_2621:
+    loot:
+      drops:
+        - chance: rare
+          item:   merrow_scale
+        - chance: uncommon
+          item:   lamian_fang_key
+        - chance: very_rare
+          item:   vial_of_chimera_blood
 
 spawns:
 

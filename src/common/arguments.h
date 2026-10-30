@@ -61,14 +61,12 @@ public:
         }
         catch (const std::exception&)
         {
-            // Swallow the error
+            return std::nullopt;
         }
-
-        return std::nullopt;
     }
 
     template <typename T = std::string>
-    T get(const std::string_view arg_name) const
+    auto get(const std::string_view arg_name) const -> T
     {
         try
         {
@@ -76,10 +74,8 @@ public:
         }
         catch (const std::exception&)
         {
-            // Swallow the error
+            return {};
         }
-
-        return {};
     }
 
 private:
