@@ -15,10 +15,68 @@ require('modules/module_utils')
 -----------------------------------
 local m = Module:new('phoenix_account_jail')
 
+-- Same cells, in the same order, as the !jail command
+local jailCells =
+{
+    -- Floor 1 (Bottom)
+    { -620, 11,  660 },
+    { -180, 11,  660 },
+    {  260, 11,  660 },
+    {  700, 11,  660 },
+    { -620, 11,  220 },
+    { -180, 11,  220 },
+    {  260, 11,  220 },
+    {  700, 11,  220 },
+    { -620, 11, -220 },
+    { -180, 11, -220 },
+    {  260, 11, -220 },
+    {  700, 11, -220 },
+    { -620, 11, -620 },
+    { -180, 11, -620 },
+    {  260, 11, -620 },
+    {  700, 11, -620 },
+
+    -- Floor 2 (Top)
+    { -620, -400,  660 },
+    { -180, -400,  660 },
+    {  260, -400,  660 },
+    {  700, -400,  660 },
+    { -620, -400,  220 },
+    { -180, -400,  220 },
+    {  260, -400,  220 },
+    {  700, -400,  220 },
+    { -620, -400, -220 },
+    { -180, -400, -220 },
+    {  260, -400, -220 },
+    {  700, -400, -220 },
+    { -620, -400, -620 },
+    { -180, -400, -620 },
+    {  260, -400, -620 },
+    {  700, -400, -620 },
+}
+
 local function error(player, msg, usage)
     player:printToPlayer(msg)
     player:printToPlayer(usage)
 end
+
+-- A prisoner who reaches any other zone without a pardon is sent straight back to their cell
+m:addOverride('xi.player.onGameIn', function(player, firstLogin, zoning)
+    super(player, firstLogin, zoning)
+
+    local cell = jailCells[player:getCharVar('inJail')]
+    if
+        cell == nil or
+        player:getZoneID() == xi.zone.MORDION_GAOL
+    then
+        return
+    end
+
+    -- setPos cannot change zones until the login packet finishes
+    player:timer(0, function(playerArg)
+        playerArg:setPos(cell[1], cell[2], cell[3], 0, xi.zone.MORDION_GAOL)
+    end)
+end)
 
 m:addOverride('xi.commands.pardon.onTrigger', function(player, target)
     local charId = GetPlayerIDByName(target or '')
