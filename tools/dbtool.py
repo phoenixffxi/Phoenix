@@ -188,6 +188,7 @@ settings, default_settings = populate_settings()
 
 # These are the 'protected' files
 player_data = [
+    "account_ip_record.sql",
     "accounts.sql",
     "accounts_banned.sql",
     "accounts_files.sql",
@@ -198,7 +199,9 @@ player_data = [
     "auction_house_items.sql",
     "auction_house.sql",
     "audit_bazaar.sql",
+    "audit_chat.sql",
     "audit_dbox.sql",
+    "audit_gm.sql",
     "audit_trade.sql",
     "audit_vendor.sql",
     "char_blacklist.sql",
