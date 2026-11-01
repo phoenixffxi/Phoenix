@@ -9,6 +9,14 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
   cancel-in-progress: true
 
+# The repo token defaults to read-only, and a called workflow cannot ask for more than this.
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+  actions: read
+  statuses: write
+
 jobs:
   Build:
     name: ${{ matrix.sanitizer && 'Build' || '' }}

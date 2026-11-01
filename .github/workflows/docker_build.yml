@@ -82,6 +82,14 @@ jobs:
         with:
           fetch-depth: 1
 
+      # Core edits kept as patches; the committed modules need them to compile.
+      - name: Apply temp patches
+        run: |
+          for patch in $(git ls-files 'modules/temp_patch/*.patch'); do
+            echo "Applying $patch"
+            git show "HEAD:$patch" | git apply -v -
+          done
+
       - name: Enable modules
         if: ${{ inputs.build_modules }}
         run: |

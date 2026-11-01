@@ -102,6 +102,16 @@ jobs:
         with:
           fetch-depth: 1
 
+      # Core edits kept as patches; the committed modules need them to compile.
+      # Read from the commit: Windows checks the file out as CRLF and it no longer applies.
+      - name: Apply temp patches
+        if: ${{ env.SKIP_BUILD != 'true' }}
+        run: |
+          for patch in $(git ls-files 'modules/temp_patch/*.patch'); do
+            echo "Applying $patch"
+            git show "HEAD:$patch" | git apply -v -
+          done
+
       - name: Install dependencies (macOS)
         if: ${{ runner.os == 'macOS' && env.SKIP_BUILD != 'true' }}
         run: |

@@ -173,6 +173,10 @@ jobs:
           mv xi_test_tracy xi_test 2> /dev/null || true
           chmod +x xi_*
 
+      # The servers log an error for each missing entry, which fails the startup checks.
+      - name: Drop missing init.txt entries
+        run: python ./tools/ci/drop_missing_modules.py
+
       - name: Enable modules
         if: ${{ inputs.test_modules }}
         run: |
@@ -190,7 +194,7 @@ jobs:
         if: ${{ inputs.xi_test }}
         id: xi_test
         continue-on-error: true
-        run: ./xi_test --keep-going --retry 5 --output tests.ctrf.json
+        run: python ./tools/ci/run_xi_test.py --keep-going --retry 5 --output tests.ctrf.json
 
       - name: Publish Test Report
         if: ${{ !cancelled() && inputs.xi_test }}

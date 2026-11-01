@@ -38,6 +38,26 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v6
 
+    # Core edits kept as patches; the committed modules need them to compile.
+    - if: matrix.language == 'cpp'
+      name: Apply temp patches
+      run: |
+        for patch in $(git ls-files 'modules/temp_patch/*.patch'); do
+          echo "Applying $patch"
+          git show "HEAD:$patch" | git apply -v -
+        done
+
+    # CMake configure runs codegen, which needs these packages.
+    - if: matrix.language == 'cpp'
+      name: Setup Python
+      uses: actions/setup-python@v6
+      with:
+        python-version: '3.14'
+
+    - if: matrix.language == 'cpp'
+      name: Install Python codegen deps
+      run: python -m pip install jinja2 jsonschema ruamel.yaml
+
     - name: Install Dependencies
       run: |
         sudo apt-get update

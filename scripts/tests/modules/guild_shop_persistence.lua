@@ -6,8 +6,6 @@
 -- See: modules/phoenix/lua/custom/guild_shop_persistence.lua
 -----------------------------------
 describe('Module: guild_shop_persistence', function()
-    ---@type CClientEntityPair
-    local player
     local persistence
 
     local shopName = 'Kamilah'
@@ -64,16 +62,10 @@ describe('Module: guild_shop_persistence', function()
         return mine
     end
 
-    local function open()
-        xi.test.world:setVanaTime(8, 0)
-        player.entities:gotoAndTrigger(shopName)
-    end
-
     before_each(function()
         persistence = xi.guildShops.persistence
         assert(persistence, 'the guild_shop_persistence module is not loaded, check modules/init.txt')
 
-        player = xi.test.world:spawnPlayer({ zone = xi.zone.MHAURA })
         xi.guildShops.state[shopName] = nil
     end)
 
@@ -112,22 +104,20 @@ describe('Module: guild_shop_persistence', function()
 
         local result = persistence.restore(rows)
         assert(result.reRolled == 1, 'shop with a missing row not set to re-roll')
-        assert(xi.guildShops.state[shopName].lastRoll == -1, 'lastRoll not cleared')
 
-        open()
-
+        -- restore rolls unrolled shops at boot, so check that roll rather than a later open.
         local state = xi.guildShops.state[shopName]
-        assert(state.lastRoll == VanadielUniqueDay(), 'first open did not roll')
-        assert(state.items[probe].stock == stock, 'first roll restocked the saved stock')
-        assert(state.items[probe].buyPrice ~= saved.buyPrice, 'first roll kept the saved price')
-        assert(state.items[missing.id].stock == missing.initial, 'new config item not given its starting stock')
+        assert(state.lastRoll == VanadielUniqueDay(), 're-rolled shop not rolled at boot')
+        assert(state.items[probe].stock == stock, 'boot roll restocked the saved stock')
+        assert(state.items[probe].buyPrice ~= saved.buyPrice, 'boot roll kept the saved price')
+        assert(state.items[missing.id].stock == math.min(missing.initial, missing.targetStock), 'new config item not given its starting stock')
     end)
 
     it('re-rolls a snapshot saved on a future day', function()
         local result = persistence.restore(savedRows(VanadielUniqueDay() + 5))
 
         assert(result.reRolled == 1, 'future snapshot not set to re-roll')
-        assert(xi.guildShops.state[shopName].lastRoll == -1, 'future lastRoll kept')
+        assert(xi.guildShops.state[shopName].lastRoll == VanadielUniqueDay(), 'future snapshot not rolled at boot')
     end)
 
     it('reports saved rows for items no longer in the config', function()

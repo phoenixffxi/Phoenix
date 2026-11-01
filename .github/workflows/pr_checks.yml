@@ -307,11 +307,7 @@ jobs:
             compiler: msvc
             build_modules: false
             upload_artifact: true
-          - build_type: Debug
-            runner: macos-26
-            compiler: appleClang
-            build_modules: false
-            upload_artifact: true
+          # No macOS builds or tests: Phoenix never runs on macOS.
           - build_type: Debug
             runner: ubuntu-26.04
             compiler: gcc
@@ -361,17 +357,12 @@ jobs:
           - runner: windows-2025
             test_modules: false
             multi_process: true
-            xi_test: false
-            startup_checks: true
-          - runner: macos-26
-            test_modules: false
-            multi_process: false
-            xi_test: false
+            xi_test: true
             startup_checks: true
           - runner: ubuntu-26.04
             test_modules: false
             multi_process: false
-            xi_test: false
+            xi_test: true
             startup_checks: true
     uses: ./.github/workflows/runner_test.yml
     with:

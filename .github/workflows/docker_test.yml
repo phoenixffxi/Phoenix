@@ -101,6 +101,10 @@ jobs:
             --env XI_NETWORK_SQL_PASSWORD=${{ env.XI_NETWORK_SQL_PASSWORD }} \
             "${{ env.image_name }}"
 
+      # The servers log an error for each missing entry, which fails the startup checks.
+      - name: Drop missing init.txt entries
+        run: python ./tools/ci/drop_missing_modules.py
+
       - name: Enable modules
         if: ${{ inputs.test_modules }}
         run: |
@@ -118,7 +122,7 @@ jobs:
       - name: Run xi_test
         id: xi_test
         continue-on-error: true
-        run: docker exec test-server /bin/bash -c './xi_test --keep-going --retry 5 --output log/tests.ctrf.json'
+        run: docker exec test-server /bin/bash -c 'python ./tools/ci/run_xi_test.py --keep-going --retry 5 --output log/tests.ctrf.json'
 
       - name: Publish Test Report
         if: ${{ !cancelled() }}

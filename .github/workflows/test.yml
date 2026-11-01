@@ -103,14 +103,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runner: [windows-2025, macos-26]
+        runner: [windows-2025] # No macOS: Phoenix never runs on macOS.
     uses: ./.github/workflows/runner_test.yml
     with:
       runner: ${{ matrix.runner }}
       build_type: Release
       test_modules: false
       multi_process: true
-      xi_test: false
+      xi_test: true
       startup_checks: true
 
   Docker_Test:
