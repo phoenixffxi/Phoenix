@@ -1,9 +1,11 @@
 #!/usr/bin/python
 
+import hashlib  # [Phoenix] Launch Token
 import importlib
 import mariadb
 import os
 import platform
+import secrets  # [Phoenix] Launch Token
 import signal
 import subprocess
 import sys
@@ -97,15 +99,13 @@ def setup_test_character():
         cur.execute("REPLACE INTO char_stats (charid, mjob) VALUES(1, 1);")
 
         # Place near some Robber Crabs in Kuftal Tunnel
-        cur.execute(
-            "UPDATE chars SET \
+        cur.execute("UPDATE chars SET \
             pos_zone = 174, \
             pos_prevzone = 174, \
             pos_x = 55, \
             pos_y = -9, \
             pos_z = -140 \
-        WHERE charid = 1;"
-        )
+        WHERE charid = 1;")
 
         # Set GodMode
         cur.execute(
@@ -118,6 +118,17 @@ def setup_test_character():
     except:
         print("An error occurred.")
         return -1
+
+
+# [Phoenix] Launch Token: password logins are refused, so log in the way the launcher does
+def mint_launch_token(accid):
+    token = secrets.token_hex(32)
+    cur.execute(
+        "INSERT INTO accounts_login_tokens (token, accid, expires) VALUES (?, ?, NOW() + INTERVAL 5 MINUTE)",
+        (hashlib.sha256(token.encode()).hexdigest(), accid),
+    )
+    db.commit()
+    return token
 
 
 def kill(process):
@@ -320,7 +331,9 @@ def main():
                 if not cur:
                     connect()
                 setup_test_character()
-                hxi_client = HXIClient("admin1", "admin1", "localhost")
+                hxi_client = HXIClient(
+                    "admin1", "admin1", "localhost", login_token=mint_launch_token(1000)
+                )
 
                 print("Logging in test character...")
                 hxi_client.login()

@@ -24,6 +24,7 @@
 
 #include "common/cert_helpers.h"
 #include "common/console_service.h"
+#include "common/settings.h" // [Phoenix] Launch Token
 #include "connect_engine.h"
 
 namespace
@@ -50,6 +51,17 @@ auto ConnectApplication::createEngine() -> std::unique_ptr<Engine>
 {
     certificateHelpers::generateSelfSignedCert();
     loginHelpers::loadZoneLookups();
+
+    // [Phoenix] Launch Token
+    if (settings::get<bool>("login.PHOENIX_REQUIRE_LAUNCH_TOKEN"))
+    {
+        ShowInfo("Launch tokens are required: password logins are refused.");
+    }
+    else
+    {
+        ShowWarning("Launch tokens are NOT required: password logins are accepted (login.PHOENIX_REQUIRE_LAUNCH_TOKEN is off).");
+    }
+
     return std::make_unique<ConnectEngine>(scheduler_, zmqService_);
 }
 
