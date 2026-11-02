@@ -20,6 +20,14 @@ local content = BattlefieldQuest:new({
     requiredValue = 0,
 })
 
+function content:checkRequirements(player, npc, isRegistrant, trade)
+    if isRegistrant then
+        return BattlefieldQuest.checkRequirements(self, player, npc, isRegistrant, trade)
+    end
+
+    return self:isValidEntry(player, npc)
+end
+
 function content:battlefieldEntry(player, battlefield)
     local additionalEntered = battlefield:getPlayerCount() - 1
 

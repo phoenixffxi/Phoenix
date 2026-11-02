@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include "common/macros.h"
 #include <asio/ts/internet.hpp>
 #include <common/logging.h>
 #include <deque>
@@ -51,6 +52,8 @@ class SearchHandler : public std::enable_shared_from_this<SearchHandler>
 public:
     SearchHandler(Scheduler& scheduler, asio::ip::tcp::socket socket, SynchronizedShared<std::map<std::string, uint16_t>>& IPAddressesInUseList, SynchronizedShared<std::unordered_set<std::string>>& IPAddressWhitelist);
     ~SearchHandler();
+
+    DISALLOW_COPY_AND_MOVE(SearchHandler);
     auto run() -> Task<void>;
 
 private:
@@ -71,7 +74,7 @@ private:
     void HandleAuctionHouseRequest();
     void HandleAuctionHouseHistory();
 
-    auto _HandleSearchRequest(uint16_t length) -> SearchRequest;
+    auto ParseSearchRequest(uint16_t length) -> SearchRequest;
     void SendPlayersList(const SearchRequest& sr);
 
     Scheduler&               scheduler_;

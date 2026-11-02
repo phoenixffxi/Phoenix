@@ -23,6 +23,7 @@
 
 #include <array>
 #include <string>
+#include <utility>
 #include <variant>
 #include <vector>
 
@@ -54,6 +55,7 @@ enum ROE_EVENT
     ROE_MAGICBURST          = 16,
     ROE_HEAL_UNITYALLY      = 17,
     ROE_TALK_NPC            = 18,
+    ROE_AUCTION_LISTING     = 19,
     ROE_NONE // End of enum marker and OOB checkpost. Do not move or remove, place any new types above.
 };
 
@@ -76,18 +78,20 @@ using RecordTimetable_W = std::array<RecordTimetable_D, 7>;
 
 struct RoeSystemData
 {
-    RecordTimetable_W        TimedRecordTable;
-    xi::bitset<4096>         ImplementedRecords;
-    xi::bitset<4096>         RepeatableRecords;
-    xi::bitset<4096>         RetroactiveRecords;
-    xi::bitset<4096>         HiddenRecords;
-    xi::bitset<4096>         DailyRecords;
+    RecordTimetable_W        TimedRecordTable{};
+    xi::bitset<4096>         ImplementedRecords{};
+    xi::bitset<4096>         RepeatableRecords{};
+    xi::bitset<4096>         RetroactiveRecords{};
+    xi::bitset<4096>         HiddenRecords{};
+    xi::bitset<4096>         DailyRecords{};
     std::vector<uint16>      DailyRecordIDs;
-    xi::bitset<4096>         WeeklyRecords;
+    xi::bitset<4096>         WeeklyRecords{};
     std::vector<uint16>      WeeklyRecordIDs;
-    xi::bitset<4096>         UnityRecords;
+    xi::bitset<4096>         MonthlyRecords{};
+    std::vector<uint16>      MonthlyRecordIDs;
+    xi::bitset<4096>         UnityRecords{};
     std::vector<uint16>      UnityRecordIDs;
-    xi::bitset<4096>         TimedRecords;
+    xi::bitset<4096>         TimedRecords{};
     std::array<uint32, 4096> NotifyThresholds    = {};
     uint8                    unityLeaderRank[11] = {}; // 0..10 for Unity Leader, stores rank position
 
@@ -111,20 +115,20 @@ struct RoeDatagram
     std::string        luaKey;
     RoeDatagramPayload data;
 
-    RoeDatagram(const std::string& param, uint32 payload)
-    : luaKey{ param }
+    RoeDatagram(std::string param, uint32 payload)
+    : luaKey{ std::move(param) }
     , data{ payload }
     {
     }
 
-    RoeDatagram(const std::string& param, CMobEntity* payload)
-    : luaKey{ param }
+    RoeDatagram(std::string param, CMobEntity* payload)
+    : luaKey{ std::move(param) }
     , data{ payload }
     {
     }
 
-    RoeDatagram(const std::string& param, const std::string& payload)
-    : luaKey{ param }
+    RoeDatagram(std::string param, const std::string& payload)
+    : luaKey{ std::move(param) }
     , data{ payload }
     {
     }
@@ -161,6 +165,8 @@ void ClearDailyRecords(CCharEntity* PChar);
 void CycleDailyRecords();
 void ClearWeeklyRecords(CCharEntity* PChar);
 void CycleWeeklyRecords();
+void ClearMonthlyRecords(CCharEntity* PChar);
+void CycleMonthlyRecords();
 void CycleUnityRankings();
 void UpdateUnityRankings();
 void UpdateUnityTrust(CCharEntity* PChar, bool sendUpdate = false);

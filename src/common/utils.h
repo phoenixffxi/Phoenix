@@ -36,6 +36,7 @@
 
 // Ahead of <math.h> (not <cmath>)
 #ifndef _USE_MATH_DEFINES
+// NOLINTNEXTLINE(bugprone-reserved-identifier): required platform macro.
 #define _USE_MATH_DEFINES
 #endif // _USE_MATH_DEFINES
 #include <math.h>
@@ -180,7 +181,7 @@ void crash();
 void hang();
 
 template <typename T>
-auto sorted_directory_iterator(std::string path_name) -> std::set<std::filesystem::path>
+auto sorted_directory_iterator(const std::string& path_name) -> std::set<std::filesystem::path>
 {
     std::set<std::filesystem::path> sorted_by_name;
     for (auto& entry : T(path_name))
@@ -209,6 +210,7 @@ template <typename T>
 auto getRandomSampleString(T min, T max) -> std::string
 {
     std::vector<T> randomNumbers;
+    randomNumbers.reserve(3);
     for (int i = 0; i < 3; i++)
     {
         randomNumbers.push_back(xirand::GetRandomNumber(min, max));

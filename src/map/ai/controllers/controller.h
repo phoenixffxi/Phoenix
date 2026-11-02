@@ -22,6 +22,7 @@
 #pragma once
 
 #include "common/cbasetypes.h"
+#include "common/macros.h"
 #include "common/mmo.h"
 #include "common/scheduler.h"
 #include "common/timer.h"
@@ -34,9 +35,11 @@ class CController
 public:
     using IgnoreRecastsAndCosts = xi::Flag<struct IgnoreRecastsAndCostsTag>;
 
-    CController(CBattleEntity* _POwner);
+    CController(CBattleEntity* owner);
 
     virtual ~CController();
+
+    DISALLOW_COPY_AND_MOVE(CController);
 
     virtual auto Tick(timer::time_point tick) -> Task<void> = 0;
     virtual void Despawn();
