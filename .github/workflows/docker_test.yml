@@ -33,6 +33,18 @@ jobs:
       XI_NETWORK_SQL_DATABASE: xidb
       XI_NETWORK_SQL_LOGIN: xiadmin
       XI_NETWORK_SQL_PASSWORD: 'password'
+      # Phoenix's era: WotG and later off, level 75. Era overrides only apply with these.
+      XI_MAIN_RESTRICT_CONTENT: 1
+      XI_MAIN_ENABLE_WOTG: 0
+      XI_MAIN_ENABLE_ACP: 0
+      XI_MAIN_ENABLE_AMK: 0
+      XI_MAIN_ENABLE_ASA: 0
+      XI_MAIN_ENABLE_ABYSSEA: 0
+      XI_MAIN_ENABLE_SOA: 0
+      XI_MAIN_ENABLE_ROV: 0
+      XI_MAIN_ENABLE_TVR: 0
+      XI_MAIN_ENABLE_VOIDWATCH: 0
+      XI_MAIN_MAX_LEVEL: 75
       # Placeholder values. Actual values set in the first step.
       REPO_OWNER: 'landsandboat'
       REPO: 'landsandboat/server'
@@ -99,6 +111,7 @@ jobs:
             --env XI_NETWORK_SQL_DATABASE=${{ env.XI_NETWORK_SQL_DATABASE }} \
             --env XI_NETWORK_SQL_LOGIN=${{ env.XI_NETWORK_SQL_LOGIN }} \
             --env XI_NETWORK_SQL_PASSWORD=${{ env.XI_NETWORK_SQL_PASSWORD }} \
+            $(for name in ${!XI_MAIN_@}; do echo "--env $name"; done) \
             "${{ env.image_name }}"
 
       # The servers log an error for each missing entry, which fails the startup checks.

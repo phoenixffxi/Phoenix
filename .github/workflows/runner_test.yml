@@ -57,6 +57,18 @@ jobs:
       XI_NETWORK_SQL_DATABASE: xidb
       XI_NETWORK_SQL_LOGIN: xiadmin
       XI_NETWORK_SQL_PASSWORD: 'password'
+      # Phoenix's era: WotG and later off, level 75. Era overrides only apply with these.
+      XI_MAIN_RESTRICT_CONTENT: 1
+      XI_MAIN_ENABLE_WOTG: 0
+      XI_MAIN_ENABLE_ACP: 0
+      XI_MAIN_ENABLE_AMK: 0
+      XI_MAIN_ENABLE_ASA: 0
+      XI_MAIN_ENABLE_ABYSSEA: 0
+      XI_MAIN_ENABLE_SOA: 0
+      XI_MAIN_ENABLE_ROV: 0
+      XI_MAIN_ENABLE_TVR: 0
+      XI_MAIN_ENABLE_VOIDWATCH: 0
+      XI_MAIN_MAX_LEVEL: 75
       ASAN_OPTIONS: halt_on_error=0:handle_abort=1:strict_string_checks=1:check_initialization_order=1:strict_init_order=1:quarantine_size_mb=2048:strip_path_prefix=${{ github.workspace }}/:log_path=${{ github.workspace }}/sanitizer.log
       UBSAN_OPTIONS: print_stacktrace=1:report_error_type=1:handle_abort=1:strip_path_prefix=${{ github.workspace }}/:suppressions=${{ github.workspace }}/sanitizers/ubsan.supp:log_path=${{ github.workspace }}/sanitizer.log
       TSAN_OPTIONS: halt_on_error=0:second_deadlock_stack=1:strip_path_prefix=${{ github.workspace }}/:log_path=${{ github.workspace }}/sanitizer.log

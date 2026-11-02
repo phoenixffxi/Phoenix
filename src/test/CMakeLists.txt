@@ -72,6 +72,8 @@ xi_add_executable(xi_test testserver.rc
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/roam_region_tests.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/scheduler_tests.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/transport_voyage_tests.cpp
+    # Phoenix module tests build here too: modules/ sources otherwise only reach xi_map, which has no Catch2.
+    ${CMAKE_SOURCE_DIR}/modules/phoenix/tests/fishingutils.cpp
 )
 add_dependencies(xi_test data_schema_generate)
 
@@ -88,6 +90,11 @@ target_link_libraries(xi_test_lib
 )
 
 target_link_libraries(xi_test PRIVATE xi_test_lib Catch2::Catch2)
+
+# Phoenix: build the init.txt C++ modules in too, so the tests run with what xi_map loads.
+xi_collect_modules(module_sources module_include_dirs module_cmakelists)
+target_sources(xi_test PRIVATE ${module_sources})
+target_include_directories(xi_test PRIVATE ${module_include_dirs})
 xi_precompile_headers(xi_test)
 
 if(TRACY_ENABLE)
