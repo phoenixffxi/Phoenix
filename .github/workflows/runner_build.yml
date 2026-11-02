@@ -341,6 +341,7 @@ jobs:
       # Configure writes the compile database and every generated source except the enum headers, which enum_codegen builds.
       # The header filter defaults to '.*' in clang-tidy 22.
       # ext/ and CPM headers are SYSTEM or dropped by the summary.
+      # Phoenix: modules/ too, for the C++ modules modules/init.txt builds.
       - name: Clang Tidy
         if: ${{ inputs.clang_tidy && env.SKIP_BUILD != 'true' }}
         env:
@@ -349,7 +350,7 @@ jobs:
           cmake --build build --target enum_codegen
           run-clang-tidy${{ env.clang_version }} -p build -j $(nproc) -quiet \
             -clang-tidy-binary "$RUNNER_TEMP/clang-tidy-cached" \
-            "^${GITHUB_WORKSPACE}/(src|build/generated)/" | tee clang_tidy.log
+            "^${GITHUB_WORKSPACE}/(src|modules|build/generated)/" | tee clang_tidy.log
 
       - name: Save clang-tidy cache
         if: ${{ !cancelled() && inputs.clang_tidy && env.SKIP_BUILD != 'true' }}

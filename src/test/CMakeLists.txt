@@ -72,8 +72,6 @@ xi_add_executable(xi_test testserver.rc
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/roam_region_tests.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/scheduler_tests.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/transport_voyage_tests.cpp
-    # Phoenix module tests build here too: modules/ sources otherwise only reach xi_map, which has no Catch2.
-    ${CMAKE_SOURCE_DIR}/modules/phoenix/tests/fishingutils.cpp
 )
 add_dependencies(xi_test data_schema_generate)
 

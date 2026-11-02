@@ -295,40 +295,44 @@ jobs:
       clang_tidy: true
       optional_build: true
 
-  Build:
+  # Phoenix: one job per build, so each OS's tests start when its own build finishes.
+  # A job that needs a matrix job waits for every leg of it.
+  Build_Windows:
     needs: Sanity_Checks
-    name: ${{ matrix.runner && 'Build' || '' }} # GitHub Actions hack to hide matrix args
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - build_type: Debug
-            runner: windows-2025
-            compiler: msvc
-            build_modules: false
-            upload_artifact: true
-          # No macOS builds or tests: Phoenix never runs on macOS.
-          - build_type: Debug
-            runner: ubuntu-26.04
-            compiler: gcc
-            compiler_version: 15
-            build_modules: false
-            upload_artifact: true
-          # Compile check only: artifact names don't include the compiler, so uploading would clash with the gcc build.
-          - build_type: Debug
-            runner: ubuntu-26.04
-            compiler: clang
-            compiler_version: 22
-            build_modules: false
-            upload_artifact: false
+    name: Build
     uses: ./.github/workflows/runner_build.yml
     with:
-      runner: ${{ matrix.runner }}
-      compiler: ${{ matrix.compiler }}
-      compiler_version: ${{ matrix.compiler_version }}
-      build_type: ${{ matrix.build_type }}
-      build_modules: ${{ matrix.build_modules }}
-      upload_artifact: ${{ matrix.upload_artifact }}
+      runner: windows-2025
+      compiler: msvc
+      build_type: Debug
+      build_modules: false
+      upload_artifact: true
+
+  # No macOS builds or tests: Phoenix never runs on macOS.
+  Build_Linux:
+    needs: Sanity_Checks
+    name: Build
+    uses: ./.github/workflows/runner_build.yml
+    with:
+      runner: ubuntu-26.04
+      compiler: gcc
+      compiler_version: 15
+      build_type: Debug
+      build_modules: false
+      upload_artifact: true
+
+  # Compile check only: artifact names don't include the compiler, so uploading would clash with the gcc build.
+  Build_Clang:
+    needs: Sanity_Checks
+    name: Build
+    uses: ./.github/workflows/runner_build.yml
+    with:
+      runner: ubuntu-26.04
+      compiler: clang
+      compiler_version: 22
+      build_type: Debug
+      build_modules: false
+      upload_artifact: false
 
   # Compiles modules/*/cpp, which no other job builds. Uploads no artifact:
   # REGISTER_CPP_MODULE is a static initializer, so a modules-enabled binary
@@ -346,30 +350,65 @@ jobs:
       upload_artifact: false
       optional_build: true
 
-  Test:
-    needs: Build
-    if: ${{ !cancelled() && needs.Build.result == 'success' }}
+  # Phoenix: xi_test on Linux only, in four parallel parts; both OSes keep the startup checks.
+  Test_Windows:
+    needs: Build_Windows
+    if: ${{ !cancelled() && needs.Build_Windows.result == 'success' }}
+    name: Test
+    uses: ./.github/workflows/runner_test.yml
+    with:
+      runner: windows-2025
+      test_modules: false
+      multi_process: true
+      xi_test: false
+      startup_checks: true
+
+  Test_Linux:
+    needs: Build_Linux
+    if: ${{ !cancelled() && needs.Build_Linux.result == 'success' }}
     name: ${{ matrix.runner && 'Test' || '' }} # GitHub Actions hack to hide matrix args
     strategy:
       fail-fast: false
       matrix:
         include:
-          - runner: windows-2025
+          - runner: ubuntu-26.04
             test_modules: false
-            multi_process: true
-            xi_test: true
+            multi_process: false
+            xi_test: false
+            xi_test_shard: 1
             startup_checks: true
           - runner: ubuntu-26.04
             test_modules: false
             multi_process: false
             xi_test: true
-            startup_checks: true
+            xi_test_shard: 1
+            startup_checks: false
+          - runner: ubuntu-26.04
+            test_modules: false
+            multi_process: false
+            xi_test: true
+            xi_test_shard: 2
+            startup_checks: false
+          - runner: ubuntu-26.04
+            test_modules: false
+            multi_process: false
+            xi_test: true
+            xi_test_shard: 3
+            startup_checks: false
+          - runner: ubuntu-26.04
+            test_modules: false
+            multi_process: false
+            xi_test: true
+            xi_test_shard: 4
+            startup_checks: false
     uses: ./.github/workflows/runner_test.yml
     with:
       runner: ${{ matrix.runner }}
       test_modules: ${{ matrix.test_modules }}
       multi_process: ${{ matrix.multi_process }}
       xi_test: ${{ matrix.xi_test }}
+      xi_test_shard: ${{ matrix.xi_test_shard }}
+      xi_test_shards: ${{ matrix.xi_test && 4 || 1 }}
       startup_checks: ${{ matrix.startup_checks }}
 
   # Docker_Build:

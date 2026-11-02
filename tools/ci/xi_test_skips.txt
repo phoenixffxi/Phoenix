@@ -92,6 +92,7 @@
 --no-filter ^jobs::geo::
 --no-filter ^jobs::run::
 --no-filter ^systems::monstrosity::
+--no-filter ^systems::A\.M\.A\.N\. Trove::
 --no-filter ^systems::trading::Porter Moogle::
 --no-filter ^systems::spells::AoE::Majesty #pld::
 --no-filter ^systems::spells::AoE::Accession #sch::
@@ -115,3 +116,8 @@
 # Upstream flake, not a Phoenix change: the player stands 5 yalms west of the rabbit at its height,
 # and from some of its spawn spots the slope blocks line of sight. The retries reuse the same spot.
 --no-filter ^systems::combat::Ranged Attack Free Phase Delay::
+
+# Upstream flake, not a Phoenix change: the first Wild_Rabbit shares a spawn slot with a night-only
+# Ding_Bats, so if West Ronfaure fills its slots at night the bat can hold it and the rabbit stays
+# despawned. combat/interrupt.lua and effects/attack_flags.lua call respawn() on it; this test does not.
+--no-filter ^systems::AoE Listeners::

@@ -27,6 +27,16 @@ on:
         required: false
         type: boolean
         default: true
+      xi_test_shard:
+        description: 'Which part of xi_test to run, from 1 to xi_test_shards.'
+        required: false
+        type: number
+        default: 1
+      xi_test_shards:
+        description: 'Split xi_test into this many parts, balanced by tools/ci/xi_test_durations.json.'
+        required: false
+        type: number
+        default: 1
       startup_checks:
         description: 'Run startup checks.'
         required: false
@@ -40,7 +50,7 @@ on:
 
 jobs:
   Runner_Test:
-    name: ${{ format('{0}', inputs.runner) }}
+    name: ${{ inputs.xi_test_shards > 1 && format('{0} xi_test {1} of {2}', inputs.runner, inputs.xi_test_shard, inputs.xi_test_shards) || format('{0}', inputs.runner) }}
     runs-on: ${{ inputs.runner }}
     permissions:
       contents: read         # Read repository contents
@@ -206,7 +216,7 @@ jobs:
         if: ${{ inputs.xi_test }}
         id: xi_test
         continue-on-error: true
-        run: python ./tools/ci/run_xi_test.py --keep-going --retry 5 --output tests.ctrf.json
+        run: python ./tools/ci/run_xi_test.py --keep-going --retry 5 --output tests.ctrf.json ${{ inputs.xi_test_shards > 1 && format('--shard {0}/{1}', inputs.xi_test_shard, inputs.xi_test_shards) || '' }}
 
       - name: Publish Test Report
         if: ${{ !cancelled() && inputs.xi_test }}
@@ -219,10 +229,10 @@ jobs:
           summary: true
           pull-request: false
           status-check: ${{ github.event_name != 'pull_request' }}
-          status-check-name: 'xi_test (${{ inputs.runner }}, ${{ inputs.build_type }})'
+          status-check-name: "xi_test (${{ inputs.runner }}, ${{ inputs.build_type }}${{ inputs.xi_test_shards > 1 && format(', {0} of {1}', inputs.xi_test_shard, inputs.xi_test_shards) || '' }})"
           annotate: true
           upload-artifact: true
-          artifact-name: 'xi_test-ctrf-${{ runner.os }}-${{ inputs.build_type }}'
+          artifact-name: "xi_test-ctrf-${{ runner.os }}-${{ inputs.build_type }}${{ inputs.xi_test_shards > 1 && format('-{0}', inputs.xi_test_shard) || '' }}"
 
       - name: Upload sanitizer reports
         if: ${{ always() && contains(fromJSON('["ASAN", "UBSAN", "TSAN"]'), inputs.build_type) }}
