@@ -12,3 +12,9 @@ CREATE INDEX IF NOT EXISTS `idx_gil_char_date`
 
 CREATE INDEX IF NOT EXISTS `idx_vendor_direction_date_item`
     ON `audit_vendor` (`direction`, `date`, `itemid`, `quantity`, `applied_gil`);
+
+CREATE INDEX IF NOT EXISTS `idx_ah_price_stats`
+    ON `auction_house` (`itemid`, `stack`, `sell_date`, `id`, `sale`);
+
+CREATE INDEX IF NOT EXISTS `idx_dbox_receiver_date`
+    ON `audit_dbox` (`receiver`, `date`);
