@@ -19,6 +19,10 @@ CREATE TABLE IF NOT EXISTS `char_fishing_history` (
   KEY `caught_at` (`caught_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- Cover the retained days used to reconstruct account-wide daily caps.
+CREATE INDEX IF NOT EXISTS `idx_fishing_history_day`
+    ON `char_fishing_history` (`caught_at`, `charid`, `itemid`);
+
 --
 -- Table structure for table `char_fishing_records`
 -- Lifetime totals per angler, never pruned
