@@ -139,8 +139,6 @@ auto getFishingRecords(const std::string& charName) -> sol::table
     return records;
 }
 
-} // namespace
-
 class FishingHistoryModule : public CPPModule
 {
     void OnInit() override
@@ -155,5 +153,7 @@ class FishingHistoryModule : public CPPModule
         ::lua.set_function("GetFishingRecords", getFishingRecords);
     }
 };
+
+} // namespace
 
 REGISTER_CPP_MODULE(FishingHistoryModule);

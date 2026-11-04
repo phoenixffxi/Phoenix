@@ -17,6 +17,6 @@ describe('Stable area NPCs', function()
         player.entities:gotoAndTrigger('Ferdoulemiont')
 
         assert(prices[xi.item.BUNCH_OF_GYSAHL_GREENS], 'Ferdoulemiont\'s shop did not open')
-        assert(prices[xi.item.SCROLL_OF_KNIGHTS_MINNE_V] == nil, 'Knight\'s Minne V is still for sale')
+        assert(not prices[xi.item.SCROLL_OF_KNIGHTS_MINNE_V], 'Knight\'s Minne V is still for sale')
     end)
 end)

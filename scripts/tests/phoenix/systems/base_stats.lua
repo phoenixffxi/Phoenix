@@ -400,8 +400,8 @@ local subjobStats =
     },
 }
 
--- Prints each attribute that differs and returns how many did.
-local function countDiffs(player, expected, description)
+-- Lists each attribute that differs from the expected values.
+local function statDiffs(player, expected)
     local diffs = {}
     for i, attribute in ipairs(attributes) do
         local actual = player:getStat(attribute[1])
@@ -410,36 +410,33 @@ local function countDiffs(player, expected, description)
         end
     end
 
-    if #diffs > 0 then
-        print(description .. ': ' .. table.concat(diffs, ', '))
-    end
-
-    return #diffs
+    return diffs
 end
 
 describe('Base stats', function()
     it('Job stats', function()
-        local failed = 0
+        local failures = {}
         for race, jobs in pairs(jobStats) do
             for job, levels in pairs(jobs) do
                 local player = xi.test.world:spawnPlayer({ race = race, job = job })
                 for level = 1, 75 do
                     if levels[level] then
                         player:setLevel(level)
-                        local description = raceNames[race] .. ' ' .. jobNames[job] .. ' ' .. tostring(level)
-                        if countDiffs(player, levels[level], description) > 0 then
-                            failed = failed + 1
+                        local diffs = statDiffs(player, levels[level])
+                        if #diffs > 0 then
+                            local description = raceNames[race] .. ' ' .. jobNames[job] .. ' ' .. tostring(level)
+                            table.insert(failures, description .. ': ' .. table.concat(diffs, ', '))
                         end
                     end
                 end
             end
         end
 
-        assert(failed == 0, 'Era job stats failed: ' .. tostring(failed))
+        assert(#failures == 0, 'Era job stats failed:\n' .. table.concat(failures, '\n'))
     end)
 
     it('Subjob stats', function()
-        local failed = 0
+        local failures = {}
         for race, mainJobs in pairs(subjobStats) do
             for mainJob, subJobs in pairs(mainJobs) do
                 for subJob, expected in pairs(subJobs) do
@@ -447,14 +444,15 @@ describe('Base stats', function()
                     player:changesJob(subJob)
                     player:setsLevel(37)
 
-                    local description = raceNames[race] .. ' ' .. jobNames[mainJob] .. '/' .. jobNames[subJob]
-                    if countDiffs(player, expected, description) > 0 then
-                        failed = failed + 1
+                    local diffs = statDiffs(player, expected)
+                    if #diffs > 0 then
+                        local description = raceNames[race] .. ' ' .. jobNames[mainJob] .. '/' .. jobNames[subJob]
+                        table.insert(failures, description .. ': ' .. table.concat(diffs, ', '))
                     end
                 end
             end
         end
 
-        assert(failed == 0, 'Era subjob stats failed: ' .. tostring(failed))
+        assert(#failures == 0, 'Era subjob stats failed:\n' .. table.concat(failures, '\n'))
     end)
 end)

@@ -38,12 +38,7 @@ class PacketCapModule : public CPPModule
 public:
     void OnInit() override
     {
-        // Optional setting: looking up a key that settings/logging.lua lacks logs an error
-        if (settings::settingsMap.contains("logging.PACKET_CAPTURE_DIR"))
-        {
-            captureDir_ = settings::get<std::string>("logging.PACKET_CAPTURE_DIR");
-        }
-
+        captureDir_ = settings::get<std::string>("logging.PACKET_CAPTURE_DIR");
         if (captureDir_.empty())
         {
             captureDir_ = DEFAULT_CAPTURE_DIR;

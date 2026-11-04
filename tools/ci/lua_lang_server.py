@@ -166,10 +166,7 @@ log_path = os.path.abspath(log_path)
 scripts_path = os.path.abspath(scripts_path)
 modules_path = os.path.abspath(modules_path)
 
-threads = os.cpu_count() or 1
-partial_paths = [os.path.join(log_path, f"check-partial-{i}.json") for i in range(1, threads + 1)]
-
-check_command = f'{lua_server_path} --loglevel="trace" --logpath="{log_path}" --check_format="json" --configpath="{config_path}" --checklevel="Information" --check="{scripts_path}" --num_threads={threads}'
+check_command = f'{lua_server_path} --loglevel="trace" --logpath="{log_path}" --check_format="json" --configpath="{config_path}" --checklevel="Information" --check="{scripts_path}"'
 
 if args.force and os.path.exists("./check.json"):
     print("Force flag is enabled, removing existing check.json.")
@@ -182,17 +179,7 @@ if os.path.exists("./check.json"):
 else:
     print(f"Running LuaLS with config: {config_path}")
     print(check_command)
-    for partial_path in partial_paths:
-        if os.path.exists(partial_path):
-            os.remove(partial_path)
-
     os.system(check_command)
-
-    # A worker that dies writes no partial result, and the merged check.json then reads as clean.
-    missing = [path for path in partial_paths if not os.path.exists(path)]
-    if threads > 1 and missing:
-        print(f"LuaLS workers wrote no results: {', '.join(missing)}")
-        exit(1)
 
 
 parsed_data = []

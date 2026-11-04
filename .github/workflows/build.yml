@@ -4,17 +4,14 @@ on:
   push:
     branches:
       - base
+      # Phoenix start: PRs into beta reuse these builds' caches.
       - beta
+      # Phoenix end
   workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
   cancel-in-progress: true
-
-# The repo token defaults to read-only, and a called workflow cannot ask for more than this.
-permissions:
-  contents: read
-  packages: write
 
 jobs:
   Clang_Tidy:
@@ -49,10 +46,25 @@ jobs:
             save_cache: false
             upload_artifact: true
             clang_tidy: false
-          # No macOS builds
+          - build_type: Release
+            runner: macos-26
+            compiler: appleClang
+            tracy: false
+            build_modules: false
+            save_cache: false
+            upload_artifact: true
+            clang_tidy: false
           - build_type: Debug
             runner: windows-2025
             compiler: msvc
+            tracy: false
+            build_modules: false
+            save_cache: true
+            upload_artifact: false
+            clang_tidy: false
+          - build_type: Debug
+            runner: macos-26
+            compiler: appleClang
             tracy: false
             build_modules: false
             save_cache: true

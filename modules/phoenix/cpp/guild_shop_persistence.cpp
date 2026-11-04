@@ -65,8 +65,6 @@ enum class State : uint8
     Disarmed,
 };
 
-} // namespace
-
 class GuildShopPersistenceModule : public CPPModule
 {
 public:
@@ -266,5 +264,7 @@ private:
 
     std::vector<ShopRow> pending_;
 };
+
+} // namespace
 
 REGISTER_CPP_MODULE(GuildShopPersistenceModule);

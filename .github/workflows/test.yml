@@ -13,13 +13,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
   cancel-in-progress: true
 
-permissions:
-  contents: read
-  checks: write
-  pull-requests: write
-  actions: read
-  statuses: write
-
 jobs:
   Sanity_Checks:
     name: Sanity Checks
@@ -103,7 +96,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runner: [windows-2025] # No macOS: Phoenix never runs on macOS.
+        runner: [windows-2025, macos-26]
     uses: ./.github/workflows/runner_test.yml
     with:
       runner: ${{ matrix.runner }}

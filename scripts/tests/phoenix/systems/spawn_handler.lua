@@ -1,5 +1,5 @@
 -----------------------------------
--- Phoenix versions of the Spawn Handler cases tools/ci/xi_test_skips.txt leaves out.
+-- Phoenix versions of the Spawn Handler cases tools/ci/phoenix/xi_test_skips.md leaves out.
 -- custom/lua/claim_shield.lua keeps listed NMs unkillable for 5 seconds after they spawn,
 -- and phoenix/data/zones gives Quicksand Caves mobs a 960 second era respawn.
 -----------------------------------

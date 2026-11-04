@@ -1,9 +1,7 @@
 -----------------------------------
--- Phoenix versions of the BATTLE2 cases tools/ci/xi_test_skips.txt leaves out.
--- Old-school Dynamis (phoenix/data/zones/dynamis_*) spawns its mobs on entry rather than at zone load,
--- and can eject a test player mid-fight, so the guard and parry cases fight Qufim Island's Giants instead.
--- The player is level 75 with era weapon skills, and era jug pets use Sic instead of Ready
--- (era/lua/globals/pets/jug.lua). Expected packets are upstream's wherever the action is the same.
+-- Phoenix versions of the BATTLE2 cases skipped in tools/ci/phoenix/xi_test_skips.md.
+-- The guard and parry cases fight Qufim Island Giants because old-school Dynamis spawns its mobs on entry and can eject the player.
+-- The player is level 75 with era weapon skills, and jug pets use Sic instead of Ready.
 -----------------------------------
 local ph           = require('scripts.tests.packets.s2c.0x028_battle2.placeholders')
 local basicAttacks = require('scripts.tests.packets.s2c.0x028_battle2.basic_attacks')
@@ -350,14 +348,15 @@ describe('BATTLE2', function()
                         local closest = nil
                         for _, action in pairs(received) do
                             local diffs = diffPacket(action, expectedPacket, 'action', phValues)
-                            if closest == nil or #diffs < #closest then
+                            if not closest or #diffs < #closest then
                                 closest = diffs
                             end
                         end
 
-                        if closest == nil or #closest > 0 then
-                            table.insert(unmatched, index)
-                            print('Expected #' .. tostring(index) .. ' closest diffs: ' .. (closest and table.concat(closest, '; ') or 'no packets'))
+                        if not closest then
+                            table.insert(unmatched, '#' .. tostring(index) .. ' (no packets)')
+                        elseif #closest > 0 then
+                            table.insert(unmatched, '#' .. tostring(index) .. ' (closest diffs: ' .. table.concat(closest, '; ') .. ')')
                         end
                     end
 

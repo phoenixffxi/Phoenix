@@ -102,16 +102,6 @@ jobs:
         with:
           fetch-depth: 1
 
-      # Core edits kept as patches; the committed modules need them to compile.
-      # Read from the commit: Windows checks the file out as CRLF and it no longer applies.
-      - name: Apply temp patches
-        if: ${{ env.SKIP_BUILD != 'true' }}
-        run: |
-          for patch in $(git ls-files 'modules/temp_patch/*.patch'); do
-            echo "Applying $patch"
-            git show "HEAD:$patch" | git apply -v -
-          done
-
       - name: Install dependencies (macOS)
         if: ${{ runner.os == 'macOS' && env.SKIP_BUILD != 'true' }}
         run: |
@@ -341,16 +331,17 @@ jobs:
       # Configure writes the compile database and every generated source except the enum headers, which enum_codegen builds.
       # The header filter defaults to '.*' in clang-tidy 22.
       # ext/ and CPM headers are SYSTEM or dropped by the summary.
-      # Phoenix: modules/ too, for the C++ modules modules/init.txt builds.
       - name: Clang Tidy
         if: ${{ inputs.clang_tidy && env.SKIP_BUILD != 'true' }}
         env:
           clang_version: ${{ inputs.compiler_version && format('-{0}', inputs.compiler_version) || '' }}
         run: |
           cmake --build build --target enum_codegen
+          # Phoenix start: the era and phoenix modules added to the path filter.
           run-clang-tidy${{ env.clang_version }} -p build -j $(nproc) -quiet \
             -clang-tidy-binary "$RUNNER_TEMP/clang-tidy-cached" \
-            "^${GITHUB_WORKSPACE}/(src|modules|build/generated)/" | tee clang_tidy.log
+            "^${GITHUB_WORKSPACE}/(src|modules/(era|phoenix)|build/generated)/" | tee clang_tidy.log
+          # Phoenix end
 
       - name: Save clang-tidy cache
         if: ${{ !cancelled() && inputs.clang_tidy && env.SKIP_BUILD != 'true' }}
