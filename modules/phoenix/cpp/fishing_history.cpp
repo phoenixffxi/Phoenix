@@ -2,8 +2,7 @@
  * Fishing History
  *
  * Records every fish or item an angler lands into char_fishing_history
- * and exposes the most recent catches to Lua for GM commands. Needs the
- * fishing patch applied, which adds the observer slot.
+ * and exposes the most recent catches to Lua for GM commands.
  *
  * Also keeps lifetime records in char_fishing_records: lines cast, and the
  * longest and heaviest big fish landed.
@@ -12,6 +11,8 @@
  * - GetFishingHistory(charName, limit) - newest first, limit is clamped to 1-50
  * - GetFishingRecords(charName)        - lifetime records, zeros if the angler has none
  ************************************************************************/
+
+#include "fishing_hooks.h"
 
 #include "common/database.h"
 #include "common/earth_time.h"
@@ -63,15 +64,15 @@ void onLanded(const CCharEntity* PChar)
                      static_cast<uint16>(hooked.catchid));
 }
 
-void observe(const CCharEntity* PChar, const fishingutils::FishingEvent event, const uint32 /* para */)
+void observe(const CCharEntity* PChar, const fishinghooks::FishingEvent event, const uint32 /* para */)
 {
-    if (event == fishingutils::FishingEvent::Cast)
+    if (event == fishinghooks::FishingEvent::Cast)
     {
         onCast(PChar);
         return;
     }
 
-    if (event == fishingutils::FishingEvent::Landed && PChar->hookedFish != nullptr)
+    if (event == fishinghooks::FishingEvent::Landed && PChar->hookedFish != nullptr)
     {
         onLanded(PChar);
     }
@@ -148,7 +149,7 @@ class FishingHistoryModule : public CPPModule
 
         db::preparedStmt("DELETE FROM char_fishing_history WHERE caught_at < ?", earth_time::timestamp() - retentionSeconds);
 
-        fishingutils::AddFishingObserver(observe);
+        fishinghooks::AddFishingObserver(observe);
 
         ::lua.set_function("GetFishingHistory", getFishingHistory);
         ::lua.set_function("GetFishingRecords", getFishingRecords);
