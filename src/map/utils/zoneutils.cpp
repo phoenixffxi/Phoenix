@@ -21,6 +21,8 @@
 
 #include "zoneutils.h"
 
+#include "common/scheduler/task_utils.h"
+
 #include "ai/ai_container.h"
 #include "aman.h"
 #include "battlefield.h"
@@ -40,6 +42,7 @@
 #include "items/item_weapon.h"
 #include "itemutils.h"
 #include "lua/luautils.h"
+#include "map_engine.h"
 #include "map_networking.h"
 #include "mob_spell_list.h"
 #include "mobutils.h"
@@ -451,7 +454,12 @@ void InsertMobs(CZone* PZone, const xi::ZoneId zoneId, const xi::data::Mobs& mob
 namespace zoneutils
 {
 
+namespace
+{
+
 detail::LazyLoadState lazyLoad;
+
+} // namespace
 
 /************************************************************************
  *                                                                       *
@@ -655,6 +663,9 @@ auto IsZoneAssignedToThisProcess(const IPP mapIPP, const xi::ZoneId zoneId) -> b
     return std::ranges::contains(GetZonesAssignedToThisProcess(mapIPP), zoneId);
 }
 
+namespace
+{
+
 /************************************************************************
  *                                                                       *
  *  Upload a list of NPCs to the specified zone                          *
@@ -667,13 +678,14 @@ auto LoadNPCList(Scheduler& scheduler, const std::vector<xi::ZoneId>& zoneIds, c
 
     ShowInfo("Loading NPCs");
 
-    co_await Scheduler::TaskGroup(
+    co_await runOnWorkerThreads(
+        scheduler,
         zoneIds.size(),
         [&](auto& add)
         {
             for (const auto& [zoneId, records] : std::views::zip(zoneIds, parsed))
             {
-                add(scheduler.spawnOnWorkerThread(
+                add(
                     [zoneId, &records]()
                     {
                         TracyZoneScoped;
@@ -684,7 +696,7 @@ auto LoadNPCList(Scheduler& scheduler, const std::vector<xi::ZoneId>& zoneIds, c
                         {
                             InsertNPCs(PZone, zoneId, *npcs);
                         }
-                    }));
+                    });
             }
         });
 
@@ -766,13 +778,14 @@ auto LoadMOBList(Scheduler& scheduler, const std::vector<xi::ZoneId>& zoneIds, c
     const auto normalLevelRangeMin = settings::get<uint8>("main.NORMAL_MOB_MAX_LEVEL_RANGE_MIN");
     const auto normalLevelRangeMax = settings::get<uint8>("main.NORMAL_MOB_MAX_LEVEL_RANGE_MAX");
 
-    co_await Scheduler::TaskGroup(
+    co_await runOnWorkerThreads(
+        scheduler,
         zoneIds.size(),
         [&](auto& add)
         {
             for (const auto& [zoneId, records] : std::views::zip(zoneIds, parsed))
             {
-                add(scheduler.spawnOnWorkerThread(
+                add(
                     [normalLevelRangeMin, normalLevelRangeMax, zoneId, &records]()
                     {
                         TracyZoneScoped;
@@ -783,7 +796,7 @@ auto LoadMOBList(Scheduler& scheduler, const std::vector<xi::ZoneId>& zoneIds, c
                         {
                             InsertMobs(PZone, zoneId, *mobs, normalLevelRangeMin, normalLevelRangeMax);
                         }
-                    }));
+                    });
             }
         });
 
@@ -890,6 +903,8 @@ auto CreateZone(Scheduler& scheduler, MapConfig config, const xi::ZoneId ZoneID)
     return make(settings->Type, settings->LevelRestriction, settings);
 }
 
+} // namespace
+
 /************************************************************************
  *                                                                       *
  *  Initialization of zones. Revive all monsters at server start.        *
@@ -929,17 +944,18 @@ auto LoadZones(Scheduler& scheduler, MapConfig config, const std::vector<xi::Zon
     }
 
     // Phase 1: Load ximeshes (navmesh build depends on ximesh)
-    co_await Scheduler::TaskGroup(
+    co_await runOnWorkerThreads(
+        scheduler,
         zonesIdsToLoad.size(),
         [&](auto& add)
         {
             for (const auto zoneId : zonesIdsToLoad)
             {
-                add(scheduler.spawnOnWorkerThread(
+                add(
                     [zoneId]()
                     {
                         g_PZoneList[zoneId]->LoadXiMesh();
-                    }));
+                    });
             }
         });
 
@@ -955,20 +971,21 @@ auto LoadZones(Scheduler& scheduler, MapConfig config, const std::vector<xi::Zon
 
     std::vector<ZoneEntityFiles> parsed(zonesIdsToLoad.size());
 
-    co_await Scheduler::TaskGroup(
+    co_await runOnWorkerThreads(
+        scheduler,
         zonesIdsToLoad.size(),
         [&](auto& add)
         {
             for (size_t index = 0; index < zonesIdsToLoad.size(); ++index)
             {
-                add(scheduler.spawnOnWorkerThread(
+                add(
                     [zoneId = zonesIdsToLoad[index], &records = parsed[index]]()
                     {
                         TracyZoneScoped;
 
                         records.Npcs = xi::data::loadZoneFile<NpcsDataset>(zoneId);
                         records.Mobs = xi::data::loadZoneFile<MobsDataset>(zoneId);
-                    }));
+                    });
             }
         });
 
@@ -1514,7 +1531,7 @@ auto GetZoneIPP(xi::ZoneId zoneId) -> uint64
 {
     uint64 ipp = 0;
 
-    const auto query = "SELECT zoneip, zoneport FROM zone_settings WHERE zoneid = ?";
+    constexpr auto query = db::Query("SELECT zoneip, zoneport FROM zone_settings WHERE zoneid = ?");
 
     const auto rset = db::preparedStmt(query, zoneId);
     if (rset && rset->rowsCount() && rset->next())
