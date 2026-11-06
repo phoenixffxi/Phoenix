@@ -3,6 +3,7 @@
 -- xi_test only links C++ modules added to src/test/CMakeLists.txt, this skips itself otherwise
 -----------------------------------
 ---@diagnostic disable: undefined-field, undefined-global
+-- luacheck: globals GetFishingHistory GetFishingRecords GetFishingAttempts
 local ffi          = require('ffi')
 local packetReader = require('scripts.tests.helpers.packet_reader')
 
