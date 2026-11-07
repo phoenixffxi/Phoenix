@@ -58,7 +58,12 @@
 #include "packets/s2c/0x0ac_command_data.h"
 #include "zone.h"
 
+namespace
+{
+
 std::vector<Pet_t*> g_PPetList;
+
+} // namespace
 
 namespace petutils
 {
@@ -67,27 +72,28 @@ void LoadPetList()
 {
     FreePetList();
 
-    const auto query = "SELECT "
-                       "pet_list.petid, "
-                       "pet_list.name, "
-                       "modelid, "
-                       "minLevel, "
-                       "maxLevel, "
-                       "time, "
-                       "mob_pools.speciesid, "
-                       "mob_pools.mJob, "
-                       "mob_pools.sJob, "
-                       "mob_pools.cmbSkill,"
-                       "pet_list.element, "
-                       "hasSpellScript, spellList, "
-                       "slash_sdt, pierce_sdt, h2h_sdt, impact_sdt, "
-                       "magical_sdt, fire_sdt, ice_sdt, wind_sdt, earth_sdt, lightning_sdt, water_sdt, light_sdt, dark_sdt, "
-                       "fire_res_rank, ice_res_rank, wind_res_rank, earth_res_rank, lightning_res_rank, water_res_rank, light_res_rank, dark_res_rank, "
-                       "paralyze_res_rank, bind_res_rank, silence_res_rank, slow_res_rank, poison_res_rank, light_sleep_res_rank, dark_sleep_res_rank, blind_res_rank, stun_res_rank, gravity_res_rank, "
-                       "cmbDelay, name_prefix, mob_pools.skill_list_id, damageType, "
-                       "mob_pools.modelSize, mob_pools.modelHitboxSize "
-                       "FROM pet_list, mob_pools, mob_resistances "
-                       "WHERE pet_list.poolid = mob_pools.poolid AND mob_resistances.resist_id = mob_pools.resist_id";
+    constexpr auto query = db::Query(
+        "SELECT "
+        "pet_list.petid, "
+        "pet_list.name, "
+        "modelid, "
+        "minLevel, "
+        "maxLevel, "
+        "time, "
+        "mob_pools.speciesid, "
+        "mob_pools.mJob, "
+        "mob_pools.sJob, "
+        "mob_pools.cmbSkill,"
+        "pet_list.element, "
+        "hasSpellScript, spellList, "
+        "slash_sdt, pierce_sdt, h2h_sdt, impact_sdt, "
+        "magical_sdt, fire_sdt, ice_sdt, wind_sdt, earth_sdt, lightning_sdt, water_sdt, light_sdt, dark_sdt, "
+        "fire_res_rank, ice_res_rank, wind_res_rank, earth_res_rank, lightning_res_rank, water_res_rank, light_res_rank, dark_res_rank, "
+        "paralyze_res_rank, bind_res_rank, silence_res_rank, slow_res_rank, poison_res_rank, light_sleep_res_rank, dark_sleep_res_rank, blind_res_rank, stun_res_rank, gravity_res_rank, "
+        "cmbDelay, name_prefix, mob_pools.skill_list_id, damageType, "
+        "mob_pools.modelSize, mob_pools.modelHitboxSize "
+        "FROM pet_list, mob_pools, mob_resistances "
+        "WHERE pet_list.poolid = mob_pools.poolid AND mob_resistances.resist_id = mob_pools.resist_id");
 
     const auto rset = db::preparedStmt(query);
     FOR_DB_MULTIPLE_RESULTS(rset)
@@ -116,7 +122,7 @@ void LoadPetList()
         mobutils::ApplyStatRanks(*Pet, species.MobAttributes.Stats);
 
         Pet->hasSpellScript = rset->get<bool>("hasSpellScript");
-        Pet->spellList      = rset->get<uint8>("spellList");
+        Pet->spellList      = rset->get<uint16>("spellList");
 
         // Specific Dmage Taken, as a %
         Pet->slash_sdt  = rset->get<int16>("slash_sdt");
@@ -207,6 +213,9 @@ void RetreatToMaster(CBattleEntity* PMaster)
     }
 }
 
+namespace
+{
+
 auto GetJugBase(CPetEntity* PMob, uint8 rank) -> uint16
 {
     uint8 lvl = PMob->GetMLevel();
@@ -249,28 +258,6 @@ auto GetJugBase(CPetEntity* PMob, uint8 rank) -> uint16
             case 7:
                 return (uint16)(3 + (lvl - 1) * 2.3f);
         }
-    }
-    return 0;
-}
-
-auto GetBaseToRank(uint8 rank, uint16 lvl) -> uint16
-{
-    switch (rank)
-    {
-        case 1:
-            return (5 + ((lvl - 1) * 50) / 100);
-        case 2:
-            return (4 + ((lvl - 1) * 45) / 100);
-        case 3:
-            return (4 + ((lvl - 1) * 40) / 100);
-        case 4:
-            return (3 + ((lvl - 1) * 35) / 100);
-        case 5:
-            return (3 + ((lvl - 1) * 30) / 100);
-        case 6:
-            return (2 + ((lvl - 1) * 25) / 100);
-        case 7:
-            return (2 + ((lvl - 1) * 20) / 100);
     }
     return 0;
 }
@@ -371,31 +358,31 @@ void LoadJugStats(CPetEntity* PPet, Pet_t* petStats)
     }
 
     // Stat ranks from mob species
-    uint16 fSTR = GetBaseToRank(petStats->strRank, PPet->GetMLevel());
-    uint16 fDEX = GetBaseToRank(petStats->dexRank, PPet->GetMLevel());
-    uint16 fVIT = GetBaseToRank(petStats->vitRank, PPet->GetMLevel());
-    uint16 fAGI = GetBaseToRank(petStats->agiRank, PPet->GetMLevel());
-    uint16 fINT = GetBaseToRank(petStats->intRank, PPet->GetMLevel());
-    uint16 fMND = GetBaseToRank(petStats->mndRank, PPet->GetMLevel());
-    uint16 fCHR = GetBaseToRank(petStats->chrRank, PPet->GetMLevel());
+    uint16 fSTR = mobutils::GetBaseToRank(petStats->strRank, PPet->GetMLevel());
+    uint16 fDEX = mobutils::GetBaseToRank(petStats->dexRank, PPet->GetMLevel());
+    uint16 fVIT = mobutils::GetBaseToRank(petStats->vitRank, PPet->GetMLevel());
+    uint16 fAGI = mobutils::GetBaseToRank(petStats->agiRank, PPet->GetMLevel());
+    uint16 fINT = mobutils::GetBaseToRank(petStats->intRank, PPet->GetMLevel());
+    uint16 fMND = mobutils::GetBaseToRank(petStats->mndRank, PPet->GetMLevel());
+    uint16 fCHR = mobutils::GetBaseToRank(petStats->chrRank, PPet->GetMLevel());
 
     // Stat ranks from mob main job
-    uint16 mSTR = GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 2), PPet->GetMLevel());
-    uint16 mDEX = GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 3), PPet->GetMLevel());
-    uint16 mVIT = GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 4), PPet->GetMLevel());
-    uint16 mAGI = GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 5), PPet->GetMLevel());
-    uint16 mINT = GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 6), PPet->GetMLevel());
-    uint16 mMND = GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 7), PPet->GetMLevel());
-    uint16 mCHR = GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 8), PPet->GetMLevel());
+    uint16 mSTR = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 2), PPet->GetMLevel());
+    uint16 mDEX = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 3), PPet->GetMLevel());
+    uint16 mVIT = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 4), PPet->GetMLevel());
+    uint16 mAGI = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 5), PPet->GetMLevel());
+    uint16 mINT = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 6), PPet->GetMLevel());
+    uint16 mMND = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 7), PPet->GetMLevel());
+    uint16 mCHR = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 8), PPet->GetMLevel());
 
     // Jugs don't seem to have sub jobs but will still handle it here incase that ever changes in future.
-    uint16 sSTR = GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 2), sLvl);
-    uint16 sDEX = GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 3), sLvl);
-    uint16 sVIT = GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 4), sLvl);
-    uint16 sAGI = GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 5), sLvl);
-    uint16 sINT = GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 6), sLvl);
-    uint16 sMND = GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 7), sLvl);
-    uint16 sCHR = GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 8), sLvl);
+    uint16 sSTR = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 2), sLvl);
+    uint16 sDEX = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 3), sLvl);
+    uint16 sVIT = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 4), sLvl);
+    uint16 sAGI = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 5), sLvl);
+    uint16 sINT = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 6), sLvl);
+    uint16 sMND = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 7), sLvl);
+    uint16 sCHR = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 8), sLvl);
 
     sSTR /= 2;
     sDEX /= 2;
@@ -775,6 +762,8 @@ auto CalculatePetHPMP(CBattleEntity* PMaster, CPetEntity* PPet) -> void
     PPet->health.mp    = PPet->health.maxmp;
 }
 
+} // namespace
+
 void CalculateAvatarStats(CBattleEntity* PMaster, CPetEntity* PPet)
 {
     uint32 petID = PPet->petID();
@@ -832,30 +821,30 @@ void CalculateAvatarStats(CBattleEntity* PMaster, CPetEntity* PPet)
     CalculatePetHPMP(PMaster, PPet);
 
     // Set the stat attributes of the avatar/spirit.
-    uint16 fSTR = GetBaseToRank(PPetData->strRank, PPet->GetMLevel());
-    uint16 fDEX = GetBaseToRank(PPetData->dexRank, PPet->GetMLevel());
-    uint16 fVIT = GetBaseToRank(PPetData->vitRank, PPet->GetMLevel());
-    uint16 fAGI = GetBaseToRank(PPetData->agiRank, PPet->GetMLevel());
-    uint16 fINT = GetBaseToRank(PPetData->intRank, PPet->GetMLevel());
-    uint16 fMND = GetBaseToRank(PPetData->mndRank, PPet->GetMLevel());
-    uint16 fCHR = GetBaseToRank(PPetData->chrRank, PPet->GetMLevel());
+    uint16 fSTR = mobutils::GetBaseToRank(PPetData->strRank, PPet->GetMLevel());
+    uint16 fDEX = mobutils::GetBaseToRank(PPetData->dexRank, PPet->GetMLevel());
+    uint16 fVIT = mobutils::GetBaseToRank(PPetData->vitRank, PPet->GetMLevel());
+    uint16 fAGI = mobutils::GetBaseToRank(PPetData->agiRank, PPet->GetMLevel());
+    uint16 fINT = mobutils::GetBaseToRank(PPetData->intRank, PPet->GetMLevel());
+    uint16 fMND = mobutils::GetBaseToRank(PPetData->mndRank, PPet->GetMLevel());
+    uint16 fCHR = mobutils::GetBaseToRank(PPetData->chrRank, PPet->GetMLevel());
 
     // Stat ranks from mob main job
-    uint16 mSTR = GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 2), PPet->GetMLevel());
-    uint16 mDEX = GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 3), PPet->GetMLevel());
-    uint16 mVIT = GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 4), PPet->GetMLevel());
-    uint16 mAGI = GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 5), PPet->GetMLevel());
-    uint16 mINT = GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 6), PPet->GetMLevel());
-    uint16 mMND = GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 7), PPet->GetMLevel());
-    uint16 mCHR = GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 8), PPet->GetMLevel());
+    uint16 mSTR = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 2), PPet->GetMLevel());
+    uint16 mDEX = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 3), PPet->GetMLevel());
+    uint16 mVIT = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 4), PPet->GetMLevel());
+    uint16 mAGI = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 5), PPet->GetMLevel());
+    uint16 mINT = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 6), PPet->GetMLevel());
+    uint16 mMND = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 7), PPet->GetMLevel());
+    uint16 mCHR = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 8), PPet->GetMLevel());
 
-    uint16 sSTR = GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 2), sLvl);
-    uint16 sDEX = GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 3), sLvl);
-    uint16 sVIT = GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 4), sLvl);
-    uint16 sAGI = GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 5), sLvl);
-    uint16 sINT = GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 6), sLvl);
-    uint16 sMND = GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 7), sLvl);
-    uint16 sCHR = GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 8), sLvl);
+    uint16 sSTR = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 2), sLvl);
+    uint16 sDEX = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 3), sLvl);
+    uint16 sVIT = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 4), sLvl);
+    uint16 sAGI = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 5), sLvl);
+    uint16 sINT = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 6), sLvl);
+    uint16 sMND = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 7), sLvl);
+    uint16 sCHR = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 8), sLvl);
 
     sSTR /= 2;
     sDEX /= 2;
@@ -973,30 +962,30 @@ void CalculateWyvernStats(CBattleEntity* PMaster, CPetEntity* PPet)
 
     // Set the stat attributes of the wyvern.
     // Stat ranks from mob species
-    uint16 fSTR = GetBaseToRank(PPetData->strRank, PPet->GetMLevel());
-    uint16 fDEX = GetBaseToRank(PPetData->dexRank, PPet->GetMLevel());
-    uint16 fVIT = GetBaseToRank(PPetData->vitRank, PPet->GetMLevel());
-    uint16 fAGI = GetBaseToRank(PPetData->agiRank, PPet->GetMLevel());
-    uint16 fINT = GetBaseToRank(PPetData->intRank, PPet->GetMLevel());
-    uint16 fMND = GetBaseToRank(PPetData->mndRank, PPet->GetMLevel());
-    uint16 fCHR = GetBaseToRank(PPetData->chrRank, PPet->GetMLevel());
+    uint16 fSTR = mobutils::GetBaseToRank(PPetData->strRank, PPet->GetMLevel());
+    uint16 fDEX = mobutils::GetBaseToRank(PPetData->dexRank, PPet->GetMLevel());
+    uint16 fVIT = mobutils::GetBaseToRank(PPetData->vitRank, PPet->GetMLevel());
+    uint16 fAGI = mobutils::GetBaseToRank(PPetData->agiRank, PPet->GetMLevel());
+    uint16 fINT = mobutils::GetBaseToRank(PPetData->intRank, PPet->GetMLevel());
+    uint16 fMND = mobutils::GetBaseToRank(PPetData->mndRank, PPet->GetMLevel());
+    uint16 fCHR = mobutils::GetBaseToRank(PPetData->chrRank, PPet->GetMLevel());
 
     // Stat ranks from mob main job
-    uint16 mSTR = GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 2), PPet->GetMLevel());
-    uint16 mDEX = GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 3), PPet->GetMLevel());
-    uint16 mVIT = GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 4), PPet->GetMLevel());
-    uint16 mAGI = GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 5), PPet->GetMLevel());
-    uint16 mINT = GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 6), PPet->GetMLevel());
-    uint16 mMND = GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 7), PPet->GetMLevel());
-    uint16 mCHR = GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 8), PPet->GetMLevel());
+    uint16 mSTR = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 2), PPet->GetMLevel());
+    uint16 mDEX = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 3), PPet->GetMLevel());
+    uint16 mVIT = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 4), PPet->GetMLevel());
+    uint16 mAGI = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 5), PPet->GetMLevel());
+    uint16 mINT = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 6), PPet->GetMLevel());
+    uint16 mMND = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 7), PPet->GetMLevel());
+    uint16 mCHR = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetMJob(), 8), PPet->GetMLevel());
 
-    uint16 sSTR = GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 2), sLvl);
-    uint16 sDEX = GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 3), sLvl);
-    uint16 sVIT = GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 4), sLvl);
-    uint16 sAGI = GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 5), sLvl);
-    uint16 sINT = GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 6), sLvl);
-    uint16 sMND = GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 7), sLvl);
-    uint16 sCHR = GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 8), sLvl);
+    uint16 sSTR = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 2), sLvl);
+    uint16 sDEX = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 3), sLvl);
+    uint16 sVIT = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 4), sLvl);
+    uint16 sAGI = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 5), sLvl);
+    uint16 sINT = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 6), sLvl);
+    uint16 sMND = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 7), sLvl);
+    uint16 sCHR = mobutils::GetBaseToRank(grade::GetJobGrade(PPet->GetSJob(), 8), sLvl);
 
     sSTR /= 2;
     sDEX /= 2;
@@ -1818,13 +1807,14 @@ void LoadPet(CBattleEntity* PMaster, uint32 PetID, bool spawningFromZone)
     {
         petType = PET_TYPE::WYVERN;
 
-        const auto query = "SELECT "
-                           "pet_name.name, "
-                           "char_pet.wyvernid "
-                           "FROM pet_name, char_pet "
-                           "WHERE pet_name.id = char_pet.wyvernid AND "
-                           "char_pet.charid = ?";
-        const auto rset  = db::preparedStmt(query, PMaster->id);
+        constexpr auto query = db::Query(
+            "SELECT "
+            "pet_name.name, "
+            "char_pet.wyvernid "
+            "FROM pet_name, char_pet "
+            "WHERE pet_name.id = char_pet.wyvernid AND "
+            "char_pet.charid = ?");
+        const auto rset = db::preparedStmt(query, PMaster->id);
         FOR_DB_SINGLE_RESULT(rset)
         {
             const auto wyvernid = rset->get<uint16>("wyvernid");
@@ -1840,9 +1830,10 @@ void LoadPet(CBattleEntity* PMaster, uint32 PetID, bool spawningFromZone)
     {
         petType = PET_TYPE::CHOCOBO;
 
-        const auto query = "SELECT char_pet.chocoboid "
-                           "FROM char_pet "
-                           "WHERE char_pet.charid = ?";
+        constexpr auto query = db::Query(
+            "SELECT char_pet.chocoboid "
+            "FROM char_pet "
+            "WHERE char_pet.charid = ?");
 
         const auto rset = db::preparedStmt(query, PMaster->id);
         FOR_DB_SINGLE_RESULT(rset)
@@ -1856,10 +1847,11 @@ void LoadPet(CBattleEntity* PMaster, uint32 PetID, bool spawningFromZone)
 
                 PPetData->name.clear();
 
-                const auto subquery = "SELECT pet_name.name "
-                                      "FROM pet_name "
-                                      "WHERE pet_name.id = ? OR pet_name.id = ?";
-                const auto subrset  = db::preparedStmt(subquery, chocoboname1, chocoboname2);
+                constexpr auto subquery = db::Query(
+                    "SELECT pet_name.name "
+                    "FROM pet_name "
+                    "WHERE pet_name.id = ? OR pet_name.id = ?");
+                const auto subrset = db::preparedStmt(subquery, chocoboname1, chocoboname2);
                 FOR_DB_SINGLE_RESULT(subrset)
                 {
                     if (chocoboname1 != 0 && chocoboname2 != 0)

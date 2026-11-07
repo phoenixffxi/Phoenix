@@ -45,6 +45,7 @@
 #include "attack.h"
 #include "attackround.h"
 #include "data/enums/mob_mod.h"
+#include "entities/automaton_entity.h"
 #include "entities/char_entity.h"
 #include "entities/pet_entity.h"
 #include "items/item_weapon.h"
@@ -73,26 +74,14 @@ CBattleEntity::CBattleEntity()
     TracyZoneScoped;
 
     m_OwnerID.clean();
-    m_mlvl = 0;
-    m_slvl = 0;
-
-    m_mjob = xi::Job::WAR;
-    m_sjob = xi::Job::WAR;
-
-    m_magicEvasion = 0;
 
     m_Weapons[SLOT_MAIN]   = nullptr;
     m_Weapons[SLOT_SUB]    = nullptr;
     m_Weapons[SLOT_RANGED] = nullptr;
     m_Weapons[SLOT_AMMO]   = nullptr;
-    m_dualWield            = false;
 
     std::memset(&health, 0, sizeof(health));
     health.maxhp = 1;
-
-    PPet    = nullptr;
-    PParty  = nullptr;
-    PMaster = nullptr;
 
     StatusEffectContainer = std::make_unique<CStatusEffectContainer>(this);
     PRecastContainer      = std::make_unique<CRecastContainer>(this);
@@ -102,12 +91,6 @@ CBattleEntity::CBattleEntity()
     m_modStat[xi::Mod::PIERCE_SDT] = 0;
     m_modStat[xi::Mod::HTH_SDT]    = 0;
     m_modStat[xi::Mod::IMPACT_SDT] = 0;
-
-    m_Immunity   = xi::Immunity::None;
-    isCharmed    = false;
-    m_unkillable = false;
-
-    m_DeathType = DEATH_TYPE::NONE;
 
     BattleHistory.lastHitTaken_atkType = xi::AttackType::None;
 }
@@ -1252,7 +1235,7 @@ auto CBattleEntity::ATT(SLOTTYPE slot) -> uint16
             }
         }
     }
-    else if (this->objtype == TYPE_PET && ((CPetEntity*)this)->getPetType() == PET_TYPE::AUTOMATON)
+    else if (this->objtype == TYPE_PET && static_cast<CPetEntity*>(this)->getPetType() == PET_TYPE::AUTOMATON)
     {
         ATT += this->GetSkill(xi::SkillType::AutomatonMelee);
     }
@@ -1347,6 +1330,9 @@ auto CBattleEntity::RATT(uint16 bonusAtt) -> uint16
     return std::max<int16>(1, RATT + (RATT * getMod(xi::Mod::RATTP) / 100.f) + std::min<int16>((RATT * getMod(xi::Mod::FOOD_RATTP) / 100.f), getMod(xi::Mod::FOOD_RATT_CAP)));
 }
 
+namespace
+{
+
 inline auto GetAccFromSkill(uint32 skill) -> uint32
 {
     uint32 accuracy = skill;
@@ -1366,6 +1352,8 @@ inline auto GetAccFromSkill(uint32 skill) -> uint32
 
     return accuracy;
 }
+
+} // namespace
 
 auto CBattleEntity::RACC(uint16 bonusAcc) -> uint16
 {
@@ -1589,7 +1577,7 @@ auto CBattleEntity::ACC(uint8 attackNumber, uint16 offsetAccuracy) -> uint16
         ACC = ACC + std::min<int16>((ACC * getMod(xi::Mod::FOOD_ACCP) / 100.f), getMod(xi::Mod::FOOD_ACC_CAP));
         return std::max<int16>(0, ACC);
     }
-    else if (this->objtype == TYPE_PET && ((CPetEntity*)this)->getPetType() == PET_TYPE::AUTOMATON)
+    else if (this->objtype == TYPE_PET && static_cast<CPetEntity*>(this)->getPetType() == PET_TYPE::AUTOMATON)
     {
         int32 skillLevel = this->GetSkill(xi::SkillType::AutomatonMelee);
 
@@ -2586,7 +2574,7 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
 
         if (IsMagicCovered)
         {
-            state.ApplyMagicCoverEnmity(POriginalTarget, PActionTarget, (CMobEntity*)this);
+            state.ApplyMagicCoverEnmity(POriginalTarget, PActionTarget, static_cast<CMobEntity*>(this));
         }
         else
         {
@@ -3782,7 +3770,7 @@ auto CBattleEntity::OnAttack(CAttackState& state, action_t& action) -> bool
                         else if (PTarget->objtype == TYPE_PET && PTarget->PMaster && dynamic_cast<const CCharEntity*>(PTarget->PMaster) != nullptr &&
                                  static_cast<CPetEntity*>(PTarget)->getPetType() == PET_TYPE::AUTOMATON)
                         {
-                            puppetutils::TrySkillUP((CAutomatonEntity*)PTarget, xi::SkillType::AutomatonMelee, GetMLevel());
+                            puppetutils::TrySkillUP(static_cast<CAutomatonEntity*>(PTarget), xi::SkillType::AutomatonMelee, GetMLevel());
                         }
                     }
                 }
@@ -3907,7 +3895,7 @@ auto CBattleEntity::OnAttack(CAttackState& state, action_t& action) -> bool
             // Handle addtl effects/enspells only if the target is not already dead
             if (PTarget->GetHPP() > 0)
             {
-                battleutils::HandleEnspell(this, PTarget, &actionResult, attack.IsFirstSwing(), (CItemWeapon*)this->m_Weapons[attack.GetWeaponSlot()], attack.GetDamage(), attack);
+                battleutils::HandleEnspell(this, PTarget, &actionResult, attack.IsFirstSwing(), static_cast<CItemWeapon*>(this->m_Weapons[attack.GetWeaponSlot()]), attack.GetDamage(), attack);
             }
             battleutils::HandleSpikesDamage(this, PTarget, &actionResult, attack.GetDamage());
         }

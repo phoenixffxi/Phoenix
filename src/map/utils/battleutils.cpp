@@ -94,12 +94,17 @@
 
 static_assert(xi::data::kSkillTypes == MAX_SKILLTYPE);
 
+namespace
+{
+
 std::array<CWeaponSkill*, MAX_WEAPONSKILL_ID> g_PWeaponSkillList; // Holds all Weapon skills
 std::array<CMobSkill*, MAX_MOBSKILL_ID>       g_PMobSkillList;    // List of mob skills
 HashMap<uint32, CPetSkill*>                   g_PPetSkillList;    // List of pet skills
 
 std::array<std::list<CWeaponSkill*>, MAX_SKILLTYPE> g_PWeaponSkillsList;
 HashMap<uint16, std::vector<uint16>>                g_PMobSkillLists; // List of mob skills defined from mob_skill_lists.sql
+
+} // namespace
 
 namespace battleutils
 {
@@ -162,16 +167,16 @@ void LoadWeaponSkillsList()
         PWeaponSkill->setRange(entry.Range);
 
         // TargetFind only knows target-centred spheres for weapon skills, so a cone reaches as far as one
-        if (entry.Aoe)
+        if (const auto& aoe = entry.Aoe)
         {
             PWeaponSkill->setAoe(2);
-            if (const auto* sphere = std::get_if<xi::data::AoeSphereData>(&entry.Aoe->Shape))
+            if (const auto* sphere = std::get_if<xi::data::AoeSphereData>(&aoe->Shape))
             {
                 PWeaponSkill->setRadius(sphere->Radius);
             }
             else
             {
-                PWeaponSkill->setRadius(std::get<xi::data::AoeConeData>(entry.Aoe->Shape).Distance);
+                PWeaponSkill->setRadius(std::get<xi::data::AoeConeData>(aoe->Shape).Distance);
             }
         }
         else
@@ -485,6 +490,9 @@ auto GetMobSkillList(uint16 ListID) -> const std::vector<uint16>&
     return g_PMobSkillLists[ListID];
 }
 
+namespace
+{
+
 // TODO: Apply fire in generous quantities. Replace with existing lua functions.
 auto CalculateEnspellDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 Tier, uint8 element, CItemWeapon* pWeaponHit) -> int32
 {
@@ -793,6 +801,8 @@ auto CalculateEnspellDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, 
 
     return damage;
 }
+
+} // namespace
 
 /************************************************************************
  *                                                                       *
@@ -2173,39 +2183,39 @@ auto TakePhysicalDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, PHYS
             case TYPE_MOB:
                 if (taChar == nullptr)
                 {
-                    ((CMobEntity*)PDefender)->PEnmityContainer->UpdateEnmityFromDamage(PAttacker, damage);
+                    static_cast<CMobEntity*>(PDefender)->PEnmityContainer->UpdateEnmityFromDamage(PAttacker, damage);
                 }
                 else
                 {
-                    ((CMobEntity*)PDefender)->PEnmityContainer->UpdateEnmityFromDamage(taChar, damage);
+                    static_cast<CMobEntity*>(PDefender)->PEnmityContainer->UpdateEnmityFromDamage(taChar, damage);
                 }
 
-                if (((CMobEntity*)PDefender)->m_HiPCLvl < PAttacker->GetMLevel())
+                if (static_cast<CMobEntity*>(PDefender)->m_HiPCLvl < PAttacker->GetMLevel())
                 {
-                    ((CMobEntity*)PDefender)->m_HiPCLvl = PAttacker->GetMLevel();
+                    static_cast<CMobEntity*>(PDefender)->m_HiPCLvl = PAttacker->GetMLevel();
                 }
 
                 // if the mob is charmed by player
                 if (PDefender->PMaster != nullptr && dynamic_cast<const CCharEntity*>(PDefender->PMaster) != nullptr)
                 {
-                    ((CPetEntity*)PDefender)
+                    static_cast<CPetEntity*>(PDefender)
                         ->loc.zone->UpdateEntityPacket(PDefender, ENTITY_UPDATE, UPDATE_COMBAT);
 
                     if (PAttacker->objtype == TYPE_MOB)
                     {
                         // charmed mob should lose enmity from normal attacks
-                        ((CMobEntity*)PAttacker)->PEnmityContainer->UpdateEnmityFromAttack(PDefender, damage);
+                        static_cast<CMobEntity*>(PAttacker)->PEnmityContainer->UpdateEnmityFromAttack(PDefender, damage);
                     }
                 }
                 break;
 
             case TYPE_PET:
-                ((CPetEntity*)PDefender)->loc.zone->UpdateEntityPacket(PDefender, ENTITY_UPDATE, UPDATE_COMBAT);
+                static_cast<CPetEntity*>(PDefender)->loc.zone->UpdateEntityPacket(PDefender, ENTITY_UPDATE, UPDATE_COMBAT);
 
                 if (PAttacker->objtype == TYPE_MOB)
                 {
                     // pets should lose enmity from normal attacks
-                    ((CMobEntity*)PAttacker)->PEnmityContainer->UpdateEnmityFromAttack(PDefender, damage);
+                    static_cast<CMobEntity*>(PAttacker)->PEnmityContainer->UpdateEnmityFromAttack(PDefender, damage);
                 }
                 break;
             case TYPE_PC:
@@ -2213,11 +2223,11 @@ auto TakePhysicalDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, PHYS
                 {
                     if (isCovered)
                     {
-                        ((CMobEntity*)PAttacker)->PEnmityContainer->UpdateEnmityFromCover(POriginalTarget, PDefender);
+                        static_cast<CMobEntity*>(PAttacker)->PEnmityContainer->UpdateEnmityFromCover(POriginalTarget, PDefender);
                     }
                     else
                     {
-                        ((CMobEntity*)PAttacker)->PEnmityContainer->UpdateEnmityFromAttack(PDefender, damage);
+                        static_cast<CMobEntity*>(PAttacker)->PEnmityContainer->UpdateEnmityFromAttack(PDefender, damage);
                     }
                 }
                 break;
@@ -2260,7 +2270,7 @@ auto TakePhysicalDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, PHYS
     }
     else if (PDefender->objtype == TYPE_MOB)
     {
-        ((CMobEntity*)PDefender)->PEnmityContainer->UpdateEnmityFromDamage(PAttacker, 0);
+        static_cast<CMobEntity*>(PDefender)->PEnmityContainer->UpdateEnmityFromDamage(PAttacker, 0);
     }
 
     return damage;
@@ -2334,19 +2344,19 @@ auto TakeWeaponskillDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, i
                 // if the mob is charmed by player
                 if (PDefender->PMaster != nullptr && dynamic_cast<const CCharEntity*>(PDefender->PMaster) != nullptr)
                 {
-                    ((CPetEntity*)PDefender)
+                    static_cast<CPetEntity*>(PDefender)
                         ->loc.zone->UpdateEntityPacket(PDefender, ENTITY_UPDATE, UPDATE_COMBAT);
                 }
 
-                if (((CMobEntity*)PDefender)->m_HiPCLvl < PAttacker->GetMLevel())
+                if (static_cast<CMobEntity*>(PDefender)->m_HiPCLvl < PAttacker->GetMLevel())
                 {
-                    ((CMobEntity*)PDefender)->m_HiPCLvl = PAttacker->GetMLevel();
+                    static_cast<CMobEntity*>(PDefender)->m_HiPCLvl = PAttacker->GetMLevel();
                 }
 
                 break;
 
             case TYPE_PET:
-                ((CPetEntity*)PDefender)->loc.zone->UpdateEntityPacket(PDefender, ENTITY_UPDATE, UPDATE_COMBAT);
+                static_cast<CPetEntity*>(PDefender)->loc.zone->UpdateEntityPacket(PDefender, ENTITY_UPDATE, UPDATE_COMBAT);
                 break;
 
             default:
@@ -2385,7 +2395,7 @@ auto TakeWeaponskillDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, i
     }
     else if (PDefender->objtype == TYPE_MOB)
     {
-        ((CMobEntity*)PDefender)->PEnmityContainer->UpdateEnmityFromDamage(PAttacker, 0);
+        static_cast<CMobEntity*>(PDefender)->PEnmityContainer->UpdateEnmityFromDamage(PAttacker, 0);
     }
 
     // Apply TP
@@ -4756,10 +4766,10 @@ auto HandleSevereDamage(CBattleEntity* PDefender, int32 damage, bool isPhysical)
     // TODO: Sentinel's Scherzo effect
 
     if (isPhysical && PDefender->objtype == TYPE_PET && PDefender->getMod(xi::Mod::AUTO_SCHURZEN) != 0 && damage >= PDefender->health.hp &&
-        ((CPetEntity*)PDefender)->PMaster->StatusEffectContainer->GetEffectsCount(xi::StatusEffect::EarthManeuver) >= 1)
+        static_cast<CPetEntity*>(PDefender)->PMaster->StatusEffectContainer->GetEffectsCount(xi::StatusEffect::EarthManeuver) >= 1)
     {
         damage = PDefender->health.hp - 1;
-        ((CPetEntity*)PDefender)->PMaster->StatusEffectContainer->DelStatusEffectSilent(xi::StatusEffect::EarthManeuver);
+        static_cast<CPetEntity*>(PDefender)->PMaster->StatusEffectContainer->DelStatusEffectSilent(xi::StatusEffect::EarthManeuver);
     }
 
     return damage;
@@ -4840,7 +4850,7 @@ auto HandleSevereDamageEffect(CBattleEntity* PDefender, xi::StatusEffect effect,
 void assistTarget(CCharEntity* PChar, uint16 TargID)
 {
     // get the entity we want to assist
-    CBattleEntity* EntityToAssist = (CBattleEntity*)PChar->GetEntity(TargID, TYPE_MOB | TYPE_PC);
+    CBattleEntity* EntityToAssist = static_cast<CBattleEntity*>(PChar->GetEntity(TargID, TYPE_MOB | TYPE_PC));
     if (EntityToAssist != nullptr)
     {
         if (dynamic_cast<const CCharEntity*>(EntityToAssist) != nullptr && EntityToAssist->battleTarget().isSet())
@@ -6003,7 +6013,7 @@ auto CalculateWeaponSkillTP(CBattleEntity* PEntity, CWeaponSkill* PWeaponSkill, 
 
 auto RemoveAmmo(CCharEntity* PChar, int quantity) -> bool
 {
-    CItemWeapon* PItem = (CItemWeapon*)PChar->getEquip(SLOT_AMMO);
+    CItemWeapon* PItem = static_cast<CItemWeapon*>(PChar->getEquip(SLOT_AMMO));
 
     if (PItem)
     {
@@ -6026,7 +6036,13 @@ auto RemoveAmmo(CCharEntity* PChar, int quantity) -> bool
         }
         else
         {
-            auto ammoLoc = PChar->equipLocation(SLOT_AMMO);
+            const auto ammoLoc = PChar->equipLocation(SLOT_AMMO);
+            if (!ammoLoc)
+            {
+                ShowErrorFmt("battleutils: {} has ammo equipped but no ammo location", PChar->getName());
+                return false;
+            }
+
             if (auto transaction = ItemClaimTransaction::start(PChar); !transaction || !transaction->take(static_cast<uint8>(ammoLoc->Container), ammoLoc->Slot, quantity) || !transaction->commit())
             {
                 ShowErrorFmt("battleutils: {} did not spend {} ammo in slot {}", PChar->getName(), quantity, ammoLoc->Slot);

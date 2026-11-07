@@ -173,8 +173,6 @@ auto handleYell(CCharEntity* PChar) -> bool
     return false;
 }
 
-} // namespace
-
 class ChatAdjustments : public CPPModule
 {
     void OnInit() override
@@ -208,5 +206,7 @@ class ChatAdjustments : public CPPModule
         return false;
     }
 };
+
+} // namespace
 
 REGISTER_CPP_MODULE(ChatAdjustments);

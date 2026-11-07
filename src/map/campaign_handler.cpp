@@ -28,7 +28,6 @@
 
 CCampaignHandler::CCampaignHandler(CZone* PZone)
 {
-    m_PZone = nullptr;
     LoadCampaignZone(PZone);
 }
 
@@ -231,7 +230,7 @@ void CCampaignHandler::SetInfluence(CampaignArmy army, int16 amount)
     switch (army)
     {
         case CampaignArmy::Sandoria:
-            rset = db::preparedStmt("UPDATE campaign_map SET influence_sandoria = ? WHERE zoneid = %d", current, m_PZone->GetID());
+            rset = db::preparedStmt("UPDATE campaign_map SET influence_sandoria = ? WHERE zoneid = ?", current, m_PZone->GetID());
             break;
         case CampaignArmy::Bastok:
             rset = db::preparedStmt("UPDATE campaign_map SET influence_bastok = ? WHERE zoneid = ?", current, m_PZone->GetID());

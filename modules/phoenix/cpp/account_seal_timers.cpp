@@ -22,8 +22,6 @@ namespace
 
 const std::string SealTimerVarName = "SealTimerExpiry";
 
-}
-
 class AccountSealTimersModule : public CPPModule
 {
     void OnInit() override
@@ -106,5 +104,7 @@ class AccountSealTimersModule : public CPPModule
             expirationTimestamp);
     }
 };
+
+} // namespace
 
 REGISTER_CPP_MODULE(AccountSealTimersModule);

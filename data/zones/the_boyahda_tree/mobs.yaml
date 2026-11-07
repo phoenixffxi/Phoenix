@@ -398,7 +398,8 @@ templates:
       behaviors:
         aggressive: true
       mob_mods:
-        exp_bonus: 23
+        base_damage_multiplier: 150
+        exp_bonus:               23
       spawn:
         respawn: 300
     loot:
@@ -591,6 +592,8 @@ templates:
         links:      true
       spawn:
         respawn: 300
+      mob_mods:
+        base_damage_multiplier: 166
     loot:
       drops:
         - chance: rare
@@ -733,7 +736,8 @@ templates:
       behaviors:
         aggressive: true
       mob_mods:
-        exp_bonus: 23
+        base_damage_multiplier: 150
+        exp_bonus:               23
       spawn:
         respawn: 300
     loot:
@@ -1287,6 +1291,8 @@ templates:
         respawn: 300
       stats:
         hp: 13000
+      mob_mods:
+        base_damage_multiplier: 150
     loot:
       drops:
         - chance: always

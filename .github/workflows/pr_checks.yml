@@ -13,13 +13,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
   cancel-in-progress: true
 
-permissions:
-  contents: read
-  checks: write
-  pull-requests: write
-  actions: read
-  statuses: write
-
 # # Available machines:
 # # https://github.com/actions/runner-images/tree/main
 jobs:
@@ -297,6 +290,9 @@ jobs:
 
   Build:
     needs: Sanity_Checks
+    # Phoenix start: phoenix_checks.yml builds and tests instead; Test skips with this.
+    if: false
+    # Phoenix end
     name: ${{ matrix.runner && 'Build' || '' }} # GitHub Actions hack to hide matrix args
     strategy:
       fail-fast: false
@@ -361,17 +357,17 @@ jobs:
           - runner: windows-2025
             test_modules: false
             multi_process: true
-            xi_test: false
+            xi_test: true
             startup_checks: true
           - runner: macos-26
             test_modules: false
             multi_process: false
-            xi_test: false
+            xi_test: true
             startup_checks: true
           - runner: ubuntu-26.04
             test_modules: false
             multi_process: false
-            xi_test: false
+            xi_test: true
             startup_checks: true
     uses: ./.github/workflows/runner_test.yml
     with:

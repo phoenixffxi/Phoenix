@@ -11,6 +11,9 @@
 #include "map/packets/s2c/0x017_chat_std.h"
 #include "map/utils/moduleutils.h"
 
+namespace
+{
+
 class HelpDeskRedirect : public CPPModule
 {
     void OnInit() override
@@ -54,5 +57,7 @@ class HelpDeskRedirect : public CPPModule
         PChar->pushPacket<GP_SERV_COMMAND_CHAT_STD>(PChar, MESSAGE_SYSTEM_3, "-------------------------------");
     }
 };
+
+} // namespace
 
 REGISTER_CPP_MODULE(HelpDeskRedirect);

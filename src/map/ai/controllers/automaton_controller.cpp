@@ -81,6 +81,9 @@ void CAutomatonController::setCooldowns()
         {
             m_shieldbashCooldown = 3min;
         }
+        break;
+        case xi::AutomatonFrame::None:
+            break;
     }
 }
 
@@ -397,6 +400,9 @@ auto CAutomatonController::TrySpellcast(const CurrentManeuvers& maneuvers) -> bo
                 return true;
             }
         }
+        break;
+        case xi::AutomatonHead::None:
+            break;
     }
     return false;
 }
@@ -557,10 +563,15 @@ auto CAutomatonController::TryHeal(const CurrentManeuvers& maneuvers) -> bool
     return false;
 }
 
+namespace
+{
+
 inline auto resistanceComparator(const std::pair<SpellID, int16>& firstElem, const std::pair<SpellID, int16>& secondElem) -> bool
 {
     return firstElem.second < secondElem.second;
 }
+
+} // namespace
 
 auto CAutomatonController::Disengage() -> bool
 {
@@ -1680,9 +1691,14 @@ auto CAutomatonController::TryAttachment() -> bool
 namespace automaton
 {
 
+namespace
+{
+
 FlatHashMap<SpellID, AutomatonSpell, EnumClassHash> autoSpellList;
 std::vector<SpellID>                                naSpells;
 HashMap<uint16, AutomatonAbility>                   autoAbilityList;
+
+} // namespace
 
 void LoadAutomatonSpellList()
 {

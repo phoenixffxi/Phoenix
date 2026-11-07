@@ -1,4 +1,4 @@
-﻿/************************************************************************
+/************************************************************************
  * Cosmetic Wardrobe
  *
  * Blocks equipment moves into Mog Wardrobe 8 unless the item is on the cosmetic list.
@@ -23,6 +23,9 @@
 #include "map/packets/s2c/0x01d_item_same.h"
 #include "map/packets/s2c/0x020_item_attr.h"
 #include "map/utils/moduleutils.h"
+
+namespace
+{
 
 class CosmeticWardrobe : public CPPModule
 {
@@ -98,5 +101,7 @@ class CosmeticWardrobe : public CPPModule
     bool enabled           = false;
     bool warnedMissingList = false;
 };
+
+} // namespace
 
 REGISTER_CPP_MODULE(CosmeticWardrobe);

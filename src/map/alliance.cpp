@@ -149,7 +149,7 @@ auto CAlliance::isFull() const -> bool
 
 auto CAlliance::loadPartyCount() const -> uint32
 {
-    const auto rset = db::preparedStmt("SELECT * FROM accounts_parties WHERE allianceid = ? GROUP BY partyid", m_AllianceID, PARTY_SECOND | PARTY_THIRD);
+    const auto rset = db::preparedStmt("SELECT * FROM accounts_parties WHERE allianceid = ? GROUP BY partyid", m_AllianceID);
     if (rset)
     {
         return rset->rowsCount();
@@ -359,8 +359,8 @@ void CAlliance::pushParty(CParty* PParty, uint8 number)
 
     for (std::size_t i = 0; i < PParty->members.size(); ++i)
     {
-        PParty->ReloadTreasurePool((CCharEntity*)PParty->members.at(i));
-        charutils::SaveCharStats((CCharEntity*)PParty->members.at(i));
+        PParty->ReloadTreasurePool(static_cast<CCharEntity*>(PParty->members.at(i)));
+        charutils::SaveCharStats(static_cast<CCharEntity*>(PParty->members.at(i)));
     }
 }
 

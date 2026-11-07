@@ -60,6 +60,8 @@ auto calculateAutomatonModel(const xi::AutomatonFrame frame, const xi::Automaton
                     return 0x07D3;
                 case xi::AutomatonHead::Spiritreaver:
                     return 0x07D7;
+                case xi::AutomatonHead::None:
+                    break;
             }
             break;
         case xi::AutomatonFrame::Valoredge:
@@ -77,6 +79,8 @@ auto calculateAutomatonModel(const xi::AutomatonFrame frame, const xi::Automaton
                     return 0x07D4;
                 case xi::AutomatonHead::Spiritreaver:
                     return 0x07D8;
+                case xi::AutomatonHead::None:
+                    break;
             }
             break;
         case xi::AutomatonFrame::Sharpshot:
@@ -94,6 +98,8 @@ auto calculateAutomatonModel(const xi::AutomatonFrame frame, const xi::Automaton
                     return 0x07D5;
                 case xi::AutomatonHead::Spiritreaver:
                     return 0x07D9;
+                case xi::AutomatonHead::None:
+                    break;
             }
             break;
         case xi::AutomatonFrame::Stormwaker:
@@ -111,7 +117,11 @@ auto calculateAutomatonModel(const xi::AutomatonFrame frame, const xi::Automaton
                     return 0x07D6;
                 case xi::AutomatonHead::Spiritreaver:
                     return 0x07DA;
+                case xi::AutomatonHead::None:
+                    break;
             }
+            break;
+        case xi::AutomatonFrame::None:
             break;
     }
 
@@ -124,11 +134,12 @@ void LoadAutomaton(CCharEntity* PChar)
 {
     TracyZoneScoped;
 
-    const char* Query = "SELECT unlocked_attachments, name, equipped_attachments FROM "
-                        "char_pet LEFT JOIN pet_name ON automatonid = id "
-                        "WHERE charid = ?";
+    constexpr auto query = db::Query(
+        "SELECT unlocked_attachments, name, equipped_attachments FROM "
+        "char_pet LEFT JOIN pet_name ON automatonid = id "
+        "WHERE charid = ?");
 
-    auto rset = db::preparedStmt(Query, PChar->id);
+    const auto rset = db::preparedStmt(query, PChar->id);
     if (rset && rset->rowsCount() && rset->next())
     {
         db::extractFromBlob(rset, "unlocked_attachments", PChar->m_unlockedAttachments);
