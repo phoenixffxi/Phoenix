@@ -35,7 +35,7 @@
 #include "common/database.h"
 #include "common/earth_time.h"
 #include "common/logging.h"
-#include "common/scheduler.h"
+#include "common/scheduler/scheduler.h"
 #include "common/settings.h"
 #include "common/xirand.h"
 
@@ -84,15 +84,15 @@ constexpr std::size_t MAX_REASON_DEPTH  = 8;
 constexpr std::size_t MAX_DETAIL_LENGTH = 160; // audit_gil.source_detail
 
 // Two fixed statements rather than one with the delta formatted in: db::preparedStmt caches by query text
-constexpr auto INSERT_WITH_DELTA = "INSERT INTO audit_gil("
-                                   "txn_tag, txn_seq, charid, balance_after, delta, source, counterparty, "
-                                   "itemid, source_detail, zoneid, date) "
-                                   "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+constexpr char INSERT_WITH_DELTA[] = "INSERT INTO audit_gil("
+                                     "txn_tag, txn_seq, charid, balance_after, delta, source, counterparty, "
+                                     "itemid, source_detail, zoneid, date) "
+                                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-constexpr auto INSERT_NULL_DELTA = "INSERT INTO audit_gil("
-                                   "txn_tag, txn_seq, charid, balance_after, delta, source, counterparty, "
-                                   "itemid, source_detail, zoneid, date) "
-                                   "VALUES (?, ?, ?, ?, NULL, ?, ?, ?, ?, ?, ?)";
+constexpr char INSERT_NULL_DELTA[] = "INSERT INTO audit_gil("
+                                     "txn_tag, txn_seq, charid, balance_after, delta, source, counterparty, "
+                                     "itemid, source_detail, zoneid, date) "
+                                     "VALUES (?, ?, ?, ?, NULL, ?, ?, ?, ?, ?, ?)";
 
 // Persisted as audit_gil.source, so append only and never renumber
 enum class GilSource : uint8

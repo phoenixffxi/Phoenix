@@ -181,6 +181,8 @@ templates:
         hitbox:        15
       spawn:
         type: [scripted]
+      mob_mods:
+        base_damage_multiplier: 150
 
   Apollyon_Diremite:
     id:      7452
@@ -623,6 +625,8 @@ templates:
         hitbox:        10
       spawn:
         type: [scripted]
+      mob_mods:
+        base_damage_multiplier: 166
 
   Apollyon_Wasp:
     id:      7446
@@ -948,6 +952,8 @@ templates:
         hitbox:         9
       spawn:
         type: [scripted]
+      mob_mods:
+        base_damage_multiplier: 166
 
   Omega_Forerunner:
     id:      7494

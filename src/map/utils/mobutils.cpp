@@ -43,11 +43,11 @@
 namespace mobutils
 {
 
-ModsMap_t mobPoolModsList;
-ModsMap_t mobSpawnModsList;
-
 namespace
 {
+
+ModsMap_t mobPoolModsList;
+ModsMap_t mobSpawnModsList;
 
 using EcosystemsDataset = xi::data::datasets::ecosystems::Dataset;
 
@@ -542,6 +542,9 @@ auto GetSubJobStats(uint8 rank, uint16 level, uint16 stat) -> uint16
     return sJobStat;
 }
 
+namespace
+{
+
 /************************************************************************
  *                                                                       *
  *  Checks if the mob is in any Original/RoZ zone                        *
@@ -649,9 +652,6 @@ auto CheckSubJobZone(CMobEntity* PMob) -> bool
     }
     return false;
 }
-
-namespace
-{
 
 /************************************************************************
  *                                                                       *
@@ -934,13 +934,13 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
         }
     }
 
-    ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(GetBaseWeaponDamage(PMob, SLOT_MAIN));
-    ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(GetBaseWeaponDamage(PMob, SLOT_RANGED));
+    static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_MAIN])->setDamage(GetBaseWeaponDamage(PMob, SLOT_MAIN));
+    static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_RANGED])->setDamage(GetBaseWeaponDamage(PMob, SLOT_RANGED));
 
     // reduce weapon delay of MNK
     if (PMob->GetMJob() == xi::Job::MNK)
     {
-        ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->resetDelay();
+        static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_MAIN])->resetDelay();
     }
 
     uint16 fSTR = GetBaseToRank(PMob->strRank, mLvl);
@@ -1015,7 +1015,7 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
     if (PMob->getMobMod(xi::MobMod::PetSpellList) && PMob->PPet != nullptr)
     {
         // Stubborn_Dredvodd
-        CMobEntity* PPet = (CMobEntity*)PMob->PPet;
+        CMobEntity* PPet = static_cast<CMobEntity*>(PMob->PPet);
 
         // give pet spell list
         PPet->m_SpellListContainer = mobSpellList::GetMobSpellList(PMob->getMobMod(xi::MobMod::PetSpellList));
@@ -1164,6 +1164,9 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
     }
 }
 
+namespace
+{
+
 void SetupRangedAttack(CMobEntity* PMob)
 {
     PMob->defaultMobMod(xi::MobMod::SpecialSkill, 0); // Need to remove the base ranged attack
@@ -1172,6 +1175,8 @@ void SetupRangedAttack(CMobEntity* PMob)
 
     static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_RANGED])->setBaseDelay(300);
 }
+
+} // namespace
 
 void SetupJob(CMobEntity* PMob)
 {
@@ -1482,6 +1487,9 @@ void SetupDungeonInstanceMob(CMobEntity* PMob)
     }
 }
 
+namespace
+{
+
 void RecalculateSpellContainer(CMobEntity* PMob)
 {
     // clear spell list
@@ -1496,6 +1504,8 @@ void RecalculateSpellContainer(CMobEntity* PMob)
         }
     }
 }
+
+} // namespace
 
 /* Gets the available spells for the specified monster.
  */

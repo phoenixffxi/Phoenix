@@ -99,15 +99,13 @@ CZone::CZone(Scheduler& scheduler, MapConfig config, const xi::ZoneId ZoneID, co
 , m_regionID(RegionID)
 , m_continentID(ContinentID)
 , m_levelRestriction(levelRestriction)
+, m_zoneEntities(new CZoneEntities(scheduler_, config_, this))
+, m_CampaignHandler(new CCampaignHandler(this))
 {
     TracyZoneScoped;
 
-    m_TreasurePool       = nullptr;
-    m_BattlefieldHandler = nullptr;
-    m_zoneEntities       = new CZoneEntities(scheduler_, config_, this);
-    m_CampaignHandler    = new CCampaignHandler(this);
-    m_spawnHandler       = std::make_unique<SpawnHandler>(this);
-    nominateManager_     = std::make_unique<NominateManager>(*this);
+    m_spawnHandler   = std::make_unique<SpawnHandler>(this);
+    nominateManager_ = std::make_unique<NominateManager>(*this);
 
     LoadZoneSettings(settings);
     LoadZoneLines(settings);
@@ -1106,6 +1104,9 @@ void CZone::ForEachAllyInstance(CBaseEntity* PEntity, FnRef<void(CMobEntity*)> f
 void CZone::createZoneTimers()
 {
     TracyZoneScoped;
+
+    // The first interval run is jittered, so spawn condition-based mobs now instead of up to an interval late.
+    spawnHandler().Tick(timer::now());
 
     // We'll manually tick while testing, don't install the timers.
     if (config_.isTestServer)

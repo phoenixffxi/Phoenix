@@ -30,6 +30,7 @@ set(COMMON_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/database/database.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/database/database.h
     ${CMAKE_CURRENT_SOURCE_DIR}/database/prepared_statement.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/database/query.h
     ${CMAKE_CURRENT_SOURCE_DIR}/database/query_validation.h
     ${CMAKE_CURRENT_SOURCE_DIR}/database/result_set.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/database/result_set.h
@@ -60,6 +61,8 @@ set(COMMON_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/engine.h
     ${CMAKE_CURRENT_SOURCE_DIR}/filewatcher.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/filewatcher.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/huffman.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/huffman.h
     ${CMAKE_CURRENT_SOURCE_DIR}/ipp_message.h
     ${CMAKE_CURRENT_SOURCE_DIR}/ipp.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/ipp.h
@@ -75,6 +78,7 @@ set(COMMON_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/no_destructor.h
     ${CMAKE_CURRENT_SOURCE_DIR}/settings.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/settings.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/scheduler/task_utils.h
     ${CMAKE_CURRENT_SOURCE_DIR}/timer.h
     ${CMAKE_CURRENT_SOURCE_DIR}/tombstone.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/tombstone.h
@@ -89,8 +93,6 @@ set(COMMON_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/vana_time.h
     ${CMAKE_BINARY_DIR}/generated/version.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/version.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/zlib.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/zlib.h
 )
 
 xi_add_library(xi_common ${COMMON_SOURCES})

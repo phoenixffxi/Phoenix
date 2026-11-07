@@ -24,7 +24,7 @@
 #include <common/cbasetypes.h>
 #include <common/logging.h>
 #include <common/mmo.h>
-#include <common/scheduler.h>
+#include <common/scheduler/scheduler.h>
 #include <common/timer.h>
 #include <common/types/maybe.h>
 #include <common/vana_time.h>
@@ -329,14 +329,14 @@ private:
 
     zoneLineList_t m_zoneLineList;
 
-    CTreasurePool* m_TreasurePool;
+    CTreasurePool* m_TreasurePool{};
 
     HashMap<std::string, QueryByNameResult_t> m_queryByNameResults;
 
-    CBattlefieldHandler*             m_BattlefieldHandler; // BCNM Instances in this zone
-    CCampaignHandler*                m_CampaignHandler;    // WOTG campaign information for this zone
-    std::unique_ptr<SpawnHandler>    m_spawnHandler;       // Handles mob respawns
-    std::unique_ptr<NominateManager> nominateManager_;     // Active /nominate proposals in this zone
+    CBattlefieldHandler*             m_BattlefieldHandler{}; // BCNM Instances in this zone
+    CCampaignHandler*                m_CampaignHandler;      // WOTG campaign information for this zone
+    std::unique_ptr<SpawnHandler>    m_spawnHandler;         // Handles mob respawns
+    std::unique_ptr<NominateManager> nominateManager_;       // Active /nominate proposals in this zone
 
     timer::time_point m_LoadedAt; // The time the zone was loaded
 };

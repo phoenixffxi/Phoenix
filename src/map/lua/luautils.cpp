@@ -123,6 +123,9 @@
 
 #include <fmt/ranges.h>
 
+namespace
+{
+
 void ReportErrorToPlayer(CBaseEntity* PEntity, const std::string& message = "") noexcept
 {
     try
@@ -152,6 +155,8 @@ void ReportErrorToPlayer(CBaseEntity* PEntity, const std::string& message = "") 
         ShowError(e.what());
     }
 }
+
+} // namespace
 
 namespace luautils
 {
@@ -782,6 +787,9 @@ void resetEntityData(CBaseEntity* PEntity)
     root[PEntity->serial()] = sol::lua_nil;
 }
 
+namespace
+{
+
 auto getSpellCachedFunction(CSpell* PSpell, std::string funcName) -> sol::function
 {
     TracyZoneScoped;
@@ -885,6 +893,8 @@ auto getEffectCachedFunction(const std::string& effectName, const std::string& f
             return sol::lua_nil;
         });
 }
+
+} // namespace
 
 // Assumes filename in the form "./scripts/folder0/folder1/folder2/mob_name.lua"
 // Loads (compiles + runs) that script and stores the object it returns into the Lua state at:
@@ -1284,6 +1294,9 @@ auto CalculateExperiencePoints(CCharEntity* PMember, CMobEntity* PMob, const Cal
     return calcResult;
 }
 
+namespace
+{
+
 void PopulateIDLookups(const xi::ZoneId zoneId, const std::string& zoneName, const ZoneEntityRecords& preloaded)
 {
     TracyZoneScoped;
@@ -1468,6 +1481,8 @@ void PopulateIDLookups(const xi::ZoneId zoneId, const std::string& zoneName, con
     // Re-publish to package.loaded. This is the same as loading the contents of a script with require("name").
     lua["package"]["loaded"][fmt::format("scripts/zones/{}/IDs", zoneName)] = lua["zones"][zoneId];
 }
+
+} // namespace
 
 void PopulateIDLookupsByFilename(Maybe<std::string> maybeFilename)
 {
@@ -2424,11 +2439,11 @@ void DespawnMob(uint32 mobid, const sol::object& arg2)
     if (arg2.is<CLuaInstance>())
     {
         auto PInstance = arg2.as<CLuaInstance>().GetInstance();
-        PMob           = (CMobEntity*)PInstance->GetEntity(mobid & 0xFFF, TYPE_MOB);
+        PMob           = static_cast<CMobEntity*>(PInstance->GetEntity(mobid & 0xFFF, TYPE_MOB));
     }
     else
     {
-        PMob = (CMobEntity*)zoneutils::GetEntity(mobid, TYPE_MOB);
+        PMob = static_cast<CMobEntity*>(zoneutils::GetEntity(mobid, TYPE_MOB));
     }
 
     if (PMob != nullptr)
@@ -4215,7 +4230,7 @@ void OnMobDeath(CBaseEntity* PMob, CBaseEntity* PKiller)
         PChar->ForAlliance(
             [PMob, PChar, &onMobDeathFramework, &onMobDeath, &filename, &optParams](CBattleEntity* PPartyMember)
             {
-                CCharEntity* PMember = (CCharEntity*)PPartyMember;
+                CCharEntity* PMember = static_cast<CCharEntity*>(PPartyMember);
                 if (PMember && PMember->getZone() == PChar->getZone())
                 {
                     uint32 weaponskillVar    = PMob->GetLocalVar("weaponskillHit");
@@ -4547,7 +4562,7 @@ auto OnUseWeaponSkill(CBattleEntity* PChar, CBaseEntity* PMob, CWeaponSkill* wsk
 
     if (criticalHit)
     {
-        luautils::OnCriticalHit((CBattleEntity*)PMob, PChar);
+        luautils::OnCriticalHit(static_cast<CBattleEntity*>(PMob), PChar);
     }
 
     return std::make_tuple(dmg, tpHitsLanded, extraHitsLanded);
@@ -5005,7 +5020,7 @@ auto OnPetAbility(CBaseEntity* PTarget, CBaseEntity* PMob, CMobSkill* PMobSkill,
     // TODO: This probably shouldn't be in here
     if (PMob->objtype == TYPE_PET && settings::get<bool>("map.SKILLUP_BLOODPACT"))
     {
-        CPetEntity* PPet = (CPetEntity*)PMob;
+        CPetEntity* PPet = static_cast<CPetEntity*>(PMob);
         if (auto* PMaster = dynamic_cast<CCharEntity*>(PPet->PMaster); PPet->getPetType() == PET_TYPE::AVATAR && PMaster)
         {
             if (PMaster->GetMJob() == xi::Job::SMN)
@@ -5114,6 +5129,52 @@ auto OnSteal(CBattleEntity* PChar, CBattleEntity* PMob, CAbility* PAbility, acti
     }
 
     return 0;
+}
+
+auto OnFishingCheck(CCharEntity* PChar, const uint8 areaId) -> std::vector<uint32>
+{
+    TracyZoneScoped;
+
+    std::vector<uint32> catchIds;
+
+    if (PChar == nullptr)
+    {
+        return catchIds;
+    }
+
+    auto onFishingCheckFramework = lua["InteractionGlobal"]["onFishingCheck"];
+
+    auto result = onFishingCheckFramework(PChar, areaId);
+    if (!result.valid())
+    {
+        sol::error err = result;
+        ShowError("luautils::onFishingCheck: %s", err.what());
+        return catchIds;
+    }
+
+    if (result.get_type(0) != sol::type::table)
+    {
+        return catchIds;
+    }
+
+    // Each handler returns a list of catch ids, which may be empty
+    for (const auto& [key, answer] : result.get<sol::table>(0))
+    {
+        if (answer.get_type() != sol::type::table)
+        {
+            continue;
+        }
+
+        for (const auto& [index, catchId] : answer.as<sol::table>())
+        {
+            if (catchId.get_type() == sol::type::number)
+            {
+                catchIds.emplace_back(catchId.as<uint32>());
+            }
+        }
+    }
+
+    return catchIds;
 }
 
 auto OnCanUseSpell(CBattleEntity* PChar, CSpell* PSpell) -> bool // triggers when CanUseSpell is invoked on spell.cpp for PCs only
@@ -5708,7 +5769,7 @@ void DisallowRespawn(uint32 mobid, bool allowRespawn)
 {
     TracyZoneScoped;
 
-    CMobEntity* PMob = (CMobEntity*)zoneutils::GetEntity(mobid, TYPE_MOB);
+    CMobEntity* PMob = static_cast<CMobEntity*>(zoneutils::GetEntity(mobid, TYPE_MOB));
     if (PMob != nullptr)
     {
         PMob->m_AllowRespawn = !allowRespawn;
@@ -5729,7 +5790,7 @@ auto GetMobRespawnTime(uint32 mobid) -> uint32
 {
     TracyZoneScoped;
 
-    CMobEntity* PMob = (CMobEntity*)zoneutils::GetEntity(mobid, TYPE_MOB);
+    CMobEntity* PMob = static_cast<CMobEntity*>(zoneutils::GetEntity(mobid, TYPE_MOB));
 
     if (PMob != nullptr)
     {
@@ -5750,19 +5811,20 @@ auto GetRecentFishers(uint16 minutes) -> sol::table
     // limit the lookback time to prevent huge queries
     uint16 lookbackTime = std::clamp<uint32>(minutes, 1, 60);
 
-    sol::table  fishers = lua.create_table();
-    const char* Query   = "SELECT cv.charid, c.charname, stats.mlvl, z.name, COALESCE(cs.value, 0) / 10 as skill "
-                          "FROM char_vars cv "
-                          "LEFT JOIN chars c ON c.charid  = cv.charid "
-                          "LEFT JOIN char_skills cs ON cs.charid = cv.charid AND cs.skillid = 48 "
-                          "INNER JOIN char_stats stats ON stats.charid = c.charid "
-                          "INNER JOIN zone_settings z ON z.zoneid = c.pos_zone "
-                          "WHERE "
-                          "varname = '[Fish]LastCastTime' AND "
-                          "FROM_UNIXTIME(cv.value) > NOW() - INTERVAL ? MINUTE "
-                          "ORDER BY z.name, z.name, stats.mlvl, skill";
+    sol::table     fishers = lua.create_table();
+    constexpr auto query   = db::Query(
+        "SELECT cv.charid, c.charname, stats.mlvl, z.name, COALESCE(cs.value, 0) / 10 as skill "
+        "FROM char_vars cv "
+        "LEFT JOIN chars c ON c.charid  = cv.charid "
+        "LEFT JOIN char_skills cs ON cs.charid = cv.charid AND cs.skillid = 48 "
+        "INNER JOIN char_stats stats ON stats.charid = c.charid "
+        "INNER JOIN zone_settings z ON z.zoneid = c.pos_zone "
+        "WHERE "
+        "varname = '[Fish]LastCastTime' AND "
+        "FROM_UNIXTIME(cv.value) > NOW() - INTERVAL ? MINUTE "
+        "ORDER BY z.name, z.name, stats.mlvl, skill");
 
-    const auto rset = db::preparedStmt(Query, lookbackTime);
+    const auto rset = db::preparedStmt(query, lookbackTime);
     if (rset && rset->rowsCount())
     {
         while (rset->next())
@@ -6256,7 +6318,7 @@ auto SendItemToDeliveryBox(const std::string& playerName, uint16 itemId, uint32 
                 itemId,
                 quantity,
                 playerID,
-                senderText);
+                senderText.substr(0, 15));
 
             if (!rset)
             {
