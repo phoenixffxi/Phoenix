@@ -146,7 +146,7 @@ describe('Module: exp_penalties', function()
             memberTNL          = 5800,
             highestMemberTNL   = 5800,
             partySize          = 1,
-            regionId           = xi.region.TAVNAZIA,
+            regionId           = xi.region.PROMYVION,
             mobDifficulty      = xi.mobDifficulty.EVEN_MATCH,
             chainNumber        = 1,
             chainActive        = false,
@@ -336,12 +336,12 @@ describe('Module: exp_penalties', function()
         assert(calculate(member, mob, data).exp == 10)
     end)
 
-    it('matches the stock SQL TNL table through level 50', function()
+    it('matches the stock TNL table through level 50', function()
         local tnl = {}
-        for line in io.lines('sql/exp_base.sql') do
-            local level, exp = line:match('VALUES %((%d+),(%d+)%)')
+        for line in io.lines('data/experience.yaml') do
+            local level, exp = line:match('^%s+(%d+):%s+(%d+)%s*$')
             if level then
-                tnl[tonumber(level) - 1] = tonumber(exp)
+                tnl[tonumber(level)] = tonumber(exp)
             end
         end
 

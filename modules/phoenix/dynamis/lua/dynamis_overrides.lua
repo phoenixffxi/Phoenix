@@ -844,7 +844,7 @@ local function registerDynamisZoneOverrides(zoneID, zoneName, zoneNumber)
     if zoneID == xi.zone.DYNAMIS_BUBURIMU or zoneID == xi.zone.DYNAMIS_QUFIM then
         m:addOverride(string.format('xi.zones.%s.npcs.qm1.onTrigger', zoneName),
         function(player, npc)
-            xi.dynamis.sjQMOnTrigger(player, npc)
+            xi.dynamis.sjQMOnTrigger(npc)
         end)
     end
 
@@ -1307,7 +1307,7 @@ local function registerMobOverrides(zoneName, mobName, overrideMobType, modelSiz
             elseif overrideMobType == mobType.NIGHTMARE then
                 handler = function(mob)
                     xi.dynamis.onMobSpawn(mob, overrideMobType, modelSize)
-                    xi.dynamis.generatePath(mob, modelSize)
+                    xi.dynamis.generatePath(mob)
                 end
             elseif overrideMobType == mobType.MASTER then
                 handler = function(mob)

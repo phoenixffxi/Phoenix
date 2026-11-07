@@ -286,7 +286,7 @@ describe('Module: phoenix custom exp', function()
         it('leaves the rate alone when the population binding is missing', function()
             local testXi, state, env = fixture()
             setRate(testXi, state, 1500)
-            env.GetOnlinePlayerCount = false
+            rawset(env, 'GetOnlinePlayerCount', false)
             testXi.server.onServerStart()
             assert(state.serverVars[rateVar] == 20)
         end)

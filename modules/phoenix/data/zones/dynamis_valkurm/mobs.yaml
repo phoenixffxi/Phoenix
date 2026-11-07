@@ -26,7 +26,7 @@ templates:
       spawn:
         type: [scripted]
       stats:
-        hp: 15000
+        hp:  15000
         str: a
         dex: a
         vit: a
@@ -61,7 +61,7 @@ templates:
       spawn:
         type: [scripted]
       stats:
-        hp: 10000
+        hp:  10000
         str: a
         dex: a
         vit: a

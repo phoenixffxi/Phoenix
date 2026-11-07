@@ -548,6 +548,10 @@ m:addOverride('xi.zones.Jugner_Forest.mobs.King_Arthro.onMobDespawn', function(m
     super(mob)
 
     local knightCrab = GetMobByID(mob:getID() - 1)
+    if not knightCrab then
+        return
+    end
+
     local remaining = knightCrab:getRespawnTime()
     if remaining > 0 then
         SetServerVariable(kingArthroWindowVar, GetMobRespawnTime(knightCrab:getID()))
@@ -587,15 +591,16 @@ m:addOverride('xi.zones.Jugner_Forest.mobs.King_Arthro.onMobInitialize', functio
     local remaining = math.max(deadline - GetSystemTime(), 60)
     for offset = 1, 10 do
         local knightCrab = GetMobByID(kingArthroId - offset)
+        if knightCrab then
+            knightCrab:addListener('SPAWN', 'PXI_TNM_RESTORE', function(mobArg)
+                -- Restore once so a later King Arthro kill can choose a new window.
+                mobArg:removeListener('PXI_TNM_RESTORE')
+                mobArg:setRespawnTime(0)
+                mobArg:setRespawnTime(baseWindow)
+            end)
 
-        knightCrab:addListener('SPAWN', 'PXI_TNM_RESTORE', function(mobArg)
-            -- Restore once so a later King Arthro kill can choose a new window.
-            mobArg:removeListener('PXI_TNM_RESTORE')
-            mobArg:setRespawnTime(0)
-            mobArg:setRespawnTime(baseWindow)
-        end)
-
-        knightCrab:setRespawnTime(remaining)
+            knightCrab:setRespawnTime(remaining)
+        end
     end
 end)
 

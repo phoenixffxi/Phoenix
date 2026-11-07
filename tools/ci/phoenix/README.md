@@ -14,8 +14,21 @@ If an LSB merge conflicts inside one, take upstream's version and re-apply the l
 - `run_xi_test.py` runs xi_test with the skip list and the era settings from `setup_tests.py`, so a local run matches CI.
 - `xi_test_skips.md` lists the upstream tests CI skips, with the reason for each and the Phoenix test that replaces it.
 - `setup_tests.py` removes `modules/init.txt` entries for modules missing from the checkout and sets the era settings for the rest of the job.
+- `check_module_lua.py` runs the Lua language server on `modules/`, loading `scripts/` only for its definitions.
 
 Phoenix's replacement tests are in `scripts/tests/phoenix`, and module tests are in `scripts/tests/modules`.
+
+## Module checks
+
+LSB's Lua and data checks only look at `scripts/` and `data/`, so `phoenix_checks.yml` adds two jobs for `modules/`.
+
+- Module Lua runs `check_module_lua.py`, which only flags modules that `modules/init.txt` enables, so unused LSB modules and the rest of the repo stay quiet. It skips phoenix_ac (private) and phoenix_archive.
+- Module data runs `tools/ci/validate_module_data.py`, which merges the module data `init.txt` enables onto `data/` and checks the result against the schemas. It also checks the formatting of changed module YAML.
+
+Both also run when `scripts/` or `data/` changes, since an upstream change can break a module.
+The data job's schema steps are copied from the Data validation job in `pr_checks.yml`, so copy any upstream change to those steps too.
+Lua globals that Phoenix's C++ modules add are declared in `scripts/specs/phoenix/globals.lua`.
+`validate_module_data.py` lives in `tools/ci/` rather than here because pylint can only resolve its `tools.codegen` imports from there.
 
 ## Edits to upstream files
 
