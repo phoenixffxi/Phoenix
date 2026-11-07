@@ -73,14 +73,16 @@ for hash, lines in get_commit_messages().items():
             "a more detailed summary of your changes.",
         )
 
-    if len(lines[0]) > 72:
+    # Phoenix start: Extended check to 110 to account for title adjustments post merge from upstream
+    if len(lines[0]) > 110:
         print_error(
             hash,
             lines,
             lines[0],
-            "Commit title is too long.\nMaximum length is 72 characters.\n"
+            "Commit title is too long.\nMaximum length is 110 characters.\n"
             "If you need to provide a more detailed summary of your chages you should provide a multi-line commit message",
         )
+    # Phoenix end
 
     if "|" in lines[0]:
         print_error(

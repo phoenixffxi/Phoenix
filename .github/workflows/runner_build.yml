@@ -337,9 +337,11 @@ jobs:
           clang_version: ${{ inputs.compiler_version && format('-{0}', inputs.compiler_version) || '' }}
         run: |
           cmake --build build --target enum_codegen
+          # Phoenix start: the era and phoenix modules added to the path filter.
           run-clang-tidy${{ env.clang_version }} -p build -j $(nproc) -quiet \
             -clang-tidy-binary "$RUNNER_TEMP/clang-tidy-cached" \
-            "^${GITHUB_WORKSPACE}/(src|build/generated)/" | tee clang_tidy.log
+            "^${GITHUB_WORKSPACE}/(src|modules/(era|phoenix)|build/generated)/" | tee clang_tidy.log
+          # Phoenix end
 
       - name: Save clang-tidy cache
         if: ${{ !cancelled() && inputs.clang_tidy && env.SKIP_BUILD != 'true' }}

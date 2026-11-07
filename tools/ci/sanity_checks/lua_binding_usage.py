@@ -9,25 +9,31 @@ import regex
 
 function_names = []
 
+# Phoenix start: module C++ bindings count as defined.
 binding_patterns = [
     re.compile(r'SOL_REGISTER\("([^"]+)"'),
     re.compile(r'\b\w*Type\s*\[\s*"([^"]+)"\s*\]\s*='),
 ]
+# Phoenix end
 
 
 def extract_function_names():
     # Search in src bindings and module C++ bindings (including nested directories)
+    # Phoenix start: Add modules/ too.
     search_dirs = ["src/map/lua/", "src/test/lua/", "modules/"]
+    # Phoenix end
 
     for base_dir in search_dirs:
         for filename in glob.glob(os.path.join(base_dir, "**/*.[ch]*"), recursive=True):
             if os.path.isfile(filename):
                 with open(filename, mode="r", encoding="utf-8") as file:
                     for line in file.readlines():
+                        # Phoenix start: the patterns above, not only SOL_REGISTER.
                         for binding_pattern in binding_patterns:
                             match = binding_pattern.search(line)
                             if match:
                                 function_names.append(match.group(1))
+                        # Phoenix end
 
 
 def main():

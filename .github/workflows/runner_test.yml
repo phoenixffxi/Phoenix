@@ -173,6 +173,11 @@ jobs:
           mv xi_test_tracy xi_test 2> /dev/null || true
           chmod +x xi_*
 
+      # Phoenix start: drops init.txt entries for private modules and sets the era settings.
+      - name: Phoenix test setup
+        run: python ./tools/ci/phoenix/setup_tests.py
+      # Phoenix end
+
       - name: Enable modules
         if: ${{ inputs.test_modules }}
         run: |
@@ -190,7 +195,9 @@ jobs:
         if: ${{ inputs.xi_test }}
         id: xi_test
         continue-on-error: true
-        run: ./xi_test --keep-going --retry 5 --output tests.ctrf.json
+        # Phoenix start: skips the upstream tests listed in tools/ci/phoenix/xi_test_skips.md.
+        run: python ./tools/ci/phoenix/run_xi_test.py --keep-going --retry 5 --output tests.ctrf.json
+        # Phoenix end
 
       - name: Publish Test Report
         if: ${{ !cancelled() && inputs.xi_test }}

@@ -478,8 +478,6 @@ void includeAlliance(GilReason& reason)
                        });
 }
 
-} // namespace
-
 class GilAuditModule : public CPPModule
 {
 public:
@@ -837,5 +835,7 @@ public:
         return false;
     }
 };
+
+} // namespace
 
 REGISTER_CPP_MODULE(GilAuditModule);

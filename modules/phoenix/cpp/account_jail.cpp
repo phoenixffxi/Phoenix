@@ -55,8 +55,6 @@ auto pardonOffline(const uint32 charId) -> bool
     return true;
 }
 
-} // namespace
-
 class AccountJailModule : public CPPModule
 {
     void OnInit() override
@@ -67,5 +65,7 @@ class AccountJailModule : public CPPModule
         ::lua.set_function("PardonOffline", pardonOffline);
     }
 };
+
+} // namespace
 
 REGISTER_CPP_MODULE(AccountJailModule);

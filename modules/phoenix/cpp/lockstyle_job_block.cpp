@@ -13,6 +13,9 @@
 
 #include <vector>
 
+namespace
+{
+
 class LockstyleJobBlock : public CPPModule
 {
     void OnInit() override
@@ -70,5 +73,7 @@ class LockstyleJobBlock : public CPPModule
         return false;
     }
 };
+
+} // namespace
 
 REGISTER_CPP_MODULE(LockstyleJobBlock);

@@ -1,0 +1,82 @@
+# Phoenix's pull request builds and tests, run instead of the Build and Test jobs in pr_checks.yml.
+# They're in a separate file so upstream changes to pr_checks.yml merge without conflicts.
+# Some upstream tests fail under Phoenix's era settings, so xi_test skips them (see tools/ci/phoenix/README.md).
+
+name: Phoenix Checks
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+  actions: read
+  statuses: write
+
+jobs:
+  # One job per build: a job that needs a matrix job waits for every leg of it.
+  Build_Windows:
+    name: Build
+    uses: ./.github/workflows/runner_build.yml
+    with:
+      runner: windows-2025
+      compiler: msvc
+      build_type: Debug
+      build_modules: false
+      upload_artifact: true
+
+  Build_Linux:
+    name: Build
+    uses: ./.github/workflows/runner_build.yml
+    with:
+      runner: ubuntu-26.04
+      compiler: gcc
+      compiler_version: 15
+      build_type: Debug
+      build_modules: false
+      upload_artifact: true
+
+  # Compile check only: artifact names don't include the compiler, so uploading would clash with the gcc build.
+  Build_Clang:
+    name: Build
+    uses: ./.github/workflows/runner_build.yml
+    with:
+      runner: ubuntu-26.04
+      compiler: clang
+      compiler_version: 22
+      build_type: Debug
+      build_modules: false
+      upload_artifact: false
+
+  Test_Windows:
+    needs: Build_Windows
+    if: ${{ !cancelled() && needs.Build_Windows.result == 'success' }}
+    name: Test
+    uses: ./.github/workflows/runner_test.yml
+    with:
+      runner: windows-2025
+      test_modules: false
+      multi_process: true
+      xi_test: false
+      startup_checks: true
+
+  Test_Linux:
+    needs: Build_Linux
+    if: ${{ !cancelled() && needs.Build_Linux.result == 'success' }}
+    name: Test
+    uses: ./.github/workflows/runner_test.yml
+    with:
+      runner: ubuntu-26.04
+      test_modules: false
+      multi_process: false
+      xi_test: true
+      startup_checks: true

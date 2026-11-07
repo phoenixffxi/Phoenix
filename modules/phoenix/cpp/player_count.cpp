@@ -11,6 +11,9 @@
 #include "common/lua.h"
 #include "map/utils/moduleutils.h"
 
+namespace
+{
+
 class PopulationSyncPenaltyModule : public CPPModule
 {
 public:
@@ -29,5 +32,7 @@ public:
                            });
     }
 };
+
+} // namespace
 
 REGISTER_CPP_MODULE(PopulationSyncPenaltyModule);

@@ -88,6 +88,13 @@ target_link_libraries(xi_test_lib
 )
 
 target_link_libraries(xi_test PRIVATE xi_test_lib Catch2::Catch2)
+
+# Phoenix start: build the init.txt C++ modules in too, so the tests run with what xi_map loads.
+xi_collect_modules(module_sources module_include_dirs module_cmakelists)
+target_sources(xi_test PRIVATE ${module_sources})
+target_include_directories(xi_test PRIVATE ${module_include_dirs})
+# Phoenix end
+
 xi_precompile_headers(xi_test)
 
 if(TRACY_ENABLE)

@@ -1,0 +1,8 @@
+---
+# Phoenix: the main config without two checks module code trips by design.
+# REGISTER_CPP_MODULE declares a static, and module classes override the CPPModule hooks as private.
+InheritParentConfig: true
+Checks: >
+  -misc-override-with-different-visibility,
+  -misc-use-anonymous-namespace
+...
