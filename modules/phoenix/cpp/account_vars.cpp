@@ -70,6 +70,9 @@ void persistAccountVar(const uint32 accountId, const std::string& varname, const
 
 } // namespace accountvars
 
+namespace
+{
+
 class AccountVarsModule : public CPPModule
 {
     void OnInit() override
@@ -111,5 +114,7 @@ class AccountVarsModule : public CPPModule
         };
     }
 };
+
+} // namespace
 
 REGISTER_CPP_MODULE(AccountVarsModule);

@@ -15,6 +15,9 @@
 #include "map/status_effect_container.h"
 #include "map/utils/moduleutils.h"
 
+namespace
+{
+
 class TreantGate : public CPPModule
 {
     void OnInit() override
@@ -85,5 +88,7 @@ class TreantGate : public CPPModule
         }
     }
 };
+
+} // namespace
 
 REGISTER_CPP_MODULE(TreantGate);

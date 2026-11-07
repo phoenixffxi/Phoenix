@@ -164,6 +164,9 @@ void AddFishingObserver(FishingObserver observe)
 
 } // namespace fishinghooks
 
+namespace
+{
+
 class FishingHooksModule : public CPPModule
 {
     void OnInit() override
@@ -208,5 +211,7 @@ class FishingHooksModule : public CPPModule
         }
     }
 };
+
+} // namespace
 
 REGISTER_CPP_MODULE(FishingHooksModule);
