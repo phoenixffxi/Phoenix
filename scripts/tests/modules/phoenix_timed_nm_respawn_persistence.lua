@@ -1,4 +1,6 @@
 -- Loads the real module and mob scripts with isolated engine bindings.
+-- Covers: modules/phoenix/lua/custom/pxi_timed_nm_respawn_persistence.lua
+-- Covers: modules/era/lua/globals/old_nm_respawn_timers.lua
 describe('Module: timed NM persistence', function()
     local function equal(actual, expected, message)
         assert(actual == expected, (message or 'unexpected value') .. ': expected ' .. tostring(expected) .. ', got ' .. tostring(actual))

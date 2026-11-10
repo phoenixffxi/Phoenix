@@ -1,6 +1,7 @@
 -----------------------------------
 -- Sends real fishing packets through modules/phoenix/cpp/fishing_hooks.cpp
--- xi_test only links C++ modules added to src/test/CMakeLists.txt, this skips itself otherwise
+-- Covers: modules/phoenix/cpp/fishing_hooks.cpp
+-- Covers: modules/phoenix/cpp/fishing_history.cpp
 -----------------------------------
 ---@diagnostic disable: undefined-field, undefined-global
 -- luacheck: globals GetFishingHistory GetFishingRecords GetFishingAttempts
@@ -131,11 +132,8 @@ local function castUntilBite(player)
 end
 
 describe('Module: phoenix fishing hooks', function()
-    if GetFishingHistory == nil then
-        return
-    end
-
     before_each(function()
+        assert(GetFishingHistory, 'fishing_history.cpp is not built into xi_test, check modules/init.txt')
         xi.test.world:setSetting('map.FISHING_ENABLE', true)
         xi.test.world:setSeed(1710)
     end)
@@ -249,6 +247,7 @@ describe('Module: phoenix fishing hooks', function()
     end)
 
     it('tells the fishing audit how each fight ended', function()
+        -- The audit is in the private phoenix_ac module, which CI doesn't have.
         if GetFishingAttempts == nil then
             return
         end
