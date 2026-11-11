@@ -29,7 +29,7 @@ templates:
       spawn:
         type: [scripted]
       stats:
-        hp: 15000
+        hp:  15000
         str: a
         dex: a
         vit: a
@@ -68,8 +68,8 @@ templates:
       spawn:
         type: [scripted]
       stats:
-        hp: 2400
-        mp: 1000
+        hp:  2400
+        mp:  1000
         str: a
         dex: a
         vit: a
@@ -102,8 +102,8 @@ templates:
       spawn:
         type: [scripted]
       stats:
-        hp: 2400
-        mp: 1000
+        hp:  2400
+        mp:  1000
         str: a
         dex: a
         vit: a
@@ -137,7 +137,7 @@ templates:
       spawn:
         type: [scripted]
       stats:
-        hp: 15000
+        hp:  15000
         str: a
         dex: a
         vit: a
@@ -181,7 +181,7 @@ templates:
       spawn:
         type: [scripted]
       stats:
-        hp: 15000
+        hp:  15000
         str: a
         dex: a
         vit: a
@@ -271,7 +271,7 @@ templates:
       spawn:
         type: [scripted]
       stats:
-        hp: 15000
+        hp:  15000
         str: a
         dex: a
         vit: a
@@ -315,7 +315,7 @@ templates:
       spawn:
         type: [scripted]
       stats:
-        hp: 15000
+        hp:  15000
         str: a
         dex: a
         vit: a
@@ -359,7 +359,7 @@ templates:
       spawn:
         type: [scripted]
       stats:
-        hp: 15000
+        hp:  15000
         str: a
         dex: a
         vit: a

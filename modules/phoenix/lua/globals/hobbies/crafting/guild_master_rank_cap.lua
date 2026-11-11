@@ -6,21 +6,25 @@ require('scripts/globals/hobbies/crafting/guild_master')
 -----------------------------------
 local m = Module:new('guild_master_rank_cap')
 
+-- Set only while a guild master handles the player.
+local capAtVeteran = false
+
 local function setVeteranAsTopRank(func, player, npc, trade)
-    local getCraftSkillCap = xi.crafting.getCraftSkillCap
+    capAtVeteran = true
+    func(player, npc, trade)
+    capAtVeteran = false
+end
 
-    xi.crafting.getCraftSkillCap = function(target, skillId)
-        if target:getSkillRank(skillId) >= xi.craftRank.VETERAN then
-            return 110
-        end
-
-        return getCraftSkillCap(target, skillId)
+m:addOverride('xi.crafting.getCraftSkillCap', function(target, skillId)
+    if
+        capAtVeteran and
+        target:getSkillRank(skillId) >= xi.craftRank.VETERAN
+    then
+        return 110
     end
 
-    func(player, npc, trade)
-
-    xi.crafting.getCraftSkillCap = getCraftSkillCap
-end
+    return super(target, skillId)
+end)
 
 m:addOverride('xi.crafting.guildMasterOnTrigger', function(player, npc)
     setVeteranAsTopRank(super, player, npc)

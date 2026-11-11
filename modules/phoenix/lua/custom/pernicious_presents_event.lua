@@ -681,7 +681,7 @@ xi.treantEvent.resetZone = function(zoneId)
     if mobId ~= 0 then
         local mob = GetMobByID(mobId)
         if mob then
-            DespawnMob(mobId, zone)
+            DespawnMob(mobId)
         end
     end
 

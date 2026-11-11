@@ -24,8 +24,8 @@ templates:
           type:  standard
           model: 10
         entity_flags:  1153
-        animation_sub: 16
-        hitbox:        8
+        animation_sub:   16
+        hitbox:           8
       behaviors:
         aggressive: true
       spawn:
@@ -36,7 +36,7 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Apollyon_Sapling:
     id:            10627
@@ -53,8 +53,8 @@ templates:
           type:  standard
           model: 392
         entity_flags: 1155
-        model_size:   1
-        hitbox:       12
+        model_size:      1
+        hitbox:         12
       behaviors:
         aggressive:     true
         links:          true
@@ -63,11 +63,11 @@ templates:
         type: [scripted]
       stats:
         hp: 6000
-        mp: 500
+        mp:  500
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Arboricole_Beetle:
     id:            10621
@@ -83,8 +83,8 @@ templates:
           type:  standard
           model: 408
         entity_flags: 1155
-        model_size:   1
-        hitbox:       12
+        model_size:      1
+        hitbox:         12
       behaviors:
         aggressive:     true
         links:          true
@@ -93,11 +93,11 @@ templates:
         type: [scripted]
       stats:
         hp: 6000
-        mp: 500
+        mp:  500
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Arboricole_Crawler:
     id:            10622
@@ -113,8 +113,8 @@ templates:
           type:  standard
           model: 396
         entity_flags: 1155
-        model_size:   1
-        hitbox:       15
+        model_size:      1
+        hitbox:         15
       behaviors:
         aggressive:     true
         links:          true
@@ -126,7 +126,7 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Arboricole_Hornet:
     id:            10623
@@ -142,9 +142,9 @@ templates:
           type:  standard
           model: 272
         entity_flags:  1155
-        animation_sub: 8
-        model_size:    1
-        hitbox:        10
+        animation_sub:    8
+        model_size:       1
+        hitbox:          10
       behaviors:
         aggressive: true
         links:      true
@@ -155,7 +155,7 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Arboricole_Opo-opo:
     id:            10624
@@ -172,8 +172,8 @@ templates:
           type:  standard
           model: 416
         entity_flags: 1155
-        model_size:   1
-        hitbox:       18
+        model_size:      1
+        hitbox:         18
       behaviors:
         aggressive:     true
         links:          true
@@ -185,7 +185,7 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Arboricole_Raven:
     id:            10625
@@ -201,8 +201,8 @@ templates:
           type:  standard
           model: 445
         entity_flags: 1155
-        model_size:   1
-        hitbox:       20
+        model_size:      1
+        hitbox:         20
       behaviors:
         aggressive:     true
         links:          true
@@ -211,11 +211,11 @@ templates:
         type: [scripted]
       stats:
         hp: 6000
-        mp: 500
+        mp:  500
     loot:
       drops:
         - chance: very_common
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Arboricole_Spider:
     id:            10626
@@ -231,9 +231,9 @@ templates:
           type:  standard
           model: 310
         entity_flags:  1667
-        animation_sub: 8
-        model_size:    1
-        hitbox:        13
+        animation_sub:    8
+        model_size:       1
+        hitbox:          13
       behaviors:
         aggressive:     true
         links:          true
@@ -245,7 +245,7 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Armoury_Crate_Mimic:
     id:            10628
@@ -269,9 +269,9 @@ templates:
           type:  standard
           model: 259
         entity_flags:  1155
-        animation_sub: 8
-        model_size:    1
-        hitbox:        12
+        animation_sub:    8
+        model_size:       1
+        hitbox:          12
       behaviors:
         aggressive:     true
         links:          true
@@ -283,7 +283,7 @@ templates:
     loot:
       drops:
         - chance: very_common
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Armoury_Crate_Recover:
     id:           10677
@@ -303,9 +303,9 @@ templates:
           type:  standard
           model: 960
         entity_flags:  131
-        animation_sub: 8
-        model_size:    1
-        hitbox:        12
+        animation_sub:   8
+        model_size:      1
+        hitbox:         12
       behaviors:
         flags: [no_turn]
       spawn:
@@ -328,8 +328,8 @@ templates:
           type:  standard
           model: 15
         entity_flags:  129
-        animation_sub: 16
-        hitbox:        8
+        animation_sub:  16
+        hitbox:          8
       behaviors:
         aggressive: true
       spawn:
@@ -340,7 +340,7 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Earth_Elemental:
     id:            10631
@@ -357,8 +357,8 @@ templates:
           type:  standard
           model: 11
         entity_flags:  1153
-        animation_sub: 16
-        hitbox:        8
+        animation_sub:   16
+        hitbox:           8
       behaviors:
         aggressive: true
       spawn:
@@ -369,7 +369,7 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Fir_Bholg_BLM:
     id:            10619
@@ -388,8 +388,8 @@ templates:
           type:  misc
           model: 1030
         entity_flags: 131
-        model_size:   1
-        hitbox:       15
+        model_size:     1
+        hitbox:        15
       behaviors:
         aggressive:     true
         links:          true
@@ -402,7 +402,7 @@ templates:
     loot:
       drops:
         - chance: very_common
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Fir_Bholg_PLD:
     id:            10616
@@ -421,8 +421,8 @@ templates:
           type:  misc
           model: 1040
         entity_flags: 131
-        model_size:   1
-        hitbox:       20
+        model_size:     1
+        hitbox:        20
       behaviors:
         aggressive:     true
         links:          true
@@ -435,7 +435,7 @@ templates:
     loot:
       drops:
         - chance: very_common
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Fir_Bholg_RDM:
     id:            10618
@@ -452,8 +452,8 @@ templates:
         look:
           type:  misc
           model: 1032
-        entity_flags: 3
-        model_size:   1
+        entity_flags:  3
+        model_size:    1
         hitbox:       17
       behaviors:
         aggressive:     true
@@ -467,7 +467,7 @@ templates:
     loot:
       drops:
         - chance: very_common
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Fir_Bholg_SAM:
     id:            10617
@@ -484,8 +484,8 @@ templates:
           type:  misc
           model: 1012
         entity_flags: 131
-        model_size:   1
-        hitbox:       17
+        model_size:     1
+        hitbox:        17
       behaviors:
         aggressive:     true
         links:          true
@@ -497,7 +497,7 @@ templates:
     loot:
       drops:
         - chance: very_common
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Fir_Bholg_THF:
     id:            10615
@@ -515,9 +515,9 @@ templates:
           type:  misc
           model: 1022
         entity_flags:  131
-        animation_sub: 8
-        model_size:    1
-        hitbox:        20
+        animation_sub:   8
+        model_size:      1
+        hitbox:         20
       behaviors:
         aggressive:     true
         links:          true
@@ -529,7 +529,7 @@ templates:
     loot:
       drops:
         - chance: very_common
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Fire_Elemental:
     id:            10632
@@ -546,8 +546,8 @@ templates:
           type:  standard
           model: 8
         entity_flags:  129
-        animation_sub: 16
-        hitbox:        8
+        animation_sub:  16
+        hitbox:          8
       behaviors:
         aggressive: true
       spawn:
@@ -558,7 +558,7 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Ice_Elemental:
     id:            10633
@@ -575,8 +575,8 @@ templates:
           type:  standard
           model: 9
         entity_flags:  1153
-        animation_sub: 16
-        hitbox:        8
+        animation_sub:   16
+        hitbox:           8
       behaviors:
         aggressive: true
       spawn:
@@ -587,7 +587,7 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Jidra:
     id:            10678
@@ -604,8 +604,8 @@ templates:
           type:  standard
           model: 388
         entity_flags: 135
-        model_size:   1
-        hitbox:       37
+        model_size:     1
+        hitbox:        37
       behaviors:
         aggressive:     true
         links:          true
@@ -631,8 +631,8 @@ templates:
           type:  standard
           model: 395
         entity_flags: 135
-        model_size:   3
-        hitbox:       53
+        model_size:     3
+        hitbox:        53
       behaviors:
         aggressive:     true
         links:          true
@@ -657,8 +657,8 @@ templates:
           type:  standard
           model: 14
         entity_flags:  129
-        animation_sub: 16
-        hitbox:        8
+        animation_sub:  16
+        hitbox:          8
       behaviors:
         aggressive: true
       spawn:
@@ -669,7 +669,7 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Thunder_Elemental:
     id:            10636
@@ -686,8 +686,8 @@ templates:
           type:  standard
           model: 13
         entity_flags:  129
-        animation_sub: 16
-        hitbox:        8
+        animation_sub:  16
+        hitbox:          8
       behaviors:
         aggressive: true
       spawn:
@@ -698,7 +698,7 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Water_Elemental:
     id:            10635
@@ -715,8 +715,8 @@ templates:
           type:  standard
           model: 12
         entity_flags:  129
-        animation_sub: 16
-        hitbox:        8
+        animation_sub:  16
+        hitbox:          8
       behaviors:
         aggressive: true
       spawn:
@@ -727,7 +727,7 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   # -- NW Apollyon --
 
@@ -746,8 +746,8 @@ templates:
           type:  standard
           model: 1351
         entity_flags: 1155
-        model_size:   1
-        hitbox:       12
+        model_size:      1
+        hitbox:         12
       behaviors:
         aggressive:     true
         links:          true
@@ -759,7 +759,7 @@ templates:
     loot:
       drops:
         - chance: very_common
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Bardha:
     id:            10637
@@ -777,8 +777,8 @@ templates:
           type:  standard
           model: 368
         entity_flags: 131
-        model_size:   1
-        hitbox:       8
+        model_size:     1
+        hitbox:         8
       behaviors:
         aggressive:     true
         links:          true
@@ -791,7 +791,7 @@ templates:
     loot:
       drops:
         - chance: very_common
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Cynoprosopi:
     id:            10644
@@ -810,9 +810,9 @@ templates:
           type:  standard
           model: 783
         entity_flags: 155
-        name_prefix:  32
-        model_size:   1
-        hitbox:       50
+        name_prefix:   32
+        model_size:     1
+        hitbox:        50
       behaviors:
         flags:          [no_turn]
         aggressive:     true
@@ -838,8 +838,8 @@ templates:
           type:  standard
           model: 398
         entity_flags: 131
-        model_size:   1
-        hitbox:       32
+        model_size:     1
+        hitbox:        32
       behaviors:
         aggressive:     true
         links:          true
@@ -851,9 +851,9 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Kaiser_Behemoth:
     id:            10646
@@ -870,8 +870,8 @@ templates:
           type:  standard
           model: 404
         entity_flags: 133
-        model_size:   2
-        hitbox:       51
+        model_size:     2
+        hitbox:        51
       behaviors:
         flags:          [no_turn]
         aggressive:     true
@@ -881,7 +881,7 @@ templates:
         type: [scripted]
       stats:
         hp: 16000
-        mp: 1000
+        mp:  1000
 
   Kronprinz_Behemoth:
     id:            10645
@@ -897,7 +897,7 @@ templates:
           type:  standard
           model: 404
         entity_flags: 129
-        hitbox:       38
+        hitbox:        38
       behaviors:
         flags:          [no_assist, no_turn]
         aggressive:     true
@@ -911,15 +911,15 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Millenary_Mossback:
     id:            10642
@@ -937,8 +937,8 @@ templates:
           type:  standard
           model: 400
         entity_flags: 133
-        model_size:   2
-        hitbox:       36
+        model_size:     2
+        hitbox:        36
       behaviors:
         aggressive:     true
         links:          true
@@ -963,8 +963,8 @@ templates:
           type:  standard
           model: 1357
         entity_flags: 131
-        model_size:   1
-        hitbox:       12
+        model_size:     1
+        hitbox:        12
       behaviors:
         aggressive:     true
         links:          true
@@ -976,7 +976,7 @@ templates:
     loot:
       drops:
         - chance: very_common
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Pluto:
     id:            10638
@@ -991,7 +991,7 @@ templates:
       jobs: [war, war]
       resists:
         dmg_physical:
-          slashing: 1250
+          slashing:  1250
           blunt:    -1250
           h2h:      -1250
       render:
@@ -999,9 +999,9 @@ templates:
           type:  standard
           model: 320
         entity_flags: 159
-        name_prefix:  32
-        model_size:   3
-        hitbox:       41
+        name_prefix:   32
+        model_size:     3
+        hitbox:        41
       behaviors:
         aggressive:     true
         links:          true
@@ -1026,9 +1026,9 @@ templates:
           type:  standard
           model: 344
         entity_flags: 159
-        name_prefix:  32
-        model_size:   3
-        hitbox:       58
+        name_prefix:   32
+        model_size:     3
+        hitbox:        58
       behaviors:
         aggressive:     true
         links:          true
@@ -1059,8 +1059,8 @@ templates:
           type:  standard
           model: 412
         entity_flags: 1155
-        model_size:   1
-        hitbox:       37
+        model_size:      1
+        hitbox:         37
       behaviors:
         aggressive:     true
         links:          true
@@ -1073,7 +1073,7 @@ templates:
     loot:
       drops:
         - chance: very_common
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Apollyon_Sweeper:
     id:            10655
@@ -1092,9 +1092,9 @@ templates:
           type:  standard
           model: 304
         entity_flags:  1159
-        animation_sub: 4
-        model_size:    3
-        hitbox:        41
+        animation_sub:    4
+        model_size:       3
+        hitbox:          41
       behaviors:
         aggressive:     true
         links:          true
@@ -1121,8 +1121,8 @@ templates:
           type:  standard
           model: 300
         entity_flags: 131
-        model_size:   1
-        hitbox:       8
+        model_size:     1
+        hitbox:         8
       behaviors:
         aggressive:     true
         links:          true
@@ -1134,7 +1134,7 @@ templates:
     loot:
       drops:
         - chance: common
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Bialozar:
     id:            10653
@@ -1154,8 +1154,8 @@ templates:
           type:  standard
           model: 336
         entity_flags: 133
-        model_size:   2
-        hitbox:       36
+        model_size:     2
+        hitbox:        36
       behaviors:
         aggressive:     true
         true_detection: true
@@ -1181,8 +1181,8 @@ templates:
           type:  standard
           model: 301
         entity_flags: 131
-        model_size:   1
-        hitbox:       8
+        model_size:     1
+        hitbox:         8
       behaviors:
         aggressive:     true
         links:          true
@@ -1194,7 +1194,7 @@ templates:
     loot:
       drops:
         - chance: common
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Cornu:
     id:            10650
@@ -1213,8 +1213,8 @@ templates:
           type:  standard
           model: 445
         entity_flags: 1155
-        model_size:   1
-        hitbox:       20
+        model_size:      1
+        hitbox:         20
       behaviors:
         aggressive:     true
         links:          true
@@ -1226,7 +1226,7 @@ templates:
     loot:
       drops:
         - chance: very_common
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Criosphinx:
     id:            10661
@@ -1246,9 +1246,9 @@ templates:
           type:  standard
           model: 402
         entity_flags:  135
-        animation_sub: 8
-        model_size:    3
-        hitbox:        44
+        animation_sub:   8
+        model_size:      3
+        hitbox:         44
       behaviors:
         aggressive:     true
         links:          true
@@ -1260,9 +1260,9 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Cronos:
     id:            10659
@@ -1287,8 +1287,8 @@ templates:
           type:  standard
           model: 640
         entity_flags: 135
-        model_size:   3
-        hitbox:       41
+        model_size:     3
+        hitbox:        41
       behaviors:
         aggressive:     true
         links:          true
@@ -1316,8 +1316,8 @@ templates:
           type:  standard
           model: 296
         entity_flags: 135
-        model_size:   3
-        hitbox:       41
+        model_size:     3
+        hitbox:        41
       behaviors:
         aggressive:     true
         links:          true
@@ -1343,9 +1343,9 @@ templates:
           type:  standard
           model: 402
         entity_flags:  135
-        animation_sub: 8
-        model_size:    3
-        hitbox:        44
+        animation_sub:   8
+        model_size:      3
+        hitbox:         44
       behaviors:
         aggressive: true
       spawn:
@@ -1355,9 +1355,9 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Hyperion:
     id:            10657
@@ -1375,8 +1375,8 @@ templates:
           type:  standard
           model: 640
         entity_flags: 131
-        model_size:   1
-        hitbox:       30
+        model_size:     1
+        hitbox:        30
       behaviors:
         aggressive:     true
         links:          true
@@ -1404,8 +1404,8 @@ templates:
           type:  standard
           model: 416
         entity_flags: 1159
-        model_size:   1
-        hitbox:       18
+        model_size:      1
+        hitbox:         18
       behaviors:
         aggressive:     true
         links:          true
@@ -1417,7 +1417,7 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Okeanos:
     id:            10658
@@ -1437,8 +1437,8 @@ templates:
           type:  standard
           model: 640
         entity_flags: 135
-        model_size:   3
-        hitbox:       41
+        model_size:     3
+        hitbox:        41
       behaviors:
         aggressive:     true
         links:          true
@@ -1465,9 +1465,9 @@ templates:
           type:  standard
           model: 444
         entity_flags:  643
-        animation_sub: 8
-        model_size:    1
-        hitbox:        20
+        animation_sub:   8
+        model_size:      1
+        hitbox:         20
       behaviors:
         aggressive:     true
         links:          true
@@ -1479,7 +1479,7 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Thiazi:
     id:            10652
@@ -1500,8 +1500,8 @@ templates:
           type:  standard
           model: 336
         entity_flags: 133
-        model_size:   2
-        hitbox:       36
+        model_size:     2
+        hitbox:        36
       behaviors:
         aggressive:     true
         true_detection: true
@@ -1528,8 +1528,8 @@ templates:
           type:  standard
           model: 332
         entity_flags: 131
-        model_size:   1
-        hitbox:       37
+        model_size:     1
+        hitbox:        37
       behaviors:
         aggressive:     true
         links:          true
@@ -1541,9 +1541,9 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   # -- SE Apollyon --
 
@@ -1564,9 +1564,9 @@ templates:
           type:  standard
           model: 356
         entity_flags:  1667
-        animation_sub: 8
-        model_size:    1
-        hitbox:        13
+        animation_sub:    8
+        model_size:       1
+        hitbox:          13
       behaviors:
         aggressive:     true
         links:          true
@@ -1575,11 +1575,11 @@ templates:
         type: [scripted]
       stats:
         hp: 9450
-        mp: 500
+        mp:  500
     loot:
       drops:
         - chance: very_common
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Evil_Armory:
     id:            10670
@@ -1598,9 +1598,9 @@ templates:
           type:  standard
           model: 478
         entity_flags:  1671
-        animation_sub: 16
-        model_size:    3
-        hitbox:        27
+        animation_sub:   16
+        model_size:       3
+        hitbox:          27
       behaviors:
         aggressive:     true
         links:          true
@@ -1626,8 +1626,8 @@ templates:
           type:  standard
           model: 423
         entity_flags: 131
-        model_size:   1
-        hitbox:       34
+        model_size:     1
+        hitbox:        34
       behaviors:
         aggressive:     true
         links:          true
@@ -1636,13 +1636,13 @@ templates:
         type: [scripted]
       stats:
         hp: 4800
-        mp: 600
+        mp:  600
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Ghost_Clot:
     id:            10663
@@ -1660,8 +1660,8 @@ templates:
           type:  standard
           model: 294
         entity_flags: 135
-        model_size:   3
-        hitbox:       33
+        model_size:     3
+        hitbox:        33
       behaviors:
         aggressive:     true
         links:          true
@@ -1691,8 +1691,8 @@ templates:
           type:  standard
           model: 1363
         entity_flags: 135
-        model_size:   3
-        hitbox:       16
+        model_size:     3
+        hitbox:        16
       behaviors:
         aggressive:     true
         links:          true
@@ -1719,8 +1719,8 @@ templates:
           type:  standard
           model: 564
         entity_flags: 1155
-        model_size:   1
-        hitbox:       12
+        model_size:      1
+        hitbox:         12
       behaviors:
         aggressive:     true
         links:          true
@@ -1732,7 +1732,7 @@ templates:
     loot:
       drops:
         - chance: very_common
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Metalloid_Amoeba:
     id:            10664
@@ -1751,9 +1751,9 @@ templates:
           type:  standard
           model: 292
         entity_flags:  643
-        animation_sub: 8
-        model_size:    1
-        hitbox:        24
+        animation_sub:   8
+        model_size:      1
+        hitbox:         24
       behaviors:
         aggressive:     true
         links:          true
@@ -1765,7 +1765,7 @@ templates:
     loot:
       drops:
         - chance: very_common
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Tieholtsodi:
     id:            10666
@@ -1786,9 +1786,9 @@ templates:
           type:  standard
           model: 352
         entity_flags: 159
-        name_prefix:  32
-        model_size:   3
-        hitbox:       25
+        name_prefix:   32
+        model_size:     3
+        hitbox:        25
       behaviors:
         aggressive:     true
         links:          true
@@ -1815,15 +1815,15 @@ templates:
           type:  standard
           model: 1080
         entity_flags: 135
-        model_size:   3
-        hitbox:       20
+        model_size:     3
+        hitbox:        20
       behaviors:
         aggressive: true
       spawn:
         type: [scripted]
       stats:
         hp: 2000
-        mp: 600
+        mp:  600
 
   Proto-Omega:
     id:            10671
@@ -1840,10 +1840,10 @@ templates:
           type:  standard
           model: 1079
         entity_flags:  157
-        animation_sub: 1
-        name_prefix:   32
-        model_size:    2
-        hitbox:        17
+        animation_sub:   1
+        name_prefix:    32
+        model_size:      2
+        hitbox:         17
       behaviors:
         flags:          [no_turn]
         aggressive:     true
@@ -1871,9 +1871,9 @@ templates:
           type:  standard
           model: 634
         entity_flags: 159
-        name_prefix:  32
-        model_size:   3
-        hitbox:       20
+        name_prefix:   32
+        model_size:     3
+        hitbox:        20
       behaviors:
         aggressive:     true
         links:          true
@@ -1885,17 +1885,17 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Dee_Wapa_the_Desolator:
     id:            10675
@@ -1913,9 +1913,9 @@ templates:
           type:  standard
           model: 596
         entity_flags: 159
-        name_prefix:  32
-        model_size:   3
-        hitbox:       20
+        name_prefix:   32
+        model_size:     3
+        hitbox:        20
       behaviors:
         aggressive:     true
         links:          true
@@ -1927,17 +1927,17 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Fossil_Quadav:
     id:            10694
@@ -1954,8 +1954,8 @@ templates:
           type:  standard
           model: 649
         entity_flags: 131
-        model_size:   1
-        hitbox:       15
+        model_size:     1
+        hitbox:        15
       behaviors:
         aggressive:     true
         links:          true
@@ -1965,17 +1965,17 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Grognard_Footsoldier:
     id:            10679
@@ -1992,8 +1992,8 @@ templates:
           type:  standard
           model: 627
         entity_flags: 131
-        model_size:   1
-        hitbox:       15
+        model_size:     1
+        hitbox:        15
       behaviors:
         aggressive:     true
         links:          true
@@ -2003,17 +2003,17 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Grognard_Grappler:
     id:            10682
@@ -2030,8 +2030,8 @@ templates:
           type:  standard
           model: 631
         entity_flags: 131
-        model_size:   1
-        hitbox:       15
+        model_size:     1
+        hitbox:        15
       behaviors:
         aggressive:     true
         links:          true
@@ -2041,17 +2041,17 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Grognard_Impaler:
     id:            10683
@@ -2068,8 +2068,8 @@ templates:
           type:  standard
           model: 636
         entity_flags: 131
-        model_size:   1
-        hitbox:       15
+        model_size:     1
+        hitbox:        15
       behaviors:
         aggressive:     true
         links:          true
@@ -2079,17 +2079,17 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Grognard_Mesmerizer:
     id:            10680
@@ -2107,8 +2107,8 @@ templates:
           type:  standard
           model: 637
         entity_flags: 131
-        model_size:   1
-        hitbox:       15
+        model_size:     1
+        hitbox:        15
       behaviors:
         aggressive:     true
         links:          true
@@ -2120,17 +2120,17 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Grognard_Neckchopper:
     id:            10684
@@ -2148,8 +2148,8 @@ templates:
           type:  standard
           model: 630
         entity_flags: 131
-        model_size:   1
-        hitbox:       15
+        model_size:     1
+        hitbox:        15
       behaviors:
         aggressive:     true
         links:          true
@@ -2161,17 +2161,17 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Grognard_Predator:
     id:            10681
@@ -2188,8 +2188,8 @@ templates:
           type:  standard
           model: 626
         entity_flags: 131
-        model_size:   1
-        hitbox:       15
+        model_size:     1
+        hitbox:        15
       behaviors:
         aggressive:     true
         links:          true
@@ -2199,17 +2199,17 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Lightsteel_Quadav:
     id:            10691
@@ -2227,8 +2227,8 @@ templates:
           type:  standard
           model: 654
         entity_flags: 131
-        model_size:   1
-        hitbox:       15
+        model_size:     1
+        hitbox:        15
       behaviors:
         aggressive:     true
         links:          true
@@ -2240,17 +2240,17 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   NaQba_Chirurgeon:
     id:            10673
@@ -2268,9 +2268,9 @@ templates:
           type:  standard
           model: 668
         entity_flags: 159
-        name_prefix:  32
-        model_size:   3
-        hitbox:       20
+        name_prefix:   32
+        model_size:     3
+        hitbox:        20
       behaviors:
         aggressive:     true
         links:          true
@@ -2282,17 +2282,17 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Orcs_Wyvern:
     id:            10676
@@ -2310,8 +2310,8 @@ templates:
           type:  standard
           model: 24
         entity_flags: 131
-        model_size:   1
-        hitbox:       8
+        model_size:     1
+        hitbox:         8
       spawn:
         type: [scripted]
 
@@ -2331,8 +2331,8 @@ templates:
           type:  standard
           model: 667
         entity_flags: 131
-        model_size:   1
-        hitbox:       15
+        model_size:     1
+        hitbox:        15
       behaviors:
         aggressive:     true
         links:          true
@@ -2344,17 +2344,17 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Star_Sapphire_Quadav:
     id:            10692
@@ -2372,8 +2372,8 @@ templates:
           type:  standard
           model: 666
         entity_flags: 131
-        model_size:   1
-        hitbox:       15
+        model_size:     1
+        hitbox:        15
       behaviors:
         aggressive:     true
         links:          true
@@ -2385,17 +2385,17 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Whitegold_Quadav:
     id:            10696
@@ -2412,8 +2412,8 @@ templates:
           type:  standard
           model: 659
         entity_flags: 131
-        model_size:   1
-        hitbox:       15
+        model_size:     1
+        hitbox:        15
       behaviors:
         aggressive:     true
         links:          true
@@ -2423,17 +2423,17 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Wootz_Quadav:
     id:            10693
@@ -2451,8 +2451,8 @@ templates:
           type:  standard
           model: 657
         entity_flags: 131
-        model_size:   1
-        hitbox:       15
+        model_size:     1
+        hitbox:        15
       behaviors:
         aggressive:     true
         links:          true
@@ -2464,17 +2464,17 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Yagudo_Archpriest:
     id:            10685
@@ -2492,8 +2492,8 @@ templates:
           type:  standard
           model: 597
         entity_flags: 131
-        model_size:   1
-        hitbox:       15
+        model_size:     1
+        hitbox:        15
       behaviors:
         aggressive:     true
         links:          true
@@ -2505,17 +2505,17 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Yagudo_Disciplinant:
     id:            10686
@@ -2532,8 +2532,8 @@ templates:
           type:  standard
           model: 590
         entity_flags: 131
-        model_size:   1
-        hitbox:       15
+        model_size:     1
+        hitbox:        15
       behaviors:
         aggressive:     true
         links:          true
@@ -2543,17 +2543,17 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Yagudo_Eradicator:
     id:            10687
@@ -2571,8 +2571,8 @@ templates:
           type:  standard
           model: 601
         entity_flags: 131
-        model_size:   1
-        hitbox:       15
+        model_size:     1
+        hitbox:        15
       behaviors:
         aggressive:     true
         links:          true
@@ -2582,17 +2582,17 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Yagudo_Kapellmeister:
     id:            10688
@@ -2610,8 +2610,8 @@ templates:
           type:  standard
           model: 594
         entity_flags: 131
-        model_size:   1
-        hitbox:       15
+        model_size:     1
+        hitbox:        15
       behaviors:
         aggressive:     true
         links:          true
@@ -2621,17 +2621,17 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Yagudo_Knight_Templar:
     id:            10689
@@ -2648,8 +2648,8 @@ templates:
           type:  standard
           model: 599
         entity_flags: 131
-        model_size:   1
-        hitbox:       15
+        model_size:     1
+        hitbox:        15
       behaviors:
         aggressive:     true
         links:          true
@@ -2659,17 +2659,17 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Yagudo_Prelatess:
     id:            10690
@@ -2687,9 +2687,9 @@ templates:
           type:  standard
           model: 604
         entity_flags:  643
-        animation_sub: 8
-        model_size:    1
-        hitbox:        15
+        animation_sub:   8
+        model_size:      1
+        hitbox:         15
       behaviors:
         aggressive:     true
         links:          true
@@ -2701,17 +2701,17 @@ templates:
     loot:
       drops:
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: always
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
         - chance: uncommon
-          item: ancient_beastcoin
+          item:   ancient_beastcoin
 
   Yagudos_Avatar:
     id:            10698
@@ -2727,8 +2727,8 @@ templates:
           type:  standard
           model: 791
         entity_flags: 131
-        model_size:   1
-        hitbox:       24
+        model_size:     1
+        hitbox:        24
       spawn:
         type: [scripted]
       stats:
@@ -2750,9 +2750,9 @@ templates:
           type:  standard
           model: 10
         entity_flags:  1155
-        animation_sub: 16
-        model_size:    1
-        hitbox:        8
+        animation_sub:   16
+        model_size:       1
+        hitbox:           8
       spawn:
         type: [scripted]
       stats:

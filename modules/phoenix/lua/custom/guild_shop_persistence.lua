@@ -97,8 +97,14 @@ helper.restore = function(rows)
     for shopName, shop in pairs(xi.data.guildShops) do
         local state = xi.guildShops.state[shopName]
         if shop.stock and (not state or state.lastRoll < 0) then
-            -- onBuyList only reads the NPC name, so a stub runs the real day roll.
-            xi.guildShops.onBuyList(nil, { getName = function() return shopName end })
+            local shopKeeper =
+            {
+                getName = function()
+                    return shopName
+                end,
+            }
+
+            xi.guildShops.onBuyList({}, shopKeeper)
             seeded = seeded + 1
         end
     end
