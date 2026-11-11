@@ -76,6 +76,9 @@ namespace effects
 
 using StatusEffectsDataset = xi::data::datasets::status_effects::Dataset;
 
+namespace
+{
+
 // Default effect of statuses are overwrite if equal or higher
 struct EffectParams_t
 {
@@ -93,6 +96,8 @@ struct EffectParams_t
 };
 
 std::array<EffectParams_t, MAX_EFFECTID> EffectsParams;
+
+} // namespace
 
 void LoadEffectsParameters()
 {
@@ -138,6 +143,9 @@ auto GetEffectName(uint16 effect) -> std::string
 
 } // namespace effects
 
+namespace
+{
+
 auto isSortedByStartTime(uint16 effectId) -> bool
 {
     return static_cast<uint16>(effectId) >= static_cast<uint16>(xi::StatusEffect::FireManeuver) && static_cast<uint16>(effectId) <= static_cast<uint16>(xi::StatusEffect::DarkManeuver);
@@ -173,11 +181,12 @@ auto statusOrdering(const std::unique_ptr<CStatusEffect>& AStatus, const std::un
     return AStatus->GetStatusID() < BStatus->GetStatusID();
 }
 
-CStatusEffectContainer::CStatusEffectContainer(CBattleEntity* PEntity)
-: m_StatusEffectSet(statusOrdering)
-{
-    m_POwner = PEntity;
+} // namespace
 
+CStatusEffectContainer::CStatusEffectContainer(CBattleEntity* PEntity)
+: m_POwner(PEntity)
+, m_StatusEffectSet(statusOrdering)
+{
     if (m_POwner == nullptr)
     {
         ShowWarning("m_POwner was null.");
@@ -237,12 +246,10 @@ auto CStatusEffectContainer::CanGainStatusEffect(CStatusEffect* PStatusEffect) -
         case xi::StatusEffect::SleepIi:
         case xi::StatusEffect::Lullaby:
         {
-            uint16 subPower = PStatusEffect->GetSubPower();
-            if (subPower == ELEMENT_LIGHT && m_POwner->hasImmunity(xi::Immunity::LightSleep))
-            {
-                return false;
-            }
-            else if (subPower == ELEMENT_DARK && m_POwner->hasImmunity(xi::Immunity::DarkSleep))
+            uint16     subPower           = PStatusEffect->GetSubPower();
+            const bool immuneToLightSleep = subPower == ELEMENT_LIGHT && m_POwner->hasImmunity(xi::Immunity::LightSleep);
+            const bool immuneToDarkSleep  = subPower == ELEMENT_DARK && m_POwner->hasImmunity(xi::Immunity::DarkSleep);
+            if (immuneToLightSleep || immuneToDarkSleep)
             {
                 return false;
             }
@@ -322,11 +329,6 @@ auto CStatusEffectContainer::CanGainStatusEffect(CStatusEffect* PStatusEffect) -
             }
             break;
         case xi::StatusEffect::CurseI:
-            if (m_POwner->hasImmunity(xi::Immunity::Curse))
-            {
-                return false;
-            }
-            break;
         case xi::StatusEffect::CurseIi:
             if (m_POwner->hasImmunity(xi::Immunity::Curse))
             {
@@ -1041,12 +1043,8 @@ auto CStatusEffectContainer::ApplyBardEffect(CStatusEffect* PStatusEffect, uint8
             if (ExistingStatusEffect->GetSubID() == PStatusEffect->GetSubID())
             { // YOUR BRD effect
                 numOfEffects++;
-                if (!oldestSong)
-                {
-                    oldestSong = ExistingStatusEffect.get();
-                }
-                else if (ExistingStatusEffect->GetStartTime() + ExistingStatusEffect->GetDuration() <
-                         oldestSong->GetStartTime() + oldestSong->GetDuration())
+                if (!oldestSong ||
+                    ExistingStatusEffect->GetStartTime() + ExistingStatusEffect->GetDuration() < oldestSong->GetStartTime() + oldestSong->GetDuration())
                 {
                     oldestSong = ExistingStatusEffect.get();
                 }
@@ -1567,9 +1565,9 @@ void CStatusEffectContainer::LoadStatusEffects()
             std::make_unique<CStatusEffect>(effectID,
                                             rset->get<uint16>("icon"),
                                             rset->get<uint16>("power"),
-                                            std::chrono::seconds(rset->get<uint16>("tick")),
+                                            std::chrono::seconds(rset->get<uint32>("tick")),
                                             duration,
-                                            rset->get<uint16>("subid"),
+                                            rset->get<uint32>("subid"),
                                             rset->get<uint16>("subpower"),
                                             0, // SubIcon (not persisted in char_effects)
                                             rset->get<uint16>("tier"),
@@ -2069,7 +2067,7 @@ void CStatusEffectContainer::TickRegen(timer::time_point tick)
 
             if (m_POwner->PPet != nullptr && PChar != nullptr)
             {
-                CPetEntity* PPet          = (CPetEntity*)m_POwner->PPet;
+                CPetEntity* PPet          = static_cast<CPetEntity*>(m_POwner->PPet);
                 ELEMENT     petElement    = static_cast<ELEMENT>(PPet->m_Element);
                 bool        elementValid  = petElement >= ELEMENT_FIRE && petElement <= ELEMENT_DARK; // Check if the element is not 0 (None) or out of bounds
                 uint8       petElementIdx = 0;
@@ -2148,7 +2146,7 @@ void CStatusEffectContainer::TickRegen(timer::time_point tick)
 
             if (m_POwner->health.mp == 0 && m_POwner->PPet != nullptr && m_POwner->PPet->objtype == TYPE_PET)
             {
-                CPetEntity* PPet = (CPetEntity*)m_POwner->PPet;
+                CPetEntity* PPet = static_cast<CPetEntity*>(m_POwner->PPet);
                 if (PPet->getPetType() == PET_TYPE::AVATAR)
                 {
                     petutils::DespawnPet(m_POwner);

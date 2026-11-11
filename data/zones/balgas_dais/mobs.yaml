@@ -194,7 +194,8 @@ templates:
     id:            6868
     species:       mimic
     type:          [notorious, battlefield]
-    skill_list_id: 189
+    spell_list_id: 568
+    skill_list_id: 2114
     attributes:
       combat:
         skill: scythe
@@ -216,17 +217,18 @@ templates:
         model_size:       1
         hitbox:          12
       behaviors:
-        aggressive:     true
-        links:          true
         true_detection: true
       spawn:
         type: [scripted]
+      stats:
+        hp: 2500000 # Capture needed
 
   Coffer_OPlenty:
     id:            6869
     species:       mimic
     type:          [notorious, battlefield]
-    skill_list_id: 189
+    spell_list_id: 568
+    skill_list_id: 2114
     attributes:
       combat:
         skill: scythe
@@ -248,11 +250,11 @@ templates:
         model_size:       1
         hitbox:          12
       behaviors:
-        aggressive:     true
-        links:          true
         true_detection: true
       spawn:
         type: [scripted]
+      stats:
+        hp: 2500000 # Capture needed
 
   Cuu_Doko_the_Blizzard:
     id:            874
@@ -379,7 +381,7 @@ templates:
 
   Dvorovoi:
     id:            1149
-    species:       mandragora
+    species:       korrigan
     type:          [battlefield]
     spell_list_id: 2
     skill_list_id: 178
@@ -403,11 +405,13 @@ templates:
       stats:
         hp: 4500
         mp: 4500
+      mob_mods:
+        base_damage_multiplier: 166
 
   Dvorovoi_2:
     id:            1149
     display_name:  Dvorovoi
-    species:       mandragora
+    species:       korrigan
     type:          [battlefield]
     spell_list_id: 2
     skill_list_id: 178
@@ -428,6 +432,8 @@ templates:
         links:      true
       spawn:
         type: [scripted]
+      mob_mods:
+        base_damage_multiplier: 166
 
   Giant_Moa:
     id:            1532

@@ -46,11 +46,10 @@ std::unordered_map<uint16, xi::data::MeritCategoryData> categoryById;
 std::unordered_map<uint16, uint16>                      meritIndexById;
 Merit_t                                                 meritDefaults[kMeritPacketSlots]{};
 
-auto loadNameLookup(const std::string& query, const std::string& column) -> std::unordered_map<std::string, uint16>
+auto loadNameLookup(const std::unique_ptr<db::ResultSet>& rset, const std::string& column) -> std::unordered_map<std::string, uint16>
 {
     std::unordered_map<std::string, uint16> lookup;
 
-    const auto rset = db::preparedStmt(query);
     FOR_DB_MULTIPLE_RESULTS(rset)
     {
         const auto value = rset->getOrDefault<uint16>(column, 0);
@@ -103,14 +102,11 @@ constexpr auto categoryOf(const xi::Merit merit) -> uint16
 } // namespace
 
 CMeritPoints::CMeritPoints(CCharEntity* PChar)
+: m_PChar(PChar)
 {
     std::memcpy(merits, meritDefaults, sizeof(merits));
 
-    m_PChar = PChar;
     LoadMeritPoints(PChar->id);
-
-    m_LimitPoints = 0;
-    m_MeritPoints = 0;
 }
 
 void CMeritPoints::LoadMeritPoints(const uint32 charid)
@@ -412,7 +408,7 @@ void LoadMeritsList()
         return;
     }
 
-    const auto spells = loadNameLookup("SELECT name, spellid FROM spell_list", "spellid");
+    const auto spells = loadNameLookup(db::preparedStmt("SELECT name, spellid FROM spell_list"), "spellid");
 
     std::unordered_map<std::string, uint16> wsUnlocks;
     for (const auto& weaponSkill : xi::data::loadDataset<xi::data::datasets::weapon_skills::Dataset>())
@@ -429,7 +425,7 @@ void LoadMeritsList()
         categoryById[std::to_underlying(category.Id)] = category;
     }
 
-    for (uint16 index = 0; index < meritData.Entries.size(); ++index)
+    for (size_t index = 0; index < meritData.Entries.size(); ++index)
     {
         const auto& entry = meritData.Entries[index];
         const auto  name  = std::string{ xi::data::EnumTraits<xi::Merit>::toName(entry.Id) };
@@ -454,7 +450,7 @@ void LoadMeritsList()
         merit.next = nextUpgradeCost(merit);
 
         meritDefaults[index]     = merit;
-        meritIndexById[merit.id] = index;
+        meritIndexById[merit.id] = static_cast<uint16>(index);
     }
 }
 

@@ -67,7 +67,7 @@ inline void generateSelfSignedCert(const std::string& name = "login", const bool
                 X509_NAME_oneline(X509_get_issuer_name(cert), cn, size);
 
                 // This is internal, so we can trust it.
-                ShowInfo(fmt::format("Found existing {}: {}", certFile, asStringFromUntrustedSource(cn)));
+                ShowInfo(fmt::format("Found existing {}: {}", certFile, asStringFromUntrustedSource(cn, sizeof(cn))));
 
                 // if current time not within the bounds of valid date, note it's expired
                 if (X509_cmp_time(X509_get_notAfter(cert), nullptr) != 1 || X509_cmp_time(X509_get_notBefore(cert), nullptr) != -1)
@@ -137,7 +137,7 @@ inline void generateSelfSignedCert(const std::string& name = "login", const bool
         FILE* fileHandle = fopen(keyFile.c_str(), "wb");
         if (fileHandle)
         {
-            if (!PEM_write_PrivateKey(fileHandle, pkey, nullptr, nullptr, 0, 0, nullptr))
+            if (!PEM_write_PrivateKey(fileHandle, pkey, nullptr, nullptr, 0, nullptr, nullptr))
             {
                 ShowError(fmt::format("Failed to write {}!", keyFile));
             }

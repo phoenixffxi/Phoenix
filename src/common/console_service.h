@@ -21,12 +21,15 @@
 
 #pragma once
 
+#include <common/macros.h>
 #include <common/types/fn.h>
 #include <common/types/hash_map.h>
 
+#include <mutex>
 #include <string>
+#include <vector>
 
-#include <common/scheduler.h>
+#include <common/scheduler/scheduler.h>
 
 class Application;
 
@@ -45,6 +48,8 @@ private:
 public:
     ConsoleService(Application& application);
     ~ConsoleService();
+
+    DISALLOW_COPY_AND_MOVE(ConsoleService);
 
     // NOTE: If you capture things in this function, make sure they're protected (locked or atomic)!
     // NOTE: If you're going to print, use fmt::print, rather than ShowInfo etc.

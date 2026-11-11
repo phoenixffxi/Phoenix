@@ -22,6 +22,7 @@
 #pragma once
 
 #include "common/cbasetypes.h"
+#include "common/macros.h"
 
 #include "data/enums/zone.h"
 
@@ -70,6 +71,8 @@ public:
     CParty(uint32 id);
     ~CParty();
 
+    DISALLOW_COPY_AND_MOVE(CParty);
+
     auto GetPartyID() const -> uint32;
     auto GetMemberFlags(CBattleEntity* PEntity) -> uint16;
     auto MemberCount(xi::ZoneId ZoneID) -> uint8;
@@ -111,7 +114,7 @@ public:
     void PushEffectsPacket();
     void EffectsChanged();
 
-    CAlliance* m_PAlliance;
+    CAlliance* m_PAlliance{};
 
     // ATTENTION: Do not change the list values outside the party class
 
@@ -123,11 +126,11 @@ private:
     PARTYTYPE m_PartyType;   // the type of party (players or mobs)
     uint8     m_PartyNumber; // party number in alliance
 
-    CBattleEntity* m_PLeader;        // party leader
-    CBattleEntity* m_PSyncTarget;    // the CBattleEntity the party is being synced to
-    CBattleEntity* m_PQuarterMaster; // the assigned Quartermaster
+    CBattleEntity* m_PLeader{};        // party leader
+    CBattleEntity* m_PSyncTarget{};    // the CBattleEntity the party is being synced to
+    CBattleEntity* m_PQuarterMaster{}; // the assigned Quartermaster
 
-    bool m_EffectsChanged;
+    bool m_EffectsChanged{};
     bool m_FormedByTrusts{ false };
 
     void SetLeader(const std::string& MemberName);          // set party leader

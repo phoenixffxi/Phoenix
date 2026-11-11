@@ -31,7 +31,10 @@ class CItemUsable : public CItem
 public:
     CItemUsable(uint16);
     CItemUsable(const CItemUsable& other);
-    virtual ~CItemUsable();
+    auto operator=(const CItemUsable&) -> CItemUsable& = delete;
+    CItemUsable(CItemUsable&&)                         = delete;
+    auto operator=(CItemUsable&&) -> CItemUsable&      = delete;
+    ~CItemUsable() override;
 
     auto getUseDelay() const -> timer::duration;
     auto getCurrentCharges() const -> uint8;
@@ -60,13 +63,13 @@ public:
 
 private:
     timer::duration   m_UseDelay;
-    uint8             m_MaxCharges;
-    uint16            m_Animation;
+    uint8             m_MaxCharges{};
+    uint16            m_Animation{};
     timer::duration   m_AnimationTime;
     timer::duration   m_ActivationTime;
-    uint16            m_ValidTarget;
+    uint16            m_ValidTarget{};
     timer::duration   m_ReuseDelay;
     timer::time_point m_AssignTime;
     timer::time_point m_LastUseTime;
-    uint16            m_AoE;
+    uint16            m_AoE{};
 };

@@ -474,8 +474,13 @@ void CSpell::setRange(float range)
 namespace spell
 {
 
+namespace
+{
+
 std::array<CSpell*, MAX_SPELL_ID> PSpellList;           // spell list
 std::map<uint16, uint16>          PMobSkillToBlueSpell; // maps the skill id (key) to spell id (value).
+
+} // namespace
 
 // Load a list of spells
 void LoadSpellList()
@@ -742,11 +747,8 @@ auto CanUseSpell(CBattleEntity* PCaster, CSpell* spell) -> bool
             return true;
 
         case TYPE_PC:
-            if (spell->getSpellGroup() == SPELLGROUP_TRUST)
-            {
-                return true; // every PC can use trusts
-            }
-            else if (luautils::OnCanUseSpell(PCaster, spell))
+            // every PC can use trusts
+            if (spell->getSpellGroup() == SPELLGROUP_TRUST || luautils::OnCanUseSpell(PCaster, spell))
             {
                 return true;
             }
@@ -792,7 +794,7 @@ auto CanUseSpell(CBattleEntity* PCaster, CSpell* spell) -> bool
                             usable = false;
                         }
                     }
-                    else if (!blueutils::IsSpellSet(PChar, (CBlueSpell*)spell))
+                    else if (!blueutils::IsSpellSet(PChar, static_cast<CBlueSpell*>(spell)))
                     {
                         usable = false;
                     }
@@ -840,7 +842,7 @@ auto CanUseSpell(CBattleEntity* PCaster, CSpell* spell) -> bool
                             usable = false;
                         }
                     }
-                    else if (!blueutils::IsSpellSet(PChar, (CBlueSpell*)spell))
+                    else if (!blueutils::IsSpellSet(PChar, static_cast<CBlueSpell*>(spell)))
                     {
                         usable = false;
                     }

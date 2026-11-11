@@ -788,6 +788,8 @@ templates:
         links:      true
       spawn:
         respawn: 300
+      mob_mods:
+        base_damage_multiplier: 150
     loot:
       drops:
         - chance: common
@@ -1177,6 +1179,8 @@ templates:
         respawn: 7200
       stats:
         hp: 6500
+      mob_mods:
+        base_damage_multiplier: 150
     loot:
       drops:
         - chance: uncommon
@@ -1228,6 +1232,8 @@ templates:
         respawn: 300
       stats:
         hp: 6300
+      mob_mods:
+        base_damage_multiplier: 150
     loot:
       drops:
         - chance: always
@@ -1260,6 +1266,8 @@ templates:
         links:      true
       spawn:
         type: [scripted]
+      mob_mods:
+        base_damage_multiplier: 150
 
   Lesser_Gaylas:
     id:            2397
@@ -1523,7 +1531,8 @@ templates:
       behaviors:
         aggressive: true
       mob_mods:
-        sight_range: 4
+        base_damage_multiplier: 150
+        sight_range:              4
       spawn:
         respawn: 300
     loot:
@@ -1596,6 +1605,8 @@ templates:
         links:      true
       spawn:
         type: [scripted]
+      mob_mods:
+        base_damage_multiplier: 150
 
   Skeleton_Scuffler:
     id:            6842

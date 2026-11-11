@@ -53,7 +53,7 @@ const auto auditTrade = [](CCharEntity* PChar, const uint32 npcId, const std::st
          receiver_name = npcName,
          date          = earth_time::timestamp()]()
         {
-            const auto query = "INSERT INTO audit_trade(itemid, quantity, sender, sender_name, receiver, receiver_name, date) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            constexpr auto query = db::Query("INSERT INTO audit_trade(itemid, quantity, sender, sender_name, receiver, receiver_name, date) VALUES (?, ?, ?, ?, ?, ?, ?)");
             if (!db::preparedStmt(query, itemId, quantity, sender, sender_name, receiver, receiver_name, date))
             {
                 ShowErrorFmt("Failed to log trade transaction (item: {}, quantity: {}, sender: {}, receiver: {}, date: {})", itemId, quantity, sender, receiver, date);
@@ -148,11 +148,11 @@ auto NpcTradeTransaction::confirm(const uint8 tradeSlot, const uint32 quantity) 
 
 auto NpcTradeTransaction::confirmById(const uint16 itemId, const uint32 quantity) -> bool
 {
-    for (uint8 tradeSlot = 0; tradeSlot < this->slots_.size(); ++tradeSlot)
+    for (size_t tradeSlot = 0; tradeSlot < this->slots_.size(); ++tradeSlot)
     {
         if (this->slots_[tradeSlot].offered.itemId == itemId)
         {
-            return this->confirm(tradeSlot, quantity);
+            return this->confirm(static_cast<uint8>(tradeSlot), quantity);
         }
     }
 

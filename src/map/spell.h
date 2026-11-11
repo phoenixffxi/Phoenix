@@ -245,6 +245,7 @@ enum SPELLFLAG
 // clang-format off
 enum class SpellID : uint16
 {
+    None                 = 0,
     Cure                 = 1,
     Cure_II              = 2,
     Cure_III             = 3,
@@ -1264,6 +1265,8 @@ public:
 protected:
     CSpell(const CSpell&)                    = default;
     auto operator=(const CSpell&) -> CSpell& = default;
+    CSpell(CSpell&&)                         = default;
+    auto operator=(CSpell&&) -> CSpell&      = default;
 
 private:
     SpellID                        m_ID;                // spell id

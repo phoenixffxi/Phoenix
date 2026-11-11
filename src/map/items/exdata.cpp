@@ -393,8 +393,8 @@ auto fromTable(CItem* item, const sol::table& data) -> bool
             return true;
         case Type::Augment:
         {
-            const auto kind    = Exdata::get_or<AugmentKindFlags>(data, "augmentKind", AugmentKindFlags{});
-            const auto subKind = Exdata::get_or<AugmentSubKindFlags>(data, "augmentSubKind", AugmentSubKindFlags{});
+            const auto kind    = Exdata::get_or<AugmentKindFlags>(data, "augmentKind", AugmentKindFlags::None);
+            const auto subKind = Exdata::get_or<AugmentSubKindFlags>(data, "augmentSubKind", AugmentSubKindFlags::None);
 
             if (kind == AugmentKindFlags::Bundled)
             {
@@ -409,11 +409,11 @@ auto fromTable(CItem* item, const sol::table& data) -> bool
                 item->exdata<AugmentTrial>().fromTable(data);
                 if (auto* PEquip = dynamic_cast<CItemEquipment*>(item))
                 {
-                    for (uint8 slot = 0; slot < std::size(item->exdata<AugmentTrial>().Augments); ++slot)
+                    for (size_t slot = 0; slot < std::size(item->exdata<AugmentTrial>().Augments); ++slot)
                     {
                         if (item->exdata<AugmentTrial>().Augments[slot].Id != 0)
                         {
-                            PEquip->ApplyAugment(slot);
+                            PEquip->ApplyAugment(static_cast<uint8>(slot));
                         }
                     }
                 }
@@ -423,11 +423,11 @@ auto fromTable(CItem* item, const sol::table& data) -> bool
                 item->exdata<AugmentStandard>().fromTable(data);
                 if (auto* PEquip = dynamic_cast<CItemEquipment*>(item))
                 {
-                    for (uint8 slot = 0; slot < std::size(item->exdata<AugmentStandard>().Augments); ++slot)
+                    for (size_t slot = 0; slot < std::size(item->exdata<AugmentStandard>().Augments); ++slot)
                     {
                         if (item->exdata<AugmentStandard>().Augments[slot].Id != 0)
                         {
-                            PEquip->ApplyAugment(slot);
+                            PEquip->ApplyAugment(static_cast<uint8>(slot));
                         }
                     }
                 }

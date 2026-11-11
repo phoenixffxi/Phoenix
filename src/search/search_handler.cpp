@@ -22,6 +22,7 @@
 #include "search_handler.h"
 
 #include "common/md52.h"
+#include "common/scheduler/task_utils.h"
 #include "common/timer.h"
 #include "common/utils.h"
 
@@ -89,7 +90,7 @@ auto SearchHandler::run() -> Task<void>
         {
             std::memset(buffer_.data(), 0, buffer_.size());
 
-            auto result = co_await scheduler_.withTimeout(
+            auto result = co_await withTimeout(
                 socket_.async_read_some(asio::buffer(buffer_.data(), buffer_.size()), asio::use_awaitable),
                 10s);
 
@@ -100,11 +101,6 @@ auto SearchHandler::run() -> Task<void>
             }
 
             const auto length = result.value();
-            if (length == 0) // EOF
-            {
-                break;
-            }
-
             DebugSocketsFmt("Received packet from IP {} ({} bytes)", ipAddress_, length);
 
             read_func(static_cast<uint16_t>(length));
@@ -210,6 +206,9 @@ auto SearchHandler::validatePacket(const uint16_t length) -> bool
     return true;
 }
 
+namespace
+{
+
 inline auto searchTypeToString(const uint8 type) -> std::string
 {
     switch (type)
@@ -236,6 +235,8 @@ inline auto searchTypeToString(const uint8 type) -> std::string
             return "UNKNOWN";
     }
 }
+
+} // namespace
 
 void SearchHandler::read_func(const uint16_t length)
 {
@@ -304,6 +305,9 @@ void SearchHandler::read_func(const uint16_t length)
 }
 
 // Mostly copy-pasted DSP era code. It works, so why change it?
+namespace
+{
+
 /************************************************************************
  *                                                                       *
  *  Prints the contents of the packet in `data` to the console.          *
@@ -329,6 +333,8 @@ void DebugPrintPacket(const uint8* data, const uint16_t size)
 
     ShowDebug(outStr);
 }
+
+} // namespace
 
 /************************************************************************
  *                                                                       *
@@ -434,7 +440,7 @@ void SearchHandler::HandleSearchComment()
 
 void SearchHandler::HandleSearchRequest(const uint16_t length)
 {
-    SendPlayersList(_HandleSearchRequest(length));
+    SendPlayersList(ParseSearchRequest(length));
 }
 
 // Friend list refreshes 20 character IDs at a time. uint16 count at 0x10, uint32 IDs from 0x12
@@ -578,7 +584,7 @@ void SearchHandler::HandleAuctionHouseHistory()
     searchPackets_.emplace_back(PAHPacket.GetData(), length);
 }
 
-auto SearchHandler::_HandleSearchRequest(const uint16_t length) -> SearchRequest
+auto SearchHandler::ParseSearchRequest(const uint16_t length) -> SearchRequest
 {
     // This function constructs a `search_req` based on which query should be sent to the database.
     // The results from the database will eventually be sent to the client.

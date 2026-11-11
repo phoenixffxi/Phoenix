@@ -999,7 +999,7 @@ void CLuaBaseEntity::injectPacket(const std::string& filename)
             return;
         }
 
-        ((CCharEntity*)m_PBaseEntity)->pushPacket(std::move(PPacket));
+        static_cast<CCharEntity*>(m_PBaseEntity)->pushPacket(std::move(PPacket));
 
         fclose(File);
     }
@@ -1546,7 +1546,7 @@ auto CLuaBaseEntity::getEventTarget() -> CBaseEntity*
         return nullptr;
     }
 
-    auto* PChar = (CCharEntity*)m_PBaseEntity;
+    auto* PChar = static_cast<CCharEntity*>(m_PBaseEntity);
     if (PChar->currentEvent->targetEntity == nullptr)
     {
         ShowWarning("EventTarget for event %d is empty: %s", PChar->currentEvent->eventId, m_PBaseEntity->getName());
@@ -3638,7 +3638,7 @@ void CLuaBaseEntity::setPos(sol::variadic_args va)
     // Zoning
     if (m_PBaseEntity->objtype == TYPE_PC)
     {
-        auto* PChar = ((CCharEntity*)m_PBaseEntity);
+        auto* PChar = static_cast<CCharEntity*>(m_PBaseEntity);
         if (va[4].is<uint8>() && PChar->status == xi::Status::Disappear)
         {
             // do not modify zone/position if the character is already zoning
@@ -3896,7 +3896,7 @@ auto CLuaBaseEntity::getTeleportTable(uint8 type) -> sol::table
     sol::table teleTable = lua.create_table();
 
     TELEPORT_TYPE tele_type = static_cast<TELEPORT_TYPE>(type);
-    CCharEntity*  PChar     = (CCharEntity*)m_PBaseEntity;
+    CCharEntity*  PChar     = static_cast<CCharEntity*>(m_PBaseEntity);
 
     switch (tele_type)
     {
@@ -5256,7 +5256,7 @@ auto CLuaBaseEntity::addLinkpearl(const std::string& lsname, bool equip) -> bool
         return false;
     }
 
-    CCharEntity* PChar  = (CCharEntity*)m_PBaseEntity;
+    CCharEntity* PChar  = static_cast<CCharEntity*>(m_PBaseEntity);
     auto         PItem  = xi::items::spawn(PChar->m_GMlevel > 0 ? 514 : 515);
     LSTYPE       lstype = PChar->m_GMlevel > 0 ? LSTYPE_PEARLSACK : LSTYPE_LINKPEARL;
     if (PItem == nullptr)
@@ -5774,7 +5774,7 @@ auto CLuaBaseEntity::getStorageItem(uint8 container, uint8 slotID, uint8 equipID
         return nullptr;
     }
 
-    CCharEntity* PChar = (CCharEntity*)m_PBaseEntity;
+    CCharEntity* PChar = static_cast<CCharEntity*>(m_PBaseEntity);
 
     CItem* PItem = nullptr;
 
@@ -5815,7 +5815,7 @@ auto CLuaBaseEntity::storeWithPorterMoogle(uint16 slipId, const sol::table& extr
         return storeFailed;
     }
 
-    auto* PChar      = (CCharEntity*)m_PBaseEntity;
+    auto* PChar      = static_cast<CCharEntity*>(m_PBaseEntity);
     auto  slipSlotId = PChar->getStorage(LOC_INVENTORY)->SearchItem(slipId);
 
     if (slipSlotId == 255)
@@ -5883,12 +5883,13 @@ auto CLuaBaseEntity::storeWithPorterMoogle(uint16 slipId, const sol::table& extr
                 slipExtra[i] |= extraVec[i];
             }
 
-            const char* Query = "UPDATE char_inventory "
-                                "SET extra = ? "
-                                "WHERE charid = ? AND location = ? AND slot = ? "
-                                "LIMIT 1";
+            constexpr auto query = db::Query(
+                "UPDATE char_inventory "
+                "SET extra = ? "
+                "WHERE charid = ? AND location = ? AND slot = ? "
+                "LIMIT 1");
 
-            if (!db::preparedStmt(Query, slipExtra, PChar->id, slip->getLocationID(), slip->getSlotID()))
+            if (!db::preparedStmt(query, slipExtra, PChar->id, slip->getLocationID(), slip->getSlotID()))
             {
                 throw std::runtime_error(fmt::format("storeWithPorterMoogle: {} could not record the gear on the slip", PChar->getName()));
             }
@@ -5996,12 +5997,13 @@ void CLuaBaseEntity::retrieveItemFromSlip(uint16 slipId, uint16 itemId, uint16 e
     // cleared only after the item lands, so a full inventory does not lose it
     slip->m_extra[extraId] &= extraData;
 
-    const char* Query = "UPDATE char_inventory "
-                        "SET extra = ? "
-                        "WHERE charid = ? AND location = ? AND slot = ? "
-                        "LIMIT 1";
+    constexpr auto query = db::Query(
+        "UPDATE char_inventory "
+        "SET extra = ? "
+        "WHERE charid = ? AND location = ? AND slot = ? "
+        "LIMIT 1");
 
-    db::preparedStmt(Query, slip->m_extra, PChar->id, slip->getLocationID(), slip->getSlotID());
+    db::preparedStmt(query, slip->m_extra, PChar->id, slip->getLocationID(), slip->getSlotID());
 
     (void)transaction->commit();
 }
@@ -7138,7 +7140,7 @@ void CLuaBaseEntity::changeJob(uint8 newJob)
         // clang-format off
         PChar->ForParty([](CBattleEntity* PMember)
         {
-            ((CCharEntity*)PMember)->PLatentEffectContainer->CheckLatentsPartyJobs();
+            static_cast<CCharEntity*>(PMember)->PLatentEffectContainer->CheckLatentsPartyJobs();
         });
         // clang-format on
 
@@ -9172,7 +9174,7 @@ void CLuaBaseEntity::toggleReceivedDeedRewards()
     // the first bit of the first array index.
     PChar->m_claimedDeeds[0] ^= 1;
 
-    const char* query = "UPDATE char_unlocks SET claimed_deeds = ? WHERE charid = ? LIMIT 1";
+    constexpr auto query = db::Query("UPDATE char_unlocks SET claimed_deeds = ? WHERE charid = ? LIMIT 1");
     db::preparedStmt(query, PChar->m_claimedDeeds, PChar->id);
 }
 
@@ -9196,7 +9198,7 @@ void CLuaBaseEntity::setClaimedDeed(uint16 deedBitNum)
 
     PChar->m_claimedDeeds[index] |= (1 << setBit);
 
-    const char* query = "UPDATE char_unlocks SET claimed_deeds = ? WHERE charid = ? LIMIT 1";
+    constexpr auto query = db::Query("UPDATE char_unlocks SET claimed_deeds = ? WHERE charid = ? LIMIT 1");
     db::preparedStmt(query, PChar->m_claimedDeeds, PChar->id);
 }
 
@@ -9222,7 +9224,7 @@ void CLuaBaseEntity::resetClaimedDeeds()
     PChar->m_claimedDeeds[3] = PChar->m_claimedDeeds[3] & 0b11;
     PChar->m_claimedDeeds[4] = numResets << 18;
 
-    const char* query = "UPDATE char_unlocks SET claimed_deeds = ? WHERE charid = ? LIMIT 1";
+    constexpr auto query = db::Query("UPDATE char_unlocks SET claimed_deeds = ? WHERE charid = ? LIMIT 1");
     db::preparedStmt(query, PChar->m_claimedDeeds, PChar->id);
 }
 
@@ -9245,7 +9247,7 @@ void CLuaBaseEntity::setUniqueEvent(uint16 uniqueEventId)
 
     PChar->m_uniqueEvents[index] |= (1 << setBit);
 
-    const char* query = "UPDATE char_unlocks SET unique_event = ? WHERE charid = ? LIMIT 1";
+    constexpr auto query = db::Query("UPDATE char_unlocks SET unique_event = ? WHERE charid = ? LIMIT 1");
     db::preparedStmt(query, PChar->m_uniqueEvents, PChar->id);
 }
 
@@ -9269,7 +9271,7 @@ void CLuaBaseEntity::delUniqueEvent(uint16 uniqueEventId)
 
     PChar->m_uniqueEvents[index] &= ~(1 << setBit);
 
-    const char* query = "UPDATE char_unlocks SET unique_event = ? WHERE charid = ? LIMIT 1";
+    constexpr auto query = db::Query("UPDATE char_unlocks SET unique_event = ? WHERE charid = ? LIMIT 1");
     db::preparedStmt(query, PChar->m_uniqueEvents, PChar->id);
 }
 
@@ -10829,7 +10831,7 @@ auto CLuaBaseEntity::getDeathType() -> int32
 
 void CLuaBaseEntity::setDeathType(int32 value)
 {
-    ((CMobEntity*)m_PBaseEntity)->SetDeathType(value);
+    static_cast<CMobEntity*>(m_PBaseEntity)->SetDeathType(value);
 }
 
 /************************************************************************
@@ -11159,15 +11161,16 @@ void CLuaBaseEntity::capAllSkills() const
     {
         for (uint8 i = static_cast<uint8>(xi::SkillType::HandToHand); i <= static_cast<uint8>(xi::SkillType::Handbell); ++i) // For xi::SkillType::HandToHand (1) - xi::SkillType::Handbell (45)
         {
-            const char* Query = "INSERT INTO char_skills "
-                                "SET "
-                                "charid = ?, "
-                                "skillid = ?, "
-                                "value = ?, "
-                                "rank = ? "
-                                "ON DUPLICATE KEY UPDATE value = ?, rank = ?";
+            constexpr auto query = db::Query(
+                "INSERT INTO char_skills "
+                "SET "
+                "charid = ?, "
+                "skillid = ?, "
+                "value = ?, "
+                "rank = ? "
+                "ON DUPLICATE KEY UPDATE value = ?, rank = ?");
 
-            db::preparedStmt(Query, PChar->id, i, 5000, PChar->RealSkills.rank[i], 5000, PChar->RealSkills.rank[i]);
+            db::preparedStmt(query, PChar->id, i, 5000, PChar->RealSkills.rank[i], 5000, PChar->RealSkills.rank[i]);
 
             uint16 maxSkill               = 10 * battleutils::GetMaxSkill(static_cast<xi::SkillType>(i), PChar->GetMJob(), PChar->GetMLevel());
             PChar->RealSkills.skill[i]    = maxSkill; // set to capped
@@ -11865,7 +11868,7 @@ auto CLuaBaseEntity::getParty() -> sol::table
 
     // clang-format off
     auto table = lua.create_table();
-    ((CBattleEntity*)m_PBaseEntity)->ForParty([&table](CBattleEntity* member)
+    static_cast<CBattleEntity*>(m_PBaseEntity)->ForParty([&table](CBattleEntity* member)
     {
         table.add(CLuaBaseEntity(member));
     });
@@ -11891,7 +11894,7 @@ auto CLuaBaseEntity::getPartyWithTrusts() -> sol::table
 
     // clang-format off
     auto table = lua.create_table();
-    ((CCharEntity*)m_PBaseEntity)->ForPartyWithTrusts([&table](CBattleEntity* member)
+    static_cast<CCharEntity*>(m_PBaseEntity)->ForPartyWithTrusts([&table](CBattleEntity* member)
     {
         table.add(CLuaBaseEntity(member));
     });
@@ -12039,7 +12042,7 @@ auto CLuaBaseEntity::getPartyLeader() -> CBaseEntity*
         return nullptr;
     }
 
-    CCharEntity* PChar = (CCharEntity*)m_PBaseEntity;
+    CCharEntity* PChar = static_cast<CCharEntity*>(m_PBaseEntity);
     if (PChar->PParty)
     {
         CBattleEntity* PLeader = PChar->PParty->GetLeader();
@@ -12061,7 +12064,7 @@ auto CLuaBaseEntity::getPartyLeader() -> CBaseEntity*
 
 void CLuaBaseEntity::forMembersInRange(float range, sol::function function)
 {
-    auto* target = (CBattleEntity*)m_PBaseEntity;
+    auto* target = static_cast<CBattleEntity*>(m_PBaseEntity);
 
     // clang-format off
     target->ForParty([&target, &range, &function](CBattleEntity* member)
@@ -12097,7 +12100,7 @@ void CLuaBaseEntity::addPartyEffect(sol::variadic_args va)
         args[idx++] = v.get<uint16>();
     }
 
-    CBattleEntity* PEntity = ((CBattleEntity*)m_PBaseEntity);
+    CBattleEntity* PEntity = static_cast<CBattleEntity*>(m_PBaseEntity);
 
     PEntity->ForParty(
         [&](CBattleEntity* PMember)
@@ -12121,7 +12124,7 @@ auto CLuaBaseEntity::hasPartyEffect(uint16 effectid) -> bool
         return false;
     }
 
-    CCharEntity* PChar = ((CCharEntity*)m_PBaseEntity);
+    CCharEntity* PChar = static_cast<CCharEntity*>(m_PBaseEntity);
 
     if (PChar->PParty != nullptr)
     {
@@ -12155,7 +12158,7 @@ void CLuaBaseEntity::removePartyEffect(uint16 effectid)
         return;
     }
 
-    CCharEntity* PChar = ((CCharEntity*)m_PBaseEntity);
+    CCharEntity* PChar = static_cast<CCharEntity*>(m_PBaseEntity);
 
     for (const auto& member : PChar->PParty->members)
     {
@@ -13325,7 +13328,7 @@ void CLuaBaseEntity::addRecast(uint8 recastCont, uint16 recastID, uint32 duratio
         PBattleEntity->PRecastContainer->Add(recastContainer, static_cast<xi::Recast>(recastID), std::chrono::seconds(duration));
         if (PBattleEntity->objtype == TYPE_PC)
         {
-            CCharEntity* PChar = (CCharEntity*)m_PBaseEntity;
+            CCharEntity* PChar = static_cast<CCharEntity*>(m_PBaseEntity);
             PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS2>(PChar);
             PChar->pushPacket<GP_SERV_COMMAND_ABIL_RECAST>(PChar);
         }
@@ -15422,9 +15425,9 @@ auto CLuaBaseEntity::isTandemActive() -> bool
 
 auto CLuaBaseEntity::addBurden(uint8 element, uint8 burden) -> uint8
 {
-    if (((CBattleEntity*)m_PBaseEntity)->PPet && ((CPetEntity*)((CBattleEntity*)m_PBaseEntity)->PPet)->getPetType() == PET_TYPE::AUTOMATON)
+    if (static_cast<CBattleEntity*>(m_PBaseEntity)->PPet && static_cast<CPetEntity*>(static_cast<CBattleEntity*>(m_PBaseEntity)->PPet)->getPetType() == PET_TYPE::AUTOMATON)
     {
-        return ((CAutomatonEntity*)((CBattleEntity*)m_PBaseEntity)->PPet)->addBurden(element, burden);
+        return (static_cast<CAutomatonEntity*>(static_cast<CBattleEntity*>(m_PBaseEntity)->PPet))->addBurden(element, burden);
     }
 
     return 0;
@@ -15439,9 +15442,9 @@ auto CLuaBaseEntity::addBurden(uint8 element, uint8 burden) -> uint8
  ************************************************************************/
 auto CLuaBaseEntity::getOverloadChance(uint8 element) -> uint8
 {
-    if (((CBattleEntity*)m_PBaseEntity)->PPet && ((CPetEntity*)((CBattleEntity*)m_PBaseEntity)->PPet)->getPetType() == PET_TYPE::AUTOMATON)
+    if (static_cast<CBattleEntity*>(m_PBaseEntity)->PPet && static_cast<CPetEntity*>(static_cast<CBattleEntity*>(m_PBaseEntity)->PPet)->getPetType() == PET_TYPE::AUTOMATON)
     {
-        return ((CAutomatonEntity*)((CBattleEntity*)m_PBaseEntity)->PPet)->overloadChance(element);
+        return (static_cast<CAutomatonEntity*>(static_cast<CBattleEntity*>(m_PBaseEntity)->PPet))->overloadChance(element);
     }
 
     return 0;
@@ -19347,7 +19350,7 @@ auto CLuaBaseEntity::getEnmityList() -> sol::table
         return sol::lua_nil;
     }
 
-    EnmityList_t* enmityList = ((CMobEntity*)m_PBaseEntity)->PEnmityContainer->GetEnmityList();
+    EnmityList_t* enmityList = static_cast<CMobEntity*>(m_PBaseEntity)->PEnmityContainer->GetEnmityList();
 
     if (enmityList)
     {
@@ -19362,7 +19365,7 @@ auto CLuaBaseEntity::getEnmityList() -> sol::table
                 subTable["ce"]       = member.second.CE;
                 subTable["ve"]       = member.second.VE;
                 subTable["active"]   = member.second.active;
-                subTable["tameable"] = ((CMobEntity*)m_PBaseEntity)->PEnmityContainer->IsTameable();
+                subTable["tameable"] = static_cast<CMobEntity*>(m_PBaseEntity)->PEnmityContainer->IsTameable();
 
                 table.add(subTable);
             }
@@ -19385,7 +19388,7 @@ auto CLuaBaseEntity::getTrickAttackChar(CLuaBaseEntity* PLuaBaseEntity) -> CBase
 {
     if (CBattleEntity* PMob = dynamic_cast<CBattleEntity*>(PLuaBaseEntity->GetBaseEntity()))
     {
-        CBattleEntity* taTarget = battleutils::getAvailableTrickAttackChar((CBattleEntity*)m_PBaseEntity, PMob);
+        CBattleEntity* taTarget = battleutils::getAvailableTrickAttackChar(static_cast<CBattleEntity*>(m_PBaseEntity), PMob);
         if (taTarget)
         {
             return taTarget;
@@ -19585,6 +19588,7 @@ void CLuaBaseEntity::useMobAbility(sol::variadic_args va)
         else if (mobObj)
         {
             // Self-centered AoE uses self as target
+            // NOLINTBEGIN(bugprone-branch-clone): self-target branches are ordered by priority.
             if (PMobSkill->getAoe() == static_cast<uint8>(AOE_RADIUS::ATTACKER))
             {
                 PEntity->PAI->MobSkill(PEntity->entityId(), skillid, castTimeOverride);
@@ -19606,6 +19610,7 @@ void CLuaBaseEntity::useMobAbility(sol::variadic_args va)
             {
                 PEntity->PAI->MobSkill(PEntity->entityId(), skillid, castTimeOverride);
             }
+            // NOLINTEND(bugprone-branch-clone)
         }
     }));
     // clang-format on
@@ -19813,7 +19818,7 @@ void CLuaBaseEntity::weaknessTrigger(uint8 level)
 
 void CLuaBaseEntity::restoreFromChest(CLuaBaseEntity* PLuaBaseEntity, uint32 restoreType)
 {
-    CCharEntity* PChar = (CCharEntity*)m_PBaseEntity;
+    CCharEntity* PChar = static_cast<CCharEntity*>(m_PBaseEntity);
 
     if (PLuaBaseEntity != nullptr)
     {
@@ -20379,40 +20384,41 @@ auto CLuaBaseEntity::getChocoboRaisingInfo() -> sol::table
 
     // Check to see if the user already has a chocobo
     {
-        const char* Query = "SELECT "
-                            "charid, "
-                            "first_name, "
-                            "last_name, "
-                            "sex, "
-                            "UNIX_TIMESTAMP(`created`), "
-                            "last_update_age, "
-                            "stage, "
-                            "location, "
-                            "color, "
-                            "allele1, "
-                            "allele2, "
-                            "allele3, "
-                            "strength, "
-                            "endurance, "
-                            "discernment, "
-                            "receptivity, "
-                            "affection, "
-                            "energy, "
-                            "satisfaction, "
-                            "conditions, "
-                            "ability1, "
-                            "ability2, "
-                            "personality, "
-                            "weather_preference, "
-                            "hunger, "
-                            "care_plan, "
-                            "held_item, "
-                            "locked_plan, "
-                            "appearance, "
-                            "walk_progress "
-                            "FROM char_chocobos WHERE charid = ? LIMIT 1";
+        constexpr auto query = db::Query(
+            "SELECT "
+            "charid, "
+            "first_name, "
+            "last_name, "
+            "sex, "
+            "UNIX_TIMESTAMP(`created`), "
+            "last_update_age, "
+            "stage, "
+            "location, "
+            "color, "
+            "allele1, "
+            "allele2, "
+            "allele3, "
+            "strength, "
+            "endurance, "
+            "discernment, "
+            "receptivity, "
+            "affection, "
+            "energy, "
+            "satisfaction, "
+            "conditions, "
+            "ability1, "
+            "ability2, "
+            "personality, "
+            "weather_preference, "
+            "hunger, "
+            "care_plan, "
+            "held_item, "
+            "locked_plan, "
+            "appearance, "
+            "walk_progress "
+            "FROM char_chocobos WHERE charid = ? LIMIT 1");
 
-        const auto rset = db::preparedStmt(Query, m_PBaseEntity->id);
+        const auto rset = db::preparedStmt(query, m_PBaseEntity->id);
         if (!rset)
         {
             ShowDebug("SELECT Query failed");
@@ -20482,70 +20488,71 @@ auto CLuaBaseEntity::setChocoboRaisingInfo(const sol::table& table) -> bool
 
     ShowDebugFmt("Setting Raising Chocobo Info ({})", m_PBaseEntity->getName());
 
-    const char* Query = "INSERT INTO char_chocobos SET "
-                        "charid = ?, "
-                        "first_name = ?, "
-                        "last_name = ?, "
-                        "sex = ?, "
-                        "created = FROM_UNIXTIME(?), "
-                        "last_update_age = ?, "
-                        "stage = ?, "
-                        "location = ?, "
-                        "color = ?, "
-                        "allele1 = ?, "
-                        "allele2 = ?, "
-                        "allele3 = ?, "
-                        "strength = ?, "
-                        "endurance = ?, "
-                        "discernment = ?, "
-                        "receptivity = ?, "
-                        "affection = ?, "
-                        "energy = ?, "
-                        "satisfaction = ?, "
-                        "conditions = ?, "
-                        "ability1 = ?, "
-                        "ability2 = ?, "
-                        "personality = ?, "
-                        "weather_preference = ?, "
-                        "hunger = ?, "
-                        "care_plan = ?, "
-                        "held_item = ?, "
-                        "locked_plan = ?, "
-                        "appearance = ?, "
-                        "walk_progress = ? "
-                        "ON DUPLICATE KEY UPDATE "
-                        "first_name = VALUES(first_name), "
-                        "last_name = VALUES(last_name), "
-                        "sex = VALUES(sex), "
-                        "created = VALUES(created), "
-                        "last_update_age = VALUES(last_update_age), "
-                        "stage = VALUES(stage), "
-                        "location = VALUES(location), "
-                        "color = VALUES(color), "
-                        "allele1 = VALUES(allele1), "
-                        "allele2 = VALUES(allele2), "
-                        "allele3 = VALUES(allele3), "
-                        "strength = VALUES(strength), "
-                        "endurance = VALUES(endurance), "
-                        "discernment = VALUES(discernment), "
-                        "receptivity = VALUES(receptivity), "
-                        "affection = VALUES(affection), "
-                        "energy = VALUES(energy), "
-                        "satisfaction = VALUES(satisfaction), "
-                        "conditions = VALUES(conditions), "
-                        "ability1 = VALUES(ability1), "
-                        "ability2 = VALUES(ability2), "
-                        "personality = VALUES(personality), "
-                        "weather_preference = VALUES(weather_preference), "
-                        "hunger = VALUES(hunger), "
-                        "care_plan = VALUES(care_plan), "
-                        "held_item = VALUES(held_item), "
-                        "locked_plan = VALUES(locked_plan), "
-                        "appearance = VALUES(appearance), "
-                        "walk_progress = VALUES(walk_progress)";
+    constexpr auto query = db::Query(
+        "INSERT INTO char_chocobos SET "
+        "charid = ?, "
+        "first_name = ?, "
+        "last_name = ?, "
+        "sex = ?, "
+        "created = FROM_UNIXTIME(?), "
+        "last_update_age = ?, "
+        "stage = ?, "
+        "location = ?, "
+        "color = ?, "
+        "allele1 = ?, "
+        "allele2 = ?, "
+        "allele3 = ?, "
+        "strength = ?, "
+        "endurance = ?, "
+        "discernment = ?, "
+        "receptivity = ?, "
+        "affection = ?, "
+        "energy = ?, "
+        "satisfaction = ?, "
+        "conditions = ?, "
+        "ability1 = ?, "
+        "ability2 = ?, "
+        "personality = ?, "
+        "weather_preference = ?, "
+        "hunger = ?, "
+        "care_plan = ?, "
+        "held_item = ?, "
+        "locked_plan = ?, "
+        "appearance = ?, "
+        "walk_progress = ? "
+        "ON DUPLICATE KEY UPDATE "
+        "first_name = VALUES(first_name), "
+        "last_name = VALUES(last_name), "
+        "sex = VALUES(sex), "
+        "created = VALUES(created), "
+        "last_update_age = VALUES(last_update_age), "
+        "stage = VALUES(stage), "
+        "location = VALUES(location), "
+        "color = VALUES(color), "
+        "allele1 = VALUES(allele1), "
+        "allele2 = VALUES(allele2), "
+        "allele3 = VALUES(allele3), "
+        "strength = VALUES(strength), "
+        "endurance = VALUES(endurance), "
+        "discernment = VALUES(discernment), "
+        "receptivity = VALUES(receptivity), "
+        "affection = VALUES(affection), "
+        "energy = VALUES(energy), "
+        "satisfaction = VALUES(satisfaction), "
+        "conditions = VALUES(conditions), "
+        "ability1 = VALUES(ability1), "
+        "ability2 = VALUES(ability2), "
+        "personality = VALUES(personality), "
+        "weather_preference = VALUES(weather_preference), "
+        "hunger = VALUES(hunger), "
+        "care_plan = VALUES(care_plan), "
+        "held_item = VALUES(held_item), "
+        "locked_plan = VALUES(locked_plan), "
+        "appearance = VALUES(appearance), "
+        "walk_progress = VALUES(walk_progress)");
 
     const auto rset = db::preparedStmt(
-        Query,
+        query,
         m_PBaseEntity->id,
         table.get_or<std::string>("first_name", "Chocobo"),
         table.get_or<std::string>("last_name", "Chocobo"),
@@ -20641,12 +20648,13 @@ void CLuaBaseEntity::setMannequinPose(uint16 itemID, uint8 race, uint8 pose)
                         PMannequin->setMannequinRace(race);
                         PMannequin->setMannequinPose(pose);
 
-                        const char* fmtQuery = "UPDATE char_inventory "
-                                               "SET extra = ? "
-                                               "WHERE charid = ? AND itemId = ? "
-                                               "LIMIT 1";
+                        constexpr auto query = db::Query(
+                            "UPDATE char_inventory "
+                            "SET extra = ? "
+                            "WHERE charid = ? AND itemId = ? "
+                            "LIMIT 1");
 
-                        if (!db::preparedStmt(fmtQuery, PMannequin->m_extra, PChar->id, PMannequin->getID()))
+                        if (!db::preparedStmt(query, PMannequin->m_extra, PChar->id, PMannequin->getID()))
                         {
                             ShowError("lua_baseentity::setMannequinPose: Cannot insert item to database");
                         }
@@ -20739,12 +20747,13 @@ auto CLuaBaseEntity::getContestRewardStatus() -> sol::table
 
     if (auto PChar = dynamic_cast<CCharEntity*>(m_PBaseEntity))
     {
-        std::string Query = "SELECT contestrank, share "
-                            "FROM   fishing_contest_entries "
-                            "WHERE  charid = ? "
-                            "AND    claimed != 1";
+        constexpr auto query = db::Query(
+            "SELECT contestrank, share "
+            "FROM   fishing_contest_entries "
+            "WHERE  charid = ? "
+            "AND    claimed != 1");
 
-        auto ret = db::preparedStmt(Query, PChar->id);
+        const auto ret = db::preparedStmt(query, PChar->id);
         if (ret && ret->rowsCount() > 0 && ret->next())
         {
             reward["rank"]  = ret->get<uint8>("contestrank");

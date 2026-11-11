@@ -117,6 +117,12 @@ describe('Module: phoenix_gm_command_tiers', function()
             spawnTreant = function()
                 actual.spawns = actual.spawns + 1
             end,
+
+            -- An empty zone gets its moogles and a treant.
+            startZone = function()
+                actual.moogles = actual.moogles + 1
+                actual.spawns  = actual.spawns + 1
+            end,
         }
         env.GetPlayerByName = function(name)
             return actual.players[string.lower(name)]
@@ -421,7 +427,7 @@ describe('Module: phoenix_gm_command_tiers', function()
         assert(#actual.sends == 4)
         testXi.commands.treants.onTrigger(player, 'complete')
         assert(actual.vars['[TreantEvent]Started'] == 1000 and actual.vars['[TreantEvent]Complete'] == 1000)
-        assert(actual.vars['[TreantEvent]Dead_' .. xi.zone.WEST_RONFAURE] == 1000 and #actual.sends == 5)
+        assert(actual.vars['[TreantEvent]Dead_' .. xi.zone.WEST_RONFAURE] == 1000 and #actual.sends == 6)
     end)
 
     it('rejects unknown treant actions without changing the event', function()

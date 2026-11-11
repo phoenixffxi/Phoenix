@@ -30,9 +30,8 @@
 #include "utils/battleutils.h"
 
 CMobSpellContainer::CMobSpellContainer(CMobEntity* PMob)
+: m_PMob(PMob)
 {
-    m_PMob      = PMob;
-    m_hasSpells = false;
 }
 
 void CMobSpellContainer::ClearSpells()
@@ -330,7 +329,6 @@ auto CMobSpellContainer::GetBestEntrustedSpell(CBattleEntity* PTarget) -> Maybe<
             choice = SpellID::Indi_Regen;
             break;
         case xi::Job::GEO:
-            break;
         default:
             break;
     }

@@ -376,22 +376,37 @@ auto CDataLoader::GetPlayersList(SearchRequest sr, int* count) const -> std::vec
     std::ranges::sort(ids);
     ids.erase(std::unique(ids.begin(), ids.end()), ids.end());
 
-    static const auto columns  = std::string("SELECT charid, partyid, charname, pos_zone, pos_prevzone, nation, rank_sandoria, rank_bastok, unity_leader, "
-                                             "rank_windurst, race, mjob, sjob, mlvl, slvl, languages, settings, seacom_type, disconnecting, gmHiddenEnabled, muted, "
-                                             "linkshellid1, linkshellid2 ");
-    static const auto joins    = std::string("LEFT JOIN accounts_parties USING (charid) "
-                                             "LEFT JOIN chars USING (charid) "
-                                             "LEFT JOIN char_look USING (charid) "
-                                             "LEFT JOIN char_stats USING (charid) "
-                                             "LEFT JOIN char_profile USING(charid) "
-                                             "LEFT JOIN char_flags USING(charid) ");
-    static const auto filters  = std::string("WHERE charname IS NOT NULL "
-                                             "AND (? = 0 OR mjob = ?) "
-                                             "AND (? = 0 OR (seacom_type & 0xF0) = ?) "
-                                             "ORDER BY charname ASC");
-    static const auto everyone = columns + "FROM accounts_sessions " + joins + filters;
-    static const auto byIds    = columns + "FROM JSON_TABLE(?, '$[*]' COLUMNS (charid INT UNSIGNED PATH '$')) AS ids " +
-                                 "JOIN accounts_sessions USING (charid) " + joins + filters;
+    constexpr auto everyone = db::Query(
+        "SELECT charid, partyid, charname, pos_zone, pos_prevzone, nation, rank_sandoria, rank_bastok, unity_leader, "
+        "rank_windurst, race, mjob, sjob, mlvl, slvl, languages, settings, seacom_type, disconnecting, gmHiddenEnabled, muted, "
+        "linkshellid1, linkshellid2 "
+        "FROM accounts_sessions "
+        "LEFT JOIN accounts_parties USING (charid) "
+        "LEFT JOIN chars USING (charid) "
+        "LEFT JOIN char_look USING (charid) "
+        "LEFT JOIN char_stats USING (charid) "
+        "LEFT JOIN char_profile USING(charid) "
+        "LEFT JOIN char_flags USING(charid) "
+        "WHERE charname IS NOT NULL "
+        "AND (? = 0 OR mjob = ?) "
+        "AND (? = 0 OR (seacom_type & 0xF0) = ?) "
+        "ORDER BY charname ASC");
+    constexpr auto byIds = db::Query(
+        "SELECT charid, partyid, charname, pos_zone, pos_prevzone, nation, rank_sandoria, rank_bastok, unity_leader, "
+        "rank_windurst, race, mjob, sjob, mlvl, slvl, languages, settings, seacom_type, disconnecting, gmHiddenEnabled, muted, "
+        "linkshellid1, linkshellid2 "
+        "FROM JSON_TABLE(?, '$[*]' COLUMNS (charid INT UNSIGNED PATH '$')) AS ids "
+        "JOIN accounts_sessions USING (charid) "
+        "LEFT JOIN accounts_parties USING (charid) "
+        "LEFT JOIN chars USING (charid) "
+        "LEFT JOIN char_look USING (charid) "
+        "LEFT JOIN char_stats USING (charid) "
+        "LEFT JOIN char_profile USING(charid) "
+        "LEFT JOIN char_flags USING(charid) "
+        "WHERE charname IS NOT NULL "
+        "AND (? = 0 OR mjob = ?) "
+        "AND (? = 0 OR (seacom_type & 0xF0) = ?) "
+        "ORDER BY charname ASC");
 
     // The second statement's ids are still bound as a JSON array for JSON_TABLE.
     const auto rset = ids.empty()
@@ -567,28 +582,12 @@ auto CDataLoader::GetPlayersList(SearchRequest sr, int* count) const -> std::vec
             // filter by race
             if (sr.race != 255)
             {
-                // hume (male/female)
-                if (sr.race == 0 && (player.race != 1 && player.race != 2))
-                {
-                    continue;
-                    // elvaan (male/female)
-                }
-                if (sr.race == 1 && (player.race != 3 && player.race != 4))
-                {
-                    continue;
-                    // tarutaru (male/female)
-                }
-                if (sr.race == 2 && (player.race != 5 && player.race != 6))
-                {
-                    continue;
-                    // mithra (female only)
-                }
-                else if (sr.race == 3 && player.race != 7)
-                {
-                    continue;
-                    // galka (male only)
-                }
-                else if (sr.race == 4 && player.race != 8)
+                const bool raceMismatch = (sr.race == 0 && player.race != 1 && player.race != 2) || // hume (male/female)
+                                          (sr.race == 1 && player.race != 3 && player.race != 4) || // elvaan (male/female)
+                                          (sr.race == 2 && player.race != 5 && player.race != 6) || // tarutaru (male/female)
+                                          (sr.race == 3 && player.race != 7) ||                     // mithra (female only)
+                                          (sr.race == 4 && player.race != 8);                       // galka (male only)
+                if (raceMismatch)
                 {
                     continue;
                 }
@@ -940,6 +939,9 @@ auto CDataLoader::GetSearchComment(uint32 playerId) const -> std::string
     return std::string();
 }
 
+namespace
+{
+
 struct ListingToExpire
 {
     uint32      saleID     = 0;
@@ -949,6 +951,8 @@ struct ListingToExpire
     uint32      sellerID   = 0;
     std::string sellerName = "?";
 };
+
+} // namespace
 
 void CDataLoader::ExpireAHItems(uint16 expireAgeInDays) const
 {

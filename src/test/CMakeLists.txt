@@ -51,7 +51,9 @@ endif()
 xi_add_executable(xi_test testserver.rc
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/bitset_tests.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/tests/char_points_queries_tests.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/data/data_binding_tests.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/tests/database_tests.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/data/ecosystems_tree_tests.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/data/experience_dataset_tests.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/data/merits_dataset_tests.cpp
@@ -62,10 +64,13 @@ xi_add_executable(xi_test testserver.rc
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/data/zones/regions_tests.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/data/zones/settings_tests.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/entity_list_tests.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/tests/fishing_tests.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/tests/huffman_tests.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/item_container_tests.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/rng_runtime_tests.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/pathfind_region_tests.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/roam_region_tests.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/tests/scheduler_tests.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/transport_voyage_tests.cpp
 )
 add_dependencies(xi_test data_schema_generate)
@@ -83,6 +88,13 @@ target_link_libraries(xi_test_lib
 )
 
 target_link_libraries(xi_test PRIVATE xi_test_lib Catch2::Catch2)
+
+# Phoenix start: build the init.txt C++ modules in too, so the tests run with what xi_map loads.
+xi_collect_modules(module_sources module_include_dirs module_cmakelists)
+target_sources(xi_test PRIVATE ${module_sources})
+target_include_directories(xi_test PRIVATE ${module_include_dirs})
+# Phoenix end
+
 xi_precompile_headers(xi_test)
 
 if(TRACY_ENABLE)

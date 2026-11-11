@@ -53,9 +53,11 @@ class CLuaSimulation
 public:
     CLuaSimulation(MapEngine* _mapServer, const std::shared_ptr<InMemorySink>& _sink);
 
+    ~CLuaSimulation() = default;
+
     CLuaSimulation(const CLuaSimulation&)                    = delete;
     auto operator=(const CLuaSimulation&) -> CLuaSimulation& = delete;
-    CLuaSimulation(CLuaSimulation&&)                         = default;
+    CLuaSimulation(CLuaSimulation&&) noexcept                = default;
     auto operator=(CLuaSimulation&&) -> CLuaSimulation&      = default;
 
     void cleanClients(Maybe<ClientScope> scope = std::nullopt);
@@ -63,6 +65,8 @@ public:
     void processClientUpdates() const;
     void tickEntity(CLuaBaseEntity& entity) const;
     void skipTime(uint32 seconds) const;
+    auto getSteadyTime() const -> double;
+    auto getLogs() const -> sol::table;
     void setVanaTime(uint8 vanaHour, uint8 vanaMinute) const;
     void setVanaDay(uint8 day) const;
     void skipToNextVanaDay() const;

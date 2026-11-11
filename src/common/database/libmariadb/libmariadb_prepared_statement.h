@@ -23,6 +23,7 @@
 
 // Must precede any project header that could transitively include <windows.h>.
 #include <common/database/libmariadb/libmariadb_include.h>
+#include <common/macros.h>
 
 #include <common/database/bound_value.h>
 #include <common/database/libmariadb/libmariadb_result_set.h>
@@ -33,6 +34,7 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <vector>
 
 namespace db::detail::libmariadb
@@ -60,13 +62,12 @@ public:
     explicit LibMariaDBPreparedStatement(MYSQL_STMT* stmt);
     ~LibMariaDBPreparedStatement() override;
 
-    LibMariaDBPreparedStatement(const LibMariaDBPreparedStatement&)                    = delete;
-    auto operator=(const LibMariaDBPreparedStatement&) -> LibMariaDBPreparedStatement& = delete;
+    DISALLOW_COPY_AND_MOVE(LibMariaDBPreparedStatement);
 
     auto bind(int index, const BoundValue& value) -> void override;
-    auto executeQuery(const std::string& query) -> std::unique_ptr<ResultSet> override;
-    auto executeUpdate(const std::string& query) -> std::unique_ptr<ResultSet> override;
-    auto executeBulkUpdate(const std::string& query, const std::vector<BoundValue>& params) -> std::unique_ptr<ResultSet> override;
+    auto executeQuery(std::string_view query) -> std::unique_ptr<ResultSet> override;
+    auto executeUpdate(std::string_view query) -> std::unique_ptr<ResultSet> override;
+    auto executeBulkUpdate(std::string_view query, const std::vector<BoundValue>& params) -> std::unique_ptr<ResultSet> override;
 
 private:
     enum class CellKind

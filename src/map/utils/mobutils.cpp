@@ -43,11 +43,11 @@
 namespace mobutils
 {
 
-ModsMap_t mobPoolModsList;
-ModsMap_t mobSpawnModsList;
-
 namespace
 {
+
+ModsMap_t mobPoolModsList;
+ModsMap_t mobSpawnModsList;
 
 using EcosystemsDataset = xi::data::datasets::ecosystems::Dataset;
 
@@ -237,22 +237,14 @@ auto GetBaseWeaponDamage(CMobEntity* PMob, uint16 slot) -> uint16
         case xi::Region::AragoneuFront:
         case xi::Region::FauregandiFront:
         case xi::Region::ValdeauniaFront:
-            offset       = 11;
-            rangedOffset = 13;
-            break;
-
         // Other
         case xi::Region::Abyssea:
         case xi::Region::TheThreshold:
         case xi::Region::Abdhaljs: // TODO: Need data for ABDHALJS zones.
-            offset       = 11;
-            rangedOffset = 13;
-            break;
-
         // SOA Regions
         case xi::Region::AdoulinIslands:
-        case xi::Region::EastUlbuka:
-            offset       = 11; // TODO: Need more data for Lvl 100+ mobs.
+        case xi::Region::EastUlbuka: // TODO: Need more data for Lvl 100+ mobs.
+            offset       = 11;
             rangedOffset = 13;
             break;
 
@@ -550,6 +542,9 @@ auto GetSubJobStats(uint8 rank, uint16 level, uint16 stat) -> uint16
     return sJobStat;
 }
 
+namespace
+{
+
 /************************************************************************
  *                                                                       *
  *  Checks if the mob is in any Original/RoZ zone                        *
@@ -663,7 +658,7 @@ auto CheckSubJobZone(CMobEntity* PMob) -> bool
  *  Calculate base mob HP from job grades and levels                     *
  *                                                                       *
  ************************************************************************/
-static auto CalculateBaseMobHP(uint8 mLvl, uint8 baseHP, uint8 jobScale, uint8 scaleXHP) -> uint32
+auto CalculateBaseMobHP(uint8 mLvl, uint8 baseHP, uint8 jobScale, uint8 scaleXHP) -> uint32
 {
     // HP formula has multiple parts based on level ranges:
     // Levels 1-5: Base HP + scaling per level
@@ -721,7 +716,7 @@ static auto CalculateBaseMobHP(uint8 mLvl, uint8 baseHP, uint8 jobScale, uint8 s
  *  Subjob HP at a given subjob level                                    *
  *                                                                       *
  ************************************************************************/
-static auto SubjobHPAtLevel(const int32 sjLvl, const uint8 sjJobScale, const uint8 sjScaleXHP) -> uint32
+auto SubjobHPAtLevel(const int32 sjLvl, const uint8 sjJobScale, const uint8 sjScaleXHP) -> uint32
 {
     const auto sjHP = sjJobScale * std::max(sjLvl - 1, 0) +
                       (0.5 + 0.5 * sjScaleXHP) * std::max(sjLvl - 10, 0) +
@@ -737,7 +732,7 @@ static auto SubjobHPAtLevel(const int32 sjLvl, const uint8 sjJobScale, const uin
  *  Calculate subjob HP contribution                                     *
  *                                                                       *
  ************************************************************************/
-static auto CalculateSubjobHP(uint8 mLvl, uint8 sjJobScale, uint8 sjScaleXHP) -> uint32
+auto CalculateSubjobHP(uint8 mLvl, uint8 sjJobScale, uint8 sjScaleXHP) -> uint32
 {
     // Subjob HP contribution varies by main job level:
     // 50+   = 100% of subjob stats
@@ -765,6 +760,8 @@ static auto CalculateSubjobHP(uint8 mLvl, uint8 sjJobScale, uint8 sjScaleXHP) ->
 
     return SubjobHPAtLevel(sjScale, sjJobScale, sjScaleXHP);
 }
+
+} // namespace
 
 /************************************************************************
  *                                                                       *
@@ -937,13 +934,13 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
         }
     }
 
-    ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->setDamage(GetBaseWeaponDamage(PMob, SLOT_MAIN));
-    ((CItemWeapon*)PMob->m_Weapons[SLOT_RANGED])->setDamage(GetBaseWeaponDamage(PMob, SLOT_RANGED));
+    static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_MAIN])->setDamage(GetBaseWeaponDamage(PMob, SLOT_MAIN));
+    static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_RANGED])->setDamage(GetBaseWeaponDamage(PMob, SLOT_RANGED));
 
     // reduce weapon delay of MNK
     if (PMob->GetMJob() == xi::Job::MNK)
     {
-        ((CItemWeapon*)PMob->m_Weapons[SLOT_MAIN])->resetDelay();
+        static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_MAIN])->resetDelay();
     }
 
     uint16 fSTR = GetBaseToRank(PMob->strRank, mLvl);
@@ -1018,7 +1015,7 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
     if (PMob->getMobMod(xi::MobMod::PetSpellList) && PMob->PPet != nullptr)
     {
         // Stubborn_Dredvodd
-        CMobEntity* PPet = (CMobEntity*)PMob->PPet;
+        CMobEntity* PPet = static_cast<CMobEntity*>(PMob->PPet);
 
         // give pet spell list
         PPet->m_SpellListContainer = mobSpellList::GetMobSpellList(PMob->getMobMod(xi::MobMod::PetSpellList));
@@ -1167,6 +1164,9 @@ void CalculateMobStats(CMobEntity* PMob, bool recover)
     }
 }
 
+namespace
+{
+
 void SetupRangedAttack(CMobEntity* PMob)
 {
     PMob->defaultMobMod(xi::MobMod::SpecialSkill, 0); // Need to remove the base ranged attack
@@ -1175,6 +1175,8 @@ void SetupRangedAttack(CMobEntity* PMob)
 
     static_cast<CItemWeapon*>(PMob->m_Weapons[SLOT_RANGED])->setBaseDelay(300);
 }
+
+} // namespace
 
 void SetupJob(CMobEntity* PMob)
 {
@@ -1201,11 +1203,7 @@ void SetupJob(CMobEntity* PMob)
             PMob->defaultMobMod(xi::MobMod::SevereSpellChance, 20);
             break;
         case xi::Job::PLD:
-            PMob->defaultMobMod(xi::MobMod::MagicCool, 35);
-            break;
         case xi::Job::DRK:
-            PMob->defaultMobMod(xi::MobMod::MagicCool, 35);
-            break;
         case xi::Job::WHM:
             PMob->defaultMobMod(xi::MobMod::MagicCool, 35);
             break;
@@ -1229,14 +1227,8 @@ void SetupJob(CMobEntity* PMob)
             PMob->defaultMobMod(xi::MobMod::BuffChance, 20);
             break;
         case xi::Job::BLU:
-            PMob->defaultMobMod(xi::MobMod::MagicCool, 35);
-            break;
         case xi::Job::SCH:
-            PMob->defaultMobMod(xi::MobMod::MagicCool, 35);
-            break;
         case xi::Job::GEO:
-            PMob->defaultMobMod(xi::MobMod::MagicCool, 35);
-            break;
         case xi::Job::RUN:
             PMob->defaultMobMod(xi::MobMod::MagicCool, 35);
             break;
@@ -1495,6 +1487,9 @@ void SetupDungeonInstanceMob(CMobEntity* PMob)
     }
 }
 
+namespace
+{
+
 void RecalculateSpellContainer(CMobEntity* PMob)
 {
     // clear spell list
@@ -1509,6 +1504,8 @@ void RecalculateSpellContainer(CMobEntity* PMob)
         }
     }
 }
+
+} // namespace
 
 /* Gets the available spells for the specified monster.
  */

@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include "common/macros.h"
 #include <memory>
 
 #include "mob_controller.h"
@@ -41,6 +42,8 @@ public:
     CTrustController(CCharEntity*, CTrustEntity*);
     ~CTrustController() override;
 
+    DISALLOW_COPY_AND_MOVE(CTrustController);
+
     auto Tick(timer::time_point) -> Task<void> override;
     void Despawn() override;
     auto Ability(EntityId target, uint16 abilityid) -> bool override;
@@ -57,9 +60,11 @@ public:
 
     std::unique_ptr<gambits::CGambitsContainer> m_GambitsContainer;
 
-private:
+protected:
     auto DoCombatTick(timer::time_point tick) -> Task<void> override;
     auto DoRoamTick(timer::time_point tick) -> Task<void> override;
+
+private:
     auto DoNonCombatTick(timer::time_point tick) -> Task<void>;
     void Declump(const CCharEntity* PMaster, const CBattleEntity* PTarget) const;
     void PathOutToDistance(const CBattleEntity* PTarget, float amount);

@@ -23,9 +23,11 @@
 
 #include <common/database/bound_value.h>
 #include <common/database/result_set.h>
+#include <common/macros.h>
 
 #include <memory>
 #include <string>
+#include <string_view>
 #include <vector>
 
 namespace db
@@ -34,21 +36,24 @@ namespace db
 class PreparedStatement
 {
 public:
+    PreparedStatement()          = default;
     virtual ~PreparedStatement() = default;
+
+    DISALLOW_COPY_AND_MOVE(PreparedStatement);
 
     // Bind a single value to the given (1-indexed) parameter slot.
     virtual auto bind(int index, const BoundValue& value) -> void = 0;
 
     // Execute as a SELECT-like query, returning a queryable result set.
-    virtual auto executeQuery(const std::string& query) -> std::unique_ptr<ResultSet> = 0;
+    virtual auto executeQuery(std::string_view query) -> std::unique_ptr<ResultSet> = 0;
 
     // Execute as an UPDATE-like query, returning a rows-affected result set.
-    virtual auto executeUpdate(const std::string& query) -> std::unique_ptr<ResultSet> = 0;
+    virtual auto executeUpdate(std::string_view query) -> std::unique_ptr<ResultSet> = 0;
 
     // Execute every parameter set in `params` in one round trip, using MariaDB's bulk array binding.
     //
     // Row-major, one value per placeholder. Numeric columns only; strings and blobs throw.
-    virtual auto executeBulkUpdate(const std::string& query, const std::vector<BoundValue>& params) -> std::unique_ptr<ResultSet> = 0;
+    virtual auto executeBulkUpdate(std::string_view query, const std::vector<BoundValue>& params) -> std::unique_ptr<ResultSet> = 0;
 };
 
 } // namespace db

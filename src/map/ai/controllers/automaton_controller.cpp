@@ -72,10 +72,6 @@ void CAutomatonController::setCooldowns()
         }
         break;
         case xi::AutomatonFrame::Harlequin:
-        {
-            setMagicCooldowns();
-        }
-        break;
         case xi::AutomatonFrame::Stormwaker:
         {
             setMagicCooldowns();
@@ -85,6 +81,9 @@ void CAutomatonController::setCooldowns()
         {
             m_shieldbashCooldown = 3min;
         }
+        break;
+        case xi::AutomatonFrame::None:
+            break;
     }
 }
 
@@ -191,21 +190,25 @@ auto CAutomatonController::DoCombatTick(timer::time_point tick) -> Task<void>
             m_LastShieldBashTime = m_Tick;
             co_return;
         }
-        else if (TrySpellcast(maneuvers))
+
+        if (TrySpellcast(maneuvers))
         {
             m_LastMagicTime = m_Tick;
             co_return;
         }
-        else if (TryTPMove())
+
+        if (TryTPMove())
         {
             co_return;
         }
-        else if (TryRangedAttack())
+
+        if (TryRangedAttack())
         {
             m_LastRangedTime = m_Tick;
             co_return;
         }
-        else if (TryAttachment())
+
+        if (TryAttachment())
         {
             co_return;
         }
@@ -280,25 +283,6 @@ auto CAutomatonController::TrySpellcast(const CurrentManeuvers& maneuvers) -> bo
         }
         break;
         case xi::AutomatonHead::Sharpshot:
-        {
-            if (maneuvers.light && TryHeal(maneuvers)) // Light -> Heal
-            {
-                m_LastHealTime = m_Tick;
-                return true;
-            }
-
-            if (TryEnfeeble(maneuvers))
-            {
-                m_LastEnfeebleTime = m_Tick;
-                return true;
-            }
-            else if (!maneuvers.light && TryHeal(maneuvers))
-            {
-                m_LastHealTime = m_Tick;
-                return true;
-            }
-        }
-        break;
         case xi::AutomatonHead::Harlequin:
         {
             if (maneuvers.light && TryHeal(maneuvers)) // Light -> Heal
@@ -416,6 +400,9 @@ auto CAutomatonController::TrySpellcast(const CurrentManeuvers& maneuvers) -> bo
                 return true;
             }
         }
+        break;
+        case xi::AutomatonHead::None:
+            break;
     }
     return false;
 }
@@ -549,35 +536,42 @@ auto CAutomatonController::TryHeal(const CurrentManeuvers& maneuvers) -> bool
         {
             return true;
         }
-        else if (missinghp > 600 && Cast(PCastTarget->entityId(), SpellID::Cure_V))
+
+        if (missinghp > 600 && Cast(PCastTarget->entityId(), SpellID::Cure_V))
         {
             return true;
         }
-        else if (missinghp > 350 && Cast(PCastTarget->entityId(), SpellID::Cure_IV))
+
+        if (missinghp > 350 && Cast(PCastTarget->entityId(), SpellID::Cure_IV))
         {
             return true;
         }
-        else if (missinghp > 190 && Cast(PCastTarget->entityId(), SpellID::Cure_III))
+
+        if (missinghp > 190 && Cast(PCastTarget->entityId(), SpellID::Cure_III))
         {
             return true;
         }
-        else if (missinghp > 120 && Cast(PCastTarget->entityId(), SpellID::Cure_II))
+
+        if (missinghp > 120 && Cast(PCastTarget->entityId(), SpellID::Cure_II))
         {
             return true;
         }
-        else if (Cast(PCastTarget->entityId(), SpellID::Cure))
-        {
-            return true;
-        }
+
+        return Cast(PCastTarget->entityId(), SpellID::Cure);
     }
 
     return false;
 }
 
+namespace
+{
+
 inline auto resistanceComparator(const std::pair<SpellID, int16>& firstElem, const std::pair<SpellID, int16>& secondElem) -> bool
 {
     return firstElem.second < secondElem.second;
 }
+
+} // namespace
 
 auto CAutomatonController::Disengage() -> bool
 {
@@ -1697,9 +1691,14 @@ auto CAutomatonController::TryAttachment() -> bool
 namespace automaton
 {
 
+namespace
+{
+
 FlatHashMap<SpellID, AutomatonSpell, EnumClassHash> autoSpellList;
 std::vector<SpellID>                                naSpells;
 HashMap<uint16, AutomatonAbility>                   autoAbilityList;
+
+} // namespace
 
 void LoadAutomatonSpellList()
 {

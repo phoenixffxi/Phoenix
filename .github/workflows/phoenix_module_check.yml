@@ -1,0 +1,78 @@
+# Phoenix: on PRs with "update" in the title, comments the upstream functions the PR changes that enabled modules override.
+# pull_request_target lets it comment on PRs from LSB and forks; it only reads the PR through git and never runs its code.
+
+name: Module Override Check
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  Check:
+    name: Module override check
+    if: ${{ contains(github.event.pull_request.title, 'update') }}
+    runs-on: ubuntu-latest
+    steps:
+      # The base branch's copy of the check. Don't check out the PR's files here.
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Fetch the PR
+        id: fetch
+        env:
+          PR: ${{ github.event.pull_request.number }}
+          BASE: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git fetch --no-tags origin "+refs/pull/$PR/head:refs/pr/head"
+          if git fetch --no-tags origin "+refs/pull/$PR/merge:refs/pr/merge"; then
+            echo "modules=refs/pr/merge" >> "$GITHUB_OUTPUT"
+          else
+            echo "No merge result (the PR may have conflicts), so overrides come from the base branch."
+            echo "modules=$BASE" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Check overrides
+        id: check
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          MODULES: ${{ steps.fetch.outputs.modules }}
+        run: python ./tools/ci/phoenix/module_override_check.py "$BASE" refs/pr/head --modules-ref "$MODULES" --repo "$GITHUB_REPOSITORY" --output report.md
+
+      # One comment, edited in place on later runs.
+      - name: Comment
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          CHANGES: ${{ steps.check.outputs.changes }}
+        run: |
+          marker='<!-- phoenix-module-override-check -->'
+          id=$(gh api "repos/$GITHUB_REPOSITORY/issues/$PR/comments" --paginate \
+            --jq ".[] | select(.user.login == \"github-actions[bot]\" and (.body | contains(\"$marker\"))) | .id" | head -n 1)
+
+          if [ "$CHANGES" = "0" ]; then
+            if [ -z "$id" ]; then
+              exit 0
+            fi
+            printf '%s\n## Module override check\n\nNothing to review as of `%s`.\n' "$marker" "${HEAD_SHA::10}" > report.md
+          fi
+
+          if [ -n "$id" ]; then
+            gh api -X PATCH "repos/$GITHUB_REPOSITORY/issues/comments/$id" -F body=@report.md > /dev/null
+          else
+            gh pr comment "$PR" --repo "$GITHUB_REPOSITORY" --body-file report.md
+          fi

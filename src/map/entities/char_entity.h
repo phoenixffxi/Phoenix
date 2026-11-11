@@ -33,6 +33,7 @@
 #include "items/transaction.h"
 #include "moghouse_container.h"
 #include "monstrosity.h"
+#include <common/macros.h>
 
 #include <common/cbasetypes.h>
 #include <common/mmo.h>
@@ -57,6 +58,7 @@
 #include "battle_entity.h"
 #include "linkshell.h"
 #include "maze.h"
+#include "packets/c2s/rate_limiter.h"
 
 #include <map/entities/types/automaton_info.h>
 
@@ -102,7 +104,7 @@ struct Fame
 
 struct profile_t
 {
-    xi::Nation nation; // Your Nation Allegiance.
+    xi::Nation nation{}; // Your Nation Allegiance.
 
     // Moghouse data (bit-packed)
     // 0x0001: SANDORIA exit quest flag
@@ -114,26 +116,26 @@ struct profile_t
     // 0x0040: Moghouse 2F tracker flag (0: default, 1: using 2F)
     // 0x0080: This bit and the next track which 2F decoration style is being used (0: SANDORIA, 1: BASTOK, 2: WINDURST, 3: PATIO)
     // 0x0100: ^ As above
-    uint16 mhflag;
+    uint16 mhflag{};
 
-    uint16     title;
+    uint16     title{};
     Fame       fame{};
-    uint8      rank[3]; // RANK in three kingdoms
-    uint16     rankpoints;
+    uint8      rank[3]{}; // RANK in three kingdoms
+    uint16     rankpoints{};
     location_t home_point;
-    uint8      campaign_allegiance;
-    uint8      unity_leader;
+    uint8      campaign_allegiance{};
+    uint8      unity_leader{};
 };
 
 struct capacityChain_t
 {
-    uint16            chainNumber;
+    uint16            chainNumber{};
     timer::time_point chainTime;
 };
 
 struct expChain_t
 {
-    uint16            chainNumber;
+    uint16            chainNumber{};
     timer::time_point chainTime;
 };
 
@@ -168,15 +170,15 @@ struct teleport_t
 
 struct PetInfo_t
 {
-    bool              respawnPet;   // Used for spawning pet on zone
-    timer::time_point jugSpawnTime; // Keeps track of original spawn time
-    timer::duration   jugDuration;  // Duration a jug pet should last after its original spawn time
-    uint8             petID;        // ID as in wyvern(48) , carbuncle(8) ect..
-    PET_TYPE          petType;      // Type of pet being transferred
-    uint8             petLevel;     // Level the pet was spawned with
-    int16             petHP;
-    int16             petMP;
-    float             petTP;
+    bool              respawnPet{};  // Used for spawning pet on zone
+    timer::time_point jugSpawnTime;  // Keeps track of original spawn time
+    timer::duration   jugDuration{}; // Duration a jug pet should last after its original spawn time
+    uint8             petID{};       // ID as in wyvern(48) , carbuncle(8) ect..
+    PET_TYPE          petType{};     // Type of pet being transferred
+    uint8             petLevel{};    // Level the pet was spawned with
+    int16             petHP{};
+    int16             petMP{};
+    float             petTP{};
 };
 
 struct AuctionHistory_t
@@ -520,7 +522,6 @@ public:
     auto GetGender() -> uint8;
 
     auto getPacketList() const -> const std::deque<std::unique_ptr<CBasicPacket>>&;
-    auto getPacketListCopy() -> std::deque<std::unique_ptr<CBasicPacket>>; // Return a COPY of packet list
     void clearPacketList();
 
     template <typename T, typename... Args>
@@ -684,8 +685,8 @@ public:
 
     auto aman() -> CAMANContainer&;
 
-    uint8 m_GMlevel;    // Level of the GM flag assigned to this character
-    bool  m_isGMHidden; // GM Hidden flag to prevent player updates from being processed.
+    uint8 m_GMlevel{};    // Level of the GM flag assigned to this character
+    bool  m_isGMHidden{}; // GM Hidden flag to prevent player updates from being processed.
 
     bool   m_jobMasterDisplay; // Job Master Stars display
     uint32 m_moghouseID;
@@ -729,8 +730,8 @@ public:
     std::vector<GearSetMod_t>     m_GearSetMods; // The list of gear set mods currently applied to the character.
     std::vector<AuctionHistory_t> m_ah_history;  // AH history list (in the future consider using UContainer)
 
-    HashMap<uint16, timer::time_point> m_PacketRecievedTimestamps;
-    uint16                             m_LastPacketType{};
+    HashMap<uint16, PacketRateLimitState> m_PacketRateLimits;
+    uint16                                m_LastPacketType{};
 
     void SetPlayTime(timer::duration playTime);                  // Set playtime
     auto GetPlayTime(bool needUpdate = true) -> timer::duration; // Get playtime
@@ -838,6 +839,8 @@ public:
 
     CCharEntity();
     ~CCharEntity() override;
+
+    DISALLOW_COPY_AND_MOVE(CCharEntity);
 
 protected:
     void changeMoghancement(uint16 moghancementID, bool isAdding);

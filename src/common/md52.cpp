@@ -49,6 +49,9 @@ void md5_starts( md5_context *ctx )
     ctx->state[3] = 0x10325476;
 }
 
+namespace
+{
+
 void md5_process( md5_context *ctx, const uint8 data[64] )
 {
     uint32 X[16]{};
@@ -176,6 +179,8 @@ void md5_process( md5_context *ctx, const uint8 data[64] )
     ctx->state[3] += D;
 }
 
+} // namespace
+
 // clang-format on
 
 void md5_update(md5_context* ctx, uint8* input, uint32 length)
@@ -222,10 +227,15 @@ void md5_update(md5_context* ctx, uint8* input, uint32 length)
     }
 }
 
+namespace
+{
+
 // clang-format off
-static uint8 md5_padding[64] = { 0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                 0,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+uint8 md5_padding[64] = { 0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                          0,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 // clang-format on
+
+} // namespace
 
 void md5_finish(md5_context* ctx, uint8 digest[16])
 {

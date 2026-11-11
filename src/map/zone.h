@@ -24,7 +24,7 @@
 #include <common/cbasetypes.h>
 #include <common/logging.h>
 #include <common/mmo.h>
-#include <common/scheduler.h>
+#include <common/scheduler/scheduler.h>
 #include <common/timer.h>
 #include <common/types/maybe.h>
 #include <common/vana_time.h>
@@ -121,17 +121,17 @@ struct zoneMusic_t
 
 struct zoneLine_t
 {
-    uint32 zoneLineId; // 4 characters name such as 'z7b0'.
+    uint32 zoneLineId{}; // 4 characters name such as 'z7b0'.
 
     // Where you zone from
-    xi::ZoneId originZoneId;
+    xi::ZoneId originZoneId{};
     position_t originPos; // Center of the zoneline box.
 
     // Where you end up at
-    xi::ZoneId destinationZoneId;
-    position_t destinationPos;    // Center of the zoneline box
-    float      destinationScaleX; // Box dimensions
-    float      destinationScaleZ; // Box dimensions
+    xi::ZoneId destinationZoneId{};
+    position_t destinationPos;      // Center of the zoneline box
+    float      destinationScaleX{}; // Box dimensions
+    float      destinationScaleZ{}; // Box dimensions
 
     // Spawn slot cycling (0-7)
     uint8 m_spawnSlot = 0;
@@ -329,14 +329,14 @@ private:
 
     zoneLineList_t m_zoneLineList;
 
-    CTreasurePool* m_TreasurePool;
+    CTreasurePool* m_TreasurePool{};
 
     HashMap<std::string, QueryByNameResult_t> m_queryByNameResults;
 
-    CBattlefieldHandler*             m_BattlefieldHandler; // BCNM Instances in this zone
-    CCampaignHandler*                m_CampaignHandler;    // WOTG campaign information for this zone
-    std::unique_ptr<SpawnHandler>    m_spawnHandler;       // Handles mob respawns
-    std::unique_ptr<NominateManager> nominateManager_;     // Active /nominate proposals in this zone
+    CBattlefieldHandler*             m_BattlefieldHandler{}; // BCNM Instances in this zone
+    CCampaignHandler*                m_CampaignHandler;      // WOTG campaign information for this zone
+    std::unique_ptr<SpawnHandler>    m_spawnHandler;         // Handles mob respawns
+    std::unique_ptr<NominateManager> nominateManager_;       // Active /nominate proposals in this zone
 
     timer::time_point m_LoadedAt; // The time the zone was loaded
 };

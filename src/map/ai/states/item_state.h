@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include "common/macros.h"
 #include "state.h"
 
 class CBattleEntity;
@@ -36,9 +37,10 @@ public:
     CItemState(xi::Badge<CState>, CCharEntity* PEntity, const EntityId& target, uint8 loc, uint8 slotid);
     ~CItemState() override;
 
+    DISALLOW_COPY_AND_MOVE(CItemState);
+
     auto init() -> StateErrorOr<void> override;
 
-    auto Update(timer::time_point tick) -> bool override;
     void Cleanup(timer::time_point tick) override;
     auto CanChangeState() -> bool override;
     auto CanFollowPath() -> bool override;
@@ -49,6 +51,7 @@ public:
     auto FinishItem(action_t& action) -> bool;
 
 protected:
+    auto Update(timer::time_point tick) -> bool override;
     auto HasMoved() const -> bool;
     auto validatedTarget() -> CBaseEntity*;
 

@@ -56,14 +56,11 @@ templates:
     loot:
       drops:
         - chance: common
-          item:   bugard_skin
-        - chance: very_rare
-          item:   bugard_tusk
+          item:   wivre_maul
         - chance: rare
-          item:   high-quality_bugard_skin
-      despoil:
-        bugard_skin: 0
-        bugard_tusk: 0
+          item:   wivre_horn
+        - chance: very_rare
+          item:   wivre_hide
 
 spawns:
 

@@ -21,184 +21,17 @@
 
 #include <common/database/database.h>
 
-#include <common/database/query_validation.h>
-
 #include <common/logging.h>
 #include <common/macros.h>
-#include <common/utils.h>
 #include <common/xi.h>
 
 #include <common/types/fn.h>
 
-#include <common/types/hash_map.h>
-
+#include <algorithm>
+#include <array>
 #include <chrono>
 #include <thread>
 using namespace std::chrono_literals;
-
-auto db::detail::validateQueryLeadingKeyword(const std::string& query) -> ResultSetType
-{
-    auto parts = split(to_upper(query), " ");
-
-    std::vector<std::string> cleanedParts;
-    for (const auto& part : parts)
-    {
-        if (!part.empty() && part != "\n")
-        {
-            cleanedParts.push_back(trim(trim(part), "\n"));
-        }
-    }
-    parts = std::move(cleanedParts);
-
-    if (parts.empty())
-    {
-        return ResultSetType::Invalid;
-    }
-
-    const auto keyword = parts[0];
-    if (keyword == "SELECT")
-    {
-        return ResultSetType::Select;
-    }
-    else if (keyword == "INSERT")
-    {
-        return ResultSetType::Update;
-    }
-    else if (keyword == "UPDATE")
-    {
-        return ResultSetType::Update;
-    }
-    else if (keyword == "DELETE")
-    {
-        return ResultSetType::Update;
-    }
-    else if (keyword == "REPLACE")
-    {
-        return ResultSetType::Update;
-    }
-    else if (keyword == "CREATE")
-    {
-        return ResultSetType::Update;
-    }
-    else if (keyword == "ALTER")
-    {
-        return ResultSetType::Update;
-    }
-    else if (keyword == "DROP")
-    {
-        return ResultSetType::Update;
-    }
-    else if (keyword == "TRUNCATE")
-    {
-        return ResultSetType::Update;
-    }
-    else if (keyword == "SET")
-    {
-        return ResultSetType::Update;
-    }
-    else if (keyword == "SHOW")
-    {
-        return ResultSetType::Select;
-    }
-    else if (keyword == "START")
-    {
-        return ResultSetType::Update;
-    }
-    else if (keyword == "COMMIT")
-    {
-        return ResultSetType::Update;
-    }
-    else if (keyword == "ROLLBACK")
-    {
-        return ResultSetType::Update;
-    }
-
-    // Else
-    return ResultSetType::Invalid;
-}
-
-auto db::detail::validateQueryContent(const std::string& query) -> bool
-{
-    // NOTE: We shouldn't be checking for the presence of '%', as this
-    //     : is the SQL wildcard character.
-
-    if (query.contains("{}"))
-    {
-        return false;
-    }
-
-    if (query.contains(';'))
-    {
-        return false;
-    }
-
-    return true;
-}
-
-auto db::escapeString(std::string_view str) -> std::string
-{
-    static const HashMap<char, std::string> replacements = {
-        // Replacement map similar to str_replace in PHP
-        { '\\', "\\\\" },
-        { '\0', "\\0" },
-        { '\n', "\\n" },
-        { '\r', "\\r" },
-        { '\'', "\\'" },
-        { '\"', "\\\"" },
-        { '\x1a', "\\Z" },
-
-        // Extras
-        { '\b', "\\b" },
-        { '%', "\\%" },
-        { '|', "\\|" },
-        { ';', "\\;" },
-    };
-
-    std::string escapedStr;
-
-    for (size_t i = 0; i < str.size(); ++i)
-    {
-        const char c = str[i];
-
-        // Emulate original strlen-based SqlConnection::EscapeString
-        if (c == '\0')
-        {
-            break;
-        }
-
-        const auto it = replacements.find(c);
-        if (it != replacements.end())
-        {
-            escapedStr += it->second;
-        }
-        else
-        {
-            escapedStr += c;
-        }
-    }
-
-    return escapedStr;
-}
-
-auto db::escapeString(const std::string& str) -> std::string
-{
-    if (str.empty())
-    {
-        return {};
-    }
-
-    return db::escapeString(std::string_view(str));
-}
-
-auto db::escapeString(const char* str) -> std::string
-{
-    if (str == nullptr)
-    {
-        return {};
-    }
-
-    return db::escapeString(std::string_view(str));
-}
 
 auto db::getDatabaseSchema() -> std::string
 {
@@ -256,9 +89,9 @@ auto db::checkCharset() -> void
 
 auto db::checkTriggers() -> void
 {
-    const auto triggerQuery = "SHOW TRIGGERS WHERE `Trigger` LIKE ?";
+    constexpr auto triggerQuery = Query("SHOW TRIGGERS WHERE `Trigger` LIKE ?");
 
-    const auto triggers = {
+    constexpr auto triggers = std::array{
         "account_delete",
         "session_delete",
         "auction_house_list",
@@ -290,35 +123,10 @@ auto db::checkTriggers() -> void
     }
 }
 
-auto db::setAutoCommit(bool value) -> bool
+namespace
 {
-    TracyZoneScoped;
 
-    if (!db::preparedStmt("SET @@autocommit = ?", value ? 1 : 0))
-    {
-        ShowError("Failed to set autocommit value");
-        return false;
-    }
-
-    return true;
-}
-
-auto db::getAutoCommit() -> bool
-{
-    TracyZoneScoped;
-
-    const auto rset = db::preparedStmt("SELECT @@autocommit");
-    FOR_DB_SINGLE_RESULT(rset)
-    {
-        return rset->get<uint32>(0) == 1;
-    }
-
-    ShowError("Failed to get autocommit status");
-
-    return false;
-}
-
-auto db::transactionStart() -> bool
+auto transactionStart() -> bool
 {
     TracyZoneScoped;
 
@@ -331,7 +139,7 @@ auto db::transactionStart() -> bool
     return true;
 }
 
-auto db::transactionCommit() -> bool
+auto transactionCommit() -> bool
 {
     TracyZoneScoped;
 
@@ -344,7 +152,7 @@ auto db::transactionCommit() -> bool
     return true;
 }
 
-auto db::transactionRollback() -> bool
+auto transactionRollback() -> bool
 {
     TracyZoneScoped;
 
@@ -357,19 +165,28 @@ auto db::transactionRollback() -> bool
     return true;
 }
 
+} // namespace
+
 auto db::transaction(const Fn<void() const>& transactionFn) -> bool
 {
     TracyZoneScoped;
 
-    if (!db::transactionStart())
+    // A nested START TRANSACTION would commit the outer transaction.
+    if (getDatabase().isInTransaction())
+    {
+        transactionFn();
+        return true;
+    }
+
+    if (!transactionStart())
     {
         return false;
     }
 
     // covers COMMIT/ROLLBACK too
     db::getDatabase().setInTransaction(true);
-    const auto transactionScope = xi::finally<Fn<void()>>(
-        []() -> void
+    const auto transactionScope = xi::finally(
+        []
         {
             db::getDatabase().setInTransaction(false);
         });
@@ -382,15 +199,22 @@ auto db::transaction(const Fn<void() const>& transactionFn) -> bool
     {
         ShowCriticalFmt("Transaction failed, rolling back: {}", e.what());
 
-        db::transactionRollback();
+        transactionRollback();
+        return false;
+    }
+    catch (...)
+    {
+        ShowCritical("Transaction failed, rolling back: unknown exception");
+
+        transactionRollback();
         return false;
     }
 
-    if (!db::transactionCommit())
+    if (!transactionCommit())
     {
         ShowCritical("Transaction failed: COMMIT failed, rolling back!");
 
-        db::transactionRollback();
+        transactionRollback();
         return false;
     }
 

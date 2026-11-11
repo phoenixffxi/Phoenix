@@ -34,7 +34,6 @@ templates:
           item:   scorpion_shell
         - chance: rare
           item:   high-quality_scorpion_shell
-      steal: antlion_jaw
       despoil:
         scorpion_shell: 0
         scorpion_claw:  0

@@ -35,9 +35,14 @@
 namespace conquest
 {
 
+namespace
+{
+
 // Lazily initialized conquest data
 // TODO: This should be a member of _something_
 Maybe<ConquestData> conquestData;
+
+} // namespace
 
 auto GetConquestData() -> ConquestData&
 {
@@ -89,6 +94,9 @@ void HandleMessage(ConquestMessage type, const std::span<const uint8> data)
     }
 }
 
+namespace
+{
+
 void AddInfluencePoints(const int points, const xi::Nation nation, const xi::Region region)
 {
     // Send update message to world server
@@ -104,6 +112,8 @@ void AddInfluencePoints(const int points, const xi::Nation nation, const xi::Reg
         }),
     });
 }
+
+} // namespace
 
 void AddMobKills(const int32 count, const xi::Region region)
 {
@@ -147,13 +157,8 @@ void GainInfluencePoints(CCharEntity* PChar, uint32 points)
 
 auto GetInfluenceGraphics(const int32 san_inf, const int32 bas_inf, const int32 win_inf, const int32 bst_inf) -> uint8
 {
-    // if all nations and beastmen == 0
-    if (san_inf == 0 && bas_inf == 0 && win_inf == 0 && bst_inf == 0)
-    {
-        return 0;
-    }
-    // if all nations and beastmen, has same number
-    else if (san_inf == bas_inf && san_inf == win_inf && san_inf == bst_inf)
+    // if all nations and beastmen have the same influence, including all at 0
+    if (san_inf == bas_inf && san_inf == win_inf && san_inf == bst_inf)
     {
         return 0;
     }

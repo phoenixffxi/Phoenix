@@ -33,8 +33,8 @@
 #include <fmt/ranges.h>
 
 #include <common/database.h>
-#include <common/types/hash_map.h>
 
+#include <algorithm>
 #include <array>
 #include <bit>
 #include <chrono>
@@ -109,6 +109,7 @@
 
 #include "battleutils.h"
 #include "blueutils.h"
+#include "char_points_queries.h"
 #include "charutils.h"
 #include "enums/item_lockflg.h"
 #include "items/transactions/player_trade.h"
@@ -152,8 +153,11 @@
  *                                                                       *
  ************************************************************************/
 
+namespace
+{
+
 // Number of rows in the exp table
-static constexpr int32                               ExpTableRowCount = 60;
+constexpr int32                                      ExpTableRowCount = 60;
 std::array<std::array<uint16, 20>, ExpTableRowCount> g_ExpTable;
 
 std::vector<std::pair<uint16, EMobDifficulty>> ExpToDifficultyTable = {};
@@ -173,9 +177,6 @@ std::pair<uint16, uint8> IncrediblyEasyPreyCheck = { 1, 56 };
 // { EXP value, mob level }
 // { 1, 56 }
 // Must gain more than 1 exp but less than the lowest of ExpToDifficultyTable and greater than or equal to mob level
-
-namespace
-{
 
 // Key items granting an increase to the rate of skillups
 const std::set skillupIncreaseKeyItems = {
@@ -198,18 +199,27 @@ const std::set traverserStoneReductionKeyItems = {
     xi::KeyItem::IvoryAbyssiteOfCelerity
 };
 
-struct CharPointsQueries
-{
-    std::string select;
-    std::string update;
-};
-
-HashMap<std::string, CharPointsQueries> charPointsQueries;
-
 auto experience() -> const xi::data::Experience&
 {
     static const auto data = xi::data::loadDataset<xi::data::datasets::experience::Dataset>();
     return data;
+}
+
+auto findCharPointsQueries(const std::string_view type) -> const charutils::CharPointsQueries*
+{
+    const auto it = std::ranges::find_if(
+        charutils::charPointsQueries,
+        [&](const charutils::CharPointsQueries& queries)
+        {
+            return queries.column.name == type;
+        });
+
+    if (it == charutils::charPointsQueries.end())
+    {
+        return nullptr;
+    }
+
+    return &*it;
 }
 
 } // namespace
@@ -1097,9 +1107,9 @@ void LoadInventory(CCharEntity* PChar)
                     for (uint8 j = 0; j < 4; ++j)
                     {
                         // found a match, apply the augment
-                        if (((CItemEquipment*)PItem)->getAugment(j) != 0)
+                        if (static_cast<CItemEquipment*>(PItem)->getAugment(j) != 0)
                         {
-                            ((CItemEquipment*)PItem)->ApplyAugment(j);
+                            static_cast<CItemEquipment*>(PItem)->ApplyAugment(j);
                         }
                     }
                 }
@@ -1162,11 +1172,11 @@ void LoadEquip(CCharEntity* PChar)
 
                     if (equipSlotId == SLOT_LINK1)
                     {
-                        PLinkshell1 = (CItemLinkshell*)PItem;
+                        PLinkshell1 = static_cast<CItemLinkshell*>(PItem);
                     }
                     else if (equipSlotId == SLOT_LINK2)
                     {
-                        PLinkshell2 = (CItemLinkshell*)PItem;
+                        PLinkshell2 = static_cast<CItemLinkshell*>(PItem);
                     }
                 }
             }
@@ -1449,9 +1459,9 @@ void SendRecordsOfEminenceLog(CCharEntity* PChar)
 
 void SendKeyItems(CCharEntity* PChar)
 {
-    for (uint8 table = 0; table < PChar->keys.tables.size(); table++)
+    for (size_t table = 0; table < PChar->keys.tables.size(); table++)
     {
-        PChar->pushPacket<GP_SERV_COMMAND_SCENARIOITEM>(PChar, table);
+        PChar->pushPacket<GP_SERV_COMMAND_SCENARIOITEM>(PChar, static_cast<uint8>(table));
     }
 }
 
@@ -1535,20 +1545,16 @@ void SendInventory(CCharEntity* PChar)
     }
 
     CItem* PItem = PChar->getLinkshell(SLOT_LINK1);
-    if (PItem != nullptr)
+    if (const auto eloc1 = PChar->equipLocation(SLOT_LINK1); PItem != nullptr && eloc1)
     {
-        auto eloc1 = PChar->equipLocation(SLOT_LINK1);
-
         PChar->pushPacket<GP_SERV_COMMAND_ITEM_ATTR>(PItem, *eloc1);
         PChar->pushPacket<GP_SERV_COMMAND_ITEM_LIST>(PItem, ItemLockFlg::Linkshell);
         PChar->pushPacket<GP_SERV_COMMAND_GROUP_COMLINK>(PChar, 1);
     }
 
     PItem = PChar->getLinkshell(SLOT_LINK2);
-    if (PItem != nullptr)
+    if (const auto eloc2 = PChar->equipLocation(SLOT_LINK2); PItem != nullptr && eloc2)
     {
-        auto eloc2 = PChar->equipLocation(SLOT_LINK2);
-
         PChar->pushPacket<GP_SERV_COMMAND_ITEM_ATTR>(PItem, *eloc2);
         PChar->pushPacket<GP_SERV_COMMAND_ITEM_LIST>(PItem, ItemLockFlg::Linkshell);
         PChar->pushPacket<GP_SERV_COMMAND_GROUP_COMLINK>(PChar, 2);
@@ -1869,8 +1875,8 @@ void UnequipItem(CCharEntity* PChar, uint8 equipSlotID, Recalculate recalculate,
     if ((PItem != nullptr) && PItem->isType(ITEM_EQUIPMENT))
     {
         // if removeSlotLookID is available it should be prioritized as it will encompass a larger set of slots
-        auto removeSlotLookID = ((CItemEquipment*)PItem)->getRemoveSlotLookId();
-        auto removeSlotID     = removeSlotLookID > 0 ? removeSlotLookID : ((CItemEquipment*)PItem)->getRemoveSlotId();
+        auto removeSlotLookID = static_cast<CItemEquipment*>(PItem)->getRemoveSlotLookId();
+        auto removeSlotID     = removeSlotLookID > 0 ? removeSlotLookID : static_cast<CItemEquipment*>(PItem)->getRemoveSlotId();
 
         // When unequipping an item, revert all associated look slots to either default or the item which is equipped
         for (auto i = 0u; i < sizeof(removeSlotID) * 8; ++i)
@@ -1912,7 +1918,7 @@ void UnequipItem(CCharEntity* PChar, uint8 equipSlotID, Recalculate recalculate,
         //      thought to be source of nin bug
         PChar->clearEquip(equipSlotID);
 
-        if (((CItemEquipment*)PItem)->getScriptType() & SCRIPT_EQUIP)
+        if (static_cast<CItemEquipment*>(PItem)->getScriptType() & SCRIPT_EQUIP)
         {
             PChar->m_EquipFlag = 0;
             for (uint8 i = 0; i < 16; ++i)
@@ -1940,9 +1946,9 @@ void UnequipItem(CCharEntity* PChar, uint8 equipSlotID, Recalculate recalculate,
             }
             PChar->m_dualWield = false;
         }
-        PChar->delEquipModifiers((CItemEquipment*)PItem, isDelevel);
-        PChar->PLatentEffectContainer->DelLatentEffects(((CItemEquipment*)PItem)->getReqLvl(), equipSlotID);
-        PChar->delPetModifiers(&((CItemEquipment*)PItem)->petModList);
+        PChar->delEquipModifiers(static_cast<CItemEquipment*>(PItem), isDelevel);
+        PChar->PLatentEffectContainer->DelLatentEffects(static_cast<CItemEquipment*>(PItem)->getReqLvl(), equipSlotID);
+        PChar->delPetModifiers(&static_cast<CItemEquipment*>(PItem)->petModList);
 
         switch (equipSlotID)
         {
@@ -2008,11 +2014,7 @@ void UnequipItem(CCharEntity* PChar, uint8 equipSlotID, Recalculate recalculate,
                 {
                     CItemEquipment* PSub = PChar->getEquip(SLOT_SUB);
 
-                    if (static_cast<CItemWeapon*>(PItem)->getSkillType() == xi::SkillType::HandToHand)
-                    {
-                        PChar->look.sub = 0;
-                    }
-                    else if (!PSub)
+                    if (static_cast<CItemWeapon*>(PItem)->getSkillType() == xi::SkillType::HandToHand || !PSub)
                     {
                         PChar->look.sub = 0;
                     }
@@ -2195,7 +2197,7 @@ auto EquipArmor(CCharEntity* PChar, uint8 slotID, uint8 equipSlotID, uint8 conta
                     PChar->m_Weapons[SLOT_MAIN] = PItem;
                 }
                 PChar->look.main = PItem->getModelId();
-                UpdateWeaponStyle(PChar, equipSlotID, (CItemWeapon*)PItem);
+                UpdateWeaponStyle(PChar, equipSlotID, static_cast<CItemWeapon*>(PItem));
             }
             break;
             case SLOT_SUB:
@@ -3216,7 +3218,7 @@ void CheckValidEquipment(CCharEntity* PChar, bool isDelevel /* = false */)
         if (slotID == SLOT_SUB && !PItem->IsShield())
         {
             // Unequip if no main weapon or a non-grip subslot without DW
-            if (!PChar->getEquip(SLOT_MAIN) || (!charutils::hasTrait(PChar, TRAIT_DUAL_WIELD) && !(((CItemWeapon*)PItem)->getSkillType() == xi::SkillType::None)))
+            if (!PChar->getEquip(SLOT_MAIN) || (!charutils::hasTrait(PChar, TRAIT_DUAL_WIELD) && !(static_cast<CItemWeapon*>(PItem)->getSkillType() == xi::SkillType::None)))
             {
                 UnequipItem(PChar, SLOT_SUB, Recalculate::Yes, isDelevel);
                 continue;
@@ -4541,7 +4543,7 @@ void DistributeGil(CCharEntity* PChar, CMobEntity* PMob)
             {
                 if (PPartyMember->getZone() == PMob->getZone() && isWithinDistance(PPartyMember->loc.p, PMob->loc.p, 100.0f)) // TODO: verify range
                 {
-                    members.emplace_back((CCharEntity*)PPartyMember);
+                    members.emplace_back(static_cast<CCharEntity*>(PPartyMember));
                 }
             });
         // clang-format on
@@ -5939,85 +5941,67 @@ void SaveCharJob(const CCharEntity* PChar, const xi::Job job)
         return;
     }
 
-    std::string fmtQuery = "";
-
-    switch (job)
+    const auto query = [&]() -> Maybe<db::Query>
     {
-        case xi::Job::WAR:
-            fmtQuery = "UPDATE char_jobs SET unlocked = ?, war = ? WHERE charid = ? LIMIT 1";
-            break;
-        case xi::Job::MNK:
-            fmtQuery = "UPDATE char_jobs SET unlocked = ?, mnk = ? WHERE charid = ? LIMIT 1";
-            break;
-        case xi::Job::WHM:
-            fmtQuery = "UPDATE char_jobs SET unlocked = ?, whm = ? WHERE charid = ? LIMIT 1";
-            break;
-        case xi::Job::BLM:
-            fmtQuery = "UPDATE char_jobs SET unlocked = ?, blm = ? WHERE charid = ? LIMIT 1";
-            break;
-        case xi::Job::RDM:
-            fmtQuery = "UPDATE char_jobs SET unlocked = ?, rdm = ? WHERE charid = ? LIMIT 1";
-            break;
-        case xi::Job::THF:
-            fmtQuery = "UPDATE char_jobs SET unlocked = ?, thf = ? WHERE charid = ? LIMIT 1";
-            break;
-        case xi::Job::PLD:
-            fmtQuery = "UPDATE char_jobs SET unlocked = ?, pld = ? WHERE charid = ? LIMIT 1";
-            break;
-        case xi::Job::DRK:
-            fmtQuery = "UPDATE char_jobs SET unlocked = ?, drk = ? WHERE charid = ? LIMIT 1";
-            break;
-        case xi::Job::BST:
-            fmtQuery = "UPDATE char_jobs SET unlocked = ?, bst = ? WHERE charid = ? LIMIT 1";
-            break;
-        case xi::Job::BRD:
-            fmtQuery = "UPDATE char_jobs SET unlocked = ?, brd = ? WHERE charid = ? LIMIT 1";
-            break;
-        case xi::Job::RNG:
-            fmtQuery = "UPDATE char_jobs SET unlocked = ?, rng = ? WHERE charid = ? LIMIT 1";
-            break;
-        case xi::Job::SAM:
-            fmtQuery = "UPDATE char_jobs SET unlocked = ?, sam = ? WHERE charid = ? LIMIT 1";
-            break;
-        case xi::Job::NIN:
-            fmtQuery = "UPDATE char_jobs SET unlocked = ?, nin = ? WHERE charid = ? LIMIT 1";
-            break;
-        case xi::Job::DRG:
-            fmtQuery = "UPDATE char_jobs SET unlocked = ?, drg = ? WHERE charid = ? LIMIT 1";
-            break;
-        case xi::Job::SMN:
-            fmtQuery = "UPDATE char_jobs SET unlocked = ?, smn = ? WHERE charid = ? LIMIT 1";
-            break;
-        case xi::Job::BLU:
-            fmtQuery = "UPDATE char_jobs SET unlocked = ?, blu = ? WHERE charid = ? LIMIT 1";
-            break;
-        case xi::Job::COR:
-            fmtQuery = "UPDATE char_jobs SET unlocked = ?, cor = ? WHERE charid = ? LIMIT 1";
-            break;
-        case xi::Job::PUP:
-            fmtQuery = "UPDATE char_jobs SET unlocked = ?, pup = ? WHERE charid = ? LIMIT 1";
-            break;
-        case xi::Job::DNC:
-            fmtQuery = "UPDATE char_jobs SET unlocked = ?, dnc = ? WHERE charid = ? LIMIT 1";
-            break;
-        case xi::Job::SCH:
-            fmtQuery = "UPDATE char_jobs SET unlocked = ?, sch = ? WHERE charid = ? LIMIT 1";
-            break;
-        case xi::Job::GEO:
-            fmtQuery = "UPDATE char_jobs SET unlocked = ?, geo = ? WHERE charid = ? LIMIT 1";
-            break;
-        case xi::Job::RUN:
-            fmtQuery = "UPDATE char_jobs SET unlocked = ?, run = ? WHERE charid = ? LIMIT 1";
-            break;
-        case xi::Job::MON:
-            fmtQuery = "UPDATE char_jobs SET unlocked = ?, mon = ? WHERE charid = ? LIMIT 1";
-            break;
-        default:
-            fmtQuery = "";
-            break;
+        switch (job)
+        {
+            case xi::Job::WAR:
+                return db::Query("UPDATE char_jobs SET unlocked = ?, war = ? WHERE charid = ? LIMIT 1");
+            case xi::Job::MNK:
+                return db::Query("UPDATE char_jobs SET unlocked = ?, mnk = ? WHERE charid = ? LIMIT 1");
+            case xi::Job::WHM:
+                return db::Query("UPDATE char_jobs SET unlocked = ?, whm = ? WHERE charid = ? LIMIT 1");
+            case xi::Job::BLM:
+                return db::Query("UPDATE char_jobs SET unlocked = ?, blm = ? WHERE charid = ? LIMIT 1");
+            case xi::Job::RDM:
+                return db::Query("UPDATE char_jobs SET unlocked = ?, rdm = ? WHERE charid = ? LIMIT 1");
+            case xi::Job::THF:
+                return db::Query("UPDATE char_jobs SET unlocked = ?, thf = ? WHERE charid = ? LIMIT 1");
+            case xi::Job::PLD:
+                return db::Query("UPDATE char_jobs SET unlocked = ?, pld = ? WHERE charid = ? LIMIT 1");
+            case xi::Job::DRK:
+                return db::Query("UPDATE char_jobs SET unlocked = ?, drk = ? WHERE charid = ? LIMIT 1");
+            case xi::Job::BST:
+                return db::Query("UPDATE char_jobs SET unlocked = ?, bst = ? WHERE charid = ? LIMIT 1");
+            case xi::Job::BRD:
+                return db::Query("UPDATE char_jobs SET unlocked = ?, brd = ? WHERE charid = ? LIMIT 1");
+            case xi::Job::RNG:
+                return db::Query("UPDATE char_jobs SET unlocked = ?, rng = ? WHERE charid = ? LIMIT 1");
+            case xi::Job::SAM:
+                return db::Query("UPDATE char_jobs SET unlocked = ?, sam = ? WHERE charid = ? LIMIT 1");
+            case xi::Job::NIN:
+                return db::Query("UPDATE char_jobs SET unlocked = ?, nin = ? WHERE charid = ? LIMIT 1");
+            case xi::Job::DRG:
+                return db::Query("UPDATE char_jobs SET unlocked = ?, drg = ? WHERE charid = ? LIMIT 1");
+            case xi::Job::SMN:
+                return db::Query("UPDATE char_jobs SET unlocked = ?, smn = ? WHERE charid = ? LIMIT 1");
+            case xi::Job::BLU:
+                return db::Query("UPDATE char_jobs SET unlocked = ?, blu = ? WHERE charid = ? LIMIT 1");
+            case xi::Job::COR:
+                return db::Query("UPDATE char_jobs SET unlocked = ?, cor = ? WHERE charid = ? LIMIT 1");
+            case xi::Job::PUP:
+                return db::Query("UPDATE char_jobs SET unlocked = ?, pup = ? WHERE charid = ? LIMIT 1");
+            case xi::Job::DNC:
+                return db::Query("UPDATE char_jobs SET unlocked = ?, dnc = ? WHERE charid = ? LIMIT 1");
+            case xi::Job::SCH:
+                return db::Query("UPDATE char_jobs SET unlocked = ?, sch = ? WHERE charid = ? LIMIT 1");
+            case xi::Job::GEO:
+                return db::Query("UPDATE char_jobs SET unlocked = ?, geo = ? WHERE charid = ? LIMIT 1");
+            case xi::Job::RUN:
+                return db::Query("UPDATE char_jobs SET unlocked = ?, run = ? WHERE charid = ? LIMIT 1");
+            case xi::Job::MON:
+                return db::Query("UPDATE char_jobs SET unlocked = ?, mon = ? WHERE charid = ? LIMIT 1");
+            default:
+                return std::nullopt;
+        }
+    }();
+
+    if (!query)
+    {
+        return;
     }
 
-    db::preparedStmt(fmtQuery, PChar->jobs.unlocked, PChar->jobs.job[static_cast<uint8>(job)], PChar->id);
+    db::preparedStmt(db::selected(*query), PChar->jobs.unlocked, PChar->jobs.job[static_cast<uint8>(job)], PChar->id);
 }
 
 void SaveCharExp(const CCharEntity* PChar, const xi::Job job)
@@ -6030,85 +6014,67 @@ void SaveCharExp(const CCharEntity* PChar, const xi::Job job)
         return;
     }
 
-    std::string query = "";
-
-    switch (job)
+    const auto query = [&]() -> Maybe<db::Query>
     {
-        case xi::Job::WAR:
-            query = "UPDATE char_exp SET war = ?, merits = ?, limits = ? WHERE charid = ?";
-            break;
-        case xi::Job::MNK:
-            query = "UPDATE char_exp SET mnk = ?, merits = ?, limits = ? WHERE charid = ?";
-            break;
-        case xi::Job::WHM:
-            query = "UPDATE char_exp SET whm = ?, merits = ?, limits = ? WHERE charid = ?";
-            break;
-        case xi::Job::BLM:
-            query = "UPDATE char_exp SET blm = ?, merits = ?, limits = ? WHERE charid = ?";
-            break;
-        case xi::Job::RDM:
-            query = "UPDATE char_exp SET rdm = ?, merits = ?, limits = ? WHERE charid = ?";
-            break;
-        case xi::Job::THF:
-            query = "UPDATE char_exp SET thf = ?, merits = ?, limits = ? WHERE charid = ?";
-            break;
-        case xi::Job::PLD:
-            query = "UPDATE char_exp SET pld = ?, merits = ?, limits = ? WHERE charid = ?";
-            break;
-        case xi::Job::DRK:
-            query = "UPDATE char_exp SET drk = ?, merits = ?, limits = ? WHERE charid = ?";
-            break;
-        case xi::Job::BST:
-            query = "UPDATE char_exp SET bst = ?, merits = ?, limits = ? WHERE charid = ?";
-            break;
-        case xi::Job::BRD:
-            query = "UPDATE char_exp SET brd = ?, merits = ?, limits = ? WHERE charid = ?";
-            break;
-        case xi::Job::RNG:
-            query = "UPDATE char_exp SET rng = ?, merits = ?, limits = ? WHERE charid = ?";
-            break;
-        case xi::Job::SAM:
-            query = "UPDATE char_exp SET sam = ?, merits = ?, limits = ? WHERE charid = ?";
-            break;
-        case xi::Job::NIN:
-            query = "UPDATE char_exp SET nin = ?, merits = ?, limits = ? WHERE charid = ?";
-            break;
-        case xi::Job::DRG:
-            query = "UPDATE char_exp SET drg = ?, merits = ?, limits = ? WHERE charid = ?";
-            break;
-        case xi::Job::SMN:
-            query = "UPDATE char_exp SET smn = ?, merits = ?, limits = ? WHERE charid = ?";
-            break;
-        case xi::Job::BLU:
-            query = "UPDATE char_exp SET blu = ?, merits = ?, limits = ? WHERE charid = ?";
-            break;
-        case xi::Job::COR:
-            query = "UPDATE char_exp SET cor = ?, merits = ?, limits = ? WHERE charid = ?";
-            break;
-        case xi::Job::PUP:
-            query = "UPDATE char_exp SET pup = ?, merits = ?, limits = ? WHERE charid = ?";
-            break;
-        case xi::Job::DNC:
-            query = "UPDATE char_exp SET dnc = ?, merits = ?, limits = ? WHERE charid = ?";
-            break;
-        case xi::Job::SCH:
-            query = "UPDATE char_exp SET sch = ?, merits = ?, limits = ? WHERE charid = ?";
-            break;
-        case xi::Job::GEO:
-            query = "UPDATE char_exp SET geo = ?, merits = ?, limits = ? WHERE charid = ?";
-            break;
-        case xi::Job::RUN:
-            query = "UPDATE char_exp SET run = ?, merits = ?, limits = ? WHERE charid = ?";
-            break;
-        case xi::Job::MON:
-            query = "UPDATE char_exp SET mon = ?, merits = ?, limits = ? WHERE charid = ?";
-            break;
-        default:
-            query = "";
-            break;
+        switch (job)
+        {
+            case xi::Job::WAR:
+                return db::Query("UPDATE char_exp SET war = ?, merits = ?, limits = ? WHERE charid = ?");
+            case xi::Job::MNK:
+                return db::Query("UPDATE char_exp SET mnk = ?, merits = ?, limits = ? WHERE charid = ?");
+            case xi::Job::WHM:
+                return db::Query("UPDATE char_exp SET whm = ?, merits = ?, limits = ? WHERE charid = ?");
+            case xi::Job::BLM:
+                return db::Query("UPDATE char_exp SET blm = ?, merits = ?, limits = ? WHERE charid = ?");
+            case xi::Job::RDM:
+                return db::Query("UPDATE char_exp SET rdm = ?, merits = ?, limits = ? WHERE charid = ?");
+            case xi::Job::THF:
+                return db::Query("UPDATE char_exp SET thf = ?, merits = ?, limits = ? WHERE charid = ?");
+            case xi::Job::PLD:
+                return db::Query("UPDATE char_exp SET pld = ?, merits = ?, limits = ? WHERE charid = ?");
+            case xi::Job::DRK:
+                return db::Query("UPDATE char_exp SET drk = ?, merits = ?, limits = ? WHERE charid = ?");
+            case xi::Job::BST:
+                return db::Query("UPDATE char_exp SET bst = ?, merits = ?, limits = ? WHERE charid = ?");
+            case xi::Job::BRD:
+                return db::Query("UPDATE char_exp SET brd = ?, merits = ?, limits = ? WHERE charid = ?");
+            case xi::Job::RNG:
+                return db::Query("UPDATE char_exp SET rng = ?, merits = ?, limits = ? WHERE charid = ?");
+            case xi::Job::SAM:
+                return db::Query("UPDATE char_exp SET sam = ?, merits = ?, limits = ? WHERE charid = ?");
+            case xi::Job::NIN:
+                return db::Query("UPDATE char_exp SET nin = ?, merits = ?, limits = ? WHERE charid = ?");
+            case xi::Job::DRG:
+                return db::Query("UPDATE char_exp SET drg = ?, merits = ?, limits = ? WHERE charid = ?");
+            case xi::Job::SMN:
+                return db::Query("UPDATE char_exp SET smn = ?, merits = ?, limits = ? WHERE charid = ?");
+            case xi::Job::BLU:
+                return db::Query("UPDATE char_exp SET blu = ?, merits = ?, limits = ? WHERE charid = ?");
+            case xi::Job::COR:
+                return db::Query("UPDATE char_exp SET cor = ?, merits = ?, limits = ? WHERE charid = ?");
+            case xi::Job::PUP:
+                return db::Query("UPDATE char_exp SET pup = ?, merits = ?, limits = ? WHERE charid = ?");
+            case xi::Job::DNC:
+                return db::Query("UPDATE char_exp SET dnc = ?, merits = ?, limits = ? WHERE charid = ?");
+            case xi::Job::SCH:
+                return db::Query("UPDATE char_exp SET sch = ?, merits = ?, limits = ? WHERE charid = ?");
+            case xi::Job::GEO:
+                return db::Query("UPDATE char_exp SET geo = ?, merits = ?, limits = ? WHERE charid = ?");
+            case xi::Job::RUN:
+                return db::Query("UPDATE char_exp SET run = ?, merits = ?, limits = ? WHERE charid = ?");
+            case xi::Job::MON:
+                return db::Query("UPDATE char_exp SET mon = ?, merits = ?, limits = ? WHERE charid = ?");
+            default:
+                return std::nullopt;
+        }
+    }();
+
+    if (!query)
+    {
+        return;
     }
 
-    db::preparedStmt(query, PChar->jobs.exp[static_cast<uint8>(job)], PChar->PMeritPoints->GetMeritPoints(), PChar->PMeritPoints->GetLimitPoints(), PChar->id);
+    db::preparedStmt(db::selected(*query), PChar->jobs.exp[static_cast<uint8>(job)], PChar->PMeritPoints->GetMeritPoints(), PChar->PMeritPoints->GetLimitPoints(), PChar->id);
 }
 
 void SaveCharSkills(const CCharEntity* PChar, const uint8 skillID)
@@ -6778,14 +6744,24 @@ void SetPoints(CCharEntity* PChar, const char* type, int32 amount)
 {
     TracyZoneScoped;
 
-    const auto it = charPointsQueries.find(type);
-    if (it == charPointsQueries.end())
+    const auto* queries = findCharPointsQueries(type);
+    if (queries == nullptr)
     {
         ShowErrorFmt("charutils::SetPoints: Invalid type {} for {}", type, PChar->getName());
         return;
     }
 
-    db::preparedStmt(it->second.update, amount, PChar->id);
+    // Strict mode refuses a value the column can't hold, so clamp it as a non-strict server would.
+    const auto value = static_cast<int32>(std::clamp<int64>(amount, queries->column.min, queries->column.max));
+    if (value != amount)
+    {
+        ShowWarningFmt("Clamped {} for {} from {} to {}", type, PChar->getName(), amount, value);
+    }
+
+    if (!db::preparedStmt(db::selected(queries->update), value, PChar->id))
+    {
+        ShowErrorFmt("Failed to save {} for {}", type, PChar->getName());
+    }
 
     if (strcmp(type, "spark_of_eminence") == 0)
     {
@@ -6795,7 +6771,7 @@ void SetPoints(CCharEntity* PChar, const char* type, int32 amount)
     // Spending infamy can lower a Monipulator's rank.
     if (strcmp(type, "infamy") == 0 && PChar->m_PMonstrosity != nullptr)
     {
-        monstrosity::UpdateRank(PChar, amount);
+        monstrosity::UpdateRank(PChar, value);
     }
 }
 
@@ -6803,14 +6779,14 @@ auto GetPoints(CCharEntity* PChar, const char* type) -> int32
 {
     TracyZoneScoped;
 
-    const auto it = charPointsQueries.find(type);
-    if (it == charPointsQueries.end())
+    const auto* queries = findCharPointsQueries(type);
+    if (queries == nullptr)
     {
         ShowErrorFmt("charutils::GetPoints: Invalid type {} for {}", type, PChar->getName());
         return 0;
     }
 
-    const auto rset = db::preparedStmt(it->second.select, PChar->id);
+    const auto rset = db::preparedStmt(db::selected(queries->select), PChar->id);
     if (rset && rset->rowsCount() && rset->next())
     {
         return rset->get<int32>(0);
@@ -6819,18 +6795,22 @@ auto GetPoints(CCharEntity* PChar, const char* type) -> int32
     return 0;
 }
 
-void LoadCharPointsQueries()
+void CheckCharPointsQueries()
 {
-    charPointsQueries.clear();
-    for (const auto& name : db::getTableColumnNames("char_points"))
+    const auto tableColumns = db::getTableColumnNames("char_points");
+    for (const auto& name : tableColumns)
     {
-        if (name != "charid")
+        if (name != "charid" && findCharPointsQueries(name) == nullptr)
         {
-            charPointsQueries.emplace(name,
-                                      CharPointsQueries{
-                                          .select = fmt::format("SELECT {} FROM char_points WHERE charid = ? LIMIT 1", name),
-                                          .update = fmt::format("UPDATE char_points SET {} = ? WHERE charid = ?", name),
-                                      });
+            ShowWarningFmt("char_points column {} has no query in char_points_queries.h and can't be read or written", name);
+        }
+    }
+
+    for (const auto& column : charPointsColumns)
+    {
+        if (std::ranges::find(tableColumns, column.name) == tableColumns.end())
+        {
+            ShowWarningFmt("char_points_queries.h names {}, which char_points doesn't have", column.name);
         }
     }
 }

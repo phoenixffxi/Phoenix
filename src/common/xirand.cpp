@@ -31,6 +31,9 @@
 
 #include <wincrypt.h>
 
+namespace
+{
+
 auto acquire_context(HCRYPTPROV* ctx) -> bool
 {
     if (!CryptAcquireContext(ctx, nullptr, nullptr, PROV_RSA_FULL, 0))
@@ -41,9 +44,11 @@ auto acquire_context(HCRYPTPROV* ctx) -> bool
     return true;
 }
 
+} // namespace
+
 auto sysrandom(void* dst, size_t dstlen) -> size_t
 {
-    HCRYPTPROV ctx;
+    HCRYPTPROV ctx = 0;
     if (!acquire_context(&ctx))
     {
         throw std::runtime_error("Unable to initialize Win32 crypt library.");

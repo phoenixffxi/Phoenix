@@ -180,32 +180,35 @@ struct look_t
 
     uint16 head, body, hands, legs, feet, main, sub, ranged;
 
+    // face and race alias modelid, which both constructors set
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-member-init)
     look_t()
+    : size(0)
+    , modelid(0)
+    , head(0)
+    , body(0)
+    , hands(0)
+    , legs(0)
+    , feet(0)
+    , main(0)
+    , sub(0)
+    , ranged(0)
     {
-        size    = 0;
-        modelid = 0;
-        head    = 0;
-        body    = 0;
-        hands   = 0;
-        legs    = 0;
-        feet    = 0;
-        main    = 0;
-        sub     = 0;
-        ranged  = 0;
     }
 
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-member-init)
     look_t(const uint16* look)
+    : size(look[0])
+    , modelid(look[1])
+    , head(look[2])
+    , body(look[3])
+    , hands(look[4])
+    , legs(look[5])
+    , feet(look[6])
+    , main(look[7])
+    , sub(look[8])
+    , ranged(look[9])
     {
-        size    = look[0];
-        modelid = look[1];
-        head    = look[2];
-        body    = look[3];
-        hands   = look[4];
-        legs    = look[5];
-        feet    = look[6];
-        main    = look[7];
-        sub     = look[8];
-        ranged  = look[9];
     }
 };
 
@@ -306,9 +309,9 @@ struct eminencelog_t
 
 struct eminencecache_t
 {
-    xi::bitset<4096>  activemap;
+    xi::bitset<4096>  activemap{};
     timer::time_point lastWriteout;
-    bool              notifyTimedRecord;
+    bool              notifyTimedRecord{};
 };
 
 struct nameflags_t
@@ -342,8 +345,8 @@ struct bazaar_t
 struct pathpoint_t
 {
     position_t      position;
-    timer::duration wait;
-    bool            setRotation;
+    timer::duration wait{};
+    bool            setRotation{};
 };
 
 // A comment on the packets below, defined as macros.
@@ -411,11 +414,11 @@ struct pathpoint_t
 class char_mini
 {
 public:
-    int8 m_name[16];
+    int8 m_name[16]{};
 
-    uint8      m_mjob;
-    xi::ZoneId m_zone;
-    xi::Nation m_nation;
+    uint8      m_mjob{};
+    xi::ZoneId m_zone{};
+    xi::Nation m_nation{};
 
     look_t m_look;
 };

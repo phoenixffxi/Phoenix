@@ -1,6 +1,25 @@
-// Phoenix fishing regression tests, linked only into xi_test.
-// These exercise the current calculations, not retail capture expectations.
+/*
+===========================================================================
 
+  Copyright (c) 2026 LandSandBoat Dev Teams
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see http://www.gnu.org/licenses/
+
+===========================================================================
+*/
+
+#include "common/xirand.h"
 #include "map/utils/fishingutils.h"
 
 #include <catch2/catch_test_macros.hpp>
@@ -8,9 +27,59 @@
 #include <cmath>
 #include <cstdlib>
 
-// cppcheck cannot parse Catch2's TEST_CASE expansion; the compiler is the real check
-// cppcheck-suppress syntaxError
-TEST_CASE("Fishing small-fish losses depend on fish level, not angler skill or rank", "[phoenix][fishing]")
+TEST_CASE("Fishing legendary attack bonuses also increase wrong-arrow healing", "[fishing]")
+{
+    auto rod         = rod_t{};
+    rod.fishAttack   = 100;
+    rod.lgdBonusAtk  = 50;
+    rod.fishRecovery = 50;
+
+    CHECK(fishingutils::CalculateAttack(fishingutils::Legendary::No, 20, &rod) == 400);
+    CHECK(fishingutils::CalculateAttack(fishingutils::Legendary::Yes, 20, &rod) == 600);
+    CHECK(fishingutils::CalculateHeal(fishingutils::Legendary::No, 20, &rod) == 100);
+    CHECK(fishingutils::CalculateHeal(fishingutils::Legendary::Yes, 20, &rod) == 150);
+}
+
+TEST_CASE("Fishing area segments intersect at crossings, endpoints and overlaps", "[fishing]")
+{
+    CHECK(fishingutils::doIntersect({ 0, 0, 0 }, { 10, 0, 10 }, { 0, 0, 10 }, { 10, 0, 0 }));
+    CHECK(fishingutils::doIntersect({ 0, 0, 0 }, { 10, 0, 0 }, { 10, 0, 0 }, { 20, 0, 0 }));
+    CHECK(fishingutils::doIntersect({ 0, 0, 0 }, { 10, 0, 0 }, { 5, 0, 0 }, { 15, 0, 0 }));
+    CHECK_FALSE(fishingutils::doIntersect({ 0, 0, 0 }, { 10, 0, 0 }, { 11, 0, 0 }, { 20, 0, 0 }));
+    CHECK_FALSE(fishingutils::doIntersect({ 0, 0, 0 }, { 10, 0, 0 }, { 0, 0, 1 }, { 10, 0, 1 }));
+}
+
+TEST_CASE("Fishing polygon boundaries include edges and enforce height", "[fishing]")
+{
+    areavector_t polygon[] = { { 0, 0, 0 }, { 10, 0, 0 }, { 10, 0, 10 }, { 0, 0, 10 } };
+
+    CHECK(fishingutils::isInsidePoly(polygon, 4, { 5, 0, 5 }, 0, 4));
+    CHECK(fishingutils::isInsidePoly(polygon, 4, { 0, 0, 5 }, 0, 4));
+    CHECK(fishingutils::isInsidePoly(polygon, 4, { 5, 2, 5 }, 0, 4));
+    CHECK(fishingutils::isInsidePoly(polygon, 4, { 5, -2, 5 }, 0, 4));
+    CHECK_FALSE(fishingutils::isInsidePoly(polygon, 4, { 11, 0, 5 }, 0, 4));
+    CHECK_FALSE(fishingutils::isInsidePoly(polygon, 4, { 5, 3, 5 }, 0, 4));
+    CHECK_FALSE(fishingutils::isInsidePoly(polygon, 4, { 5, -3, 5 }, 0, 4));
+    CHECK_FALSE(fishingutils::isInsidePoly(polygon, 2, { 5, 0, 5 }, 0, 4));
+}
+
+TEST_CASE("Fishing cylinders include the radius and reject points beyond it", "[fishing]")
+{
+    const auto center = areavector_t{ 10, 20, 30 };
+
+    CHECK(fishingutils::isInsideCylinder(center, { 10, 20, 30 }, 5, 4));
+    CHECK(fishingutils::isInsideCylinder(center, { 13, 20, 34 }, 5, 4));
+    CHECK(fishingutils::isInsideCylinder(center, { 7, 20, 26 }, 5, 4));
+    CHECK(fishingutils::isInsideCylinder(center, { 10, 22, 30 }, 5, 4));
+    CHECK(fishingutils::isInsideCylinder(center, { 10, 18, 30 }, 5, 4));
+    CHECK_FALSE(fishingutils::isInsideCylinder(center, { 14, 20, 34 }, 5, 4));
+    CHECK_FALSE(fishingutils::isInsideCylinder(center, { 16, 20, 30 }, 5, 4));
+    CHECK_FALSE(fishingutils::isInsideCylinder(center, { 10, 20, 36 }, 5, 4));
+    CHECK_FALSE(fishingutils::isInsideCylinder(center, { 10, 23, 30 }, 5, 4));
+    CHECK_FALSE(fishingutils::isInsideCylinder(center, { 10, 17, 30 }, 5, 4));
+}
+
+TEST_CASE("Fishing small-fish losses depend on fish level, not angler skill or rank", "[fishing]")
 {
     auto rod     = rod_t{};
     rod.rodID    = COMPOSITE;
@@ -29,7 +98,7 @@ TEST_CASE("Fishing small-fish losses depend on fish level, not angler skill or r
     }
 }
 
-TEST_CASE("Fishing small-fish loss chance stops at ninety percent", "[phoenix][fishing]")
+TEST_CASE("Fishing small-fish loss chance stops at ninety percent", "[fishing]")
 {
     auto rod     = rod_t{};
     rod.sizeType = FISHINGSIZETYPE_LARGE;
@@ -43,7 +112,7 @@ TEST_CASE("Fishing small-fish loss chance stops at ninety percent", "[phoenix][f
     }
 }
 
-TEST_CASE("Fishing legendary rods bypass size losses", "[phoenix][fishing]")
+TEST_CASE("Fishing legendary rods bypass size losses", "[fishing]")
 {
     auto rod      = rod_t{};
     rod.legendary = true;
@@ -54,7 +123,7 @@ TEST_CASE("Fishing legendary rods bypass size losses", "[phoenix][fishing]")
     CHECK(result.chance == 0);
 }
 
-TEST_CASE("Fishing skill losses start beyond seven levels and become certain at fifty", "[phoenix][fishing]")
+TEST_CASE("Fishing skill losses start beyond seven levels and become certain at fifty", "[fishing]")
 {
     auto rod = rod_t{};
 
@@ -83,7 +152,7 @@ TEST_CASE("Fishing skill losses start beyond seven levels and become certain at 
     }
 }
 
-TEST_CASE("Fishing guaranteed skill loss takes precedence over rod size loss", "[phoenix][fishing]")
+TEST_CASE("Fishing guaranteed skill loss takes precedence over rod size loss", "[fishing]")
 {
     auto rod     = rod_t{};
     rod.rodID    = SINGLE_HOOK;
@@ -94,7 +163,7 @@ TEST_CASE("Fishing guaranteed skill loss takes precedence over rod size loss", "
     CHECK(result.chance == 100);
 }
 
-TEST_CASE("Fishing items and monsters do not incur low-skill losses", "[phoenix][fishing]")
+TEST_CASE("Fishing items and monsters do not incur low-skill losses", "[fishing]")
 {
     auto rod = rod_t{};
 
@@ -107,7 +176,7 @@ TEST_CASE("Fishing items and monsters do not incur low-skill losses", "[phoenix]
     }
 }
 
-TEST_CASE("Fishing oversized catches have a fifty percent size-loss ceiling", "[phoenix][fishing]")
+TEST_CASE("Fishing oversized catches have a fifty percent size-loss ceiling", "[fishing]")
 {
     auto rod    = rod_t{};
     rod.maxRank = 10;
@@ -117,7 +186,7 @@ TEST_CASE("Fishing oversized catches have a fifty percent size-loss ceiling", "[
     CHECK(result.chance == 50);
 }
 
-TEST_CASE("Fishing oversized catches never outrank a certain low-skill loss or punish a master angler", "[phoenix][fishing]")
+TEST_CASE("Fishing oversized catches never outrank a certain low-skill loss or punish a master angler", "[fishing]")
 {
     auto rod    = rod_t{};
     rod.maxRank = 10;
@@ -131,7 +200,7 @@ TEST_CASE("Fishing oversized catches never outrank a certain low-skill loss or p
         uint8 chance;
     };
 
-    // The first row used to let the raw oversized value beat the fifty-level rule; the second used to wrap below zero
+    // Row 1 checks the 50-level rule beats the size loss, row 2 checks the size chance can't go below zero
     const SizeCase cases[] = {
         { 0, 51, 11, FISHINGFAILTYPE_LOST_LOWSKILL, 100 },
         { 100, 18, 16, FISHINGFAILTYPE_NONE, 0 },
@@ -146,7 +215,7 @@ TEST_CASE("Fishing oversized catches never outrank a certain low-skill loss or p
     }
 }
 
-TEST_CASE("Fishing line snaps begin above rod durability and cap at fifty-five", "[phoenix][fishing]")
+TEST_CASE("Fishing line snaps begin above rod durability and cap at fifty-five", "[fishing]")
 {
     auto rod    = rod_t{};
     rod.maxRank = 10;
@@ -157,7 +226,7 @@ TEST_CASE("Fishing line snaps begin above rod durability and cap at fifty-five",
         uint8 chance;
     };
 
-    // Rank 24 is the first gap whose raw chance passes 255, so it guards the arithmetic as well as the cap
+    // Rank 24 is the first gap whose uncapped chance overflows uint8
     const SnapCase cases[] = {
         { 10, 0 },
         { 11, 19 },
@@ -182,7 +251,7 @@ TEST_CASE("Fishing line snaps begin above rod durability and cap at fifty-five",
     }
 }
 
-TEST_CASE("Fishing unbreakable rods cannot break on legendary oversized fish", "[phoenix][fishing]")
+TEST_CASE("Fishing unbreakable rods cannot break on legendary oversized fish", "[fishing]")
 {
     auto rod = rod_t{};
 
@@ -191,7 +260,7 @@ TEST_CASE("Fishing unbreakable rods cannot break on legendary oversized fish", "
     CHECK(result.chance == 0);
 }
 
-TEST_CASE("Fishing rod breaks begin above durability and cap at twenty", "[phoenix][fishing]")
+TEST_CASE("Fishing rod breaks begin above durability and cap at twenty", "[fishing]")
 {
     auto rod      = rod_t{};
     rod.breakable = true;
@@ -209,139 +278,18 @@ TEST_CASE("Fishing rod breaks begin above durability and cap at twenty", "[phoen
     CHECK(capped.failReason == FISHINGFAILTYPE_RODBREAK);
     CHECK(capped.chance == 20);
 
-    // Rank 37 is the first gap whose raw chance passes 255, so it guards the arithmetic as well as the cap
+    // Rank 37 is the first gap whose uncapped chance overflows uint8
     const auto wide = fishingutils::CalculateBreakChance(FISHINGCATCHTYPE_SMALLFISH, 0, 10, FISHINGSIZETYPE_SMALL, false, 37, &rod);
     CHECK(wide.failReason == FISHINGFAILTYPE_RODBREAK);
     CHECK(wide.chance == 20);
 }
 
-TEST_CASE("Fishing legendary attack bonuses also increase wrong-arrow healing", "[phoenix][fishing]")
+TEST_CASE("Fishing a Nebimonite from the Selbina ship warns without promising", "[fishing][simulation]")
 {
-    auto rod         = rod_t{};
-    rod.fishAttack   = 100;
-    rod.lgdBonusAtk  = 50;
-    rod.fishRecovery = 50;
+    // Seeded so every run checks the same reels
+    xirand::rng().seed(1);
 
-    CHECK(fishingutils::CalculateAttack(fishingutils::Legendary::No, 20, &rod) == 400);
-    CHECK(fishingutils::CalculateAttack(fishingutils::Legendary::Yes, 20, &rod) == 600);
-    CHECK(fishingutils::CalculateHeal(fishingutils::Legendary::No, 20, &rod) == 100);
-    CHECK(fishingutils::CalculateHeal(fishingutils::Legendary::Yes, 20, &rod) == 150);
-}
-
-TEST_CASE("Fishing area segments intersect at crossings, endpoints and overlaps", "[phoenix][fishing]")
-{
-    CHECK(fishingutils::doIntersect({ 0, 0, 0 }, { 10, 0, 10 }, { 0, 0, 10 }, { 10, 0, 0 }));
-    CHECK(fishingutils::doIntersect({ 0, 0, 0 }, { 10, 0, 0 }, { 10, 0, 0 }, { 20, 0, 0 }));
-    CHECK(fishingutils::doIntersect({ 0, 0, 0 }, { 10, 0, 0 }, { 5, 0, 0 }, { 15, 0, 0 }));
-    CHECK_FALSE(fishingutils::doIntersect({ 0, 0, 0 }, { 10, 0, 0 }, { 11, 0, 0 }, { 20, 0, 0 }));
-    CHECK_FALSE(fishingutils::doIntersect({ 0, 0, 0 }, { 10, 0, 0 }, { 0, 0, 1 }, { 10, 0, 1 }));
-}
-
-TEST_CASE("Fishing polygon boundaries include edges and enforce height", "[phoenix][fishing]")
-{
-    areavector_t polygon[] = { { 0, 0, 0 }, { 10, 0, 0 }, { 10, 0, 10 }, { 0, 0, 10 } };
-
-    CHECK(fishingutils::isInsidePoly(polygon, 4, { 5, 0, 5 }, 0, 4));
-    CHECK(fishingutils::isInsidePoly(polygon, 4, { 0, 0, 5 }, 0, 4));
-    CHECK(fishingutils::isInsidePoly(polygon, 4, { 5, 2, 5 }, 0, 4));
-    CHECK(fishingutils::isInsidePoly(polygon, 4, { 5, -2, 5 }, 0, 4));
-    CHECK_FALSE(fishingutils::isInsidePoly(polygon, 4, { 11, 0, 5 }, 0, 4));
-    CHECK_FALSE(fishingutils::isInsidePoly(polygon, 4, { 5, 3, 5 }, 0, 4));
-    CHECK_FALSE(fishingutils::isInsidePoly(polygon, 4, { 5, -3, 5 }, 0, 4));
-    CHECK_FALSE(fishingutils::isInsidePoly(polygon, 2, { 5, 0, 5 }, 0, 4));
-}
-
-TEST_CASE("Fishing cylinders include the radius and reject points beyond it", "[phoenix][fishing]")
-{
-    const auto center = areavector_t{ 10, 20, 30 };
-
-    CHECK(fishingutils::isInsideCylinder(center, { 10, 20, 30 }, 5, 4));
-    CHECK(fishingutils::isInsideCylinder(center, { 13, 20, 34 }, 5, 4));
-    CHECK(fishingutils::isInsideCylinder(center, { 7, 20, 26 }, 5, 4));
-    CHECK(fishingutils::isInsideCylinder(center, { 10, 22, 30 }, 5, 4));
-    CHECK(fishingutils::isInsideCylinder(center, { 10, 18, 30 }, 5, 4));
-    CHECK_FALSE(fishingutils::isInsideCylinder(center, { 14, 20, 34 }, 5, 4));
-    CHECK_FALSE(fishingutils::isInsideCylinder(center, { 16, 20, 30 }, 5, 4));
-    CHECK_FALSE(fishingutils::isInsideCylinder(center, { 10, 20, 36 }, 5, 4));
-    CHECK_FALSE(fishingutils::isInsideCylinder(center, { 10, 23, 30 }, 5, 4));
-    CHECK_FALSE(fishingutils::isInsideCylinder(center, { 10, 17, 30 }, 5, 4));
-}
-
-TEST_CASE("Fishing fatigue for a landed fish follows size, level gap and legend", "[phoenix][fishing][fatigue]")
-{
-    auto hooked = fishresponse_t{};
-
-    struct FatigueCase
-    {
-        uint8  catchtype;
-        uint8  catchlevel;
-        bool   legendary;
-        uint32 catchid;
-        uint8  fishingSkill;
-        int32  fatigue;
-    };
-
-    // Seventeen levels up quadruples the cost; a legendary fish ignores size and skill entirely
-    const FatigueCase cases[] = {
-        { FISHINGCATCHTYPE_SMALLFISH, 30, false, 4401, 30, 25 },
-        { FISHINGCATCHTYPE_BIGFISH, 30, false, 4401, 30, 50 },
-        { FISHINGCATCHTYPE_SMALLFISH, 47, false, 4401, 30, 100 },
-        { FISHINGCATCHTYPE_BIGFISH, 47, false, 4401, 30, 200 },
-        { FISHINGCATCHTYPE_SMALLFISH, 46, false, 4401, 30, 25 },
-        { FISHINGCATCHTYPE_BIGFISH, 90, true, 5455, 0, 140 },
-        { FISHINGCATCHTYPE_BIGFISH, 90, true, 5127, 100, 780 },
-    };
-
-    for (const auto& entry : cases)
-    {
-        CAPTURE(entry.catchtype, entry.catchlevel, entry.legendary, entry.catchid, entry.fishingSkill);
-        hooked.catchtype  = entry.catchtype;
-        hooked.catchlevel = entry.catchlevel;
-        hooked.legendary  = entry.legendary;
-        hooked.catchid    = entry.catchid;
-        CHECK(fishingutils::CatchFatigue(entry.fishingSkill, hooked) == entry.fatigue);
-    }
-}
-
-TEST_CASE("Fishing fatigue for a lost fish matches landing it until the fish was hopeless", "[phoenix][fishing][fatigue]")
-{
-    auto hooked      = fishresponse_t{};
-    hooked.catchtype = FISHINGCATCHTYPE_BIGFISH;
-
-    // Thirty-nine levels up is still an ordinary loss; forty is the flat penalty regardless of size or legend
-    hooked.catchlevel = 69;
-    CHECK(fishingutils::FailedCatchFatigue(30, hooked) == fishingutils::CatchFatigue(30, hooked));
-    CHECK(fishingutils::FailedCatchFatigue(30, hooked) == 200);
-
-    hooked.catchlevel = 70;
-    CHECK(fishingutils::FailedCatchFatigue(30, hooked) == 1000);
-
-    hooked.legendary = true;
-    hooked.catchid   = 5127;
-    CHECK(fishingutils::FailedCatchFatigue(30, hooked) == 1000);
-
-    hooked.catchlevel = 20;
-    CHECK(fishingutils::FailedCatchFatigue(30, hooked) == 780);
-}
-
-TEST_CASE("Fishing fatigue relief belongs to the legendary rods alone", "[phoenix][fishing][fatigue]")
-{
-    // Integer division rounds the relief down, so 25 becomes 21 and 23 rather than 21.25 and 23.75
-    CHECK(fishingutils::RodFatigue(EBISU, 100) == 85);
-    CHECK(fishingutils::RodFatigue(EBISU_1, 100) == 85);
-    CHECK(fishingutils::RodFatigue(LU_SHANG, 100) == 95);
-    CHECK(fishingutils::RodFatigue(LU_SHANG_1, 100) == 95);
-    CHECK(fishingutils::RodFatigue(EBISU, 25) == 21);
-    CHECK(fishingutils::RodFatigue(LU_SHANG, 25) == 23);
-    CHECK(fishingutils::RodFatigue(COMPOSITE, 100) == 100);
-    CHECK(fishingutils::RodFatigue(TARUTARU, 1000) == 1000);
-}
-
-TEST_CASE("Fishing a Nebimonite from the Selbina ship warns without promising", "[phoenix][fishing][simulation]")
-{
-    // The Tarutaru rod and Nebimonite as sql/fishing_rod.sql and sql/fishing_fish.sql hold them.
-    // Zone 220 draws on fishing group 136, where Nebimonite is the only entry that takes a
-    // Ball of Crayfish Paste, so every fish that bites there on that bait is this one.
+    // Stats from fishing_rod.sql and fishing_fish.sql, and Nebimonite is the only fish in zone 220 that takes Ball of Crayfish Paste
     auto rod      = rod_t{};
     rod.rodID     = TARUTARU;
     rod.sizeType  = FISHINGSIZETYPE_SMALL;
@@ -362,7 +310,7 @@ TEST_CASE("Fishing a Nebimonite from the Selbina ship warns without promising", 
         const auto snap  = fishingutils::CalculateSnapChance(FISHINGCATCHTYPE_SMALLFISH, anglerSkill, fishLevel, FISHINGSIZETYPE_SMALL, false, fishRanking, &rod);
         const auto crack = fishingutils::CalculateBreakChance(FISHINGCATCHTYPE_SMALLFISH, anglerSkill, fishLevel, FISHINGSIZETYPE_SMALL, false, fishRanking, &rod);
 
-        // Skill no longer stiffens the line, so the rank gap bites at thirty exactly as it does at zero
+        // Skill doesn't change the snap or break chance
         CHECK(snap.chance == 19);
         CHECK(crack.chance == 10);
 
@@ -428,8 +376,7 @@ TEST_CASE("Fishing a Nebimonite from the Selbina ship warns without promising", 
                 }
             }
 
-            // A fish may still prove too small under a good feeling, but the line and the rod
-            // are never taken from an angler who was told nothing was wrong
+            // A good feeling can still lose a too-small fish, but never the line or rod
             if ((outcome->linebreak || outcome->rodbreak) && sense == FISHINGSENSETYPE_GOOD)
             {
                 ++quietBreak;
@@ -455,7 +402,7 @@ TEST_CASE("Fishing a Nebimonite from the Selbina ship warns without promising", 
             destroy(outcome);
         }
 
-        WARN("Nebimonite, Tarutaru Fishing Rod, skill " << anglerSkill << ", over " << reels << " reels"
+        INFO("Nebimonite, Tarutaru Fishing Rod, skill " << anglerSkill << ", over " << reels << " reels"
                                                         << "\n  rolled chances    loss " << static_cast<int>(lose.chance)
                                                         << ", snap " << static_cast<int>(snap.chance)
                                                         << ", break " << static_cast<int>(crack.chance)
@@ -468,29 +415,95 @@ TEST_CASE("Fishing a Nebimonite from the Selbina ship warns without promising", 
                                                         << ", broke " << cracked << " (" << static_cast<int>(crackRate * reels) << ")"
                                                         << ", lost to skill " << lostSkill << " (" << static_cast<int>(loseRate * reels) << ")");
 
-        // A warning is a strong hint and never a promise, so the angler who drops every one of
-        // them throws away fish, and the angler who fights them all still lands most
+        // Warnings come true most of the time but not always
         CHECK(badSnapped * 100 > bad * 60);
         CHECK(badSnapped * 100 < bad * 90);
         CHECK(terribleBroke * 100 > terrible * 55);
         CHECK(terribleBroke * 100 < terrible * 85);
 
-        // Doubt reports the gap in skill rather than this reel, so it is wrong far more often than right
+        // Skill messages come from the loss chance, so they are wrong more often than right
         if (lose.chance > 0)
         {
             CHECK(doubtLost * 100 < doubt * 40);
         }
 
-        // Neither the line nor the rod goes without warning
         CHECK(quietBreak == 0);
-
-        // The rod is called into question on a visible share of bites
         CHECK(terrible > reels / 100);
 
-        // A one point band runs to many standard deviations at this sample size, so none of these can flake
+        // A 1% band is many standard deviations at 100000 reels, so these can't flake
         CHECK(std::abs(landed - static_cast<int>(landRate * reels)) < reels / 100);
         CHECK(std::abs(snapped - static_cast<int>(snapRate * reels)) < reels / 100);
         CHECK(std::abs(cracked - static_cast<int>(crackRate * reels)) < reels / 100);
         CHECK(std::abs(lostSkill - static_cast<int>(loseRate * reels)) < reels / 100);
     }
+}
+
+TEST_CASE("Fishing fatigue for a landed fish follows size, level gap and legend", "[fishing][fatigue]")
+{
+    auto hooked = fishresponse_t{};
+
+    struct FatigueCase
+    {
+        uint8  catchtype;
+        uint8  catchlevel;
+        bool   legendary;
+        uint32 catchid;
+        uint8  fishingSkill;
+        int32  fatigue;
+    };
+
+    // Four times the cost from 17 levels up. Legendary fish ignore size and skill.
+    const FatigueCase cases[] = {
+        { FISHINGCATCHTYPE_SMALLFISH, 30, false, 4401, 30, 25 },
+        { FISHINGCATCHTYPE_BIGFISH, 30, false, 4401, 30, 50 },
+        { FISHINGCATCHTYPE_SMALLFISH, 47, false, 4401, 30, 100 },
+        { FISHINGCATCHTYPE_BIGFISH, 47, false, 4401, 30, 200 },
+        { FISHINGCATCHTYPE_SMALLFISH, 46, false, 4401, 30, 25 },
+        { FISHINGCATCHTYPE_BIGFISH, 90, true, 5455, 0, 140 },
+        { FISHINGCATCHTYPE_BIGFISH, 90, true, 5127, 100, 780 },
+    };
+
+    for (const auto& entry : cases)
+    {
+        CAPTURE(entry.catchtype, entry.catchlevel, entry.legendary, entry.catchid, entry.fishingSkill);
+        hooked.catchtype  = entry.catchtype;
+        hooked.catchlevel = entry.catchlevel;
+        hooked.legendary  = entry.legendary;
+        hooked.catchid    = entry.catchid;
+        CHECK(fishingutils::CatchFatigue(entry.fishingSkill, hooked) == entry.fatigue);
+    }
+}
+
+TEST_CASE("Fishing fatigue for a lost fish matches landing it until the fish was hopeless", "[fishing][fatigue]")
+{
+    auto hooked      = fishresponse_t{};
+    hooked.catchtype = FISHINGCATCHTYPE_BIGFISH;
+
+    // 39 levels up costs the same as landing it, 40 and above is a flat 1000
+    hooked.catchlevel = 69;
+    CHECK(fishingutils::FailedCatchFatigue(30, hooked) == fishingutils::CatchFatigue(30, hooked));
+    CHECK(fishingutils::FailedCatchFatigue(30, hooked) == 200);
+
+    hooked.catchlevel = 70;
+    CHECK(fishingutils::FailedCatchFatigue(30, hooked) == 1000);
+
+    hooked.legendary = true;
+    hooked.catchid   = 5127;
+    CHECK(fishingutils::FailedCatchFatigue(30, hooked) == 1000);
+
+    hooked.catchlevel = 20;
+    CHECK(fishingutils::FailedCatchFatigue(30, hooked) == 780);
+}
+
+TEST_CASE("Fishing fatigue relief belongs to the legendary rods alone", "[fishing][fatigue]")
+{
+    // Integer division rounds down, so 25 becomes 21 and 23
+    CHECK(fishingutils::RodFatigue(EBISU, 100) == 85);
+    CHECK(fishingutils::RodFatigue(EBISU_1, 100) == 85);
+    CHECK(fishingutils::RodFatigue(LU_SHANG, 100) == 95);
+    CHECK(fishingutils::RodFatigue(LU_SHANG_1, 100) == 95);
+    CHECK(fishingutils::RodFatigue(EBISU, 25) == 21);
+    CHECK(fishingutils::RodFatigue(LU_SHANG, 25) == 23);
+    CHECK(fishingutils::RodFatigue(COMPOSITE, 100) == 100);
+    CHECK(fishingutils::RodFatigue(TARUTARU, 1000) == 1000);
 }

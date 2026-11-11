@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include "common/macros.h"
 #include "common/types/hash_map.h"
 #include "common/types/maybe.h"
 
@@ -147,6 +148,8 @@ class CBattleEntity : public CBaseEntity
 public:
     CBattleEntity();
     ~CBattleEntity() override;
+
+    DISALLOW_COPY_AND_MOVE(CBattleEntity);
 
     auto STR() -> uint16;
     auto DEX() const -> uint16;
@@ -295,7 +298,7 @@ public:
     virtual auto ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags) -> bool;
     virtual auto CanUseSpell(CSpell*) -> bool;
 
-    virtual void Spawn() override;
+    void         Spawn() override;
     virtual void Die();
 
     auto battleTarget() const -> EntityId;
@@ -347,31 +350,31 @@ public:
     void setBattleID(uint16 battleID);
     auto getBattleID() const -> uint16;
 
-    virtual auto Tick(timer::time_point) -> Task<void> override;
-    virtual void PostTick() override;
+    auto Tick(timer::time_point) -> Task<void> override;
+    void PostTick() override;
 
     Health       health{}; // hp, mp, tp, etc.
     stats_t      stats{};
     skills_t     WorkingSkills{};
-    xi::Immunity m_Immunity;     // Mob immunity
-    uint16       m_magicEvasion; // store this so it can be removed easily
-    bool         m_unkillable;   // entity is not able to die (probably until some action removes this flag)
+    xi::Immunity m_Immunity{ xi::Immunity::None }; // Mob immunity
+    uint16       m_magicEvasion{};                 // store this so it can be removed easily
+    bool         m_unkillable{};                   // entity is not able to die (probably until some action removes this flag)
 
-    timer::time_point charmTime; // to hold the time entity is charmed
-    bool              isCharmed; // is the battle entity charmed?
+    timer::time_point charmTime;   // to hold the time entity is charmed
+    bool              isCharmed{}; // is the battle entity charmed?
 
     xi::Ecosystem   m_EcoSystem{};  // Entity eco system
     CItemEquipment* m_Weapons[4]{}; // Four main slots used to store weapons (weapons only)
-    bool            m_dualWield;    // True/false depending on if the entity is using two weapons
-    DEATH_TYPE      m_DeathType;
+    bool            m_dualWield{};  // True/false depending on if the entity is using two weapons
+    DEATH_TYPE      m_DeathType{ DEATH_TYPE::NONE };
 
     TraitList_t TraitList;
 
     EntityId m_OwnerID{}; // ID of the attacking entity (after death will store the ID of the entity that dealt the final blow)
 
-    CParty*           PParty;
-    CBattleEntity*    PPet;
-    CBattleEntity*    PMaster; // Owner/owner of the entity (applies to all combat entities)
+    CParty*           PParty{};
+    CBattleEntity*    PPet{};
+    CBattleEntity*    PMaster{}; // Owner/owner of the entity (applies to all combat entities)
     EntityId          lastAttackerId_{};
     timer::time_point LastAttacked;
     timer::time_point m_LastRangedAttackTime{}; // Used to track ranged attack delay and prevent attacks that are too close together
@@ -382,10 +385,10 @@ public:
     std::unique_ptr<CNotorietyContainer>    PNotorietyContainer;
 
 private:
-    xi::Job           m_mjob;
-    xi::Job           m_sjob;
-    uint8             m_mlvl; // CURRENT level of the main job
-    uint8             m_slvl; // CURRENT level of the sub job
+    xi::Job           m_mjob{ xi::Job::WAR };
+    xi::Job           m_sjob{ xi::Job::WAR };
+    uint8             m_mlvl{}; // CURRENT level of the main job
+    uint8             m_slvl{}; // CURRENT level of the sub job
     EntityId          battleTarget_{};
     timer::time_point m_battleStartTime;
     uint16            m_battleID = 0; // Current battle the entity is participating in. Battle ID must match in order for entities to interact with each other.

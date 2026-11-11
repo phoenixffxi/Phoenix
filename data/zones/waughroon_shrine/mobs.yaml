@@ -137,7 +137,8 @@ templates:
     id:            6868
     species:       mimic
     type:          [notorious, battlefield]
-    skill_list_id: 189
+    spell_list_id: 568
+    skill_list_id: 2114
     attributes:
       combat:
         skill: scythe
@@ -159,17 +160,18 @@ templates:
         model_size:       1
         hitbox:          12
       behaviors:
-        aggressive:     true
-        links:          true
         true_detection: true
       spawn:
         type: [scripted]
+      stats:
+        hp: 2500000 # Capture needed
 
   Coffer_OPlenty:
     id:            6869
     species:       mimic
     type:          [notorious, battlefield]
-    skill_list_id: 189
+    spell_list_id: 568
+    skill_list_id: 2114
     attributes:
       combat:
         skill: scythe
@@ -191,11 +193,11 @@ templates:
         model_size:       1
         hitbox:          12
       behaviors:
-        aggressive:     true
-        links:          true
         true_detection: true
       spawn:
         type: [scripted]
+      stats:
+        hp: 2500000 # Capture needed
 
   DaShu_Knightslayer:
     id:            929
@@ -473,6 +475,8 @@ templates:
       stats:
         hp: 6000
         mp: 6000
+      mob_mods:
+        base_damage_multiplier: 150
 
   GoBha_Slaughterer:
     id:            1777
@@ -740,7 +744,7 @@ templates:
 
   Maats_Pet:
     id:            2462
-    species:       mandragora
+    species:       korrigan
     type:          [notorious, called, battlefield]
     skill_list_id: 178
     attributes:
@@ -756,6 +760,8 @@ templates:
         type: [scripted]
       stats:
         hp: 300
+      mob_mods:
+        base_damage_multiplier: 166
 
   Macha:
     id:            2468
@@ -932,6 +938,8 @@ templates:
       stats:
         hp: 3000
         mp: 6000
+      mob_mods:
+        base_damage_multiplier: 150
 
   Osschaart:
     id:            3064
@@ -1138,6 +1146,8 @@ templates:
       stats:
         hp: 7000
         mp: 3500
+      mob_mods:
+        base_damage_multiplier: 150
 
   SaNha_Soulsaver:
     id:            3491
@@ -1244,6 +1254,8 @@ templates:
         type: [scripted]
       stats:
         hp: 3200
+      mob_mods:
+        base_damage_multiplier: 150
 
   Time_Bomb:
     id:            3920
