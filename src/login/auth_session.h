@@ -68,7 +68,7 @@ enum class login_result : uint8_t
     LOGIN_ERROR_LAUNCH_TOKEN_INVALID = 0x14, // [Phoenix] Launch Token
 };
 
-constexpr std::array<uint8, 3> SupportedXiloaderVersion = { 2, 2, 0 };
+constexpr std::array<uint8, 3> SupportedXiloaderVersion = { 3, 0, 0 };
 
 // NOTE: This collection of flags is 64-bits wide!
 enum AUTH_COMPONENTS
@@ -119,8 +119,6 @@ public:
     }
 
 public:
-    void start() override;
-
     void read_func() override;
 
     void write_func() override
@@ -133,10 +131,6 @@ public:
         // Intentionally do not log any errors
         // Most errors are extremely noisy, any connection that's been dropped (Such as port scanners) will log an error
     }
-
-    void do_write(std::size_t length) override;
-
-    void do_read() override;
 
 private:
     ipc::Channel<zmq::message_t> dealerChannel_;
