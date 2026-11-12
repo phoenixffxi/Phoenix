@@ -18,3 +18,9 @@ CREATE INDEX IF NOT EXISTS `idx_ah_price_stats`
 
 CREATE INDEX IF NOT EXISTS `idx_dbox_receiver_date`
     ON `audit_dbox` (`receiver`, `date`);
+
+CREATE INDEX IF NOT EXISTS `idx_trade_receiver_date`
+    ON `audit_trade` (`receiver`, `date`);
+
+CREATE INDEX IF NOT EXISTS `idx_bazaar_purchaser_date`
+    ON `audit_bazaar` (`purchaser`, `date`);
