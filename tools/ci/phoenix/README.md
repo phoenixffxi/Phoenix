@@ -36,6 +36,7 @@ Each test file has one top-level `describe`, and cases that are slow or check ev
 ## How much xi_test runs
 
 - On a pull request whose title contains "update" (the weekly LSB update), on a manual run of Phoenix Checks, and when a PR changes core C++ under `src/`, `xi_test_skips.md` or `setup_tests.py`, everything runs: the upstream tests and every module case.
+  The module tests run in a second xi_test after the upstream tests. Zones stay loaded once a test enters them, and their hourly scripts run during every later test, so the zones module tests load would otherwise reach the upstream tests (Davoi and Ro'Maeve hung an upstream test that stubs `math.randomInt`).
 - On any other pull request only the module tests run, without their `#exhaustive` cases. Tests for the files the PR changes run in full: changed tests, tests covering a changed module file, and tests for modules that override or load a changed `scripts/` file. A change to the test helpers, `modules/init.txt` or `modules/module_utils.lua` runs every module case.
 - Upstream tests don't run on those pull requests, even when they change `scripts/`, `data/` or `sql/`. The weekly update PR or a manual run of Phoenix Checks catches what they break.
 - Locally, `run_xi_test.py` runs everything unless given `--tier quick`, which needs `--base <ref>` (for example `--base origin/dev`) and counts committed, uncommitted and untracked changes since then.

@@ -3,7 +3,8 @@
 Picks how much to run:
 - full: everything. Used for the weekly LSB update PR (title contains "update"), runs that
   aren't for a pull request, local runs, and PRs that change core C++ under src/, the skip
-  list or setup_tests.py.
+  list or setup_tests.py. The module tests get a second xi_test, so the zones they load
+  can't reach the upstream tests.
 - quick: every module test except its #exhaustive cases, plus all cases of the tests for
   the files the PR changes. Used for other pull requests.
 --tier quick|full overrides the choice; a local quick run needs --base REF to diff against.
@@ -30,6 +31,9 @@ FULL_RUN = (
     "tools/ci/phoenix/xi_test_skips.md",
     "tools/ci/phoenix/setup_tests.py",
 )
+
+# The module tests' folder, as xi_test's --file and --no-file match it.
+MODULE_TESTS = "^scripts[/\\\\]tests[/\\\\]modules[/\\\\]"
 
 TARGET = re.compile(r"""addOverride(?:ByEra)?\s*\(\s*['"]([^'"]+)['"]""")
 DESCRIBE = re.compile(
@@ -223,7 +227,7 @@ def quick_args(changed):
     for test in sorted(touched):
         print(f"  all cases: {test}", flush=True)
 
-    args = ["--file", "^scripts[/\\\\]tests[/\\\\]modules[/\\\\]"]
+    args = ["--file", MODULE_TESTS]
     for test in selected:
         if not test.startswith("scripts/tests/modules/"):
             args += ["--file", path_pattern(test)]
@@ -239,10 +243,42 @@ def quick_args(changed):
     return args
 
 
+# Joins the CTRF reports of a split run into the one report the workflow publishes.
+def merge_reports(parts, output):
+    reports = [json.loads(p.read_text(encoding="utf-8")) for p in parts if p.exists()]
+    if not reports:
+        return
+
+    merged = reports[0]
+    summary = merged["results"]["summary"]
+    for report in reports[1:]:
+        merged["results"]["tests"] += report["results"]["tests"]
+        for key, value in report["results"]["summary"].items():
+            if key == "start":
+                summary[key] = min(summary[key], value)
+            elif key == "stop":
+                summary[key] = max(summary[key], value)
+            else:
+                summary[key] += value
+
+    pathlib.Path(output).write_text(json.dumps(merged, indent=2), encoding="utf-8")
+    for part in parts:
+        part.unlink(missing_ok=True)
+
+
+# Runs one xi_test and returns its exit code.
+def run(command):
+    print(" ".join(command), flush=True)
+
+    # The era settings CI uses, unless the environment already sets them.
+    return subprocess.call(command, env={**ERA, **os.environ})
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0], add_help=False)
     parser.add_argument("--tier", choices=["auto", "quick", "full"], default="auto")
     parser.add_argument("--base", help="ref a local quick run diffs against")
+    parser.add_argument("--output", help="CTRF report file, as xi_test takes it")
     args, xi_test_args = parser.parse_known_args()
 
     # Without a base, the changes come from CI's merge commit.
@@ -278,11 +314,28 @@ def main():
 
     # Windows does not look in the working directory for a bare program name.
     exe = pathlib.Path.cwd() / ("xi_test.exe" if os.name == "nt" else "xi_test")
-    command = [str(exe), *xi_test_args, *selection, *skip_args()]
-    print(" ".join(command), flush=True)
+    command = [str(exe), *xi_test_args]
 
-    # The era settings CI uses, unless the environment already sets them.
-    sys.exit(subprocess.call(command, env={**ERA, **os.environ}))
+    if tier == "quick":
+        output = ["--output", args.output] if args.output else []
+        sys.exit(run([*command, *output, *selection, *skip_args()]))
+
+    # A zone stays loaded once a test enters it, and its hourly scripts run in every later
+    # test, so the zones module tests load are kept away from the upstream tests.
+    codes = []
+    parts = []
+    for name, flag in (("upstream", "--no-file"), ("modules", "--file")):
+        output = []
+        if args.output:
+            parts.append(pathlib.Path(args.output).with_suffix(f".{name}.json"))
+            output = ["--output", str(parts[-1])]
+
+        codes.append(run([*command, *output, flag, MODULE_TESTS, *skip_args()]))
+
+    if args.output:
+        merge_reports(parts, args.output)
+
+    sys.exit(next((code for code in codes if code != 0), 0))
 
 
 if __name__ == "__main__":
