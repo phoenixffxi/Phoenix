@@ -13,11 +13,19 @@ import json
 
 class HXIClient:
     def __init__(
-        self, username, password, server, slot=0, client_str="", debug_packets=False
+        self,
+        username,
+        password,
+        server,
+        slot=0,
+        client_str="",
+        debug_packets=False,
+        login_token="",
     ):
         # Args
         self.username = username
         self.password = password
+        self.login_token = login_token  # [Phoenix] Launch Token
         self.server = server
         self.slot = slot
         self.debug_packets = debug_packets
@@ -52,7 +60,7 @@ class HXIClient:
 
         self.login_connect(self.ssl_context)
 
-        LOGIN_ATTEMPT = 0x10 # from src/login/auth_session.h
+        LOGIN_ATTEMPT = 0x10  # from src/login/auth_session.h
 
         json_data = {}
         json_data.update({"username": self.username})
@@ -62,8 +70,12 @@ class HXIClient:
         json_data.update({"version": [3, 0, 0]})
         json_data.update({"command": LOGIN_ATTEMPT})
 
+        # [Phoenix] Launch Token: xi_connect refuses tokenless logins by default
+        if self.login_token:
+            json_data.update({"login_token": self.login_token})
+
         json_string = json.dumps(json_data)
-        json_len    = len(json_string)
+        json_len = len(json_string)
 
         data = bytearray(json_len)
 
@@ -75,13 +87,15 @@ class HXIClient:
         self.login_sock.close()
 
         # https://stackoverflow.com/a/40060181
-        maybe_json_reply = in_data.decode('utf8').replace("'", '"')
+        maybe_json_reply = in_data.decode("utf8").replace("'", '"')
 
-        loaded_json = json.loads(maybe_json_reply) # this can throw JSONDecodeError or UnicodeDecodeError. Should we handle this? do we care?
+        loaded_json = json.loads(
+            maybe_json_reply
+        )  # this can throw JSONDecodeError or UnicodeDecodeError. Should we handle this? do we care?
 
-        result       = 0x00
+        result = 0x00
         session_hash = []
-        account_id   = 0
+        account_id = 0
 
         if "result" in loaded_json and type(loaded_json["result"]) == int:
             result = loaded_json["result"]
@@ -97,7 +111,7 @@ class HXIClient:
             self.account_id = account_id
             print("Account ID: " + str(self.account_id))
 
-            self.sessionHash = ''.join(map(chr, session_hash))
+            self.sessionHash = "".join(map(chr, session_hash))
 
             # Connect
             self.lobby_data_connect()

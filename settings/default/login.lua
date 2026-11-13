@@ -40,6 +40,14 @@ xi.settings.login =
     -- Number of simultaneous game sessions per IP (0 for no limit)
     LOGIN_LIMIT = 0,
 
+    -- [Phoenix] Launch Token
+    -- Require a Phoenix-issued launch token for every loader login (true/false).
+    -- When true, username/password logins are refused, with or without OTP or a trust token.
+    -- Production relies on this default. Turn it off only for local development, in
+    -- settings/login.lua or with XI_LOGIN_PHOENIX_REQUIRE_LAUNCH_TOKEN=false.
+    -- xi_connect logs a warning at startup whenever it is off.
+    PHOENIX_REQUIRE_LAUNCH_TOKEN = true,
+
     -- Expansion display on the client's login screen. This does NOT effect in game content whatsoever!
     RISE_OF_ZILART          = true,
     CHAINS_OF_PROMATHIA     = true,

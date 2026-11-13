@@ -125,6 +125,19 @@ void auth_session::read_func()
     DebugSockets(fmt::format("auth code: {} from {}", code, ipAddress));
 
     // [Phoenix] Launch Token BEGIN
+    // With login.PHOENIX_REQUIRE_LAUNCH_TOKEN, a launch token is the only login
+    // credential: password, OTP, and trust tokens can't stand in for one. Refuse
+    // here, before the checks below drop malformed requests without a reply.
+    if (static_cast<login_cmd>(code) == login_cmd::LOGIN_ATTEMPT && login_token.empty() &&
+        settings::get<bool>("login.PHOENIX_REQUIRE_LAUNCH_TOKEN"))
+    {
+        ShowWarningFmt("login_parse: refused login without a launch token for <{}> from {}",
+                       loginHelpers::isStringMalformed(username, 16) ? "?" : username,
+                       ipAddress);
+        sendJsonOnlyErrorMessage("Password login is disabled on this server.\nPlease sign in with Phoenix Launcher and press Play.");
+        return;
+    }
+
     // A launch-token login carries no username/password, so skip those checks
     // when one is present (isStringMalformed rejects empty strings).
     if (login_token.empty())
