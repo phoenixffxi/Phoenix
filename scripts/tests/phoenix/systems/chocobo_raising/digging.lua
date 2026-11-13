@@ -2,6 +2,9 @@
 -- Phoenix version of systems/chocobo_raising/digging.lua.
 -- phoenix/lua/globals/hobbies/chocobo_digging replaces xi.chocoboDig.start with era digging that has
 -- no raised chocobo abilities, and keeps the daily dig count in an account var.
+-- Covers: modules/phoenix/lua/globals/hobbies/chocobo_digging/pxi_digging_logic.lua
+-- Covers: modules/phoenix/lua/globals/hobbies/chocobo_digging/chocobo_account_fatigue.lua
+-- Covers: modules/phoenix/lua/globals/hobbies/chocobo_digging/pxi_digging_data.lua
 -----------------------------------
 local ffi = require('ffi')
 
