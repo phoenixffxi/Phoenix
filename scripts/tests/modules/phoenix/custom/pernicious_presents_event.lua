@@ -143,10 +143,11 @@ describe('Phoenix Pernicious Presents event', function()
             SetServerVariable('[TreantEvent]HP_' .. xi.zone.WEST_RONFAURE, 12345)
             xi.treantEvent.startZone(xi.zone.WEST_RONFAURE)
 
+            local maxHP = xi.treantEvent.zones[xi.zone.WEST_RONFAURE].hp
             local mobId = zone:getLocalVar('[TreantEvent]MobId')
             local mob   = GetMobByID(mobId)
             assert(mob and mob:isSpawned(), 'no treant spawned')
-            assert(mob:getMaxHP() == 200000, string.format('expected 200000 max HP, got %d', mob:getMaxHP()))
+            assert(mob:getMaxHP() == maxHP, string.format('expected %d max HP, got %d', maxHP, mob:getMaxHP()))
             assert(mob:getHP() == 12345, string.format('expected the saved 12345 HP, got %d', mob:getHP()))
             assert(mob:getMainLvl() == 25, string.format('expected level 25, got %d', mob:getMainLvl()))
             assert(mob:getMobMod(xi.mobMod.NO_AGGRO) == 1, 'the treant aggroes')
