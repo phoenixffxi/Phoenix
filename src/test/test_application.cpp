@@ -20,9 +20,11 @@
 */
 
 #include "test_application.h"
+#include "mock_socket.h"
 #include "test_engine.h"
 
 #include "common/settings.h"
+#include "map/map_networking.h"
 
 #include <spdlog/async.h>
 
@@ -89,6 +91,10 @@ auto appConfig() -> ApplicationConfig
                 .description = "Output file for test results. Use .json extension for CTRF format.",
             },
             ArgumentDefinition{
+                .name        = "--seed",
+                .description = "Seed the PRNG with this value before every test, so runs repeat exactly. Failures print the seed they ran with.",
+            },
+            ArgumentDefinition{
                 .name        = "--retry",
                 .description = "Re-run each failing test up to this many times; a test that then passes is reported as flaky.",
             },
@@ -141,6 +147,7 @@ auto TestApplication::run() -> bool
                 .controlledWeather = true,
             };
             auto mapEngine = std::make_unique<MapEngine>(*this, mapConfig);
+            mapEngine->networking().setSocket(std::make_unique<MockSocket>());
 
             // We must ensure that mapEngine->init() is complete before we
             // try and construct TestEngine or run the tests
@@ -160,6 +167,23 @@ auto TestApplication::run() -> bool
                 retryCount = static_cast<size_t>(std::max(0, retryValue));
             }
 
+            Maybe<uint64> seed;
+            if (const auto seedArg = args().present<std::string>("--seed"))
+            {
+                uint64      value      = 0;
+                const auto* end        = seedArg->data() + seedArg->size();
+                const auto [last, err] = std::from_chars(seedArg->data(), end, value);
+                if (err != std::errc{} || last != end)
+                {
+                    // A mistyped seed must not silently run with seed 0.
+                    ShowCriticalFmt("--seed expects a whole number, got '{}'", *seedArg);
+                    success_ = false;
+                    this->requestExit();
+                    co_return;
+                }
+                seed = value;
+            }
+
             TestConfig testConfig{
                 .loggerSink = sink_,
                 .verbose    = args().get<bool>("--verbose"),
@@ -167,6 +191,7 @@ auto TestApplication::run() -> bool
                 .keepGoing  = args().get<bool>("--keep-going"),
                 .watch      = args().get<bool>("--watch"),
                 .retryCount = retryCount,
+                .seed       = seed,
                 .filters    = {
                     .includePatterns = args().get<std::vector<std::string>>("--file"),
                     .excludePatterns = args().get<std::vector<std::string>>("--no-file"),

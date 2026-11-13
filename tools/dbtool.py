@@ -200,6 +200,7 @@ player_data = [
     "auction_house.sql",
     "audit_bazaar.sql",
     "audit_chat.sql",
+    "audit_craft.sql",
     "audit_dbox.sql",
     "audit_gm.sql",
     "audit_trade.sql",
@@ -1045,7 +1046,9 @@ def flag_character_for_rename(charname):
         (charid,),
     )
     db.commit()
-    print_green(f'Flagged "{charname}" (charid {charid}) for a forced rename at next login.')
+    print_green(
+        f'Flagged "{charname}" (charid {charid}) for a forced rename at next login.'
+    )
 
 
 def flag_character_for_race_change(charname):
@@ -1070,7 +1073,9 @@ def flag_character_for_race_change(charname):
         (charid,),
     )
     db.commit()
-    print_green(f'Made "{charname}" (charid {charid}) race change eligible for 14 days.')
+    print_green(
+        f'Made "{charname}" (charid {charid}) race change eligible for 14 days.'
+    )
 
 
 def flag_character_dialog(question, fn):
@@ -1083,11 +1088,15 @@ def flag_character_dialog(question, fn):
 
 
 def flag_character_for_rename_dialog():
-    flag_character_dialog("Which character to flag for a forced rename?", flag_character_for_rename)
+    flag_character_dialog(
+        "Which character to flag for a forced rename?", flag_character_for_rename
+    )
 
 
 def flag_character_for_race_change_dialog():
-    flag_character_dialog("Which character to make race change eligible?", flag_character_for_race_change)
+    flag_character_dialog(
+        "Which character to make race change eligible?", flag_character_for_race_change
+    )
 
 
 def player_admin_menu():
@@ -1098,7 +1107,10 @@ def player_admin_menu():
         "Player Administration",
         {
             "1": ["Flag character for forced rename", flag_character_for_rename_dialog],
-            "2": ["Grant character race change eligibility", flag_character_for_race_change_dialog],
+            "2": [
+                "Grant character race change eligibility",
+                flag_character_for_race_change_dialog,
+            ],
             "q": ["Quit to main menu", NOOP],
         },
     )
@@ -1217,11 +1229,9 @@ def launch_using_zone_settings():
 
     zoneip = result.stdout.split("\n")[1]
 
-    result = db_query(
-        f"""
+    result = db_query(f"""
         SELECT DISTINCT zoneport from zone_settings ORDER BY zoneport ASC;
-        """
-    )
+        """)
 
     ports = result.stdout.split("\n")[1:-1]
 
@@ -1423,6 +1433,7 @@ def dump_all_tables(silent=False):
 
 def validate_yaml_data():
     import tempfile
+
     with tempfile.TemporaryDirectory() as tmp:
         rc = subprocess.call(
             [sys.executable, "-m", "tools.codegen", tmp, "--validate"],
@@ -1508,7 +1519,10 @@ def tasks_menu():
             ],
             "d": ["Dump Table", dump_table],
             "a": ["Dump All Tables", dump_all_tables],
-            "w": ["Add Windows Defender exclusions (speeds up start-up)", add_windows_defender_exclusions],
+            "w": [
+                "Add Windows Defender exclusions (speeds up start-up)",
+                add_windows_defender_exclusions,
+            ],
             "q": ["Quit to main menu", NOOP],
         },
     )
