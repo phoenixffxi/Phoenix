@@ -1,0 +1,72 @@
+# Dynamis racial DEF bonuses, fit to the retail DEF tables in the Dynamis research sheet on top of LSB's rank A DEF.
+
+ecosystems:
+  beastmen:
+    families:
+      goblin:
+        species:
+          dynamis_goblin:
+            attributes:
+              mods:
+                defp: 14
+      quadav:
+        species:
+          dynamis_quadav:
+            attributes:
+              mods:
+                defp: 33
+      yagudo:
+        species:
+          dynamis_yagudo:
+            attributes:
+              mods:
+                defp: 4
+
+  demon:
+    families:
+      ahriman:
+        species:
+          dynamis_ahriman:
+            attributes:
+              mods:
+                defp: 107
+      demon:
+        species:
+          dynamis_kindred:
+            attributes:
+              mods:
+                defp: 35
+
+  undead:
+    families:
+      fomor:
+        species:
+          dynamis_fomor:
+            attributes:
+              mods:
+                defp: 45
+          hydra_fomor:
+            attributes:
+              mods:
+                defp: 45
+
+  weapons:
+    families:
+      statue:
+        species:
+          goblin_statue:
+            attributes:
+              mods:
+                defp: 246
+          orc_statue:
+            attributes:
+              mods:
+                defp: 246
+          quadav_statue:
+            attributes:
+              mods:
+                defp: 371
+          yagudo_statue:
+            attributes:
+              mods:
+                defp: 246
