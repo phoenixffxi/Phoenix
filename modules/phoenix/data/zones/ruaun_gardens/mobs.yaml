@@ -1,8 +1,44 @@
-# Drops removed from mob loot after the Abyssea era: the Sky NM stone drops (December 7, 2010) and later targeted removals.
+# Drops removed from mob loot after the Abyssea era: the Sky NM trigger item drops (December 7, 2010) and later targeted removals.
 # Source: https://www.bg-wiki.com/ffxi/Version_Update_(12/06/2010)
 # Source: https://www.bg-wiki.com/ffxi/Version_Update_(07/23/2012)
 
 templates:
+
+  Byakko:
+    loot: # extra seal_of_byakko removed
+      drops:
+        - chance: always
+          item:   seal_of_byakko
+        - chance: always
+          item:   zephyr
+        - chance: common
+          item:   byakkos_axe
+        - chance: uncommon
+          item:   divine_log
+        - chance: uncommon
+          item:   spool_of_malboro_fiber
+        - chance: uncommon
+          item:   behemoth_hide
+        - chance: uncommon
+          item:   behemoth_hide
+        - chance: common
+          item:   byakkos_haidate
+        - chance: very_rare
+          item:   damascus_ingot
+        - chance: very_rare
+          item:   piece_of_oxblood
+        - chance: always
+          one_of:
+            neptunal_abjuration_hands: 31
+            aquarian_abjuration_head:  23
+            dryadic_abjuration_legs:   23
+            earthen_abjuration_feet:   23
+        - chance: uncommon
+          one_of:
+            neptunal_abjuration_hands: 31
+            aquarian_abjuration_head:  23
+            dryadic_abjuration_legs:   23
+            earthen_abjuration_feet:   23
 
   Despot:
     loot: # extra gem_of_the_west removed
@@ -13,3 +49,115 @@ templates:
           item:   oblation_abjuration
         - chance: uncommon
           item:   scarecrow_scythe
+
+  Genbu:
+    loot: # extra seal_of_genbu removed
+      drops:
+        - chance: always
+          item:   seal_of_genbu
+        - chance: always
+          item:   arctic_wind
+        - chance: common
+          item:   genbus_shield
+        - chance: common
+          item:   genbus_kabuto
+        - chance: very_rare
+          item:   vial_of_black_beetle_blood
+        - chance: common
+          item:   venomous_claw
+        - chance: uncommon
+          item:   adamantoise_shell
+        - chance: uncommon
+          item:   piece_of_oxblood
+        - chance: rare
+          item:   adaman_ingot
+        - chance: very_rare
+          item:   divine_log
+        - chance: always
+          one_of:
+            wyrmal_abjuration_feet:    31
+            aquarian_abjuration_hands: 23
+            aquarian_abjuration_head:  23
+            martial_abjuration_hands:  23
+        - chance: uncommon
+          one_of:
+            wyrmal_abjuration_feet:    31
+            aquarian_abjuration_hands: 23
+            aquarian_abjuration_head:  23
+            martial_abjuration_hands:  23
+
+  Seiryu:
+    loot: # extra seal_of_seiryu removed
+      drops:
+        - chance: always
+          item:   seal_of_seiryu
+        - chance: always
+          item:   east_wind
+        - chance: common
+          item:   seiryus_sword
+        - chance: common
+          item:   seiryus_kote
+        - chance: uncommon
+          item:   dragon_talon
+        - chance: uncommon
+          item:   vial_of_dragon_blood
+        - chance: uncommon
+          item:   slice_of_dragon_meat
+        - chance: very_rare
+          item:   square_of_damascene_cloth
+        - chance: very_rare
+          item:   spool_of_malboro_fiber
+        - chance: very_rare
+          item:   dragon_heart
+        - chance: always
+          one_of:
+            wyrmal_abjuration_hands:  31
+            aquarian_abjuration_legs: 23
+            dryadic_abjuration_head:  23
+            martial_abjuration_head:  23
+        - chance: uncommon
+          one_of:
+            wyrmal_abjuration_hands:  31
+            aquarian_abjuration_legs: 23
+            dryadic_abjuration_head:  23
+            martial_abjuration_head:  23
+
+  Suzaku:
+    loot: # extra seal_of_suzaku removed
+      drops:
+        - chance: always
+          item:   seal_of_suzaku
+        - chance: always
+          item:   antarctic_wind
+        - chance: common
+          item:   suzakus_sune-ate
+        - chance: common
+          item:   suzakus_scythe
+        - chance: uncommon
+          item:   square_of_damascene_cloth
+        - chance: rare
+          item:   orichalcum_ingot
+        - chance: rare
+          item:   square_of_shining_cloth
+        - chance: very_rare
+          item:   venomous_claw
+        - chance: uncommon
+          item:   vial_of_black_beetle_blood
+        - chance: common
+          item:   lock_of_sirens_hair
+        - chance: uncommon
+          item:   lock_of_sirens_hair
+        - chance: uncommon
+          item:   lock_of_sirens_hair
+        - chance: always
+          one_of:
+            neptunal_abjuration_feet: 31
+            aquarian_abjuration_legs: 23
+            dryadic_abjuration_hands: 23
+            earthen_abjuration_head:  23
+        - chance: uncommon
+          one_of:
+            neptunal_abjuration_feet: 31
+            aquarian_abjuration_legs: 23
+            dryadic_abjuration_hands: 23
+            earthen_abjuration_head:  23
