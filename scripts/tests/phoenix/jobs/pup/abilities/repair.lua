@@ -2,6 +2,7 @@
 -- Phoenix version of the jobs/pup/abilities/repair.lua healing case.
 -- era/lua/globals/job_utils/puppetmaster.lua drops Repair's burst heal, so the oil heals through Regen
 -- (10 HP a tick for 30 seconds for a plain Automaton Oil).
+-- Covers: modules/era/lua/globals/job_utils/puppetmaster.lua
 -----------------------------------
 describe('Repair', function()
     it('heals the automaton with an oil at or below the synced level', function()

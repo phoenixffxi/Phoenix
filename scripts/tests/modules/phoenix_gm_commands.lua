@@ -1,8 +1,8 @@
 -----------------------------------
 -- Tests GM tiers and targeting.
--- See: modules/phoenix/lua/commands/gm_command_tiers.lua
--- See: modules/phoenix/lua/commands/th.lua
--- See: modules/phoenix/lua/commands/treants.lua
+-- Covers: modules/phoenix/lua/commands/gm_command_tiers.lua
+-- Covers: modules/phoenix/lua/commands/th.lua
+-- Covers: modules/phoenix/lua/commands/treants.lua
 -----------------------------------
 describe('Module: phoenix_gm_command_tiers', function()
     local function newPlayer(level, name, id)

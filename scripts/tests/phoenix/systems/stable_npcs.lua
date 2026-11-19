@@ -2,6 +2,7 @@
 -- Phoenix version of the Ferdoulemiont case in systems/stable_npcs.lua.
 -- era/lua/zones/southern_san_doria/npcs/southern_san_doria_vendors.lua replaces his stock to drop
 -- Knight's Minne V. Its other prices differ from the captured ones and have no source yet, so only the removal is checked.
+-- Covers: modules/era/lua/zones/southern_san_doria/npcs/southern_san_doria_vendors.lua
 -----------------------------------
 describe('Stable area NPCs', function()
     it('leaves Knight\'s Minne V out of Ferdoulemiont\'s stock', function()

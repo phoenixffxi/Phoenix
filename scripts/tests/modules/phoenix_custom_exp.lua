@@ -1,6 +1,9 @@
 -----------------------------------
 -- Loads the core EXP calculation with every Phoenix EXP module in an isolated
 -- Lua environment, so the server's population, variables and clock are mocked.
+-- Covers: modules/phoenix/lua/custom/exp_penalties.lua
+-- Covers: modules/phoenix/lua/custom/level_sync_penalty.lua
+-- Covers: modules/phoenix/lua/globals/disable_sanction_bonuses.lua
 -----------------------------------
 describe('Module: phoenix custom exp', function()
     local rateVar = '[SyncPenalty]RatePerLevel'

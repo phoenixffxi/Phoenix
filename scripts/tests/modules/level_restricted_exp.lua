@@ -1,6 +1,8 @@
 -----------------------------------
 -- Exercises the real EXP calculation and module overrides in an isolated Lua
 -- environment, without changing the running world's modules or EXP tables.
+-- Covers: modules/phoenix/lua/custom/exp_penalties.lua
+-- Covers: modules/era/lua/globals/toau_experience_points.lua
 -----------------------------------
 describe('Module: exp_penalties', function()
     local function constant(value)

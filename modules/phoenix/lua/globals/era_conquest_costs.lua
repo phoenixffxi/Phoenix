@@ -89,7 +89,7 @@ m:addOverride('xi.conquest.overseerOnEventFinish', function(player, csid, option
 
     local storedCost = player:getLocalVar('eraCost_' .. option)
 
-    if storedCost == cost and player:getCP() >= cost then
+    if available and storedCost == cost and player:getCP() >= cost then
         player:setLocalVar('eraCost_' .. option, 0)
         if npcUtil.giveItem(player, itemId) then
             player:delCP(cost)
