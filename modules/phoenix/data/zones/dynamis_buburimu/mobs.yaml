@@ -623,6 +623,8 @@ templates:
   Nightmare_Bunny:
     type: [notorious]
     attributes:
+      mods:
+        defp: 11
       spawn:
         respawn: 0
         type:    [scripted]
@@ -640,6 +642,11 @@ templates:
           one_of: [warriors_mufflers_-1, melee_gloves_-1, clerics_mitts_-1, sorcerers_gloves_-1, duelists_gloves_-1, assassins_armlets_-1, valor_gauntlets_-1, abyss_gauntlets_-1, monster_gloves_-1, bards_cuffs_-1, scouts_bracers_-1, saotome_kote_-1, koga_tekko_-1, wyrm_finger_gauntlets_-1, summoners_bracers_-1]
         - chance: very_rare
           one_of: [mirage_bazubands_-1, commodore_gants_-1, pantin_dastanas_-1]
+
+  Nightmare_Bunny_HI:
+    attributes:
+      mods:
+        defp: 11
 
   Nightmare_Crab:
     type: [notorious]
@@ -665,6 +672,8 @@ templates:
   Nightmare_Crawler:
     type: [notorious]
     attributes:
+      mods:
+        defp: 28
       spawn:
         respawn: 0
         type:    [scripted]
@@ -683,9 +692,16 @@ templates:
         - chance: very_rare
           one_of: [mirage_bazubands_-1, commodore_gants_-1, pantin_dastanas_-1]
 
+  Nightmare_Crawler_HI:
+    attributes:
+      mods:
+        defp: 28
+
   Nightmare_Dhalmel:
     type: [notorious]
     attributes:
+      mods:
+        defp: 8
       spawn:
         respawn: 0
         type:    [scripted]
@@ -704,9 +720,21 @@ templates:
         - chance: very_rare
           one_of: [mirage_bazubands_-1, commodore_gants_-1, pantin_dastanas_-1]
 
+  Nightmare_Dhalmel_Small:
+    attributes:
+      mods:
+        defp: 8
+
+  Nightmare_Dhalmel_2:
+    attributes:
+      mods:
+        defp: 8
+
   Nightmare_Eft:
     type: [notorious]
     attributes:
+      mods:
+        defp: 8
       spawn:
         respawn: 0
         type:    [scripted]
@@ -725,9 +753,16 @@ templates:
         - chance: very_rare
           one_of: [mirage_bazubands_-1, commodore_gants_-1, pantin_dastanas_-1]
 
+  Nightmare_Eft_HI:
+    attributes:
+      mods:
+        defp: 8
+
   Nightmare_Mandragora:
     type: [notorious]
     attributes:
+      mods:
+        defp: 5
       spawn:
         respawn: 0
         type:    [scripted]
@@ -745,6 +780,11 @@ templates:
           one_of: [warriors_mufflers_-1, melee_gloves_-1, clerics_mitts_-1, sorcerers_gloves_-1, duelists_gloves_-1, assassins_armlets_-1, valor_gauntlets_-1, abyss_gauntlets_-1, monster_gloves_-1, bards_cuffs_-1, scouts_bracers_-1, saotome_kote_-1, koga_tekko_-1, wyrm_finger_gauntlets_-1, summoners_bracers_-1]
         - chance: very_rare
           one_of: [mirage_bazubands_-1, commodore_gants_-1, pantin_dastanas_-1]
+
+  Nightmare_Mandragora_HI:
+    attributes:
+      mods:
+        defp: 5
 
   Nightmare_Raven:
     type: [notorious]
@@ -770,6 +810,8 @@ templates:
   Nightmare_Scorpion:
     type: [notorious]
     attributes:
+      mods:
+        defp: 8
       spawn:
         respawn: 0
         type:    [scripted]
@@ -788,9 +830,16 @@ templates:
         - chance: very_rare
           one_of: [mirage_bazubands_-1, commodore_gants_-1, pantin_dastanas_-1]
 
+  Nightmare_Scorpion_HI:
+    attributes:
+      mods:
+        defp: 8
+
   Nightmare_Uragnite:
     type: [notorious]
     attributes:
+      mods:
+        defp: 46
       spawn:
         respawn: 0
         type:    [scripted]
@@ -808,6 +857,11 @@ templates:
           one_of: [warriors_mufflers_-1, melee_gloves_-1, clerics_mitts_-1, sorcerers_gloves_-1, duelists_gloves_-1, assassins_armlets_-1, valor_gauntlets_-1, abyss_gauntlets_-1, monster_gloves_-1, bards_cuffs_-1, scouts_bracers_-1, saotome_kote_-1, koga_tekko_-1, wyrm_finger_gauntlets_-1, summoners_bracers_-1]
         - chance: very_rare
           one_of: [mirage_bazubands_-1, commodore_gants_-1, pantin_dastanas_-1]
+
+  Nightmare_Uragnite_HI:
+    attributes:
+      mods:
+        defp: 46
 
   QuPho_Bloodspiller:
     attributes:

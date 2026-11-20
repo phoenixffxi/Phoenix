@@ -386,6 +386,8 @@ templates:
   Nightmare_Diremite:
     type: [notorious]
     attributes:
+      mods:
+        defp: 11
       spawn:
         respawn: 0
         type:    [scripted]
@@ -403,10 +405,17 @@ templates:
           one_of: [warriors_calligae_-1, melee_gaiters_-1, clerics_duckbills_-1, sorcerers_sabots_-1, duelists_boots_-1, assassins_poulaines_-1, valor_leggings_-1, abyss_sollerets_-1, monster_gaiters_-1, bards_slippers_-1, scouts_socks_-1, saotome_sune-ate_-1, koga_kyahan_-1, wyrm_greaves_-1, summoners_pigaches_-1]
         - chance: very_rare
           one_of: [mirage_charuqs_-1, commodore_bottes_-1, pantin_babouches_-1]
+
+  Nightmare_Diremite_HI:
+    attributes:
+      mods:
+        defp: 11
 
   Nightmare_Gaylas:
     type: [notorious]
     attributes:
+      mods:
+        defp: 18
       spawn:
         respawn: 0
         type:    [scripted]
@@ -424,10 +433,17 @@ templates:
           one_of: [warriors_calligae_-1, melee_gaiters_-1, clerics_duckbills_-1, sorcerers_sabots_-1, duelists_boots_-1, assassins_poulaines_-1, valor_leggings_-1, abyss_sollerets_-1, monster_gaiters_-1, bards_slippers_-1, scouts_socks_-1, saotome_sune-ate_-1, koga_kyahan_-1, wyrm_greaves_-1, summoners_pigaches_-1]
         - chance: very_rare
           one_of: [mirage_charuqs_-1, commodore_bottes_-1, pantin_babouches_-1]
+
+  Nightmare_Gaylas_HI:
+    attributes:
+      mods:
+        defp: 18
 
   Nightmare_Kraken:
     type: [notorious]
     attributes:
+      mods:
+        defp: 28
       spawn:
         respawn: 0
         type:    [scripted]
@@ -446,9 +462,16 @@ templates:
         - chance: very_rare
           one_of: [mirage_charuqs_-1, commodore_bottes_-1, pantin_babouches_-1]
 
+  Nightmare_Kraken_HI:
+    attributes:
+      mods:
+        defp: 28
+
   Nightmare_Raptor:
     type: [notorious]
     attributes:
+      mods:
+        defp: 22
       spawn:
         respawn: 0
         type:    [scripted]
@@ -466,6 +489,11 @@ templates:
           one_of: [warriors_calligae_-1, melee_gaiters_-1, clerics_duckbills_-1, sorcerers_sabots_-1, duelists_boots_-1, assassins_poulaines_-1, valor_leggings_-1, abyss_sollerets_-1, monster_gaiters_-1, bards_slippers_-1, scouts_socks_-1, saotome_sune-ate_-1, koga_kyahan_-1, wyrm_greaves_-1, summoners_pigaches_-1]
         - chance: very_rare
           one_of: [mirage_charuqs_-1, commodore_bottes_-1, pantin_babouches_-1]
+
+  Nightmare_Raptor_HI:
+    attributes:
+      mods:
+        defp: 22
 
   Nightmare_Roc:
     type: [notorious]
@@ -533,6 +561,8 @@ templates:
   Nightmare_Tiger:
     type: [notorious]
     attributes:
+      mods:
+        defp: 8
       spawn:
         respawn: 0
         type:    [scripted]
@@ -550,6 +580,11 @@ templates:
           one_of: [warriors_calligae_-1, melee_gaiters_-1, clerics_duckbills_-1, sorcerers_sabots_-1, duelists_boots_-1, assassins_poulaines_-1, valor_leggings_-1, abyss_sollerets_-1, monster_gaiters_-1, bards_slippers_-1, scouts_socks_-1, saotome_sune-ate_-1, koga_kyahan_-1, wyrm_greaves_-1, summoners_pigaches_-1]
         - chance: very_rare
           one_of: [mirage_charuqs_-1, commodore_bottes_-1, pantin_babouches_-1]
+
+  Nightmare_Tiger_HI:
+    attributes:
+      mods:
+        defp: 8
 
   Nightmare_Weapon:
     type: [notorious]

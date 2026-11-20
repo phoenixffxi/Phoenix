@@ -810,6 +810,8 @@ templates:
   Nightmare_Bugard:
     type: [notorious]
     attributes:
+      mods:
+        defp: 26
       spawn:
         respawn: 0
         type:    [scripted]
@@ -844,6 +846,8 @@ templates:
   Nightmare_Hornet:
     type: [notorious]
     attributes:
+      mods:
+        defp: 7
       spawn:
         respawn: 0
         type:    [scripted]
@@ -861,6 +865,8 @@ templates:
   Nightmare_Leech:
     type: [notorious]
     attributes:
+      mods:
+        defp: 29
       spawn:
         respawn: 0
         type:    [scripted]
@@ -878,6 +884,8 @@ templates:
   Nightmare_Makara:
     type: [notorious]
     attributes:
+      mods:
+        defp: 17
       spawn:
         respawn: 0
         type:    [scripted]
@@ -895,6 +903,8 @@ templates:
   Nightmare_Taurus:
     type: [notorious]
     attributes:
+      mods:
+        defp: 29
       spawn:
         respawn: 0
         type:    [scripted]
@@ -914,6 +924,8 @@ templates:
   Nightmare_Worm:
     type: [notorious]
     attributes:
+      mods:
+        defp: 3
       spawn:
         respawn: 0
         type:    [scripted]
