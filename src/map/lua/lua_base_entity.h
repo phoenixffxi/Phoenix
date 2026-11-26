@@ -33,6 +33,7 @@
 #include "data/enums/quest_log.h"
 #include "data/enums/roam_flag.h"
 #include "data/enums/terrain_type.h"
+#include "data/enums/title.h"
 #include "data/enums/zone_misc.h"
 #include "enums/mission_log.h"
 #include "lua_trade_container.h"
@@ -81,7 +82,7 @@ public:
     void messagePublic(uint16 messageID, const CLuaBaseEntity* PEntity, const sol::object& arg2, const sol::object& arg3);
     void messageSpecial(uint16 messageID, sol::variadic_args va);
     void messageSystem(MsgStd messageID, const sol::object& p0, const sol::object& p1);
-    void messageCombat(const sol::object& speaker, int32 p0, int32 p1, MsgBasic message) const;
+    void messageCombat(const sol::object& speaker, int32 p0, int32 p1, xi::MsgBasic message) const;
     void messageStandard(uint16 messageID);
 
     void customMenu(const sol::object& obj);
@@ -418,11 +419,11 @@ public:
     auto isMonstrosityPassageZone(xi::ZoneId zoneId) -> bool;
 
     // Player Titles and Fame
-    auto getTitle() -> uint16;
-    auto hasTitle(uint16 titleID) -> bool;
-    void addTitle(uint16 titleID);
-    void setTitle(uint16 titleID);
-    void delTitle(uint16 titleID);
+    auto getTitle() -> xi::Title;
+    auto hasTitle(xi::Title titleID) -> bool;
+    void addTitle(xi::Title titleID);
+    void setTitle(xi::Title titleID);
+    void delTitle(xi::Title titleID);
 
     auto getFame(xi::FameArea area) const -> uint16;
     void addFame(xi::FameArea area, uint16 fame);

@@ -23,7 +23,9 @@
 
 #include "aman.h"
 #include "data/enums/mog_house.h"
+#include "data/enums/mount.h"
 #include "data/enums/nation.h"
+#include "data/enums/title.h"
 #include "enums/char_persist.h"
 #include "event_info.h"
 #include "gmcall_container.h"
@@ -103,6 +105,8 @@ struct Fame
     uint16 Adoulin;
 };
 
+inline constexpr std::size_t kTitleListSize = std::to_underlying(xi::data::EnumTraits<xi::Title>::kEntries.back().second) / 8 + 1;
+
 struct profile_t
 {
     xi::Nation nation{}; // Your Nation Allegiance.
@@ -119,7 +123,7 @@ struct profile_t
     // 0x0100: ^ As above
     uint16 mhflag{};
 
-    uint16     title{};
+    xi::Title  title{};
     Fame       fame{};
     uint8      rank[3]{}; // RANK in three kingdoms
     uint16     rankpoints{};
@@ -359,8 +363,8 @@ using BazaarList_t  = std::vector<EntityId>;
 
 struct ItemLocation
 {
-    CONTAINER_ID Container{};
-    uint8        Slot{};
+    xi::Container Container{};
+    uint8         Slot{};
 };
 
 constexpr uint8 EquipSlotCount = 18;
@@ -415,13 +419,13 @@ public:
     void clearEquip(uint8 equipSlot);
     auto equipLocation(uint8 equipSlot) const -> Maybe<ItemLocation>;
 
-    uint8            m_ZonesVisitedList[38]{}; // List of zones visited by the character
-    xi::bitset<1024> m_SpellList{};            // List of learned spells
-    uint8            m_TitleList[143]{};       // List of obtained titles
-    uint8            m_Abilities[64]{};        // List of current abilities
-    uint8            m_LearnedAbilities[49]{}; // Learnable abilities (corsair rolls)
-    xi::bitset<128>  m_LearnedWeaponskills{};  // Learnable Weaponskills
-    uint8            m_TraitList[18]{};        // List of active job traits in the form of a bit mask
+    uint8            m_ZonesVisitedList[38]{};      // List of zones visited by the character
+    xi::bitset<1024> m_SpellList{};                 // List of learned spells
+    uint8            m_TitleList[kTitleListSize]{}; // List of obtained titles
+    uint8            m_Abilities[64]{};             // List of current abilities
+    uint8            m_LearnedAbilities[49]{};      // Learnable abilities (corsair rolls)
+    xi::bitset<128>  m_LearnedWeaponskills{};       // Learnable Weaponskills
+    uint8            m_TraitList[18]{};             // List of active job traits in the form of a bit mask
     uint8            m_PetCommands[64]{};
     uint8            m_WeaponSkills[32]{};
     questlog_t       m_questLog[MAX_QUESTAREA]{};     // Quest List
@@ -439,7 +443,7 @@ public:
     std::array<uint8, 20> m_SetBlueSpells{}; // The 0x200 offsetted blue magic spell IDs which the user has set. (1 byte per spell)
 
     ChocoboUserData_t m_chocoboUserData{};
-    uint8             m_mountId{}; // Do not reset to 0. Only update when the mount changes.
+    xi::Mount         m_mountId{}; // Do not reset to 0. Only update when the mount changes.
     uint32            m_claimedDeeds[5]{};
     uint32            m_uniqueEvents[5]{};
 
@@ -561,7 +565,7 @@ public:
     bool                    retriggerLatents; // used to retrigger all latent effects if some event requires them to be retriggered
 
     EntityId guildShopNpc_{}; // Lua-driven guild shop NPC the PC last opened
-    auto     getStorage(uint8 locationId) const -> CItemContainer*;
+    auto     getStorage(xi::Container locationId) const -> CItemContainer*;
 
     CTradeContainer* TradeContainer; // Container used specifically for trading.
     CTradeContainer* Container;      // Universal container for exchange, synthesis, store, etc.
@@ -625,7 +629,7 @@ public:
     }
 
     // free slots of the location that open transactions keep counted as used
-    auto heldSlots(uint8 location) const -> uint8;
+    auto heldSlots(xi::Container location) const -> uint8;
 
     void clearTransactions()
     {
@@ -767,7 +771,7 @@ public:
     void addTrait(CTrait*) override;
     void delTrait(CTrait*) override;
 
-    auto ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags) -> bool override;
+    auto ValidTarget(CBattleEntity* PInitiator, xi::TargetType targetFlags) -> bool override;
     auto CanUseSpell(CSpell*) -> bool override;
     auto IsMobOwner(CBattleEntity* PTarget) -> bool;
 
@@ -808,15 +812,15 @@ public:
 
     /* State callbacks */
     auto CanAttack(CBattleEntity* PTarget, std::unique_ptr<CBasicPacket>& errMsg) -> bool override;
-    auto OnAttack(CAttackState&, action_t&) -> bool override;
+    auto OnAttack(CBattleEntity* PTarget, action_t& action) -> bool override;
     auto OnAttackError(CAttackState&) -> bool override;
-    auto IsValidTarget(uint16 targid, uint16 validTargetFlags, std::unique_ptr<CBasicPacket>& errMsg) -> CBattleEntity* override;
-    auto IsValidTarget(EntityId target, uint16 validTargetFlags, std::unique_ptr<CBasicPacket>& errMsg) -> CBattleEntity* override;
+    auto IsValidTarget(uint16 targid, xi::TargetType validTargetFlags, std::unique_ptr<CBasicPacket>& errMsg) -> CBattleEntity* override;
+    auto IsValidTarget(EntityId target, xi::TargetType validTargetFlags, std::unique_ptr<CBasicPacket>& errMsg) -> CBattleEntity* override;
     void OnChangeTarget(CBattleEntity* PNewTarget) override;
     void OnEngage(CAttackState&) override;
     void OnDisengage(CAttackState&) override;
     void OnCastFinished(CMagicState&, action_t&) override;
-    void OnCastInterrupted(CMagicState&, action_t&, MsgBasic msg, bool blockedCast) override;
+    void OnCastInterrupted(CMagicState&, action_t&, xi::MsgBasic msg, bool blockedCast) override;
     void OnWeaponSkillFinished(CWeaponSkillState&, action_t&) override;
     void OnAbility(CAbilityState&, action_t&) override;
     void OnDeathTimer() override;
@@ -849,7 +853,7 @@ protected:
     void changeMoghancement(uint16 moghancementID, bool isAdding);
 
 private:
-    auto applyTargetRestrictions(CBaseEntity* PResolved, uint16 validTargetFlags, std::unique_ptr<CBasicPacket>& errMsg) -> CBattleEntity*;
+    auto applyTargetRestrictions(CBaseEntity* PResolved, xi::TargetType validTargetFlags, std::unique_ptr<CBasicPacket>& errMsg) -> CBattleEntity*;
 
     Maybe<DeathParams> nextDeath_;
 

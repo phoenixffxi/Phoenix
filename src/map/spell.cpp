@@ -31,10 +31,10 @@
 #include "monstrosity.h"
 #include "spell.h"
 
+#include "data/enums/msg_basic.h"
 #include "entities/char_entity.h"
 #include "entities/pet_entity.h"
 #include "enums/four_cc.h"
-#include "enums/msg_basic.h"
 #include "status_effect_container.h"
 #include "utils/blueutils.h"
 
@@ -141,7 +141,7 @@ void CSpell::setSkillType(xi::SkillType SkillType)
 
 auto CSpell::isBuff() const -> bool
 {
-    return (getValidTarget() & TARGET_SELF) && !(getValidTarget() & TARGET_ENEMY);
+    return (getValidTarget() & xi::TargetType::Self) != xi::TargetType::None && (getValidTarget() & xi::TargetType::Enemy) == xi::TargetType::None;
 }
 
 auto CSpell::statusEffect() const -> Maybe<xi::StatusEffect>
@@ -166,7 +166,7 @@ void CSpell::setStatusEffectTier(const uint8 tier)
 
 auto CSpell::tookEffect() const -> bool
 {
-    return !(m_message == MsgBasic::MagicNoEffect || m_message == MsgBasic::MagicResistedTarget || m_message == MsgBasic::TargetNoEffect || m_message == MsgBasic::MagicResisted || m_message == MsgBasic::MagicCompleteResist || m_message == MsgBasic::MagicFail);
+    return !(m_message == xi::MsgBasic::MagicNoEffect || m_message == xi::MsgBasic::MagicResistedTarget || m_message == xi::MsgBasic::NoEffect || m_message == xi::MsgBasic::MagicResist || m_message == xi::MsgBasic::MagicCompleteResist || m_message == xi::MsgBasic::MagicFail);
 }
 
 auto CSpell::hasMPCost() -> bool
@@ -176,7 +176,7 @@ auto CSpell::hasMPCost() -> bool
 
 auto CSpell::isHeal() -> bool
 {
-    return ((getValidTarget() & TARGET_SELF) && getSkillType() == xi::SkillType::HealingMagic) || m_ID == SpellID::Pollen || m_ID == SpellID::Wild_Carrot ||
+    return ((getValidTarget() & xi::TargetType::Self) != xi::TargetType::None && getSkillType() == xi::SkillType::HealingMagic) || m_ID == SpellID::Pollen || m_ID == SpellID::Wild_Carrot ||
            m_ID == SpellID::Healing_Breeze || m_ID == SpellID::Magic_Fruit;
 }
 
@@ -188,7 +188,7 @@ auto CSpell::isCure() -> bool
 
 auto CSpell::isDebuff() -> bool
 {
-    return ((getValidTarget() & TARGET_ENEMY) && getSkillType() == xi::SkillType::EnfeeblingMagic) || m_spellFamily == SPELLFAMILY_ELE_DOT ||
+    return ((getValidTarget() & xi::TargetType::Enemy) != xi::TargetType::None && getSkillType() == xi::SkillType::EnfeeblingMagic) || m_spellFamily == SPELLFAMILY_ELE_DOT ||
            m_spellFamily == SPELLFAMILY_BIO || m_ID == SpellID::Stun || m_ID == SpellID::Curse;
 }
 
@@ -215,7 +215,7 @@ auto CSpell::canHitShadow() -> bool
 auto CSpell::dealsDamage() const -> bool
 {
     // damage or drain hp
-    return m_message == MsgBasic::MagicDamage || m_message == MsgBasic::MagicDrainsHP || m_message == MsgBasic::MagicBurstDamage || m_message == MsgBasic::MagicBurstDrainsHP;
+    return m_message == xi::MsgBasic::MagicDmg || m_message == xi::MsgBasic::MagicDrainsHp || m_message == xi::MsgBasic::MagicBurstDamage || m_message == xi::MsgBasic::MagicBurstDrainsHp;
 }
 
 auto CSpell::getRadius() const -> float
@@ -265,7 +265,7 @@ void CSpell::setMPCost(uint16 MP)
 
 auto CSpell::canTargetEnemy() const -> bool
 {
-    return (getValidTarget() & TARGET_ENEMY) && !(getValidTarget() & TARGET_SELF);
+    return (getValidTarget() & xi::TargetType::Enemy) != xi::TargetType::None && (getValidTarget() & xi::TargetType::Self) == xi::TargetType::None;
 }
 
 auto CSpell::getAOE() const -> uint8
@@ -288,12 +288,12 @@ void CSpell::setBase(uint16 base)
     m_base = base;
 }
 
-auto CSpell::getValidTarget() const -> uint16
+auto CSpell::getValidTarget() const -> xi::TargetType
 {
     return m_ValidTarget;
 }
 
-void CSpell::setValidTarget(uint16 ValidTarget)
+void CSpell::setValidTarget(xi::TargetType ValidTarget)
 {
     m_ValidTarget = ValidTarget;
 }
@@ -308,22 +308,22 @@ void CSpell::setMultiplier(float multiplier)
     m_multiplier = multiplier;
 }
 
-auto CSpell::getMessage() const -> MsgBasic
+auto CSpell::getMessage() const -> xi::MsgBasic
 {
     return m_message;
 }
 
-void CSpell::setMessage(const MsgBasic message)
+void CSpell::setMessage(const xi::MsgBasic message)
 {
     m_message = message;
 }
 
-auto CSpell::getMagicBurstMessage() const -> MsgBasic
+auto CSpell::getMagicBurstMessage() const -> xi::MsgBasic
 {
     return m_MagicBurstMessage;
 }
 
-void CSpell::setMagicBurstMessage(const MsgBasic message)
+void CSpell::setMagicBurstMessage(const xi::MsgBasic message)
 {
     m_MagicBurstMessage = message;
 }
@@ -514,7 +514,7 @@ void LoadSpellList()
 
         PSpell->setSpellGroup(rset->get<SPELLGROUP>("group"));
         PSpell->setSpellFamily(rset->get<SPELLFAMILY>("family"));
-        PSpell->setValidTarget(rset->get<uint16>("validTargets"));
+        PSpell->setValidTarget(rset->get<xi::TargetType>("validTargets"));
         PSpell->setSkillType(rset->get<xi::SkillType>("skill"));
         PSpell->setCastTime(std::chrono::milliseconds(rset->get<uint32>("castTime")));
         PSpell->setRecastTime(std::chrono::milliseconds(rset->get<uint32>("recastTime")));
@@ -526,8 +526,8 @@ void LoadSpellList()
         PSpell->setElement(rset->get<uint16>("element"));
         PSpell->setZoneMisc(rset->get<xi::ZoneMisc>("zonemisc"));
         PSpell->setMultiplier(rset->get<float>("multiplier"));
-        PSpell->setMessage(rset->get<MsgBasic>("message"));
-        PSpell->setMagicBurstMessage(rset->get<MsgBasic>("magicBurstMessage"));
+        PSpell->setMessage(rset->get<xi::MsgBasic>("message"));
+        PSpell->setMagicBurstMessage(rset->get<xi::MsgBasic>("magicBurstMessage"));
         PSpell->setCE(rset->get<int32>("CE"));
         PSpell->setVE(rset->get<int32>("VE"));
         PSpell->setRequirements(rset->get<uint8>("requirements"));

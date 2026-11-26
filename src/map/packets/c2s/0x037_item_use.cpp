@@ -22,8 +22,8 @@
 #include "0x037_item_use.h"
 
 #include "ai/ai_container.h"
+#include "data/enums/msg_basic.h"
 #include "entities/char_entity.h"
-#include "enums/msg_basic.h"
 #include "packets/c2s/validation.h"
 #include "packets/s2c/0x029_battle_message.h"
 #include "universal_container.h"
@@ -32,16 +32,16 @@ namespace
 {
 
 const std::set validContainers = {
-    LOC_INVENTORY,
-    LOC_TEMPITEMS,
-    LOC_WARDROBE,
-    LOC_WARDROBE2,
-    LOC_WARDROBE3,
-    LOC_WARDROBE4,
-    LOC_WARDROBE5,
-    LOC_WARDROBE6,
-    LOC_WARDROBE7,
-    LOC_WARDROBE8
+    xi::Container::Inventory,
+    xi::Container::TempItems,
+    xi::Container::Wardrobe,
+    xi::Container::Wardrobe2,
+    xi::Container::Wardrobe3,
+    xi::Container::Wardrobe4,
+    xi::Container::Wardrobe5,
+    xi::Container::Wardrobe6,
+    xi::Container::Wardrobe7,
+    xi::Container::Wardrobe8
 };
 
 }
@@ -52,7 +52,7 @@ auto GP_CLI_COMMAND_ITEM_USE::validate(MapSession* PSession, const CCharEntity* 
         .blockedBy({ BlockedState::InEvent, BlockedState::Monstrosity })
         .mustEqual(PChar->inMogHouse(), false, "Player is in moghouse")
         .mustEqual(this->ItemNum, 0, "ItemNum not 0")
-        .oneOf("Category", static_cast<CONTAINER_ID>(this->Category), validContainers);
+        .oneOf("Category", static_cast<xi::Container>(this->Category), validContainers);
 }
 
 void GP_CLI_COMMAND_ITEM_USE::process(MapSession* PSession, CCharEntity* PChar) const
@@ -67,11 +67,11 @@ void GP_CLI_COMMAND_ITEM_USE::process(MapSession* PSession, CCharEntity* PChar) 
     // TODO: Test more items
     if (distance(PChar->loc.p, PEntity->loc.p) > 12.0f)
     {
-        PChar->pushPacket<GP_SERV_COMMAND_BATTLE_MESSAGE>(PChar, PEntity, 0, 0, MsgBasic::TooFarAway);
+        PChar->pushPacket<GP_SERV_COMMAND_BATTLE_MESSAGE>(PChar, PEntity, 0, 0, xi::MsgBasic::TooFarAway);
         return;
     }
 
-    const auto* PItem = PChar->getStorage(this->Category)->GetItem(this->PropertyItemIndex);
+    const auto* PItem = PChar->getStorage(static_cast<xi::Container>(this->Category))->GetItem(this->PropertyItemIndex);
     if (!PItem)
     {
         return;
@@ -108,6 +108,6 @@ void GP_CLI_COMMAND_ITEM_USE::process(MapSession* PSession, CCharEntity* PChar) 
     }
     else
     {
-        PChar->pushPacket<GP_SERV_COMMAND_BATTLE_MESSAGE>(PChar, PChar, 0, 0, MsgBasic::UnableToUseItem);
+        PChar->pushPacket<GP_SERV_COMMAND_BATTLE_MESSAGE>(PChar, PChar, 0, 0, xi::MsgBasic::ItemUnableToUse2);
     }
 }

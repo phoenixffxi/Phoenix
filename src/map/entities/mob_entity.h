@@ -35,8 +35,14 @@
 #include "data/enums/mob_type.h"
 #include "data/enums/roam_flag.h"
 #include "data/enums/spawn_type.h"
+#include "data/enums/title.h"
+
+namespace xi
+{
 
 enum class MsgBasic : uint16_t;
+
+} // namespace xi
 
 // forward declaration
 class CMobSpellContainer;
@@ -127,7 +133,7 @@ public:
 
     void PostTick() override;
     auto GetRoamDistance() const -> float;
-    auto ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags) -> bool override;
+    auto ValidTarget(CBattleEntity* PInitiator, xi::TargetType targetFlags) -> bool override;
 
     void HandleErrorMessage(std::unique_ptr<CBasicPacket>&) override
     {
@@ -143,10 +149,10 @@ public:
     void OnEngage(CAttackState&) override;
 
     auto GetRangedAttackRange() -> float override;
-    auto OnAttack(CAttackState&, action_t&) -> bool override;
+    auto OnAttack(CBattleEntity* PTarget, action_t& action) -> bool override;
     auto CanAttack(CBattleEntity* PTarget, std::unique_ptr<CBasicPacket>& errMsg) -> bool override;
     void OnCastFinished(CMagicState&, action_t&) override;
-    void OnCastInterrupted(CMagicState&, action_t&, MsgBasic msg, bool blockedCast) override;
+    void OnCastInterrupted(CMagicState&, action_t&, xi::MsgBasic msg, bool blockedCast) override;
 
     void OnDisengage(CAttackState&) override;
     void OnDeathTimer() override;
@@ -161,6 +167,9 @@ public:
     bool            m_CanSpawn;     // If true, it can currently spawn (usually based on time of day or weather)
     timer::duration m_RespawnTime;  // respawn time
     timer::duration m_DropItemTime; // time until monster death animation
+
+    timer::duration   m_FishingRespawnDuration{}; // Armed when a timed NM is landed
+    timer::time_point m_FishingRespawnAt{ timer::time_point::min() };
 
     uint32            m_DropID;     // global drop list from SQL. To be deprecated
     const DropList_t* m_DropList{}; // shared by every spawn of one template, null when the template has no loot
@@ -209,6 +218,8 @@ public:
 
     position_t m_SpawnPoint; // spawn point of mob
 
+    xi::Title m_Title{}; // granted to the killer's alliance on death
+
     uint8  m_Element;
     uint8  m_HiPCLvl;        // Highest Level of Player Character that hit the Monster
     uint8  m_HiPartySize;    // Largest party size that hit the Monster
@@ -244,6 +255,8 @@ protected:
     void DropItems(CCharEntity* PChar);
 
 private:
+    void StartFishingRespawnCooldown();
+
     timer::time_point                     m_DespawnTimer{ timer::time_point::min() }; // Despawn Timer to despawn mob after set duration
     FlatHashMap<xi::MobMod, int16>        m_mobModStat;
     FlatHashMap<xi::MobMod, int16>        m_mobModStatSave;

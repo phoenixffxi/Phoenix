@@ -21,8 +21,8 @@
 
 #include "0x096_combine_ask.h"
 
+#include "data/enums/msg_basic.h"
 #include "entities/char_entity.h"
-#include "enums/msg_basic.h"
 #include "enums/msg_std.h"
 #include "items.h"
 #include "items/transactions/synth.h"
@@ -81,7 +81,7 @@ void GP_CLI_COMMAND_COMBINE_ASK::process(MapSession* PSession, CCharEntity* PCha
     if (jailutils::InPrison(PChar))
     {
         // Prevent crafting in prison
-        PChar->pushPacket<GP_SERV_COMMAND_BATTLE_MESSAGE>(PChar, PChar, 0, 0, MsgBasic::CannotUseInArea);
+        PChar->pushPacket<GP_SERV_COMMAND_BATTLE_MESSAGE>(PChar, PChar, 0, 0, xi::MsgBasic::CantBeUsedInArea);
         return;
     }
 
@@ -91,7 +91,7 @@ void GP_CLI_COMMAND_COMBINE_ASK::process(MapSession* PSession, CCharEntity* PCha
     // See SYNTH_SPEED_XXX mods
     if (PChar->m_LastSynthTime + 15s > timer::now())
     {
-        PChar->pushPacket<GP_SERV_COMMAND_BATTLE_MESSAGE>(PChar, PChar, 0, 0, MsgBasic::WaitLonger);
+        PChar->pushPacket<GP_SERV_COMMAND_BATTLE_MESSAGE>(PChar, PChar, 0, 0, xi::MsgBasic::WaitLonger);
         return;
     }
 
@@ -102,21 +102,21 @@ void GP_CLI_COMMAND_COMBINE_ASK::process(MapSession* PSession, CCharEntity* PCha
         return;
     }
 
-    const auto* PItem = PChar->getStorage(LOC_INVENTORY)->GetItem(this->CrystalIdx);
+    const auto* PItem = PChar->getStorage(xi::Container::Inventory)->GetItem(this->CrystalIdx);
     if (!PItem ||
         this->Crystal != PItem->getID() ||
         PItem->getQuantity() == 0)
     {
         // Detect invalid crystal usage
         // Prevent crafting exploit to crash on container size > 8
-        PChar->pushPacket<GP_SERV_COMMAND_BATTLE_MESSAGE>(PChar, PChar, 0, 0, MsgBasic::CannotUseInArea);
+        PChar->pushPacket<GP_SERV_COMMAND_BATTLE_MESSAGE>(PChar, PChar, 0, 0, xi::MsgBasic::CantBeUsedInArea);
         return;
     }
 
     if (PItem->isBusy())
     {
         ShowWarningFmt("GP_CLI_COMMAND_COMBINE_ASK: {} trying to use unavailable crystal", PChar->getName());
-        PChar->pushPacket<GP_SERV_COMMAND_BATTLE_MESSAGE>(PChar, PChar, 0, 0, MsgBasic::CannotUseInArea);
+        PChar->pushPacket<GP_SERV_COMMAND_BATTLE_MESSAGE>(PChar, PChar, 0, 0, xi::MsgBasic::CantBeUsedInArea);
         return;
     }
 
@@ -132,7 +132,7 @@ void GP_CLI_COMMAND_COMBINE_ASK::process(MapSession* PSession, CCharEntity* PCha
 
         slotQty[invSlotId]++;
 
-        const auto* PSlotItem = PChar->getStorage(LOC_INVENTORY)->GetItem(invSlotId);
+        const auto* PSlotItem = PChar->getStorage(xi::Container::Inventory)->GetItem(invSlotId);
 
         if (!PSlotItem || PSlotItem->getID() != itemId)
         {

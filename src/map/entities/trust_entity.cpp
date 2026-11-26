@@ -30,9 +30,9 @@
 #include "ai/states/magic_state.h"
 #include "ai/states/weaponskill_state.h"
 #include "data/enums/mob_mod.h"
+#include "data/enums/msg_basic.h"
 #include "enmity_container.h"
 #include "entities/char_entity.h"
-#include "enums/msg_basic.h"
 #include "lua/luautils.h"
 #include "packets/entity_set_name.h"
 #include "packets/s2c/0x0df_group_attr.h"
@@ -165,7 +165,7 @@ void CTrustEntity::Spawn()
     static_cast<CCharEntity*>(PMaster)->pushPacket<CEntitySetNamePacket>(this);
 }
 
-auto CTrustEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags) -> bool
+auto CTrustEntity::ValidTarget(CBattleEntity* PInitiator, xi::TargetType targetFlags) -> bool
 {
     // Passive GEO trusts like Sakura etc are basically walking indicolures and cant be targeted
     if (passiveTrust_)
@@ -178,7 +178,7 @@ auto CTrustEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags) ->
         return true;
     }
 
-    if ((targetFlags & TARGET_PLAYER_PARTY_PIANISSIMO) && PInitiator->allegiance == allegiance && PMaster && PInitiator != this)
+    if ((targetFlags & xi::TargetType::PlayerPartyPianissimo) != xi::TargetType::None && PInitiator->allegiance == allegiance && PMaster && PInitiator != this)
     {
         if (PInitiator->StatusEffectContainer->HasStatusEffect(xi::StatusEffect::Pianissimo))
         {
@@ -186,17 +186,17 @@ auto CTrustEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags) ->
         }
     }
 
-    if ((targetFlags & TARGET_PLAYER_PARTY_ENTRUST) && PInitiator->allegiance == allegiance && PMaster && PInitiator != this)
+    if ((targetFlags & xi::TargetType::PlayerPartyEntrust) != xi::TargetType::None && PInitiator->allegiance == allegiance && PMaster && PInitiator != this)
     {
         return true;
     }
 
-    if (targetFlags & TARGET_PLAYER_PARTY && PInitiator->objtype == TYPE_PET && PInitiator->allegiance == allegiance)
+    if ((targetFlags & xi::TargetType::PlayerParty) != xi::TargetType::None && PInitiator->objtype == TYPE_PET && PInitiator->allegiance == allegiance)
     {
         return true;
     }
 
-    if (targetFlags & TARGET_PLAYER_PARTY && PInitiator->allegiance == allegiance && PMaster)
+    if ((targetFlags & xi::TargetType::PlayerParty) != xi::TargetType::None && PInitiator->allegiance == allegiance && PMaster)
     {
         return PInitiator->PParty == PMaster->PParty;
     }
@@ -254,11 +254,11 @@ void CTrustEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& act
         PAI->TargetFind->reset();
         if (PWeaponSkill->isAoE())
         {
-            PAI->TargetFind->findWithinArea(PBattleTarget, AOE_RADIUS::TARGET, PWeaponSkill->getRadius(), FINDFLAGS_NONE, TARGET_NONE);
+            PAI->TargetFind->findWithinArea(PBattleTarget, AOE_RADIUS::TARGET, PWeaponSkill->getRadius(), FINDFLAGS_NONE, xi::TargetType::None);
         }
         else
         {
-            PAI->TargetFind->findSingleTarget(PBattleTarget, FINDFLAGS_NONE, TARGET_NONE);
+            PAI->TargetFind->findSingleTarget(PBattleTarget, FINDFLAGS_NONE, xi::TargetType::None);
         }
 
         if (PAI->TargetFind->m_targets.empty())
@@ -292,7 +292,7 @@ void CTrustEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& act
             }
             else // Self-targetting WS restoring MP
             {
-                actionResult.messageID  = primary ? MsgBasic::UsesSkillRecoversMP : MsgBasic::TargetRecoversMP;
+                actionResult.messageID  = primary ? xi::MsgBasic::SkillRecoversMp : xi::MsgBasic::TargetRecoversMp;
                 actionResult.resolution = ActionResolution::Hit;
                 damage                  = std::max(damage, 0);
                 actionResult.param      = addMP(damage);

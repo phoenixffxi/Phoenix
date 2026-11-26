@@ -27,6 +27,7 @@
 #include "enums/action/animation.h"
 #include "enums/action/knockback.h"
 
+#include "data/enums/target_type.h"
 #include <vector>
 
 class CBattleEntity;
@@ -75,8 +76,8 @@ public:
     auto getFlag() const -> uint16;
     auto getAnimationTime() const -> timer::duration;
     auto getActivationTime() const -> timer::duration;
-    auto getMsg() const -> MsgBasic;
-    auto getValidTargets() const -> uint16;
+    auto getMsg() const -> xi::MsgBasic;
+    auto getValidTargets() const -> xi::TargetType;
     auto getTP() const -> int16;
     auto getHP() const -> int32;
     auto getHPP() const -> uint8;
@@ -104,8 +105,8 @@ public:
     void setFlag(uint16 flag);
     void setAnimationTime(timer::duration AnimationTime);
     void setActivationTime(timer::duration ActivationTime);
-    void setMsg(MsgBasic msg);
-    void setValidTargets(uint16 targ);
+    void setMsg(xi::MsgBasic msg);
+    void setValidTargets(xi::TargetType targ);
     void setTP(int16 tp);
     auto setHP(int32 hp) -> void;
     void setHPP(uint8 hpp);
@@ -134,10 +135,10 @@ private:
     float           m_AoeRadius; // Radius of any aoe skill
     float           m_Distance;  // Distance at which the skill will be triggered
     uint16          m_Flag;
-    uint16          m_ValidTarget;
+    xi::TargetType  m_ValidTarget;
     timer::duration m_AnimationTime;  // how long the tp animation lasts for in ms
     timer::duration m_ActivationTime; // how long the mob prepares the tp move for
-    MsgBasic        m_Message;        // message param, scripters can edit this depending on self/resist/etc.
+    xi::MsgBasic    m_Message;        // message param, scripters can edit this depending on self/resist/etc.
     int16           m_TP;             // the tp at the time of finish readying (for scripts)
     int32           m_HP;             // HP at the time of using mob skill (for scripts)
     uint8           m_HPP;            // HPP at the time of using mob skill (for scripts)

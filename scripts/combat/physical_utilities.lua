@@ -134,7 +134,8 @@ xi.combat.physical.calculateAttackDamage = function(actor, target, slot, physica
     if isH2H then
         local naturalH2hDamage = math.floor(actor:getSkillLevel(xi.skill.HAND_TO_HAND) * 0.11) + 3
 
-        if actor:isMob() then
+        -- TODO: Check if Trusts get penalized on their H2H calculations
+        if not actor:isPC() then
             local mobH2HPenalty = 1
             local regionID      = actor:getCurrentRegion()
             local fSTR          = xi.combat.physical.calculateMeleeStatFactor(actor, target)
@@ -213,9 +214,7 @@ xi.combat.physical.calculateAttackDamage = function(actor, target, slot, physica
 
     --- Low level mobs can get negative fSTR so low they crater their (base weapon damage + fstr) to below 0.
     --- Absorption isn't possible at this point in the calculation, so zero it.
-    if damage < 0 then
-        damage = 0
-    end
+    damage = math.max(damage, 0)
 
     -- Apply Restraint Weaponskill Damage
     if
@@ -472,15 +471,16 @@ xi.combat.physical.calculateWSC = function(actor, wsSTRmod, wsDEXmod, wsVITmod, 
     local chrMultiplier = wsCHRmod or 0
 
     -- wscSTAT = actor stat * (WS stat modifier + Actor-specific WS stat modifier)
-    local wscSTR = math.floor(actor:getStat(xi.mod.STR) * (strMultiplier + actor:getMod(xi.mod.WS_STR_BONUS) / 100))
-    local wscDEX = math.floor(actor:getStat(xi.mod.DEX) * (dexMultiplier + actor:getMod(xi.mod.WS_DEX_BONUS) / 100))
-    local wscVIT = math.floor(actor:getStat(xi.mod.VIT) * (vitMultiplier + actor:getMod(xi.mod.WS_VIT_BONUS) / 100))
-    local wscAGI = math.floor(actor:getStat(xi.mod.AGI) * (agiMultiplier + actor:getMod(xi.mod.WS_AGI_BONUS) / 100))
-    local wscINT = math.floor(actor:getStat(xi.mod.INT) * (intMultiplier + actor:getMod(xi.mod.WS_INT_BONUS) / 100))
-    local wscMND = math.floor(actor:getStat(xi.mod.MND) * (mndMultiplier + actor:getMod(xi.mod.WS_MND_BONUS) / 100))
-    local wscCHR = math.floor(actor:getStat(xi.mod.CHR) * (chrMultiplier + actor:getMod(xi.mod.WS_CHR_BONUS) / 100))
+    local wscSTR = actor:getStat(xi.mod.STR) * (strMultiplier + actor:getMod(xi.mod.WS_STR_BONUS) / 100)
+    local wscDEX = actor:getStat(xi.mod.DEX) * (dexMultiplier + actor:getMod(xi.mod.WS_DEX_BONUS) / 100)
+    local wscVIT = actor:getStat(xi.mod.VIT) * (vitMultiplier + actor:getMod(xi.mod.WS_VIT_BONUS) / 100)
+    local wscAGI = actor:getStat(xi.mod.AGI) * (agiMultiplier + actor:getMod(xi.mod.WS_AGI_BONUS) / 100)
+    local wscINT = actor:getStat(xi.mod.INT) * (intMultiplier + actor:getMod(xi.mod.WS_INT_BONUS) / 100)
+    local wscMND = actor:getStat(xi.mod.MND) * (mndMultiplier + actor:getMod(xi.mod.WS_MND_BONUS) / 100)
+    local wscCHR = actor:getStat(xi.mod.CHR) * (chrMultiplier + actor:getMod(xi.mod.WS_CHR_BONUS) / 100)
 
-    finalWSC = wscSTR + wscDEX + wscVIT + wscAGI + wscINT + wscMND + wscCHR
+    -- Titan's ranged BP testing shows wsc is added together then floored, not floored individually
+    finalWSC = math.floor(wscSTR + wscDEX + wscVIT + wscAGI + wscINT + wscMND + wscCHR)
 
     if finalWSC > 0 then
         finalWSC = finalWSC * xi.combat.physical.calculateAlpha(actor)

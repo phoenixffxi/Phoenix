@@ -49,7 +49,7 @@ local pChartLoot =
     },
 
     {
-        { itemId = xi.item.ALBATROSS_RING, weight = 1000 }, -- 100%
+        { itemId = xi.item.ALBATROSS_RING_2, weight = 1000 }, -- 100%
     },
 }
 
@@ -321,7 +321,7 @@ xi.piratesChart.onEventUpdate = function(player, csid, option, npc)
         member:changeMusic(xi.musicSlot.COMBAT_PARTY, 136)
         member:delStatusEffectsByFlag(xi.effectFlag.DISPELABLE)
         member:delStatusEffect(xi.effect.RERAISE)
-        member:delContainerItems(xi.inv.TEMPITEMS)
+        member:delContainerItems(xi.inv.TEMP_ITEMS)
         member:addStatusEffect(xi.effect.LEVEL_RESTRICTION, { power = 20, origin = player })
     end
 end

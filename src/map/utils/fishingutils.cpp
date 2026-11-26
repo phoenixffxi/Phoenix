@@ -23,6 +23,7 @@
 
 #include "common/database.h"
 #include "common/logging.h"
+#include "common/timer.h"
 #include "common/utils.h"
 #include "common/vana_time.h"
 
@@ -52,10 +53,10 @@
 #include "data/enums/detects.h"
 #include "data/enums/key_item.h"
 #include "data/enums/mob_mod.h"
+#include "data/enums/msg_basic.h"
 #include "data/enums/weather.h"
 #include "enums/chat_message_type.h"
 #include "enums/four_cc.h"
-#include "enums/msg_basic.h"
 #include "enums/msg_std.h"
 #include "item_container.h"
 #include "items.h"
@@ -135,6 +136,31 @@ auto findFishMob(const xi::ZoneId zoneId, const uint32 mobId) -> fishmob_t*
         return nullptr;
     }
     return mobIt->second;
+}
+
+auto rollMobRespawnDuration(const fishmob_t& mob) -> std::chrono::seconds
+{
+    if (mob.maxRespawn > mob.minRespawn)
+    {
+        return std::chrono::seconds{ xirand::GetRandomNumber<uint32>(mob.minRespawn, mob.maxRespawn) };
+    }
+
+    return std::chrono::seconds{ mob.maxRespawn };
+}
+
+auto isFishMobAvailable(const CMobEntity* PMob, const timer::time_point now) -> bool
+{
+    return PMob != nullptr && PMob->status == xi::Status::Disappear && now >= PMob->m_FishingRespawnAt;
+}
+
+auto canHookFishMob(CMobEntity* PMob, const timer::time_point now) -> bool
+{
+    return isFishMobAvailable(PMob, now) && PMob->GetLocalVar("hooked") == 0;
+}
+
+auto hasFishMobHook(CMobEntity* PMob, const CCharEntity* PChar) -> bool
+{
+    return PMob != nullptr && PMob->GetLocalVar("hookedBy") == PChar->id;
 }
 
 // Fishing meters reset at JST midnight
@@ -1519,7 +1545,7 @@ auto BaitLoss(CCharEntity* PChar, RemoveFly removeFly, SendUpdate sendUpdate) ->
                 {
                     charutils::UnequipItem(PChar, SLOT_AMMO);
                 }
-                const uint8 baitLocation = PBait->getLocationID();
+                const auto  baitLocation = static_cast<xi::Container>(PBait->getLocationID());
                 const uint8 baitSlot     = PBait->getSlotID();
 
                 if (auto transaction = ItemClaimTransaction::start(PChar); !transaction || !transaction->take(baitLocation, baitSlot, 1) || !transaction->commit())
@@ -1557,7 +1583,7 @@ void RodBreak(CCharEntity* PChar)
     {
         BaitLoss(PChar, RemoveFly::Yes, SendUpdate::No);
         charutils::UnequipItem(PChar, SLOT_RANGED);
-        uint8 location    = PRanged->getLocationID();
+        auto  location    = static_cast<xi::Container>(PRanged->getLocationID());
         uint8 rodSlot     = PRanged->getSlotID();
         auto  transaction = ItemClaimTransaction::start(PChar);
         if (!transaction ||
@@ -1569,31 +1595,6 @@ void RodBreak(CCharEntity* PChar)
         }
         PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>(PChar);
     }
-}
-
-auto CanFishMob(CMobEntity* PMob) -> bool
-{
-    if (PMob == nullptr)
-    {
-        return false;
-    }
-
-    if (PMob->isAlive())
-    {
-        return false;
-    }
-
-    if (PMob->status != xi::Status::Disappear)
-    {
-        return false;
-    }
-
-    if (PMob->GetLocalVar("hooked") != 1)
-    {
-        return false;
-    }
-
-    return true;
 }
 
 auto LoseCatch(CCharEntity* PChar, uint8 FailType) -> int32
@@ -1659,7 +1660,7 @@ auto CatchFish(CCharEntity* PChar, uint16 FishID, BigFish bigFish, uint16 length
     PChar->animation     = xi::Animation::NewFishingCaught;
     PChar->updatemask |= UPDATE_HP;
 
-    if (PChar->getStorage(LOC_INVENTORY)->GetFreeSlotsCount() != 0)
+    if (PChar->getStorage(xi::Container::Inventory)->GetFreeSlotsCount() != 0)
     {
         auto Fish = GetFish(FishID);
 
@@ -1689,7 +1690,7 @@ auto CatchFish(CCharEntity* PChar, uint16 FishID, BigFish bigFish, uint16 length
         Fish->setQuantity(Count);
 
         auto transaction = ItemClaimTransaction::start(PChar);
-        if (!transaction || !transaction->give(LOC_INVENTORY, std::move(Fish)) || !transaction->commit())
+        if (!transaction || !transaction->give(xi::Container::Inventory, std::move(Fish)) || !transaction->commit())
         {
             ShowErrorFmt("fishingutils: {} did not receive the fish they caught", PChar->getName());
             return 0;
@@ -1735,7 +1736,7 @@ auto CatchItem(CCharEntity* PChar, uint16 ItemID, uint8 Count = 1) -> int32
         return 1;
     }
 
-    if (PChar->getStorage(LOC_INVENTORY)->GetFreeSlotsCount() != 0)
+    if (PChar->getStorage(xi::Container::Inventory)->GetFreeSlotsCount() != 0)
     {
         const auto* PItem = xi::items::lookup(ItemID);
         if (PItem == nullptr)
@@ -1754,7 +1755,7 @@ auto CatchItem(CCharEntity* PChar, uint16 ItemID, uint8 Count = 1) -> int32
         }
 
         auto transaction = ItemClaimTransaction::start(PChar);
-        if (!transaction || !transaction->give(LOC_INVENTORY, ItemID, Count) || !transaction->commit())
+        if (!transaction || !transaction->give(xi::Container::Inventory, ItemID, Count) || !transaction->commit())
         {
             ShowErrorFmt("fishingutils: {} did not receive item {} they caught", PChar->getName(), ItemID);
             return 0;
@@ -1794,7 +1795,7 @@ auto CatchMonster(CCharEntity* PChar, uint32 MobID) -> int32
         return 0;
     }
 
-    if (PMob->isAlive())
+    if (!isFishMobAvailable(PMob, timer::now()) || !hasFishMobHook(PMob, PChar))
     {
         PChar->animation = xi::Animation::NewFishingStop;
         PChar->updatemask |= UPDATE_HP;
@@ -1822,13 +1823,9 @@ auto CatchMonster(CCharEntity* PChar, uint32 MobID) -> int32
     PMob->SetLocalVar("hooked", 0);
     PMob->SetLocalVar("hookedBy", 0);
 
-    if (mob->maxRespawn > mob->minRespawn)
+    if (mob->nm && mob->maxRespawn > 0)
     {
-        PMob->SetLocalVar("respawnTime", xirand::GetRandomNumber<uint32>(mob->minRespawn, mob->maxRespawn));
-    }
-    else
-    {
-        PMob->SetLocalVar("respawnTime", mob->maxRespawn);
+        PMob->m_FishingRespawnDuration = rollMobRespawnDuration(*mob);
     }
 
     // PMob->SetLocalVar("QuestBattleID", PChar->GetLocalVar("QuestBattleID"));
@@ -1932,7 +1929,7 @@ auto SendHookResponse(CCharEntity* PChar, fishresponse_t* response, CancelOnMobL
         {
             CMobEntity* PMob = dynamic_cast<CMobEntity*>(zoneutils::GetEntity(response->catchid, TYPE_MOB));
 
-            if (CanFishMob(PMob))
+            if (isFishMobAvailable(PMob, timer::now()) && hasFishMobHook(PMob, PChar))
             {
                 PChar->pushPacket<GP_SERV_COMMAND_TALKNUM>(PChar, MessageOffset + FISHMESSAGEOFFSET_HOOKED_MONSTER);
             }
@@ -2042,7 +2039,7 @@ void FishingSkillup(CCharEntity* PChar, uint8 catchLevel, uint8 successType)
         if (skillAmount > 0)
         {
             PChar->RealSkills.skill[static_cast<uint8>(xi::SkillType::Fishing)] += skillAmount;
-            PChar->pushPacket<GP_SERV_COMMAND_BATTLE_MESSAGE>(PChar, PChar, static_cast<uint8>(xi::SkillType::Fishing), skillAmount, MsgBasic::SkillGain);
+            PChar->pushPacket<GP_SERV_COMMAND_BATTLE_MESSAGE>(PChar, PChar, static_cast<uint8>(xi::SkillType::Fishing), skillAmount, xi::MsgBasic::SkillGain);
 
             if ((charSkill / 10) < (charSkill + skillAmount) / 10)
             {
@@ -2054,7 +2051,7 @@ void FishingSkillup(CCharEntity* PChar, uint8 catchLevel, uint8 successType)
                 }
 
                 PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS2>(PChar);
-                PChar->pushPacket<GP_SERV_COMMAND_BATTLE_MESSAGE>(PChar, PChar, static_cast<uint8>(xi::SkillType::Fishing), (charSkill + skillAmount) / 10, MsgBasic::SkillLevelUp);
+                PChar->pushPacket<GP_SERV_COMMAND_BATTLE_MESSAGE>(PChar, PChar, static_cast<uint8>(xi::SkillType::Fishing), (charSkill + skillAmount) / 10, xi::MsgBasic::SkillLevelUp);
             }
 
             charutils::SaveCharSkills(PChar, static_cast<uint8>(xi::SkillType::Fishing));
@@ -2228,8 +2225,14 @@ void ReelInCatch(CCharEntity* PChar)
                 landed                         = CatchItem(PChar, PChar->hookedFish->catchid, PChar->hookedFish->count);
                 break;
             case FISHINGCATCHTYPE_MOB:
-                PChar->hookedFish->successtype = FISHINGSUCCESSTYPE_CATCHMOB;
-                CatchMonster(PChar, PChar->hookedFish->catchid);
+                if (CatchMonster(PChar, PChar->hookedFish->catchid))
+                {
+                    PChar->hookedFish->successtype = FISHINGSUCCESSTYPE_CATCHMOB;
+                }
+                else
+                {
+                    UnhookMob(PChar, Lost::No);
+                }
                 break;
             case FISHINGCATCHTYPE_CHEST:
                 PChar->hookedFish->successtype = FISHINGSUCCESSTYPE_CATCHCHEST;
@@ -2256,14 +2259,15 @@ auto UnhookMob(CCharEntity* PChar, Lost lost) -> uint8
         CMobEntity* PMob = dynamic_cast<CMobEntity*>(zoneutils::GetEntity(PChar->hookedFish->catchid, TYPE_MOB));
 
         // Only the angler who hooked the mob may clear it, or a stale cleanup could free someone else's hook
-        if (PMob != nullptr && PMob->GetLocalVar("hookedBy") == PChar->id)
+        if (hasFishMobHook(PMob, PChar))
         {
             PMob->SetLocalVar("hooked", 0);
             PMob->SetLocalVar("hookedBy", 0);
 
-            if (lost && PChar->hookedFish->nm && PChar->hookedFish->nmFlags & FISHINGNM_RESET_RESPAWN_ON_FAIL)
+            const auto* mob = lost ? findFishMob(PMob->getZone(), PMob->id) : nullptr;
+            if (mob && mob->nm && mob->maxRespawn > 0 && (mob->nmFlags & FISHINGNM_RESET_RESPAWN_ON_FAIL))
             {
-                PMob->SetLocalVar("lastTOD", earth_time::timestamp());
+                PMob->m_FishingRespawnAt = timer::now() + rollMobRespawnDuration(*mob);
             }
         }
     }
@@ -2300,8 +2304,6 @@ auto FishingCheck(CCharEntity* PChar, uint8 fishingSkill, rod_t* rod, bait_t* ba
     response->rbreak.chance     = 0;
     response->lsnap.failReason  = 0;
     response->lsnap.chance      = 0;
-    response->nm                = 0;
-    response->nmFlags           = 0;
     response->response          = 0;
 
     uint16 FishPoolWeight       = 0;
@@ -2408,6 +2410,7 @@ auto FishingCheck(CCharEntity* PChar, uint8 fishingSkill, rod_t* rod, bait_t* ba
     }
 
     // Build Hookable Mob Pool
+    const auto now = timer::now();
     if (!MobPool.empty())
     {
         for (auto* mob : MobPool)
@@ -2418,7 +2421,7 @@ auto FishingCheck(CCharEntity* PChar, uint8 fishingSkill, rod_t* rod, bait_t* ba
             }
 
             CMobEntity* PMob = dynamic_cast<CMobEntity*>(zoneutils::GetEntity(mob->mobId, TYPE_MOB));
-            if (PMob != nullptr && PMob->GetLocalVar("hooked") == 0 && !PMob->isAlive())
+            if (canHookFishMob(PMob, now))
             {
                 if (mob->nm && (mob->areaId == 0 || mob->areaId == area->areaId) && ((mob->reqBaitId == 0 || mob->reqBaitId == bait->baitID) || (mob->altBaitId > 0 && mob->altBaitId == bait->baitID)))
                 {
@@ -2435,12 +2438,8 @@ auto FishingCheck(CCharEntity* PChar, uint8 fishingSkill, rod_t* rod, bait_t* ba
                     }
                     else if (mob->maxRespawn > 0)
                     {
-                        uint32 respawnTime = PMob->GetLocalVar("lastTOD") + PMob->GetLocalVar("respawnTime");
-                        if (earth_time::timestamp() > respawnTime)
-                        {
-                            mobAdd = true;
-                            MobPoolWeight += 50;
-                        }
+                        mobAdd = true;
+                        MobPoolWeight += 50;
                     }
                     else
                     {
@@ -2470,7 +2469,7 @@ auto FishingCheck(CCharEntity* PChar, uint8 fishingSkill, rod_t* rod, bait_t* ba
             const bool inArea = mob->areaId == 0 || mob->areaId == area->areaId;
             const bool onBait = mob->reqBaitId == 0 || mob->reqBaitId == bait->baitID || (mob->altBaitId > 0 && mob->altBaitId == bait->baitID);
 
-            if (PMob != nullptr && PMob->GetLocalVar("hooked") == 0 && !PMob->isAlive() && inArea && onBait && MobHookPool.insert(std::make_pair(mob, 100)).second)
+            if (canHookFishMob(PMob, now) && inArea && onBait && MobHookPool.insert(std::make_pair(mob, 100)).second)
             {
                 MobPoolWeight += 1000;
             }
@@ -2622,7 +2621,7 @@ auto FishingCheck(CCharEntity* PChar, uint8 fishingSkill, rod_t* rod, bait_t* ba
             if (fishmob.second->mobName == "Puffer_Pugil_Brigand")
             {
                 CMobEntity* PMob = dynamic_cast<CMobEntity*>(zoneutils::GetEntity(fishmob.second->mobId, TYPE_MOB));
-                if (PMob != nullptr && PMob->GetLocalVar("hooked") == 0 && !PMob->isAlive())
+                if (canHookFishMob(PMob, now))
                 {
                     auto* mob = fishmob.second;
                     MobHookPool.insert(std::make_pair(mob, 100));
@@ -2782,7 +2781,7 @@ auto FishingCheck(CCharEntity* PChar, uint8 fishingSkill, rod_t* rod, bait_t* ba
     { // Hooked mob
         CMobEntity* PMob = dynamic_cast<CMobEntity*>(zoneutils::GetEntity(MobSelection->mobId, TYPE_MOB));
 
-        if (PMob != nullptr && PMob->GetLocalVar("hooked") == 0)
+        if (canHookFishMob(PMob, now))
         {
             PMob->SetLocalVar("hooked", 1);
             PMob->SetLocalVar("hookedBy", PChar->id);
@@ -3053,7 +3052,8 @@ void FishingAction(CCharEntity* PChar, const GP_CLI_COMMAND_FISHING_2_MODE mode,
                 return;
             }
 
-            if (stamina <= 4)
+            const bool reelInAttempt = stamina <= 4;
+            if (reelInAttempt)
             {
                 CItemWeapon* Rod        = dynamic_cast<CItemWeapon*>(PChar->getEquip(SLOT_RANGED));
                 rod_t*       FishingRod = [&]() -> rod_t*
@@ -3105,7 +3105,7 @@ void FishingAction(CCharEntity* PChar, const GP_CLI_COMMAND_FISHING_2_MODE mode,
                         }
 
                         LoseCatch(PChar, response->failReason);
-                        UnhookMob(PChar, response->caught ? Lost::No : Lost::Yes);
+                        UnhookMob(PChar, Lost::Yes);
                     }
 
                     if (response != nullptr)
@@ -3176,6 +3176,11 @@ void FishingAction(CCharEntity* PChar, const GP_CLI_COMMAND_FISHING_2_MODE mode,
                 {
                     PChar->hookedFish->successtype = FISHINGSUCCESSTYPE_NONE;
                 }
+            }
+
+            if (!reelInAttempt)
+            {
+                UnhookMob(PChar, Lost::Yes);
             }
 
             PChar->fishingToken = 0;

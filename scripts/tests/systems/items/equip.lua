@@ -155,6 +155,49 @@ describe('Equipment', function()
         assert(weapon:getID() == xi.item.BRONZE_SWORD)
     end)
 
+    it('changing support job keeps a dual-wield offhand when the main job still dual wields', function()
+        player = xi.test.world:spawnPlayer({ job = xi.job.NIN, level = 75, zone = xi.zone.SOUTHERN_SAN_DORIA })
+        player:gotoMogHouse(xi.zone.WINDURST_WOODS)
+        if player:isInEvent() then
+            player.events:finish()
+        end
+
+        player:changesJob(xi.job.WAR)
+        player:setsLevel(37)
+        player:unlockJob(xi.job.WHM)
+
+        player:addItem(xi.item.KUNAI)
+        player:addItem(xi.item.BRONZE_KNIFE)
+        player:equipItem(xi.item.KUNAI, nil, xi.slot.MAIN)
+        player:equipItem(xi.item.BRONZE_KNIFE, nil, xi.slot.SUB)
+        assert(player:getEquippedItem(xi.slot.SUB), 'offhand not equipped')
+
+        player.actions:changeJob(0, xi.job.WHM)
+
+        assert(player:getEquippedItem(xi.slot.SUB), 'offhand wrongly removed on a support job change')
+    end)
+
+    it('changing support job drops a dual-wield offhand when Dual Wield came from the old support job', function()
+        player:gotoMogHouse(xi.zone.WINDURST_WOODS)
+        if player:isInEvent() then
+            player.events:finish()
+        end
+
+        player:changesJob(xi.job.NIN)
+        player:setsLevel(37)
+        player:unlockJob(xi.job.WHM)
+
+        player:addItem(xi.item.BRONZE_DAGGER)
+        player:addItem(xi.item.BRASS_DAGGER)
+        player:equipItem(xi.item.BRONZE_DAGGER, nil, xi.slot.MAIN)
+        player:equipItem(xi.item.BRASS_DAGGER, nil, xi.slot.SUB)
+        assert(player:getEquippedItem(xi.slot.SUB), 'offhand not equipped')
+
+        player.actions:changeJob(0, xi.job.WHM)
+
+        assert(player:getEquippedItem(xi.slot.SUB) == nil, 'offhand kept without Dual Wield')
+    end)
+
     it('equipped ammo stack decrements on use', function()
         player:addItem(xi.item.FIRE_ARROW, 50)
         player:equipItem(xi.item.FIRE_ARROW, nil, xi.slot.AMMO)
@@ -184,5 +227,41 @@ describe('Equipment', function()
             assert(equipped:getID() == piece.id,
                 string.format('slot %d has wrong item: %d', piece.slot, equipped:getID()))
         end
+    end)
+
+    describe('augment repeating a base mod', function()
+        -- She-Slime Earring is HP+2, the augment adds HP+5
+        local addAugmentedEarring = function()
+            local earring = player:addItem(xi.item.SHE_SLIME_EARRING)
+            assert(earring)
+            earring:setExData(
+                {
+                    augmentKind    = xi.augment.kind.HAS_AUGMENTS,
+                    augmentSubKind = xi.augment.subKind.STANDARD,
+                    augments       =
+                    {
+                        { id = 1, value = 4 },
+                    },
+                })
+        end
+
+        it('adds the item total once on equip', function()
+            addAugmentedEarring()
+            local baseHP = player:getMod(xi.mod.HP)
+
+            player:equipItem(xi.item.SHE_SLIME_EARRING, nil, xi.slot.EAR1)
+
+            player.assert:hasModifier(xi.mod.HP, baseHP + 7)
+        end)
+
+        it('removes exactly what it added on unequip', function()
+            addAugmentedEarring()
+            local baseHP = player:getMod(xi.mod.HP)
+
+            player:equipItem(xi.item.SHE_SLIME_EARRING, nil, xi.slot.EAR1)
+            player:unequipItem(xi.slot.EAR1)
+
+            player.assert:hasModifier(xi.mod.HP, baseHP)
+        end)
     end)
 end)

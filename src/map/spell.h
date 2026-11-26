@@ -28,6 +28,7 @@
 #include "data/enums/zone_misc.h"
 #include "entities/battle_entity.h"
 
+#include "data/enums/target_type.h"
 #include <string_view>
 
 #define CANNOT_USE_SPELL 0
@@ -1189,7 +1190,7 @@ public:
     auto getMPCost() const -> uint16;
     auto getCastTime() const -> timer::duration;
     auto getRecastTime() const -> timer::duration;
-    auto getValidTarget() const -> uint16;
+    auto getValidTarget() const -> xi::TargetType;
     auto getAnimationID() const -> ActionAnimation;
     auto getAnimationTime() const -> timer::duration;
     auto getSpellGroup() const -> SPELLGROUP;
@@ -1200,8 +1201,8 @@ public:
     auto getBase() const -> uint16;
     auto getElement() const -> uint16;
     auto getMultiplier() const -> float;
-    auto getMessage() const -> MsgBasic;
-    auto getMagicBurstMessage() const -> MsgBasic;
+    auto getMessage() const -> xi::MsgBasic;
+    auto getMagicBurstMessage() const -> xi::MsgBasic;
     auto getCE() const -> int32;
     auto getVE() const -> int32;
     auto getModifiedRecast() const -> timer::duration;
@@ -1230,7 +1231,7 @@ public:
     void setMPCost(uint16 MP);
     void setCastTime(timer::duration CastTime);
     void setRecastTime(timer::duration RecastTime);
-    void setValidTarget(uint16 ValidTarget);
+    void setValidTarget(xi::TargetType ValidTarget);
     void setAnimationID(uint16 AnimationID);
     void setAnimationTime(timer::duration AnimationTime);
     void setSpellGroup(SPELLGROUP SpellGroup);
@@ -1241,8 +1242,8 @@ public:
     void setBase(uint16 base);
     void setElement(uint16 element);
     void setMultiplier(float multiplier);
-    void setMessage(MsgBasic message);
-    void setMagicBurstMessage(MsgBasic message);
+    void setMessage(xi::MsgBasic message);
+    void setMagicBurstMessage(xi::MsgBasic message);
     auto getModifier() const -> ActionModifier;
     void setModifier(ActionModifier modifier); // set Spell modifier message, MUST reset the modifier on use otherwise it will be stale
     auto isCritical() const -> bool;
@@ -1281,7 +1282,7 @@ private:
     uint16                         m_totalTargets{};
     uint16                         m_mpCost{};                        // mpCost/itemId for ninjitsu tool
     std::array<uint8, MAX_JOBTYPE> m_job{};                           // job
-    uint16                         m_ValidTarget{};                   // target pc/npc/both
+    xi::TargetType                 m_ValidTarget{};                   // target pc/npc/both
     SPELLGROUP                     m_spellGroup{ SPELLGROUP_NONE };   // spellgroup
     SPELLFAMILY                    m_spellFamily{ SPELLFAMILY_NONE }; // spell family
     xi::ZoneMisc                   m_zoneMisc{};                      // spellcasting conditions
@@ -1289,8 +1290,8 @@ private:
     uint16                         m_base{};                          // spell base damage
     float                          m_multiplier{};                    // multiplier for upper tier spells
     uint16                         m_element{};                       // element of spell
-    MsgBasic                       m_message{};                       // message id
-    MsgBasic                       m_MagicBurstMessage{};             // Message used for magic bursts.
+    xi::MsgBasic                   m_message{};                       // message id
+    xi::MsgBasic                   m_MagicBurstMessage{};             // Message used for magic bursts.
     ActionModifier                 m_MessageModifier{};               // Message modifier, "Cover!", "Resist!" or "Immunobreak!"
     bool                           critical_{};                       // transient critical hit flag for action packets
     int32                          m_CE{};                            // cumulative enmity of spell
