@@ -10,6 +10,8 @@ on:
       - opened
       - synchronize
       - reopened
+  # A manual run tests everything, like the weekly LSB update PR (see tools/ci/phoenix/run_xi_test.py).
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
@@ -64,6 +66,8 @@ jobs:
     uses: ./.github/workflows/runner_test.yml
     with:
       runner: windows-2025
+      # The build jobs above upload to this run, manual runs included.
+      same_run_artifact: true
       test_modules: false
       multi_process: true
       xi_test: false
@@ -76,6 +80,8 @@ jobs:
     uses: ./.github/workflows/runner_test.yml
     with:
       runner: ubuntu-26.04
+      # The build jobs above upload to this run, manual runs included.
+      same_run_artifact: true
       test_modules: false
       multi_process: false
       xi_test: true
@@ -97,6 +103,10 @@ jobs:
 
       # The container's user doesn't own the checkout, so git ignores the repo until it's marked safe.
       - run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      # Every module file init.txt enables needs a test, or an entry in tools/ci/phoenix/module_test_exemptions.md.
+      - name: Check module test coverage
+        run: python ./tools/ci/phoenix/module_test_coverage.py
 
       # A scripts/ change can break a module too.
       - name: Check for Lua changes

@@ -22,7 +22,7 @@ xi.treantEvent.zones =
         zone    = 'West Ronfaure',
         cap     = 20,
         level   = 25,
-        hp      = 200000,
+        hp      = 150000,
         treant  =
         {
             { x = -205.957, y = -29.763, z = -78.954,  rot = 140 }, -- 1
@@ -42,7 +42,7 @@ xi.treantEvent.zones =
         zone    = 'East Ronfaure',
         cap     = 20,
         level   = 25,
-        hp      = 200000,
+        hp      = 150000,
         treant  =
         {
             { x = 348.8329, y = -49.2264, z =  104.0485, rot =   0 }, -- 1
@@ -62,7 +62,7 @@ xi.treantEvent.zones =
         zone    = 'North Gustaberg',
         cap     = 20,
         level   = 25,
-        hp      = 200000,
+        hp      = 150000,
         treant  =
         {
             { x =  -45.3841, y =    0.25, z = 72.8555, rot =   0 }, -- 1
@@ -82,7 +82,7 @@ xi.treantEvent.zones =
         zone    = 'South Gustaberg',
         cap     = 20,
         level   = 25,
-        hp      = 200000,
+        hp      = 150000,
         treant  =
         {
             { x =  90.8989, y =  0.1961, z = -244.5567, rot =   0 }, -- 1
@@ -102,7 +102,7 @@ xi.treantEvent.zones =
         zone    = 'West Sarutabaruta',
         cap     = 20,
         level   = 25,
-        hp      = 200000,
+        hp      = 150000,
         treant  =
         {
             { x = 319.9714, y = -11.6672, z = 193.2803, rot =   0 }, -- 1
@@ -122,7 +122,7 @@ xi.treantEvent.zones =
         zone    = 'East Sarutabaruta',
         cap     = 20,
         level   = 25,
-        hp      = 200000,
+        hp      = 150000,
         treant  =
         {
             { x =    89.411, y =  -4.7825, z = -414.9001, rot =   0 }, -- 1
@@ -142,7 +142,7 @@ xi.treantEvent.zones =
         zone    = 'Jugner Forest',
         cap     = 30,
         level   = 35,
-        hp      = 300000,
+        hp      = 250000,
         treant  =
         {
             { x = -122.952, y =      0, z = -164.9595, rot =   0 }, -- 1
@@ -162,7 +162,7 @@ xi.treantEvent.zones =
         zone    = 'Pashhow Marshlands',
         cap     = 30,
         level   = 35,
-        hp      = 300000,
+        hp      = 250000,
         treant  =
         {
             { x =  396.2914, y =      25, z = 387.4296, rot =   0 }, -- 1
@@ -182,7 +182,7 @@ xi.treantEvent.zones =
         zone    = 'Meriphataud Mountains',
         cap     = 30,
         level   = 35,
-        hp      = 300000,
+        hp      = 250000,
         treant  =
         {
             { x =  463.9538, y = -24.051, z = 187.5342, rot =   0 }, -- 1
@@ -202,7 +202,7 @@ xi.treantEvent.zones =
         zone    = 'Beaucedine Glacier',
         cap     = 50,
         level   = 55,
-        hp      = 400000,
+        hp      = 300000,
         treant  =
         {
             { x = 179.8336, y = -19.0094, z =  203.0641, rot =   0 }, -- 1
@@ -222,7 +222,7 @@ xi.treantEvent.zones =
         zone    = 'Eastern Altepa Desert',
         cap     = 50,
         level   = 55,
-        hp      = 400000,
+        hp      = 300000,
         treant  =
         {
             { x = 124.9664, y = -7.7153, z =  309.2755, rot =   0 }, -- 1
@@ -242,7 +242,7 @@ xi.treantEvent.zones =
         zone    = 'Yuhtunga Jungle',
         cap     = 50,
         level   = 55,
-        hp      = 400000,
+        hp      = 300000,
         treant  =
         {
             { x =  329.8498, y = 4.3914, z =  201.4311, rot =   0 }, -- 1
@@ -531,6 +531,7 @@ xi.treantEvent.spawnTreant = function(zone, zoneId, entry)
             mob:setMobMod(xi.mobMod.BASE_DAMAGE_MULTIPLIER, 150)
             mob:setMobMod(xi.mobMod.NO_LINK, 1)
             mob:setMobMod(xi.mobMod.ONE_WAY_LINKING, 1)
+            mob:setMod(xi.mod.INHIBIT_TP, 50)
             mob:setCallForHelpBlocked(true)
 
             -- Read by the treant_gate C++ module to refuse actions from players without this cap
@@ -822,10 +823,12 @@ end)
 m:addOverride('xi.conquest.vendorOnEventFinish', function(player, option, vendorRegion)
     if
         GetServerVariable('[TreantEvent]Complete') == 0 and
-        GetServerVariable('[TreantEvent]Started') ~= 0 and
-        option == 1
+        GetServerVariable('[TreantEvent]Started') ~= 0
     then
-        xi.shop.outpost(player)
+        -- Only the shop while the event runs; teleports stay off.
+        if option == 1 then
+            xi.shop.outpost(player)
+        end
 
         return
     end

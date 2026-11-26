@@ -195,7 +195,7 @@ jobs:
         if: ${{ inputs.xi_test }}
         id: xi_test
         continue-on-error: true
-        # Phoenix start: skips the upstream tests listed in tools/ci/phoenix/xi_test_skips.md.
+        # Phoenix start: skips the upstream tests listed in tools/ci/phoenix/xi_test_skips.md and picks how much to run.
         run: python ./tools/ci/phoenix/run_xi_test.py --keep-going --retry 5 --output tests.ctrf.json
         # Phoenix end
 

@@ -1,6 +1,7 @@
 -----------------------------------
 -- Phoenix version of the systems/trading/event_storage.lua cases that charge the withdrawal fee.
 -- era/lua/globals/event_storage.lua keeps the 500 gil fee from before the December 2008 update.
+-- Covers: modules/era/lua/globals/event_storage.lua
 -----------------------------------
 describe('Event Storage NPCs', function()
     ---@type CClientEntityPair

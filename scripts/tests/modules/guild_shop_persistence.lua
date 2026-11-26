@@ -3,7 +3,7 @@
 -- puts saved rows back the way each case needs, and reports only the rows
 -- that changed since the last save.
 --
--- See: modules/phoenix/lua/custom/guild_shop_persistence.lua
+-- Covers: modules/phoenix/lua/custom/guild_shop_persistence.lua
 -----------------------------------
 describe('Module: guild_shop_persistence', function()
     local persistence

@@ -26,6 +26,8 @@
 #include "lua/lua_stub.h"
 #include "map/lua/luautils.h"
 
+#include <ranges>
+
 MockManager::MockManager() = default;
 
 MockManager::~MockManager()
@@ -41,6 +43,7 @@ auto MockManager::stub(const std::string& path, const sol::object& mockImpl) -> 
 
     auto        original = luautils::detail::findGlobalLuaFunction(path);
     const auto& stub     = stubs_.emplace_back(std::make_unique<CLuaStub>(path, original, mockImpl));
+    installOrder_.push_back(stub.get());
     setAtPath(path, sol::make_object(lua, stub.get()));
 
     return stub.get();
@@ -54,24 +57,22 @@ auto MockManager::spy(const std::string& path) -> CLuaSpy*
 
     auto        original = luautils::detail::findGlobalLuaFunction(path);
     const auto& spy      = spies_.emplace_back(std::make_unique<CLuaSpy>(path, original));
+    installOrder_.push_back(spy.get());
     setAtPath(path, sol::make_object(lua, spy.get()));
 
     return spy.get();
 }
 
 // Restores all stubs and spies to their original functions.
+// Newest first, so a path replaced more than once ends on its first original.
 void MockManager::restoreAll()
 {
-    for (const auto& stub : stubs_)
+    for (const auto* mock : installOrder_ | std::views::reverse)
     {
-        setAtPath(stub->path(), stub->original());
+        setAtPath(mock->path(), mock->original());
     }
 
-    for (const auto& spy : spies_)
-    {
-        setAtPath(spy->path(), spy->original());
-    }
-
+    installOrder_.clear();
     stubs_.clear();
     spies_.clear();
 }

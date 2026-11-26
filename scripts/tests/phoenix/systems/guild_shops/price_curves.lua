@@ -1,6 +1,7 @@
 -----------------------------------
 -- Phoenix version of the systems/guild_shops/price_curves.lua case for Tsutsuroon's Iron Sand.
 -- phoenix/lua/data/era_guild_shops.lua sets its era price ceiling (buyMax 3074), the price at empty stock.
+-- Covers: modules/phoenix/lua/data/era_guild_shops.lua
 -----------------------------------
 describe('Guild shop price curves', function()
     describe('Tsutsuroon', function()
