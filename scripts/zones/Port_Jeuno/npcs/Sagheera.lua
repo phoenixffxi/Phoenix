@@ -274,7 +274,7 @@ local tier2ChipValue = 10
 local cosmoReady = 2147483649 -- BITMASK for the purchase
 
 local function getCosmoCleanseTime(player)
-    local cosmoWaitTime = player:hasKeyItem(xi.keyItem.RHAPSODY_IN_MAUVE) and 3600 or 72000
+    local cosmoWaitTime = 255600 -- Phoenix override: 71 hours
     local lastCosmoTime = player:getCharVar('Cosmo_Cleanse_TIME')
 
     if lastCosmoTime ~= 0 then
@@ -285,7 +285,8 @@ local function getCosmoCleanseTime(player)
         return cosmoReady
     end
 
-    return (lastCosmoTime - 1009843200) - 39600 -- (GetSystemTime number - BITMASK for the event) - 11 hours in seconds. Only works in this format (strangely).
+    -- Phoenix: the event adds 259200 to this param and prints the sum as seconds since 2002-01-01 00:00 JST
+    return lastCosmoTime - 1009810800 - 259200
 end
 
 entity.onTrade = function(player, npc, trade)
@@ -424,7 +425,7 @@ entity.onTrigger = function(player, npc)
             cosmoTime = getCosmoCleanseTime(player)
         end
 
-        player:startEvent(310, menu, arg3, arg4, gil, cosmoTime, 1, hasCosmoCleanse, storedABCs, 501) -- PHOENIX OVERRIDE: XIDivert paramater 501
+        player:startEvent(310, menu, arg3, arg4, gil, cosmoTime, 1, hasCosmoCleanse, storedABCs)
     end
 end
 
